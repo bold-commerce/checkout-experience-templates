@@ -1,0 +1,18 @@
+.customer-information {
+    padding: 16px 0px;
+}
+.accepts-marketing{
+    display: flex;
+    align-items: center;
+    background: #1a1a1a;
+    line-height: 20px;
+}
+.customer-information__accepts-marketing{
+    line-height: 20px;
+}
+
+@media only screen and (max-width: 1279px) {
+    .customer-information {
+        width: auto;
+    }
+}

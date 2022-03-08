@@ -1,0 +1,50 @@
+.discount-code {
+    display: flex;
+    order: 2;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.discount-code--border-bottom {
+    padding-bottom: 8px;
+    padding-top: 16px;
+    border-bottom: 1px solid #D9D9D9;
+}
+
+.discount-code-input {
+    display: flex;
+    width: 100%;
+    order: 1;
+}
+
+.discount-code-input .btn-checkout{
+    background: #0A75C2;
+    border: 1px solid #e6e6e6;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px #e6e6e6;
+    border-radius: 4px;
+    color: white;
+    text-transform: none;
+    font-size: 14px;
+}
+
+.discount-code__input-field {
+    flex-grow: 1;
+    margin: 0 8px 8px 0;
+    order: 1;
+    height: auto;
+    overflow: hidden;
+    overflow-wrap: break-word;
+}
+
+.discount-code__button {
+    width: 80px;
+    margin: 0;
+    order: 2;
+    height: 44px;
+}
+
+.discount-code__list-discounts {
+    width: 100%;
+    order: 3;
+}

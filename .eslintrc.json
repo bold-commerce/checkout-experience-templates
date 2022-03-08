@@ -1,0 +1,26 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "globals": {
+    "require": false,
+    "module": true
+  },
+  "rules": {
+    "curly": "error",
+    "no-console": ["error"],
+    "no-var": "error",
+    "indent": [ "error", 4, {"SwitchCase": 1}],
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single", {"avoidEscape": true}],
+    "semi": ["error", "always"],
+    "semi-spacing": ["error", {"before": false, "after": true}]
+  }
+}

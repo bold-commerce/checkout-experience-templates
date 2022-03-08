@@ -1,0 +1,11 @@
+.flash-error__container {
+    background: #FFEBF0;
+    border-radius: 4px;
+    padding: 16px;
+    margin: 3px;
+    border-left: 4px solid #E41244;
+}
+
+.flash-error--hidden{
+    display: none;
+}

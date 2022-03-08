@@ -1,0 +1,14 @@
+.display-address-container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.display-address-row {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.display-address-row:last-of-type {
+    margin-bottom: 0;
+}

@@ -1,0 +1,13 @@
+.customer-information__authenticated{
+    display: flex;
+    width: 100%;
+}
+.customer-information__authenticated-email{
+    margin-right: auto;
+    margin-bottom: 8px;
+}
+.address__saved{
+    padding-top: 8px;
+    display: flex;
+    width: 100%;
+}

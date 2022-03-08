@@ -1,0 +1,23 @@
+.header, .header-mobile{
+    background: #FFFFFF;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+}
+
+.header-mobile{
+    display: none;
+}
+
+@media only screen and (max-width: 767px) {
+    .header, .header-mobile{
+        grid-template-columns: auto;
+        grid-gap: 0;
+    }
+    .header{
+        display: none;
+    }
+    .header-mobile{
+        display: grid;
+    }
+}

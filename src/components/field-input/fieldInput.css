@@ -1,0 +1,49 @@
+.input-field__container{
+    position: relative;
+    width: 100%;
+}
+.input-field--has-value .input-field__label{
+    font-size: 11px;
+    display: block;
+    top: 4px;
+}
+.input-field--has-value input{
+    padding-top: 18px;
+}
+.input-field .stx-input--alert,
+.stx-input{
+    border-radius: 4px;
+}
+.input-field__label{
+    position: absolute;
+    top: 13px;
+    padding-left: 10px;
+    color: #999999;
+    display: none;
+    user-select: none;
+}
+.input-field__container .input-field{
+    margin-bottom: 0px;
+}
+.input-field input{
+    position: static;
+    width: 100%;
+    height: 44px;
+    left: 0px;
+    top: 38px;
+    border-radius: 4px;
+}
+.input-field__container .stx-input{
+    border: 1px solid #D9D9D9;
+    box-sizing: border-box;
+    box-shadow: inset 0px 0px 2px #e6e6e6;
+}
+.stx-input--has-focus{
+    box-shadow: inset 0px 0px 0px 2px #0A75C2 !important;
+}
+.input-field .stx-input--alert{
+    box-shadow: inset 0px 0px 0px 2px #ff300e !important;
+}
+.stx-input:hover {
+    box-shadow: none;
+}

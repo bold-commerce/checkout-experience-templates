@@ -1,0 +1,130 @@
+*, :before, :after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 14px;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: "SF Pro Display", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #1a1a1a;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0 0 0.5em 0;
+}
+
+ul, ol {
+    margin: 0.5em 0;
+}
+
+a {
+    text-decoration: none;
+    color: #0A75C2;
+    transition: color 0.2s ease-in-out;
+}
+
+a:hover, a:focus {
+    color: #00bfff;
+    outline: 0;
+}
+
+a:active {
+    color: #007399;
+}
+
+.checkout-experience-container {
+    display: flex;
+}
+
+html.loading {
+    overflow: hidden;
+    height:100%;
+}
+
+.hidden {
+    display: none;
+}
+
+.three-page{
+    display: flex;
+}
+
+.footer--button-container .btn-checkout, .thank-you-contact-button-container .btn-checkout{
+    background: #0A75C2;
+    border: 1px solid #e6e6e6;
+    box-sizing: border-box;
+    box-shadow: 0px 1px 2px #e6e6e6;
+    border-radius: 4px;
+    color: white;
+    text-transform: none;
+    margin: 0;
+}
+
+@media only screen and (min-width: 1200px) {
+    .checkout-experience-container, .three-page {
+        flex-wrap: wrap;
+        width: 1200px;
+        min-height: 100vh;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .no-summary {
+        width: auto;
+    }
+
+    .website__title {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 1200px) and (min-width: 768px) {
+    .checkout-experience-container, .three-page {
+        position: relative;
+        margin: auto;
+        width: 768px;
+    }
+
+    .no-summary {
+        width: auto;
+    }
+
+    .block__website-title {
+        width: auto;
+        margin: 16px 32px 12px;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 36px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .checkout-experience-container, .three-page {
+        position: relative;
+        margin: auto;
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .website__title {
+        width: auto;
+        margin: 16px 32px 12px;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 36px;
+    }
+
+    .footer--button-container .btn-checkout, .thank-you-contact-button-container .btn-checkout{
+        width: 100%;
+    }
+}

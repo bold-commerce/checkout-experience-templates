@@ -1,0 +1,92 @@
+.address__first{
+    width: 50%;
+    padding-right: 15px;
+    margin-bottom: 8px;
+}
+
+.address__last{
+    width: 50%;
+    margin-bottom: 8px;
+}
+.field-section__content{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.address__address{
+    width: 66.9%;
+    margin-bottom: 8px;
+    flex: 1;
+}
+.address__address2{
+    width: 33%;
+    margin-bottom: 8px;
+    padding-left: 15px;
+}
+.address__city ,.address__phone, .address__company{
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.address__country  {
+    flex: 1;
+}
+.address__postal_code, .address__province{
+    padding-left: 15px;
+    flex: 1;
+}
+
+.address__hidden{
+    display: none;
+}
+
+.address .stx-select, .stx-select__select-element{
+    border-radius: 4px;
+}
+
+@media only screen and (max-width: 1200px) and (min-width: 768px) {
+
+     .address__address, .address__address2{
+        width: 100%;
+        padding-left: 0px;
+        margin-bottom: 8px;
+        flex:auto;
+    }
+    .address__country ,.address__province{
+        width: 50%;
+        flex:auto;
+    }
+    .address__postal_code, .address__phone{
+        width: 50%;
+    }
+    .address__postal_code{
+        padding-left: 0px;
+        padding-right: 15px;
+    }
+    .address__province{
+        padding-left: 0px;
+    }
+    .address__country{
+        padding-right: 15px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+
+    .address__first, .address__last {
+        width: 100%;
+        padding-right: 0px;
+        margin-bottom: 8px;
+    }
+    .address__postal_code, .address__address, .address__address2{
+        width: 100%;
+        padding-left: 0px;
+        margin-bottom: 8px;
+        flex:auto;
+    }
+    .address__country ,.address__province{
+        width: 100%;
+        padding-left: 0px;
+        flex:auto;
+    }
+}

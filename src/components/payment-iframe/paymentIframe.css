@@ -1,0 +1,401 @@
+
+#iframe-payment-gateway *, #iframe-payment-gateway :before, #iframe-payment-gateway :after {
+    box-sizing: border-box;
+}
+
+#iframe-payment-gateway html {
+    font-size: 14px;
+}
+
+#iframe-payment-gateway body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 100%;
+    color: #1a1a1a;
+    padding: 0;
+    margin: 0;
+}
+
+#iframe-payment-gateway .LoadingSpinner {
+    display: block;
+    width: 20px;
+    height: 20px;
+    position: relative;
+}
+
+#iframe-payment-gateway .LoadingSpinner::before {
+    content: '';
+    border: 2px solid #ffffff26;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    animation: spin 0.5s linear infinite;
+    display: block;
+}
+
+#iframe-payment-gateway .Button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    box-sizing: border-box;
+    display: inline-block;
+    cursor: pointer;
+    font-size: inherit;
+    padding: 1rem 1.25rem;
+    background: #fcfcfc;
+    border: none;
+    box-shadow: 0 0 0 1px #e6e6e6 inset;
+    font-weight: 500;
+    border-radius: 4px;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out, box-shadow 0.2s ease-out;
+    position: relative;
+}
+
+#iframe-payment-gateway .Button:focus {
+    outline: none;
+}
+
+#iframe-payment-gateway .Button:hover {
+    background-color: #fff;
+}
+
+#iframe-payment-gateway .Button:active {
+    background-color: #e5e5e5;
+}
+
+#iframe-payment-gateway .Button--Primary {
+    background-color: #0A75C2;
+    color: #fff;
+    box-shadow: none;
+}
+
+#iframe-payment-gateway .Button--Primary:hover {
+    background-color: #00bfff;
+}
+
+#iframe-payment-gateway .Button--Primary:active {
+    background-color: #007399;
+}
+
+#iframe-payment-gateway .Button__LoadingSpinner {
+    display: none;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+}
+
+#iframe-payment-gateway .Button:disabled, .Button:disabled:hover, .Button:disabled:focus, .Button:disabled:active {
+    background-color: #ccc;
+    color: #fff;
+    cursor: not-allowed;
+}
+
+#iframe-payment-gateway .InputField, .CreditCardInputField {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: inherit;
+    border: none;
+    background-color: #fff;
+    box-shadow: 0 0 0 1px #d9d9d9 inset;
+    padding: 1rem 0.5rem;
+    border-radius: 5px;
+}
+
+#iframe-payment-gateway .InputField:focus, .CreditCardInputField:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #0A75C2 inset;
+}
+
+#iframe-payment-gateway .ToggleField__Input {
+    font-size: inherit;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    outline: 0;
+    box-shadow: 0 0 0 1px #d9d9d9 inset;
+    transition: all 0.2s ease-in-out;
+    border: none;
+    border-radius: 4px;
+    -webkit-appearance: none;
+    background: transparent;
+    box-sizing: border-box;
+    vertical-align: middle;
+    position: relative;
+    top: -0.1rem;
+}
+
+#iframe-payment-gateway .ToggleField__Input--Checkbox, .ToggleField__Input--Radio {
+    margin: 0 0.5rem 0 0;
+}
+
+#iframe-payment-gateway .ToggleField__Input--Checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    outline: 0;
+    transition: all .2s ease-in-out;
+    border: none;
+    border-radius: 4px;
+    background: 0 0;
+    box-sizing: border-box;
+    vertical-align: middle;
+    padding: initial;
+    margin: 0 15px 0 0;
+}
+
+#iframe-payment-gateway .ToggleField__Input--Checkbox::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 0;
+    left: 0;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMC4zJyBoZWlnaHQ9JzgnIHZpZXdCb3g9JzguOSAwLjMgMTAuMyA4JyBlbmFibGUtYmFja2dyb3VuZD0nbmV3IDguOSAwLjMgMTAuMyA4Jz48cGF0aCBmaWxsPScjZmZmJyBkPSdNMTIuNiA4LjFsLTMuNy0zLjggMS0xLjEgMi43IDIuNyA1LjUtNS40IDEgMXonLz48L3N2Zz4=");
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: all .2s .1s ease-in-out;
+    transform: scale(0);
+}
+
+#iframe-payment-gateway .ToggleField__Input:focus {
+    box-shadow: 0 0 0 2px #0A75C2 inset;
+}
+
+#iframe-payment-gateway .ToggleField__Input--Radio {
+    border-radius: 9px;
+}
+
+#iframe-payment-gateway .ToggleField__Input:checked {
+    box-shadow: #0A75C2 0 0 0 10px inset;
+    border-color: transparent;
+}
+
+#iframe-payment-gateway .ToggleField__Input--Checkbox:checked::after {
+    transform: scale(1);
+}
+
+#iframe-payment-gateway .ToggleField__Input--Radio:checked {
+    box-shadow: 0 0 0 6px #0A75C2 inset;
+}
+
+#iframe-payment-gateway .Field {
+    width: 100%;
+    position: relative;
+}
+
+#iframe-payment-gateway .Field--WithInputField .Field__Label, .Field--WithCreditCardField .Field__Label {
+    position: absolute;
+    font-size: 80%;
+    padding-left: 0.5em;
+    padding-top: 0.5em;
+    color: #888;
+    transform: translateY(0.5em);
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+#iframe-payment-gateway .Field .InputField, .Field .CreditCardInputField {
+    display: block;
+    width: 100%;
+    transition: all 0.2s ease-out;
+}
+
+#iframe-payment-gateway .Field .CreditCardInputField {
+    padding-top: 1.5rem;
+    padding-bottom: .5rem;
+}
+
+#iframe-payment-gateway .Field--WithCreditCardField .Field__Label {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+#iframe-payment-gateway .TogglePanel {
+    border-bottom: 1px solid #d9d9d9;
+}
+
+#iframe-payment-gateway .TogglePanel:last-of-type {
+    border-bottom: none;
+}
+
+#iframe-payment-gateway .TogglePanel:last-of-type .TogglePanel__Content {
+    border-radius: 0 0 4px 4px;
+}
+
+#iframe-payment-gateway .TogglePanel__Header {
+    padding: 10px;
+}
+
+#iframe-payment-gateway .TogglePanel__Content {
+    display: none;
+    padding: 10px;
+    border-top: 1px solid #e6e6e6;
+    background-color: #fafafa;
+}
+
+#iframe-payment-gateway .TogglePanel__Content:after {
+    display: table;
+    content: '';
+    clear: both;
+}
+
+#iframe-payment-gateway .TogglePanel--alt > .TogglePanel__Content {
+    display: block;
+}
+
+#iframe-payment-gateway .TogglePanel__Header {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: baseline;
+    align-items: baseline;
+}
+
+#iframe-payment-gateway .TogglePanelGroup {
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    -ms-flex: none;
+    flex: none;
+    width: 100%;
+}
+
+#iframe-payment-gateway .FieldSet {
+    margin: 2rem 0;
+    padding: 0;
+}
+
+#iframe-payment-gateway .FieldSet:after {
+    display: table;
+    content: '';
+    clear: both;
+}
+
+#iframe-payment-gateway .Main {
+    padding: 2rem 4%;
+}
+
+#iframe-payment-gateway .Field--SaveShippingAddressToggle {
+    margin-top: 1.5rem;
+}
+
+#iframe-payment-gateway .TogglePanel--alt.PaymentMethod--CreditCard > .TogglePanel__Content, .TogglePanel--alt.PaymentMethod--CreditCard__StoredOption > .TogglePanel__Content {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+#iframe-payment-gateway .Field--GiftCardNumber {
+    -ms-flex: 1;
+    flex: 1;
+}
+
+#iframe-payment-gateway #gift_card_number:not(:placeholder-shown) {
+    text-transform: uppercase;
+}
+
+#iframe-payment-gateway #gift_card_cvv {
+    -moz-appearance: textfield;
+}
+
+#iframe-payment-gateway .Field--WithInputField .Field__Label {
+    position: absolute;
+    font-size: 80%;
+    padding-left: 0.5em;
+    padding-top: 0.5em;
+    color: #888;
+    transform: translateY(0.5em);
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+#iframe-payment-gateway .Field .InputField {
+    display: block;
+    width: 100%;
+    transition: all 0.2s ease-out;
+}
+
+#iframe-payment-gateway .TogglePanel--alt.PaymentMethod--GiftCard > .TogglePanel__Content {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+#iframe-payment-gateway .Field--GiftCardCVV {
+    -ms-flex: none;
+    flex: none;
+    width: 25%;
+}
+
+#iframe-payment-gateway .Field--GiftCardCVV {
+    padding: 0 10px;
+}
+
+#iframe-payment-gateway .Action--GiftCardValidate {
+    -ms-flex: none;
+    flex: none;
+}
+
+@media only screen and (min-width: 1000px) {
+    #iframe-payment-gateway #main {
+        overflow-x: hidden;
+        width: 100%;
+    }
+
+    #iframe-payment-gateway .Checkout {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        max-width: 1300px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    #iframe-payment-gateway .Main {
+        -ms-flex-order: 1;
+        order: 1;
+        -ms-flex: 1;
+        flex: 1;
+        max-width: 62%;
+        padding-top: 4rem;
+    }
+
+    #iframe-payment-gateway .TogglePanel__Content .Field {
+        float: left;
+    }
+}
+
+@media only screen and (max-width: 999px) {
+    #iframe-payment-gateway html {
+        font-size: 16px;
+    }
+
+    #iframe-payment-gateway .Checkout {
+        padding-top: 100px;
+        position: relative;
+    }
+}
+
+@media only screen and (max-width: 499px) {
+    #iframe-payment-gateway .Field--GiftCardCVV {
+        -ms-flex: none;
+        flex: none;
+        width: 100%;
+        padding-right: 0;
+        padding-left: 0;
+        padding-top: 10px;
+        padding-bottom: inherit;
+    }
+}

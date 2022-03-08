@@ -1,0 +1,114 @@
+li {
+    list-style: none;
+}
+
+.cart-item {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #1a1a1a;
+    display: flex;
+    margin-bottom: 16px;
+}
+
+.cart-item .cart-item__img-container {
+    min-width: 72px;
+    width: 72px;
+    height: 72px;
+    order: 1;
+    display: flex;
+    border: 1px solid #D9D9D9;
+    overflow: hidden;
+    flex-grow: 0;
+    border-radius: 8px;
+}
+
+.cart-item__img-container .stx-image--holder{
+    padding: 1px;
+}
+
+.cart-item__img-container img{
+    border-radius: 8px;
+}
+
+.cart-item__text {
+    order: 2;
+    min-height: 72px;
+    vertical-align: top;
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
+    flex-grow: 1;
+}
+
+.cart-item__title {
+    width: 100%;
+    min-height: 20px;
+    font-weight: bold;
+    font-size: 16px;
+    order: 1;
+    flex-grow: 0;
+    margin: 10px 0px 0px;
+    text-align: justify;
+}
+
+.cart-item__variant-title {
+    width: 100%;
+    min-height: 20px;
+    left: 0px;
+    color: #595959;
+    margin: 4px 0px;
+    order: 2;
+    text-align: justify;
+}
+
+.cart-item__price-quantity {
+    width: auto;
+    height: 72px;
+    text-align: right;
+    vertical-align: top;
+    padding: 8px 0px 0px 8px;
+    order: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-item__price {
+    width: 100%;
+    line-height: 16px;
+    font-weight: bold;
+    text-align: right;
+    margin: 4px 0px 0px;
+    order: 2;
+}
+
+.cart-item__price .stx-price__amount {
+    font-size: 1rem;
+    line-height: 1rem;
+}
+
+.cart-item__quantity-container {
+    width: 100%;
+    text-align: right;
+    line-height: 24px;
+    margin: 0px;
+    order: 1;
+    padding-bottom: 8px;
+}
+
+.cart-item__quantity {
+    width: 24px;
+    background: #A9A9A9;
+    border-radius: 12px;
+    text-align: center;
+    line-height: 24px;
+    margin: auto 0px auto auto;
+}
+
+.cart-item__quantity-number {
+    text-align: center;
+    color: #FFFFFF;
+    margin: 4px 3px;
+    font-weight: bold;
+}

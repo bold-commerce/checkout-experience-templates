@@ -1,0 +1,26 @@
+.recap-display-item {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin-bottom: 16px;
+    padding: 0 16px;
+    line-height: 16px;
+    font-size: 12px;
+}
+
+.recap-display-item__title {
+    width: 100%;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.recap-display-item__content {
+    width: 100%;
+}
+
+@media only screen and (max-width: 768px) {
+    .recap-display-item {
+        width: 100%;
+    }
+}
