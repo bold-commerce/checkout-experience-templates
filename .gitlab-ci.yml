@@ -1,0 +1,32 @@
+stages:
+  - lint
+  - test
+
+#Pipeline import
+include:
+  - project: 'boldops/gitlab-ci-pipelines'
+    ref: master
+    file:
+      - 'jobs/js/jest-test.gitlab-ci.yaml'
+      - 'jobs/js/lint.gitlab-ci.yaml'
+
+Lint:
+  stage: lint
+  interruptible: true
+  only:
+    refs:
+      - main
+      - merge_requests
+  extends: .JSLint
+
+Tests:
+  stage: test
+  interruptible: true
+  only:
+    refs:
+      - main
+      - merge_requests
+  artifacts:
+    reports:
+      junit: ['bold-checkout-flows/junit.xml']
+  extends: .JestTests
