@@ -7,7 +7,7 @@ include:
   - project: 'boldops/gitlab-ci-pipelines'
     ref: master
     file:
-      - 'jobs/js/jest-test.gitlab-ci.yaml'
+      - 'jobs/js/jest.gitlab-ci.yaml'
       - 'jobs/js/lint.gitlab-ci.yaml'
 
 Lint:
