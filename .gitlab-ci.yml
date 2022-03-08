@@ -17,6 +17,8 @@ Lint:
     refs:
       - main
       - merge_requests
+  variables: 
+    RUNNER_IMAGE: node:12.14.1
   extends: .JSLint
 
 Tests:
