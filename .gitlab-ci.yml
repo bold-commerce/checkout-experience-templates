@@ -31,6 +31,11 @@ Tests:
   artifacts:
     reports:
       junit: ['junit.xml']
+  variables:
+    KUBERNETES_CPU_REQUEST: 3000m
+    KUBERNETES_CPU_LIMIT: 3000m
+    KUBERNETES_MEMORY_REQUEST: 4096Mi
+    KUBERNETES_MEMORY_LIMIT: 4096Mi
   extends: .JestTests
 
 Build:
