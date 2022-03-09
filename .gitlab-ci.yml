@@ -44,4 +44,7 @@ Build:
   only:
     refs:
       - main
+  artifacts:
+    paths:
+      - build
   extends: .NodeBuild
