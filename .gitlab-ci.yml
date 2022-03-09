@@ -1,7 +1,11 @@
 stages:
   - lint
   - test
-  - build
+  - build-app
+  - docker-build-and-push
+  - update-argo-image-staging
+  - deploy-staging
+
 
 #Pipeline import
 include:
@@ -11,6 +15,7 @@ include:
       - 'jobs/js/jest.gitlab-ci.yaml'
       - 'jobs/js/lint.gitlab-ci.yaml'
       - 'jobs/js/yarn-build.gitlab-ci.yaml'
+      - 'jobs/general/docker-build-and-push.gitlab-ci.yaml'
 
 Lint:
   stage: lint
@@ -21,7 +26,7 @@ Lint:
       - merge_requests
   extends: .JSLint
 
-Tests:
+Test:
   stage: test
   interruptible: true
   only:
@@ -38,8 +43,8 @@ Tests:
     KUBERNETES_MEMORY_LIMIT: 5000Mi
   extends: .JestTests
 
-Build:
-  stage: build
+BuildApp:
+  stage: build-app
   interruptible: true
   only:
     refs:
@@ -54,3 +59,13 @@ Build:
     KUBERNETES_MEMORY_LIMIT: 1024Mi
     RUNNER_IMAGE: node:12.14.1
   extends: .YarnBuild
+
+DockerBuildAndPush:
+  stage: docker-build-and-push
+  only:
+    - main
+  variables:
+    APP_NAME: "checkout-enterprise-experience"
+    IMAGE_PROJECT: 'checkout-1236'
+  extends: .DockerBuildAndPush
+  needs: [Lint, Test, BuildApp]
