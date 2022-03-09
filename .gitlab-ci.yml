@@ -47,4 +47,6 @@ Build:
   artifacts:
     paths:
       - build
+  variables:
+    RUNNER_IMAGE: us.gcr.io/checkout-1236/ci-runner:php-74
   extends: .NodeBuild
