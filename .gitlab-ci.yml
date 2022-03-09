@@ -17,7 +17,7 @@ Lint:
   interruptible: true
   only:
     refs:
-      - main
+      #- main
       - merge_requests
   extends: .JSLint
 
@@ -26,7 +26,7 @@ Tests:
   interruptible: true
   only:
     refs:
-      - main
+      #- main
       - merge_requests
   artifacts:
     reports:
