@@ -49,4 +49,4 @@ Build:
       - build
   variables:
     RUNNER_IMAGE: node:12.14.1
-  extends: .NodeBuild
+  extends: .YarnBuild
