@@ -1,6 +1,7 @@
 stages:
   - lint
   - test
+  - build
 
 #Pipeline import
 include:
@@ -9,6 +10,7 @@ include:
     file:
       - 'jobs/js/jest.gitlab-ci.yaml'
       - 'jobs/js/lint.gitlab-ci.yaml'
+      - 'jobs/js/node-build.gitlab-ci.yaml'
 
 Lint:
   stage: lint
@@ -28,5 +30,13 @@ Tests:
       - merge_requests
   artifacts:
     reports:
-      junit: ['bold-checkout-flows/junit.xml']
+      junit: ['junit.xml']
   extends: .JestTests
+
+Build:
+  stage: build
+  interruptible: true
+  only:
+    refs:
+      - main
+  extends: .NodeBuild
