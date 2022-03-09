@@ -47,6 +47,8 @@ Build:
   artifacts:
     paths:
       - build
-  #variables:
+  variables:
+     KUBERNETES_CPU_REQUEST: 1000m
+     KUBERNETES_MEMORY_REQUEST: 1024Mi
   #  RUNNER_IMAGE: node:12.14.1
   extends: .YarnBuild
