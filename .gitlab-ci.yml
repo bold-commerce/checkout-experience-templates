@@ -10,7 +10,7 @@ include:
     file:
       - 'jobs/js/jest.gitlab-ci.yaml'
       - 'jobs/js/lint.gitlab-ci.yaml'
-      - 'jobs/js/node-build.gitlab-ci.yaml'
+      - 'jobs/js/yarn-build.gitlab-ci.yaml'
 
 Lint:
   stage: lint
@@ -47,6 +47,6 @@ Build:
   artifacts:
     paths:
       - build
-  variables:
-    RUNNER_IMAGE: node:12.14.1
+  #variables:
+  #  RUNNER_IMAGE: node:12.14.1
   extends: .YarnBuild
