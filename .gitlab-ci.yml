@@ -65,7 +65,7 @@ DockerBuildAndPush:
   only:
     - main
   variables:
-    APP_NAME: "checkout-enterprise-experience"
+    APP_NAME: "checkout-experience-templates"
     IMAGE_PROJECT: 'checkout-1236'
   extends: .DockerBuildAndPush
   needs: [Lint, Test, BuildApp]
