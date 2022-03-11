@@ -106,7 +106,7 @@ UpdateArgoImageProduction:
     APP_NAME: checkout-experience-templates
     ENVIRONMENT: prod
     KUSTOMIZE_REPO: checkout-experience-templates
-    IMAGE_VERSION_FILE: checkout-experience-templates-version
+    IMAGE_VERSION_FILE: experience-templates-version
   extends: .UpdateArgoImage
   needs: [DeployStaging]
 
