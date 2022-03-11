@@ -104,7 +104,7 @@ UpdateArgoImageProduction:
     - main
   variables:
     APP_NAME: checkout-experience-templates
-    ENVIRONMENT: prod
+    ENVIRONMENT: production
     KUSTOMIZE_REPO: checkout-experience-templates
     IMAGE_VERSION_FILE: experience-templates-version
   extends: .UpdateArgoImage
@@ -118,7 +118,7 @@ DeployProduction:
   only:
     - main
   variables:
-    ENVIRONMENT: prod
+    ENVIRONMENT: production
     KUSTOMIZE_REPO: checkout-experience-templates
   extends: .Deploy
   needs: [UpdateArgoImageProduction]
