@@ -1,6 +1,6 @@
 import * as AppActionsType from '../action/appActionType';
 import {AnyAction, combineReducers} from 'redux';
-import {IInitialState} from 'src/types';
+import {IInitialState, IOrderInitialization} from 'src/types';
 import {
     availableShippingLinesReducer,
     billingReducer,
@@ -31,6 +31,7 @@ import {
     resumableLinkReducer
 } from 'src/reducer';
 import {autocompleteServices, Constants} from 'src/constants';
+import { defaultOrderInitialization } from 'src/constants/orderInitialization';
 
 export const initialState: IInitialState = {
     screenWidth: window.innerWidth,
@@ -108,7 +109,7 @@ const dataReducer = combineReducers({
     initial_data: initialDataReducer
 });
 
-const rootReducer = combineReducers({
+const allReducers = combineReducers({
     appSetting: reducer,
     isLoading: loadingReducer,
     isButtonDisable: buttonDisableReducer,
@@ -117,5 +118,16 @@ const rootReducer = combineReducers({
     errors: errorsReducer,
     data: dataReducer
 });
+
+type RootState = ReturnType<typeof allReducers>;
+
+function rootReducer(state: IOrderInitialization = defaultOrderInitialization, action: AnyAction): RootState {
+    switch(action.type) {
+        case AppActionsType.UPDATE_APP_DATA:
+            return allReducers(action.payload.data, action);
+        default:
+            return allReducers(state, action);
+    }
+}
 
 export default rootReducer;

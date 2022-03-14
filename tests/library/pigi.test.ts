@@ -22,11 +22,13 @@ import {
 import {stateMock} from 'src/mocks';
 import {IPigiResponsesPayload} from 'src/types';
 import {updatePigiHeight} from 'src/utils';
+import {useSendEvent} from 'src/hooks';
 
 jest.mock('@bold-commerce/checkout-frontend-library');
 jest.mock('src/action');
 jest.mock('src/library/processOrder');
 jest.mock('src/utils');
+jest.mock('src/hooks/useSendEvent');
 const setPigiListenerMock = mocked(setPigiListener, true);
 const sendUpdateLanguageActionMock = mocked(sendUpdateLanguageAction, true);
 const actionSetPigiDisplayScaMock = mocked(actionSetPigiDisplaySca, true);
@@ -34,6 +36,7 @@ const actionSetPigiIframeLoaderMock = mocked(actionSetPigiIframeLoader, true);
 const actionShowHideOverlayContentMock = mocked(actionShowHideOverlayContent, true);
 const processOrderMock = mocked(processOrder, true);
 const updatePigiHeightMock = mocked(updatePigiHeight, true);
+const useSendEventMock = mocked(useSendEvent, true);
 
 describe('testing getPaymentIframe function', () => {const callbackEvent = (): void => { return; };
     const frameId = 'frame-id';
@@ -66,6 +69,7 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
             expect(actionSetPigiIframeLoaderMock).toHaveBeenCalledWith(false);
             expect(dispatchMock).toHaveBeenCalledTimes(1);
             expect(dispatchMock).toHaveBeenCalledWith(actionMock);
+            expect(useSendEventMock).toHaveBeenCalled();
         });
     });
 

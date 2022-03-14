@@ -17,6 +17,7 @@ import {
     actionSetPigiDisplaySca,
     actionSetPigiIframeLoader,
     actionSetSelectedShippingLine,
+    actionUpdateAppData,
     actionUpdateAvailableShippingLines,
     actionUpdateBillingTypeInSettings,
     actionUpdateDiscountCodeText,
@@ -31,8 +32,8 @@ import {
 } from 'src/action';
 import * as AppActions from 'src/action/appActionType';
 import {autocompleteServices} from 'src/constants';
-import {initialDataMock} from 'src/mocks';
-import {IApplicationStateLineItem, IApplicationStateSelectShippingLine, IError} from 'src/types';
+import {initialDataMock, stateMock} from 'src/mocks';
+import {IApplicationStateLineItem, IApplicationStateSelectShippingLine, IError, IOrderInitialization} from 'src/types';
 
 describe('Testing App Actions', () => {
 
@@ -493,6 +494,19 @@ describe('Testing App Actions', () => {
         expect(dispatch.mock.calls.length).toBe(2);
         expect(dispatch.mock.calls[0][0]).toStrictEqual(firstReturnedValues);
         expect(dispatch.mock.calls[1][0]).toStrictEqual(secondReturnedValues);
+    });
+
+    test('actionUpdateAppData', () => {
+        const data: IOrderInitialization = stateMock;
+
+        const actionReturnExpectation = {
+            type: AppActions.UPDATE_APP_DATA,
+            payload: { data }
+        };
+
+        const result = actionUpdateAppData(data);
+
+        expect(result).toStrictEqual(actionReturnExpectation);
     });
 
 });

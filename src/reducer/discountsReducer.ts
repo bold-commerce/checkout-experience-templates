@@ -1,9 +1,9 @@
 import {AnyAction} from 'redux';
 import * as AppActionsType from '../action/appActionType';
 import {IApplicationStateDiscount} from 'src/types';
-import {orderInitialization} from 'src/constants/orderInitialization';
+import { defaultOrderInitialization } from 'src/constants/orderInitialization';
 
-const {data:{application_state}} = orderInitialization;
+const {data:{application_state}} = defaultOrderInitialization;
 
 export function discountsReducer(state = application_state.discounts, action: AnyAction ) : Array<IApplicationStateDiscount> {
     switch (action.type) {

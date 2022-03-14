@@ -22,7 +22,6 @@ describe('testing shipping Reducer', () => {
         'province_code': 'MB'
     };
 
-
     test('should return the initial state ', () => {
         expect(shippingReducer(undefined , {type: ''})).toEqual(
             defaultAddress
@@ -107,7 +106,7 @@ describe('testing Billing Reducer', () => {
         expect(shippingState).not.toEqual(billingState);
 
         const state = billingReducer(undefined ,
-            {type: UPDATE_BILLING_TYPE_SAME, payload: {} });
+            {type: UPDATE_BILLING_TYPE_SAME, payload: { data: shippingState } });
 
         expect(state).toEqual(shippingState);
     });

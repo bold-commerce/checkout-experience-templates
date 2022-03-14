@@ -14,7 +14,7 @@ import {
     usePaymentPage
 } from 'src/hooks';
 import {displayOrderProcessingScreen, processOrder} from 'src/library';
-import {getTerm} from 'src/utils';
+import {getCheckoutUrl, getTerm} from 'src/utils';
 import {stateMock} from 'src/mocks';
 
 jest.mock('@bold-commerce/checkout-frontend-library');
@@ -71,6 +71,8 @@ describe('Testing hook usePaymentPage', () => {
     beforeEach(() => {
         jest.resetAllMocks();
         window.shopAlias = shopAliasMock;
+        window.platformType = 'shopify';
+        window.publicOrderId = '123a';
         useDispatchMock.mockReturnValue(dispatchMock);
         useHistoryMock.mockReturnValue(historyMock);
         useGetErrorsMock.mockReturnValue([]);
@@ -107,7 +109,7 @@ describe('Testing hook usePaymentPage', () => {
 
         result.current.backLinkOnClick && result.current.backLinkOnClick(eventMock);
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
-        expect(historyMock.replace).toHaveBeenCalledWith('/shipping_lines');
+        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('/shipping_lines'));
 
         result.current.nextButtonOnClick();
         expect(dispatchMock).toHaveBeenCalledTimes(1);
@@ -157,7 +159,7 @@ describe('Testing hook usePaymentPage', () => {
 
         result.current.backLinkOnClick && result.current.backLinkOnClick(eventMock);
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
-        expect(historyMock.replace).toHaveBeenCalledWith('/shipping_lines');
+        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('/shipping_lines'));
 
         result.current.nextButtonOnClick();
         expect(dispatchMock).toHaveBeenCalledTimes(2);
@@ -193,7 +195,7 @@ describe('Testing hook usePaymentPage', () => {
 
         result.current.backLinkOnClick && result.current.backLinkOnClick(eventMock);
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
-        expect(historyMock.replace).toHaveBeenCalledWith('/shipping_lines');
+        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('/shipping_lines'));
 
         result.current.nextButtonOnClick();
         expect(dispatchMock).toHaveBeenCalledTimes(0);

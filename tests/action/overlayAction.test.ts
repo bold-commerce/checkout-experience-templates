@@ -1,12 +1,13 @@
 import {
     actionSetOverlayContent, actionShowHideOverlayContent, SET_OVERLAY_CONTENT, SHOW_HIDE_OVERLAY
 } from 'src/action';
-import {orderInitialization} from 'src/constants/orderInitialization';
+
+import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 
 describe('Testing Overlay Actions', () => {
 
     test('actionSetOverlayContent', () => {
-        const content = orderInitialization.overlay;
+        const content = defaultOrderInitialization.overlay;
         const actionReturnExpectation = {
             type: SET_OVERLAY_CONTENT,
             payload: {content}

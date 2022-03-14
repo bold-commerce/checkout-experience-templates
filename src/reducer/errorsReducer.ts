@@ -1,9 +1,9 @@
 import {AnyAction} from 'redux';
 import * as AppActionsType from 'src/action/appActionType';
-import {orderInitialization} from 'src/constants/orderInitialization';
 import {IError} from 'src/types';
+import { defaultOrderInitialization } from 'src/constants/orderInitialization';
 
-const {errors} = orderInitialization;
+const {errors} = defaultOrderInitialization;
 
 export function errorsReducer(state = errors, action: AnyAction ) : Array<IError> {
     const getDifferentErrors = (error: IError ) =>

@@ -6,11 +6,14 @@ import {mocked} from 'ts-jest/utils';
 import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import * as handleErrorIfNeeded from 'src/utils/handleErrorIfNeeded';
 import {getSummaryStateFromLib} from 'src/library';
+import {useSendEvent} from 'src/hooks';
 
 jest.mock('@bold-commerce/checkout-frontend-library');
 jest.mock('src/library/applicationState');
+jest.mock('src/hooks/useSendEvent');
 const shippingLinesMock = mocked(getShippingLines, true);
 const getSummaryStateFromLibMock = mocked(getSummaryStateFromLib, true);
+const useSendEventMock = mocked(useSendEvent, true);
 
 describe('testing shippingLines', () => {
     const getState = jest.fn();
@@ -41,6 +44,7 @@ describe('testing shippingLines', () => {
         await getShippingLines(mockDispatch, getState);
         expect(shippingLinesMock).toHaveBeenCalledTimes(1);
         expect(getState).not.toHaveBeenCalled();
+        expect(useSendEventMock).not.toHaveBeenCalled();
     });
 
     test('tests calling get shipping lines with a success', async () => {

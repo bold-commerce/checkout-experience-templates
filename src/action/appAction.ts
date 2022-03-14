@@ -7,7 +7,8 @@ import {
     IApplicationStatePayment,
     IApplicationStateSelectShippingLine,
     IApplicationStateTax,
-    IError
+    IError,
+    IOrderInitialization
 } from 'src/types';
 import {autocompleteServices} from 'src/constants';
 
@@ -233,5 +234,12 @@ export function actionRemoveError(error: IError): AnyAction {
     return {
         type: AppActions.REMOVE_ERROR,
         payload: error
+    };
+}
+
+export function actionUpdateAppData(data: IOrderInitialization): AnyAction {
+    return {
+        type: AppActions.UPDATE_APP_DATA,
+        payload: {data},
     };
 }

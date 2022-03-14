@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactChild } from 'react';
 import {
     IApplicationStateDiscount,
     IApplicationStateLineItem,
@@ -77,9 +77,26 @@ export interface ISavedAddressFieldSelectProps{
     className: string;
 }
 
+export interface ISavedAddressFieldRadioListProps{
+    type: string;
+}
+
+export interface ISavedAddressFieldRadioProps{
+    address: IAddress;
+    checked?: boolean;
+    handleChange?: (e) => void;
+}
+
+export interface INewAddressFieldRadioProps{
+    type: string,
+    label: string,
+    checked?: boolean,
+    handleChange?: (e) => void;
+}
+
 export interface IFieldRadioProps{
     value: string;
-    label?: string;
+    label?: string | JSX.Element;
     checked? : boolean;
     className?: string;
     id?: string;
@@ -179,9 +196,11 @@ export interface IShippingLinesHookProps{
 
 export interface ISavedAddressHookProps{
     id: string;
+    title: string;
     label: string;
     placeholder: string;
     options: Array<ISelectList>;
+    savedAddresses: Array<IAddress>;
     handleChange: (e) => void;
 }
 
@@ -362,4 +381,30 @@ export interface IUseGetCurrencyInformation {
     currency: string,
     currencySymbol: string,
     formattedPrice: string,
+}
+export interface INavigationHeadingProps {
+    className?: string;
+    text: string;
+    navigation?: () => void;
+    secondary?: React.ReactElement;
+}
+
+export interface IUseIndexPageProps{
+    loginUrl: (event) => void;
+    loginText: string;
+    orderTotal: number;
+    websiteName: string;
+    lineItems: Array<IApplicationStateLineItem>;
+    summaryHeadingText: string;
+    email: string;
+    shippingHeadingText: string;
+    address: IAddress;
+    paymentHeadingText: string
+    checkoutOnClick: () => void
+}
+
+export interface ICondensedSectionProps {
+    className?: string;
+    navigationHeadingProps: INavigationHeadingProps;
+    children?: ReactChild | Array<ReactChild>
 }

@@ -5,6 +5,7 @@ import {pigiHandleScaSteps, pigiPaymentTypes} from 'src/constants';
 import {displayOrderProcessingScreen, getUpdatedApplicationState, processOrder} from 'src/library';
 import {IOrderInitialization, IPigiResponsesPayload} from 'src/types';
 import {updatePigiHeight} from 'src/utils';
+import {useSendEvent} from 'src/hooks';
 
 export function setPigiListenerInLibrary(frameId: string, callbackEvent: (evt: Event) => void) {
     return async function setPigiListenerThunk(): Promise<void> {
@@ -14,6 +15,10 @@ export function setPigiListenerInLibrary(frameId: string, callbackEvent: (evt: E
 
 export function handlePigiInitialized() {
     return async function handlePigiInitializedThunk(dispatch: Dispatch): Promise<void> {
+        // Beginning of sending event to back-end
+        useSendEvent('CheckoutExperiencePigiInitialized');
+        // of sending event to back-end
+
         dispatch(actionSetPigiIframeLoader(false));
     };
 }

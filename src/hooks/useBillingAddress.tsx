@@ -5,16 +5,18 @@ import {actionRemoveErrorByAddressType, actionUpdateBillingType, actionUpdateBil
 import {IAddressProps, IBillingAddress} from 'src/types';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
+import { useGetShippingData } from './useGetAddressData';
 
 export function useBillingAddress(): IBillingAddress{
     const dispatch = useDispatch();
     const customBilling = useGetAppSettingData('billingType');
     const isCustomerLoggedIn = useIsUserAuthenticated();
+    const shippingAddress = useGetShippingData();
 
     const handleChange = useCallback(e => {
         const value = e.target.value;
         dispatch(actionUpdateBillingTypeInSettings(value));
-        dispatch(actionUpdateBillingType(value));
+        dispatch(actionUpdateBillingType(value, shippingAddress));
         dispatch(actionRemoveErrorByAddressType(Constants.BILLING));
     }, []);
 

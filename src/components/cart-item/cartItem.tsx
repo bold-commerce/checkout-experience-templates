@@ -13,8 +13,10 @@ export function CartItem(props: ICartItemProps): React.ReactElement {
         <li key={'item-' + product_data.id} className={'cart-item'}>
             <Image src={product_data.image_url} alt={product_data.title} className={imgClasses} />
             <div className={'cart-item__text'}>
-                <h2 className={'cart-item__title'}>{product_data.title}</h2>
-                <p className={'cart-item__variant-title'}>{product_data.description}</p>
+                <h2 className={'cart-item__title'}>{product_data.product_title}</h2>
+                { (product_data.title && product_data.title !== 'Default Title' ) && 
+                    <p className={'cart-item__variant-title'}>{product_data.title}</p>
+                }
             </div>
             <div className={'cart-item__price-quantity'}>
                 <div className={'cart-item__quantity-container'}>

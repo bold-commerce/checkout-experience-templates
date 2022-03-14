@@ -1,11 +1,11 @@
 import {useCallback} from 'react';
 import {IUseLogin} from 'src/types';
 import {useDispatch} from 'react-redux';
-import {debounceConstants} from 'src/constants';
 import {
     useGetCustomerInfoDataByField,
     useGetCustomerMarketingField,
     useCallApiAtOnEvents,
+    useDebounceCustomer,
     useGetGeneralSettingCheckoutFields
 } from 'src/hooks';
 import {actionUpdateCustomerAcceptMarketing} from 'src/action';
@@ -16,7 +16,7 @@ export function useLogin(): IUseLogin{
         window.location.href = window.loginUrl;
     }, [window.loginUrl]);
     const dispatch = useDispatch();
-    const debounceApiCall = debounceConstants.debouncedGuestCustomerFunction;
+    const debounceApiCall = useDebounceCustomer();
     const callApiAtOnEvents: boolean = useCallApiAtOnEvents();
     const email = useGetCustomerInfoDataByField('email_address');
     const acceptMarketingChecked = useGetCustomerMarketingField();

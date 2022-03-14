@@ -2,11 +2,13 @@ import {renderHook} from '@testing-library/react-hooks';
 import * as getTerm from 'src/utils/getTerm';
 import * as useIsUserAuthenticated from 'src/hooks/useIsUserAuthenticated';
 import * as useGetAppSettingData from 'src/hooks/useGetAppSettingData';
+import * as useGetShippingData from 'src/hooks/useGetAddressData';
 import {Constants} from 'src/constants';
 import {useBillingAddress} from 'src/hooks';
 import {act} from '@testing-library/react';
 import * as customerAction from 'src/action/customerAction';
 import * as appAction from 'src/action/appAction';
+import { addressMock } from 'src/mocks';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -16,6 +18,7 @@ jest.mock('react-redux', () => ({
 describe('Testing hook useBillingAddress', () => {
     let useGetAppSettingDataSpy: jest.SpyInstance;
     let useIsUserAuthenticatedSpy: jest.SpyInstance;
+    let useGetShippingDataSpy: jest.SpyInstance;
     let getTermSpy: jest.SpyInstance;
     let actionUpdateBillingTypeInSettingsSpy: jest.SpyInstance;
     let actionRemoveErrorByAddressTypeSpy: jest.SpyInstance;
@@ -26,6 +29,7 @@ describe('Testing hook useBillingAddress', () => {
         getTermSpy = jest.spyOn(getTerm, 'getTerm');
         useGetAppSettingDataSpy = jest.spyOn(useGetAppSettingData, 'useGetAppSettingData');
         useIsUserAuthenticatedSpy = jest.spyOn(useIsUserAuthenticated, 'useIsUserAuthenticated');
+        useGetShippingDataSpy = jest.spyOn(useGetShippingData, 'useGetShippingData');
         actionUpdateBillingTypeInSettingsSpy = jest.spyOn(appAction, 'actionUpdateBillingTypeInSettings');
         actionUpdateBillingTypeSpy = jest.spyOn(customerAction, 'actionUpdateBillingType');
         actionRemoveErrorByAddressTypeSpy = jest.spyOn(appAction, 'actionRemoveErrorByAddressType');
@@ -37,9 +41,11 @@ describe('Testing hook useBillingAddress', () => {
         const isLogin = true;
         useGetAppSettingDataSpy.mockReturnValueOnce(Constants.SHIPPING_SAME);
         useIsUserAuthenticatedSpy.mockReturnValueOnce(isLogin);
+        useGetShippingDataSpy.mockReturnValueOnce(addressMock);
         getTermSpy.mockReturnValue(getTermValue);
         const {result} = renderHook(() => useBillingAddress());
         const hookResult = result.current;
+
         expect(hookResult.customBilling).toBe(Constants.SHIPPING_SAME);
         expect(hookResult.billingSame).toBe(getTermValue);
         expect(hookResult.billingDifferent).toBe(getTermValue);
@@ -51,9 +57,11 @@ describe('Testing hook useBillingAddress', () => {
         const isLogin = true;
         useGetAppSettingDataSpy.mockReturnValueOnce(Constants.SHIPPING_SAME);
         useIsUserAuthenticatedSpy.mockReturnValueOnce(isLogin);
+        useGetShippingDataSpy.mockReturnValueOnce(addressMock);
         getTermSpy.mockReturnValue(getTermValue);
         const {result} = renderHook(() => useBillingAddress());
         const hookResult = result.current.addressProps;
+
         expect(hookResult.title).toBe(getTermValue);
         expect(hookResult.type).toBe(Constants.BILLING);
         expect(hookResult.showTitle).toBe(false);
@@ -65,6 +73,7 @@ describe('Testing hook useBillingAddress', () => {
         const event = {target: {value: 'test-value'}};
         useGetAppSettingDataSpy.mockReturnValueOnce(Constants.SHIPPING_SAME);
         useIsUserAuthenticatedSpy.mockReturnValueOnce(true);
+        useGetShippingDataSpy.mockReturnValueOnce(addressMock);
         getTermSpy.mockReturnValue(getTermValue);
         const {result} = renderHook(() => useBillingAddress());
         const hookResult = result.current;

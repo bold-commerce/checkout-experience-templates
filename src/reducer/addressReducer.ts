@@ -1,10 +1,10 @@
 import {AnyAction} from 'redux';
 import * as CustomerActionsType from 'src/action/customerActionType';
 import {IAddress} from 'src/types';
-import {orderInitialization} from 'src/constants/orderInitialization';
 import {defaultAddressState} from 'src/constants';
+import { defaultOrderInitialization } from 'src/constants/orderInitialization';
 
-const {data:{application_state}} = orderInitialization;
+const {data:{application_state}} = defaultOrderInitialization;
 
 export function shippingReducer(state = application_state.addresses.shipping, action: AnyAction ) : Partial<IAddress> {
     switch (action.type) {
@@ -35,7 +35,7 @@ export function billingReducer(state = application_state.addresses.billing, acti
             return action.payload.data;
         }
         case CustomerActionsType.UPDATE_BILLING_TYPE_SAME: {
-            return application_state.addresses.shipping;
+            return action.payload.data;
         }
         default:
             return state;

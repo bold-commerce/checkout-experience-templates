@@ -5,6 +5,7 @@ export * from './findLanguageDataByIsoCode';
 export * from './formatPaymentLine';
 export * from './getBreadcrumbs';
 export * from './getBreadcrumbStatus';
+export * from './getCheckoutUrl';
 export * from './getClassNameByEventName';
 export * from './getErrorTerm';
 export * from './getFieldNamesSummary';

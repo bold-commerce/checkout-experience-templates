@@ -1,9 +1,9 @@
 import {AnyAction} from 'redux';
 import * as AppActionsType from '../action/appActionType';
 import {IApplicationStatePayment} from 'src/types';
-import {orderInitialization} from 'src/constants/orderInitialization';
+import { defaultOrderInitialization } from 'src/constants/orderInitialization';
 
-const {data:{application_state}} = orderInitialization;
+const {data:{application_state}} = defaultOrderInitialization;
 
 export function paymentsReducer(state = application_state.payments, action: AnyAction ) : Array<IApplicationStatePayment> {
     switch (action.type) {

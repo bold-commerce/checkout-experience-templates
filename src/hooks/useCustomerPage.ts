@@ -5,7 +5,7 @@ import {callCustomerPageApi} from 'src/library';
 import {useHistory} from 'react-router';
 import {Constants} from 'src/constants';
 import {IUseCustomerPageProp} from 'src/types';
-import {getTerm} from 'src/utils';
+import {getCheckoutUrl, getTerm} from 'src/utils';
 
 export function useCustomerPage(): IUseCustomerPageProp {
     const dispatch = useDispatch();
@@ -22,6 +22,7 @@ export function useCustomerPage(): IUseCustomerPageProp {
     const nextButtonOnClick = useCallback(() => {
         dispatch(callCustomerPageApi(history));
     } , []);
+    window.history.replaceState(null, '', getCheckoutUrl('/resume'));
 
     return {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading};
 }

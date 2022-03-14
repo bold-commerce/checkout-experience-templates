@@ -8,7 +8,8 @@ import {
     useGetCustomerInfoData,
     useGetShippingData,
     useGetShopUrlFromShopAlias,
-    useSupportedLanguages
+    useSupportedLanguages,
+    useSendEvent
 } from 'src/hooks';
 import {addressMock, stateMock} from 'src/mocks';
 import {ThankYouPage} from 'src/pages';
@@ -19,6 +20,7 @@ jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/hooks/useGetAddressData');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
+jest.mock('src/hooks/useSendEvent');
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useGetCustomerInfoDataMock = mocked(useGetCustomerInfoData, true);

@@ -1,4 +1,4 @@
-import {IInitializeOrderData} from 'src/types/appInterfaces';
+import {IFrontEndEvent, IInitializeOrderData} from 'src/types/appInterfaces';
 import {IEnvironment} from '@bold-commerce/checkout-frontend-library';
 
 declare global {
@@ -6,6 +6,8 @@ declare global {
         initializedOrder: IInitializeOrderData,
         shopAlias: string,
         shopName: string,
+        platformType: string,
+        publicOrderId: string,
         environment: IEnvironment,
         shopIdentifier: string
         returnUrl: string,
@@ -16,6 +18,8 @@ declare global {
         initializeAutoComplete: () => void
         currency: string,
         currencySymbol: string,
+        initialTimestamps: IFrontEndEvent,
+        storeLoadTimesLocally: boolean,
     }
 }
 
@@ -48,6 +52,7 @@ export interface IAddress {
 export interface IProductData {
     id: string,
     title: string,
+    product_title: string,
     image_url: string,
     properties: Array<string>
     description: string,

@@ -1,0 +1,22 @@
+.nav-heading {
+    color: #1A1A1A;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.nav-heading a,
+.nav-heading__title:hover {
+    cursor: pointer;
+}
+
+.nav-heading__title {
+    color: #0A75C2;
+    line-height: 20px;
+    font-size: 16px;
+    font-weight: 700;
+}

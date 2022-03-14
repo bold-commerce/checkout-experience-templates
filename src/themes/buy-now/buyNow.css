@@ -1,0 +1,134 @@
+html, body, .buy-now__app {
+  height: 100%;
+  margin: 0;
+}
+
+.checkout-experience-container {
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.buy-now-container {
+  max-width: 480px;
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: clip;
+  transition: all 0.6s;
+  background: #FFFFFF;
+  box-shadow: 0px 1px 8px 2px #00000010;
+  border-radius: 8px;
+}
+
+.buy-now{
+  padding: 16px 32px;
+  transition: all 0.6s;
+}
+
+.buy-now__secondary{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow-y: auto;
+}
+
+@media only screen and (max-width: 769px) {
+  .buy-now-container {
+    height: 100%;
+  }
+
+  .buy-now--open,
+  .buy-now__secondary--open {
+    transform: translate(0, 0);
+    visibility: visible;
+  }
+
+  .buy-now--closed {
+    transform: translate(-100%, 0);
+    visibility: hidden;
+  }
+
+  .buy-now__secondary--closed {
+    transform: translate(100%, 0);
+    visibility: hidden;
+  }
+}
+
+@media only screen and (min-width: 770px){
+  .buy-now--open,
+  .buy-now__secondary--open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .buy-now--closed,
+  .buy-now__secondary--closed {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.buy-now__products {
+  border: none;
+  padding: 0;
+}
+
+.buy-now__header {
+  height: 36px;
+  border: none;
+  padding: 0;
+  margin-bottom: 16px;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.buy-now__checkout-button {
+  background-color: #0A75C2;
+  width: 100%;
+  color: #FFF;
+  border: 1px inset #E6E6E6;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 12px 8px;
+  font-weight: 600;
+  border-radius: 4px;
+  margin-top: 16px;
+}
+
+.buy-now__section .nav-heading {
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.buy-now__checkout-button:hover {
+  cursor: pointer;
+}
+  
+.buy-now p {
+  margin: 0;
+  align-content: center;
+}
+
+.buy-now__back .nav-heading__title::before {
+  position: relative;
+  border-style: solid;
+  border-width: 0.25em 0.25em 0 0;
+  content: '';
+  display: inline-block;
+  height: 0.75em;
+  width: 0.75em;
+  transform: rotate(-135deg);
+  margin: 0 5px;
+}
+
+.buy-now__app .shipping-page .stx-radio__input {
+  padding: 0;
+}

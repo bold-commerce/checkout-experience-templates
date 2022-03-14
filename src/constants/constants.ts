@@ -21,6 +21,7 @@ export class Constants {
     static SHIPPING_METHOD_INFO = 'shipping_method';
     static PAYMENT_INFO = 'payment_method';
     static SUMMARY_INFO = 'summary';
+    static SAVED_PAYMENT_INFO = 'saved_payment_methods';
     static SHIPPING = 'shipping';
     static BILLING = 'billing';
     static SHIPPING_SAME = 'same';

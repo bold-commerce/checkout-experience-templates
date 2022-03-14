@@ -1,11 +1,10 @@
 import {IAddressAutoComplete, ICheckoutProcess} from 'src/types';
-import {orderInitialization} from 'src/constants/orderInitialization';
+import { defaultOrderInitialization } from 'src/constants/orderInitialization';
 
-const {data: {initial_data}} = orderInitialization;
+const {data: {initial_data}} = defaultOrderInitialization;
 
-export function checkoutProcessReducer(state = initial_data.general_settings.checkout_process ): ICheckoutProcess {
+export function checkoutProcessReducer(state = initial_data.general_settings.checkout_process): ICheckoutProcess {
     return state;
-
 }
 
 export function addressAutoCompleteReducer(state = initial_data.general_settings.address_autocomplete): IAddressAutoComplete {

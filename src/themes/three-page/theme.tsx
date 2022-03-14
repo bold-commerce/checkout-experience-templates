@@ -29,12 +29,12 @@ function Theme(): React.ReactElement {
         <div className={'App'}>
             <BrowserRouter>
                 <Switch>
-                    <Route path='/out_of_stock' component={OutOfStockPage} />
-                    <Route path='/payment' component={PaymentPage} />
-                    <Route path='/session_expired' component={SessionExpiredPage} />
-                    <Route path='/shipping_lines' component={ShippingLinesPage} />
-                    <Route path='/thank_you' component={ThankYouPage} />
-                    <Route path='/' component={CustomerPage} />
+                    <Route path='*/out_of_stock' component={OutOfStockPage} />
+                    <Route path='*/payment' component={PaymentPage} />
+                    <Route path='*/session_expired' component={SessionExpiredPage} />
+                    <Route path='*/shipping_lines' component={ShippingLinesPage} />
+                    <Route path='*/thank_you' component={ThankYouPage} />
+                    <Route path='*/experience' component={CustomerPage} />
                 </Switch>
                 <StandaloneHooks/>
             </BrowserRouter>

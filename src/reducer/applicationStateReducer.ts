@@ -1,6 +1,6 @@
-import {orderInitialization} from 'src/constants/orderInitialization';
+import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 
-const {data: {application_state}} = orderInitialization;
+const {data: {application_state}} = defaultOrderInitialization;
 
 export const resumableLinkReducer = (state = application_state.created_via): string => state;
 

@@ -1,8 +1,9 @@
-import {IAddressFieldSelectProps, ISavedAddressHookProps, ISelectList} from 'src/types';
+import {IAddress, IAddressFieldSelectProps, ISavedAddressHookProps, ISelectList} from 'src/types';
 import {Constants} from 'src/constants';
 import * as useGetSavedAddressData from 'src/hooks/useGetSavedAddressData';
 import {fireEvent, render, screen} from '@testing-library/react';
 import {AddressSavedSelect} from 'src/components';
+import {initialDataMock} from 'src/mocks';
 
 
 describe('Testing AddressSavedSelect component', () => {
@@ -20,11 +21,15 @@ describe('Testing AddressSavedSelect component', () => {
         {name:'option2', value: 'option2'}
     ];
 
+    const savedAddresses: Array<IAddress> = initialDataMock.application_state.customer.saved_addresses;
+
     const hookResult: ISavedAddressHookProps= {
         placeholder: 'test',
+        title: 'test',
         label: 'test-label',
         id: 'test-id',
         options: options,
+        savedAddresses: savedAddresses,
         handleChange: jest.fn()
     };
 

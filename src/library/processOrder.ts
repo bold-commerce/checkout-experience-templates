@@ -4,7 +4,7 @@ import {IApiReturnObject, processOrder as processOrderLib} from '@bold-commerce/
 import {checkErrorAndProceedToNextPage, getApplicationStateFromLib} from 'src/library';
 import {HistoryLocationState} from 'react-router';
 import {actionShowHideOverlayContent} from 'src/action';
-import {handleErrorIfNeeded} from 'src/utils';
+import {getCheckoutUrl, handleErrorIfNeeded} from 'src/utils';
 import {errorFields, errorSubTypes} from 'src/constants';
 import {useRemoveAllFlashErrors} from 'src/hooks';
 
@@ -25,7 +25,7 @@ export function processOrder(history: HistoryLocationState) {
                 errors = getState().errors;
                 const error = errors.find(error => (error.field === errorFields.inventory && error.sub_type === errorSubTypes.insufficient_stock));
                 if(error){
-                    history.replace('/out_of_stock');
+                    history.replace(getCheckoutUrl('/out_of_stock'));
                 }
             }
         }

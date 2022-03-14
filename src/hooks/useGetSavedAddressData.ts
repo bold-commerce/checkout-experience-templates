@@ -10,6 +10,7 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
     const dispatch = useDispatch();
     const label = getTerm('select_address',Constants.SHIPPING_INFO);
     const placeholder = getTerm('enter_new_address', Constants.CUSTOMER_INFO);
+    const title = type === Constants.SHIPPING ? getTerm('shipping_address',Constants.SHIPPING_INFO) : getTerm('billing_address',Constants.PAYMENT_INFO);
     const id = `${type}-saved-address-select`;
     const savedAddresses: Array<IAddress> = useGetSavedAddressOptions();
     const options = savedAddresses.map(address => ({ value: '' + address.address_line_1, name: address.address_line_1 }));
@@ -23,6 +24,6 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
         dispatch(CustomerActions.actionPopulateSavedAddressField(type, address));
     }, [savedAddresses]);
 
-    return {id, label, placeholder, options, handleChange};
+    return {id, title, label, placeholder, options, savedAddresses, handleChange};
 
 }

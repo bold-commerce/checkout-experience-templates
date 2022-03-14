@@ -1,11 +1,11 @@
-import {orderInitialization} from 'src/constants/orderInitialization';
 import {IOverlay} from 'src/types';
 import {AnyAction} from 'redux';
 import {SET_OVERLAY_CONTENT, SHOW_HIDE_OVERLAY} from 'src/action';
+import { defaultOrderInitialization } from 'src/constants/orderInitialization';
 
-const orderData = orderInitialization;
+const {overlay} = defaultOrderInitialization;
 
-export function overlayReducer(state = orderData.overlay, action: AnyAction): IOverlay {
+export function overlayReducer(state = overlay, action: AnyAction): IOverlay {
     switch (action.type) {
         case SET_OVERLAY_CONTENT: {
             return action.payload.content;

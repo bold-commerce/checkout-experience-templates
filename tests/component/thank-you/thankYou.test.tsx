@@ -9,7 +9,8 @@ import {
     useGetOrderRecap,
     useGetShopUrlFromShopAlias,
     useGetThankYou,
-    useSupportedLanguages
+    useSupportedLanguages,
+    useSendEvent
 } from 'src/hooks';
 import {addressMock, initialDataMock} from 'src/mocks';
 import {IUseContactUs, IUseFooterRights, IUseGetOrderRecap, IUseGetThankYou} from 'src/types';
@@ -21,6 +22,7 @@ jest.mock('src/hooks/useGetFooterRights');
 jest.mock('src/hooks/useGetOrderRecap');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
+jest.mock('src/hooks/useSendEvent');
 const useGetThankYouMock = mocked(useGetThankYou, true);
 const useGetDisplayPaymentMethodsMock = mocked(useGetDisplayPaymentMethods, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
@@ -28,6 +30,7 @@ const useGetFooterRightsMock = mocked(useGetFooterRights, true);
 const useGetOrderRecapMock = mocked(useGetOrderRecap, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
+const useSendEventMock = mocked(useSendEvent, true);
 
 describe('testing ThankYou component', () => {
     const orderRecapHookReturn: IUseGetOrderRecap = {

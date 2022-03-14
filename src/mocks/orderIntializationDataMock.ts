@@ -547,7 +547,8 @@ export const initialDataMock: IInitializeEndpointData = {
             {
                 'product_data': {
                     'id': '71',
-                    'title': '[Sample] Canvas Laundry Cart',
+                    'title': 'Default Title',
+                    'product_title' : '[Sample] Canvas Laundry Cart',
                     'image_url': 'https://cdn11.bigcommerce.com/s-hk1wztnmcg/products/103/images/334/naturalcanvascart2.1624043582.220.290.jpg?c=1',
                     'properties': [],
                     'description': '',

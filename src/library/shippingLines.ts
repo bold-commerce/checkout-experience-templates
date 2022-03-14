@@ -4,6 +4,7 @@ import {handleErrorIfNeeded} from 'src/utils';
 import {IOrderInitialization} from 'src/types';
 import {actionSetButtonDisable, actionSetAppStateValid, actionSetLoader, actionSetSelectedShippingLine} from 'src/action';
 import {getShippingFromLib, getSummaryStateFromLib, postShippingLines} from 'src/library';
+import {useSendEvent} from 'src/hooks';
 
 export function shippingLines(updatedAddress: boolean) {
     return async function callShippingLines(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
@@ -13,6 +14,10 @@ export function shippingLines(updatedAddress: boolean) {
         handleErrorIfNeeded(response, dispatch, getState);
 
         if (response.success) {
+            // Beginning of sending event to back-end
+            useSendEvent('CheckoutExperienceShippingLinesDisplayed');
+            // of sending event to back-end
+
             dispatch(getShippingFromLib);
             const shippingLines = getState().data.application_state.shipping.available_shipping_lines;
 

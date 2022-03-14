@@ -9,13 +9,12 @@ import {getTerm} from 'src/utils';
 import {useCallback} from 'react';
 import {actionUpdateCustomerAcceptMarketing, actionUpdateCustomerEmail} from 'src/action/customerAction';
 import {IUseGuestCustomer} from 'src/types';
-import {useGetErrorByField} from 'src/hooks';
+import {useGetErrorByField, useDebounceCustomer} from 'src/hooks';
 import {actionRemoveErrorByField} from 'src/action';
-import {debounceConstants} from 'src/constants';
 
 export function useGuestCustomer(): IUseGuestCustomer {
     const dispatch = useDispatch();
-    const debounceApiCall = debounceConstants.debouncedGuestCustomerFunction;
+    const debounceApiCall = useDebounceCustomer();
     const callApiAtOnEvents: boolean = useCallApiAtOnEvents();
     const emailErrorEmailAddress = useGetErrorByField('email_address');
     const emailErrorEmail = useGetErrorByField('email'); // TODO: Request PAPI to Fix this field return in the error.

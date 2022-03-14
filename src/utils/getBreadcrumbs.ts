@@ -1,5 +1,5 @@
 import {IBreadcrumb} from 'src/types';
-import {getTerm, getBreadcrumbStatus} from 'src/utils';
+import {getTerm, getBreadcrumbStatus, getCheckoutUrl} from 'src/utils';
 import {Constants} from 'src/constants';
 import {BrowserHistory} from 'history';
 
@@ -22,7 +22,7 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): Array<I
             status: getBreadcrumbStatus(index++, active),
             onClick: (event) => {
                 event.preventDefault();
-                history.replace('/');
+                history.replace(getCheckoutUrl(''));
             },
         },
         {
@@ -31,7 +31,7 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): Array<I
             status: getBreadcrumbStatus(index++, active),
             onClick: (event) => {
                 event.preventDefault();
-                history.replace('/shipping_lines');
+                history.replace(getCheckoutUrl('/shipping_lines'));
             },
         },
         {
@@ -40,7 +40,7 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): Array<I
             status: getBreadcrumbStatus(index++, active),
             onClick: (event) => {
                 event.preventDefault();
-                history.replace('/payment');
+                history.replace(getCheckoutUrl('/payment'));
             },
         },
     ];

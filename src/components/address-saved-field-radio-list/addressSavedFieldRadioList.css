@@ -1,0 +1,29 @@
+.shipping-address__FieldSection {
+    margin: 16px 0px;
+}
+
+.saved-address-list {
+    list-style: none;
+    display: grid;
+    grid-auto-flow: row;
+    width: 100%; 
+    padding: 0px;
+}
+
+.saved-address-list-item .stx-field {
+    padding-left: 0px;
+}
+
+.saved-address-list-item .stx-radio-field {
+    display: flex;
+    border-bottom: 1px solid #D9D9D9;
+    padding: 8px 0;
+}
+
+.saved-address-list-item .stx-radio {
+    position: relative;
+}
+
+.saved-address-list-item .display-address-row {
+    margin-bottom: 0px;
+}

@@ -1,7 +1,7 @@
 import {ISupportedLanguage} from 'src/types';
-import {orderInitialization} from 'src/constants/orderInitialization';
+import { defaultOrderInitialization } from 'src/constants/orderInitialization';
 
-const {data:{initial_data}} = orderInitialization;
+const {data:{initial_data}} = defaultOrderInitialization;
 
 export function languageReducer(state = initial_data.supported_languages) : Array<ISupportedLanguage> {
     return state;

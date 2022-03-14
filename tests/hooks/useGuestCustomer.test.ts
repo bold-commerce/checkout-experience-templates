@@ -1,5 +1,6 @@
 import {
     useCallApiAtOnEvents,
+    useDebounceCustomer,
     useGetCustomerInfoDataByField,
     useGetCustomerMarketingField,
     useGetErrorByField,
@@ -9,7 +10,7 @@ import {
 import {renderHook} from '@testing-library/react-hooks';
 import {mocked} from 'ts-jest/utils';
 import {getTerm} from 'src/utils';
-import {debounceConstants} from 'src/constants';
+import {DebouncedState} from 'use-debounce/lib/useDebouncedCallback';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -18,20 +19,21 @@ jest.mock('react-redux', () => ({
 
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useGetErrorByField');
+jest.mock('src/hooks/useDebounceCustomer');
 jest.mock('src/hooks/useCallApiAtOnEvents');
 jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/hooks/useGetGeneralSettingCheckoutFields');
 const getTermMock = mocked(getTerm, true);
 const useGetErrorByFieldMock = mocked(useGetErrorByField, true);
+const useDebounceCustomerMock = mocked(useDebounceCustomer, true);
 const useCallApiAtOnEventsMock = mocked(useCallApiAtOnEvents, true);
 const useGetCustomerInfoDataByFieldMock = mocked(useGetCustomerInfoDataByField, true);
 const useGetCustomerMarketingFieldMock = mocked(useGetCustomerMarketingField, true);
 const useGetGeneralSettingCheckoutFieldsMock = mocked(useGetGeneralSettingCheckoutFields, true);
 
-
 describe('Testing hook useGuestCustomer', () => {
     const debounceMock = jest.fn();
-    const debounceGuestCustomerMock = jest.fn();
+    const debounceGuestCustomerMock = function() {} as DebouncedState<() => void>
     const email = 'test@email.com';
     const marketing = true;
     const target ={target: {value: ''}};
@@ -40,7 +42,7 @@ describe('Testing hook useGuestCustomer', () => {
         jest.resetAllMocks();
         useGetCustomerInfoDataByFieldMock.mockReturnValue(email);
         useGetCustomerMarketingFieldMock.mockReturnValue(marketing);
-        debounceConstants.debouncedGuestCustomerFunction = debounceGuestCustomerMock;
+        useDebounceCustomerMock.mockReturnValue(debounceGuestCustomerMock);
     });
 
     const hookData = [
@@ -72,7 +74,5 @@ describe('Testing hook useGuestCustomer', () => {
             results.handleCheckboxChange();
             expect(mockDispatch).toBeCalledTimes(checkboxCalls);
             expect(debounceMock).toBeCalledTimes(0);
-
-            expect(debounceGuestCustomerMock).toBeCalledTimes(2);
         });
 });

@@ -5,7 +5,7 @@ import {HistoryLocationState} from 'react-router';
 import {actionShowHideOverlayContent, SHOW_HIDE_OVERLAY} from 'src/action';
 import {checkErrorAndProceedToNextPage, getApplicationStateFromLib, processOrder} from 'src/library';
 import {stateMock} from 'src/mocks';
-import {handleErrorIfNeeded} from 'src/utils';
+import {getCheckoutUrl, handleErrorIfNeeded} from 'src/utils';
 import {errorFields, errorSeverities, errorShowType, errorSubTypes, errorTypes} from 'src/constants';
 import {useRemoveAllFlashErrors} from 'src/hooks';
 
@@ -30,6 +30,9 @@ describe('testing checkErrorAndProceedToNextPage', () => {
 
     beforeEach(() => {
         jest.resetAllMocks();
+        window.shopAlias = 'test';
+        window.platformType = 'shopify';
+        window.publicOrderId = '123a';
         dispatch.mockReturnValue(Promise.resolve());
         getState.mockReturnValue(stateMock);
         processOrderLibMock.mockReturnValue(Promise.resolve(returnObject));
@@ -127,7 +130,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
             expect(dispatch).toHaveBeenCalledTimes(1);
             expect(dispatch).toHaveBeenCalledWith(showHideAction);
             expect(historyMock.replace).toHaveBeenCalledTimes(1);
-            expect(historyMock.replace).toHaveBeenCalledWith('/out_of_stock');
+            expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('/out_of_stock'));
         });
     });
 });

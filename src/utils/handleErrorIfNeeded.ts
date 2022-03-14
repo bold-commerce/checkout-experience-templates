@@ -2,7 +2,7 @@ import {IApiErrorResponse, IApiReturnObject, IFetchError} from '@bold-commerce/c
 import {Dispatch} from 'redux';
 import {apiErrors, httpStatusCode} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import {IError, IOrderInitialization} from 'src/types';
-import {displayFatalErrorFromTranslation, getHook} from 'src/utils';
+import {displayFatalErrorFromTranslation, getCheckoutUrl, getHook} from 'src/utils';
 import {actionAddError, actionShowHideOverlayContent} from 'src/action';
 import {HistoryLocationState} from 'react-router';
 
@@ -37,7 +37,7 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
                         switch (e.message) {
                             case 'Expired JWT': {
                                 const history: HistoryLocationState = getHook('history');
-                                history.replace('/session_expired');
+                                history.replace(getCheckoutUrl('/session_expired'));
                                 dispatch(actionShowHideOverlayContent(false));
                                 throw new Error('Session Expired');
                             }

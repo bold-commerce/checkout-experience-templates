@@ -63,10 +63,11 @@ export function actionUpdateBillingAddressField (field:string , value:string): A
     };
 }
 
-export function actionUpdateBillingType(type: string): AnyAction {
+export function actionUpdateBillingType(type: string, data?: Partial<IAddress>): AnyAction {
     if (type === Constants.SHIPPING_SAME) {
         return {
             type: CustomerActions.UPDATE_BILLING_TYPE_SAME,
+            payload: {data}
         };
     }
     else

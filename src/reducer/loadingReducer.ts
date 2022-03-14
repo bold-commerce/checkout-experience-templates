@@ -1,9 +1,9 @@
-import {orderInitialization} from 'src/constants/orderInitialization';
 import {IIsLoading} from 'src/types';
 import {SET_LOADER, SET_PIGI_IFRAME_LOADER} from 'src/action/appActionType';
 import {AnyAction} from 'redux';
+import { defaultOrderInitialization } from 'src/constants/orderInitialization';
 
-const {isLoading} = orderInitialization;
+const {isLoading} = defaultOrderInitialization;
 
 export function loadingReducer(state = isLoading, action: AnyAction): IIsLoading {
 

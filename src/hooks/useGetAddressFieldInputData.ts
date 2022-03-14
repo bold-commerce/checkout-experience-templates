@@ -3,14 +3,15 @@ import {actionRemoveErrorByField, actionUpdateAddressField, actionUpdateCustomer
 import {useDispatch} from 'react-redux';
 import {useCallApiAtOnEvents, useGetAddressDataField} from 'src/hooks';
 import {IAddressFieldHookProps} from 'src/types';
-import {AddressLabelMapping, Constants, debounceConstants} from 'src/constants';
+import {AddressLabelMapping, Constants} from 'src/constants';
 import {getTerm} from 'src/utils';
 import {useGetAddressPostalCodeAndProvinceData, useGetErrorByField} from 'src/hooks';
+import { useDebounceCustomer } from './useDebounceCustomer';
 
 export function useGetAddressFieldInputData(type: string, fieldId: string, debounceApiCall: () => void, placeholderId: string): IAddressFieldHookProps {
     const dispatch = useDispatch();
     const callApiAtOnEvents: boolean = useCallApiAtOnEvents();
-    const debounceApiCallGuestCustomer = debounceConstants.debouncedGuestCustomerFunction;
+    const debounceApiCallGuestCustomer = useDebounceCustomer();
     const name = fieldId;
     const placeholder = getTerm(AddressLabelMapping[placeholderId],Constants.SHIPPING_INFO);
     const errorMessage = useGetErrorByField(fieldId, type);

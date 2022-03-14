@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: {
         one_page: './src/themes/one-page/init.tsx',
+        buy_now: './src/themes/buy-now/init.tsx',
         three_page: './src/themes/three-page/init.tsx',
     },
     output: {
@@ -22,7 +23,7 @@ module.exports = {
         modules: [path.resolve(__dirname, 'src'), 'node_modules'],
         extensions: ['.tsx', '.ts', '.jsx', '.js']
     },
-    devServer: { contentBase: path.join(__dirname, 'src') },
+    devServer: { static: './' },
     module: {
         rules: [
             {

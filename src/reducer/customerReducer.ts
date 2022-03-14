@@ -1,9 +1,9 @@
 import {AnyAction} from 'redux';
 import * as CustomerActionsType from '../action/customerActionType';
 import {IApplicationStateCustomer} from 'src/types';
-import {orderInitialization} from 'src/constants/orderInitialization';
+import { defaultOrderInitialization } from 'src/constants/orderInitialization';
 
-const {data:{application_state}} = orderInitialization;
+const {data:{application_state}} = defaultOrderInitialization;
 
 export function customerReducer(state = application_state.customer, action: AnyAction ) : IApplicationStateCustomer {
     switch (action.type) {

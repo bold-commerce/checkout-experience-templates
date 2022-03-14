@@ -1,5 +1,6 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {
+    useDebounceCustomer,
     useCallApiAtOnEvents,
     useGetCustomerInfoDataByField,
     useGetCustomerMarketingField,
@@ -7,16 +8,18 @@ import {
     useLogin
 } from 'src/hooks';
 import {mocked} from 'ts-jest/utils';
-import {debounceConstants} from 'src/constants';
+import {DebouncedState} from 'use-debounce/lib/useDebouncedCallback';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch
 }));
+jest.mock('src/hooks/useDebounceCustomer');
 jest.mock('src/hooks/useCallApiAtOnEvents');
 jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/hooks/useGetGeneralSettingCheckoutFields');
+const useDebounceCustomerMock = mocked(useDebounceCustomer, true);
 const useCallApiAtOnEventsMock = mocked(useCallApiAtOnEvents, true);
 const useGetCustomerInfoDataByFieldMock = mocked(useGetCustomerInfoDataByField, true);
 const useGetCustomerMarketingFieldMock = mocked(useGetCustomerMarketingField, true);
@@ -25,7 +28,7 @@ const useGetGeneralSettingCheckoutFieldsMock = mocked(useGetGeneralSettingChecko
 describe('Testing hook useLogin', () => {
 
     const debounceMock = jest.fn();
-    const debounceGuestCustomerMock = jest.fn();
+    const debounceGuestCustomerMock = function() {} as DebouncedState<() => void>
     const email = 'test@email.com';
     const marketing = true;
     const eventMock = {preventDefault: jest.fn()};
@@ -35,7 +38,7 @@ describe('Testing hook useLogin', () => {
         window = Object.create(window);
         useGetCustomerInfoDataByFieldMock.mockReturnValue(email);
         useGetCustomerMarketingFieldMock.mockReturnValue(marketing);
-        debounceConstants.debouncedGuestCustomerFunction = debounceGuestCustomerMock;
+        useDebounceCustomerMock.mockReturnValue(debounceGuestCustomerMock);
         Object.defineProperty(window, 'location', {
             value: {
                 href: 'http://dummy.com'
@@ -75,7 +78,6 @@ describe('Testing hook useLogin', () => {
         const results = result.current;
         results.handleCheckboxChange();
         expect(mockDispatch).toBeCalledTimes(1);
-        expect(debounceGuestCustomerMock).toBeCalledTimes(1);
         expect(results.acceptMarketingHidden).toStrictEqual(true);
 
     });

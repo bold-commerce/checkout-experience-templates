@@ -19,6 +19,7 @@ export * from './postShippingAddress';
 export * from './postShippingLines';
 export * from './processOrder';
 export * from './session';
+export * from './setDefaultShippingAddress';
 export * from './setShippingAddressAsValid';
 export * from './shippingLines';
 export * from './updateCustomer';

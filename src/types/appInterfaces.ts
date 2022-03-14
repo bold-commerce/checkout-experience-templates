@@ -280,3 +280,20 @@ export interface IPigiResponseData {
     responseType: string,
     payload: IPigiResponsesPayload,
 }
+
+export interface IEventType {
+    publicOrderId: string,
+    timestamps: IFrontEndEvent,
+}
+
+export interface IFrontEndEvent {
+    CheckoutExperienceStartRendering?: string,
+    CheckoutExperienceDomInteractive?: string,
+    CheckoutExperienceDomContentLoadedEventStart?: string,
+    CheckoutExperienceDomContentLoadedEventEnd?: string,
+    CheckoutExperienceDomLoading?: string,
+    CheckoutExperienceComplete?: string,
+    CheckoutExperienceShippingLinesDisplayed?: string,
+    CheckoutExperiencePigiInitialized?: string,
+    CheckoutExperienceThankYouPageDisplayed?: string,
+}

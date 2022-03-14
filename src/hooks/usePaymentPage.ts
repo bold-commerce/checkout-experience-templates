@@ -8,7 +8,7 @@ import {
     useGetSelectShippingLine,
     useGetTaxes
 } from 'src/hooks';
-import {getTerm, getTotals} from 'src/utils';
+import {getCheckoutUrl, getTerm, getTotals} from 'src/utils';
 import {Constants} from 'src/constants';
 import {useCallback} from 'react';
 import {displayOrderProcessingScreen, processOrder} from 'src/library';
@@ -32,7 +32,7 @@ export function usePaymentPage(): IUsePaymentPage{
 
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
-        history.replace('/shipping_lines');
+        history.replace(getCheckoutUrl('/shipping_lines'));
     } , [history]);
 
     const nextButtonOnClick = useCallback(async () => {

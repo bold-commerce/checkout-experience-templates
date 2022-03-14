@@ -2,7 +2,7 @@ import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
 import {actionRemoveErrorByField, actionRemoveErrorByTypeAndCode, actionSetLoaderAndDisableButton} from 'src/action';
 import {HistoryLocationState} from 'react-router';
-import {isOnlyDiscountCodeError} from 'src/utils';
+import {getCheckoutUrl, isOnlyDiscountCodeError} from 'src/utils';
 import {errorFields, errorTypes} from 'src/constants';
 
 export function checkErrorAndProceedToNextPage(page: string, loaderName: string, history: HistoryLocationState) {
@@ -14,7 +14,7 @@ export function checkErrorAndProceedToNextPage(page: string, loaderName: string,
         dispatch(actionSetLoaderAndDisableButton(loaderName, false));
 
         if (errors.length <= 0 || isOnlyDiscountCodeError(errors)) {
-            history.replace(page);
+            history.replace(getCheckoutUrl(page));
         }
     };
 }

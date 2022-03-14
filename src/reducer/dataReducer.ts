@@ -1,6 +1,6 @@
-import {orderInitialization} from 'src/constants/orderInitialization';
+import { defaultOrderInitialization } from 'src/constants/orderInitialization';
 
-const {data:{jwt_token, public_order_id}} = orderInitialization;
+const {data:{jwt_token, public_order_id}} = defaultOrderInitialization;
 
 export const jwtTokenReducer = (state = jwt_token): string => state;
 

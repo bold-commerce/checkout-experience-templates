@@ -1,9 +1,9 @@
 import {IApplicationStateOrderMetaData} from 'src/types';
-import {orderInitialization} from 'src/constants/orderInitialization';
 import {AnyAction} from 'redux';
 import * as AppActionsType from 'src/action/appActionType';
+import { defaultOrderInitialization } from 'src/constants/orderInitialization';
 
-const {data:{application_state}} = orderInitialization;
+const {data:{application_state}} = defaultOrderInitialization;
 
 export function orderMetaReducer(state = application_state.order_meta_data, action: AnyAction): IApplicationStateOrderMetaData {
     switch (action.type) {

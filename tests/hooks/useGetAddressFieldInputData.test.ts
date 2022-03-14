@@ -1,14 +1,17 @@
 import {
-    useCallApiAtOnEvents, useGetAddressDataField,
+    useCallApiAtOnEvents,
+    useDebounceCustomer,
+    useGetAddressDataField,
     useGetAddressFieldInputData,
     useGetAddressPostalCodeAndProvinceData,
     useGetErrorByField
 } from 'src/hooks';
-import {Constants, debounceConstants} from 'src/constants';
+import {Constants} from 'src/constants';
 import {renderHook} from '@testing-library/react-hooks';
 import {mocked} from 'ts-jest/utils';
 import {getTerm} from 'src/utils';
 import {IAddressPostalCodeAndProvinceDataProps} from 'src/types';
+import {DebouncedState} from 'use-debounce/lib/useDebouncedCallback';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -20,11 +23,13 @@ jest.mock('src/hooks/useCallApiAtOnEvents');
 jest.mock('src/hooks/useGetErrorByField');
 jest.mock('src/hooks/useGetAddressPostalCodeAndProvinceData');
 jest.mock('src/hooks/useGetAddressData');
+jest.mock('src/hooks/useDebounceCustomer');
 const getTermMock = mocked(getTerm, true);
 const useCallApiAtOnEventsMock = mocked(useCallApiAtOnEvents, true);
 const useGetErrorByFieldMock = mocked(useGetErrorByField, true);
 const useGetAddressPostalCodeAndProvinceDataMock = mocked(useGetAddressPostalCodeAndProvinceData, true);
 const useGetAddressDataFieldMock = mocked(useGetAddressDataField, true);
+const useDebounceCustomerMock = mocked(useDebounceCustomer, true);
 
 describe('Testing hook useGetAddressFieldInputData', () => {
     const debounceMock = jest.fn();
@@ -46,7 +51,7 @@ describe('Testing hook useGetAddressFieldInputData', () => {
         jest.resetAllMocks();
         getTermMock.mockReturnValue(getTermValue);
         useGetAddressDataFieldMock.mockReturnValue(getTermValue);
-        useGetAddressPostalCodeAndProvinceDataMock.mockReturnValue({showPostalCode: false} as  IAddressPostalCodeAndProvinceDataProps);
+        useGetAddressPostalCodeAndProvinceDataMock.mockReturnValue({showPostalCode: false} as IAddressPostalCodeAndProvinceDataProps);
         useCallApiAtOnEventsMock.mockReturnValue(false);
         useGetErrorByFieldMock.mockReturnValue('');
     });
@@ -93,7 +98,7 @@ describe('Testing hook useGetAddressFieldInputData', () => {
 
     test('rendering the hook with callApi', () => {
         useCallApiAtOnEventsMock.mockReturnValueOnce(true);
-        debounceConstants.debouncedGuestCustomerFunction = jest.fn();
+        useDebounceCustomerMock.mockReturnValue(function() {} as DebouncedState<() => void >);
 
         const {result} = renderHook(() => useGetAddressFieldInputData(type, field, debounceMock, placeholder));
         expect(result.current.showField).toStrictEqual(true);

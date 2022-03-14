@@ -1,21 +1,27 @@
 import {applyMiddleware, createStore, Store, Middleware} from 'redux';
 import RootReducer from './reducer/rootReducer';
 import thunkMiddleware from 'redux-thunk';
-import  {actionGetInitialData} from './action';
+import {actionGetInitialData} from './action';
 import {composeWithDevTools} from 'redux-devtools-extension';
-import {orderInitialization} from 'src/constants/orderInitialization';
 import {initializeSession} from 'src/library';
+import {getOrderInitialization} from './utils/getOrderInitialization';
+import { IInitializeEndpointData } from './types';
+import { defaultOrderInitialization } from './constants/orderInitialization';
 
-export function initializeStore(): Store {
+export function initializeStore(orderData?:  IInitializeEndpointData): Store {
 
     const compose = composeWithDevTools({});
     const middleware: Middleware[] = [thunkMiddleware];
+    const orderInitialization = orderData ? getOrderInitialization(orderData) : defaultOrderInitialization;
 
-    const store = createStore(RootReducer, orderInitialization , compose(
+    const store = createStore(RootReducer, orderInitialization, compose(
         applyMiddleware(...middleware)
     ));
-    store.dispatch(initializeSession);
-    store.dispatch(actionGetInitialData(window.location.hostname));
+
+    if (orderData) {
+        store.dispatch(initializeSession);
+        store.dispatch(actionGetInitialData(window.location.hostname));
+    }
 
     return store;
 }

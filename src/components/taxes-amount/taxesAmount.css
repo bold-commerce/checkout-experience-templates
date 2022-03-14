@@ -88,6 +88,7 @@
 
 .taxes-amount__price .stx-price__amount{
     color: #595959;
+    font-weight: normal;
 }
 
 .taxes-amount--black-color .stx-price__amount,

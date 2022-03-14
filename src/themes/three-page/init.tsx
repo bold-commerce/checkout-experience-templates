@@ -5,7 +5,7 @@ import * as Store from '../../store';
 import Theme from './theme';
 
 
-const store = Store.initializeStore();
+const store = Store.initializeStore(window.initializedOrder.data);
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 

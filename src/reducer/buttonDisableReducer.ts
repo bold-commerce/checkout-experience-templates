@@ -1,9 +1,9 @@
-import {orderInitialization} from 'src/constants/orderInitialization';
 import {IIsButtonDisable} from 'src/types';
 import {SET_BUTTON_DISABLE} from 'src/action/appActionType';
 import {AnyAction} from 'redux';
+import { defaultOrderInitialization } from 'src/constants/orderInitialization';
 
-const {isButtonDisable} = orderInitialization;
+const {isButtonDisable} = defaultOrderInitialization;
 
 export function buttonDisableReducer(state = isButtonDisable, action: AnyAction): IIsButtonDisable {
 

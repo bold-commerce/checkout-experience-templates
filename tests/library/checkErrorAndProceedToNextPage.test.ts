@@ -3,7 +3,7 @@ import {HistoryLocationState} from 'react-router';
 import {actionSetLoaderAndDisableButton} from 'src/action';
 import {checkErrorAndProceedToNextPage} from 'src/library';
 import {stateMock} from 'src/mocks';
-import {isOnlyDiscountCodeError} from 'src/utils';
+import {getCheckoutUrl, isOnlyDiscountCodeError} from 'src/utils';
 
 jest.mock('src/action');
 jest.mock('src/utils');
@@ -20,6 +20,9 @@ describe('testing checkErrorAndProceedToNextPage', () => {
 
     beforeEach(() => {
         jest.resetAllMocks();
+        window.shopAlias = 'test';
+        window.platformType = 'shopify';
+        window.publicOrderId = '123a';
         dispatch.mockReturnValue(Promise.resolve());
         getState.mockReturnValue(stateMock);
         actionSetLoaderAndDisableButtonMock.mockReturnValue(actionSetLoaderAndDisableButtonThunkMock);
@@ -38,7 +41,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
             expect(dispatch).toHaveBeenCalledTimes(3);
             expect(dispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonThunkMock);
             expect(historyMock.replace).toHaveBeenCalledTimes(1);
-            expect(historyMock.replace).toHaveBeenCalledWith(page);
+            expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl(page));
         });
     });
 
@@ -79,7 +82,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
             expect(dispatch).toHaveBeenCalledTimes(3);
             expect(dispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonThunkMock);
             expect(historyMock.replace).toHaveBeenCalledTimes(1);
-            expect(historyMock.replace).toHaveBeenCalledWith(page);
+            expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl(page));
         });
     });
 
@@ -104,7 +107,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
             expect(dispatch).toHaveBeenCalledTimes(3);
             expect(dispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonThunkMock);
             expect(historyMock.replace).toHaveBeenCalledTimes(1);
-            expect(historyMock.replace).toHaveBeenCalledWith(page);
+            expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl(page));
         });
     });
 
@@ -132,7 +135,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
             expect(dispatch).toHaveBeenCalledTimes(3);
             expect(dispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonThunkMock);
             expect(historyMock.replace).toHaveBeenCalledTimes(1);
-            expect(historyMock.replace).toHaveBeenCalledWith(page);
+            expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl(page));
         });
     });
 });

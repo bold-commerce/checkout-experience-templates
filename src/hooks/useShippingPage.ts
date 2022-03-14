@@ -1,4 +1,4 @@
-import {getTerm} from 'src/utils';
+import {getCheckoutUrl, getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
 import {useCallback} from 'react';
 import {IUseCustomerPageProp} from 'src/types';
@@ -15,7 +15,7 @@ export function useShippingPage(): IUseCustomerPageProp{
     const backLinkText = `< ${getTerm('footer_shipping_cust_info', Constants.SHIPPING_METHOD_INFO)}`;
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
-        history.replace('/');
+        history.replace(getCheckoutUrl(''));
     } , [history]);
     const nextButtonText = getTerm('footer_shipping_continue', Constants.SHIPPING_METHOD_INFO);
     const active = 2;

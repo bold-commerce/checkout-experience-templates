@@ -10,6 +10,7 @@ import * as CustomerActions from 'src/action/customerActionType';
 import {IAddress} from 'src/types';
 import {initialDataMock} from 'src/mocks';
 import {Constants} from 'src/constants';
+import { AnyAction } from 'redux';
 
 describe('Testing Customer Actions', () => {
 
@@ -107,18 +108,18 @@ describe('Testing Customer Actions', () => {
     });
 
     const actionUpdateBillingTypeData = [
-        {actionType: CustomerActions.UPDATE_BILLING_TYPE_SAME, type: Constants.SHIPPING_SAME},
+        {actionType: CustomerActions.UPDATE_BILLING_TYPE_SAME, type: Constants.SHIPPING_SAME, data: initialDataMock.application_state.addresses.shipping as IAddress},
         {actionType: CustomerActions.CLEAR_BILLING_INFO, type: ''},
     ];
 
     test.each(actionUpdateBillingTypeData)(
         'actionUpdateBillingType ($actionType, $type)',
-        ({actionType, type}) => {
-            const actionReturnExpectation = {
+        ({actionType, type, data }) => {
+            let actionReturnExpectation = {
                 type: actionType,
+                ...(data && {payload: {data}}),
             };
-
-            const result = actionUpdateBillingType(type);
+            const result = actionUpdateBillingType(type, data);
 
             expect(result).toStrictEqual(actionReturnExpectation);
         });

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {OrderRecap, Footer, GenericMessageSection, Header} from 'src/components';
-import {useGetThankYou} from 'src/hooks';
+import {useGetThankYou, useSendEvent} from 'src/hooks';
 
 export function ThankYou(): React.ReactElement {
     const {
@@ -9,6 +9,10 @@ export function ThankYou(): React.ReactElement {
         thankYouTitle,
         terms
     } = useGetThankYou();
+
+    // Beginning of sending event to back-end
+    useSendEvent('CheckoutExperienceThankYouPageDisplayed');
+    // of sending event to back-end
 
     return(
         <div className={'thank-you'}>
