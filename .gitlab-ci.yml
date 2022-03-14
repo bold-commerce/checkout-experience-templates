@@ -82,7 +82,7 @@ UpdateArgoImageStaging:
     APP_NAME: checkout-experience-templates
     ENVIRONMENT: staging
     KUSTOMIZE_REPO: checkout-experience-templates
-    IMAGE_VERSION_FILE: checkout-experience-templates-version
+    IMAGE_VERSION_FILE: experience-templates-version
   extends: .UpdateArgoImage
   needs: [DockerBuildAndPush]
 
@@ -104,9 +104,9 @@ UpdateArgoImageProduction:
     - main
   variables:
     APP_NAME: checkout-experience-templates
-    ENVIRONMENT: prod
+    ENVIRONMENT: production
     KUSTOMIZE_REPO: checkout-experience-templates
-    IMAGE_VERSION_FILE: checkout-experience-templates-version
+    IMAGE_VERSION_FILE: experience-templates-version
   extends: .UpdateArgoImage
   needs: [DeployStaging]
 
@@ -118,7 +118,7 @@ DeployProduction:
   only:
     - main
   variables:
-    ENVIRONMENT: prod
+    ENVIRONMENT: production
     KUSTOMIZE_REPO: checkout-experience-templates
   extends: .Deploy
   needs: [UpdateArgoImageProduction]
