@@ -7,6 +7,10 @@ import { mocked } from 'ts-jest/utils';
 import { useGetSelectShippingLine } from 'src/hooks';
 import * as useIndexPage from 'src/hooks/useIndexPage';
 import { IBuyNowContainerPageProps } from 'src/themes/buy-now/types';
+import * as Store from 'src/store';
+import { Provider } from 'react-redux';
+
+const store = Store.initializeStore();
 
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useGetSelectShippingLine');
@@ -56,11 +60,15 @@ describe('testing IndexPage', () => {
     });
     
     test('Rendering visible indexPage properly', () => {
-        const { container } = render(<IndexPage {...visibleProps}/>);
+        const {container} = render(
+            <Provider store={store}>
+                <IndexPage {...visibleProps}/>
+            </Provider>
+        );
 
         expect(container.getElementsByClassName('buy-now').length).toBe(1);
         expect(container.getElementsByClassName('buy-now--open').length).toBe(1);
-        expect(container.getElementsByClassName('buy-now__header').length).toBe(1);
+        expect(container.getElementsByClassName('buy-now__index-header').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__products').length).toBe(1);
         expect(container.getElementsByClassName('cart-items').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__section').length).toBe(4);
@@ -69,11 +77,15 @@ describe('testing IndexPage', () => {
     });
 
     test('Rendering hidden indexPage properly', () => {
-        const { container } = render(<IndexPage {...hiddenProps}/>);
+        const {container} = render(
+            <Provider store={store}>
+                <IndexPage {...hiddenProps}/>
+            </Provider>
+        );
 
         expect(container.getElementsByClassName('buy-now').length).toBe(1);
         expect(container.getElementsByClassName('buy-now--closed').length).toBe(1);
-        expect(container.getElementsByClassName('buy-now__header').length).toBe(1);
+        expect(container.getElementsByClassName('buy-now__index-header').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__products').length).toBe(1);
         expect(container.getElementsByClassName('cart-items').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__section').length).toBe(4);
@@ -82,7 +94,11 @@ describe('testing IndexPage', () => {
     });
 
     test('firing click event to summary page', () => {
-        render(<IndexPage {...visibleProps}/>);
+        render(
+            <Provider store={store}>
+                <IndexPage {...visibleProps}/>
+            </Provider>
+        );
         
         const link = screen.getAllByTestId('navigation');
         fireEvent.click(link[0]);
@@ -93,7 +109,11 @@ describe('testing IndexPage', () => {
     });
 
     test('firing click event to shipping page', () => {
-        render(<IndexPage {...visibleProps}/>);
+        render(
+            <Provider store={store}>
+                <IndexPage {...visibleProps}/>
+            </Provider>
+        );
         
         const link = screen.getAllByTestId('navigation');
         fireEvent.click(link[1]);

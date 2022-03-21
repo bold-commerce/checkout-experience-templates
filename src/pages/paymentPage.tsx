@@ -1,11 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Breadcrumbs, Footer, Payment, SummarySection, FlashError, Header} from 'src/components';
 import {useBeforeUnload, usePaymentPage, useScrollToElementOnNavigation} from 'src/hooks';
+import {sendEvents, sendPageView} from 'src/analytics';
 
 export function PaymentPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading} = usePaymentPage();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
+    useEffect(() => {
+        sendPageView('/payment', 3);
+        sendEvents('Checkout', 'Landed on payment page');
+    }, []);
 
     return (
         <div className={'checkout-experience-container'}>

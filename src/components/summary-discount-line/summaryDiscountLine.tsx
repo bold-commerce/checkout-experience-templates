@@ -22,7 +22,7 @@ export function SummaryDiscountLine(props: ISummaryDiscountLineProps): React.Rea
                 </div>
             </div>
             <div className={'discount-code__discount-code-price'}>
-                <Price className={'discount_code--price'} amount={props.amount}/>
+                <Price className={'discount_code--price'} amount={-props.amount}/>
             </div>
         </div>
     );

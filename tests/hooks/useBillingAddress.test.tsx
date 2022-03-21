@@ -4,16 +4,20 @@ import * as useIsUserAuthenticated from 'src/hooks/useIsUserAuthenticated';
 import * as useGetAppSettingData from 'src/hooks/useGetAppSettingData';
 import * as useGetShippingData from 'src/hooks/useGetAddressData';
 import {Constants} from 'src/constants';
-import {useBillingAddress} from 'src/hooks';
+import {useBillingAddress, useCallApiAtOnEvents} from 'src/hooks';
 import {act} from '@testing-library/react';
 import * as customerAction from 'src/action/customerAction';
 import * as appAction from 'src/action/appAction';
 import { addressMock } from 'src/mocks';
+import { mocked } from 'ts-jest/utils';
+import { validateBillingAddress } from 'src/library';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch
 }));
+jest.mock('src/hooks/useCallApiAtOnEvents');
+const useCallApiAtOnEventsMock = mocked(useCallApiAtOnEvents, true);
 
 describe('Testing hook useBillingAddress', () => {
     let useGetAppSettingDataSpy: jest.SpyInstance;
@@ -84,6 +88,46 @@ describe('Testing hook useBillingAddress', () => {
         expect(actionUpdateBillingTypeInSettingsSpy).toBeCalled();
         expect(actionUpdateBillingTypeSpy).toBeCalled();
         expect(actionRemoveErrorByAddressTypeSpy).toBeCalled();
+    });
+
+    test('testing the toggle same as shipping event', () => { 
+        const getTermValue = 'test-value';
+        const event = {target: {value: 'test-value'}};
+        useGetAppSettingDataSpy.mockReturnValueOnce(Constants.SHIPPING_DIFFERENT);
+        useIsUserAuthenticatedSpy.mockReturnValueOnce(true);
+        useGetShippingDataSpy.mockReturnValueOnce(addressMock);
+        getTermSpy.mockReturnValue(getTermValue);
+        useCallApiAtOnEventsMock.mockReturnValueOnce(true);
+        const {result} = renderHook(() => useBillingAddress());
+        const hookResult = result.current;
+
+        act(() => {
+            hookResult.toggleBillingSameAsShipping(event);
+        });
+
+        expect(actionUpdateBillingTypeInSettingsSpy).toBeCalled();
+        expect(actionUpdateBillingTypeSpy).toBeCalled();
+        expect(mockDispatch).toHaveBeenCalledWith(validateBillingAddress);
+    });
+
+    test('testing the toggle different from shipping event', () => { 
+        const getTermValue = 'test-value';
+        const event = {target: {value: 'test-value'}};
+        useGetAppSettingDataSpy.mockReturnValueOnce(Constants.SHIPPING_SAME);
+        useIsUserAuthenticatedSpy.mockReturnValueOnce(true);
+        useGetShippingDataSpy.mockReturnValueOnce(addressMock);
+        getTermSpy.mockReturnValue(getTermValue);
+        useCallApiAtOnEventsMock.mockReturnValueOnce(true);
+        const {result} = renderHook(() => useBillingAddress());
+        const hookResult = result.current;
+
+        act(() => {
+            hookResult.toggleBillingSameAsShipping(event);
+        });
+
+        expect(actionUpdateBillingTypeInSettingsSpy).toBeCalled();
+        expect(actionUpdateBillingTypeSpy).toBeCalled();
+        expect(mockDispatch).not.toHaveBeenCalledWith(validateBillingAddress);
     });
 
 });

@@ -18,7 +18,7 @@ export function processOrder(history: HistoryLocationState) {
             handleErrorIfNeeded(response, dispatch, getState);
 
             if (response.success) {
-                await dispatch(checkErrorAndProceedToNextPage('/thank_you', 'paymentPageButton', history));
+                await dispatch(checkErrorAndProceedToNextPage('/thank_you', 'paymentPageButton', history, true));
                 await dispatch(getApplicationStateFromLib);
             }
             else{

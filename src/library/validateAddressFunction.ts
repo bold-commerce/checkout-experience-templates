@@ -7,7 +7,7 @@ import {
 import {handleErrorIfNeeded, isObjectEquals, validateAddressFields} from 'src/utils';
 import {Constants, defaultAddressState} from 'src/constants';
 import {deleteAddress, postAddress} from 'src/library';
-import {actionSetAppStateValid} from 'src/action';
+import {actionRemoveErrorByAddressType, actionSetAppStateValid} from 'src/action';
 
 export function validateAddressFunction(type: string, address: Partial<IAddress>, libraryAddress: Partial<IAddress>) {
     return async function validateCustomerThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
@@ -27,6 +27,10 @@ export function validateAddressFunction(type: string, address: Partial<IAddress>
         }
 
         const validateAddressFunction = async () => {
+            if (type === Constants.SHIPPING) {
+                dispatch(actionRemoveErrorByAddressType(type));
+            }
+
             if (isObjectEquals(address, defaultAddressState) || !isObjectEquals(address, libraryAddress)) {
                 const isAddressFieldsValidated = validateAddressFields(validationField, type, dispatch);
 

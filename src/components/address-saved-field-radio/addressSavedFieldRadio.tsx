@@ -1,10 +1,10 @@
 import React from 'react';
-import { DisplayAddress, FieldRadio } from 'src/components';
+import { FieldRadio, CondensedShipping } from 'src/components';
 import { ISavedAddressFieldRadioProps } from 'src/types';
 
-export function AddressSavedFieldRadio(props: ISavedAddressFieldRadioProps): React.ReactElement { 
+export function AddressSavedFieldRadio(props: ISavedAddressFieldRadioProps): React.ReactElement {
+    const label = <CondensedShipping address={props.address} showPhone />; 
 
-    const label = <DisplayAddress {...props.address}/>;
     return (
         <li className="saved-address-list-item" >
             <FieldRadio 

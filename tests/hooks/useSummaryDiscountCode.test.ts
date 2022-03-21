@@ -24,6 +24,7 @@ describe('Testing hook useSummaryDiscountCode', () => {
     let actionSetLoaderAndDisableButtonSpy: jest.SpyInstance;
     let postDiscountsSpy: jest.SpyInstance;
     let actionRemoveErrorByFieldSpy: jest.SpyInstance;
+    let actionRemoveErrorByTypeSpy: jest.SpyInstance;
     let actionUpdateDiscountCodeTextSpy: jest.SpyInstance;
 
     const data = {
@@ -43,7 +44,8 @@ describe('Testing hook useSummaryDiscountCode', () => {
         useGetLoaderScreenVariableSpy = jest.spyOn(useGetLoaderScreenVariable, 'useGetLoaderScreenVariable').mockReturnValueOnce(data.loaderVariable);
         actionSetLoaderAndDisableButtonSpy = jest.spyOn(appAction , 'actionSetLoaderAndDisableButton');
         postDiscountsSpy = jest.spyOn(postDiscounts , 'postDiscounts');
-        actionRemoveErrorByFieldSpy = jest.spyOn(appAction , 'actionRemoveErrorByField');
+        actionRemoveErrorByFieldSpy = jest.spyOn(appAction, 'actionRemoveErrorByField');
+        actionRemoveErrorByTypeSpy = jest.spyOn(appAction , 'actionRemoveErrorByType');
         actionUpdateDiscountCodeTextSpy = jest.spyOn(appAction , 'actionUpdateDiscountCodeText');
     });
 
@@ -77,6 +79,7 @@ describe('Testing hook useSummaryDiscountCode', () => {
             hookResult.updateNewDiscountCode(event);
         });
 
+        expect(actionRemoveErrorByTypeSpy).toBeCalled();
         expect(actionRemoveErrorByFieldSpy).toBeCalled();
         expect(actionUpdateDiscountCodeTextSpy).toBeCalled();
     });

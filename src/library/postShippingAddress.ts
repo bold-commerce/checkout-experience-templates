@@ -16,7 +16,7 @@ export async function postShippingAddress(dispatch: Dispatch, getState: () => IO
     const previousShipping: IAddress = getShippingAddress();
     const {data: {application_state: {addresses: {shipping}}}} = getState();
 
-    if (isObjectEquals(previousShipping, defaultAddressState)) {
+    if (isObjectEquals(previousShipping, defaultAddressState) || (previousShipping.id !== shipping.id)) {
         const response: IApiReturnObject = await setShippingAddress(shipping);
         handleErrorIfNeeded(response, dispatch, getState, Constants.SHIPPING);
         dispatch(setShippingAddressAsValid);

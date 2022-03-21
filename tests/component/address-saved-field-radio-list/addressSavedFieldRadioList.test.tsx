@@ -13,7 +13,6 @@ import { getTerm } from 'src/utils';
 jest.mock('src/hooks/useGetSavedAddressData');
 jest.mock('src/hooks/useGetAddressData');
 jest.mock('src/utils/getTerm');
-
 const useGetSavedAddressDataMock = mocked(useGetSavedAddressData, true);
 const useGetShippingDataMock = mocked(useGetShippingData, true);
 const getTermMock = mocked(getTerm, true);

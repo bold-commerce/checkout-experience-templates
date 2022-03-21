@@ -6,6 +6,7 @@ import * as handleErrorIfNeeded from 'src/utils/handleErrorIfNeeded';
 import {defaultAddressState} from 'src/constants';
 import {postBillingAddress} from 'src/library';
 import * as isObjectEquals from 'src/utils/isObjectEqual';
+import { addressMock } from 'src/mocks';
 
 jest.mock('@bold-commerce/checkout-frontend-library');
 const setBillingAddressMock = mocked(setBillingAddress, true);
@@ -63,7 +64,7 @@ describe('testing postBillingAddress', () => {
 
     test('calling post billing address with empty address', async () => {
         returnObject.success = true;
-        getAddressesMock.mockReturnValueOnce({billing: defaultAddressState});
+        getAddressesMock.mockReturnValueOnce(defaultAddressState);
         setBillingAddressMock.mockReturnValueOnce(returnObject);
         isObjectEqualsSpy.mockReturnValueOnce(true);
         await postBillingAddress(dispatch, getState).then(() => {
@@ -77,7 +78,7 @@ describe('testing postBillingAddress', () => {
     test('calling post billing address with different address', async () => {
         const address = {...defaultAddressState};
         address.address_line_1 = 'test_address';
-        getAddressesMock.mockReturnValueOnce({billing: address});
+        getAddressesMock.mockReturnValueOnce(address);
         isObjectEqualsSpy.mockReturnValueOnce(false);
         await postBillingAddress(dispatch, getState).then(() => {
             expect(setBillingAddressMock).toHaveBeenCalledTimes(0);
@@ -97,5 +98,17 @@ describe('testing postBillingAddress', () => {
             expect(handleErrorSpy).toHaveBeenCalledTimes(0);
         });
     });
+
+    test('calling post billing address with different saved address', async () => {
+        const address = {...addressMock, id: "1" };
+        getAddressesMock.mockReturnValueOnce(address);
+        isObjectEqualsSpy.mockReturnValueOnce(false);
+        await postBillingAddress(dispatch, getState).then(() => {
+            expect(setBillingAddressMock).toHaveBeenCalledTimes(1);
+            expect(updateBillingAddressMock).toHaveBeenCalledTimes(0);
+            expect(handleErrorSpy).toHaveBeenCalledTimes(1);
+        });
+    });
+
 
 });

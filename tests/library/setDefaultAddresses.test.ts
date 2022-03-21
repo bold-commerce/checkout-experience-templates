@@ -1,8 +1,8 @@
-import {actionUpdateAddress} from 'src/action';
+import {actionUpdateAddress, actionUpdateBillingType, actionUpdateBillingTypeInSettings} from 'src/action';
 import { Constants } from 'src/constants';
-import { validateShippingAddress, setDefaultShippingAddress } from 'src/library';
+import { validateShippingAddress, setDefaultAddresses, validateBillingAddress } from 'src/library';
 import { initialDataMock, stateMock } from 'src/mocks';
-import { IAddress, IOrderInitialization } from 'src/types';
+import { IAddress } from 'src/types';
 
 describe('Testing hook useSetDefaultAddress', () => {
     const dispatch = jest.fn();
@@ -16,11 +16,16 @@ describe('Testing hook useSetDefaultAddress', () => {
     beforeEach(() => {
         getState.mockReturnValue(stateMock);
     })
-    test('set default address properly', () => {
+    test('set default addresses properly', async () => {
 
-        setDefaultShippingAddress(dispatch, getState)
+        await setDefaultAddresses(dispatch, getState)
         expect(dispatch).toBeCalledWith(actionUpdateAddress(Constants.SHIPPING, savedAddresses[0]));
         expect(dispatch).toBeCalledWith(validateShippingAddress);
-        expect(dispatch).toHaveBeenCalledTimes(2);
+
+        expect(dispatch).toBeCalledWith(actionUpdateBillingTypeInSettings(Constants.SHIPPING_SAME));
+        expect(dispatch).toBeCalledWith(actionUpdateBillingType(Constants.SHIPPING_SAME, savedAddresses[0]));
+        expect(dispatch).toBeCalledWith(validateBillingAddress);
+
+        expect(dispatch).toHaveBeenCalledTimes(5);
     });
 });

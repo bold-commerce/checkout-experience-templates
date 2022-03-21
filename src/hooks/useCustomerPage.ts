@@ -6,6 +6,7 @@ import {useHistory} from 'react-router';
 import {Constants} from 'src/constants';
 import {IUseCustomerPageProp} from 'src/types';
 import {getCheckoutUrl, getTerm} from 'src/utils';
+import {sendEvents} from 'src/analytics';
 
 export function useCustomerPage(): IUseCustomerPageProp {
     const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export function useCustomerPage(): IUseCustomerPageProp {
     const nextButtonText = getTerm('cont_to_shipping', Constants.SHIPPING_INFO);
     const active = 1;
     const nextButtonOnClick = useCallback(() => {
+        sendEvents('Checkout', 'Clicked continue to shipping lines button');
         dispatch(callCustomerPageApi(history));
     } , []);
     window.history.replaceState(null, '', getCheckoutUrl('/resume'));

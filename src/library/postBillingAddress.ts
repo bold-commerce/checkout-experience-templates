@@ -14,7 +14,7 @@ export async function postBillingAddress(dispatch: Dispatch, getState: () => IOr
     const previousBilling: IAddress = getBillingAddress();
     const {data: {application_state: {addresses: {billing}}}} = getState();
 
-    if (isObjectEquals(previousBilling, defaultAddressState)) {
+    if (isObjectEquals(previousBilling, defaultAddressState) ||  (previousBilling && billing && previousBilling.id !== billing.id)) {
         const response: IApiReturnObject = await setBillingAddress(billing);
         handleErrorIfNeeded(response, dispatch, getState, Constants.BILLING);
 

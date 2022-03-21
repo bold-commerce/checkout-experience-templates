@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
     Breadcrumbs,
     FlashError,
@@ -6,12 +6,23 @@ import {
     ShippingLines,
     SummarySection,
 } from 'src/components';
-import {useBeforeUnload, useScrollToElementOnNavigation, useShippingPage} from 'src/hooks';
+import {sendEvents, sendPageView} from 'src/analytics';
+import {
+    useBeforeUnload,
+    useOnLoadValidateCustomer,
+    useScrollToElementOnNavigation,
+    useShippingPage
+} from 'src/hooks';
 
 export function ShippingLinesPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading} = useShippingPage();
+    useOnLoadValidateCustomer();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
+    useEffect(() => {
+        sendPageView('/shipping_lines', 2);
+        sendEvents('Checkout', 'Landed on shipping page');
+    }, []);
 
     return (
         <div className={'checkout-experience-container'}>

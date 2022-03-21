@@ -14,6 +14,7 @@ import {actionSetDefaultCustomerAcceptMarketing} from 'src/action';
 import {useDispatch} from 'react-redux';
 import {setHook} from 'src/utils';
 import {useHistory} from  'react-router-dom';
+import {initiateCheckout} from 'src/analytics';
 
 setHook('history', useHistory);
 
@@ -24,6 +25,7 @@ function Theme(): React.ReactElement {
     useSetApiCallOnEvent(false);
     const acceptMarketingSetting = useGetGeneralSettingCheckoutFields('accepts_marketing_checkbox_option') as string;
     dispatch(actionSetDefaultCustomerAcceptMarketing(acceptMarketingSetting));
+    initiateCheckout();
 
     return (
         <div className={'App'}>

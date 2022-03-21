@@ -1,22 +1,12 @@
 import React from 'react';
-import { useGetSelectShippingLine } from 'src/hooks';
+import { useGetSelectShippingLine, useGetCondensedShipping } from 'src/hooks';
 import { Price } from '@boldcommerce/stacks-ui';
-import { getTerm, isObjectEmpty } from 'src/utils';
+import { getTerm } from 'src/utils';
 import { Constants } from 'src/constants';
-import { IAddress } from 'src/types';
+import { ICondensedShippingProps } from 'src/types';
 
-export function CondensedShipping({address, includeMethod = false}: {address: IAddress, includeMethod?: boolean }): React.ReactElement {
-    const name = `${address.first_name} ${address.last_name}`;
-    const shippingInfo = [
-        address.address_line_1,
-        address.address_line_2,
-        address.city,
-        address.province,
-        address.postal_code,
-        address.country
-    ];
-
-    const addressLine = shippingInfo.filter(x => !(isObjectEmpty(x))).join(', ');
+export function CondensedShipping({address, showMethod = false, showPhone = false}: ICondensedShippingProps): React.ReactElement {
+    const { name, addressLine, phone } = useGetCondensedShipping(address);
     const { amount, description } = useGetSelectShippingLine();
 
     const selectAddress = getTerm('select_address', Constants.SHIPPING_INFO);
@@ -32,7 +22,10 @@ export function CondensedShipping({address, includeMethod = false}: {address: IA
         <div className='condensed-shipping' >
             <div className='condensed-shipping__name'>{name}</div>
             <div className='condensed-shipping__address'>{addressLine}</div>
-            { (includeMethod && description) &&
+            { (showPhone && phone) &&
+                <div className={'condensed-shipping__phone'}>{phone}</div>
+            }
+            { (showMethod && description) &&
                 <div className='condensed-shipping__method'>{description} - <Price amount={amount}/></div>
             }
         </div>
