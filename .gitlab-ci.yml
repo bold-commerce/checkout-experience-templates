@@ -128,7 +128,8 @@ DeployProduction:
 CacheBust:
   stage: post-deploy
   only:
-    - main
+    refs:
+      - merge_requests
   variables:
     URL: 'cashier.boldcommerce.com/assets/experience'
   extends: .CloudflareCacheBust
