@@ -47,7 +47,7 @@ describe('testing validateAddressFunction', () => {
             expect(validateAddressMock).toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code);
             expect(handleErrorSpy).toHaveBeenCalledTimes(1);
             expect(setValidSpy).toHaveBeenCalledTimes(0);
-            expect(dispatchMock).toHaveBeenCalledTimes(1);
+            expect(dispatchMock).toHaveBeenCalledTimes(2);
             expect(dispatchMock).toHaveBeenCalledWith(postAddressReturnedFunctionMock);
             expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
         });
@@ -83,7 +83,7 @@ describe('testing validateAddressFunction', () => {
             expect(handleErrorSpy).toHaveBeenCalledTimes(1);
             expect(setValidSpy).toHaveBeenCalledTimes(1);
             expect(setValidSpy).toHaveBeenCalledWith('shippingAddress', false);
-            expect(dispatchMock).toHaveBeenCalledTimes(2);
+            expect(dispatchMock).toHaveBeenCalledTimes(3);
             expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
             expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
         });
@@ -142,7 +142,7 @@ describe('testing validateAddressFunction', () => {
             expect(handleErrorSpy).toHaveBeenCalledTimes(0);
             expect(setValidSpy).toHaveBeenCalledTimes(1);
             expect(setValidSpy).toHaveBeenCalledWith('shippingAddress', true);
-            expect(dispatchMock).toHaveBeenCalledTimes(1);
+            expect(dispatchMock).toHaveBeenCalledTimes(2);
             expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
             expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
         });
@@ -163,7 +163,7 @@ describe('testing validateAddressFunction', () => {
             expect(validateAddressMock).not.toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.country_code);
             expect(handleErrorSpy).toHaveBeenCalledTimes(1);
             expect(setValidSpy).toHaveBeenCalledTimes(1);
-            expect(dispatchMock).toHaveBeenCalledTimes(7);
+            expect(dispatchMock).toHaveBeenCalledTimes(8);
             expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
             expect(dispatchMock).toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
         });

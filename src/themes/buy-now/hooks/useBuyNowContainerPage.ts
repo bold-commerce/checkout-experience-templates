@@ -5,7 +5,7 @@ export function useBuyNowContainerPage(props : IUseBuyNowContainerPageProps) : I
 
     const [openSection, setOpenSection] = useState('/');
     const [openRef, setOpenRef] = useState<RefObject<HTMLElement>>(props.indexRef);
-    const [containerHeight, setContainerHeight] = useState(0);
+    const [containerHeight, setContainerHeight] = useState('0px');
     const [containerOverflow, setContainerOverflow] = useState('hidden');
 
     const navigateTo = useCallback((page) => {
@@ -26,17 +26,17 @@ export function useBuyNowContainerPage(props : IUseBuyNowContainerPageProps) : I
 
     useEffect(() => {
         const resizeObserver = new ResizeObserver(() => {
-            if(openRef.current && openRef.current.clientHeight)
-            {if(window.innerHeight < openRef.current.clientHeight) {
-                setContainerHeight(window.innerHeight);
-                setContainerOverflow('scroll');
+            if(openRef.current && openRef.current.clientHeight){
+                if(openRef.current.parentElement && openRef.current.parentElement.clientHeight < openRef.current.clientHeight) {
+                    setContainerHeight('100%');
+                    setContainerOverflow('auto');
+                } else {
+                    setContainerHeight(`${openRef.current.clientHeight}px`);
+                    setContainerOverflow('hidden');
+                }
+            } else{
+                setContainerHeight('0px');
             }
-            else {
-                setContainerHeight(openRef.current.clientHeight);
-                setContainerOverflow('hidden');
-            }}
-            else 
-            {setContainerHeight(0);}
         });
 
         if(openRef.current){
@@ -49,7 +49,7 @@ export function useBuyNowContainerPage(props : IUseBuyNowContainerPageProps) : I
     }, [openRef]);
 
     const containerStyle : CSSProperties = window.innerWidth > 769 ? {
-        height: `${containerHeight}px`,
+        height: containerHeight,
         overflow: containerOverflow
     } : {};
 

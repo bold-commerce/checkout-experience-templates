@@ -15,6 +15,7 @@ import {displayOrderProcessingScreen, processOrder} from 'src/library';
 import {sendAddPaymentAction, sendRefreshOrderAction} from '@bold-commerce/checkout-frontend-library';
 import {useHistory} from 'react-router';
 import {IUsePaymentPage} from 'src/types';
+import {sendEvents} from 'src/analytics';
 
 export function usePaymentPage(): IUsePaymentPage{
     const history = useHistory();
@@ -36,6 +37,7 @@ export function usePaymentPage(): IUsePaymentPage{
     } , [history]);
 
     const nextButtonOnClick = useCallback(async () => {
+        sendEvents('Checkout', 'Clicked continue to complete order button');
         if (errors.length === 0) {
             dispatch(displayOrderProcessingScreen);
             if (totals.totalAmountDue <= 0) {

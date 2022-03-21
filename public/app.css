@@ -12,10 +12,12 @@
 @import '../src/components/field-section/fieldSection.css';
 @import '../src/components/field-input/fieldInput.css';
 @import '../src/components/field-select/fieldSelect.css';
+@import '../src/components/field-checkbox/fieldCheckbox.css';
 @import '../src/components/address/address.css';
 @import '../src/components/shipping-address/shippingAddress.css';
 
 @import "../src/components/billing-address/billingAddress.css";
+@import '../src/components/billing-address-checkbox/billingAddressCheckbox.css';
 @import "../src/components/field-radio/fieldRadio.css";
 @import '../src/components/summary-discount-code/summaryDiscountCode.css';
 @import '../src/components/summary-discount-line/summaryDiscountLine.css';
@@ -48,3 +50,5 @@
 @import '../src/components//condensed-shipping/condensedShipping.css';
 @import '../src/components/navigation-heading/navigationHeading.css';
 @import '../src/components/address-saved-field-radio-list/addressSavedFieldRadioList.css';
+@import '../src/components/closeable-header/closeableHeader.css';
+@import '../src/components/expandable-discount/expandableDiscount.css';

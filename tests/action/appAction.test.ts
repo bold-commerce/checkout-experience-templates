@@ -8,6 +8,7 @@ import {
     actionRemoveError,
     actionRemoveErrorByAddressType,
     actionRemoveErrorByField,
+    actionRemoveErrorByType,
     actionRemoveErrorByTypeAndCode,
     actionSetAppStateValid,
     actionSetCallApiOnEvent,
@@ -386,6 +387,32 @@ describe('Testing App Actions', () => {
         expect(result).toStrictEqual(actionReturnExpectation);
     });
 
+    test('actionRemoveErrorByType empty AddressType', () => {
+        const type = 'test_type';
+        const addressType = '';
+        const actionReturnExpectation = {
+            type: AppActions.REMOVE_ERROR_BY_TYPE,
+            payload: {type, addressType}
+        };
+
+        const result = actionRemoveErrorByType(type);
+
+        expect(result).toStrictEqual(actionReturnExpectation);
+    });
+
+    test('actionRemoveErrorByType', () => {
+        const type = 'test_type';
+        const addressType = '';
+        const actionReturnExpectation = {
+            type: AppActions.REMOVE_ERROR_BY_TYPE,
+            payload: {type, addressType}
+        };
+
+        const result = actionRemoveErrorByType(type, addressType);
+
+        expect(result).toStrictEqual(actionReturnExpectation);
+    });
+
     test('actionRemoveErrorByTypeAndCode empty AddressType', () => {
         const type = 'test_type';
         const code = 'test_code';
@@ -400,7 +427,7 @@ describe('Testing App Actions', () => {
         expect(result).toStrictEqual(actionReturnExpectation);
     });
 
-    test('actionRemoveErrorByType', () => {
+    test('actionRemoveErrorByTypeAndCode', () => {
         const type = 'test_type';
         const code = 'test_code';
         const addressType = '';

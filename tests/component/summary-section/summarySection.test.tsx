@@ -46,6 +46,7 @@ describe('Testing CartSummary component', () => {
         discountCodeText: 'TEST',
         discountError: '',
         buttonLoading: false,
+        buttonDisabled: false,
         discountCodeInputText: 'test-value',
         addDiscount: jest.fn(),
         updateNewDiscountCode: jest.fn()

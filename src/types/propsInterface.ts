@@ -43,6 +43,19 @@ export interface IFieldInputProps {
     handleFocus?: (e) => void;
 }
 
+export interface IFieldCheckboxProps {
+    value: string;
+    label?: string;
+    checked? : boolean;
+    className?: string;
+    name?: string;
+    errorMessage?: string | null;
+    handleClick?: (e) => void;
+    handleChange?: (e) => void;
+    handleBlur?: (e) => void;
+    handleFocus?: (e) => void;
+}
+
 export interface IFieldSelectProps {
     placeholder: string;
     className: string;
@@ -254,6 +267,7 @@ export interface IUseGuestCustomer {
 export interface IBillingAddress {
     customBilling: string;
     handleChange: (e) => void;
+    toggleBillingSameAsShipping: (e) => void,
     billingSame: string;
     billingTitle: string;
     billingDifferent: string;
@@ -264,6 +278,7 @@ export interface ISummaryDiscountCode {
     discounts: Array<IApplicationStateDiscount>;
     discountError: string;
     buttonLoading: boolean;
+    buttonDisabled: boolean;
     addDiscount: () => void;
     updateNewDiscountCode: (e) => void;
     discountCodeText: string;
@@ -407,4 +422,21 @@ export interface ICondensedSectionProps {
     className?: string;
     navigationHeadingProps: INavigationHeadingProps;
     children?: ReactChild | Array<ReactChild>
+}
+
+export interface ICloseableHeaderProps {
+    className?: string;
+    title: string;
+    onClose: () => void;
+}
+export interface IUseExpandableDiscount {
+    expandDiscount: boolean;
+    toggleDiscount: () => void;
+    discountCodeInputText: string;
+}
+
+export interface ICondensedShippingProps {
+    address: IAddress;
+    showMethod?: boolean;
+    showPhone?: boolean;
 }

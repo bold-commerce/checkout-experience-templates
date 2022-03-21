@@ -1,8 +1,9 @@
-import {fireEvent, render, screen} from '@testing-library/react';
+import {fireEvent, render} from '@testing-library/react';
 import {SummaryDiscountCode} from 'src/components';
 import {IApplicationStateDiscount, ISummaryDiscountLine} from 'src/types';
 import {mocked} from 'ts-jest/utils';
 import {useSummaryDiscountCode, useSummaryDiscountLine} from 'src/hooks';
+import '@testing-library/jest-dom/extend-expect';
 
 jest.mock('src/hooks/useSummaryDiscountLine');
 jest.mock('src/hooks/useSummaryDiscountCode');
@@ -23,6 +24,7 @@ describe('Testing SummaryDiscountCode Component', () => {
         discountCodeText: 'TEST',
         discountError: '',
         buttonLoading: false,
+        buttonDisabled: false,
         discountCodeInputText: 'test-value',
         addDiscount: jest.fn(),
         updateNewDiscountCode: jest.fn()
@@ -35,24 +37,35 @@ describe('Testing SummaryDiscountCode Component', () => {
     };
 
     beforeEach(() => {
-        useSummaryDiscountCodeMock.mockReturnValueOnce(hooksData);
+        useSummaryDiscountCodeMock.mockReturnValueOnce(hooksData).mockReturnValueOnce({...hooksData, buttonDisabled: true, discountCodeText: ''});
         useSummaryDiscountLineMock.mockReturnValueOnce(hookResultForDiscountLine);
-
     });
 
     test('rendering the component', () => {
-        const {container} = render(<SummaryDiscountCode />);
+        const {container, getByTestId} = render(<SummaryDiscountCode />);
         expect(container.getElementsByClassName('discount-code').length).toBe(1);
         expect(container.getElementsByClassName('discount-code-input').length).toBe(1);
         expect(container.getElementsByClassName('discount-code__input-field').length).toBe(1);
         expect(container.getElementsByClassName('discount-code__button').length).toBe(1);
+        expect(getByTestId('apply-discount')).toBeEnabled();
+        expect(container.getElementsByClassName('discount-code__list-discounts').length).toBe(1);
+        expect(container.getElementsByClassName('discount-code__discount-line').length).toBe(discounts.length);
+    });
+
+    test('rendering the component with null value', () => {
+        const {container, getByTestId} = render(<SummaryDiscountCode />);
+        expect(container.getElementsByClassName('discount-code').length).toBe(1);
+        expect(container.getElementsByClassName('discount-code-input').length).toBe(1);
+        expect(container.getElementsByClassName('discount-code__input-field').length).toBe(1);
+        expect(container.getElementsByClassName('discount-code__button').length).toBe(1);
+        expect(getByTestId('apply-discount')).toBeDisabled();
         expect(container.getElementsByClassName('discount-code__list-discounts').length).toBe(1);
         expect(container.getElementsByClassName('discount-code__discount-line').length).toBe(discounts.length);
     });
 
     test('firing the click event of apply button', () => {
-        render(<SummaryDiscountCode />);
-        const input = screen.getByTestId('apply-discount');
+        const {getByTestId} = render(<SummaryDiscountCode />);
+        const input = getByTestId('apply-discount');
         fireEvent.click(input);
 
         expect(hooksData.addDiscount).toHaveBeenCalled();

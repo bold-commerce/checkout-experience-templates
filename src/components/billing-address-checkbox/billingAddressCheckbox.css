@@ -1,0 +1,8 @@
+.billing-address-checkbox__checkbox,
+.new-billing-address {
+    margin-top: 16px;
+}
+
+.new-billing-address .address {
+    margin-bottom: 0;
+}

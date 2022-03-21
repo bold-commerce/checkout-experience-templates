@@ -31,6 +31,7 @@ describe('Testing condensedShipping component', () => {
                 condensed_shipping: 1,
                 condensed_shipping__name: 0,
                 condensed_shipping__address: 0,
+                condensed_shipping__phone: 0,
                 condensed_shipping__method: 0
             }
         },{
@@ -40,16 +41,28 @@ describe('Testing condensedShipping component', () => {
                 condensed_shipping: 1,
                 condensed_shipping__name: 1,
                 condensed_shipping__address: 1,
+                condensed_shipping__phone: 0,
                 condensed_shipping__method: 0
             }
         },{
             name: 'Rendering Condensed Shipping with shipping method',
-            props: { address: addressMock, includeMethod: true },
+            props: { address: addressMock, showMethod: true },
             counters: {
                 condensed_shipping: 1,
                 condensed_shipping__name: 1,
                 condensed_shipping__address: 1,
+                condensed_shipping__phone: 0,
                 condensed_shipping__method: 1
+            }
+        },{
+            name: 'Rendering Condensed Shipping with phone number',
+            props: { address: addressMock, showPhone: true },
+            counters: {
+                condensed_shipping: 1,
+                condensed_shipping__name: 1,
+                condensed_shipping__address: 1,
+                condensed_shipping__phone: 1,
+                condensed_shipping__method: 0
             }
         }
     ];
@@ -60,6 +73,7 @@ describe('Testing condensedShipping component', () => {
         expect(container.getElementsByClassName('condensed-shipping').length).toBe(counters.condensed_shipping);
         expect(container.getElementsByClassName('condensed-shipping__name').length).toBe(counters.condensed_shipping__name);
         expect(container.getElementsByClassName('condensed-shipping__address').length).toBe(counters.condensed_shipping__address);
+        expect(container.getElementsByClassName('condensed-shipping__phone').length).toBe(counters.condensed_shipping__phone);
         expect(container.getElementsByClassName('condensed-shipping__method').length).toBe(counters.condensed_shipping__method);
     });
 

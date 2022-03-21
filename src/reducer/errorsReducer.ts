@@ -23,6 +23,8 @@ export function errorsReducer(state = errors, action: AnyAction ) : Array<IError
             return state.filter(getDifferentErrors);
         case AppActionsType.REMOVE_ERROR_BY_FIELD:
             return state.filter(error => (!(error.field === action.payload.field && error.address_type === action.payload.addressType)));
+        case AppActionsType.REMOVE_ERROR_BY_TYPE:
+            return state.filter(error => (!(error.type === action.payload.type && error.address_type === action.payload.addressType)));
         case AppActionsType.REMOVE_ERROR_BY_TYPE_AND_CODE:
             return state.filter(error => (!(error.type === action.payload.type && error.code === action.payload.code && error.address_type === action.payload.addressType)));
         case AppActionsType.REMOVE_ERROR_BY_ADDRESS_TYPE:

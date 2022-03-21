@@ -86,3 +86,9 @@ export interface IFieldNamesSummary {
     amount: string,
     id: string
 }
+
+export interface ICondensedShipping {
+    name: string;
+    addressLine: string;
+    phone: string
+}

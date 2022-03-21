@@ -18,7 +18,11 @@ export function processStyleRules(resultArray: Array<ICssRule>, sourceArray: Arr
 export function getCssRulesById(pigiIframeId: string): Array<CSSRule> {
     const filteredPigiRules: Array<CSSRule> = [];
     Array.from(document.styleSheets).forEach( (styleSheet: CSSStyleSheet) => {
-        filteredPigiRules.push(...Array.from(styleSheet.cssRules).filter((rule: CSSRule) => rule.cssText.includes(pigiIframeId)));
+        try {
+            filteredPigiRules.push(...Array.from(styleSheet.cssRules).filter((rule: CSSRule) => rule.cssText.includes(pigiIframeId)));
+        } catch(e){
+            // do nothing, if fails, then we don't have access to cssRules from stylesheet
+        }
     });
     return filteredPigiRules;
 }

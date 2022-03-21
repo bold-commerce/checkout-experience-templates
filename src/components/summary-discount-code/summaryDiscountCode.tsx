@@ -6,7 +6,7 @@ import {IApplicationStateDiscount} from 'src/types';
 import classNames from 'classnames';
 
 export function SummaryDiscountCode(): React.ReactElement {
-    const {discounts, discountError, buttonLoading, addDiscount, updateNewDiscountCode, discountCodeText, discountCodeInputText} = useSummaryDiscountCode();
+    const {discounts, discountError, buttonLoading, buttonDisabled, addDiscount, updateNewDiscountCode, discountCodeText, discountCodeInputText} = useSummaryDiscountCode();
 
     return (
         <div className={classNames(['discount-code', 'discount-code--border-bottom'])}>
@@ -18,7 +18,7 @@ export function SummaryDiscountCode(): React.ReactElement {
                     handleChange={updateNewDiscountCode}
                     id={'add-discount-code-field-input'}
                     errorMessage={discountError} />
-                <Button data-testid='apply-discount' loading={buttonLoading} disabled={buttonLoading} className={classNames(['btn-checkout', 'discount-code__button'])} onClick={() => addDiscount()}>{'Apply'}</Button>
+                <Button data-testid='apply-discount' loading={buttonLoading} disabled={buttonLoading || buttonDisabled} className={classNames(['btn-checkout', 'discount-code__button'])} onClick={() => addDiscount()}>{'Apply'}</Button>
             </div>
             <div className={'discount-code__list-discounts'}>
                 {

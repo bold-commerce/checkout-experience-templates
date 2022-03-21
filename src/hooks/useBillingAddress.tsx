@@ -1,24 +1,36 @@
 import {useDispatch} from 'react-redux';
 import {useCallback} from 'react';
-import {useGetAppSettingData, useIsUserAuthenticated} from 'src/hooks';
+import {useCallApiAtOnEvents, useGetAppSettingData, useIsUserAuthenticated, useGetShippingData} from 'src/hooks';
 import {actionRemoveErrorByAddressType, actionUpdateBillingType, actionUpdateBillingTypeInSettings} from 'src/action';
 import {IAddressProps, IBillingAddress} from 'src/types';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
-import { useGetShippingData } from './useGetAddressData';
+import { validateBillingAddress } from 'src/library';
 
 export function useBillingAddress(): IBillingAddress{
     const dispatch = useDispatch();
     const customBilling = useGetAppSettingData('billingType');
     const isCustomerLoggedIn = useIsUserAuthenticated();
     const shippingAddress = useGetShippingData();
+    const callApiAtOnEvents = useCallApiAtOnEvents();
 
     const handleChange = useCallback(e => {
-        const value = e.target.value;
-        dispatch(actionUpdateBillingTypeInSettings(value));
-        dispatch(actionUpdateBillingType(value, shippingAddress));
+        const billingType = e.target.value;
+        dispatch(actionUpdateBillingTypeInSettings(billingType));
+        dispatch(actionUpdateBillingType(billingType, shippingAddress));
         dispatch(actionRemoveErrorByAddressType(Constants.BILLING));
     }, []);
+
+    const toggleBillingSameAsShipping = useCallback(() => {
+        const billingType = customBilling === Constants.SHIPPING_SAME ? Constants.SHIPPING_DIFFERENT : Constants.SHIPPING_SAME;
+
+        dispatch(actionUpdateBillingTypeInSettings(billingType));
+        dispatch(actionUpdateBillingType(billingType, shippingAddress));
+
+        if(billingType === Constants.SHIPPING_SAME && callApiAtOnEvents) {
+            dispatch(validateBillingAddress);
+        }
+    }, [customBilling]);
 
     const billingSame = getTerm('same_as_shipping',Constants.PAYMENT_INFO);
     const billingDifferent = getTerm('different_billing',Constants.PAYMENT_INFO);
@@ -31,6 +43,6 @@ export function useBillingAddress(): IBillingAddress{
         showSavedAddresses: isCustomerLoggedIn
     };
 
-    return {customBilling, billingTitle, billingSame, billingDifferent, handleChange, addressProps};
+    return {customBilling, billingTitle, billingSame, billingDifferent, handleChange, toggleBillingSameAsShipping, addressProps};
 }
 

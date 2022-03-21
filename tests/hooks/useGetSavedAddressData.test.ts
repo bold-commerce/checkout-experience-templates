@@ -1,4 +1,4 @@
-import {useGetSavedAddressData, useGetSavedAddressOptions} from 'src/hooks';
+import {useCallApiAtOnEvents, useGetSavedAddressData, useGetSavedAddressOptions} from 'src/hooks';
 import {Constants} from 'src/constants';
 import {renderHook} from '@testing-library/react-hooks';
 import {initialDataMock} from 'src/mocks';
@@ -13,7 +13,9 @@ jest.mock('react-redux', () => ({
 
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useGetAddressData');
+jest.mock('src/hooks/useCallApiAtOnEvents')
 const getTermMock = mocked(getTerm, true);
+const useCallApiAtOnEventsMock = mocked(useCallApiAtOnEvents, true);
 const useGetSavedAddressOptionsMock = mocked(useGetSavedAddressOptions, true);
 
 describe('Testing hook useGetSavedAddressData', () => {
@@ -21,6 +23,10 @@ describe('Testing hook useGetSavedAddressData', () => {
     const getTermValue = 'test-value';
     const target ={target: {value: ''}};
     const address = initialDataMock.application_state.addresses.shipping;
+    const savedAddresses: Array<Partial<IAddress>> = [
+        {id: '1', ...address},
+        {id: '2', ...initialDataMock.application_state.addresses.billing}
+    ]
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -35,6 +41,7 @@ describe('Testing hook useGetSavedAddressData', () => {
     test.each(hookData)(
         'rendering the hook properly ($type, $address)',
         ({type, address, expected}) => {
+            useCallApiAtOnEventsMock.mockReturnValueOnce(false);
             useGetSavedAddressOptionsMock.mockReturnValueOnce(address);
 
             const {result} = renderHook(() => useGetSavedAddressData(type));
@@ -47,5 +54,23 @@ describe('Testing hook useGetSavedAddressData', () => {
             result.current.handleChange(target);
             expect(mockDispatch).toBeCalledTimes(1);
             expect(debounceMock).toBeCalledTimes(0);
-        });
+        }
+    );
+        
+    test('rendering the hook with api calls', () => {
+        useCallApiAtOnEventsMock.mockReturnValueOnce(true);
+        useGetSavedAddressOptionsMock.mockReturnValueOnce(savedAddresses as Array<IAddress>);
+    
+        const {result} = renderHook(() => useGetSavedAddressData(Constants.SHIPPING));
+
+        expect(mockDispatch).toBeCalledTimes(0);
+        result.current.handleChange({target: {value: savedAddresses[0].id}});
+        expect(mockDispatch).toBeCalledTimes(3);
+        result.current.handleChange({target: {value: savedAddresses[1].id}});
+        expect(mockDispatch).toBeCalledTimes(6);
+        result.current.handleChange({target: {value: 'new'}});
+        expect(mockDispatch).toBeCalledTimes(8);
+        expect(debounceMock).toBeCalledTimes(0);
+    });
+
 });

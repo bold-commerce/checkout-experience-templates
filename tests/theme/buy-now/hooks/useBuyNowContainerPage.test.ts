@@ -9,7 +9,7 @@ window.ResizeObserver = ResizeObserver;
 
 describe('testing hook useBuyNowContainerPage', () => {
     const testIndexRef: MutableRefObject<HTMLElement | null> = {current: {clientHeight: 100} as HTMLElement};
-    const testShippingRef: MutableRefObject<HTMLElement | null> = {current: {clientHeight: 800} as HTMLElement};
+    const testShippingRef: MutableRefObject<HTMLElement | null> = {current: {clientHeight: 800, parentElement: { clientHeight: 600}} as HTMLElement};
     const testSummaryRef: MutableRefObject<HTMLElement | null> = {current: {} as HTMLElement};
     
     const props: IUseBuyNowContainerPageProps = {
@@ -61,8 +61,7 @@ describe('testing hook useBuyNowContainerPage', () => {
     });
     test('testing ResizeObserver', () => {
         window = Object.assign(window, { 
-            innerWidth: 770,
-            innerHeight: 600,
+            innerWidth: 770
         });
         
         let {result} = renderHook(() => useBuyNowContainerPage(props));
@@ -83,6 +82,6 @@ describe('testing hook useBuyNowContainerPage', () => {
             //trigger a change in visible ref
             result.current.navigateTo('/shipping');
         });
-        expect(result.current.containerStyle).toEqual({height: '600px', overflow: 'scroll'});
+        expect(result.current.containerStyle).toEqual({height: '100%', overflow: 'auto'});
     });
 });

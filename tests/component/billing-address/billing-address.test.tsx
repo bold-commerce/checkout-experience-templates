@@ -21,6 +21,7 @@ describe('Testing BillingAddress component', () => {
 
     const hookResult:IBillingAddress = {
         customBilling: Constants.SHIPPING_SAME,
+        toggleBillingSameAsShipping: jest.fn(),
         handleChange: jest.fn(),
         billingDifferent: 'different',
         billingSame: 'same',

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { actionGetInitialData, actionUpdateAppData } from 'src/action';
-import { initializeSession, setDefaultShippingAddress } from 'src/library';
+import { initializeSession, setDefaultAddresses } from 'src/library';
 import { IInitializeEndpointData, IOrderInitialization } from 'src/types';
 import { getOrderInitialization } from 'src/utils/getOrderInitialization';
 import { IUseModal } from '../types';
@@ -18,7 +18,7 @@ export function useModal(): IUseModal {
         dispatch(actionUpdateAppData(orderData));
         dispatch(initializeSession);
         dispatch(actionGetInitialData(window.location.hostname));
-        dispatch(setDefaultShippingAddress);
+        dispatch(setDefaultAddresses);
         
     }, [setIsOpen, dispatch]);
 

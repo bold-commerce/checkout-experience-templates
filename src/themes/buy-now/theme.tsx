@@ -16,11 +16,13 @@ import {useDispatch} from 'react-redux';
 import {setHook} from 'src/utils';
 import {useHistory} from  'react-router-dom';
 import { BuyNowContainerPage } from 'src/themes/buy-now/pages';
+import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
 
 setHook('history', useHistory);
 
 function Theme(): React.ReactElement {
     const dispatch = useDispatch();
+    const closeHeader = useGetCloseBuyNow();
     useSetDefaultLanguageIso();
     useWindowDimensions();
     useSetApiCallOnEvent(true);
@@ -28,8 +30,8 @@ function Theme(): React.ReactElement {
     dispatch(actionSetDefaultCustomerAcceptMarketing(acceptMarketingSetting));
 
     const closeModal = useCallback((e) => {
-        if (e.target.className === 'checkout-experience-container') {
-            document.dispatchEvent(new CustomEvent('buyNow:close'));
+        if (e.target.className === 'checkout-experience-container' || e.target.className === 'buy-now__app') {
+            closeHeader();
         }
     }, []);
 

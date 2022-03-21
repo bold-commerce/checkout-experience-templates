@@ -21,6 +21,12 @@ html, body, .buy-now__app {
   border-radius: 8px;
 }
 
+.buy-now-container input,
+.buy-now-container select,
+.buy-now-container button {
+  font-family: inherit;
+}
+
 .buy-now{
   padding: 16px 32px;
   transition: all 0.6s;
@@ -37,6 +43,7 @@ html, body, .buy-now__app {
 @media only screen and (max-width: 769px) {
   .buy-now-container {
     height: 100%;
+    overflow-y: auto;
   }
 
   .buy-now--open,
@@ -57,6 +64,10 @@ html, body, .buy-now__app {
 }
 
 @media only screen and (min-width: 770px){
+  .checkout-experience-container {
+    padding: 80px 0;
+  }
+
   .buy-now--open,
   .buy-now__secondary--open {
     opacity: 1;
@@ -75,19 +86,6 @@ html, body, .buy-now__app {
   padding: 0;
 }
 
-.buy-now__header {
-  height: 36px;
-  border: none;
-  padding: 0;
-  margin-bottom: 16px;
-  font-size: 24px;
-  line-height: 32px;
-  font-weight: 700;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
 .buy-now__checkout-button {
   background-color: #0A75C2;
   width: 100%;
@@ -98,7 +96,7 @@ html, body, .buy-now__app {
   padding: 12px 8px;
   font-weight: 600;
   border-radius: 4px;
-  margin-top: 16px;
+  margin: 16px 0;
 }
 
 .buy-now__section .nav-heading {
@@ -111,10 +109,26 @@ html, body, .buy-now__app {
 .buy-now__checkout-button:hover {
   cursor: pointer;
 }
-  
-.buy-now p {
+
+.buy-now .stx-radio__input {
+  border: none;
+}
+
+.buy-now p,
+.buy-now ul,
+.buy-now .address,
+.buy-now .shipping-lines,
+.buy-now .stx-radio-field__label,
+.buy-now__app .shipping-page .stx-radio__input,
+.buy-now__app .shipping-page .shipping_line__items-description {
+  padding: 0;
   margin: 0;
-  align-content: center;
+}
+
+.buy-now .stx-radio {
+  margin: 4px 10px 0 0;
+  display: grid;
+  grid-auto-flow: column;
 }
 
 .buy-now__back .nav-heading__title::before {
@@ -129,6 +143,83 @@ html, body, .buy-now__app {
   margin: 0 5px;
 }
 
-.buy-now__app .shipping-page .stx-radio__input {
-  padding: 0;
+.shipping-page .field-section__heading {
+  letter-spacing: normal;
+  text-transform: unset;
+  color: #1A1A1A;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.shipping-page .buy-now__back {
+  padding: 16px 0;
+  border-width: 1px 0;
+  border-color: #D9D9D9;
+  border-style: solid;
+}
+
+.summary-page .buy-now__back {
+  padding-top: 16px;
+  border-top: 1px solid #D9D9D9;
+}
+
+.payment-heading p {
+  color: #0A75C2;
+  line-height: 20px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.buy-now__app .shipping-page .shipping_line__items {
+  padding: 8px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.buy-now__app .shipping-page .shipping_line__items-description .stx-radio-field {
+  display: inline-flex;  
+}
+
+.buy-now .field--Hidden {
+  display: none;
+}
+
+.buy-now .shipping-lines {
+  margin-bottom: 16px;
+}
+
+.buy-now .stx-radio-field__radio {
+  position: relative;
+}
+
+.buy-now .address__address2 .input-field__label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 85%;
+}
+
+.buy-now__app .stx-radio__input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out 0s;
+  border: none;
+  border-radius: 9px;
+  vertical-align: middle;
+  position: relative;
+  top: -0.1rem;
+}
+
+.buy-now__app .stx-radio__input:checked {
+  box-shadow: #0A75C2 0px 0px 0px 6px inset;
+}
+
+.buy-now__app .field-section__heading {
+  text-transform: none;
+  font-size: 14px;
+  letter-spacing: normal;
+  font-family: inherit;
 }

@@ -1,0 +1,43 @@
+.closeable-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 36px;
+    border: none;
+    padding: 0;
+    margin-bottom: 16px;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.closeable-header__button {
+    display: inline-flex;
+    width: 16px;
+    height: 16px;
+    border: transparent 1px solid;
+    border-radius: 6px;
+    padding: 0;
+    background:
+        linear-gradient(
+            45deg,
+            transparent  0%,
+            transparent 43%,
+            #000 45%,
+            #000 55%,
+            transparent 57%,
+            transparent 100%
+        ),
+        linear-gradient(
+            135deg,
+            transparent 0%,
+            transparent 43%,
+            #000 45%,
+            #000 55%,
+            transparent 57%,
+            transparent 100%
+        );
+}

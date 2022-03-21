@@ -209,6 +209,13 @@ export function actionRemoveErrorByField(field: string, addressType = ''): AnyAc
     };
 }
 
+export function actionRemoveErrorByType(type: string, addressType = ''): AnyAction {
+    return {
+        type: AppActions.REMOVE_ERROR_BY_TYPE,
+        payload: {type, addressType}
+    };
+}
+
 export function actionRemoveErrorByTypeAndCode(type: string, code: string, addressType = ''): AnyAction {
     return {
         type: AppActions.REMOVE_ERROR_BY_TYPE_AND_CODE,

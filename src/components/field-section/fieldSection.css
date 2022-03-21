@@ -31,7 +31,7 @@
     color: #595959;
 }
 .field--Hidden{
-    display: none;
+    display: none !important;
 }
 @media only screen and (max-width: 1440px) {
     .field-section__header{

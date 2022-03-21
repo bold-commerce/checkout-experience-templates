@@ -1,9 +1,10 @@
 import ClassNames from 'classnames';
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {Header, SummarySection, ThankYou} from 'src/components';
-import {useGetBillingData, useGetCustomerInfoData, useGetShippingData} from 'src/hooks';
+import {useGetBillingData, useGetCustomerInfoData, useGetShippingData,} from 'src/hooks';
 import {isObjectEmpty} from 'src/utils';
+import {sendEvents, sendPageView} from 'src/analytics';
 
 export function ThankYouPage(): React.ReactElement {
     const customerInformation = useGetCustomerInfoData();
@@ -12,6 +13,11 @@ export function ThankYouPage(): React.ReactElement {
     const billingAddress = useGetBillingData();
 
     const isGeneric = !firstName && isObjectEmpty(shippingAddress) && isObjectEmpty(billingAddress);
+
+    useEffect(() => {
+        sendPageView('/thank_you', 4);
+        sendEvents('Checkout', 'Landed on thank you page');
+    }, []);
 
     const getClasses = ((classes?: Array<string> | string): string => {
         return ClassNames(['three-page'].concat(classes ?? []));

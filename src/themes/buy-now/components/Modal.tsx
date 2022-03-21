@@ -1,5 +1,5 @@
 import React from 'react';
-import { useModal } from 'src/themes/buy-now/hooks/useModal';
+import { useModal } from 'src/themes/buy-now/hooks';
 import { IModalProps } from 'src/themes/buy-now/types';
 import './Modal.css';
 
