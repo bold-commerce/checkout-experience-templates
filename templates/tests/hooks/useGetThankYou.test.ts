@@ -2,15 +2,17 @@ import {renderHook} from '@testing-library/react-hooks';
 import {mocked} from 'ts-jest/utils';
 
 import {Constants} from 'src/constants';
-import {useGetThankYou, useGetCustomerInfoData} from 'src/hooks';
+import {useGetThankYou, useGetCustomerInfoData, useGetValidVariable} from 'src/hooks';
 import {initialDataMock} from 'src/mocks';
 import {IUseGetThankYou} from 'src/types';
 import {getTerm} from 'src/utils';
 
 jest.mock('src/utils');
 jest.mock('src/hooks/useGetCustomerInformation');
+jest.mock('src/hooks/useGetValidVariable');
 const getTermMock = mocked(getTerm, true);
 const useGetCustomerInfoDataMock = mocked(useGetCustomerInfoData, true);
+const useGetValidVariableMock = mocked(useGetValidVariable, true);
 
 describe('Testing hook useGetThankYou', () => {
     const shopUrl = 'test-shop.alias.com';
@@ -22,7 +24,8 @@ describe('Testing hook useGetThankYou', () => {
             orderConfirmed: 'Order confirmed',
             orderConfirmedText: 'Order confirmed text',
             keepShopping: 'Keep shopping'
-        }
+        },
+        isGeneric: false,
     };
 
     beforeEach(() => {
@@ -30,6 +33,7 @@ describe('Testing hook useGetThankYou', () => {
         window.returnUrl = shopUrl;
         getTermMock.mockReturnValue('');
         useGetCustomerInfoDataMock.mockReturnValue(initialDataMock.application_state.customer);
+        useGetValidVariableMock.mockReturnValue(true);
 
         window = Object.create(window);
         Object.defineProperty(window, 'location', {
@@ -52,6 +56,7 @@ describe('Testing hook useGetThankYou', () => {
         expect(result.current.thankYouTitle).toEqual(mockResponse.thankYouTitle);
         expect(result.current.terms).toStrictEqual(mockResponse.terms);
         expect(useGetCustomerInfoDataMock).toHaveBeenCalledTimes(1);
+        expect(useGetValidVariableMock).toHaveBeenCalledWith('orderProcessed');
         expect(getTermMock).toHaveBeenCalledTimes(4);
         expect(getTermMock).toHaveBeenCalledWith('thank_you', Constants.CONFIRMATION_PAGE_INFO);
         expect(getTermMock).toHaveBeenCalledWith('order_confirmed', Constants.CONFIRMATION_PAGE_INFO);
@@ -75,6 +80,30 @@ describe('Testing hook useGetThankYou', () => {
         expect(result.current.thankYouTitle).toEqual(newMockResponse.thankYouTitle);
         expect(result.current.terms).toStrictEqual(newMockResponse.terms);
         expect(useGetCustomerInfoDataMock).toHaveBeenCalledTimes(1);
+        expect(useGetValidVariableMock).toHaveBeenCalledWith('orderProcessed');
+        expect(getTermMock).toHaveBeenCalledTimes(4);
+        expect(getTermMock).toHaveBeenCalledWith('thank_you', Constants.CONFIRMATION_PAGE_INFO);
+        expect(getTermMock).toHaveBeenCalledWith('order_confirmed', Constants.CONFIRMATION_PAGE_INFO);
+        expect(getTermMock).toHaveBeenCalledWith('order_confirmed_text', Constants.CONFIRMATION_PAGE_INFO);
+        expect(getTermMock).toHaveBeenCalledWith('keep_shopping', Constants.CONFIRMATION_PAGE_INFO);
+    });
+
+    test('rendering the hook without orderProcessed', () => {
+        const newMockResponse = {...mockResponse, thankYouTitle: 'Thank you!'};
+        useGetValidVariableMock.mockReturnValueOnce(false);
+        getTermMock
+            .mockReturnValueOnce(newMockResponse.terms.thankYou)
+            .mockReturnValueOnce(newMockResponse.terms.orderConfirmed)
+            .mockReturnValueOnce(newMockResponse.terms.orderConfirmedText)
+            .mockReturnValueOnce(newMockResponse.terms.keepShopping);
+
+        const {result} = renderHook(() => useGetThankYou());
+        result.current.returnUrl();
+        expect(window.location.href).toEqual(shopUrl);
+        expect(result.current.thankYouTitle).toEqual(newMockResponse.thankYouTitle);
+        expect(result.current.terms).toStrictEqual(newMockResponse.terms);
+        expect(useGetCustomerInfoDataMock).toHaveBeenCalledTimes(1);
+        expect(useGetValidVariableMock).toHaveBeenCalledWith('orderProcessed');
         expect(getTermMock).toHaveBeenCalledTimes(4);
         expect(getTermMock).toHaveBeenCalledWith('thank_you', Constants.CONFIRMATION_PAGE_INFO);
         expect(getTermMock).toHaveBeenCalledWith('order_confirmed', Constants.CONFIRMATION_PAGE_INFO);
@@ -99,6 +128,7 @@ describe('Testing hook useGetThankYou', () => {
         expect(result.current.thankYouTitle).toEqual(newMockResponse.thankYouTitle);
         expect(result.current.terms).toStrictEqual(newMockResponse.terms);
         expect(useGetCustomerInfoDataMock).toHaveBeenCalledTimes(1);
+        expect(useGetValidVariableMock).toHaveBeenCalledWith('orderProcessed');
         expect(getTermMock).toHaveBeenCalledTimes(4);
         expect(getTermMock).toHaveBeenCalledWith('thank_you', Constants.CONFIRMATION_PAGE_INFO);
         expect(getTermMock).toHaveBeenCalledWith('order_confirmed', Constants.CONFIRMATION_PAGE_INFO);

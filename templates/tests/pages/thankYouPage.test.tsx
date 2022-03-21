@@ -9,7 +9,7 @@ import {
     useGetShippingData,
     useGetShopUrlFromShopAlias,
     useSupportedLanguages,
-    useSendEvent
+    useSendEvent, useGetValidVariable
 } from 'src/hooks';
 import {addressMock, stateMock} from 'src/mocks';
 import {ThankYouPage} from 'src/pages';
@@ -21,11 +21,13 @@ jest.mock('src/hooks/useGetAddressData');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useSendEvent');
+jest.mock('src/hooks/useGetValidVariable');
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useGetCustomerInfoDataMock = mocked(useGetCustomerInfoData, true);
 const useGetShippingDataMock = mocked(useGetShippingData, true);
 const useGetBillingDataMock = mocked(useGetBillingData, true);
+const useGetValidVariableMock = mocked(useGetValidVariable, true);
 
 const store = Store.initializeStore();
 const component =
@@ -39,6 +41,7 @@ describe('testing ThankYouPage', () => {
         jest.resetAllMocks();
         useSupportedLanguagesMock.mockReturnValue({languagesOptions: [], value: '', handleChange: jest.fn()});
         useGetShopUrlFromShopAliasMock.mockReturnValue('https://google.com');
+        useGetValidVariableMock.mockReturnValue(true);
     });
 
     test('Rendering ThankYouPage component', () => {
@@ -60,6 +63,20 @@ describe('testing ThankYouPage', () => {
         useGetCustomerInfoDataMock.mockReturnValue(mockedData);
         useGetShippingDataMock.mockReturnValue({} as IAddress);
         useGetBillingDataMock.mockReturnValue({} as IAddress);
+        const {container} = render(component);
+        expect(container.getElementsByClassName('checkout-experience-container').length).toBe(1);
+        expect(container.getElementsByClassName('three-page').length).toBe(1);
+        expect(container.getElementsByClassName('thank-you').length).toBe(1);
+        expect(container.getElementsByClassName('no-summary').length).toBe(1);
+    });
+
+    test('Rendering ThankYouPage component with generic page with orderProcessed', () => {
+        const mockedData = stateMock.data.application_state;
+        useGetCustomerInfoDataMock.mockReturnValue(mockedData.customer);
+        useGetShippingDataMock.mockReturnValue(addressMock);
+        useGetBillingDataMock.mockReturnValue(addressMock);
+        useGetValidVariableMock.mockReturnValueOnce(false);
+
         const {container} = render(component);
         expect(container.getElementsByClassName('checkout-experience-container').length).toBe(1);
         expect(container.getElementsByClassName('three-page').length).toBe(1);

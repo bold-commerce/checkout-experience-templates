@@ -2,7 +2,7 @@ import ClassNames from 'classnames';
 import React, {useEffect} from 'react';
 
 import {Header, SummarySection, ThankYou} from 'src/components';
-import {useGetBillingData, useGetCustomerInfoData, useGetShippingData,} from 'src/hooks';
+import {useGetBillingData, useGetCustomerInfoData, useGetShippingData, useGetValidVariable,} from 'src/hooks';
 import {isObjectEmpty} from 'src/utils';
 import {sendEvents, sendPageView} from 'src/analytics';
 
@@ -11,8 +11,9 @@ export function ThankYouPage(): React.ReactElement {
     const firstName = customerInformation && customerInformation.first_name ? customerInformation.first_name : '';
     const shippingAddress = useGetShippingData();
     const billingAddress = useGetBillingData();
+    const orderProcessed = useGetValidVariable('orderProcessed');
 
-    const isGeneric = !firstName && isObjectEmpty(shippingAddress) && isObjectEmpty(billingAddress);
+    const isGeneric = !orderProcessed || (!firstName && isObjectEmpty(shippingAddress) && isObjectEmpty(billingAddress));
 
     useEffect(() => {
         sendPageView('/thank_you', 4);

@@ -220,6 +220,7 @@ export interface IIsButtonDisable {
 export interface IIsValid{
     shippingAddress: boolean
     updatedShippingAddress: boolean
+    orderProcessed: boolean
 }
 
 export interface IOrderInitialization {

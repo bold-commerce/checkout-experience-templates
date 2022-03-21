@@ -18,7 +18,6 @@ export interface IAddressProps {
     handleChange?: (e) => void;
     handleBlur?: (e) => void;
     handleFocus?: (e) => void;
-
 }
 
 export interface IFieldSectionProps {
@@ -336,6 +335,7 @@ export interface IUseGetThankYou {
     returnUrl: () => void;
     thankYouTitle: string;
     terms: Record<string, string>;
+    isGeneric: boolean;
 }
 
 export interface IUseGetOrderRecap {

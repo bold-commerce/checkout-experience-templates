@@ -3,7 +3,7 @@ import {IOrderInitialization} from 'src/types';
 import {IApiReturnObject, processOrder as processOrderLib} from '@bold-commerce/checkout-frontend-library';
 import {checkErrorAndProceedToNextPage, getApplicationStateFromLib} from 'src/library';
 import {HistoryLocationState} from 'react-router';
-import {actionShowHideOverlayContent} from 'src/action';
+import {actionSetAppStateValid, actionShowHideOverlayContent} from 'src/action';
 import {getCheckoutUrl, handleErrorIfNeeded} from 'src/utils';
 import {errorFields, errorSubTypes} from 'src/constants';
 import {useRemoveAllFlashErrors} from 'src/hooks';
@@ -18,6 +18,7 @@ export function processOrder(history: HistoryLocationState) {
             handleErrorIfNeeded(response, dispatch, getState);
 
             if (response.success) {
+                await dispatch(actionSetAppStateValid('orderProcessed', true));
                 await dispatch(checkErrorAndProceedToNextPage('/thank_you', 'paymentPageButton', history, true));
                 await dispatch(getApplicationStateFromLib);
             }

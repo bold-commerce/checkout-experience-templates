@@ -57,7 +57,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(successReturnObj, dispatch, getState);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('/thank_you', 'paymentPageButton', historyMock, true);
-            expect(dispatch).toHaveBeenCalledTimes(3);
+            expect(dispatch).toHaveBeenCalledTimes(4);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(dispatch).toHaveBeenCalledWith(getApplicationStateFromLib);
             expect(dispatch).toHaveBeenCalledWith(showHideAction);
