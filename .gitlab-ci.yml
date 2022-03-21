@@ -7,6 +7,7 @@ stages:
   - deploy-staging
   - update-argo-image-production
   - deploy-production
+  - post-deploy
 
 
 #Pipeline import
@@ -20,6 +21,7 @@ include:
       - 'jobs/general/docker-build-and-push.gitlab-ci.yaml'
       - 'jobs/general/update-argo-image.gitlab-ci.yaml'
       - 'jobs/general/deploy.gitlab-ci.yaml'
+      - 'jobs/general/cloudflare-cache-bust.gitlab-ci.yaml'
 
 Lint:
   stage: lint
@@ -122,3 +124,14 @@ DeployProduction:
     KUSTOMIZE_REPO: checkout-experience-templates
   extends: .Deploy
   needs: [UpdateArgoImageProduction]
+
+CacheBust:
+  stage: post-deploy
+  only:
+    - main
+  variables:
+    URL: 'cashier.boldcommerce.com/assets/experience'
+  extends: .CloudflareCacheBust
+  needs: [DeployProduction]
+  when: delayed
+  start_in: 2 minutes
