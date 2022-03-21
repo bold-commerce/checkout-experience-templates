@@ -72,7 +72,6 @@ describe('Testing hook usePaymentPage', () => {
         jest.resetAllMocks();
         window.shopAlias = shopAliasMock;
         window.platformType = 'shopify';
-        window.publicOrderId = '123a';
         useDispatchMock.mockReturnValue(dispatchMock);
         useHistoryMock.mockReturnValue(historyMock);
         useGetErrorsMock.mockReturnValue([]);
