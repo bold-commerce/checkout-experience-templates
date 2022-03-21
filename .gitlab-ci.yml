@@ -134,4 +134,4 @@ CacheBust:
   extends: .CloudflareCacheBust
   needs: [DeployProduction]
   when: delayed
-  start_in: 2 minutes
+  start_in: 1 minutes
