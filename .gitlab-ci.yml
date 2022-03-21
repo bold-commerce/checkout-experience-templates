@@ -10,6 +10,7 @@ stages:
   - post-deploy
 
 
+
 #Pipeline import
 include:
   - project: 'boldops/gitlab-ci-pipelines'
@@ -31,6 +32,8 @@ Lint:
       - main
       - merge_requests
   extends: .JSLint
+  variables:
+    WORKING_DIRECTORY: 'templates'
 
 Test:
   stage: test
@@ -43,6 +46,7 @@ Test:
     reports:
       junit: ['junit.xml']
   variables:
+    WORKING_DIRECTORY: 'templates'
     KUBERNETES_CPU_REQUEST: 4000m
     KUBERNETES_CPU_LIMIT: 4000m
     KUBERNETES_MEMORY_REQUEST: 5000Mi
@@ -59,6 +63,7 @@ BuildApp:
     paths:
       - build
   variables:
+    WORKING_DIRECTORY: 'templates'
     KUBERNETES_CPU_REQUEST: 1000m
     KUBERNETES_CPU_LIMIT: 1000m
     KUBERNETES_MEMORY_REQUEST: 1024Mi
@@ -71,6 +76,7 @@ DockerBuildAndPush:
   only:
     - main
   variables:
+    WORKING_DIRECTORY: 'templates'
     APP_NAME: checkout-experience-templates
     IMAGE_PROJECT: checkout-1236
   extends: .DockerBuildAndPush
