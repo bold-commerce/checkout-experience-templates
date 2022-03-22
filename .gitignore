@@ -5,6 +5,6 @@ node_modules
 build
 
 /templates/coverage/
-/templates/package-lock.json
-/templates/yarn.lock
-/templates/yarn-error.log
+package-lock.json
+yarn.lock
+yarn-error.log
