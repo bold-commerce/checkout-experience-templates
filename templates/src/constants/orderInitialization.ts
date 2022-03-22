@@ -27,6 +27,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
         shippingAddress: false,
         updatedShippingAddress: false,
         orderProcessed: false,
+        shippingLine: false,
     },
     overlay: {
         inverted: false,

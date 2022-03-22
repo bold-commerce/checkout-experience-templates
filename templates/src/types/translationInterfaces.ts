@@ -6,6 +6,7 @@ export interface IErrorTypes {
     order: string;
     address: string;
     discount_code_validation: string;
+    shipping_line: string
 }
 
 export interface IErrorFields {
@@ -28,6 +29,7 @@ export interface IErrorFields {
     tax: string;
     inventory: string;
     business_name;
+    id: string;
 }
 
 export interface IErrorSeverities {
@@ -66,5 +68,5 @@ export interface IErrorTerm {
 
 export interface IError extends IApiErrorResponse{
     code?: string;
-    address_type: string
+    address_type?: string
 }

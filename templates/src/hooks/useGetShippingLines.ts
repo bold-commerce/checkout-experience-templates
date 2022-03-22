@@ -5,8 +5,9 @@ import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
 import {useGetLoaderScreenVariable, useGetValidVariable} from 'src/hooks';
 import {actionSetButtonDisable} from 'src/action';
+import {IUseGetShippingLines} from 'src/types';
 
-export function useGetShippingLines(): { loading: boolean, isValidAddress: boolean, notValidText: string, fieldSectionText: string } {
+export function useGetShippingLines(): IUseGetShippingLines {
     const dispatch = useDispatch();
     const notValidText = getTerm('no_shipping_invalid_address', Constants.SHIPPING_METHOD_INFO);
     const fieldSectionText = getTerm('shipping_method', Constants.SHIPPING_METHOD_INFO);

@@ -222,6 +222,7 @@ export interface IIsValid{
     shippingAddress: boolean
     updatedShippingAddress: boolean
     orderProcessed: boolean
+    shippingLine: boolean
 }
 
 export interface IOrderInitialization {

@@ -8,49 +8,95 @@ describe('Testing hook useGetPaymentSection', () => {
     let useGetLoaderScreenVariableSpy: jest.SpyInstance;
     let useGetValidVariableSpy: jest.SpyInstance;
     let getTermSpy: jest.SpyInstance;
-    const one = 1;
-    const two = 2;
     const dataArray = [
         {
-            name: 'Test isValidAddress and isLoading false',
+            name: 'Test isValidAddress false, isValidShippingLine false, and isLoading false',
             loadingParameter: false,
-            validParameter: false,
+            validAddress: false,
+            validShippingLine: false,
             validTextParameter: 'testText1',
             fieldTextParameter: 'testText2',
-            getLoaderCalled: one,
-            getValidCalled: one,
-            getTermCalled: two
+            getLoaderCalled: 1,
+            getValidCalled: 2,
+            getTermCalled: 2
         },
         {
-            name: 'Test isValidAddress true and isLoading false',
+            name: 'Test isValidAddress true, isValidShippingLine true, and isLoading false',
             loadingParameter: false,
-            validParameter: true,
+            validAddress: true,
+            validShippingLine: true,
             validTextParameter: 'testText1',
             fieldTextParameter: 'testText2',
-            getLoaderCalled: one,
-            getValidCalled: one,
-            getTermCalled: two
+            getLoaderCalled: 1,
+            getValidCalled: 2,
+            getTermCalled: 2
         },
         {
-            name: 'Test isValidAddress false and isLoading true',
-            loadingParameter: true,
-            validParameter: false,
+            name: 'Test isValidAddress true, isValidShippingLine false, and isLoading false',
+            loadingParameter: false,
+            validAddress: true,
+            validShippingLine: false,
             validTextParameter: 'testText1',
             fieldTextParameter: 'testText2',
-            getLoaderCalled: one,
-            getValidCalled: one,
-            getTermCalled: two
+            getLoaderCalled: 1,
+            getValidCalled: 2,
+            getTermCalled: 2
         },
         {
-            name: 'Test isValidAddress and isLoading true',
-            loadingParameter: true,
-            validParameter: true,
+            name: 'Test isValidAddress false, isValidShippingLine true, and isLoading false',
+            loadingParameter: false,
+            validAddress: false,
+            validShippingLine: true,
             validTextParameter: 'testText1',
             fieldTextParameter: 'testText2',
-            getLoaderCalled: one,
-            getValidCalled: one,
-            getTermCalled: two
-        }
+            getLoaderCalled: 1,
+            getValidCalled: 2,
+            getTermCalled: 2
+        },
+        {
+            name: 'Test isValidAddress false, isValidShippingLine false,  and isLoading true',
+            loadingParameter: true,
+            validAddress: false,
+            validShippingLine: false,
+            validTextParameter: 'testText1',
+            fieldTextParameter: 'testText2',
+            getLoaderCalled: 1,
+            getValidCalled: 2,
+            getTermCalled: 2
+        },
+        {
+            name: 'Test isValidAddress true, isValidShippingLine true, and isLoading true',
+            loadingParameter: true,
+            validAddress: true,
+            validShippingLine: true,
+            validTextParameter: 'testText1',
+            fieldTextParameter: 'testText2',
+            getLoaderCalled: 1,
+            getValidCalled: 2,
+            getTermCalled: 2
+        },
+        {
+            name: 'Test isValidAddress true, isValidShippingLine false,  and isLoading true',
+            loadingParameter: true,
+            validAddress: true,
+            validShippingLine: false,
+            validTextParameter: 'testText1',
+            fieldTextParameter: 'testText2',
+            getLoaderCalled: 1,
+            getValidCalled: 2,
+            getTermCalled: 2
+        },
+        {
+            name: 'Test isValidAddress false, isValidShippingLine true, and isLoading true',
+            loadingParameter: true,
+            validAddress: false,
+            validShippingLine: true,
+            validTextParameter: 'testText1',
+            fieldTextParameter: 'testText2',
+            getLoaderCalled: 1,
+            getValidCalled: 2,
+            getTermCalled: 2
+        },
     ];
 
     beforeEach(() => {
@@ -62,14 +108,16 @@ describe('Testing hook useGetPaymentSection', () => {
 
     test.each(dataArray)( '$name', async ({
         loadingParameter,
-        validParameter,
+        validAddress,
+        validShippingLine,
         validTextParameter,
         fieldTextParameter,
         getLoaderCalled,
         getValidCalled,
         getTermCalled
     }) => {
-        useGetValidVariableSpy.mockReturnValueOnce(validParameter);
+        useGetValidVariableSpy.mockReturnValueOnce(validAddress);
+        useGetValidVariableSpy.mockReturnValueOnce(validShippingLine);
         useGetLoaderScreenVariableSpy.mockReturnValueOnce(loadingParameter);
         getTermSpy.mockReturnValueOnce(validTextParameter).mockReturnValueOnce(fieldTextParameter);
 
@@ -80,7 +128,8 @@ describe('Testing hook useGetPaymentSection', () => {
         expect(useGetValidVariableSpy).toHaveBeenCalledTimes(getValidCalled);
         expect(getTermSpy).toHaveBeenCalledTimes(getTermCalled);
         expect(hookResult.loading).toBe(loadingParameter);
-        expect(hookResult.isValidAddress).toBe(validParameter);
+        expect(hookResult.isValidAddress).toBe(validAddress);
+        expect(hookResult.isValidShippingLine).toBe(validShippingLine);
         expect(hookResult.notValidText).toBe(validTextParameter);
         expect(hookResult.fieldSectionText).toBe(fieldTextParameter);
     });

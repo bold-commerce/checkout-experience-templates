@@ -2,6 +2,7 @@ import {render} from '@testing-library/react';
 import {Payment} from 'src/components';
 import {mocked} from 'ts-jest/utils';
 import {useGetPigiUrl, useSetPigiListener, useGetLoaderScreenVariable, useGetPigiDisplaySca, useGetPaymentSection} from 'src/hooks';
+import {IUseGetPaymentSection} from 'src/types';
 
 jest.mock('src/hooks');
 const useGetPigiUrlMock = mocked(useGetPigiUrl, true);
@@ -11,7 +12,13 @@ const useGetPigiDisplayScaMock = mocked(useGetPigiDisplaySca, true);
 const useGetPaymentSectionMock = mocked(useGetPaymentSection, true);
 
 describe('Testing Payment component', () => {
-    const baseHookReturnMock = {loading: false, isValidAddress: true, notValidText: 'Not valid address', fieldSectionText: 'Payment method'};
+    const IUseGetPaymentSectionMock = {
+        loading: false,
+        isValidAddress: true,
+        isValidShippingLine: true,
+        notValidText: 'Not valid address',
+        fieldSectionText: 'Payment method'
+    } as IUseGetPaymentSection;
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -21,7 +28,7 @@ describe('Testing Payment component', () => {
     });
 
     test('Payment Renders with loaded payment block', () => {
-        const hookReturnMock = {...baseHookReturnMock, loading: false};
+        const hookReturnMock = {...IUseGetPaymentSectionMock, loading: false};
         useGetPaymentSectionMock.mockReturnValueOnce(hookReturnMock);
 
         const {container} = render(<Payment/>);
@@ -34,14 +41,14 @@ describe('Testing Payment component', () => {
         expect(container.getElementsByClassName('payment__FieldSection').length).toBe(1);
         expect(container.getElementsByClassName('field-section__header').length).toBe(1);
         expect(container.getElementsByClassName('field-section__heading').length).toBe(1);
-        expect(container.getElementsByClassName('field-section__heading')[0].textContent).toBe(baseHookReturnMock.fieldSectionText);
+        expect(container.getElementsByClassName('field-section__heading')[0].textContent).toBe(IUseGetPaymentSectionMock.fieldSectionText);
         expect(container.getElementsByClassName('field-section__content').length).toBe(1);
         expect(container.getElementsByClassName('payment__block').length).toBe(1);
         expect(container.getElementsByClassName('payment__no-valid-address').length).toBe(0);
     });
 
     test('Payment Renders with loading payment block', () => {
-        const hookReturnMock = {...baseHookReturnMock, loading: true};
+        const hookReturnMock = {...IUseGetPaymentSectionMock, loading: true};
         useGetPaymentSectionMock.mockReturnValueOnce(hookReturnMock);
 
         const {container} = render(<Payment/>);
@@ -54,14 +61,14 @@ describe('Testing Payment component', () => {
         expect(container.getElementsByClassName('payment__FieldSection').length).toBe(1);
         expect(container.getElementsByClassName('field-section__header').length).toBe(1);
         expect(container.getElementsByClassName('field-section__heading').length).toBe(1);
-        expect(container.getElementsByClassName('field-section__heading')[0].textContent).toBe(baseHookReturnMock.fieldSectionText);
+        expect(container.getElementsByClassName('field-section__heading')[0].textContent).toBe(IUseGetPaymentSectionMock.fieldSectionText);
         expect(container.getElementsByClassName('field-section__content').length).toBe(1);
         expect(container.getElementsByClassName('payment__block').length).toBe(1);
         expect(container.getElementsByClassName('payment__no-valid-address').length).toBe(1);
     });
 
-    test('Payment Renders with LockedSection', () => {
-        const hookReturnMock = {...baseHookReturnMock, loading: false, isValidAddress: false};
+    test('Payment Renders with LockedSection invalid Address', () => {
+        const hookReturnMock = {...IUseGetPaymentSectionMock, loading: false, isValidAddress: false};
         useGetPaymentSectionMock.mockReturnValueOnce(hookReturnMock);
 
         const {container} = render(<Payment/>);
@@ -74,11 +81,33 @@ describe('Testing Payment component', () => {
         expect(container.getElementsByClassName('payment__FieldSection').length).toBe(1);
         expect(container.getElementsByClassName('field-section__header').length).toBe(1);
         expect(container.getElementsByClassName('field-section__heading').length).toBe(1);
-        expect(container.getElementsByClassName('field-section__heading')[0].textContent).toBe(baseHookReturnMock.fieldSectionText);
+        expect(container.getElementsByClassName('field-section__heading')[0].textContent).toBe(IUseGetPaymentSectionMock.fieldSectionText);
         expect(container.getElementsByClassName('field-section__content').length).toBe(1);
         expect(container.getElementsByClassName('payment__block').length).toBe(0);
         expect(container.getElementsByClassName('payment__no-valid-address-label').length).toBe(1);
-        expect(container.getElementsByClassName('payment__no-valid-address-label')[0].textContent).toBe(baseHookReturnMock.notValidText);
+        expect(container.getElementsByClassName('payment__no-valid-address-label')[0].textContent).toBe(IUseGetPaymentSectionMock.notValidText);
+        expect(container.getElementsByClassName('payment__no-valid-address').length).toBe(1);
+    });
+
+    test('Payment Renders with LockedSection invalid ShippingLine', () => {
+        const hookReturnMock = {...IUseGetPaymentSectionMock, loading: false, isValidShippingLine: false};
+        useGetPaymentSectionMock.mockReturnValueOnce(hookReturnMock);
+
+        const {container} = render(<Payment/>);
+
+        expect(useGetPaymentSectionMock).toHaveBeenCalledTimes(1);
+        expect(useSetPigiListenerMock).not.toHaveBeenCalled();
+        expect(useGetPigiUrlMock).not.toHaveBeenCalled();
+        expect(useGetLoaderScreenVariableMock).not.toHaveBeenCalled();
+        expect(container.getElementsByClassName('payment').length).toBe(1);
+        expect(container.getElementsByClassName('payment__FieldSection').length).toBe(1);
+        expect(container.getElementsByClassName('field-section__header').length).toBe(1);
+        expect(container.getElementsByClassName('field-section__heading').length).toBe(1);
+        expect(container.getElementsByClassName('field-section__heading')[0].textContent).toBe(IUseGetPaymentSectionMock.fieldSectionText);
+        expect(container.getElementsByClassName('field-section__content').length).toBe(1);
+        expect(container.getElementsByClassName('payment__block').length).toBe(0);
+        expect(container.getElementsByClassName('payment__no-valid-address-label').length).toBe(1);
+        expect(container.getElementsByClassName('payment__no-valid-address-label')[0].textContent).toBe(IUseGetPaymentSectionMock.notValidText);
         expect(container.getElementsByClassName('payment__no-valid-address').length).toBe(1);
     });
 });

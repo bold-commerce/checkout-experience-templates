@@ -1,19 +1,19 @@
 import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {useGetLoaderScreenVariable, useGetValidVariable} from 'src/hooks';
+import {useGetValidVariable} from 'src/hooks';
 import {useHistory} from 'react-router';
-import {validateCustomerOnLoad} from 'src/library';
+import {validateCustomerAndShippingOnLoad} from 'src/library';
 
-export function useOnLoadValidateCustomer(): void {
+export function useOnLoadValidateCustomerAndShipping(): void {
     const dispatch = useDispatch();
     const history = useHistory();
-    const loading = useGetLoaderScreenVariable('shippingLines');
     const isValidAddress = useGetValidVariable('shippingAddress');
+    const isValidShippingLine = useGetValidVariable('shippingLine');
 
     useEffect(() => {
         const handleOnLoad = () => {
-            if (!isValidAddress && !loading) {
-                dispatch(validateCustomerOnLoad(history));
+            if (!isValidAddress || !isValidShippingLine) {
+                dispatch(validateCustomerAndShippingOnLoad(history));
             }
         };
 
@@ -22,5 +22,5 @@ export function useOnLoadValidateCustomer(): void {
         return () => {
             window.removeEventListener('load', handleOnLoad);
         };
-    }, [isValidAddress, loading]);
+    }, [isValidAddress]);
 }

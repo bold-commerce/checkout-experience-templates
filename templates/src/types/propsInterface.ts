@@ -338,6 +338,21 @@ export interface IUseGetThankYou {
     isGeneric: boolean;
 }
 
+export interface IUseGetShippingLines {
+    loading: boolean;
+    isValidAddress: boolean;
+    notValidText: string;
+    fieldSectionText: string;
+}
+
+export interface IUseGetPaymentSection {
+    loading: boolean;
+    isValidAddress: boolean;
+    isValidShippingLine: boolean;
+    notValidText: string;
+    fieldSectionText: string;
+}
+
 export interface IUseGetOrderRecap {
     noOrderData: boolean;
     shippingAddress: IAddress;
