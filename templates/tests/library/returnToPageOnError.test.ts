@@ -20,7 +20,6 @@ describe('testing returnToPageOnError', () => {
         jest.resetAllMocks();
         window.shopAlias = 'test';
         window.platformType = 'shopify';
-        window.publicOrderId = '123a';
         dispatch.mockReturnValue(Promise.resolve());
         getState.mockReturnValue(stateMock);
         actionSetLoaderAndDisableButtonMock.mockReturnValue(actionSetLoaderAndDisableButtonThunkMock);
