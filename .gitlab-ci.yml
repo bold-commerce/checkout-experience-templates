@@ -44,7 +44,7 @@ Test:
       - merge_requests
   artifacts:
     reports:
-      junit: ['junit.xml']
+      junit: ['templates/junit.xml']
   variables:
     WORKING_DIRECTORY: 'templates'
     KUBERNETES_CPU_REQUEST: 4000m
@@ -61,7 +61,7 @@ BuildApp:
       - main
   artifacts:
     paths:
-      - build
+      - templates/build
   variables:
     WORKING_DIRECTORY: 'templates'
     KUBERNETES_CPU_REQUEST: 1000m
