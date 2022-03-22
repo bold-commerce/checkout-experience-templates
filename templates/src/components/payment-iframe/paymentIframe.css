@@ -167,7 +167,7 @@
     height: 18px;
     top: 0;
     left: 0;
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMC4zJyBoZWlnaHQ9JzgnIHZpZXdCb3g9JzguOSAwLjMgMTAuMyA4JyBlbmFibGUtYmFja2dyb3VuZD0nbmV3IDguOSAwLjMgMTAuMyA4Jz48cGF0aCBmaWxsPScjZmZmJyBkPSdNMTIuNiA4LjFsLTMuNy0zLjggMS0xLjEgMi43IDIuNyA1LjUtNS40IDEgMXonLz48L3N2Zz4=");
+    background-image: url("https://static.boldcommerce.com/images/checkout/experience/checkbox_white.svg");
     background-position: center;
     background-repeat: no-repeat;
     transition: all .2s .1s ease-in-out;
@@ -354,6 +354,81 @@
 #iframe-payment-gateway .Action--GiftCardValidate {
     -ms-flex: none;
     flex: none;
+}
+
+#iframe-payment-gateway .Message {
+    width: 100%;
+    flex: none;
+    display: block;
+    margin: 1rem 0;
+    padding: 1rem 0.5rem 1rem 3rem;
+    border-radius: 4px;
+    position: relative;
+    border: 1px solid #D9D9D9;
+    color: #888;
+    background-color: #FAFAFA;
+    min-height: 3.25rem;
+}
+
+#iframe-payment-gateway .Message__Content :first-child {
+    margin-top: 0;
+}
+
+#iframe-payment-gateway .Message__Content :last-child {
+    margin-bottom: 0;
+}
+
+#iframe-payment-gateway .Message::Before {
+    width: 1.25rem;
+    height: 1.25rem;
+    content: '';
+    display: block;
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    background-image: url("https://static.boldcommerce.com/images/checkout/experience/message_info_grey.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+#iframe-payment-gateway .Message--HasError {
+    background-color: white;
+    border-color: red;
+    color: red;
+}
+
+#iframe-payment-gateway .Message--HasError::before {
+    background-image: url("https://static.boldcommerce.com/images/checkout/experience/message_alert_red.svg");
+}
+
+#iframe-payment-gateway .Message--HasWarning {
+    background-color: white;
+    border-color: orange;
+    color: darkorange;
+}
+
+#iframe-payment-gateway .Message--HasWarning::before {
+    background-image: url("https://static.boldcommerce.com/images/checkout/experience/message_alert_orange.svg");
+}
+
+#iframe-payment-gateway .Message--HasSuccess {
+    background-color: white;
+    border-color: limegreen;
+    color: green;
+}
+
+#iframe-payment-gateway .Message--HasSuccess::before {
+    background-image: url("https://static.boldcommerce.com/images/checkout/experience/message_success_green.svg");
+}
+
+#iframe-payment-gateway .Message--HasInfo {
+    background-color: white;
+    border: 0 none;
+}
+
+#iframe-payment-gateway .Message--HasInfo::before {
+    background-image: url("https://static.boldcommerce.com/images/checkout/experience/message_info_current_color.svg");
 }
 
 @media only screen and (min-width: 1000px) {
