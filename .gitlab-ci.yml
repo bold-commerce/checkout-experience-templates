@@ -14,7 +14,7 @@ stages:
 #Pipeline import
 include:
   - project: 'boldops/gitlab-ci-pipelines'
-    ref: master
+    ref: v1.1.0
     file:
       - 'jobs/js/jest.gitlab-ci.yaml'
       - 'jobs/js/lint.gitlab-ci.yaml'
