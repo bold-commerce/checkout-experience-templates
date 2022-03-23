@@ -30,7 +30,7 @@ export function useBillingAddress(): IBillingAddress{
         if(billingType === Constants.SHIPPING_SAME && callApiAtOnEvents) {
             dispatch(validateBillingAddress);
         }
-    }, [customBilling]);
+    }, [customBilling, shippingAddress]);
 
     const billingSame = getTerm('same_as_shipping',Constants.PAYMENT_INFO);
     const billingDifferent = getTerm('different_billing',Constants.PAYMENT_INFO);

@@ -5,7 +5,7 @@ import {
     useSetDefaultLanguageIso,
     useWindowDimensions
 } from 'src/hooks';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {MemoryRouter, Route} from 'react-router-dom';
 import {Switch} from 'react-router';
 import { ThankYouPage, OutOfStockPage, SessionExpiredPage} from 'src/pages';
 import 'public/app.css';
@@ -37,15 +37,15 @@ function Theme(): React.ReactElement {
 
     return (
         <div className={'buy-now__app'} onClick={closeModal}>
-            <BrowserRouter>
+            <MemoryRouter>
                 <Switch>
-                    <Route path='/out_of_stock' component={OutOfStockPage} />
-                    <Route path='/session_expired' component={SessionExpiredPage} />
-                    <Route path='/thank_you' component={ThankYouPage} />
-                    <Route path='/' component={BuyNowContainerPage}/>
+                    <Route path='*/out_of_stock' component={OutOfStockPage} />
+                    <Route path='*/session_expired' component={SessionExpiredPage} />
+                    <Route path='*/thank_you' component={ThankYouPage} />
+                    <Route path='*/' component={BuyNowContainerPage}/>
                 </Switch>
                 <StandaloneHooks/>
-            </BrowserRouter>
+            </MemoryRouter>
             <Overlay/>
         </div>
     );

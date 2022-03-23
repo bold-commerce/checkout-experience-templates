@@ -415,7 +415,7 @@ export interface IUseIndexPageProps{
     shippingHeadingText: string;
     address: IAddress;
     paymentHeadingText: string
-    checkoutOnClick: () => void
+    checkoutOnClick: () => Promise<void>
 }
 
 export interface ICondensedSectionProps {
