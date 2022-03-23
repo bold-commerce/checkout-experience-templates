@@ -1,6 +1,6 @@
 import {getShippingLines, IApiReturnObject} from '@bold-commerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
-import {handleErrorIfNeeded, isObjectEmpty} from 'src/utils';
+import {handleErrorIfNeeded} from 'src/utils';
 import {IOrderInitialization} from 'src/types';
 import {actionSetButtonDisable, actionSetAppStateValid, actionSetLoader, actionSetSelectedShippingLine} from 'src/action';
 import {getShippingFromLib, getSummaryStateFromLib, postShippingLines} from 'src/library';

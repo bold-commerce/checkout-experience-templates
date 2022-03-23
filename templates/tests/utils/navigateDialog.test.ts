@@ -10,7 +10,7 @@ describe('testing navigateDialog function', () => {
             },
         },
         preventDefault: preventDefaultMock,
-    };
+    } as unknown as BeforeUnloadEvent & {target: {activeElement: Location}};
     const unBlockedEventMock = {
         target: {
             activeElement: {
@@ -18,11 +18,11 @@ describe('testing navigateDialog function', () => {
             },
         },
         preventDefault: preventDefaultMock,
-    };
+    } as unknown as BeforeUnloadEvent & {target: {activeElement: Location}};
     const NoActiveElementEventMock = {
         target: {},
         preventDefault: preventDefaultMock,
-    };
+    } as unknown as BeforeUnloadEvent & {target: {activeElement: Location}};
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -41,7 +41,7 @@ describe('testing navigateDialog function', () => {
         expect(preventDefaultMock).toHaveBeenCalledTimes(2);
         expect(blockedResult).toStrictEqual('');
 
-        const emptyResult = navigateDialog({preventDefault: preventDefaultMock});
+        const emptyResult = navigateDialog({preventDefault: preventDefaultMock} as unknown as BeforeUnloadEvent & {target: {activeElement: Location}});
         expect(preventDefaultMock).toHaveBeenCalledTimes(3);
         expect(emptyResult).toStrictEqual('');
 
