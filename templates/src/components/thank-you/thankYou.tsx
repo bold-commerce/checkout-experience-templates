@@ -7,7 +7,8 @@ export function ThankYou(): React.ReactElement {
     const {
         returnUrl,
         thankYouTitle,
-        terms
+        terms,
+        isGeneric,
     } = useGetThankYou();
 
     // Beginning of sending event to back-end
@@ -23,7 +24,7 @@ export function ThankYou(): React.ReactElement {
                 messageTitle={terms.orderConfirmed}
                 messageText={terms.orderConfirmedText}
             />
-            <OrderRecap className={'thank-you__order-recap'}/>
+            {!isGeneric && <OrderRecap className={'thank-you__order-recap'}/>}
             <Footer
                 className={'thank-you__footer-container'}
                 contactUs={true}

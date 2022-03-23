@@ -28,7 +28,8 @@ export const stateMock: IOrderInitialization = {
     },
     'isValid': {
         shippingAddress: false,
-        updatedShippingAddress: false
+        updatedShippingAddress: false,
+        orderProcessed: false,
     },
     'isButtonDisable': {
         customerPageButton: false,

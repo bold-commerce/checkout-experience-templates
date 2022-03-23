@@ -30,7 +30,7 @@ const useGetFooterRightsMock = mocked(useGetFooterRights, true);
 const useGetOrderRecapMock = mocked(useGetOrderRecap, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
-const useSendEventMock = mocked(useSendEvent, true);
+mocked(useSendEvent, true);
 
 describe('testing ThankYou component', () => {
     const orderRecapHookReturn: IUseGetOrderRecap = {
@@ -66,7 +66,8 @@ describe('testing ThankYou component', () => {
             orderConfirmed: 'Order confirmed',
             orderConfirmedText: 'Order confirmed text',
             keepShopping: 'Keep shopping'
-        }
+        },
+        isGeneric: false,
     };
 
     beforeEach(() => {
@@ -92,4 +93,17 @@ describe('testing ThankYou component', () => {
         expect(screen.getAllByText(propMock.thankYouTitle).length).toBe(1);
     });
 
+    test('Rendering Generic ThankYou component', () => {
+        const genericPropMock = {...propMock};
+        genericPropMock.isGeneric = true;
+        useGetThankYouMock.mockReturnValueOnce(genericPropMock);
+
+        const {container} = render(<ThankYou/>);
+
+        expect(container.getElementsByClassName('thank-you').length).toBe(1);
+        expect(container.getElementsByClassName('thank-you__message').length).toBe(1);
+        expect(container.getElementsByClassName('thank-you__order-recap').length).toBe(0);
+        expect(container.getElementsByClassName('thank-you__footer-container').length).toBe(1);
+        expect(screen.getAllByText(propMock.thankYouTitle).length).toBe(1);
+    });
 });
