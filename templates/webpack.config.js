@@ -23,7 +23,11 @@ module.exports = {
         modules: [path.resolve(__dirname, 'src'), 'node_modules'],
         extensions: ['.tsx', '.ts', '.jsx', '.js']
     },
-    devServer: { static: './' },
+    devServer: {
+        static: './',
+        host: 'localhost',
+        allowedHosts: 'all',
+    },
     module: {
         rules: [
             {

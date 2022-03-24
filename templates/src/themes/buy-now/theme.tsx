@@ -7,7 +7,7 @@ import {
 } from 'src/hooks';
 import {MemoryRouter, Route} from 'react-router-dom';
 import {Switch} from 'react-router';
-import { ThankYouPage, OutOfStockPage, SessionExpiredPage} from 'src/pages';
+import { ThankYouPage, OutOfStockPage} from 'src/pages';
 import 'public/app.css';
 import 'src/themes/buy-now/buyNow.css';
 import {Overlay, StandaloneHooks} from 'src/components';
@@ -15,7 +15,7 @@ import {actionSetDefaultCustomerAcceptMarketing} from 'src/action';
 import {useDispatch} from 'react-redux';
 import {setHook} from 'src/utils';
 import {useHistory} from  'react-router-dom';
-import { BuyNowContainerPage } from 'src/themes/buy-now/pages';
+import { BuyNowContainerPage, SessionExpiredPage } from 'src/themes/buy-now/pages';
 import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
 import { initiateCheckout } from 'src/analytics';
 
@@ -42,7 +42,7 @@ function Theme(): React.ReactElement {
             <MemoryRouter>
                 <Switch>
                     <Route path='*/out_of_stock' component={OutOfStockPage} />
-                    <Route path='*/session_expired' component={SessionExpiredPage} />
+                    <Route path='*/session_expired' component={() => <SessionExpiredPage closeModal={closeHeader}/>} />
                     <Route path='*/thank_you' component={ThankYouPage} />
                     <Route path='*/' component={BuyNowContainerPage}/>
                 </Switch>

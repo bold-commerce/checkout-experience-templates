@@ -31,3 +31,7 @@ export interface IBuyNowContainerPageProps {
     show: boolean;
     navigateTo: (page: string) => void;
 }
+
+export interface ISessionExpiredPageProps {
+    closeModal: () => void;
+}
