@@ -5,6 +5,7 @@ stages:
   - docker-build-and-push
   - update-argo-image-staging
   - deploy-staging
+  - post-deploy-staging
   - update-argo-image-production
   - deploy-production
   - post-deploy
@@ -105,6 +106,17 @@ DeployStaging:
     KUSTOMIZE_REPO: checkout-experience-templates
   extends: .Deploy
   needs: [UpdateArgoImageStaging]
+
+CacheBustStaging:
+  stage: post-deploy-staging
+  only:
+    - main
+  variables:
+    URL: 'checkout.staging.boldapps.net/assets/experience'
+  extends: .CloudflareCacheBust
+  needs: [DeployStaging]
+  when: delayed
+  start_in: 1 minutes
 
 UpdateArgoImageProduction:
   stage: update-argo-image-production
