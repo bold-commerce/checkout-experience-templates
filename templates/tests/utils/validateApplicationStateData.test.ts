@@ -95,34 +95,67 @@ describe('testing function validateApplicationStateData', () => {
     const dataArray = [
         {
             name: 'call function with proper data',
-            appData: appData,
-            shipping: defaultAddress,
-            billing: billingAddress,
-            selectedShipping: defaultShipping,
+            appData: {
+                ...appData,
+                addresses: {
+                    shipping: defaultAddress,
+                    billing: billingAddress,
+                },
+                shipping: {
+                    ...appData.shipping,
+                    selected_shipping: defaultShipping
+                }
+            },
         },
         {
             name: 'call function with empty shipping and billing',
-            appData: appData,
-            shipping: {},
-            billing: {},
-            selectedShipping: defaultShipping,
+            appData: {
+                ...appData,
+                addresses: {
+                    shipping: {},
+                    billing: {},
+                },
+                shipping: {
+                    ...appData.shipping,
+                    selected_shipping: defaultShipping
+                }
+            },
+        },
+        {
+            name: 'call function with null shipping and billing',
+            appData: {
+                ...appData,
+                addresses: {
+                    shipping: null,
+                    billing: null,
+                },
+                shipping: {
+                    ...appData.shipping,
+                    selected_shipping: defaultShipping
+                }
+            },
         },
         {
             name: 'call function with empty SelectedShipping',
-            appData: appData,
-            shipping: defaultAddress,
-            billing: billingAddress,
-            selectedShipping: {},
+            appData: {
+                ...appData,
+                addresses: {
+                    shipping: defaultAddress,
+                    billing: billingAddress,
+                },
+                shipping: {
+                    ...appData.shipping,
+                    selected_shipping: {}
+                }
+            },
         },
     ];
 
     test.each(dataArray)(
         '$name',
-        ({appData, shipping, billing, selectedShipping}) => {
-            appData.addresses.shipping = shipping;
-            appData.addresses.billing = billing;
-            appData.shipping.selected_shipping = selectedShipping;
-
+        ({appData}) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             const result = validateApplicationStateData(appData);
             expect(result).toStrictEqual(expected);
         });
