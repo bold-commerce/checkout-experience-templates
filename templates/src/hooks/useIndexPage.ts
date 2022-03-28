@@ -7,6 +7,7 @@ import {useHistory} from 'react-router';
 import { displayOrderProcessingScreen, processOrder } from 'src/library';
 import { sendAddPaymentActionAsync, sendRefreshOrderActionAsync } from '@bold-commerce/checkout-frontend-library';
 import { getTerm } from 'src/utils';
+import { sendEvents } from 'src/analytics';
 
 export function useIndexPage(): IUseIndexPageProps {
     const dispatch = useDispatch();
@@ -24,6 +25,7 @@ export function useIndexPage(): IUseIndexPageProps {
     const paymentHeadingText = getTerm('payments', Constants.SUMMARY_INFO);
 
     const checkoutOnClick = useCallback(async () => {
+        sendEvents('Checkout', 'Clicked complete order button');
         if (errors.length === 0) {
             dispatch(displayOrderProcessingScreen);
             if (orderTotal <= 0) {
