@@ -54,7 +54,7 @@ export interface IApplicationStatePayment {
     gateway_public_id: string,
     amount: number,
     currency: string,
-    tag: string
+    tag: string,
     type: string,
     display_string: string,
     id: string,
@@ -64,6 +64,7 @@ export interface IApplicationStatePayment {
     lineText?: string,
     value: number,
     brand: string,
+    driver?: string,
 }
 
 export interface ICountryInformationProvince {
@@ -297,4 +298,9 @@ export interface IFrontEndEvent {
     CheckoutExperienceShippingLinesDisplayed?: string,
     CheckoutExperiencePigiInitialized?: string,
     CheckoutExperienceThankYouPageDisplayed?: string,
+}
+
+export interface IDisplayPaymentMethod {
+    paymentMethodName: string,
+    paymentMethodValue: string,
 }
