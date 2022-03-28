@@ -42,6 +42,7 @@ export * from './useGetOrderTotal';
 export * from './useGetOutOfStock';
 export * from './useGetOverlay';
 export * from './useGetPayments';
+export * from './useGetPaymentType';
 export * from './useGetPaymentSection';
 export * from './useGetPigiDisplaySca';
 export * from './useGetPigiUrl';
