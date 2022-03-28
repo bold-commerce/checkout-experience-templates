@@ -17,6 +17,7 @@ import {setHook} from 'src/utils';
 import {useHistory} from  'react-router-dom';
 import { BuyNowContainerPage } from 'src/themes/buy-now/pages';
 import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
+import { initiateCheckout } from 'src/analytics';
 
 setHook('history', useHistory);
 
@@ -28,6 +29,7 @@ function Theme(): React.ReactElement {
     useSetApiCallOnEvent(true);
     const acceptMarketingSetting = useGetGeneralSettingCheckoutFields('accepts_marketing_checkbox_option') as string;
     dispatch(actionSetDefaultCustomerAcceptMarketing(acceptMarketingSetting));
+    initiateCheckout();
 
     const closeModal = useCallback((e) => {
         if (e.target.className === 'checkout-experience-container' || e.target.className === 'buy-now__app') {
