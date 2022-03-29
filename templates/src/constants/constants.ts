@@ -16,6 +16,7 @@ export class Constants {
     static SUBTOTAL_EVENT = 'SUBTOTAL_EVENT';
     static TOTAL_EVENT = 'TOTAL_EVENT';
     static AMOUNT_DUE_EVENT = 'AMOUNT_DUE_EVENT';
+    static CUSTOM = 'custom';
     static CUSTOMER_INFO = 'customer_information';
     static SHIPPING_INFO = 'shipping_address';
     static SHIPPING_METHOD_INFO = 'shipping_method';
