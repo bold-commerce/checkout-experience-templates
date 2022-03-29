@@ -223,3 +223,7 @@ html, body, .buy-now__app {
   letter-spacing: normal;
   font-family: inherit;
 }
+
+.buy-now .shipping-page .flash-error__container {
+  margin-top: 16px;
+}
