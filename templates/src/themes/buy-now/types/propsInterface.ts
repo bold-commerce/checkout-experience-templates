@@ -1,6 +1,14 @@
-import { CSSProperties, RefObject } from 'react';
+import { CSSProperties, Dispatch, RefObject, SetStateAction } from 'react';
 export interface IUseModal{
     isOpen: boolean;
+}
+
+export interface IUseShippingPage {
+    closeBuyNow: () => void;
+    flashText: string;
+    stopBack: boolean;
+    setStopBack: Dispatch<SetStateAction<boolean>>;
+    isValidAddress: boolean;
 }
 
 export interface IModalProps {
