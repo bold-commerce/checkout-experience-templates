@@ -24,7 +24,7 @@ export function validateApplicationStateData(appData: IApplicationState): IAppli
     if(!shippingAddress || Object.keys(shippingAddress).length <=0){
         shippingAddress = defaultAddressState;
     }
-    if(!shippingAddress || Object.keys(billingAddress).length <=0){
+    if(!billingAddress || Object.keys(billingAddress).length <=0){
         billingAddress = defaultAddressState;
     }
     let selectedShippingLines = appData.shipping.selected_shipping;
