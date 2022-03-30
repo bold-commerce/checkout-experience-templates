@@ -5,7 +5,7 @@ import {IUseCustomerPageProp} from 'src/types';
 import {useDispatch} from 'react-redux';
 import {useGetButtonDisableVariable, useGetIsLoading} from 'src/hooks';
 import {useHistory} from 'react-router';
-import {callShippingPageApi} from 'src/library';
+import {callShippingLinesPageApi, validateShippingLine} from 'src/library';
 import {sendEvents} from 'src/analytics';
 
 export function useShippingPage(): IUseCustomerPageProp{
@@ -22,7 +22,7 @@ export function useShippingPage(): IUseCustomerPageProp{
     const active = 2;
     const nextButtonOnClick = useCallback(() => {
         sendEvents('Checkout', 'Clicked continue to payment button');
-        dispatch(callShippingPageApi(history));
+        dispatch(callShippingLinesPageApi(history));
     } , []);
 
     return {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading};

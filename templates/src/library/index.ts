@@ -26,6 +26,8 @@ export * from './shippingLines';
 export * from './updateCustomer';
 export * from './validateAddressFunction';
 export * from './validateBillingAddress';
+export * from './validateCustomerAndShippingOnLoad';
 export * from './validateCustomerOnLoad';
 export * from './validateEmailAddress';
 export * from './validateShippingAddress';
+export * from './validateShippingLine';

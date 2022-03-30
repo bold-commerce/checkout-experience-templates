@@ -26,8 +26,8 @@ describe('testing validateCustomerOnLoad', () => {
         getState.mockReturnValue(stateMock);
         dispatch.mockImplementation(fun => {
             switch (fun) {
-                case returnToPageOnErrorMock:
-                case actionSetLoaderAndDisableButtonMock:
+                case returnToPageOnErrorThunkMock:
+                case actionSetLoaderAndDisableButtonThunkMock:
                 case updateCustomer:
                 case validateEmailAddress:
                 case validateShippingAddress:

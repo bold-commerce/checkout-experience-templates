@@ -9,7 +9,7 @@ export function returnToPageOnError(page: string, loaderName: string, history: H
         const {errors} = getState();
         dispatch(actionSetLoaderAndDisableButton(loaderName, false));
 
-        if (errors.length > 0) {
+        if (errors && errors.length > 0) {
             history.replace(getCheckoutUrl(page));
         }
     };

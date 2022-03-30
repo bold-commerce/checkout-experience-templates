@@ -3,7 +3,7 @@ import {FieldSection, PaymentIframe, LockedSection, LoadingSection} from 'src/co
 import {useGetPaymentSection} from 'src/hooks';
 
 export function Payment({ showTitle = true} : {showTitle?: boolean}): React.ReactElement {
-    const {loading, isValidAddress, notValidText, fieldSectionText} = useGetPaymentSection();
+    const {loading, isValidAddress, isValidShippingLine, notValidText, fieldSectionText} = useGetPaymentSection();
  
     const paymentComponent = (
         <div className={'payment__block'}>
@@ -15,7 +15,7 @@ export function Payment({ showTitle = true} : {showTitle?: boolean}): React.Reac
         <div className={'payment'}>
             <FieldSection title={fieldSectionText} className={'payment__FieldSection'} showTitle={showTitle}>
                 {
-                    (!isValidAddress) ?
+                    (!isValidAddress || !isValidShippingLine) ?
                         <LockedSection classNameSection={'payment__no-valid-address'}
                             className={'payment__no-valid-address-label'}
                             text={notValidText}/>

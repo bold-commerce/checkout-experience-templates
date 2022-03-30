@@ -66,6 +66,7 @@ export * from './useInitiateLoqate';
 export * from './useIsUserAuthenticated';
 export * from './useLogin';
 export * from './useOnLoadValidateCustomer';
+export * from './useOnLoadValidateCustomerAndShipping';
 export * from './usePaymentPage';
 export * from './useRemoveAllFlashErrors';
 export * from './useScreenWidth';

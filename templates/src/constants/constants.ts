@@ -56,6 +56,7 @@ export const errorTypes: IErrorTypes = {
     order: 'order',
     address: 'address',
     discount_code_validation: 'discount_code.discount_validation',
+    shipping_line: 'shipping_line',
 };
 
 export const errorFields: IErrorFields = {
@@ -77,7 +78,8 @@ export const errorFields: IErrorFields = {
     tax: 'tax',
     cart: 'cart',
     inventory: 'inventory',
-    business_name: 'business_name'
+    business_name: 'business_name',
+    id: 'id',
 };
 
 export const errorSeverities: IErrorSeverities = {

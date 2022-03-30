@@ -1,10 +1,16 @@
 import React, {useEffect} from 'react';
 import {Breadcrumbs, Footer, Payment, SummarySection, FlashError, Header} from 'src/components';
-import {useBeforeUnload, usePaymentPage, useScrollToElementOnNavigation} from 'src/hooks';
+import {
+    useBeforeUnload,
+    useOnLoadValidateCustomerAndShipping,
+    usePaymentPage,
+    useScrollToElementOnNavigation
+} from 'src/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
 
 export function PaymentPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading} = usePaymentPage();
+    useOnLoadValidateCustomerAndShipping();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
     useEffect(() => {

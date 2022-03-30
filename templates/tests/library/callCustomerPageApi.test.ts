@@ -28,8 +28,8 @@ describe('testing callCustomerPageApi', () => {
         getState.mockReturnValue(stateMock);
         dispatch.mockImplementation(fun => {
             switch (fun) {
-                case checkErrorAndProceedToNextPageMock:
-                case actionSetLoaderAndDisableButtonMock:
+                case checkErrorAndProceedToNextPageThunkMock:
+                case actionSetLoaderAndDisableButtonThunkMock:
                 case updateCustomer:
                 case validateEmailAddress:
                 case validateShippingAddress:

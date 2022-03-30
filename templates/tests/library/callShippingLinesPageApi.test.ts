@@ -2,10 +2,12 @@ import {mocked} from 'ts-jest/utils';
 import {HistoryLocationState} from 'react-router';
 import {actionSetLoaderAndDisableButton} from 'src/action';
 import {
-    callShippingPageApi,
+    callShippingLinesPageApi,
     checkErrorAndProceedToNextPage,
-    postShippingLines
+    postShippingLines,
+    validateShippingLine
 } from 'src/library';
+import {stateMock} from 'src/mocks';
 
 jest.mock('src/action');
 jest.mock('src/library/checkErrorAndProceedToNextPage');
@@ -14,11 +16,13 @@ const checkErrorAndProceedToNextPageMock = mocked(checkErrorAndProceedToNextPage
 
 describe('testing callShippingLinesPageApi', () => {
     const dispatch = jest.fn();
+    const getState = jest.fn();
     const checkErrorAndProceedToNextPageThunkMock = jest.fn();
     const actionSetLoaderAndDisableButtonThunkMock = jest.fn();
 
     beforeEach(() => {
-        jest.resetAllMocks();
+        jest.clearAllMocks();
+        getState.mockReturnValue(stateMock);
         checkErrorAndProceedToNextPageThunkMock.mockName('checkErrorAndProceedToNextPage');
         actionSetLoaderAndDisableButtonThunkMock.mockName('actionSetLoaderAndDisableButton');
         dispatch.mockReturnValue(Promise.resolve());
@@ -26,16 +30,18 @@ describe('testing callShippingLinesPageApi', () => {
         actionSetLoaderAndDisableButtonMock.mockReturnValue(actionSetLoaderAndDisableButtonThunkMock);
     });
 
-    test('success call to callShippingPageApi', async () => {
+    test('success call to callShippingLinesPageApi', async () => {
         const historyMock = {} as HistoryLocationState;
 
-        const callShippingPageApiThunk = callShippingPageApi(historyMock);
-        await callShippingPageApiThunk(dispatch).then(() => {
+        const callShippingLinesPageApiThunk = callShippingLinesPageApi(historyMock);
+        await callShippingLinesPageApiThunk(dispatch).then(() => {
             expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
             expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledWith('shippingPageButton', true);
-            expect(dispatch).toHaveBeenCalledTimes(3);
+            expect(dispatch).toHaveBeenCalledTimes(4);
             expect(dispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonThunkMock);
+            expect(dispatch).toHaveBeenCalledWith(validateShippingLine);
             expect(dispatch).toHaveBeenCalledWith(postShippingLines);
+            //console.log(dispatch.mock.calls);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('/payment', 'shippingPageButton', historyMock);

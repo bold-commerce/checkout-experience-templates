@@ -3,8 +3,8 @@ import {useGetButtonDisableVariable, useGetIsLoading, useShippingPage} from 'src
 import {mocked} from 'ts-jest/utils';
 import {useDispatch} from 'react-redux';
 import {getTerm} from 'src/utils';
-import {callShippingPageApi} from 'src/library';
 import {useHistory} from 'react-router';
+import {callShippingLinesPageApi} from 'src/library';
 
 jest.mock('react-redux');
 jest.mock('react-router');
@@ -17,11 +17,11 @@ const useHistoryMock = mocked(useHistory, true);
 const getTermMock = mocked(getTerm, true);
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true);
-const callShippingPageApiMock = mocked(callShippingPageApi, true);
+const callShippingLinesPageApiMock = mocked(callShippingLinesPageApi, true);
 
 describe('Testing hook useShippingPage', () => {
     const mockDispatch = jest.fn();
-    const mockCallShippingPageApi = jest.fn();
+    const mockCallShippingLinesPageApi = jest.fn();
     const getTermValue = 'test-value';
     const historyMock = {replace: jest.fn()};
     const eventMock = {preventDefault: jest.fn()};
@@ -33,7 +33,7 @@ describe('Testing hook useShippingPage', () => {
         getTermMock.mockReturnValue(getTermValue);
         useGetIsLoadingMock.mockReturnValue(false);
         useGetButtonDisableVariableMock.mockReturnValue(false);
-        callShippingPageApiMock.mockReturnValue(mockCallShippingPageApi);
+        callShippingLinesPageApiMock.mockReturnValue(mockCallShippingLinesPageApi);
     });
 
     test('rendering the hook properly', () => {
@@ -52,7 +52,7 @@ describe('Testing hook useShippingPage', () => {
 
         result.current.nextButtonOnClick();
         expect(mockDispatch).toHaveBeenCalledTimes(1);
-        expect(mockDispatch).toHaveBeenCalledWith(mockCallShippingPageApi);
+        expect(mockDispatch).toHaveBeenCalledWith(mockCallShippingLinesPageApi);
     });
 
 });

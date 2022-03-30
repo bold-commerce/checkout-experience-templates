@@ -4,7 +4,6 @@ import {mocked} from 'ts-jest/utils';
 import {getTerm} from 'src/utils';
 import {stateMock} from 'src/mocks';
 import {act} from '@testing-library/react';
-import {counterNames} from 'src/constants';
 
 jest.mock('src/utils');
 jest.mock('src/action');
@@ -23,11 +22,9 @@ const useCallApiAtOnEventsMock = mocked (useCallApiAtOnEvents, true);
 
 describe('Testing hook useGetShippingLinesData', () => {
     const appStateMock = stateMock.data.application_state;
-    const {zero, one, two} = counterNames;
     beforeEach(() => {
-        jest.resetAllMocks();
+        jest.clearAllMocks();
         getTermMock.mockReturnValue('Test');
-
     });
 
     test('rendering the hook properly', () => {
@@ -55,7 +52,7 @@ describe('Testing hook useGetShippingLinesData', () => {
             hookResult.handleChange(event);
         });
 
-        expect(mockDispatch).toBeCalledTimes(two);
+        expect(mockDispatch).toBeCalledTimes(2);
     });
 
     test('testing the change handler with callApiAtOnEvents false ', () => {
@@ -71,7 +68,7 @@ describe('Testing hook useGetShippingLinesData', () => {
             hookResult.handleChange(event);
         });
 
-        expect(mockDispatch).toBeCalledTimes(one);
+        expect(mockDispatch).toBeCalledTimes(1);
     });
 
 });
