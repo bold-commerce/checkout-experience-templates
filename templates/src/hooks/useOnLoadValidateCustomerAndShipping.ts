@@ -11,16 +11,8 @@ export function useOnLoadValidateCustomerAndShipping(): void {
     const isValidShippingLine = useGetValidVariable('shippingLine');
 
     useEffect(() => {
-        const handleOnLoad = () => {
-            if (!isValidAddress || !isValidShippingLine) {
-                dispatch(validateCustomerAndShippingOnLoad(history));
-            }
-        };
-
-        window.addEventListener('load', handleOnLoad);
-
-        return () => {
-            window.removeEventListener('load', handleOnLoad);
-        };
-    }, [isValidAddress]);
+        if (!isValidAddress || !isValidShippingLine) {
+            dispatch(validateCustomerAndShippingOnLoad(history));
+        }
+    }, []);
 }
