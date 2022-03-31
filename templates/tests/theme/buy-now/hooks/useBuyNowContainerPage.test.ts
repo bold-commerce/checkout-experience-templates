@@ -1,87 +1,85 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { act } from 'react-dom/test-utils';
 import { useBuyNowContainerPage } from 'src/themes/buy-now/hooks';
-import ResizeObserver from '__mocks__/ResizeObserver';
-import React, { MutableRefObject } from 'react';
+import { RefObject } from 'react';
 import { IUseBuyNowContainerPageProps } from 'src/themes/buy-now/types';
 
-window.ResizeObserver = ResizeObserver;
-
 describe('testing hook useBuyNowContainerPage', () => {
-    const testIndexRef: MutableRefObject<HTMLElement | null> = {current: {clientHeight: 100} as HTMLElement};
-    const testShippingRef: MutableRefObject<HTMLElement | null> = {current: {clientHeight: 800, parentElement: { clientHeight: 600}} as HTMLElement};
-    const testSummaryRef: MutableRefObject<HTMLElement | null> = {current: {} as HTMLElement};
-    
-    const props: IUseBuyNowContainerPageProps = {
-        indexRef: testIndexRef,
-        shippingRef: testShippingRef,
-        summaryRef: testSummaryRef
-    }
-
-    test('render the hook properly for tablet/desktop', () => {
-        window = Object.assign(window, { innerWidth: 770 });
-
-        const {result} = renderHook(() => useBuyNowContainerPage(props));
-        const hookResult = result.current;
-
-        expect(hookResult.openSection).toBe('/');
-        expect(hookResult.containerStyle).toEqual({height: '100px', overflow: 'hidden'});
+    const mockResizeObserver = global.ResizeObserver = jest.fn().mockImplementation(function (this: ResizeObserver, cb) {
+        this.observe = jest.fn(() => {
+            cb([], this);
+        });
+        this.disconnect = jest.fn();
+        this.unobserve = jest.fn();
     });
 
-    test('render the hook properly for mobile', () => {
-        window = Object.assign(window, { innerWidth: 769 });
+    /**
+     * Calls all callbacks passed to the ResizeObserver constructor to be called
+     */
+    const triggerResize = () => {
+        mockResizeObserver.mock.calls.forEach((args, i) => args[0]([], mockResizeObserver.mock.instances[i]));
+    };
 
-        const {result} = renderHook(() => useBuyNowContainerPage(props));
-        const hookResult = result.current;
+    afterEach(() => {
+        mockResizeObserver.mockClear();
+    });
+    
+    test('render the hook properly', () => {
+        const testIndexRef = {current: {clientHeight: 100}};
+        const props: IUseBuyNowContainerPageProps = {
+            indexRef: testIndexRef as RefObject<HTMLElement>,
+            shippingRef: {current: null},
+            summaryRef: {current: null},
+        };
+        
+        const { result } = renderHook(() => useBuyNowContainerPage(props));
+        const { openSection, containerStyle } = result.current;
 
-        expect(hookResult.openSection).toBe('/');
-        expect(hookResult.containerStyle).toEqual({});
+        expect(openSection).toBe('/');
+        expect(containerStyle.height).toBe('100px');
     });
 
     test('calling navigateTo', () => {
+        const props: IUseBuyNowContainerPageProps = {
+            indexRef: {current: {clientHeight: 100}} as RefObject<HTMLElement>,
+            shippingRef: {current: {clientHeight: 100}} as RefObject<HTMLElement>,
+            summaryRef: {current: {clientHeight: 100}} as RefObject<HTMLElement>,
+        };
         
-        const {result} = renderHook(() => useBuyNowContainerPage(props));
+        const { result } = renderHook(() => useBuyNowContainerPage(props));
+        const { openSection: firstOpenSection } = result.current;
 
-        expect(result.current.openSection).toBe('/');
+        act(() => result.current.navigateTo('/shipping'));
+        const { openSection: secondOpenSection } = result.current;
 
-        act(() => {
-            result.current.navigateTo('/shipping');
-        });
-        expect(result.current.openSection).toBe('/shipping');
+        act(() => result.current.navigateTo('/summary'));
+        const { openSection: thirdOpenSection } = result.current;
 
-        act(() => {
-            result.current.navigateTo('/summary');
-        });
-        expect(result.current.openSection).toBe('/summary');
-        act(() => {
-            result.current.navigateTo('/');
-        });
-        expect(result.current.openSection).toBe('/');
+        act(() => result.current.navigateTo('/'));
+        const { openSection: fourthOpenSection } = result.current;
+
+        expect(firstOpenSection).toBe('/');
+        expect(secondOpenSection).toBe('/shipping');
+        expect(thirdOpenSection).toBe('/summary');
+        expect(fourthOpenSection).toBe('/');
 
     });
     test('testing ResizeObserver', () => {
-        window = Object.assign(window, { 
-            innerWidth: 770
-        });
+        const testIndexRef = {current: {clientHeight: 100}};
+        const props: IUseBuyNowContainerPageProps = {
+            indexRef: testIndexRef as RefObject<HTMLElement>,
+            shippingRef: {current: null},
+            summaryRef: {current: null},
+        };
         
-        let {result} = renderHook(() => useBuyNowContainerPage(props));
+        const { result } = renderHook(() => useBuyNowContainerPage(props));
+        const { containerStyle: firstContainerStyle } = result.current;
 
-        act(() => {
-            //trigger a change in visible ref
-            result.current.navigateTo('/summary');
-        });
-        expect(result.current.containerStyle).toEqual({height: '0px', overflow: 'hidden'});
+        testIndexRef.current.clientHeight = 200;
+        act(triggerResize);
+        const { containerStyle: secondContainerStyle } = result.current;
 
-        act(() => {
-            //trigger a change in visible ref
-            result.current.navigateTo('/');
-        });
-        expect(result.current.containerStyle).toEqual({height: '100px', overflow: 'hidden'});
-
-        act(() => {
-            //trigger a change in visible ref
-            result.current.navigateTo('/shipping');
-        });
-        expect(result.current.containerStyle).toEqual({height: '100%', overflow: 'auto'});
+        expect(firstContainerStyle.height).toBe('100px');
+        expect(secondContainerStyle.height).toBe('200px');
     });
 });
