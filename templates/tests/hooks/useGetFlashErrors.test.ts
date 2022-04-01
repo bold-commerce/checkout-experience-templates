@@ -67,4 +67,15 @@ describe('Testing hook useGetFlashErrors', () => {
         expect(result.current).toStrictEqual(['TEST']);
         expect(getErrorTerm).toHaveBeenCalledTimes(one);
     });
+
+    test('rendering the hook with undefined errors', () => {
+        useGetErrorsMock.mockReturnValueOnce(((undefined as unknown) as IError[]));
+        useAppSelectorMock.mockReturnValueOnce(stateMock.appSetting.languageIso);
+        useGetSupportedLanguageDataMock.mockReturnValueOnce(stateMock.data.initial_data.supported_languages[0]);
+        getLanguageBlobMock.mockReturnValueOnce(null);
+
+        const {result} = renderHook(() => useGetFlashErrors());
+        expect(result.current).toStrictEqual([]);
+        expect(getErrorTerm).toHaveBeenCalledTimes(zero);
+    });
 });

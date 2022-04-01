@@ -2,7 +2,7 @@ import React, { ForwardedRef } from 'react';
 import ClassNames from 'classnames';
 import { useIndexPage } from 'src/hooks';
 import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
-import { BillingAddressCheckbox, CartItems, CloseableHeader, CondensedSection, CondensedShipping, ExpandableDiscount, Payment } from 'src/components';
+import { BillingAddressCheckbox, CartItems, CloseableHeader, CondensedSection, CondensedShipping, ExpandableDiscount, FlashError, Payment } from 'src/components';
 import { Price } from '@boldcommerce/stacks-ui';
 import { getTerm } from 'src/utils';
 import { Constants } from 'src/constants';
@@ -18,6 +18,7 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
     return (
         <div ref={ref} className={ClassNames('buy-now', props.show ? 'buy-now--open' : 'buy-now--closed')}>
             <CloseableHeader className='buy-now__index-header' title={websiteName} onClose={closeBuyNow} />
+            <FlashError />
             <div className='buy-now__products'>
                 <CartItems line_items={lineItems} />
             </div>
