@@ -3,7 +3,7 @@ import { stateMock } from 'src/mocks';
 import { useModal } from 'src/themes/buy-now/hooks/useModal';
 import {act} from '@testing-library/react';
 
-const mockDispatch = jest.fn();
+const mockDispatch = jest.fn(() => Promise.resolve());
 jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch
 }));
