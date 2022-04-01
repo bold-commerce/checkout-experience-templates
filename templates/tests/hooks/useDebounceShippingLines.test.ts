@@ -1,10 +1,10 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {act} from '@testing-library/react';
 import {useDebouncedShippingLines} from 'src/hooks';
-import {postShippingLines} from 'src/library';
+import {postShippingLines, validateShippingLine} from 'src/library';
 
 jest.setTimeout(10000);
-const mockDispatch = jest.fn();
+const mockDispatch = jest.fn(() => Promise.resolve());
 jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch
 }));
@@ -19,7 +19,8 @@ describe('Testing hook useDebouncedShippingLines', () => {
 
         act(result.current);
         await sleep(3000);
-        expect(mockDispatch).toBeCalledTimes(1);
+        expect(mockDispatch).toBeCalledTimes(2);
+        expect(mockDispatch).toBeCalledWith(validateShippingLine);
         expect(mockDispatch).toBeCalledWith(postShippingLines);
     });
 

@@ -5,7 +5,7 @@ import * as actionSetLoader from 'src/action/appAction';
 import {mocked} from 'ts-jest/utils';
 import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import * as handleErrorIfNeeded from 'src/utils/handleErrorIfNeeded';
-import {getSummaryStateFromLib} from 'src/library';
+import {getSummaryStateFromLib, postShippingLines} from 'src/library';
 import {useSendEvent} from 'src/hooks';
 
 jest.mock('@bold-commerce/checkout-frontend-library');
@@ -73,6 +73,7 @@ describe('testing shippingLines', () => {
         expect(setButtonDisableSpy).toHaveBeenCalledWith('shippingPageButton', false);
         expect(setLoaderSpy).toHaveBeenCalledWith('shippingLines', false);
         expect(mockDispatch).toHaveBeenCalledWith(getSummaryStateFromLibMock);
+        expect(mockDispatch).toHaveBeenCalledWith(postShippingLines);
     });
 
     test('tests calling get shipping lines with a success but empty shipping lines', async () => {

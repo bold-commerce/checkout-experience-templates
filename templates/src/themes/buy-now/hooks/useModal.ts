@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { actionGetInitialData, actionUpdateAppData } from 'src/action';
-import { initializeSession, setDefaultAddresses } from 'src/library';
+import { initializeSession, setDefaultAddresses, setDefaultShippingLines } from 'src/library';
 import { IInitializeEndpointData, IOrderInitialization } from 'src/types';
 import { getOrderInitialization } from 'src/utils/getOrderInitialization';
 import { IUseModal } from '../types';
@@ -10,7 +10,7 @@ export function useModal(): IUseModal {
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleOpenEvent = useCallback((e) => {
+    const handleOpenEvent = useCallback(async (e) => {
         const data: IInitializeEndpointData = e.detail;
         setIsOpen(true);
         document.body.style.position = 'fixed'; // prevent background scrolling
@@ -18,7 +18,9 @@ export function useModal(): IUseModal {
         dispatch(actionUpdateAppData(orderData));
         dispatch(initializeSession);
         dispatch(actionGetInitialData(window.location.hostname));
-        dispatch(setDefaultAddresses);
+        dispatch(setDefaultAddresses).then(() => {
+            dispatch(setDefaultShippingLines);
+        });
         
     }, [setIsOpen, dispatch]);
 
