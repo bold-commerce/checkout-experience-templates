@@ -5,7 +5,7 @@ import {IUseCustomerPageProp} from 'src/types';
 import {useDispatch} from 'react-redux';
 import {useGetButtonDisableVariable, useGetIsLoading} from 'src/hooks';
 import {useHistory} from 'react-router';
-import {callShippingLinesPageApi, validateShippingLine} from 'src/library';
+import {callShippingLinesPageApi} from 'src/library';
 import {sendEvents} from 'src/analytics';
 
 export function useShippingPage(): IUseCustomerPageProp{

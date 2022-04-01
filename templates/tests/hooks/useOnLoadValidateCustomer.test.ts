@@ -18,25 +18,32 @@ const useGetLoaderScreenVariableMock = mocked(useGetLoaderScreenVariable, true);
 const useGetValidVariableMock = mocked(useGetValidVariable, true);
 
 describe('Testing hook useOnLoadValidateCustomer', () => {
-    let addEventListenerSpy: jest.SpyInstance;
     const dispatchMock = jest.fn();
 
     beforeEach(() => {
         jest.clearAllMocks();
-        addEventListenerSpy = jest.spyOn(window, 'addEventListener');
         useDispatchMock.mockReturnValue(dispatchMock);
-        useGetLoaderScreenVariableMock.mockReturnValue(false);
-        useGetValidVariableMock.mockReturnValue(false);
     });
 
     test('render hook', async () => {
+        useGetLoaderScreenVariableMock.mockReturnValue(false);
+        useGetValidVariableMock.mockReturnValue(false);
+
         renderHook(() => useOnLoadValidateCustomer());
         expect(useGetLoaderScreenVariableMock).toHaveBeenCalledWith('shippingLines');
         expect(useGetValidVariableMock).toHaveBeenCalledWith('shippingAddress');
-        expect(addEventListenerSpy).toHaveBeenCalledTimes(5);
+
+        expect(validateCustomerOnLoadMock).toHaveBeenCalledTimes(1);
+    });
+
+    test('render hook without validateCustomer', async () => {
+        useGetLoaderScreenVariableMock.mockReturnValue(true);
+        useGetValidVariableMock.mockReturnValue(true);
+
+        renderHook(() => useOnLoadValidateCustomer());
+        expect(useGetLoaderScreenVariableMock).toHaveBeenCalledWith('shippingLines');
+        expect(useGetValidVariableMock).toHaveBeenCalledWith('shippingAddress');
 
         expect(validateCustomerOnLoadMock).toHaveBeenCalledTimes(0);
-        global.dispatchEvent(new Event('load'));
-        expect(validateCustomerOnLoadMock).toHaveBeenCalledTimes(1);
     });
 });
