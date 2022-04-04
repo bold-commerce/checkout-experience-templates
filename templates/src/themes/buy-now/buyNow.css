@@ -239,3 +239,38 @@ html, body, .buy-now__app {
 .buy-now .billing-address-checkbox h2 {
   margin-bottom: 0;
 }
+
+.overlay-container {
+  position:absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.buy-now__app #overlay, 
+.buy-now__app #overlay-inverted {
+  position:relative;
+  box-shadow: 0px 1px 8px 2px #00000010;
+  border-radius: 8px;
+  max-width: 480px;
+  padding: 32px;
+}
+
+.buy-now .thank-you__message {
+  padding-top: 16px;
+  border-top: 1px solid #D9D9D9;
+}
+
+.buy-now.thank-you{
+  gap: 16px;
+}
+
+.buy-now.thank-you > * {
+  margin: 0;
+}
+
+.buy-now .generic-message-section__section-title{
+  margin: 0;
+  padding-bottom: 16px;
+}

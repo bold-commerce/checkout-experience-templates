@@ -84,23 +84,40 @@
     width: 30px;
     height: 30px;
     position: relative;
-    border: 4px solid #C5C5C5;
-    animation: overlay__loader 2s infinite ease;
+    border-radius: 50%;
+    animation: overlay__loader 1s linear infinite;
 }
 
 .overlay__loader.hidden {
     display: none;
 }
 
-.overlay__loader-inner {
-    vertical-align: top;
-    display: inline-block;
-    width: 100%;
-    background-color: #C5C5C5;
-    animation: loader-inner 2s infinite ease-in;
+.overlay__loader::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: inherit;
+    background: conic-gradient(#FFFFFF, #BDBDBD);
+    z-index: -1;
 }
 
-@keyframes overlay__loader {
+.overlay__loader::after{
+    content: '';
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    bottom: 4px;
+    left: 4px;
+    border-radius: inherit;
+    background: #FFFFFF;
+    z-index: 1;
+
+}
+
+@keyframes overlay__loader-error {
     0% {
         transform: rotate(0deg);
     }
@@ -122,31 +139,19 @@
     }
 }
 
-@keyframes overlay__loader-inner {
+@keyframes overlay__loader {
     0% {
-        height: 0%;
-    }
-
-    25% {
-        height: 0%;
-    }
-
-    50% {
-        height: 100%;
-    }
-
-    75% {
-        height: 100%;
+        transform: rotate(0deg);
     }
 
     100% {
-        height: 0%;
+        transform: rotate(360deg);
     }
 }
 
 .overlay__icon-error-triangle{
     background-image: url('https://static.boldcommerce.com/images/checkout/experience/triangle-error-icon.svg');
-    animation: overlay__loader 2s infinite ease;
+    animation: overlay__loader-error 2s infinite ease;
     display: inline-block;
     position: relative;
     width: 48px;

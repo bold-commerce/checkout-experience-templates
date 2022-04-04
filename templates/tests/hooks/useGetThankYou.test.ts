@@ -26,6 +26,7 @@ describe('Testing hook useGetThankYou', () => {
             keepShopping: 'Keep shopping'
         },
         isGeneric: false,
+        websiteName: 'Shop Name'
     };
 
     beforeEach(() => {

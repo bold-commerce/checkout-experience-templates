@@ -336,6 +336,7 @@ export interface IUseGetThankYou {
     thankYouTitle: string;
     terms: Record<string, string>;
     isGeneric: boolean;
+    websiteName: string;
 }
 
 export interface IUseGetShippingLines {

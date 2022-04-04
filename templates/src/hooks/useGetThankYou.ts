@@ -6,6 +6,7 @@ import {IUseGetThankYou} from 'src/types';
 import {getTerm} from 'src/utils';
 
 export function useGetThankYou(): IUseGetThankYou {
+    const websiteName = window.shopName;
     const returnUrl = useCallback(() => { window.location.href = window.returnUrl; } , [window.returnUrl]);
     const customerInformation = useGetCustomerInfoData();
     const terms = {
@@ -22,5 +23,6 @@ export function useGetThankYou(): IUseGetThankYou {
         thankYouTitle,
         terms,
         isGeneric,
+        websiteName
     };
 }
