@@ -34,7 +34,7 @@ export function validateAddressFunction(type: string, address: Partial<IAddress>
             if (isObjectEquals(address, defaultAddressState) || !isObjectEquals(address, libraryAddress)) {
                 const isAddressFieldsValidated = validateAddressFields(validationField, type, dispatch);
 
-                const response: IApiReturnObject = await validateAddress(address.postal_code as string, address.province as string, address.province_code as string, address.country as string, address.country_code as string);
+                const response: IApiReturnObject = await validateAddress(address.postal_code as string, address.province as string, address.province_code as string, address.country as string, address.country_code as string, address.business_name as string);
                 handleErrorIfNeeded(response, dispatch, getState, type);
                 const isAddressValidated = response.success;
 
