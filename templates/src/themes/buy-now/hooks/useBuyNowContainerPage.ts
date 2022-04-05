@@ -1,13 +1,15 @@
-import { CSSProperties, RefObject, useCallback, useEffect, useState } from 'react';
+import { CSSProperties, RefObject, useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { sendEvents, sendPageView } from 'src/analytics';
 import { IUseBuyNowContainerPage, IUseBuyNowContainerPageProps } from 'src/themes/buy-now/types';
 
 export function useBuyNowContainerPage(props : IUseBuyNowContainerPageProps) : IUseBuyNowContainerPage {
-
-    const [openSection, setOpenSection] = useState('/');
-    const [openRef, setOpenRef] = useState<RefObject<HTMLElement>>(props.indexRef);
-    const [containerHeight, setContainerHeight] = useState('0px');
-    const [containerOverflow, setContainerOverflow] = useState('hidden');
+    const [ openSection, setOpenSection ] = useState('/');
+    const [ openRef, setOpenRef ] = useState<RefObject<HTMLElement>>(props.indexRef);
+    const [ containerStyle, setContainerStyle ] = useState<CSSProperties>({
+        height: '0px',
+        overflow: 'hidden',
+        maxHeight: '100%',
+    });
 
     const navigateTo = useCallback((page) => {
         setOpenSection(page);
@@ -30,34 +32,19 @@ export function useBuyNowContainerPage(props : IUseBuyNowContainerPageProps) : I
         sendEvents('Checkout', `Landed on buy now ${openSection} page`);
     }, [openSection]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const resizeObserver = new ResizeObserver(() => {
-            if(openRef.current && openRef.current.clientHeight){
-                if(openRef.current.parentElement && openRef.current.parentElement.clientHeight < openRef.current.clientHeight) {
-                    setContainerHeight('100%');
-                    setContainerOverflow('auto');
-                } else {
-                    setContainerHeight(`${openRef.current.clientHeight}px`);
-                    setContainerOverflow('hidden');
-                }
-            } else{
-                setContainerHeight('0px');
-            }
+            const height = (openRef.current as HTMLElement).clientHeight;            
+            setContainerStyle(ps => ({...ps, height: `${height}px`, overflow: 'auto'}));
         });
 
-        if(openRef.current){
-            resizeObserver.observe(openRef.current);
-        }
-        
-        return () => {
-            resizeObserver.disconnect();
-        };
+        openRef.current && resizeObserver.observe(openRef.current);
+        return resizeObserver.disconnect.bind(resizeObserver);
     }, [openRef]);
 
-    const containerStyle : CSSProperties = window.innerWidth > 769 ? {
-        height: containerHeight,
-        overflow: containerOverflow
-    } : {};
-
-    return {openSection, navigateTo, containerStyle};
+    return {
+        openSection,
+        navigateTo,
+        containerStyle,
+    };
 }
