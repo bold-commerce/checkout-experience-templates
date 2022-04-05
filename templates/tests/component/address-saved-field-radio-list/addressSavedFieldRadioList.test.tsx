@@ -4,7 +4,7 @@ import React from 'react';
 import {IAddress, ISavedAddressFieldRadioListProps, ISavedAddressHookProps} from 'src/types';
 import { initialDataMock } from 'src/mocks';
 import { useGetSavedAddressData, useGetShippingData } from 'src/hooks';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import { Constants } from 'src/constants';
 import { Provider } from 'react-redux';
 import * as Store from 'src/store';

@@ -1,5 +1,5 @@
 import {setPigiListener, sendUpdateLanguageAction} from '@bold-commerce/checkout-frontend-library';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {
     actionSetPigiDisplaySca,
     actionSetPigiIframeLoader,

@@ -1,6 +1,6 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {useCustomerPage, useGetButtonDisableVariable, useGetIsLoading} from 'src/hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
 import {getTerm} from 'src/utils';
 import {callCustomerPageApi} from 'src/library';

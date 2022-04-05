@@ -2,7 +2,7 @@ import {render} from '@testing-library/react';
 import {CustomerPage} from 'src/pages';
 import {IUseCustomerPageProp} from 'src/types';
 import React from 'react';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useCustomerPage, useGetShopUrlFromShopAlias} from 'src/hooks';
 import {createBrowserHistory} from 'history';
 import {scrollToElement} from 'src/utils';

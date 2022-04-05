@@ -1,5 +1,5 @@
 import {displayFatalErrorFromTranslation, getHook, handleErrorIfNeeded} from 'src/utils';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {HistoryLocationState} from 'react-router';
 import {apiErrors, httpStatusCode} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import SpyInstance = jest.SpyInstance;

@@ -1,6 +1,6 @@
 import {renderHook, act} from '@testing-library/react-hooks';
 import {useDispatch} from 'react-redux';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {counterNames} from 'src/constants';
 import {useGetPigiUrl} from 'src/hooks';
 import {getPaymentIframe} from 'src/library/paymentIframe';

@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import {SupportedLanguages,} from 'src/components';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useSupportedLanguages} from 'src/hooks';
 
 jest.mock('src/hooks/useSupportedLanguages');

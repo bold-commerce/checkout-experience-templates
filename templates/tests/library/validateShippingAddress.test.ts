@@ -1,4 +1,4 @@
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {generateTaxes, validateShippingAddress} from 'src/library';
 import {getShippingAddress} from '@bold-commerce/checkout-frontend-library';
 import * as validateAddressFunction from 'src/library/validateAddressFunction';

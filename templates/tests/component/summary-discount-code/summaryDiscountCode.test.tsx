@@ -1,7 +1,7 @@
 import {fireEvent, render} from '@testing-library/react';
 import {SummaryDiscountCode} from 'src/components';
 import {IApplicationStateDiscount, ISummaryDiscountLine} from 'src/types';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useSummaryDiscountCode, useSummaryDiscountLine} from 'src/hooks';
 import '@testing-library/jest-dom/extend-expect';
 

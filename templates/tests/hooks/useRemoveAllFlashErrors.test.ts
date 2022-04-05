@@ -2,7 +2,7 @@ import {counterNames, errorFields, errorSeverities, errorSubTypes, errorTypes} f
 import {renderHook} from '@testing-library/react-hooks';
 import {useGetErrors} from 'src/hooks';
 import {useRemoveAllFlashErrors} from 'src/hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {IError} from 'src/types';
 import * as AppActions from "src/action/appActionType";
 

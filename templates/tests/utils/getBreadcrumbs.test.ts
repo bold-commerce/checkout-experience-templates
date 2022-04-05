@@ -2,7 +2,7 @@ import {getBreadcrumbs, getTerm} from 'src/utils';
 import {BreadcrumbsStatus} from 'src/constants';
 import {renderHook} from '@testing-library/react-hooks';
 import {Action, Location} from 'history';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 
 const replaceMock = jest.fn();
 const historyMock = {

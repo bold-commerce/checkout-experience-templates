@@ -1,4 +1,4 @@
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {getClassesListSummary} from 'src/utils';
 import {render, screen} from '@testing-library/react';
 import {SummaryLineNonExpandable} from 'src/components';

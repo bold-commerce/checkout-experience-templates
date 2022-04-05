@@ -8,7 +8,7 @@ import {
 } from 'src/hooks';
 import {Constants} from 'src/constants';
 import {renderHook} from '@testing-library/react-hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 import {IAddressPostalCodeAndProvinceDataProps} from 'src/types';
 import {DebouncedState} from 'use-debounce/lib/useDebouncedCallback';

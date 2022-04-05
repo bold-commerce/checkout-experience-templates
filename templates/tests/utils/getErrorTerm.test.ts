@@ -1,7 +1,7 @@
 import {Constants} from 'src/constants';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {getErrorTerm, getLanguageBlob} from 'src/utils';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useGetSupportedLanguageData} from 'src/hooks';
 
 const store = stateMock;

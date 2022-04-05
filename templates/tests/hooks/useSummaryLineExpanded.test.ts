@@ -11,7 +11,7 @@ import {
     useSummaryLineExpanded
 } from 'src/hooks';
 import {act} from '@testing-library/react';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({

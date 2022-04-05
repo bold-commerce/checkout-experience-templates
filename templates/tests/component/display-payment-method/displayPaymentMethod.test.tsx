@@ -2,7 +2,7 @@ import {IApplicationStatePayment} from 'src/types';
 import {render, screen} from '@testing-library/react';
 import {DisplayPaymentMethod} from 'src/components';
 import {stateMock} from 'src/mocks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useGetPaymentType} from 'src/hooks';
 
 jest.mock('src/hooks/useGetPaymentType');

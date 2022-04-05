@@ -1,6 +1,6 @@
 import {render} from '@testing-library/react';
 import {Payment} from 'src/components';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useGetPigiUrl, useSetPigiListener, useGetLoaderScreenVariable, useGetPigiDisplaySca, useGetPaymentSection} from 'src/hooks';
 import {IUseGetPaymentSection} from 'src/types';
 

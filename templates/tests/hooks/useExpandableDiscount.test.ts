@@ -1,6 +1,6 @@
 import {useExpandableDiscount} from 'src/hooks';
 import {renderHook} from '@testing-library/react-hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 import { act } from 'react-dom/test-utils';
 

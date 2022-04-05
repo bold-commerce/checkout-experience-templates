@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import React from 'react';
 import { IBuyNowContainerPageProps, IUseShippingPage } from 'src/themes/buy-now/types';
 import { useShippingPage } from 'src/themes/buy-now/hooks';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 
 const store = Store.initializeStore();
 

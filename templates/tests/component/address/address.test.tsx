@@ -4,7 +4,7 @@ import {render, screen} from '@testing-library/react';
 import {Address} from 'src/components';
 import {Provider} from 'react-redux';
 import * as Store from 'src/store';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useDebouncedValidateAddress, useGetGeneralSettingCheckoutFields, useInitiateGenericAutocomplete} from 'src/hooks';
 
 

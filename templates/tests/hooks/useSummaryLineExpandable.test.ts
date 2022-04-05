@@ -2,7 +2,7 @@ import {ISummaryLineExpandable, IUseGetCurrencyInformation} from 'src/types';
 import {Constants} from 'src/constants';
 import {renderHook} from '@testing-library/react-hooks';
 import {useGetCurrencyInformation, useSummaryLineExpandable} from 'src/hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {getClassesListSummary, getFieldNamesSummary} from 'src/utils';
 import {act} from '@testing-library/react';
 

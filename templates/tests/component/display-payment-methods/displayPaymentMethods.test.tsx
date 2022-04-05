@@ -4,7 +4,7 @@ import {counterNames} from 'src/constants';
 import {useGetDisplayPaymentMethods} from 'src/hooks';
 import {initialDataMock} from 'src/mocks';
 import {IApplicationStatePayment} from 'src/types';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 
 jest.mock('src/hooks/useGetDisplayPaymentMethods');
 const useGetDisplayPaymentMethodsMock = mocked(useGetDisplayPaymentMethods, true);

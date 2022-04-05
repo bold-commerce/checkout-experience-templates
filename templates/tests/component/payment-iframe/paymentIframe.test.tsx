@@ -1,5 +1,5 @@
 import {render} from '@testing-library/react';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {PaymentIframe} from 'src/components';
 import {useGetPigiUrl, useSetPigiListener, useGetLoaderScreenVariable, useGetPigiDisplaySca} from 'src/hooks';
 

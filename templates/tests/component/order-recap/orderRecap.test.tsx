@@ -1,5 +1,5 @@
 import {render, screen} from '@testing-library/react';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 
 import {OrderRecap} from 'src/components';
 import {useGetDisplayPaymentMethods, useGetOrderRecap} from 'src/hooks';

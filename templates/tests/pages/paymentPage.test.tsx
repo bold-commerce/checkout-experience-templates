@@ -1,6 +1,6 @@
 import {IUsePaymentPage} from 'src/types';
 import {render} from '@testing-library/react';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useGetShopUrlFromShopAlias, usePaymentPage, useScrollToElementOnNavigation} from 'src/hooks';
 import {PaymentPage} from 'src/pages';
 import React from 'react';

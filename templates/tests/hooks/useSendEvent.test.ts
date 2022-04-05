@@ -1,5 +1,5 @@
 import {renderHook} from '@testing-library/react-hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {IEventType, IFrontEndEvent} from 'src/types';
 import {useGetTimestamp, useSendEvent} from 'src/hooks';
 import MockDate from 'mockdate';

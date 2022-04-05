@@ -1,5 +1,5 @@
 import { addressMock, stateMock } from 'src/mocks';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import { getTerm } from 'src/utils';
 import { useGetLineItems, useGetOrderTotal, useGetShippingData, useLogin, useIndexPage, useGetErrors } from 'src/hooks';
 import { renderHook } from '@testing-library/react-hooks';

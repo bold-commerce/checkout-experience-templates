@@ -1,4 +1,4 @@
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {getBreadcrumbs} from 'src/utils';
 import {counterNames} from 'src/constants';
 import {IBreadcrumb} from 'src/types';

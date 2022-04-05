@@ -3,7 +3,7 @@ import { IndexPage } from 'src/themes/buy-now/pages';
 import { IUseIndexPageProps } from 'src/types';
 import { addressMock } from 'src/mocks';
 import { getTerm } from 'src/utils';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import { useGetSelectShippingLine } from 'src/hooks';
 import * as useIndexPage from 'src/hooks/useIndexPage';
 import { IBuyNowContainerPageProps } from 'src/themes/buy-now/types';

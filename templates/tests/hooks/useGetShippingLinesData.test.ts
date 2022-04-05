@@ -1,6 +1,6 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {useGetAvailableShippingLines, useGetShippingLinesData, useCallApiAtOnEvents, useGetSelectShippingLine} from 'src/hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 import {stateMock} from 'src/mocks';
 import {act} from '@testing-library/react';

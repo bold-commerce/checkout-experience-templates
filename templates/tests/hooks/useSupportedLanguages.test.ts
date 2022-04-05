@@ -1,7 +1,7 @@
 import {initialDataMock} from 'src/mocks';
 import {renderHook} from '@testing-library/react-hooks';
 import {useGetAppSettingData, useSupportedLanguages} from 'src/hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 
 const mockDispatch = jest.fn();
 const store = {

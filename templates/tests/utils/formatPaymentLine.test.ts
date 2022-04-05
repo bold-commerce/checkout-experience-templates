@@ -1,6 +1,6 @@
 import {initialDataMock} from 'src/mocks';
 import {getTerm} from 'src/utils';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {formatPaymentLine} from 'src/utils';
 
 

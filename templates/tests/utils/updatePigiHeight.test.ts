@@ -1,4 +1,4 @@
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {updatePigiHeight, getPigiIframe} from 'src/utils';
 
 jest.mock('src/utils/getPigiIframe');

@@ -2,7 +2,7 @@ import {render} from '@testing-library/react';
 import {SummarySection} from 'src/components';
 import {IApplicationStateDiscount, ISummaryDiscountLine, IUseCartSummary} from 'src/types';
 import {useCartSummary, useSummaryDiscountCode, useSummaryDiscountLine} from 'src/hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 import {initialDataMock} from 'src/mocks';
 

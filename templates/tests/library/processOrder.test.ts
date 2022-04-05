@@ -1,6 +1,6 @@
 import {processOrder as processOrderLib} from '@bold-commerce/checkout-frontend-library';
 import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {HistoryLocationState} from 'react-router';
 import {actionShowHideOverlayContent, SHOW_HIDE_OVERLAY} from 'src/action';
 import {checkErrorAndProceedToNextPage, getApplicationStateFromLib, processOrder} from 'src/library';

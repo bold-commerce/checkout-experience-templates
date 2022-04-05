@@ -1,6 +1,6 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {useDispatch} from 'react-redux';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useWindowDimensions} from 'src/hooks';
 
 jest.mock('react-redux');

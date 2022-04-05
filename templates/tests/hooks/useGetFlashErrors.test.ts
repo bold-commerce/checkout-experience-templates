@@ -1,4 +1,4 @@
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useAppSelector, useGetErrors, useGetFlashErrors, useGetSupportedLanguageData} from 'src/hooks';
 import {stateMock} from 'src/mocks';
 import {getErrorTerm, getLanguageBlob} from 'src/utils';
