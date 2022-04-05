@@ -21,10 +21,11 @@ const useGetCloseBuyNowMock = mocked(useGetCloseBuyNow, true);
 
 describe('testing the thank you page', () => {
     const closeModalMock = jest.fn();
-
+    const shopUrl = 'test-shop.alias.com';
 
     beforeEach(() => {
         jest.clearAllMocks();
+        window.shopAlias = shopUrl;
         useGetCloseBuyNowMock.mockReturnValue(closeModalMock);
     });
 

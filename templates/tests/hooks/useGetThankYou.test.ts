@@ -31,7 +31,7 @@ describe('Testing hook useGetThankYou', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-        window.returnUrl = shopUrl;
+        window.shopAlias = shopUrl;
         getTermMock.mockReturnValue('');
         useGetCustomerInfoDataMock.mockReturnValue(initialDataMock.application_state.customer);
         useGetValidVariableMock.mockReturnValue(true);
@@ -53,7 +53,7 @@ describe('Testing hook useGetThankYou', () => {
 
         const {result} = renderHook(() => useGetThankYou());
         result.current.returnUrl();
-        expect(window.location.href).toEqual(shopUrl);
+        expect(window.location.href).toEqual(`https://${shopUrl}`);
         expect(result.current.thankYouTitle).toEqual(mockResponse.thankYouTitle);
         expect(result.current.terms).toStrictEqual(mockResponse.terms);
         expect(useGetCustomerInfoDataMock).toHaveBeenCalledTimes(1);
@@ -77,7 +77,7 @@ describe('Testing hook useGetThankYou', () => {
 
         const {result} = renderHook(() => useGetThankYou());
         result.current.returnUrl();
-        expect(window.location.href).toEqual(shopUrl);
+        expect(window.location.href).toEqual(`https://${shopUrl}`);
         expect(result.current.thankYouTitle).toEqual(newMockResponse.thankYouTitle);
         expect(result.current.terms).toStrictEqual(newMockResponse.terms);
         expect(useGetCustomerInfoDataMock).toHaveBeenCalledTimes(1);
@@ -100,7 +100,7 @@ describe('Testing hook useGetThankYou', () => {
 
         const {result} = renderHook(() => useGetThankYou());
         result.current.returnUrl();
-        expect(window.location.href).toEqual(shopUrl);
+        expect(window.location.href).toEqual(`https://${shopUrl}`);
         expect(result.current.thankYouTitle).toEqual(newMockResponse.thankYouTitle);
         expect(result.current.terms).toStrictEqual(newMockResponse.terms);
         expect(useGetCustomerInfoDataMock).toHaveBeenCalledTimes(1);
@@ -125,7 +125,7 @@ describe('Testing hook useGetThankYou', () => {
 
         const {result} = renderHook(() => useGetThankYou());
         result.current.returnUrl();
-        expect(window.location.href).toEqual(shopUrl);
+        expect(window.location.href).toEqual(`https://${shopUrl}`);
         expect(result.current.thankYouTitle).toEqual(newMockResponse.thankYouTitle);
         expect(result.current.terms).toStrictEqual(newMockResponse.terms);
         expect(useGetCustomerInfoDataMock).toHaveBeenCalledTimes(1);
