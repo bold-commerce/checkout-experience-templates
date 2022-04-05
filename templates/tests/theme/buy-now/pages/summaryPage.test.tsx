@@ -11,6 +11,7 @@ import { IUseIndexPageProps } from 'src/types';
 const store = Store.initializeStore();
 
 describe('testing SummaryPage', () => {
+    const useIndexPageSpy = jest.spyOn(useIndexPage, 'useIndexPage');
     const visibleProps: IBuyNowContainerPageProps = {
         show: true,
         navigateTo: jest.fn()
@@ -19,7 +20,7 @@ describe('testing SummaryPage', () => {
     const hiddenProps: IBuyNowContainerPageProps = {
         show: false,
         navigateTo: jest.fn()
-    }
+    };
 
     const propsFromHook: IUseIndexPageProps = {
         loginUrl: jest.fn(),
@@ -32,14 +33,14 @@ describe('testing SummaryPage', () => {
         shippingHeadingText: 'shipping',
         address: addressMock,
         paymentHeadingText: 'payment',
-        checkoutOnClick: jest.fn()
+        quantityDisabled: false,
+        checkoutOnClick: jest.fn(),
+        updateLineItemQuantity: jest.fn(),
     };
-
-    const useIndexPageSpy = jest.spyOn(useIndexPage, 'useIndexPage');
 
     beforeEach(() => {
         useIndexPageSpy.mockReturnValue(propsFromHook);
-    })
+    });
 
     test('Rendering hidden summaryPage properly', () => {
         const {container} = render(

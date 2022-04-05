@@ -8,7 +8,21 @@ import { Constants } from 'src/constants';
 import { IBuyNowContainerPageProps } from 'src/themes/buy-now/types';
 
 function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivElement>): React.ReactElement {
-    const { loginUrl, loginText, orderTotal, websiteName, lineItems, summaryHeadingText, email, shippingHeadingText, address, paymentHeadingText, checkoutOnClick } = useIndexPage();
+    const {
+        email,
+        address,
+        lineItems,
+        loginText,
+        orderTotal,
+        websiteName,
+        quantityDisabled,
+        summaryHeadingText,
+        shippingHeadingText,
+        paymentHeadingText,
+        loginUrl,
+        checkoutOnClick,
+        updateLineItemQuantity,
+    } = useIndexPage();
     const closeBuyNow = useGetCloseBuyNow();
     const login = <a onClick={loginUrl}>{loginText}</a>;
     const subTotal = <Price amount={orderTotal} />;
@@ -19,7 +33,7 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
             <CloseableHeader className='buy-now__index-header' title={websiteName} onClose={closeBuyNow} />
             <FlashError />
             <div className='buy-now__products'>
-                <CartItems line_items={lineItems} />
+                <CartItems line_items={lineItems} onUpdateQuantity={updateLineItemQuantity} quantityDisabled={quantityDisabled} />
             </div>
             <CondensedSection {...{ className: ClassNames(['buy-now__summary', 'buy-now__section']), navigationHeadingProps: { text: summaryHeadingText, secondary: subTotal, navigation: () => props.navigateTo('/summary') } }} />
             <CondensedSection {...{ className: ClassNames(['buy-now__customer', 'buy-now__section']), navigationHeadingProps: { text: email, secondary: login} }} />

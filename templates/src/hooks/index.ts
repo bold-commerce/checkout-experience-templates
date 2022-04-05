@@ -3,6 +3,7 @@ export * from './useBeforeUnload';
 export * from './useBillingAddress';
 export * from './useCartSummary';
 export * from './useCallApiAtOnEvents';
+export * from './useCartItem';
 export * from './useDebounceCustomer';
 export * from './useDebounceShippingLines';
 export * from './useDebounceValidateAddress';

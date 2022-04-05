@@ -160,10 +160,19 @@ export type ITaxesAmount = ISummarySection;
 
 export interface ICartItemsProps {
     line_items: Array<IApplicationStateLineItem>;
+    onUpdateQuantity?: (lineItemKey: string, quantity: number) => Promise<void>;
+    quantityDisabled?: boolean;
 }
 
 export interface ICartItemProps {
     line_item: IApplicationStateLineItem;
+    onUpdateQuantity?: (lineItemKey: string, quantity: number) => Promise<void>;
+    quantityDisabled?: boolean;
+}
+
+export interface ISemiControlledNumberInputProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+    value: number;
+    onCommit: (value: number) => void;
 }
 
 export interface IAddressHookProps{
@@ -323,7 +332,7 @@ export interface IUseCustomerPageProp extends IFooterProps{
     active: number
 }
 
-export interface IUseCartSummary{
+export interface IUseCartSummary {
     expandSummary: boolean;
     totals: number;
     showSummary: boolean;
@@ -337,6 +346,13 @@ export interface IUseGetThankYou {
     terms: Record<string, string>;
     isGeneric: boolean;
     websiteName: string;
+}
+
+export interface IUseGetCartItem {
+    quantity: number;
+    incrementQuantity: () => void;
+    decrementQuantity: () => void;
+    updateQuantity: (quantity: number) => void;
 }
 
 export interface IUseGetShippingLines {
@@ -423,7 +439,7 @@ export interface INavigationHeadingProps {
     secondary?: React.ReactElement;
 }
 
-export interface IUseIndexPageProps{
+export interface IUseIndexPageProps {
     loginUrl: (event) => void;
     loginText: string;
     orderTotal: number;
@@ -433,8 +449,10 @@ export interface IUseIndexPageProps{
     email: string;
     shippingHeadingText: string;
     address: IAddress;
-    paymentHeadingText: string
-    checkoutOnClick: () => Promise<void>
+    paymentHeadingText: string;
+    quantityDisabled: boolean;
+    checkoutOnClick: () => Promise<void>;
+    updateLineItemQuantity: (lineItemKey: string, qty: number) => Promise<void>;
 }
 
 export interface ICondensedSectionProps {

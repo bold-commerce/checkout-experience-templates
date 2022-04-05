@@ -4,12 +4,15 @@ import {ICartItemsProps} from 'src/types';
 
 export function CartItems(props: ICartItemsProps): React.ReactElement {
     return (
-        <ul className={'cart-items'}>
-            {
-                props.line_items.map((item, index: number) => {
-                    return (<CartItem key={`item-${index}`} line_item={item}></CartItem>);
-                })
-            }
+        <ul className="cart-items">
+            {props.line_items.map(item =>
+                <CartItem
+                    key={item.product_data.line_item_key}
+                    line_item={item}
+                    onUpdateQuantity={props.onUpdateQuantity}
+                    quantityDisabled={props.quantityDisabled}
+                />
+            )}
         </ul>
     );
 }
