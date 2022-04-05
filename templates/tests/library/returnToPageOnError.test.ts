@@ -1,4 +1,4 @@
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {HistoryLocationState} from 'react-router';
 import {actionSetLoaderAndDisableButton} from 'src/action';
 import {returnToPageOnError} from 'src/library';

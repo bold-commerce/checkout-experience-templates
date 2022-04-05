@@ -1,7 +1,7 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {act} from '@testing-library/react';
 import {useDebounceCustomer, useGetCustomerInfoData} from 'src/hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {stateMock} from 'src/mocks';
 import {updateCustomer, postGuestCustomer} from 'src/library';
 

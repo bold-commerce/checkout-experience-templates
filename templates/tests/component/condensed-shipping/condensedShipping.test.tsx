@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { CondensedShipping } from 'src/components';
 import { getTerm } from 'src/utils';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import { addressMock, emptyAddressMock } from 'src/mocks';
 import { useGetSelectShippingLine } from 'src/hooks';
 

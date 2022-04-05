@@ -2,7 +2,7 @@ import {sendAddPaymentAction, sendRefreshOrderAction} from '@bold-commerce/check
 import {renderHook} from '@testing-library/react-hooks';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {Constants} from 'src/constants';
 import {
     useGetButtonDisableVariable,

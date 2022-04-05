@@ -3,7 +3,7 @@ import React from 'react';
 import {CustomerSection} from 'src/components';
 import * as Store from 'src/store';
 import {Provider} from 'react-redux';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useGetShopUrlFromShopAlias} from 'src/hooks';
 
 const store = Store.initializeStore();

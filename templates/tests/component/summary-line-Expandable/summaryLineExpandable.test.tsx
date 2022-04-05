@@ -5,7 +5,7 @@ import {
     IUseSummaryLineExpanded
 } from 'src/types';
 import {Constants} from 'src/constants';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useSummaryLineExpandable, useSummaryLineExpanded} from 'src/hooks';
 import {SummaryLineExpandable} from 'src/components';
 import {render} from '@testing-library/react';

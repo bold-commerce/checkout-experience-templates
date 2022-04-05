@@ -1,7 +1,7 @@
 import {addGuestCustomer, getCustomer} from '@bold-commerce/checkout-frontend-library';
 import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import {Dispatch} from 'redux';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import * as handleErrorIfNeeded from 'src/utils/handleErrorIfNeeded';
 import {postGuestCustomer, updateCustomer} from 'src/library';
 import * as applicationState from 'src/library/applicationState';

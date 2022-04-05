@@ -8,7 +8,7 @@ import {
 import {initialDataMock} from 'src/mocks';
 import {Constants} from 'src/constants';
 import {renderHook} from '@testing-library/react-hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 
 const mockDispatch = jest.fn();

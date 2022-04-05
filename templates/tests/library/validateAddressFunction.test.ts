@@ -1,4 +1,4 @@
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {validateAddress} from '@bold-commerce/checkout-frontend-library';
 import {initialDataMock, stateMock} from 'src/mocks';
 import * as handleErrorIfNeeded from 'src/utils/handleErrorIfNeeded';

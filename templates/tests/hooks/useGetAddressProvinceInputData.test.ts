@@ -10,7 +10,7 @@ import {initialDataMock} from 'src/mocks';
 import {IAddressPostalCodeAndProvinceDataProps} from 'src/types';
 import map from 'lodash/map';
 import {getTerm} from 'src/utils';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({

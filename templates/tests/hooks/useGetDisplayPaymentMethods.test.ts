@@ -1,5 +1,5 @@
 import {renderHook} from '@testing-library/react-hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useGetDisplayPaymentMethods, useGetPayments} from 'src/hooks';
 import {initialDataMock} from 'src/mocks';
 import {getTerm} from 'src/utils';

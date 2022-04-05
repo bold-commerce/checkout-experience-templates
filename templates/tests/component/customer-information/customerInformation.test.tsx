@@ -1,4 +1,4 @@
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useIsUserAuthenticated} from 'src/hooks';
 import {render} from '@testing-library/react';
 import {CustomerInformation} from 'src/components';

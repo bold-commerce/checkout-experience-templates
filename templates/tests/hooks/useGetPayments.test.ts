@@ -2,7 +2,7 @@ import {renderHook} from '@testing-library/react-hooks';
 import {useGetPayments} from 'src/hooks';
 import {stateMock} from 'src/mocks/stateMock';
 import {useAppSelector} from 'src/hooks/rootHooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {counterNames} from 'src/constants';
 
 jest.mock('src/library/paymentIframe');

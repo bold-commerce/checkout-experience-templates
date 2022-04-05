@@ -2,7 +2,7 @@ import * as shippingLines from 'src/library';
 import {getShippingLines} from '@bold-commerce/checkout-frontend-library';
 import {stateMock} from 'src/mocks/stateMock';
 import * as actionSetLoader from 'src/action/appAction';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import * as handleErrorIfNeeded from 'src/utils/handleErrorIfNeeded';
 import {getSummaryStateFromLib, postShippingLines} from 'src/library';

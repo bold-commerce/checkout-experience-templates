@@ -4,7 +4,7 @@ import {
     updateShippingAddress
 } from '@bold-commerce/checkout-frontend-library';
 import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {actionSetAppStateValid, SET_VALID} from 'src/action';
 import {defaultAddressState} from 'src/constants';
 import {postShippingAddress, setShippingAddressAsValid} from 'src/library';

@@ -1,6 +1,6 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {useGetValidVariable, useOnLoadValidateCustomerAndShipping} from 'src/hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {validateCustomerAndShippingOnLoad} from 'src/library';
 import {useDispatch} from 'react-redux';
 

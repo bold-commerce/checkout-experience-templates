@@ -1,7 +1,7 @@
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
 import {getPaymentIframeUrl} from '@bold-commerce/checkout-frontend-library';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import {stateMock} from 'src/mocks/stateMock';
 import {getPaymentIframe, postCssStylingPigi} from 'src/library';

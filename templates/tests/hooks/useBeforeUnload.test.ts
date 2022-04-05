@@ -1,6 +1,6 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {useBeforeUnload} from 'src/hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {navigateDialog} from 'src/utils';
 
 jest.mock('src/utils/navigateDialog');

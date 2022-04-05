@@ -1,6 +1,6 @@
 import {initialize} from '@bold-commerce/checkout-frontend-library';
 import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {initializeSession} from 'src/library';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {displayFatalErrorFromTranslation, handleErrorIfNeeded} from 'src/utils';

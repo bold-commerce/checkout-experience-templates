@@ -1,6 +1,6 @@
 import {useGetDefaultSupportedLanguageIso, useSetDefaultLanguageIso} from 'src/hooks';
 import {renderHook} from '@testing-library/react-hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
 import {actionSetLanguageIso} from 'src/action';
 

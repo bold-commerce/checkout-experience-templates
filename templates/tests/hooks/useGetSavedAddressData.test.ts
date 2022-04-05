@@ -2,7 +2,7 @@ import {useCallApiAtOnEvents, useGetSavedAddressData, useGetSavedAddressOptions}
 import {Constants} from 'src/constants';
 import {renderHook} from '@testing-library/react-hooks';
 import {initialDataMock} from 'src/mocks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 import {IAddress} from 'src/types';
 

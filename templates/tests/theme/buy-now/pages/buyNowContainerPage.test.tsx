@@ -1,5 +1,5 @@
 import {render} from '@testing-library/react';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import {BuyNowContainerPage } from 'src/themes/buy-now/pages';
 import { useBuyNowContainerPage } from 'src/themes/buy-now/hooks';
 import React from 'react';

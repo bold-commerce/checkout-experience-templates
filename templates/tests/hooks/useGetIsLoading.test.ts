@@ -1,7 +1,7 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {useAppSelector, useGetIsLoading} from 'src/hooks';
 import {counterNames} from 'src/constants';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {stateMock} from 'src/mocks';
 
 jest.mock('src/hooks/rootHooks');

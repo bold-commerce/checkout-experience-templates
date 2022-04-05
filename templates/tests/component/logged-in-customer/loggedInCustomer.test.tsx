@@ -1,5 +1,5 @@
 import {render} from '@testing-library/react';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useLogin} from 'src/hooks';
 import {LoggedInCustomer} from 'src/components';
 import {getTerm} from 'src/utils';

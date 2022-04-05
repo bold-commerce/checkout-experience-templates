@@ -1,5 +1,5 @@
 import {fireEvent, render} from '@testing-library/react';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import { useExpandableDiscount, useSummaryDiscountCode, useSummaryDiscountLine} from 'src/hooks';
 import { ExpandableDiscount } from 'src/components';
 import { ISummaryDiscountLine } from 'src/types';

@@ -1,4 +1,4 @@
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {addDiscount, IAddDiscountResponse, IApiSuccessResponse} from '@bold-commerce/checkout-frontend-library';
 import {initialDataMock} from 'src/mocks';
 import {getSummaryStateFromLib, postDiscounts} from 'src/library';

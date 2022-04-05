@@ -1,7 +1,7 @@
 import {ISummaryDiscountLine, ISummaryDiscountLineProps} from 'src/types';
 import {fireEvent, render, screen} from '@testing-library/react';
 import {SummaryDiscountLine} from 'src/components';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useSummaryDiscountLine} from 'src/hooks';
 
 jest.mock('src/hooks/useSummaryDiscountLine');

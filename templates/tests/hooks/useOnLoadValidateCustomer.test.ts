@@ -4,7 +4,7 @@ import {
     useGetValidVariable,
     useOnLoadValidateCustomer
 } from 'src/hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {validateCustomerOnLoad} from 'src/library';
 import {useDispatch} from 'react-redux';
 

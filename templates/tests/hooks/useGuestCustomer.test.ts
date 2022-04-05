@@ -8,7 +8,7 @@ import {
     useGuestCustomer
 } from 'src/hooks';
 import {renderHook} from '@testing-library/react-hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 import {DebouncedState} from 'use-debounce/lib/useDebouncedCallback';
 

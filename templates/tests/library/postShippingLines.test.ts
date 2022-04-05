@@ -1,6 +1,6 @@
 import {changeShippingLine, getShipping, IShipping, IShippingLine} from '@bold-commerce/checkout-frontend-library';
 import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {stateMock} from 'src/mocks';
 import {getSummaryStateFromLib, postShippingLines} from 'src/library';
 import {handleErrorIfNeeded} from 'src/utils';

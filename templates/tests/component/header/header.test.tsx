@@ -1,6 +1,6 @@
 import {render} from '@testing-library/react';
 import {Header} from 'src/components';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useGetShopUrlFromShopAlias, useSupportedLanguages} from 'src/hooks';
 
 jest.mock('src/hooks/useSupportedLanguages');

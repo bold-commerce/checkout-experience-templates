@@ -3,7 +3,7 @@ import {ShippingLinesPage} from 'src/pages';
 import {IUseCustomerPageProp} from 'src/types';
 import React from 'react';
 import {initialDataMock} from 'src/mocks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useGetShopUrlFromShopAlias, useScrollToElementOnNavigation, useShippingPage} from 'src/hooks';
 
 const shopURL = 'https://some-shop-url.test.com';

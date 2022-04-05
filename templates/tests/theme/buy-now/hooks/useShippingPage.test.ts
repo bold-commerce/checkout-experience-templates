@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { useGetValidVariable } from 'src/hooks';
 import { useGetCloseBuyNow, useShippingPage } from 'src/themes/buy-now/hooks';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import { getTerm } from 'src/utils';
 
 jest.mock('src/hooks/useGetValidVariable');

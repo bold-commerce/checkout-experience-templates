@@ -1,4 +1,4 @@
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {validateShippingLine} from 'src/library';
 import {stateMock} from 'src/mocks/stateMock';
 import {actionAddError, actionRemoveErrorByType, actionSetAppStateValid} from 'src/action';

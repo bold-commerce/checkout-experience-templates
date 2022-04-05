@@ -3,7 +3,7 @@ import {CustomerPage} from 'src/pages';
 import {IFrontEndEvent, IUseCustomerPageProp} from 'src/types';
 import React from 'react';
 import {initialDataMock} from 'src/mocks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useCustomerPage, useGetShopUrlFromShopAlias, useScrollToElementOnNavigation, useSendEvent} from 'src/hooks';
 
 const shopURL = 'https://some-shop-url.test.com';

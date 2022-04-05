@@ -1,6 +1,6 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {useGetButtonDisableVariable, useGetIsLoading, useShippingPage} from 'src/hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
 import {getTerm} from 'src/utils';
 import {useHistory} from 'react-router';

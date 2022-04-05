@@ -1,6 +1,6 @@
 import {render} from '@testing-library/react';
 import {FlashError} from 'src/components';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useGetFlashErrors} from 'src/hooks';
 import {counterNames} from 'src/constants';
 

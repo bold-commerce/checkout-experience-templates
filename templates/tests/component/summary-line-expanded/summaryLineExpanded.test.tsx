@@ -1,7 +1,7 @@
 import {IPaymentsSummaryClasses, ISummaryLineExpanded, IUseSummaryLineExpanded} from 'src/types';
 import {fireEvent, render, screen} from '@testing-library/react';
 import {SummaryLineExpanded} from 'src/components';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useSummaryLineExpanded} from 'src/hooks';
 
 jest.mock('src/hooks/useSummaryLineExpanded');

@@ -4,7 +4,7 @@ import {renderHook} from '@testing-library/react-hooks';
 import {useGetIsLoading, useGetLoaderScreenVariable, useSummaryDiscountLine} from 'src/hooks';
 import {act} from '@testing-library/react';
 import {actionSetLoaderAndDisableButton} from 'src/action/appAction';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({

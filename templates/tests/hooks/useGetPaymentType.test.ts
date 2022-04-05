@@ -1,5 +1,5 @@
 import {getTerm, getCardDisplayFormat, getGiftCardDisplayFormat} from 'src/utils';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {IApplicationStatePayment, IDisplayPaymentMethod} from 'src/types';
 import {useGetPaymentType} from 'src/hooks';
 

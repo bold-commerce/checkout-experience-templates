@@ -1,7 +1,7 @@
 import {render} from '@testing-library/react';
 import React from 'react';
 import {Provider} from 'react-redux';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 
 import {
     useGetBillingData,

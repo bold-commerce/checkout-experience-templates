@@ -9,7 +9,7 @@ import {act} from '@testing-library/react';
 import * as customerAction from 'src/action/customerAction';
 import * as appAction from 'src/action/appAction';
 import { addressMock } from 'src/mocks';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 import { validateBillingAddress } from 'src/library';
 
 const mockDispatch = jest.fn();

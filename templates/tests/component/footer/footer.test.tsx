@@ -1,5 +1,5 @@
 import {render} from '@testing-library/react';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 
 import {Footer} from 'src/components';
 import {useGetContactUs, useGetFooterRights} from 'src/hooks';

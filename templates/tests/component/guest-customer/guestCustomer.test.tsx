@@ -1,5 +1,5 @@
 import {IUseGuestCustomer} from 'src/types';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {useGuestCustomer} from 'src/hooks';
 import {render} from '@testing-library/react';
 import {GuestCustomer} from 'src/components';

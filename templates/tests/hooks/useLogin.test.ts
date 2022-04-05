@@ -7,7 +7,7 @@ import {
     useGetGeneralSettingCheckoutFields,
     useLogin
 } from 'src/hooks';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {DebouncedState} from 'use-debounce/lib/useDebouncedCallback';
 
 const mockDispatch = jest.fn();
