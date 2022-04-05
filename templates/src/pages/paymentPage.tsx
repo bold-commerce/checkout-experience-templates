@@ -9,7 +9,7 @@ import {
 import {sendEvents, sendPageView} from 'src/analytics';
 
 export function PaymentPage(): React.ReactElement {
-    const {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading} = usePaymentPage();
+    const {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable} = usePaymentPage();
     useOnLoadValidateCustomerAndShipping();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
@@ -31,7 +31,7 @@ export function PaymentPage(): React.ReactElement {
                         backLinkOnClick={backLinkOnClick}
                         backLinkText={backLinkText}
                         nextButtonLoading={nextButtonLoading}
-                        nextButtonDisable={nextButtonLoading}
+                        nextButtonDisable={nextButtonDisable}
                         nextButtonText={nextButtonText}
                         nextButtonOnClick={nextButtonOnClick}/>
                 </div>

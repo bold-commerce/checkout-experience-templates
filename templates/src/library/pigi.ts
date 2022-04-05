@@ -1,6 +1,12 @@
 import {sendUpdateLanguageAction, setPigiListener} from '@bold-commerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
-import {actionSetPigiDisplaySca, actionSetPigiIframeLoader, actionShowHideOverlayContent} from 'src/action';
+import {
+    actionSetAppStateValid,
+    actionSetButtonDisable,
+    actionSetPigiDisplaySca,
+    actionSetPigiIframeLoader,
+    actionShowHideOverlayContent
+} from 'src/action';
 import {pigiHandleScaSteps, pigiPaymentTypes} from 'src/constants';
 import {displayOrderProcessingScreen, getUpdatedApplicationState, processOrder} from 'src/library';
 import {IOrderInitialization, IPigiResponsesPayload} from 'src/types';
@@ -18,7 +24,8 @@ export function handlePigiInitialized() {
         // Beginning of sending event to back-end
         useSendEvent('CheckoutExperiencePigiInitialized');
         // of sending event to back-end
-
+        dispatch(actionSetAppStateValid('pigi', true));
+        dispatch(actionSetButtonDisable('paymentPageButton', false));
         dispatch(actionSetPigiIframeLoader(false));
     };
 }

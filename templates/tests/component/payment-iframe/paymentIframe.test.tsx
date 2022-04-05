@@ -10,7 +10,7 @@ const useGetLoaderScreenVariableMock = mocked(useGetLoaderScreenVariable, true);
 const useGetPigiDisplayScaMock = mocked(useGetPigiDisplaySca, true);
 
 describe('Testing PaymentIframe component', () => {
-
+    const onLoad = jest.fn();
     beforeEach(() => {
         jest.resetAllMocks();
         useGetPigiUrlMock.mockReturnValue('');
@@ -19,7 +19,7 @@ describe('Testing PaymentIframe component', () => {
     });
 
     test('PaymentIframe Renders loaded', () => {
-        const {container} = render(<PaymentIframe/>);
+        const {container} = render(<PaymentIframe onLoad={onLoad}/>);
 
         expect(useGetPigiUrlMock).toHaveBeenCalledTimes(1);
         expect(useGetLoaderScreenVariableMock).toHaveBeenCalledTimes(1);
@@ -32,7 +32,7 @@ describe('Testing PaymentIframe component', () => {
 
     test('PaymentIframe Renders loading', () => {
         useGetLoaderScreenVariableMock.mockReturnValueOnce(true);
-        const {container} = render(<PaymentIframe/>);
+        const {container} = render(<PaymentIframe onLoad={onLoad}/>);
 
         expect(useGetPigiUrlMock).toHaveBeenCalledTimes(1);
         expect(useGetLoaderScreenVariableMock).toHaveBeenCalledTimes(1);
@@ -45,7 +45,7 @@ describe('Testing PaymentIframe component', () => {
 
     test('PaymentIframe Renders handling SCA', () => {
         useGetPigiDisplayScaMock.mockReturnValueOnce(true);
-        const {container} = render(<PaymentIframe/>);
+        const {container} = render(<PaymentIframe onLoad={onLoad}/>);
 
         expect(useGetPigiUrlMock).toHaveBeenCalledTimes(1);
         expect(useGetLoaderScreenVariableMock).toHaveBeenCalledTimes(1);

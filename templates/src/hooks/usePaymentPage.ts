@@ -1,5 +1,6 @@
 import {useDispatch} from 'react-redux';
 import {
+    useGetButtonDisableVariable,
     useGetDiscounts,
     useGetErrors,
     useGetIsLoading,
@@ -24,6 +25,7 @@ export function usePaymentPage(): IUsePaymentPage{
     const backLinkText = `< ${getTerm('return_to_shipping', Constants.PAYMENT_INFO)}`;
     const nextButtonText = getTerm('complete_order', Constants.PAYMENT_INFO);
     const nextButtonLoading = useGetIsLoading();
+    const nextButtonDisable = useGetButtonDisableVariable('paymentPageButton');
     const discounts = useGetDiscounts();
     const payments = useGetPayments();
     const taxes = useGetTaxes();
@@ -49,5 +51,5 @@ export function usePaymentPage(): IUsePaymentPage{
         }
     },[totals, history]);
 
-    return {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading};
+    return {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable};
 }

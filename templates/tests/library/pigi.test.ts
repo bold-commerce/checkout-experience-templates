@@ -67,7 +67,7 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
         await handlePigiInitializedThunk(dispatchMock).then(() => {
             expect(actionSetPigiIframeLoaderMock).toHaveBeenCalledTimes(1);
             expect(actionSetPigiIframeLoaderMock).toHaveBeenCalledWith(false);
-            expect(dispatchMock).toHaveBeenCalledTimes(1);
+            expect(dispatchMock).toHaveBeenCalledTimes(3);
             expect(dispatchMock).toHaveBeenCalledWith(actionMock);
             expect(useSendEventMock).toHaveBeenCalled();
         });

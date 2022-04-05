@@ -352,6 +352,8 @@ export interface IUseGetPaymentSection {
     isValidShippingLine: boolean;
     notValidText: string;
     fieldSectionText: string;
+    isValidPigiLoad: boolean;
+    onLoad: () => void;
 }
 
 export interface IUseGetOrderRecap {

@@ -5,6 +5,7 @@ import {useHistory} from 'react-router';
 import {mocked} from 'ts-jest/utils';
 import {Constants} from 'src/constants';
 import {
+    useGetButtonDisableVariable,
     useGetDiscounts,
     useGetErrors,
     useGetIsLoading, useGetLineItems,
@@ -22,6 +23,7 @@ jest.mock('react-redux');
 jest.mock('react-router');
 jest.mock('src/hooks/useGetErrors');
 jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/hooks/useGetButtonDisableVariable');
 jest.mock('src/hooks/useGetDiscounts');
 jest.mock('src/hooks/useGetPayments');
 jest.mock('src/hooks/useGetTaxes');
@@ -42,6 +44,8 @@ const processOrderMock = mocked(processOrder, true);
 const getTermMock = mocked(getTerm, true);
 const sendAddPaymentActionMock = mocked(sendAddPaymentAction, true);
 const sendRefreshOrderActionMock = mocked(sendRefreshOrderAction, true);
+const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true);
+
 
 describe('Testing hook usePaymentPage', () => {
     const dispatchMock = jest.fn();
@@ -52,6 +56,7 @@ describe('Testing hook usePaymentPage', () => {
     const backLinkTextExpectation = '< Back Link';
     const nextButtonTextMock = 'Next Button';
     const nextButtonLoadingMock = false;
+    const nextDisableVariableMock = false;
     const errorMock = {
         address_type: 'billing',
         sub_type: 'test_sub_type',
@@ -76,6 +81,7 @@ describe('Testing hook usePaymentPage', () => {
         useHistoryMock.mockReturnValue(historyMock);
         useGetErrorsMock.mockReturnValue([]);
         useGetIsLoadingMock.mockReturnValue(nextButtonLoadingMock);
+        useGetButtonDisableVariableMock.mockReturnValueOnce(nextDisableVariableMock);
         useGetTaxesMock.mockReturnValue(appState.taxes);
         useGetSelectShippingLineMock.mockReturnValue(selectedShippingLine);
         useGetLineItemsMock.mockReturnValue(appState.line_items);
@@ -105,6 +111,7 @@ describe('Testing hook usePaymentPage', () => {
         expect(result.current.backLinkText).toBe(backLinkTextExpectation);
         expect(result.current.nextButtonText).toBe(nextButtonTextMock);
         expect(result.current.nextButtonLoading).toBe(nextButtonLoadingMock);
+        expect(result.current.nextButtonDisable).toBe(nextDisableVariableMock);
 
         result.current.backLinkOnClick && result.current.backLinkOnClick(eventMock);
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
