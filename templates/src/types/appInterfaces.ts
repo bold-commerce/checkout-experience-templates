@@ -223,6 +223,7 @@ export interface IIsValid{
     updatedShippingAddress: boolean
     orderProcessed: boolean
     shippingLine: boolean
+    pigi: boolean
 }
 
 export interface IOrderInitialization {
@@ -304,4 +305,8 @@ export interface IFrontEndEvent {
 export interface IDisplayPaymentMethod {
     paymentMethodName: string,
     paymentMethodValue: string,
+}
+
+export interface IPaymentIframe {
+    onLoad: () => void;
 }

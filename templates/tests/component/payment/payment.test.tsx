@@ -16,6 +16,7 @@ describe('Testing Payment component', () => {
         loading: false,
         isValidAddress: true,
         isValidShippingLine: true,
+        isValidPigiLoad: true,
         notValidText: 'Not valid address',
         fieldSectionText: 'Payment method'
     } as IUseGetPaymentSection;
@@ -34,9 +35,6 @@ describe('Testing Payment component', () => {
         const {container} = render(<Payment/>);
 
         expect(useGetPaymentSectionMock).toHaveBeenCalledTimes(1);
-        expect(useSetPigiListenerMock).toHaveBeenCalledTimes(1);
-        expect(useGetPigiUrlMock).toHaveBeenCalledTimes(1);
-        expect(useGetLoaderScreenVariableMock).toHaveBeenCalledTimes(1);
         expect(container.getElementsByClassName('payment').length).toBe(1);
         expect(container.getElementsByClassName('payment__FieldSection').length).toBe(1);
         expect(container.getElementsByClassName('field-section__header').length).toBe(1);
@@ -54,9 +52,6 @@ describe('Testing Payment component', () => {
         const {container} = render(<Payment/>);
 
         expect(useGetPaymentSectionMock).toHaveBeenCalledTimes(1);
-        expect(useSetPigiListenerMock).toHaveBeenCalledTimes(1);
-        expect(useGetPigiUrlMock).toHaveBeenCalledTimes(1);
-        expect(useGetLoaderScreenVariableMock).toHaveBeenCalledTimes(1);
         expect(container.getElementsByClassName('payment').length).toBe(1);
         expect(container.getElementsByClassName('payment__FieldSection').length).toBe(1);
         expect(container.getElementsByClassName('field-section__header').length).toBe(1);

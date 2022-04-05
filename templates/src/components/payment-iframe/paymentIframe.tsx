@@ -2,8 +2,9 @@ import React from 'react';
 import {Constants} from 'src/constants';
 import {useGetLoaderScreenVariable, useGetPigiDisplaySca, useGetPigiUrl, useSetPigiListener} from 'src/hooks';
 import ClassNames from 'classnames';
+import {IPaymentIframe} from 'src/types';
 
-export function PaymentIframe(): React.ReactElement {
+export function PaymentIframe(props: IPaymentIframe): React.ReactElement {
     const pigiUrl = useGetPigiUrl();
     const loading = useGetLoaderScreenVariable('pigiIframe');
     const displaySca = useGetPigiDisplaySca();
@@ -24,6 +25,7 @@ export function PaymentIframe(): React.ReactElement {
             width="100%"
             scrolling={'no'}
             frameBorder={'0'}
+            onLoad={props.onLoad}
         />
     );
 }

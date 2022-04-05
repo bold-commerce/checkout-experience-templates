@@ -1,13 +1,27 @@
 import {renderHook} from '@testing-library/react-hooks';
-import {useGetPaymentSection} from 'src/hooks';
-import * as useGetLoaderScreenVariable from 'src/hooks/useGetLoaderScreenVariable';
-import * as useGetValidVariable from 'src/hooks/useGetValidVariable';
-import * as getTerm from 'src/utils/getTerm';
+import {useGetPaymentSection, useGetLoaderScreenVariable, useGetValidVariable} from 'src/hooks';
+import {getTerm} from 'src/utils';
+import {mocked} from 'ts-jest/utils';
+import {act} from '@testing-library/react';
+import {checkLoadPigiErrors} from 'src/library';
+jest.setTimeout(10000);
+const mockDispatch = jest.fn();
+
+jest.mock('react-redux', () => ({
+    useDispatch: () => mockDispatch
+}));
+jest.mock('src/hooks/useGetLoaderScreenVariable');
+jest.mock('src/hooks/useGetValidVariable');
+jest.mock('src/utils/getTerm');
+jest.mock('src/library/checkLoadPigiErrors');
+const useGetLoaderScreenVariableMock = mocked(useGetLoaderScreenVariable, true);
+const useGetValidVariableMock = mocked(useGetValidVariable, true);
+const getTermMock = mocked(getTerm, true);
+const checkLoadPigiErrorsMock = mocked(checkLoadPigiErrors, true);
 
 describe('Testing hook useGetPaymentSection', () => {
-    let useGetLoaderScreenVariableSpy: jest.SpyInstance;
-    let useGetValidVariableSpy: jest.SpyInstance;
-    let getTermSpy: jest.SpyInstance;
+    const sleep = (delay: number) =>
+        new Promise(resolve => setTimeout(resolve, delay));
     const dataArray = [
         {
             name: 'Test isValidAddress false, isValidShippingLine false, and isLoading false',
@@ -16,9 +30,10 @@ describe('Testing hook useGetPaymentSection', () => {
             validShippingLine: false,
             validTextParameter: 'testText1',
             fieldTextParameter: 'testText2',
+            pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
             getValidCalled: 2,
-            getTermCalled: 2
+            getTermCalled: 3
         },
         {
             name: 'Test isValidAddress true, isValidShippingLine true, and isLoading false',
@@ -27,9 +42,10 @@ describe('Testing hook useGetPaymentSection', () => {
             validShippingLine: true,
             validTextParameter: 'testText1',
             fieldTextParameter: 'testText2',
+            pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
             getValidCalled: 2,
-            getTermCalled: 2
+            getTermCalled: 3
         },
         {
             name: 'Test isValidAddress true, isValidShippingLine false, and isLoading false',
@@ -38,9 +54,10 @@ describe('Testing hook useGetPaymentSection', () => {
             validShippingLine: false,
             validTextParameter: 'testText1',
             fieldTextParameter: 'testText2',
+            pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
             getValidCalled: 2,
-            getTermCalled: 2
+            getTermCalled: 3
         },
         {
             name: 'Test isValidAddress false, isValidShippingLine true, and isLoading false',
@@ -49,9 +66,10 @@ describe('Testing hook useGetPaymentSection', () => {
             validShippingLine: true,
             validTextParameter: 'testText1',
             fieldTextParameter: 'testText2',
+            pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
             getValidCalled: 2,
-            getTermCalled: 2
+            getTermCalled: 3
         },
         {
             name: 'Test isValidAddress false, isValidShippingLine false,  and isLoading true',
@@ -60,9 +78,10 @@ describe('Testing hook useGetPaymentSection', () => {
             validShippingLine: false,
             validTextParameter: 'testText1',
             fieldTextParameter: 'testText2',
+            pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
             getValidCalled: 2,
-            getTermCalled: 2
+            getTermCalled: 3
         },
         {
             name: 'Test isValidAddress true, isValidShippingLine true, and isLoading true',
@@ -71,9 +90,10 @@ describe('Testing hook useGetPaymentSection', () => {
             validShippingLine: true,
             validTextParameter: 'testText1',
             fieldTextParameter: 'testText2',
+            pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
             getValidCalled: 2,
-            getTermCalled: 2
+            getTermCalled: 3
         },
         {
             name: 'Test isValidAddress true, isValidShippingLine false,  and isLoading true',
@@ -82,9 +102,10 @@ describe('Testing hook useGetPaymentSection', () => {
             validShippingLine: false,
             validTextParameter: 'testText1',
             fieldTextParameter: 'testText2',
+            pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
             getValidCalled: 2,
-            getTermCalled: 2
+            getTermCalled: 3
         },
         {
             name: 'Test isValidAddress false, isValidShippingLine true, and isLoading true',
@@ -93,17 +114,19 @@ describe('Testing hook useGetPaymentSection', () => {
             validShippingLine: true,
             validTextParameter: 'testText1',
             fieldTextParameter: 'testText2',
+            pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
             getValidCalled: 2,
-            getTermCalled: 2
+            getTermCalled: 3
         },
     ];
 
     beforeEach(() => {
         jest.resetAllMocks();
-        useGetLoaderScreenVariableSpy = jest.spyOn(useGetLoaderScreenVariable, 'useGetLoaderScreenVariable');
-        useGetValidVariableSpy = jest.spyOn(useGetValidVariable, 'useGetValidVariable');
-        getTermSpy = jest.spyOn(getTerm, 'getTerm');
+        checkLoadPigiErrorsMock.mockImplementation((func: () => void) => {
+            func();
+            return () => Promise.resolve();
+        });
     });
 
     test.each(dataArray)( '$name', async ({
@@ -112,25 +135,40 @@ describe('Testing hook useGetPaymentSection', () => {
         validShippingLine,
         validTextParameter,
         fieldTextParameter,
+        pigiErrorTextParameter,
         getLoaderCalled,
         getValidCalled,
         getTermCalled
     }) => {
-        useGetValidVariableSpy.mockReturnValueOnce(validAddress);
-        useGetValidVariableSpy.mockReturnValueOnce(validShippingLine);
-        useGetLoaderScreenVariableSpy.mockReturnValueOnce(loadingParameter);
-        getTermSpy.mockReturnValueOnce(validTextParameter).mockReturnValueOnce(fieldTextParameter);
+        useGetValidVariableMock.mockReturnValueOnce(validAddress);
+        useGetValidVariableMock.mockReturnValueOnce(validShippingLine);
+        useGetLoaderScreenVariableMock.mockReturnValueOnce(loadingParameter);
+        getTermMock.mockReturnValueOnce(validTextParameter).mockReturnValueOnce(fieldTextParameter).mockReturnValueOnce(pigiErrorTextParameter);
 
         const {result} = renderHook(() => useGetPaymentSection());
         const hookResult = result.current;
 
-        expect(useGetLoaderScreenVariableSpy).toHaveBeenCalledTimes(getLoaderCalled);
-        expect(useGetValidVariableSpy).toHaveBeenCalledTimes(getValidCalled);
-        expect(getTermSpy).toHaveBeenCalledTimes(getTermCalled);
+        expect(useGetLoaderScreenVariableMock).toHaveBeenCalledTimes(getLoaderCalled);
+        expect(useGetValidVariableMock).toHaveBeenCalledTimes(getValidCalled);
+        expect(getTermMock).toHaveBeenCalledTimes(getTermCalled);
         expect(hookResult.loading).toBe(loadingParameter);
         expect(hookResult.isValidAddress).toBe(validAddress);
         expect(hookResult.isValidShippingLine).toBe(validShippingLine);
         expect(hookResult.notValidText).toBe(validTextParameter);
         expect(hookResult.fieldSectionText).toBe(fieldTextParameter);
     });
+
+    test('validating the onLoad function', async () => {
+        useGetValidVariableMock.mockReturnValueOnce(true);
+        useGetValidVariableMock.mockReturnValueOnce(true);
+        useGetLoaderScreenVariableMock.mockReturnValueOnce(false);
+        getTermMock.mockReturnValueOnce('Text1').mockReturnValueOnce('Text2').mockReturnValueOnce('Text3');
+
+        const {result} = renderHook(() => useGetPaymentSection());
+        expect(mockDispatch).toHaveBeenCalledTimes(1);
+        act(result.current.onLoad);
+        await sleep(1000);
+        expect(mockDispatch).toHaveBeenCalledTimes(2);
+    });
 });
+
