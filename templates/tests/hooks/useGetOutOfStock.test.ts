@@ -15,14 +15,17 @@ describe('Testing hook useGetOutOfStock', () => {
         returnUrl: jest.fn(),
         terms: {
             returnToCart: 'Return to cart',
+            returnToProduct: 'Return to product',
             outOfStockHeader: 'Inventory Issue',
             outOfStockBody: 'Inventory Issue body'
-        }
+        },
+        websiteName: 'websiteName',
     };
 
     beforeEach(() => {
         jest.clearAllMocks();
         window.returnUrl = shopUrl;
+        window.shopName = mockResponse.websiteName;
         getTermMock.mockReturnValue('');
 
         window = Object.create(window);
@@ -36,6 +39,7 @@ describe('Testing hook useGetOutOfStock', () => {
     test('rendering the hook properly', () => {
         getTermMock
             .mockReturnValueOnce(mockResponse.terms.returnToCart)
+            .mockReturnValueOnce(mockResponse.terms.returnToProduct)
             .mockReturnValueOnce(mockResponse.terms.outOfStockHeader)
             .mockReturnValueOnce(mockResponse.terms.outOfStockBody);
 
@@ -44,8 +48,10 @@ describe('Testing hook useGetOutOfStock', () => {
         result.current.returnUrl();
         expect(window.location.href).toEqual(shopUrl);
         expect(getTermMock).toHaveBeenCalledWith('return_to_cart', Constants.CUSTOMER_INFO);
+        expect(getTermMock).toHaveBeenCalledWith('buy_now_return_to_product', Constants.CUSTOM);
         expect(getTermMock).toHaveBeenCalledWith('inventory_issues', Constants.OUT_OF_STOCK_INFO);
         expect(getTermMock).toHaveBeenCalledWith('unavailable_products_message', Constants.OUT_OF_STOCK_INFO);
         expect(result.current.terms).toStrictEqual(mockResponse.terms);
+        expect(result.current.websiteName).toBe('websiteName')
     });
 });

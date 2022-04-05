@@ -365,6 +365,7 @@ export interface IUseGetOrderRecap {
 export interface IUseOutOfStock {
     returnUrl: () => void;
     terms: Record<string, string>;
+    websiteName: string;
 }
 
 export interface IUseSessionExpired {
