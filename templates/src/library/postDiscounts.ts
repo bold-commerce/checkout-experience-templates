@@ -8,7 +8,14 @@ import {
 } from '@bold-commerce/checkout-frontend-library';
 import {handleErrorIfNeeded} from 'src/utils';
 import {getSummaryStateFromLib} from 'src/library';
-import {actionAddDiscount, actionSetLoader, actionUpdateDiscountCodeText} from 'src/action';
+import {
+    actionAddDiscount,
+    actionRemoveErrorByField,
+    actionRemoveErrorByTypeAndCode,
+    actionSetLoader,
+    actionUpdateDiscountCodeText
+} from 'src/action';
+import {errorFields, errorTypes} from 'src/constants';
 
 export function postDiscounts(code: string) {
     return async function postDiscountsThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
@@ -23,6 +30,8 @@ export function postDiscounts(code: string) {
                 await dispatch(getSummaryStateFromLib);
                 dispatch(actionAddDiscount(discount.code, discount.value, discount.text));
                 dispatch(actionUpdateDiscountCodeText(''));
+                dispatch(actionRemoveErrorByField(errorFields.discounts));
+                dispatch(actionRemoveErrorByTypeAndCode(errorTypes.discount_code_validation, '02'));
             }
         }
 

@@ -56,7 +56,7 @@ describe('testing post Discount Thunk Action', () => {
             expect(addDiscountMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(localReturnObject, dispatchMock, getStateMock);
-            expect(dispatchMock).toHaveBeenCalledTimes(4);
+            expect(dispatchMock).toHaveBeenCalledTimes(6);
             expect(dispatchMock).toBeCalledWith(getSummaryStateFromLibMock);
         });
     });
