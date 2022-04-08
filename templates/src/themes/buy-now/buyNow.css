@@ -30,6 +30,7 @@ html, body, .buy-now__app {
 .buy-now{
   padding: 16px 32px;
   transition: all 0.6s;
+  width: 100%;
 }
 
 .buy-now__secondary{
