@@ -11,6 +11,7 @@ import {
     handlePigiPaymentAdded,
     handlePigiRefreshOrder,
     handlePigiSca,
+    removePigiListenerInLibrary,
     setPigiListenerInLibrary
 } from 'src/library';
 
@@ -26,6 +27,7 @@ const handlePigiPaymentAddedMock = mocked(handlePigiPaymentAdded, true);
 const handlePigiRefreshOrderMock = mocked(handlePigiRefreshOrder, true);
 const handlePigiScaMock = mocked(handlePigiSca, true);
 const setPigiListenerInLibraryMock = mocked(setPigiListenerInLibrary, true);
+const removePigiListenerInLibraryMock = mocked(removePigiListenerInLibrary, true);
 
 describe('Testing hook useSetPigiListener', () => {
     const dispatchMock = jest.fn();
@@ -47,6 +49,9 @@ describe('Testing hook useSetPigiListener', () => {
         expect(useDispatchMock).toHaveBeenCalledTimes(2);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(setPigiListenerInLibraryMock).toHaveBeenCalledTimes(1);
+
+        renderHookResult.unmount();
+        expect(removePigiListenerInLibraryMock).toHaveBeenCalledTimes(1);
     });
 
     test('Trigger PIGI_INITIALIZED event', async () => {

@@ -1,4 +1,4 @@
-import {setPigiListener, sendUpdateLanguageAction} from '@bold-commerce/checkout-frontend-library';
+import {setPigiListener, removePigiListener, sendUpdateLanguageAction} from '@bold-commerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {
     actionSetPigiDisplaySca,
@@ -17,6 +17,7 @@ import {
     handlePigiSca,
     processOrder,
     setPigiListenerInLibrary,
+    removePigiListenerInLibrary,
     updatePigiLanguage
 } from 'src/library';
 import {stateMock} from 'src/mocks';
@@ -30,6 +31,7 @@ jest.mock('src/library/processOrder');
 jest.mock('src/utils');
 jest.mock('src/hooks/useSendEvent');
 const setPigiListenerMock = mocked(setPigiListener, true);
+const removePigiListenerMock = mocked(removePigiListener, true);
 const sendUpdateLanguageActionMock = mocked(sendUpdateLanguageAction, true);
 const actionSetPigiDisplayScaMock = mocked(actionSetPigiDisplaySca, true);
 const actionSetPigiIframeLoaderMock = mocked(actionSetPigiIframeLoader, true);
@@ -61,6 +63,13 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
             expect(setPigiListenerMock).toHaveBeenCalledTimes(1);
         });
     });
+
+    test('removePigiListener called', async () => {
+        const removePigiListenerThunk = await removePigiListenerInLibrary();
+        await removePigiListenerThunk().then(() => {
+            expect(removePigiListenerMock).toHaveBeenCalledTimes(1);
+        })
+    })
 
     test('handlePigiInitialized called', async () => {
         const handlePigiInitializedThunk = await handlePigiInitialized();

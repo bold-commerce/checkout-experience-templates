@@ -1,4 +1,4 @@
-import {sendUpdateLanguageAction, setPigiListener} from '@bold-commerce/checkout-frontend-library';
+import {sendUpdateLanguageAction, setPigiListener, removePigiListener} from '@bold-commerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
 import {
     actionSetAppStateValid,
@@ -16,6 +16,12 @@ import {useSendEvent} from 'src/hooks';
 export function setPigiListenerInLibrary(frameId: string, callbackEvent: (evt: Event) => void) {
     return async function setPigiListenerThunk(): Promise<void> {
         await setPigiListener(frameId, callbackEvent);
+    };
+}
+
+export function removePigiListenerInLibrary(){
+    return async function setPigiListenerThunk(): Promise<void> {
+        await removePigiListener();
     };
 }
 
