@@ -10,6 +10,7 @@ import {
     handlePigiPaymentAdded,
     handlePigiRefreshOrder,
     handlePigiSca,
+    removePigiListenerInLibrary,
     setPigiListenerInLibrary,
     updatePigiLanguage
 } from 'src/library';
@@ -47,5 +48,8 @@ export function useSetPigiListener(): void {
     };
     useEffect(() => {
         dispatch(setPigiListenerInLibrary(Constants.PIGI_IFRAME, handlePigiMessage));
+        return () => {
+            dispatch(removePigiListenerInLibrary());
+        };
     }, []);
 }
