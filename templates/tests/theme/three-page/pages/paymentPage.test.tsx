@@ -1,10 +1,11 @@
 import {IUsePaymentPage} from 'src/types';
 import {render} from '@testing-library/react';
 import {mocked} from 'jest-mock';
-import {useGetShopUrlFromShopAlias, usePaymentPage, useScrollToElementOnNavigation} from 'src/hooks';
-import {PaymentPage} from 'src/pages';
+import {useGetShopUrlFromShopAlias, useScrollToElementOnNavigation} from 'src/hooks';
+import {PaymentPage} from 'src/themes/three-page/pages';
 import React from 'react';
 import {initialDataMock} from 'src/mocks';
+import {usePaymentPage} from 'src/themes/three-page/hooks';
 
 const shopURL = 'https://some-shop-url.test.com';
 const store = {
@@ -21,7 +22,7 @@ jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch
 }));
 
-jest.mock('src/hooks/usePaymentPage');
+jest.mock('src/themes/three-page/hooks/usePaymentPage');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useScrollToElementOnNavigation');
 mocked(useScrollToElementOnNavigation, true);

@@ -1,7 +1,8 @@
 import { addressMock, stateMock } from 'src/mocks';
 import { mocked } from 'jest-mock';
 import { getTerm } from 'src/utils';
-import { useGetLineItems, useGetOrderTotal, useGetShippingData, useLogin, useIndexPage, useGetErrors } from 'src/hooks';
+import { useGetLineItems, useGetOrderTotal, useGetShippingData, useLogin, useGetErrors } from 'src/hooks';
+import {useIndexPage} from 'src/themes/buy-now/hooks';
 import { renderHook } from '@testing-library/react-hooks';
 import { displayOrderProcessingScreen, processOrder } from 'src/library';
 import { useDispatch } from 'react-redux';
@@ -43,7 +44,7 @@ describe('testing hook useIndexPage', () => {
 
     const sendRefreshOrderActionAsyncSpy = jest.spyOn(sendRefreshOrderAction, 'sendRefreshOrderActionAsync');
     const sendAddPaymentActionAsyncSpy = jest.spyOn(sendAddPaymentAction, 'sendAddPaymentActionAsync');
-    
+
     const errorMock = {
         address_type: 'billing',
         sub_type: 'test_sub_type',
@@ -61,12 +62,12 @@ describe('testing hook useIndexPage', () => {
         useGetShippingDataMock.mockReturnValue(addressMock);
         useDispatchMock.mockReturnValue(dispatchMock);
         processOrderMock.mockReturnValue(processOrderThunkMock);
-    })
+    });
 
     test('test the hook properly with no errors in array', async () => {
         useGetOrderTotalMock.mockReturnValue(9999);
         useGetErrorsMock.mockReturnValue([]);
-        
+
         const {result} = renderHook(() => useIndexPage());
         const hookResult = result.current;
         expect(hookResult.loginText).toBe(getTermValue);
@@ -90,7 +91,7 @@ describe('testing hook useIndexPage', () => {
     test('test the hook properly with errors in array', async () => {
         useGetOrderTotalMock.mockReturnValue(9999);
         useGetErrorsMock.mockReturnValue([errorMock]);
-        
+
         const {result} = renderHook(() => useIndexPage());
         const hookResult = result.current;
 
@@ -105,7 +106,7 @@ describe('testing hook useIndexPage', () => {
     test('test the hook properly with zero order total', async () => {
         useGetOrderTotalMock.mockReturnValue(0);
         useGetErrorsMock.mockReturnValue([]);
-        
+
         const {result} = renderHook(() => useIndexPage());
         const hookResult = result.current;
 

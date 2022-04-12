@@ -1,9 +1,10 @@
 import {render} from '@testing-library/react';
-import {CustomerPage} from 'src/pages';
+import {CustomerPage} from 'src/themes/three-page/pages';
+import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {IUseCustomerPageProp} from 'src/types';
 import React from 'react';
 import {mocked} from 'jest-mock';
-import {useCustomerPage, useGetShopUrlFromShopAlias} from 'src/hooks';
+import {useGetShopUrlFromShopAlias} from 'src/hooks';
 import {createBrowserHistory} from 'history';
 import {scrollToElement} from 'src/utils';
 import {Router} from 'react-router';
@@ -23,7 +24,7 @@ jest.mock('react-redux', () => ({
     useSelector: jest.fn().mockImplementation(func => func(store)),
     useDispatch: () => mockDispatch
 }));
-jest.mock('src/hooks/useCustomerPage');
+jest.mock('src/themes/three-page/hooks/useCustomerPage');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/utils/scrollToElement');
 const scrollToElementMock = mocked(scrollToElement, true);

@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import { addressMock } from 'src/mocks';
 import React from 'react';
 import { IBuyNowContainerPageProps } from 'src/themes/buy-now/types';
-import * as useIndexPage from 'src/hooks/useIndexPage';
+import * as useIndexPage from 'src/themes/buy-now/hooks/useIndexPage';
 import { IUseIndexPageProps } from 'src/types';
 
 const store = Store.initializeStore();
@@ -34,14 +34,14 @@ describe('testing SummaryPage', () => {
         paymentHeadingText: 'payment',
         checkoutOnClick: jest.fn()
     };
-    
+
     const useIndexPageSpy = jest.spyOn(useIndexPage, 'useIndexPage');
 
     beforeEach(() => {
         useIndexPageSpy.mockReturnValue(propsFromHook);
     })
 
-    test('Rendering hidden summaryPage properly', () => { 
+    test('Rendering hidden summaryPage properly', () => {
         const {container} = render(
             <Provider store={store}>
                 <SummaryPage {...hiddenProps}/>
@@ -73,7 +73,7 @@ describe('testing SummaryPage', () => {
                 <SummaryPage {...visibleProps}/>
             </Provider>
         );
-        
+
         const link = screen.getByTestId('navigation');
         fireEvent.click(link);
 
@@ -88,7 +88,7 @@ describe('testing SummaryPage', () => {
                 <SummaryPage {...visibleProps}/>
             </Provider>
         );
-        
+
         const link = screen.getByTestId('complete_order');
         fireEvent.click(link);
 

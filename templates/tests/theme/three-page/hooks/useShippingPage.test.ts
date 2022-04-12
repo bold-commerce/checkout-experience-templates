@@ -1,10 +1,11 @@
 import {renderHook} from '@testing-library/react-hooks';
-import {useGetButtonDisableVariable, useGetIsLoading, useShippingPage} from 'src/hooks';
+import {useGetButtonDisableVariable, useGetIsLoading} from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
 import {getTerm} from 'src/utils';
 import {useHistory} from 'react-router';
 import {callShippingLinesPageApi} from 'src/library';
+import {useShippingPage} from 'src/themes/three-page/hooks';
 
 jest.mock('react-redux');
 jest.mock('react-router');

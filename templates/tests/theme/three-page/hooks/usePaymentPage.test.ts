@@ -11,9 +11,9 @@ import {
     useGetIsLoading, useGetLineItems,
     useGetPayments,
     useGetSelectShippingLine,
-    useGetTaxes,
-    usePaymentPage
+    useGetTaxes
 } from 'src/hooks';
+import {usePaymentPage} from 'src/themes/three-page/hooks';
 import {displayOrderProcessingScreen, processOrder} from 'src/library';
 import {getCheckoutUrl, getTerm} from 'src/utils';
 import {stateMock} from 'src/mocks';

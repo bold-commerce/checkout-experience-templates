@@ -7,7 +7,8 @@ import {
 } from 'src/hooks';
 import {BrowserRouter, Route} from 'react-router-dom';
 import {Switch} from 'react-router';
-import {CustomerPage, PaymentPage, ShippingLinesPage, ThankYouPage, OutOfStockPage, SessionExpiredPage} from 'src/pages';
+import {ThankYouPage, OutOfStockPage, SessionExpiredPage} from 'src/pages';
+import {CustomerPage, PaymentPage, ShippingLinesPage} from 'src/themes/three-page/pages';
 import 'public/app.css';
 import {Overlay, StandaloneHooks} from 'src/components';
 import {actionSetDefaultCustomerAcceptMarketing} from 'src/action';
