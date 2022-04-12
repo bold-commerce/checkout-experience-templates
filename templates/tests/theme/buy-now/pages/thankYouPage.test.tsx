@@ -4,6 +4,7 @@ import { ThankYouPage } from 'src/themes/buy-now/pages';
 import { initialDataMock } from 'src/mocks';
 import { mocked } from 'jest-mock';
 import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
+import * as analytics from 'src/analytics/analytics';
 
 const store = {
     data: initialDataMock,
@@ -22,11 +23,15 @@ const useGetCloseBuyNowMock = mocked(useGetCloseBuyNow, true);
 describe('testing the thank you page', () => {
     const closeModalMock = jest.fn();
     const shopUrl = 'test-shop.alias.com';
+    let sendPageViewSpy: jest.SpyInstance;
+    let sendEventsSpy: jest.SpyInstance;
 
     beforeEach(() => {
         jest.clearAllMocks();
         window.shopAlias = shopUrl;
         useGetCloseBuyNowMock.mockReturnValue(closeModalMock);
+        sendPageViewSpy = jest.spyOn(analytics, 'sendPageView');
+        sendEventsSpy = jest.spyOn(analytics, 'sendEvents');
     });
 
     test('render thank you page properly', () => {
@@ -38,6 +43,9 @@ describe('testing the thank you page', () => {
         expect(container.getElementsByClassName('thank-you').length).toBe(1);
         expect(container.getElementsByClassName('thank-you__message').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__checkout-button').length).toBe(1);
+
+        expect(sendPageViewSpy).toHaveBeenCalled();
+        expect(sendEventsSpy).toHaveBeenCalled();
     });
 
     test('test the continue shopping button', () => {

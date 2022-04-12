@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { sendEvents, sendPageView } from 'src/analytics';
 import { Footer, GenericMessageSection, Header } from 'src/components';
 import { Constants } from 'src/constants';
 import { ISessionExpiredPageProps } from 'src/themes/buy-now/types';
@@ -7,6 +8,11 @@ import { getErrorTerm } from 'src/utils';
 export function SessionExpiredPage(props: ISessionExpiredPageProps): React.ReactElement {
     const { closeModal } = props;
     const sessionExpiredHeader = getErrorTerm('session_expired', Constants.GENERIC_ERROR_INFO);
+    
+    useEffect(() => {
+        sendPageView('/session-expired');
+        sendEvents('Checkout', 'Landed on buy now /session-expired page');  
+    }, []);
     
     return (
         <div className="checkout-experience-container">

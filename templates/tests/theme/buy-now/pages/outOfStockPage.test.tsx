@@ -4,6 +4,7 @@ import { OutOfStockPage } from 'src/themes/buy-now/pages';
 import { initialDataMock } from 'src/mocks';
 import { mocked } from 'jest-mock';
 import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
+import * as analytics from 'src/analytics/analytics';
 
 const store = {
     data: initialDataMock,
@@ -21,11 +22,15 @@ const useGetCloseBuyNowMock = mocked(useGetCloseBuyNow, true);
 
 describe('testing the out of stock page', () => {
     const closeModalMock = jest.fn();
+    let sendPageViewSpy: jest.SpyInstance;
+    let sendEventsSpy: jest.SpyInstance;
 
 
     beforeEach(() => {
         jest.clearAllMocks();
         useGetCloseBuyNowMock.mockReturnValue(closeModalMock);
+        sendPageViewSpy = jest.spyOn(analytics, 'sendPageView');
+        sendEventsSpy = jest.spyOn(analytics, 'sendEvents');
     });
 
     test('render out of stock page properly', () => {
@@ -36,6 +41,9 @@ describe('testing the out of stock page', () => {
         expect(container.getElementsByClassName('out-of-stock').length).toBe(1);
         expect(container.getElementsByClassName('out-of-stock__message').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__checkout-button').length).toBe(1);
+
+        expect(sendPageViewSpy).toHaveBeenCalled();
+        expect(sendEventsSpy).toHaveBeenCalled();
     });
 
     test('test the return to product button', () => {
