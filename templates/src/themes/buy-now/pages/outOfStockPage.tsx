@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {useGetOutOfStock, } from 'src/hooks';
 import {CloseableHeader, GenericMessageSection} from 'src/components';
 import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
+import { sendEvents, sendPageView } from 'src/analytics';
 
 export function OutOfStockPage(): React.ReactElement {
     const {terms, websiteName} = useGetOutOfStock();
     const closeBuyNow = useGetCloseBuyNow();
+
+    useEffect(() => {
+        sendPageView('/out-of-stock');
+        sendEvents('Checkout', 'Landed on buy now /out-of-stock page');  
+    }, []);
 
     return (
         <div className="checkout-experience-container" >

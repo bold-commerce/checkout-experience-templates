@@ -6,6 +6,7 @@ import { ISessionExpiredPageProps } from 'src/themes/buy-now/types';
 import { getErrorTerm } from 'src/utils';
 import { Header, Footer, GenericMessageSection } from 'src/components';
 import { mocked } from 'jest-mock';
+import * as analytics from 'src/analytics/analytics';
 
 const store = Store.initializeStore();
 jest.mock('src/utils', () => ({
@@ -25,7 +26,14 @@ describe('testing SessionExpiredPage', () => {
     const headerMock = mocked(Header, true);
     const footerMock = mocked(Footer, true);
     const genericMessageSectionMock = mocked(GenericMessageSection, true);
+    let sendPageViewSpy: jest.SpyInstance;
+    let sendEventsSpy: jest.SpyInstance;
     
+    beforeEach(() => {
+        sendPageViewSpy = jest.spyOn(analytics, 'sendPageView');
+        sendEventsSpy = jest.spyOn(analytics, 'sendEvents');
+    });
+
     afterEach(() => {
         jest.clearAllMocks();
     });
@@ -65,5 +73,8 @@ describe('testing SessionExpiredPage', () => {
             nextButtonText: 'Close modal',
             nextButtonOnClick: props.closeModal,
         }), emptyRef);
+
+        expect(sendPageViewSpy).toHaveBeenCalled();
+        expect(sendEventsSpy).toHaveBeenCalled();
     });
 });

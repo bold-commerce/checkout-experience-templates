@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { sendEvents, sendPageView } from 'src/analytics';
 import { CloseableHeader, GenericMessageSection, OrderRecap, ContactUs } from 'src/components';
 import { useGetThankYou } from 'src/hooks';
 import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
@@ -6,6 +7,12 @@ import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
 export function ThankYouPage(): React.ReactElement{
     const { websiteName, thankYouTitle, terms} = useGetThankYou();
     const closeBuyNow = useGetCloseBuyNow();
+
+    useEffect(() => {
+        sendPageView('/thank-you');
+        sendEvents('Checkout', 'Landed on buy now /thank-you page');  
+    }, []);
+
     return (
         <div className="checkout-experience-container" >
             <div className="buy-now-container">
