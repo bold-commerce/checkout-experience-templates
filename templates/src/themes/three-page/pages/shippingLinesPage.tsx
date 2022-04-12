@@ -11,8 +11,8 @@ import {
     useBeforeUnload,
     useOnLoadValidateCustomer,
     useScrollToElementOnNavigation,
-    useShippingPage
 } from 'src/hooks';
+import {useShippingPage} from 'src/themes/three-page/hooks';
 
 export function ShippingLinesPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading} = useShippingPage();

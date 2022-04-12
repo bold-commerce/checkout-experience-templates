@@ -2,10 +2,9 @@ import classNames from 'classnames';
 import React, { ForwardedRef } from 'react';
 import { CloseableHeader, FlashError, NavigationHeading, TaxesAmount} from 'src/components';
 import { Constants } from 'src/constants';
-import { useIndexPage } from 'src/hooks';
 import { IBuyNowContainerPageProps } from 'src/themes/buy-now/types';
 import { getTerm } from 'src/utils';
-import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
+import { useGetCloseBuyNow, useIndexPage } from 'src/themes/buy-now/hooks';
 
 function SummaryPage(props : IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivElement>): React.ReactElement {
     const { checkoutOnClick } = useIndexPage();

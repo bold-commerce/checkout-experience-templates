@@ -3,9 +3,9 @@ import {Breadcrumbs, Footer, Payment, SummarySection, FlashError, Header} from '
 import {
     useBeforeUnload,
     useOnLoadValidateCustomerAndShipping,
-    usePaymentPage,
     useScrollToElementOnNavigation
 } from 'src/hooks';
+import {usePaymentPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
 
 export function PaymentPage(): React.ReactElement {

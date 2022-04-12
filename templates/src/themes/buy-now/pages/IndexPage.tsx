@@ -1,7 +1,6 @@
 import React, { ForwardedRef } from 'react';
 import ClassNames from 'classnames';
-import { useIndexPage } from 'src/hooks';
-import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
+import { useGetCloseBuyNow, useIndexPage } from 'src/themes/buy-now/hooks';
 import { BillingAddressCheckbox, CartItems, CloseableHeader, CondensedSection, CondensedShipping, ExpandableDiscount, FlashError, Payment } from 'src/components';
 import { Price } from '@boldcommerce/stacks-ui';
 import { getTerm } from 'src/utils';
@@ -25,13 +24,13 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
             <CondensedSection {...{ className: ClassNames(['buy-now__summary', 'buy-now__section']), navigationHeadingProps: { text: summaryHeadingText, secondary: subTotal, navigation: () => props.navigateTo('/summary') } }} />
             <CondensedSection {...{ className: ClassNames(['buy-now__customer', 'buy-now__section']), navigationHeadingProps: { text: email, secondary: login} }} />
             <CondensedSection {...{ className: ClassNames(['buy-now__shipping', 'buy-now__section']), navigationHeadingProps: { text: shippingHeadingText, navigation: () => props.navigateTo('/shipping') } }} >
-                <CondensedShipping address={ address } showMethod /> 
-            </CondensedSection>        
+                <CondensedShipping address={ address } showMethod />
+            </CondensedSection>
             <CondensedSection {...{ className: ClassNames(['but-now__payment', 'buy-now__section']), navigationHeadingProps: { text: paymentHeadingText, className: 'payment-heading' } }} >
                 <Payment showTitle={false}/>
                 <ExpandableDiscount />
                 <BillingAddressCheckbox />
-            </CondensedSection>          
+            </CondensedSection>
             <button className='buy-now__checkout-button' onClick={checkoutOnClick}>{checkout}</button>
         </div>
     );

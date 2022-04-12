@@ -5,7 +5,7 @@ import { addressMock } from 'src/mocks';
 import { getTerm } from 'src/utils';
 import { mocked } from 'jest-mock';
 import { useGetSelectShippingLine } from 'src/hooks';
-import * as useIndexPage from 'src/hooks/useIndexPage';
+import * as useIndexPage from 'src/themes/buy-now/hooks/useIndexPage';
 import { IBuyNowContainerPageProps } from 'src/themes/buy-now/types';
 import * as Store from 'src/store';
 import { Provider } from 'react-redux';
@@ -25,7 +25,7 @@ describe('testing IndexPage', () => {
         amount: 99,
         description: 'test shipping'
     }
-    
+
     const visibleProps: IBuyNowContainerPageProps = {
         show: true,
         navigateTo: jest.fn()
@@ -58,7 +58,7 @@ describe('testing IndexPage', () => {
         getTermMock.mockReturnValue(getTermValue);
         useGetSelectShippingLineMock.mockReturnValue(selectShippingLineValue);
     });
-    
+
     test('Rendering visible indexPage properly', () => {
         const {container} = render(
             <Provider store={store}>
@@ -99,7 +99,7 @@ describe('testing IndexPage', () => {
                 <IndexPage {...visibleProps}/>
             </Provider>
         );
-        
+
         const link = screen.getAllByTestId('navigation');
         fireEvent.click(link[0]);
 
@@ -114,7 +114,7 @@ describe('testing IndexPage', () => {
                 <IndexPage {...visibleProps}/>
             </Provider>
         );
-        
+
         const link = screen.getAllByTestId('navigation');
         fireEvent.click(link[1]);
 
