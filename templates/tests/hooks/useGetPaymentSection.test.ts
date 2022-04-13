@@ -1,7 +1,7 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {useGetPaymentSection, useGetLoaderScreenVariable, useGetValidVariable} from 'src/hooks';
 import {getTerm} from 'src/utils';
-import {mocked} from 'ts-jest/utils';
+import {mocked} from 'jest-mock';
 import {act} from '@testing-library/react';
 import {checkLoadPigiErrors} from 'src/library';
 jest.setTimeout(10000);
@@ -124,7 +124,7 @@ describe('Testing hook useGetPaymentSection', () => {
     beforeEach(() => {
         jest.resetAllMocks();
         checkLoadPigiErrorsMock.mockImplementation((func: () => void) => {
-            func();
+            act(() => func());
             return () => Promise.resolve();
         });
     });
@@ -169,6 +169,7 @@ describe('Testing hook useGetPaymentSection', () => {
         act(result.current.onLoad);
         await sleep(1000);
         expect(mockDispatch).toHaveBeenCalledTimes(2);
+        expect(checkLoadPigiErrorsMock).toHaveBeenCalledTimes(1);
     });
 });
 

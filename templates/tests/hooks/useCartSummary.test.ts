@@ -1,10 +1,9 @@
-import {counterNames} from 'src/constants';
 import {stateMock} from 'src/mocks';
 import {renderHook} from '@testing-library/react-hooks';
 import {useScreenWidth, useGetLineItems, useCartSummary} from 'src/hooks';
 import {getTotalLineItems} from 'src/utils';
 import {mocked} from 'jest-mock';
-import {act} from "@testing-library/react";
+import {act} from '@testing-library/react';
 
 jest.mock('src/hooks/useScreenWidth');
 jest.mock('src/hooks/useGetLineItems');

@@ -25,9 +25,6 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
     let mockedLink: HTMLLinkElement;
     let mockedScript: HTMLScriptElement;
 
-    const calledOnce = 1;
-    const calledTwice = 2;
-
     beforeEach(() => {
         jest.restoreAllMocks();
         getCountryInfoListMock = [
@@ -134,7 +131,7 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
 
         expect(documentCreateElementSpy).not.toHaveBeenCalled();
         expect(documentBodyAppendChildSpy).not.toHaveBeenCalled();
-        expect(useDispatchAutocompleteDataSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(useDispatchAutocompleteDataSpy).toHaveBeenCalledTimes(1);
     });
 
     test('scripts are not loaded and addressData is not empty', () => {
@@ -144,10 +141,10 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
 
         renderHook(() => useInitiateLoqate());
 
-        expect(documentCreateElementSpy).toHaveBeenCalledTimes(calledTwice);
+        expect(documentCreateElementSpy).toHaveBeenCalledTimes(2);
         expect(documentCreateElementSpy).toHaveBeenCalledWith('script');
         expect(documentCreateElementSpy).toHaveBeenCalledWith('link');
-        expect(documentBodyAppendChildSpy).toHaveBeenCalledTimes(calledTwice);
+        expect(documentBodyAppendChildSpy).toHaveBeenCalledTimes(2);
         expect(documentBodyAppendChildSpy).toHaveBeenCalledWith(mockedScript);
         expect(documentBodyAppendChildSpy).toHaveBeenCalledWith(mockedLink);
         expect(useDispatchAutocompleteDataSpy).not.toHaveBeenCalled();
@@ -160,14 +157,14 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
 
         renderHook(() => useInitiateLoqate());
 
-        expect(documentCreateElementSpy).toHaveBeenCalledTimes(calledTwice);
+        expect(documentCreateElementSpy).toHaveBeenCalledTimes(2);
         expect(documentCreateElementSpy).toHaveBeenCalledWith('script');
         expect(documentCreateElementSpy).toHaveBeenCalledWith('link');
-        expect(documentBodyAppendChildSpy).toHaveBeenCalledTimes(calledTwice);
+        expect(documentBodyAppendChildSpy).toHaveBeenCalledTimes(2);
         expect(documentBodyAppendChildSpy).toHaveBeenCalledWith(mockedScript);
         expect(documentBodyAppendChildSpy).toHaveBeenCalledWith(mockedLink);
-        expect(useDispatchAutocompleteDataSpy).toHaveBeenCalledTimes(calledOnce);
-        expect(isAutocompleteDataPopulatedSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(useDispatchAutocompleteDataSpy).toHaveBeenCalledTimes(1);
+        expect(isAutocompleteDataPopulatedSpy).toHaveBeenCalledTimes(1);
     });
 
     test('scripts are loaded, addressData is empty, test useEffect function', () => {
@@ -194,8 +191,8 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
 
         expect(documentCreateElementSpy).not.toHaveBeenCalled();
         expect(documentBodyAppendChildSpy).not.toHaveBeenCalled();
-        expect(useDispatchAutocompleteDataSpy).toHaveBeenCalledTimes(calledOnce);
-        expect(isAutocompleteDataPopulatedSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(useDispatchAutocompleteDataSpy).toHaveBeenCalledTimes(1);
+        expect(isAutocompleteDataPopulatedSpy).toHaveBeenCalledTimes(1);
         expect(AddressMock).toHaveBeenCalled();
         expect(listenMock).toHaveBeenCalled();
     });

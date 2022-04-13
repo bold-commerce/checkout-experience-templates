@@ -10,8 +10,6 @@ import {AddressProvinceSelect} from 'src/components';
 
 describe('Testing AddressProvinceSelect component', () => {
     let addressHook: jest.SpyInstance;
-    const one = 1;
-    const zero = 0;
 
     const props:IAddressFieldSelectProps = {
         type: Constants.SHIPPING,
@@ -38,8 +36,8 @@ describe('Testing AddressProvinceSelect component', () => {
     test('Render the AddressProvinceSelect properly', () => {
         addressHook = jest.spyOn(useGetAddressProvinceInputData, 'useGetAddressProvinceInputData').mockReturnValue(hookResult);
         const {container} = render(<AddressProvinceSelect {...props}/>);
-        expect(container.getElementsByClassName(props.className).length).toBe(one);
-        expect(container.getElementsByClassName('address__hidden').length).toBe(zero);
+        expect(container.getElementsByClassName(props.className).length).toBe(1);
+        expect(container.getElementsByClassName('address__hidden').length).toBe(0);
         const element: Partial<HTMLSelectElement> = container.getElementsByTagName('select')[0];
         expect(element.id).toBe(hookResult.id);
         expect(element.value).toBe(hookResult.value);
@@ -52,7 +50,7 @@ describe('Testing AddressProvinceSelect component', () => {
         localHookResult.showProvince = false;
         addressHook = jest.spyOn(useGetAddressProvinceInputData, 'useGetAddressProvinceInputData').mockReturnValue(localHookResult);
         const {container} = render(<AddressProvinceSelect {...props}/>);
-        expect(container.getElementsByClassName('address__hidden').length).toBe(one);
+        expect(container.getElementsByClassName('address__hidden').length).toBe(1);
     });
 
 
@@ -61,7 +59,7 @@ describe('Testing AddressProvinceSelect component', () => {
         render(<AddressProvinceSelect {...props}/>);
         const input = screen.getByTestId('input-select');
         fireEvent.change(input, {target: {value: 'a'}});
-        expect(hookResult.handleChange).toHaveBeenCalledTimes(one);
+        expect(hookResult.handleChange).toHaveBeenCalledTimes(1);
     });
 
 });

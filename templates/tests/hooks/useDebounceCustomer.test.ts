@@ -4,6 +4,7 @@ import {useDebounceCustomer, useGetCustomerInfoData} from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {stateMock} from 'src/mocks';
 import {updateCustomer, postGuestCustomer} from 'src/library';
+import {debounceConstants} from 'src/constants';
 
 jest.setTimeout(10000);
 const mockDispatch = jest.fn();
@@ -18,35 +19,36 @@ const postGuestCustomerMock = mocked(postGuestCustomer, true);
 
 describe('Testing hook useDebounceGuestCustomer', () => {
     const customer = stateMock.data.application_state.customer;
-    const sleep = (delay: number) =>
-        new Promise(resolve => setTimeout(resolve, delay));
 
-    beforeEach(() => {
+    afterEach(() => {
+        (setTimeout as unknown as jest.SpyInstance).mockRestore?.();
         jest.resetAllMocks();
+        jest.useRealTimers();
     });
 
-    test('rendering the hook properly with timeout - logged in User', async () => {
-        const localCustomer = {...customer, platform_id: '1234'};
-        useGetCustomerInfoDataMock.mockReturnValueOnce(localCustomer);
-        const {result} = renderHook(() => useDebounceCustomer());
-        expect(mockDispatch).toBeCalledTimes(0);
+    const dataSet = [
+        {platformId: '1234', expected: updateCustomerMock},
+        {platformId: null, expected: postGuestCustomerMock},
+    ];
 
-        act(result.current);
-        await sleep(3000);
-        expect(mockDispatch).toBeCalledTimes(1);
-        expect(mockDispatch).toBeCalledWith(updateCustomerMock);
-    });
+    test.each(dataSet)(
+        'rendering the hook properly with timeout ($platformId, $expected)',
+        async ({platformId, expected}) => {
+            jest.useFakeTimers();
+            jest.spyOn(global, 'setTimeout');
 
-    test('rendering the hook properly with timeout - Guest User', async () => {
-        const localCustomer = {...customer, platform_id: null};
-        useGetCustomerInfoDataMock.mockReturnValueOnce(localCustomer);
-        const {result} = renderHook(() => useDebounceCustomer());
-        expect(mockDispatch).toBeCalledTimes(0);
+            const localCustomer = {...customer, platform_id: platformId};
+            useGetCustomerInfoDataMock.mockReturnValueOnce(localCustomer);
 
-        act(result.current);
-        await sleep(3000);
-        expect(mockDispatch).toBeCalledTimes(1);
-        expect(mockDispatch).toBeCalledWith(postGuestCustomerMock);
-    });
+            const {result} = renderHook(() => useDebounceCustomer());
+
+            act(result.current);
+            expect(mockDispatch).toBeCalledTimes(0);
+            jest.runAllTimers();
+
+            expect(mockDispatch).toBeCalledTimes(1);
+            expect(mockDispatch).toBeCalledWith(expected);
+            expect(setTimeout).toBeCalledWith(expect.any(Function), debounceConstants.DEFAULT_DEBOUNCE_TIME);
+        });
 
 });

@@ -1,9 +1,9 @@
 import {render} from '@testing-library/react';
-import { mocked } from 'jest-mock';
-import {BuyNowContainerPage } from 'src/themes/buy-now/pages';
-import { useBuyNowContainerPage } from 'src/themes/buy-now/hooks';
+import {mocked} from 'jest-mock';
+import {BuyNowContainerPage} from 'src/themes/buy-now/pages';
+import {useBuyNowContainerPage} from 'src/themes/buy-now/hooks';
 import React from 'react';
-import { IUseBuyNowContainerPage } from 'src/themes/buy-now/types';
+import {IUseBuyNowContainerPage} from 'src/themes/buy-now/types';
 
 jest.mock('src/themes/buy-now/hooks/useBuyNowContainerPage');
 jest.mock('src/themes/buy-now/pages', () => ({
@@ -12,11 +12,18 @@ jest.mock('src/themes/buy-now/pages', () => ({
     ShippingPage: () => <div className="mockShipping"/>,
     SummaryPage: () => <div className="mockSummary"/>
 }));
+jest.mock('react', () => {
+    const originReact = jest.requireActual('react');
+    const mUseRef = jest.fn();
+    return {
+        ...originReact,
+        useRef: mUseRef,
+    };
+});
 
 const useBuyNowContainerPageMock = mocked(useBuyNowContainerPage, true);
 
 describe('testing BuyNowContainerPage', () => {
-
     const props: IUseBuyNowContainerPage = {
         openSection: '/',
         navigateTo: jest.fn(),
@@ -24,10 +31,10 @@ describe('testing BuyNowContainerPage', () => {
     };
 
     beforeEach(() => {
-        useBuyNowContainerPageMock.mockReturnValue(props)
+        useBuyNowContainerPageMock.mockReturnValue(props);
     });
 
-    test('Rendering buyNowContainerPage properly', () => { 
+    test('Rendering buyNowContainerPage properly', () => {
         const {container} = render(<BuyNowContainerPage/>);
 
         expect(container.getElementsByClassName('checkout-experience-container').length).toBe(1);
@@ -35,6 +42,4 @@ describe('testing BuyNowContainerPage', () => {
         expect(container.getElementsByClassName('mockIndex').length).toBe(1);
         expect(container.getElementsByClassName('mockShipping').length).toBe(1);
     });
-
-
 });

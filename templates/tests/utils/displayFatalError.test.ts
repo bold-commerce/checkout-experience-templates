@@ -6,7 +6,6 @@ import {SET_OVERLAY_CONTENT} from 'src/action';
 import SpyInstance = jest.SpyInstance;
 
 describe('Test displayFatalError function', () => {
-    const calledOnce = 1;
     let dispatch: Dispatch;
     let setOverlayContentSpy: SpyInstance;
 
@@ -30,9 +29,9 @@ describe('Test displayFatalError function', () => {
         };
         setOverlayContentSpy.mockReturnValueOnce(returnSetOverlayContentAction);
         displayFatalError(dispatch);
-        expect(setOverlayContentSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(setOverlayContentSpy).toHaveBeenCalledTimes(1);
         expect(setOverlayContentSpy).toHaveBeenCalledWith(overlayPayload);
-        expect(dispatch).toHaveBeenCalledTimes(calledOnce);
+        expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenCalledWith(returnSetOverlayContentAction);
     });
 });

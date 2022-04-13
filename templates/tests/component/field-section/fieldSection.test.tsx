@@ -12,40 +12,37 @@ describe('Testing FieldSection component', () => {
         children: <div>children</div>
     };
 
-    const one = 1;
-    const zero = 0;
-
     test('Render the FieldSection properly', () => {
         const {container} = render(<FieldSection {...props}/>);
-        expect(container.getElementsByClassName('field-section').length).toBe(one);
-        expect(container.getElementsByClassName('field-section__header').length).toBe(one);
-        expect(container.getElementsByClassName('field-section__heading').length).toBe(one);
-        expect(container.getElementsByClassName('field-section__content').length).toBe(one);
-        expect(container.getElementsByClassName('field-section__content').length).toBe(one);
+        expect(container.getElementsByClassName('field-section').length).toBe(1);
+        expect(container.getElementsByClassName('field-section__header').length).toBe(1);
+        expect(container.getElementsByClassName('field-section__heading').length).toBe(1);
+        expect(container.getElementsByClassName('field-section__content').length).toBe(1);
+        expect(container.getElementsByClassName('field-section__content').length).toBe(1);
     });
 
     test('Render the FieldSection without accessory', () => {
         const {container} = render(<FieldSection {...props}/>);
-        expect(container.getElementsByClassName('field-section__accessory').length).toBe(zero);
+        expect(container.getElementsByClassName('field-section__accessory').length).toBe(0);
     });
 
     test('Render the FieldSection with accessory', () => {
         const localProps = {...props};
         localProps.accessory = <div></div>;
         const {container} = render(<FieldSection {...localProps}/>);
-        expect(container.getElementsByClassName('field-section__accessory').length).toBe(one);
+        expect(container.getElementsByClassName('field-section__accessory').length).toBe(1);
     });
 
     test('Render the FieldSection with showTitle as false', () => {
         const {container} = render(<FieldSection {...props}/>);
-        expect(container.getElementsByClassName('field--Hidden').length).toBe(one);
+        expect(container.getElementsByClassName('field--Hidden').length).toBe(1);
     });
 
     test('Render the FieldSection with showTitle as true', () => {
         const localProps = {...props};
         localProps.showTitle = true;
         const {container} = render(<FieldSection {...localProps}/>);
-        expect(container.getElementsByClassName('field--Hidden').length).toBe(zero);
+        expect(container.getElementsByClassName('field--Hidden').length).toBe(0);
     });
 
 });

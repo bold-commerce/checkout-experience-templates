@@ -10,7 +10,6 @@ const store = Store.initializeStore();
 
 describe('Testing BillingAddress component', () => {
     let billingAddressHook: jest.SpyInstance;
-    const one = 1;
 
     const addressProps: IAddressProps= {
         showSavedAddresses: true,
@@ -36,10 +35,10 @@ describe('Testing BillingAddress component', () => {
     test('Render the BillingAddress properly', () => {
         billingAddressHook.mockReturnValue(hookResult);
         const {container} = render(<BillingAddress/>);
-        expect(container.getElementsByClassName('billing-address').length).toBe(one);
-        expect(container.getElementsByClassName('address__FieldSection').length).toBe(one);
-        expect(container.getElementsByClassName('shipping-same').length).toBe(one);
-        expect(container.getElementsByClassName('shipping-different').length).toBe(one);
+        expect(container.getElementsByClassName('billing-address').length).toBe(1);
+        expect(container.getElementsByClassName('address__FieldSection').length).toBe(1);
+        expect(container.getElementsByClassName('shipping-same').length).toBe(1);
+        expect(container.getElementsByClassName('shipping-different').length).toBe(1);
         expect(container.getElementsByClassName('test-component').length).toBe(0);
 
         const sameRadio: Partial<HTMLInputElement> = screen.getByLabelText(hookResult.billingSame);
@@ -53,8 +52,8 @@ describe('Testing BillingAddress component', () => {
         localHookResult.customBilling = Constants.SHIPPING_DIFFERENT;
         billingAddressHook.mockReturnValue(localHookResult);
         const {container} = render(<Provider store={store}><BillingAddress/> </Provider>);
-        expect(container.getElementsByClassName('shipping-same').length).toBe(one);
-        expect(container.getElementsByClassName('shipping-different').length).toBe(one);
+        expect(container.getElementsByClassName('shipping-same').length).toBe(1);
+        expect(container.getElementsByClassName('shipping-different').length).toBe(1);
 
         const sameRadio: Partial<HTMLInputElement> = screen.getByLabelText(hookResult.billingSame);
         const differentRadio: Partial<HTMLInputElement> = screen.getByLabelText(hookResult.billingDifferent);

@@ -1,6 +1,5 @@
 import {mocked} from 'jest-mock';
 import {getBreadcrumbs} from 'src/utils';
-import {counterNames} from 'src/constants';
 import {IBreadcrumb} from 'src/types';
 import {render} from '@testing-library/react';
 import {Breadcrumbs} from 'src/components';
@@ -10,8 +9,6 @@ jest.mock('src/utils/getBreadcrumbs');
 const getBreadcrumbsMock = mocked(getBreadcrumbs, true);
 
 describe('Testing Breadcrumbs component', () => {
-
-    const {one} = counterNames;
 
     const breadcrumbsArray: Array<IBreadcrumb> = [
         {
@@ -49,11 +46,11 @@ describe('Testing Breadcrumbs component', () => {
     test('rendering the component successfully', () => {
         getBreadcrumbsMock.mockReturnValueOnce(breadcrumbsArray);
         const {container} = render(<Breadcrumbs active={1}/>);
-        expect(container.getElementsByClassName('Breadcrumb').length).toBe(one);
+        expect(container.getElementsByClassName('Breadcrumb').length).toBe(1);
 
-        expect(container.getElementsByClassName('Breadcrumb__Item--active').length).toBe(one);
-        expect(container.getElementsByClassName('Breadcrumb__Item--next').length).toBe(one);
-        expect(container.getElementsByClassName('Breadcrumb__Item--upcoming').length).toBe(one);
+        expect(container.getElementsByClassName('Breadcrumb__Item--active').length).toBe(1);
+        expect(container.getElementsByClassName('Breadcrumb__Item--next').length).toBe(1);
+        expect(container.getElementsByClassName('Breadcrumb__Item--upcoming').length).toBe(1);
         expect(container.getElementsByClassName('Breadcrumb_Item_Divider').length).toBe(breadcrumbsArray.length -1);
 
     });

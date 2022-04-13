@@ -125,12 +125,14 @@ describe('testing facebook Analytics implementation', () => {
     });
 
     test('testing orderCompletedForFacebookPixel function with custom script', ()=> {
-        const script = 'console.log(\'error\')';
+        const script = 'const test = 1';
         window['facebook_analytics_is_customized'] = 1;
         window['facebook_analytics_order_complete_script'] = script;
 
         orderCompletedForFacebookPixel(appState.line_items, 'USD', totals );
         expect(fbqSpy).toHaveBeenCalledTimes(0);
+        expect(document.head.childNodes.length).toBe(1);
+        expect(document.head.children[0].innerHTML).toContain(script);
 
     });
 

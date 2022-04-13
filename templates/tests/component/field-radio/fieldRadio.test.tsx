@@ -11,7 +11,6 @@ describe('Testing FieldRadio component', () => {
         name: 'test-name',
         handleChange: jest.fn()
     };
-    const one = 1;
 
     test('Render the FieldRadio with proper data', () => {
         render(<FieldRadio {...props}/>);
@@ -26,7 +25,7 @@ describe('Testing FieldRadio component', () => {
         render(<FieldRadio {...props}/>);
         const element = screen.getByTestId('field-radio');
         fireEvent.click(element);
-        expect(props.handleChange).toHaveBeenCalledTimes(one);
+        expect(props.handleChange).toHaveBeenCalledTimes(1);
     });
 
 

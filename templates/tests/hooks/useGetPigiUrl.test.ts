@@ -1,7 +1,6 @@
 import {renderHook, act} from '@testing-library/react-hooks';
 import {useDispatch} from 'react-redux';
 import {mocked} from 'jest-mock';
-import {counterNames} from 'src/constants';
 import {useGetPigiUrl} from 'src/hooks';
 import {getPaymentIframe} from 'src/library/paymentIframe';
 
@@ -11,7 +10,6 @@ const useDispatchMock = mocked(useDispatch, true);
 const getPaymentIframeMock = mocked(getPaymentIframe, true);
 
 describe('Testing hook useGetPigiUrl', () => {
-    const {one, two, three} = counterNames;
     const getPaymentIframeThunkMock = jest.fn();
     const dispatchMock = jest.fn();
 
@@ -35,14 +33,14 @@ describe('Testing hook useGetPigiUrl', () => {
             await renderHookResult.waitForNextUpdate();
 
             expect(renderHookResult.result.current).toBe(urlReturnMock);
-            expect(useDispatchMock).toHaveBeenCalledTimes(two);
+            expect(useDispatchMock).toHaveBeenCalledTimes(2);
         });
 
         // Manually rerender and assert the useEffect was called only once.
         renderHookResult.rerender();
 
-        expect(useDispatchMock).toHaveBeenCalledTimes(three);
-        expect(dispatchMock).toHaveBeenCalledTimes(one);
-        expect(getPaymentIframeMock).toHaveBeenCalledTimes(one);
+        expect(useDispatchMock).toHaveBeenCalledTimes(3);
+        expect(dispatchMock).toHaveBeenCalledTimes(1);
+        expect(getPaymentIframeMock).toHaveBeenCalledTimes(1);
     });
 });

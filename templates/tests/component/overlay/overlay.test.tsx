@@ -16,7 +16,6 @@ describe('Testing Overlay component', () => {
         subHeader: 'This is sub-header issue',
         buttonText: 'back'
     };
-    const one = 1;
 
     beforeEach(() => {
         lockUnlockScrollSpy = jest.spyOn(lockUnlockScroll, 'lockUnlockScroll');
@@ -25,11 +24,11 @@ describe('Testing Overlay component', () => {
     test('Render the Overlay properly', () => {
         overlaySpy = jest.spyOn(useGetOverlay, 'useGetOverlay').mockReturnValue(overlay);
         const {container} = render(<Overlay />);
-        expect(container.getElementsByClassName('overlay__header').length).toBe(one);
-        expect(container.getElementsByClassName('overlay__subheader').length).toBe(one);
-        expect(container.getElementsByClassName('overlay__content').length).toBe(one);
-        expect(container.getElementsByClassName('overlay__button-container').length).toBe(one);
-        expect(container.getElementsByClassName('overlay__content-span').length).toBe(one);
+        expect(container.getElementsByClassName('overlay__header').length).toBe(1);
+        expect(container.getElementsByClassName('overlay__subheader').length).toBe(1);
+        expect(container.getElementsByClassName('overlay__content').length).toBe(1);
+        expect(container.getElementsByClassName('overlay__button-container').length).toBe(1);
+        expect(container.getElementsByClassName('overlay__content-span').length).toBe(1);
     });
 
     test('check the overlay ID on basis of inverted = false', () => {

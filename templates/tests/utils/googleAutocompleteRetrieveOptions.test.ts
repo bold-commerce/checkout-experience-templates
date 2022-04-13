@@ -6,8 +6,6 @@ import * as googleAutocompleteRetrieveCountriesListLimitation from 'src/utils/go
 import {Constants} from 'src/constants';
 import {countriesListMock} from 'src/mocks';
 
-const calledOnce = 1;
-
 describe('Test googleAutocompleteRetrieveOptions function', () => {
     const countriesList: Array<ICountryInformation> = countriesListMock;
     let expectedAutocompleteOptions: AutocompleteOptions;
@@ -32,19 +30,19 @@ describe('Test googleAutocompleteRetrieveOptions function', () => {
         const returned = googleAutocompleteRetrieveOptions([]);
         googleAutocompleteRetrieveCountriesListLimitationSpy.mockReturnValue([]);
         expect(returned).toStrictEqual(expectedAutocompleteOptions);
-        expect(googleAutocompleteRetrieveCountriesListLimitationSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(googleAutocompleteRetrieveCountriesListLimitationSpy).toHaveBeenCalledTimes(1);
     });
     test(`More than ${Constants.MAX_COUNTRIES_GOOGLE_AUTOCOMPLETE} restriction`, () => {
         const returned = googleAutocompleteRetrieveOptions(countriesList);
         googleAutocompleteRetrieveCountriesListLimitationSpy.mockReturnValue(expectedCountriesCodeList);
         expect(returned).toStrictEqual(expectedAutocompleteOptions);
-        expect(googleAutocompleteRetrieveCountriesListLimitationSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(googleAutocompleteRetrieveCountriesListLimitationSpy).toHaveBeenCalledTimes(1);
     });
     test(`More than 1 and less than ${Constants.MAX_COUNTRIES_GOOGLE_AUTOCOMPLETE} countries restrictions`, () => {
         expectedAutocompleteOptions.componentRestrictions = {country: expectedCountriesCodeList.slice(0, Constants.MAX_COUNTRIES_GOOGLE_AUTOCOMPLETE) as string[]};
         const returned = googleAutocompleteRetrieveOptions(countriesList.slice(0, Constants.MAX_COUNTRIES_GOOGLE_AUTOCOMPLETE));
         googleAutocompleteRetrieveCountriesListLimitationSpy.mockReturnValue(expectedCountriesCodeList.slice(0, Constants.MAX_COUNTRIES_GOOGLE_AUTOCOMPLETE));
         expect(returned).toStrictEqual(expectedAutocompleteOptions);
-        expect(googleAutocompleteRetrieveCountriesListLimitationSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(googleAutocompleteRetrieveCountriesListLimitationSpy).toHaveBeenCalledTimes(1);
     });
 });

@@ -1,11 +1,10 @@
-import {counterNames, errorFields, errorSeverities, errorSubTypes, errorTypes} from 'src/constants';
+import {errorFields, errorSeverities, errorSubTypes, errorTypes} from 'src/constants';
 import {renderHook} from '@testing-library/react-hooks';
 import {useGetErrors} from 'src/hooks';
 import {useRemoveAllFlashErrors} from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {IError} from 'src/types';
-import * as AppActions from "src/action/appActionType";
-
+import * as AppActions from 'src/action/appActionType';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -17,8 +16,6 @@ jest.mock('src/hooks/useGetErrors');
 const useGetErrorsMock = mocked(useGetErrors, true);
 
 describe('Testing hook useRemoveAllFlashErrors', () => {
-    const {zero, one} = counterNames;
-
     const flashError: Array<IError> = [{
         message: 'Test message',
         field: errorFields.discounts,
@@ -49,15 +46,15 @@ describe('Testing hook useRemoveAllFlashErrors', () => {
     test('rendering the hook without any errors', () => {
         useGetErrorsMock.mockReturnValueOnce([]);
         renderHook(() => useRemoveAllFlashErrors(mockDispatch));
-        expect(useGetErrors).toHaveBeenCalledTimes(one);
+        expect(useGetErrors).toHaveBeenCalledTimes(1);
 
     });
 
     test('rendering the hook with errors as second parameter and flash error', () => {
         useGetErrorsMock.mockReturnValueOnce(flashError);
         renderHook(() => useRemoveAllFlashErrors(mockDispatch, flashError));
-        expect(useGetErrors).toHaveBeenCalledTimes(zero);
-        expect(mockDispatch).toHaveBeenCalledTimes(one);
+        expect(useGetErrors).toHaveBeenCalledTimes(0);
+        expect(mockDispatch).toHaveBeenCalledTimes(1);
         expect(mockDispatch).toHaveBeenCalledWith(expectedAction);
     });
 
@@ -65,8 +62,8 @@ describe('Testing hook useRemoveAllFlashErrors', () => {
     test('rendering the hook with errors as second parameter but no flash error', () => {
         useGetErrorsMock.mockReturnValueOnce(error);
         renderHook(() => useRemoveAllFlashErrors(mockDispatch, error));
-        expect(useGetErrors).toHaveBeenCalledTimes(zero);
-        expect(mockDispatch).toHaveBeenCalledTimes(zero);
+        expect(useGetErrors).toHaveBeenCalledTimes(0);
+        expect(mockDispatch).toHaveBeenCalledTimes(0);
     });
 
 });

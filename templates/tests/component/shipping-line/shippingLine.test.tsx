@@ -4,12 +4,10 @@ import React from 'react';
 import * as useGetShippingLinesData from 'src/hooks/useGetShippingLinesData';
 import {IApplicationStateSelectShippingLine, IApplicationStateShippingAvailableLine} from 'src/types';
 import resetAllMocks = jest.resetAllMocks;
-import {counterNames} from 'src/constants';
 
 describe('Testing shipping line component', () => {
     let useGetShippingLinesDataSpy: jest.SpyInstance;
 
-    const {zero, one ,two} = counterNames;
     const selectShippingLine1: IApplicationStateSelectShippingLine = {
         id: '1',
         description: 'test 1',
@@ -32,27 +30,27 @@ describe('Testing shipping line component', () => {
         {
             name: 'Render shipping line properly with zero shipping lines',
             parameter: {shippingLines: [], selectedLine: null, handleChange: jest.fn(), shippingLinesLength: 0},
-            called: one,
-            lineItemsLength: zero,
-            lineDescriptionLength: zero,
-            noShippingText: one
+            called: 1,
+            lineItemsLength: 0,
+            lineDescriptionLength: 0,
+            noShippingText: 1
         },
         {
             name: 'Render shipping line properly with one shipping line',
             parameter: {shippingLines: [shippingLine1], selectedLine: selectShippingLine1, handleChange: jest.fn(), shippingLinesLength: 1},
-            called: one,
-            lineItemsLength: one,
-            lineDescriptionLength: one,
-            noShippingText: zero
+            called: 1,
+            lineItemsLength: 1,
+            lineDescriptionLength: 1,
+            noShippingText: 0
         },
         {
             name: 'Render shipping line properly with multiple shipping lines',
             parameter: {shippingLines: [shippingLine1, shippingLine2],
                 selectedLine: selectShippingLine1, handleChange: jest.fn() ,shippingLinesLength: 2},
-            called: one,
-            lineItemsLength: two,
-            lineDescriptionLength: two,
-            noShippingText: zero
+            called: 1,
+            lineItemsLength: 2,
+            lineDescriptionLength: 2,
+            noShippingText: 0
         }
     ];
 
