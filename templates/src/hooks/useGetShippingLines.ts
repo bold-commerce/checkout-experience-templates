@@ -9,7 +9,7 @@ import {IUseGetShippingLines} from 'src/types';
 
 export function useGetShippingLines(): IUseGetShippingLines {
     const dispatch = useDispatch();
-    const notValidText = getTerm('no_shipping_invalid_address', Constants.SHIPPING_METHOD_INFO);
+    const notValidText = getTerm('no_shipping_invalid_address_updated', Constants.SHIPPING_METHOD_INFO);
     const fieldSectionText = getTerm('shipping_method', Constants.SHIPPING_METHOD_INFO);
     const loading = useGetLoaderScreenVariable('shippingLines');
     const isValidAddress = useGetValidVariable('shippingAddress');
