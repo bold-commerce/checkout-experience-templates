@@ -97,6 +97,10 @@ html, body, .buy-now__app {
   }
 }
 
+.flash-error + .buy-now__products {
+  margin-top: 15px;
+}
+
 .buy-now__products {
   border: none;
   padding: 0;
