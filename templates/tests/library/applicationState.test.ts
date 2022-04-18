@@ -20,6 +20,7 @@ import {
     getBillingAddressFromLib,
     getCustomerFromLib,
     getDiscountsFromLib,
+    getIsOrderProcessFromLib,
     getLineItemsFromLib,
     getOrderMetaDataFromLib,
     getOrderTotalFromLib,
@@ -36,6 +37,7 @@ import * as customerAction from 'src/action/customerAction';
 import * as CustomerActions from 'src/action/customerActionType';
 import {Constants, defaultAddressState} from 'src/constants';
 import {handleErrorIfNeeded} from 'src/utils';
+import {actionUpdateIsProcessedOrder} from 'src/action/appAction';
 
 jest.mock('@bold-commerce/checkout-frontend-library');
 jest.mock('src/utils');
@@ -62,6 +64,7 @@ describe('testing Update Application State Thunk Actions', () => {
     let actionUpdateDiscountsSpy: jest.SpyInstance;
     let actionOrderMetaDataSpy: jest.SpyInstance;
     let actionOrderTotalSpy: jest.SpyInstance;
+    let actionUpdateIsProcessedOrderSpy: jest.SpyInstance;
     let actionUpdateAvailableShippingLinesSpy: jest.SpyInstance;
     let actionUpdateLineItemSpy: jest.SpyInstance;
     let actionUpdatePaymentsSpy: jest.SpyInstance;
@@ -94,6 +97,7 @@ describe('testing Update Application State Thunk Actions', () => {
         actionUpdateShippingLinesDiscountSpy = jest.spyOn(appAction, 'actionUpdateShippingLinesDiscount');
         actionUpdateShippingLinesTaxesSpy = jest.spyOn(appAction, 'actionUpdateShippingLinesTaxes');
         actionUpdateTaxesSpy = jest.spyOn(appAction, 'actionUpdateTaxes');
+        actionUpdateIsProcessedOrderSpy = jest.spyOn(appAction, 'actionUpdateIsProcessedOrder');
     });
 
     afterEach(() => {
@@ -103,7 +107,7 @@ describe('testing Update Application State Thunk Actions', () => {
     test('calling getApplicationStateFromLib', () => {
         getApplicationStateFromLib(dispatchMock);
 
-        expect(dispatchMock).toHaveBeenCalledTimes(6);
+        expect(dispatchMock).toHaveBeenCalledTimes(7);
         expect(dispatchMock).toHaveBeenCalledWith(getSummaryStateFromLib);
         expect(dispatchMock).toHaveBeenCalledWith(getCustomerFromLib);
         expect(dispatchMock).toHaveBeenCalledWith(getAddressesFromLib);
@@ -241,6 +245,22 @@ describe('testing Update Application State Thunk Actions', () => {
         expect(getApplicationStateMock).toHaveBeenCalledTimes(1);
         expect(actionOrderTotalSpy).toHaveBeenCalledTimes(1);
         expect(actionOrderTotalSpy).toHaveBeenCalledWith(application_state.order_total);
+        expect(dispatchMock).toHaveBeenCalledTimes(1);
+        expect(dispatchMock).toHaveBeenCalledWith(actionMock);
+    });
+
+    test('calling getIsOrderProcessFromLib', () => {
+        const actionMock = {
+            type: AppActions.UPDATE_ORDER_PROCESSED,
+            payload: {data: true}
+        };
+        actionUpdateIsProcessedOrderSpy.mockReturnValueOnce(actionMock);
+
+        getIsOrderProcessFromLib(dispatchMock);
+
+        expect(getApplicationStateMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateIsProcessedOrderSpy).toHaveBeenCalledTimes(1);
+        expect(actionUpdateIsProcessedOrderSpy).toHaveBeenCalledWith(application_state.is_processed);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });

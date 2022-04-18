@@ -32,6 +32,7 @@ export * from './useGetErrorByField';
 export * from './useGetFlashErrors';
 export * from './useGetFooterRights';
 export * from './useGetGeneralSettingCheckoutFields';
+export * from './useGetIsOrderProcessed';
 export * from './useGetLineItems';
 export * from './useGetIsLoading';
 export * from './useGetLoaderScreenVariable';

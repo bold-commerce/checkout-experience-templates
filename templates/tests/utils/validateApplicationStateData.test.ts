@@ -67,6 +67,7 @@ describe('testing function validateApplicationStateData', () => {
         order_total: 0,
         resumable_link: '',
         created_via: '',
+        is_processed: false,
         order_meta_data: {} as IApplicationStateOrderMetaData
     } as IApplicationState;
 
@@ -89,6 +90,7 @@ describe('testing function validateApplicationStateData', () => {
         order_total: 0,
         resumable_link: '',
         created_via: '',
+        is_processed: false,
         order_meta_data: {} as IApplicationStateOrderMetaData
     } as IApplicationState;
 

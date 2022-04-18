@@ -151,7 +151,8 @@ export interface IApplicationState {
     order_total: number,
     order_meta_data: IApplicationStateOrderMetaData,
     resumable_link: string,
-    created_via: string
+    created_via: string,
+    is_processed: boolean
 }
 
 export interface IApplicationStateLineItem {

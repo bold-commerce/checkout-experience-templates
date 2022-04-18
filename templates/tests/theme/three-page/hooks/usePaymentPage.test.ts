@@ -8,7 +8,9 @@ import {
     useGetButtonDisableVariable,
     useGetDiscounts,
     useGetErrors,
-    useGetIsLoading, useGetLineItems,
+    useGetIsLoading,
+    useGetIsOrderProcessed,
+    useGetLineItems,
     useGetPayments,
     useGetSelectShippingLine,
     useGetTaxes
@@ -31,6 +33,7 @@ jest.mock('src/hooks/useGetSelectShippingLine');
 jest.mock('src/hooks/useGetLineItems');
 jest.mock('src/utils/getTerm');
 jest.mock('src/library');
+jest.mock('src/hooks/useGetIsOrderProcessed');
 const useDispatchMock = mocked(useDispatch, true);
 const useHistoryMock = mocked(useHistory, true);
 const useGetErrorsMock = mocked(useGetErrors, true);
@@ -45,7 +48,7 @@ const getTermMock = mocked(getTerm, true);
 const sendAddPaymentActionMock = mocked(sendAddPaymentAction, true);
 const sendRefreshOrderActionMock = mocked(sendRefreshOrderAction, true);
 const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true);
-
+const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
 
 describe('Testing hook usePaymentPage', () => {
     const dispatchMock = jest.fn();
@@ -209,5 +212,12 @@ describe('Testing hook usePaymentPage', () => {
         expect(processOrderMock).toHaveBeenCalledTimes(0);
         expect(sendRefreshOrderActionMock).toHaveBeenCalledTimes(0);
         expect(sendAddPaymentActionMock).toHaveBeenCalledTimes(0);
+    });
+
+    test('rendering the hook with complete order', () => {
+        useGetIsOrderProcessedMock.mockReturnValue(true);
+        renderHook(() => usePaymentPage());
+        expect(historyMock.replace).toHaveBeenCalledTimes(1);
+        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('/thank_you'));
     });
 });

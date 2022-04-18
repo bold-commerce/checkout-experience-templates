@@ -1,8 +1,8 @@
 import {renderHook} from '@testing-library/react-hooks';
-import {useGetButtonDisableVariable, useGetIsLoading} from 'src/hooks';
+import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
-import {getTerm} from 'src/utils';
+import {getCheckoutUrl, getTerm} from 'src/utils';
 import {useHistory} from 'react-router';
 import {callShippingLinesPageApi} from 'src/library';
 import {useShippingPage} from 'src/themes/three-page/hooks';
@@ -13,12 +13,15 @@ jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/hooks/useGetButtonDisableVariable');
 jest.mock('src/library/callShippingLinesPageApi');
+jest.mock('src/hooks/useGetIsOrderProcessed');
 const useDispatchMock = mocked(useDispatch, true);
 const useHistoryMock = mocked(useHistory, true);
 const getTermMock = mocked(getTerm, true);
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true);
 const callShippingLinesPageApiMock = mocked(callShippingLinesPageApi, true);
+const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
+
 
 describe('Testing hook useShippingPage', () => {
     const mockDispatch = jest.fn();
@@ -54,6 +57,13 @@ describe('Testing hook useShippingPage', () => {
         result.current.nextButtonOnClick();
         expect(mockDispatch).toHaveBeenCalledTimes(1);
         expect(mockDispatch).toHaveBeenCalledWith(mockCallShippingLinesPageApi);
+    });
+
+    test('rendering the hook with complete order', () => {
+        useGetIsOrderProcessedMock.mockReturnValue(true);
+        renderHook(() => useShippingPage());
+        expect(historyMock.replace).toHaveBeenCalledTimes(1);
+        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('/thank_you'));
     });
 
 });

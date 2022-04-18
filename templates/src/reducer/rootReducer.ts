@@ -28,7 +28,8 @@ import {
     addressAutoCompleteReducer,
     checkoutProcessReducer,
     createdViaReducer,
-    resumableLinkReducer
+    resumableLinkReducer,
+    isProcessedReducer
 } from 'src/reducer';
 import {autocompleteServices, Constants} from 'src/constants';
 import { defaultOrderInitialization } from 'src/constants/orderInitialization';
@@ -87,7 +88,8 @@ const appStateReducer = combineReducers({
     payments: paymentsReducer,
     order_meta_data: orderMetaReducer,
     resumable_link: resumableLinkReducer,
-    created_via: createdViaReducer
+    created_via: createdViaReducer,
+    is_processed: isProcessedReducer
 });
 
 const generalSettingReducer = combineReducers({

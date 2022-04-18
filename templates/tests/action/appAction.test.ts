@@ -23,6 +23,7 @@ import {
     actionUpdateBillingTypeInSettings,
     actionUpdateDiscountCodeText,
     actionUpdateDiscounts,
+    actionUpdateIsProcessedOrder,
     actionUpdateLineItem,
     actionUpdatePayments,
     actionUpdateScreenWidth,
@@ -532,6 +533,19 @@ describe('Testing App Actions', () => {
         };
 
         const result = actionUpdateAppData(data);
+
+        expect(result).toStrictEqual(actionReturnExpectation);
+    });
+
+    test('actionUpdateAppData', () => {
+        const data = true;
+
+        const actionReturnExpectation = {
+            type: AppActions.UPDATE_ORDER_PROCESSED,
+            payload: {data}
+        };
+
+        const result = actionUpdateIsProcessedOrder(data);
 
         expect(result).toStrictEqual(actionReturnExpectation);
     });
