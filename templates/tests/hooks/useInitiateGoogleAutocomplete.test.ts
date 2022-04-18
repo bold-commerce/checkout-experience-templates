@@ -25,8 +25,6 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
     let getCountryInfoListMock: Array<ICountryInformation>;
     let mockedScript: HTMLScriptElement;
 
-    const calledOnce = 1;
-
     beforeEach(() => {
         jest.restoreAllMocks();
         getCountryInfoListMock = [
@@ -135,7 +133,7 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
 
         expect(documentCreateElementSpy).not.toHaveBeenCalled();
         expect(documentBodyAppendChildSpy).not.toHaveBeenCalled();
-        expect(useDispatchAutocompleteDataSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(useDispatchAutocompleteDataSpy).toHaveBeenCalledTimes(1);
     });
 
     test('scripts are not loaded and addressData is not empty', () => {
@@ -146,9 +144,9 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
 
         renderHook(() => useInitiateGoogleAutocomplete());
 
-        expect(documentCreateElementSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(documentCreateElementSpy).toHaveBeenCalledTimes(1);
         expect(documentCreateElementSpy).toHaveBeenCalledWith('script');
-        expect(documentBodyAppendChildSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(documentBodyAppendChildSpy).toHaveBeenCalledTimes(1);
         expect(documentBodyAppendChildSpy).toHaveBeenCalledWith(mockedScript);
         expect(useDispatchAutocompleteDataSpy).not.toHaveBeenCalled();
     });
@@ -161,12 +159,12 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
 
         renderHook(() => useInitiateGoogleAutocomplete());
 
-        expect(documentCreateElementSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(documentCreateElementSpy).toHaveBeenCalledTimes(1);
         expect(documentCreateElementSpy).toHaveBeenCalledWith('script');
-        expect(documentBodyAppendChildSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(documentBodyAppendChildSpy).toHaveBeenCalledTimes(1);
         expect(documentBodyAppendChildSpy).toHaveBeenCalledWith(mockedScript);
-        expect(useDispatchAutocompleteDataSpy).toHaveBeenCalledTimes(calledOnce);
-        expect(isAutocompleteDataPopulatedSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(useDispatchAutocompleteDataSpy).toHaveBeenCalledTimes(1);
+        expect(isAutocompleteDataPopulatedSpy).toHaveBeenCalledTimes(1);
     });
 });
 

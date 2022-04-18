@@ -8,7 +8,6 @@ import {initialDataMock} from 'src/mocks';
 
 describe('Testing AddressSavedSelect component', () => {
     let addressHook: jest.SpyInstance;
-    const one = 1;
 
     const props:IAddressFieldSelectProps = {
         type: Constants.SHIPPING,
@@ -36,7 +35,7 @@ describe('Testing AddressSavedSelect component', () => {
     test('Render the AddressSavedSelect properly', () => {
         addressHook = jest.spyOn(useGetSavedAddressData, 'useGetSavedAddressData').mockReturnValue(hookResult);
         const {container} = render(<AddressSavedSelect {...props}/>);
-        expect(container.getElementsByClassName(props.className).length).toBe(one);
+        expect(container.getElementsByClassName(props.className).length).toBe(1);
     });
 
     test('test the change event', () => {
@@ -44,7 +43,7 @@ describe('Testing AddressSavedSelect component', () => {
         render(<AddressSavedSelect {...props}/>);
         const input = screen.getByTestId('input-select');
         fireEvent.change(input, {target: {value: 'a'}});
-        expect(hookResult.handleChange).toHaveBeenCalledTimes(one);
+        expect(hookResult.handleChange).toHaveBeenCalledTimes(1);
     });
 
 });

@@ -112,13 +112,14 @@ describe('testing Google Analytics implementation', () => {
     });
 
     test('testing orderCompleteForGoogleAnalytics function with custom script', ()=> {
-        const script = 'console.log(\'error\')';
+        const script = 'const test = 1';
         window['google_analytics_is_customized'] = 1;
         window['google_analytics_order_complete_script'] = script;
 
         orderCompleteForGoogleAnalytics(appState.line_items, 'USD', totals ,selectedShippingLine );
         expect(gaSpy).toHaveBeenCalledTimes(0);
-
+        expect(document.head.childNodes.length).toBe(1);
+        expect(document.head.children[0].innerHTML).toContain(script);
     });
 
 });

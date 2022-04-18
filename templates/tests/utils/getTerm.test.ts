@@ -10,8 +10,6 @@ describe('Test function getTerm', () => {
     let getLanguageBlobSpy: jest.SpyInstance;
     let useGetSupportedLanguageDataSpy: jest.SpyInstance;
 
-    const notCalled = 0;
-    const calledOnce = 1;
     const languageIsoValueEnglish = 'en';
     const nonExistingTerm = 'term';
     const nonExistingSection = 'section';
@@ -25,7 +23,7 @@ describe('Test function getTerm', () => {
         [
             'LanguageBlob parameter is undefined - blob returned by functions is null', // Test name
             [nonExistingTerm, nonExistingSection, undefined],   // getTerm function parameters
-            [calledOnce, calledOnce, calledOnce],               // number of time each function inside getTerm function is called
+            [1, 1, 1],               // number of time each function inside getTerm function is called
             [languageIsoValueEnglish, null, null],              // mockValue returned by each function if called inside getTerm function
             [languageIsoValueEnglish, null],                    // Parameter used to call function inside getTerm function
             nonExistingTerm                                     // expected value
@@ -33,7 +31,7 @@ describe('Test function getTerm', () => {
         [
             'LanguageBlob parameter is undefined - blob returned by functions is complete - term does not exist',
             [nonExistingTerm, existingSection, undefined],
-            [calledOnce, calledOnce, calledOnce],
+            [1, 1, 1],
             [languageIsoValueEnglish, languageBlobMock, languageBlobParsedMock],
             [languageIsoValueEnglish, languageBlobMock],
             nonExistingTerm
@@ -41,7 +39,7 @@ describe('Test function getTerm', () => {
         [
             'LanguageBlob parameter is undefined - blob returned by functions is complete - section does not exist',
             [existingTerm, nonExistingSection, undefined],
-            [calledOnce, calledOnce, calledOnce],
+            [1, 1, 1],
             [languageIsoValueEnglish, languageBlobMock, languageBlobParsedMock],
             [languageIsoValueEnglish, languageBlobMock],
             existingTerm
@@ -49,7 +47,7 @@ describe('Test function getTerm', () => {
         [
             'LanguageBlob parameter is undefined - blob returned by functions is complete - section and term exist - string correctly translated',
             [existingTerm, existingSection, undefined],
-            [calledOnce, calledOnce, calledOnce],
+            [1, 1, 1],
             [languageIsoValueEnglish, languageBlobMock, languageBlobParsedMock],
             [languageIsoValueEnglish, languageBlobMock],
             translatedCorrectlyByFunction

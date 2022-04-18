@@ -3,14 +3,12 @@ import {useGetPayments} from 'src/hooks';
 import {stateMock} from 'src/mocks/stateMock';
 import {useAppSelector} from 'src/hooks/rootHooks';
 import {mocked} from 'jest-mock';
-import {counterNames} from 'src/constants';
 
 jest.mock('src/library/paymentIframe');
 jest.mock('src/hooks/rootHooks');
 const useAppSelectorMock = mocked(useAppSelector, true);
 
 describe('Testing hook useGetPayments', () => {
-    const {one} = counterNames;
 
     test('rendering the hook properly', () => {
         useAppSelectorMock.mockReturnValueOnce(stateMock.data.application_state.payments);
@@ -18,6 +16,6 @@ describe('Testing hook useGetPayments', () => {
         const {result} = renderHook(() => useGetPayments());
 
         expect(result.current).toBe(stateMock.data.application_state.payments);
-        expect(useAppSelectorMock).toHaveBeenCalledTimes(one);
+        expect(useAppSelectorMock).toHaveBeenCalledTimes(1);
     });
 });

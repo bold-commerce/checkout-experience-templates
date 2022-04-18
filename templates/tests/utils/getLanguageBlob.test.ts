@@ -9,7 +9,6 @@ describe('Test function getLanguageBlob', () => {
     const languageBlobMock: ISupportedLanguage = initialDataMock.initial_data.supported_languages[0];
     const languageBlobExpected = JSON.parse(languageBlobMock.language_blob);
     const languageErrorBlobExpected = languageBlobExpected['terms'].error_messages;
-    const calledOnce = 1;
 
     beforeEach(() => {
         jest.restoreAllMocks();
@@ -24,14 +23,14 @@ describe('Test function getLanguageBlob', () => {
 
     test('language parameter is correctly set and returns translations', () => {
         const returned = getLanguageBlob(languageBlobMock);
-        expect(jsonParseSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(jsonParseSpy).toHaveBeenCalledTimes(1);
         expect(jsonParseSpy).toHaveBeenCalledWith(languageBlobMock.language_blob);
         expect(returned).toStrictEqual(languageBlobExpected['terms']);
     });
 
     test('language parameter is correctly set and returns errors translations', () => {
         const returned = getLanguageBlob(languageBlobMock, Constants.LANGUAGE_BLOB_ERROR_TYPE);
-        expect(jsonParseSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(jsonParseSpy).toHaveBeenCalledTimes(1);
         expect(jsonParseSpy).toHaveBeenCalledWith(languageBlobMock.language_blob);
         expect(returned).toStrictEqual(languageErrorBlobExpected);
     });

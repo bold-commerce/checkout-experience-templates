@@ -13,9 +13,6 @@ import {SET_OVERLAY_CONTENT} from 'src/action';
 import {Constants} from 'src/constants';
 
 describe('Test displayFatalErrorFromTranslation function', () => {
-    const notCalled = 0;
-    const calledOnce = 1;
-    const calledTwice = 2;
     let dispatch: Dispatch;
     let setOverlayContentSpy: SpyInstance;
     let findLanguageDataByIsoCodeSpy: SpyInstance;
@@ -52,7 +49,7 @@ describe('Test displayFatalErrorFromTranslation function', () => {
 
         displayFatalErrorFromTranslation(orderInitializationMock, dispatch);
 
-        expect(displayFatalErrorSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(displayFatalErrorSpy).toHaveBeenCalledTimes(1);
         expect(displayFatalErrorSpy).toHaveBeenCalledWith(dispatch);
     });
 
@@ -79,18 +76,18 @@ describe('Test displayFatalErrorFromTranslation function', () => {
 
         displayFatalErrorFromTranslation(orderInitializationMock, dispatch);
 
-        expect(getLanguageBlobSpy).toHaveBeenCalledTimes(calledTwice);
+        expect(getLanguageBlobSpy).toHaveBeenCalledTimes(2);
         expect(getLanguageBlobSpy).toHaveBeenCalledWith(language, Constants.LANGUAGE_BLOB_TYPE);
         expect(getLanguageBlobSpy).toHaveBeenCalledWith(language, Constants.LANGUAGE_BLOB_ERROR_TYPE);
-        expect(getErrorTermSpy).toHaveBeenCalledTimes(calledTwice);
+        expect(getErrorTermSpy).toHaveBeenCalledTimes(2);
         expect(getErrorTermSpy).toHaveBeenCalledWith('fatal_err_header', Constants.GENERIC_ERROR_INFO, languageErrorBlob);
         expect(getErrorTermSpy).toHaveBeenCalledWith('fatal_err_subHeader', Constants.GENERIC_ERROR_INFO, languageErrorBlob);
-        expect(getTermSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(getTermSpy).toHaveBeenCalledTimes(1);
         expect(getTermSpy).toHaveBeenCalledWith('return_to_cart', Constants.CUSTOMER_INFO, languageBlob);
-        expect(displayFatalErrorSpy).toHaveBeenCalledTimes(notCalled);
-        expect(setOverlayContentSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(displayFatalErrorSpy).toHaveBeenCalledTimes(0);
+        expect(setOverlayContentSpy).toHaveBeenCalledTimes(1);
         expect(setOverlayContentSpy).toHaveBeenCalledWith(overlayPayload);
-        expect(dispatch).toHaveBeenCalledTimes(calledOnce);
+        expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenCalledWith(returnSetOverlayContentAction);
     });
 });

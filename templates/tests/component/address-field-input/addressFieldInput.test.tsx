@@ -7,8 +7,6 @@ import {Constants} from 'src/constants';
 
 describe('Testing addressFieldInput component', () => {
     let addressHook: jest.SpyInstance;
-    const one = 1;
-    const zero = 0;
 
     const props:IAddressFieldInputProps = {
         type: Constants.SHIPPING,
@@ -30,8 +28,8 @@ describe('Testing addressFieldInput component', () => {
     test('Render the AddressFieldInput properly', () => {
         addressHook = jest.spyOn(useGetAddressFieldInputData, 'useGetAddressFieldInputData').mockReturnValue(hookResult);
         const {container} = render(<AddressFieldInput {...props}/>);
-        expect(container.getElementsByClassName(props.className).length).toBe(one);
-        expect(container.getElementsByClassName('address__hidden').length).toBe(zero);
+        expect(container.getElementsByClassName(props.className).length).toBe(1);
+        expect(container.getElementsByClassName('address__hidden').length).toBe(0);
         const element: Partial<HTMLInputElement> = container.getElementsByTagName('input')[0];
         expect(element.id).toBe(hookResult.id);
         expect(element.value).toBe(hookResult.value);
@@ -44,7 +42,7 @@ describe('Testing addressFieldInput component', () => {
         localHookResult.showField = false;
         addressHook = jest.spyOn(useGetAddressFieldInputData, 'useGetAddressFieldInputData').mockReturnValue(localHookResult);
         const {container} = render(<AddressFieldInput {...props}/>);
-        expect(container.getElementsByClassName('address__hidden').length).toBe(one);
+        expect(container.getElementsByClassName('address__hidden').length).toBe(1);
     });
 
     test('test the change event', () => {
@@ -52,7 +50,7 @@ describe('Testing addressFieldInput component', () => {
         render(<AddressFieldInput {...props}/>);
         const input = screen.getByTestId('input-field');
         fireEvent.change(input, {target: {value: 'a'}});
-        expect(hookResult.handleChange).toHaveBeenCalledTimes(one);
+        expect(hookResult.handleChange).toHaveBeenCalledTimes(1);
     });
 
 });

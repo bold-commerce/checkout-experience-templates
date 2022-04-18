@@ -5,7 +5,6 @@ import * as validateApplicationStateData from 'src/utils/validateApplicationStat
 
 describe('testing getValidatedOrderData', () => {
     let validateApplicationStateDataSpy: jest.SpyInstance;
-    const calledOnce = 1;
 
     test('getValidatedOrderData Success', () => {
         validateApplicationStateDataSpy = jest.spyOn(validateApplicationStateData, 'validateApplicationStateData');
@@ -13,7 +12,7 @@ describe('testing getValidatedOrderData', () => {
         validateApplicationStateDataSpy.mockReturnValueOnce(mockOrderData.application_state);
 
         const result = getValidatedOrderData(mockOrderData);
-        expect(validateApplicationStateDataSpy).toHaveBeenCalledTimes(calledOnce);
+        expect(validateApplicationStateDataSpy).toHaveBeenCalledTimes(1);
         expect(validateApplicationStateDataSpy).toHaveBeenCalledWith(mockOrderData.application_state);
         expect(result).toStrictEqual(mockOrderData);
     });

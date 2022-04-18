@@ -3,7 +3,7 @@ import {useAppSelector, useGetErrors, useGetFlashErrors, useGetSupportedLanguage
 import {stateMock} from 'src/mocks';
 import {getErrorTerm, getLanguageBlob} from 'src/utils';
 import {renderHook} from '@testing-library/react-hooks';
-import {counterNames, errorFields, errorSeverities, errorSubTypes, errorTypes} from 'src/constants';
+import {errorFields, errorSeverities, errorSubTypes, errorTypes} from 'src/constants';
 import {IError} from 'src/types';
 
 jest.mock('src/hooks/rootHooks');
@@ -17,8 +17,6 @@ const getErrorTermMock = mocked(getErrorTerm, true);
 const useGetErrorsMock = mocked(useGetErrors, true);
 
 describe('Testing hook useGetFlashErrors', () => {
-    const {zero, one} = counterNames;
-
     const error: Array<IError> = [{
         message: 'Test message',
         field: errorFields.discounts,
@@ -40,7 +38,7 @@ describe('Testing hook useGetFlashErrors', () => {
 
         const {result} = renderHook(() => useGetFlashErrors());
         expect(result.current).toStrictEqual([]);
-        expect(getErrorTerm).toHaveBeenCalledTimes(zero);
+        expect(getErrorTerm).toHaveBeenCalledTimes(0);
     });
 
 
@@ -52,7 +50,7 @@ describe('Testing hook useGetFlashErrors', () => {
 
         const {result} = renderHook(() => useGetFlashErrors());
         expect(result.current).toStrictEqual([]);
-        expect(getErrorTerm).toHaveBeenCalledTimes(zero);
+        expect(getErrorTerm).toHaveBeenCalledTimes(0);
     });
 
     test('rendering the hook with flash errors', () => {
@@ -65,7 +63,7 @@ describe('Testing hook useGetFlashErrors', () => {
 
         const {result} = renderHook(() => useGetFlashErrors());
         expect(result.current).toStrictEqual(['TEST']);
-        expect(getErrorTerm).toHaveBeenCalledTimes(one);
+        expect(getErrorTerm).toHaveBeenCalledTimes(1);
     });
 
     test('rendering the hook with undefined errors', () => {
@@ -76,6 +74,6 @@ describe('Testing hook useGetFlashErrors', () => {
 
         const {result} = renderHook(() => useGetFlashErrors());
         expect(result.current).toStrictEqual([]);
-        expect(getErrorTerm).toHaveBeenCalledTimes(zero);
+        expect(getErrorTerm).toHaveBeenCalledTimes(0);
     });
 });

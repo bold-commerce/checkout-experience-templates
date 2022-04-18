@@ -8,18 +8,17 @@ describe('testing deleteAddress', () => {
     const deleteShippingAddressSpy = jest.spyOn(deleteShippingAddress, 'deleteShippingAddress');
     const deleteBillingAddressSpy = jest.spyOn(deleteBillingAddress, 'deleteBillingAddress');
     let dispatchMock: Dispatch;
-    const calledOnce = 1;
     const dataArray = [
         {
             name: 'call delete address for shipping',
             parameter: Constants.SHIPPING,
-            called: calledOnce,
+            called: 1,
             spyFunction: deleteShippingAddressSpy
         },
         {
             name: 'call delete address for billing',
             parameter: Constants.BILLING,
-            called: calledOnce,
+            called: 1,
             spyFunction: deleteBillingAddressSpy
         }
     ];
@@ -32,7 +31,7 @@ describe('testing deleteAddress', () => {
         jest.clearAllMocks();
     });
 
-    test.each(dataArray)( '$0', async ({name, parameter, called, spyFunction}) => {
+    test.each(dataArray)( '$name', async ({name, parameter, called, spyFunction}) => {
         const postAddressValue = await deleteAddress(parameter);
         postAddressValue(dispatchMock).then(() => {
             expect(dispatchMock).toHaveBeenCalledTimes(called);

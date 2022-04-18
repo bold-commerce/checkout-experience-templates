@@ -11,7 +11,6 @@ const setTaxesMock = mocked(setTaxes, true);
 describe('testing Generate Taxes Thunk Action', () => {
     const returnObject = {...baseReturnObject};
     const {application_state} = initialDataMock;
-    const calledOnce = 1;
     const dispatchMock = jest.fn();
     const getStateMock = jest.fn();
     let handleErrorIfNeededSpy: jest.SpyInstance;
@@ -29,10 +28,10 @@ describe('testing Generate Taxes Thunk Action', () => {
 
     test('calling generateTaxes', async () => {
         await generateTaxes(dispatchMock, getStateMock).then(() => {
-            expect(setTaxesMock).toHaveBeenCalledTimes(calledOnce);
-            expect(handleErrorIfNeededSpy).toHaveBeenCalledTimes(calledOnce);
+            expect(setTaxesMock).toHaveBeenCalledTimes(1);
+            expect(handleErrorIfNeededSpy).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededSpy).toHaveBeenCalledWith(returnObject, dispatchMock, getStateMock);
-            expect(dispatchMock).toHaveBeenCalledTimes(calledOnce);
+            expect(dispatchMock).toHaveBeenCalledTimes(1);
             expect(dispatchMock).toHaveBeenCalledWith(getSummaryStateFromLib);
         });
     });

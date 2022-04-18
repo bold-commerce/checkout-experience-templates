@@ -21,41 +21,39 @@ describe('Testing FieldSelect component', () => {
         handleChange: jest.fn(),
         handleBlur: jest.fn()
     };
-    const one = 1;
-    const zero = 0;
 
     test('Render the FieldInput properly with correct data', () => {
         const {container} = render(<FieldSelect {...props}/>);
-        expect(container.getElementsByClassName('select-field__container').length).toBe(one);
-        expect(container.getElementsByClassName('select-field').length).toBe(one);
-        expect(container.getElementsByClassName('select-field__label').length).toBe(one);
-        expect(container.getElementsByClassName(props.className).length).toBe(one);
+        expect(container.getElementsByClassName('select-field__container').length).toBe(1);
+        expect(container.getElementsByClassName('select-field').length).toBe(1);
+        expect(container.getElementsByClassName('select-field__label').length).toBe(1);
+        expect(container.getElementsByClassName(props.className).length).toBe(1);
     });
 
     test('Test field with value not empty', () => {
         const {container} = render(<FieldSelect {...props}/>);
-        expect(container.getElementsByClassName('select-field--has-value').length).toBe(one);
+        expect(container.getElementsByClassName('select-field--has-value').length).toBe(1);
     });
 
     test('Test field with value empty', () => {
         const localProps = {...props};
         localProps.value = '';
         const {container} = render(<FieldSelect {...localProps}/>);
-        expect(container.getElementsByClassName('select-field--has-value').length).toBe(zero);
+        expect(container.getElementsByClassName('select-field--has-value').length).toBe(0);
     });
 
     test('Test with error message', () => {
         const localProps = {...props};
         localProps.errorMessage = 'test-message';
         const {container} = render(<FieldSelect {...localProps}/>);
-        expect(container.getElementsByClassName('field--alert').length).toBe(one);
+        expect(container.getElementsByClassName('field--alert').length).toBe(1);
     });
 
     test('Check change handler event called', () => {
         render(<FieldSelect {...props}/>);
         const input = screen.getByTestId('input-select');
         fireEvent.change(input, {target: {value: 'two'}});
-        expect(props.handleChange).toHaveBeenCalledTimes(one);
+        expect(props.handleChange).toHaveBeenCalledTimes(1);
     });
 
     test('Check focus handler event', () => {
@@ -63,10 +61,10 @@ describe('Testing FieldSelect component', () => {
         localProps.handleFocus = jest.fn();
         const {container} = render(<FieldSelect {...localProps}/>);
         const element = screen.getByTestId('input-select');
-        expect(container.getElementsByClassName('select-field--has-focus').length).toBe(zero);
+        expect(container.getElementsByClassName('select-field--has-focus').length).toBe(0);
         fireEvent.focus(element, {target: {value: 'two'}});
-        expect(localProps.handleFocus).toHaveBeenCalledTimes(one);
-        expect(container.getElementsByClassName('select-field--has-focus').length).toBe(one);
+        expect(localProps.handleFocus).toHaveBeenCalledTimes(1);
+        expect(container.getElementsByClassName('select-field--has-focus').length).toBe(1);
     });
 
     test('Check blur handler event', () => {
@@ -75,10 +73,10 @@ describe('Testing FieldSelect component', () => {
         const {container} = render(<FieldSelect {...localProps}/>);
         const element = screen.getByTestId('input-select');
         fireEvent.focus(element);
-        expect(container.getElementsByClassName('select-field--has-focus').length).toBe(one);
+        expect(container.getElementsByClassName('select-field--has-focus').length).toBe(1);
         fireEvent.blur(element);
-        expect(localProps.handleBlur).toHaveBeenCalledTimes(one);
-        expect(container.getElementsByClassName('select-field--has-focus').length).toBe(zero);
+        expect(localProps.handleBlur).toHaveBeenCalledTimes(1);
+        expect(container.getElementsByClassName('select-field--has-focus').length).toBe(0);
     });
 
     test('Check the placeholder without empty value', () => {

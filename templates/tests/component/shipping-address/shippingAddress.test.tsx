@@ -7,7 +7,6 @@ import * as Store from 'src/store';
 const store = Store.initializeStore();
 describe('Testing ShippingAddress component', () => {
     let getTermSpy: jest.SpyInstance;
-    const calledOnce = 1;
     beforeEach(() =>{
         jest.resetAllMocks();
         getTermSpy = jest.spyOn(getTerm, 'getTerm').mockReturnValue('');
@@ -15,8 +14,8 @@ describe('Testing ShippingAddress component', () => {
 
     test('Render the Address properly', () => {
         const {container} = render(<Provider store={store}><ShippingAddress/></Provider>);
-        expect(container.getElementsByClassName('shipping-address').length).toBe(calledOnce);
-        expect(container.getElementsByClassName('address').length).toBe(calledOnce);
+        expect(container.getElementsByClassName('shipping-address').length).toBe(1);
+        expect(container.getElementsByClassName('address').length).toBe(1);
 
     });
 

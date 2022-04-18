@@ -1,5 +1,3 @@
-import {Dispatch} from 'redux';
-import {IOrderInitialization} from 'src/types';
 import {getPaymentIframeUrl} from '@bold-commerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
@@ -20,8 +18,6 @@ describe('testing getPaymentIframe function', () => {
     const returnObject = {...baseReturnObject};
     const dispatch = jest.fn();
     const getState = jest.fn();
-    const calledOnce = 1;
-    const calledTwice = 2;
     const actionSetPigiIframeLoaderMock = {
         type: AppActions.SET_PIGI_IFRAME_LOADER,
         payload: {pigiIframeLoader: true}
@@ -41,15 +37,15 @@ describe('testing getPaymentIframe function', () => {
         const paymentIframeValue = await getPaymentIframe();
         await paymentIframeValue(dispatch, getState).then((returnedUrlForPigi) => {
 
-            expect(actionSetPigiIframeLoaderSpy).toHaveBeenCalledTimes(calledOnce);
+            expect(actionSetPigiIframeLoaderSpy).toHaveBeenCalledTimes(1);
             expect(actionSetPigiIframeLoaderSpy).toHaveBeenCalledWith(true);
-            expect(dispatch).toHaveBeenCalledTimes(calledTwice);
+            expect(dispatch).toHaveBeenCalledTimes(2);
             expect(dispatch).toHaveBeenCalledWith(actionSetPigiIframeLoaderMock);
             expect(dispatch).toHaveBeenCalledWith(postCssStylingPigi);
-            expect(getPaymentIframeUrlMock).toHaveBeenCalledTimes(calledOnce);
-            expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(calledOnce);
+            expect(getPaymentIframeUrlMock).toHaveBeenCalledTimes(1);
+            expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(returnObject, dispatch, getState);
-            expect(displayFatalErrorFromTranslationMock).toHaveBeenCalledTimes(calledOnce);
+            expect(displayFatalErrorFromTranslationMock).toHaveBeenCalledTimes(1);
             expect(displayFatalErrorFromTranslationMock).toHaveBeenCalledWith(stateMock, dispatch);
             expect(returnedUrlForPigi).not.toBeDefined();
             expect(returnedUrlForPigi).not.toBe(urlPigi);
@@ -63,13 +59,13 @@ describe('testing getPaymentIframe function', () => {
         const paymentIframeValue = await getPaymentIframe();
         await paymentIframeValue(dispatch, getState).then((returnedUrlForPigi) => {
 
-            expect(actionSetPigiIframeLoaderSpy).toHaveBeenCalledTimes(calledOnce);
+            expect(actionSetPigiIframeLoaderSpy).toHaveBeenCalledTimes(1);
             expect(actionSetPigiIframeLoaderSpy).toHaveBeenCalledWith(true);
-            expect(dispatch).toHaveBeenCalledTimes(calledTwice);
+            expect(dispatch).toHaveBeenCalledTimes(2);
             expect(dispatch).toHaveBeenCalledWith(actionSetPigiIframeLoaderMock);
             expect(dispatch).toHaveBeenCalledWith(postCssStylingPigi);
-            expect(getPaymentIframeUrlMock).toHaveBeenCalledTimes(calledOnce);
-            expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(calledOnce);
+            expect(getPaymentIframeUrlMock).toHaveBeenCalledTimes(1);
+            expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(returnObject, dispatch, getState);
             expect(displayFatalErrorFromTranslationMock).not.toHaveBeenCalled();
             expect(displayFatalErrorFromTranslationMock).not.toHaveBeenCalledWith(stateMock, dispatch);

@@ -5,9 +5,7 @@ import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/var
 import {Dispatch} from 'redux';
 import {IApplicationStateCustomer, IOrderInitialization} from 'src/types';
 import {stateMock} from 'src/mocks';
-import {counterNames} from 'src/constants';
 import {handleErrorIfNeeded} from 'src/utils';
-
 
 jest.mock('@bold-commerce/checkout-frontend-library');
 jest.mock('src/utils/handleErrorIfNeeded');
@@ -18,7 +16,6 @@ const handleErrorIfNeededMock = mocked(handleErrorIfNeeded , true);
 
 describe('testing updateGuestCustomer', () => {
     const returnObject = {...baseReturnObject};
-    const {one, zero} = counterNames;
     let dispatch: Dispatch;
     const customer: IApplicationStateCustomer = stateMock.data.application_state.customer;
     let getState: () => IOrderInitialization;
@@ -37,9 +34,9 @@ describe('testing updateGuestCustomer', () => {
         putGuestCustomerMock.mockReturnValueOnce(Promise.resolve(returnObject));
 
         await updateCustomer(dispatch, getState).then(() => {
-            expect(putGuestCustomerMock).toHaveBeenCalledTimes(one);
+            expect(putGuestCustomerMock).toHaveBeenCalledTimes(1);
             expect(putGuestCustomerMock).toHaveBeenCalledWith(customer.first_name, customer.last_name, customer.email_address, customer.accepts_marketing);
-            expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(one);
+            expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(dispatch).toHaveBeenCalledWith(getCustomerFromLibMock);
         });
     });
@@ -49,10 +46,10 @@ describe('testing updateGuestCustomer', () => {
         putGuestCustomerMock.mockReturnValueOnce(Promise.resolve(returnObject));
 
         await updateCustomer(dispatch, getState).then(() => {
-            expect(putGuestCustomerMock).toHaveBeenCalledTimes(one);
+            expect(putGuestCustomerMock).toHaveBeenCalledTimes(1);
             expect(putGuestCustomerMock).toHaveBeenCalledWith(customer.first_name, customer.last_name, customer.email_address, customer.accepts_marketing);
-            expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(one);
-            expect(dispatch).toHaveBeenCalledTimes(zero);
+            expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
+            expect(dispatch).toHaveBeenCalledTimes(0);
         });
     });
 });

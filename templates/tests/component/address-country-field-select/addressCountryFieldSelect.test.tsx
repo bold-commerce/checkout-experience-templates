@@ -7,8 +7,6 @@ import {AddressCountrySelect} from 'src/components';
 
 describe('Testing AddressCountrySelect component', () => {
     let addressHook: jest.SpyInstance;
-    const one = 1;
-    const zero = 0;
 
     const props:IAddressFieldSelectProps = {
         type: Constants.SHIPPING,
@@ -34,7 +32,7 @@ describe('Testing AddressCountrySelect component', () => {
     test('Render the AddressCountrySelect properly', () => {
         addressHook = jest.spyOn(useGetAddressCountryInputData, 'useGetAddressCountryInputData').mockReturnValue(hookResult);
         const {container} = render(<AddressCountrySelect {...props}/>);
-        expect(container.getElementsByClassName('address__country').length).toBe(one);
+        expect(container.getElementsByClassName('address__country').length).toBe(1);
         const element: Partial<HTMLSelectElement> = container.getElementsByTagName('select')[0];
         expect(element.id).toBe(hookResult.id);
         expect(element.value).toBe(hookResult.value);
@@ -47,7 +45,7 @@ describe('Testing AddressCountrySelect component', () => {
         render(<AddressCountrySelect {...props}/>);
         const input = screen.getByTestId('input-select');
         fireEvent.change(input, {target: {value: 'a'}});
-        expect(hookResult.handleChange).toHaveBeenCalledTimes(one);
+        expect(hookResult.handleChange).toHaveBeenCalledTimes(1);
     });
 
 });

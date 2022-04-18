@@ -1,6 +1,5 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {useAppSelector, useGetIsLoading} from 'src/hooks';
-import {counterNames} from 'src/constants';
 import {mocked} from 'jest-mock';
 import {stateMock} from 'src/mocks';
 
@@ -8,14 +7,17 @@ jest.mock('src/hooks/rootHooks');
 const useAppSelectorMock = mocked(useAppSelector, true);
 
 describe('Testing hook useGetIsLoading', () => {
-    const {one, two} = counterNames;
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
 
     test('return false when nothing loading', () => {
 
         useAppSelectorMock.mockReturnValueOnce(stateMock.isLoading);
         const {result} = renderHook(() => useGetIsLoading());
         expect(result.current).toBe(false);
-        expect(useAppSelector).toHaveBeenCalledTimes(one);
+        expect(useAppSelector).toHaveBeenCalledTimes(1);
     });
 
     test('return true when something loading', () => {
@@ -26,6 +28,6 @@ describe('Testing hook useGetIsLoading', () => {
         useAppSelectorMock.mockReturnValueOnce(isLoadingMock);
         const {result} = renderHook(() => useGetIsLoading());
         expect(result.current).toBe(true);
-        expect(useAppSelector).toHaveBeenCalledTimes(two);
+        expect(useAppSelector).toHaveBeenCalledTimes(1);
     });
 });
