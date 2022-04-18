@@ -1,6 +1,6 @@
 import {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
-import {useGetButtonDisableVariable, useGetIsLoading} from 'src/hooks';
+import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
 import {callCustomerPageApi} from 'src/library';
 import {useHistory} from 'react-router';
 import {Constants} from 'src/constants';
@@ -10,9 +10,13 @@ import {sendEvents} from 'src/analytics';
 
 export function useCustomerPage(): IUseCustomerPageProp {
     const dispatch = useDispatch();
-    const nextButtonLoading = useGetIsLoading();
-    const nextButtonDisable = useGetButtonDisableVariable('customerPageButton');
     const history = useHistory();
+    const nextButtonLoading = useGetIsLoading();
+    const isOrderCompleted = useGetIsOrderProcessed();
+    if(isOrderCompleted){
+        history.replace(getCheckoutUrl('/thank_you'));
+    }
+    const nextButtonDisable = useGetButtonDisableVariable('customerPageButton');
     const backLinkText = `< ${getTerm('return_to_cart', Constants.CUSTOMER_INFO)}`;
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();

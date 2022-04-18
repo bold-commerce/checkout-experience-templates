@@ -4,6 +4,7 @@ import {
     useGetDiscounts,
     useGetErrors,
     useGetIsLoading,
+    useGetIsOrderProcessed,
     useGetLineItems,
     useGetPayments,
     useGetSelectShippingLine,
@@ -21,6 +22,10 @@ import {sendEvents} from 'src/analytics';
 export function usePaymentPage(): IUsePaymentPage{
     const history = useHistory();
     const dispatch = useDispatch();
+    const isOrderCompleted = useGetIsOrderProcessed();
+    if(isOrderCompleted){
+        history.replace(getCheckoutUrl('/thank_you'));
+    }
     const errors = useGetErrors();
     const backLinkText = `< ${getTerm('return_to_shipping', Constants.PAYMENT_INFO)}`;
     const nextButtonText = getTerm('complete_order', Constants.PAYMENT_INFO);

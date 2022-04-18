@@ -48,6 +48,7 @@ export function validateApplicationStateData(appData: IApplicationState): IAppli
         order_total: appData.order_total,
         resumable_link: appData.resumable_link,
         created_via: appData.created_via,
+        is_processed: appData.is_processed,
         line_items: lineItems,
         shipping: {
             selected_shipping: selectedShippingLines,

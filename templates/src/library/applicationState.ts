@@ -20,6 +20,7 @@ import {
     actionUpdateAvailableShippingLines,
     actionUpdateCustomer,
     actionUpdateDiscounts,
+    actionUpdateIsProcessedOrder,
     actionUpdateLineItem,
     actionUpdatePayments,
     actionUpdateSelectedShippingLine,
@@ -44,6 +45,7 @@ export async function getApplicationStateFromLib(dispatch: Dispatch): Promise<vo
     dispatch(getShippingFromLib);
     dispatch(getLineItemsFromLib);
     dispatch(getPaymentsFromLib);
+    dispatch(getIsOrderProcessFromLib);
 }
 
 export async function getAddressesFromLib(dispatch: Dispatch): Promise<void>{
@@ -82,6 +84,11 @@ export async function getOrderMetaDataFromLib(dispatch: Dispatch): Promise<void>
 export async function getOrderTotalFromLib(dispatch: Dispatch): Promise<void>{
     const {order_total: orderTotal} = getApplicationState(); // TODO: Implement getOrderTotal() in the Library state gets
     dispatch(actionOrderTotal(orderTotal));
+}
+
+export async function getIsOrderProcessFromLib(dispatch: Dispatch): Promise<void>{
+    const {is_processed: isProcessed} = getApplicationState();
+    dispatch(actionUpdateIsProcessedOrder(isProcessed));
 }
 
 export async function getPaymentsFromLib(dispatch: Dispatch): Promise<void>{

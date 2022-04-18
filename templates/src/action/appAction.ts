@@ -250,3 +250,10 @@ export function actionUpdateAppData(data: IOrderInitialization): AnyAction {
         payload: {data},
     };
 }
+
+export function actionUpdateIsProcessedOrder(data: boolean): AnyAction {
+    return {
+        type: AppActions.UPDATE_ORDER_PROCESSED,
+        payload: {data},
+    };
+}

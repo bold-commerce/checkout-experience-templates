@@ -3,16 +3,20 @@ import {Constants} from 'src/constants';
 import {useCallback} from 'react';
 import {IUseCustomerPageProp} from 'src/types';
 import {useDispatch} from 'react-redux';
-import {useGetButtonDisableVariable, useGetIsLoading} from 'src/hooks';
+import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
 import {useHistory} from 'react-router';
 import {callShippingLinesPageApi} from 'src/library';
 import {sendEvents} from 'src/analytics';
 
 export function useShippingPage(): IUseCustomerPageProp{
     const dispatch = useDispatch();
+    const history = useHistory();
+    const isOrderCompleted = useGetIsOrderProcessed();
+    if(isOrderCompleted){
+        history.replace(getCheckoutUrl('/thank_you'));
+    }
     const nextButtonDisable = useGetButtonDisableVariable('shippingPageButton');
     const nextButtonLoading = useGetIsLoading();
-    const history = useHistory();
     const backLinkText = `< ${getTerm('footer_shipping_cust_info', Constants.SHIPPING_METHOD_INFO)}`;
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();

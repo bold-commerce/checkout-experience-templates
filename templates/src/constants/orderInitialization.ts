@@ -101,6 +101,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
             },
             resumable_link: '',
             created_via: '',
+            is_processed: false,
         },
         initial_data: {
             shop_name: '',
