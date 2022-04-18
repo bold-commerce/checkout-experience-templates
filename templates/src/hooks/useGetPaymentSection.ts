@@ -12,7 +12,7 @@ export function useGetPaymentSection(): IUseGetPaymentSection {
     useEffect(() => {
         dispatch(actionSetAppStateValid('pigi', false));
     }, []);
-    const notValidDisplayText = getTerm('no_payment_methods_invalid_address', Constants.PAYMENT_INFO);
+    const notValidDisplayText = getTerm('no_payment_methods_invalid_address_updated', Constants.PAYMENT_INFO);
     const fieldSectionText = getTerm('payment_method', Constants.PAYMENT_INFO);
     const loading = useGetLoaderScreenVariable('pigiIframe');
     const isValidAddress = useGetValidVariable('shippingAddress');
