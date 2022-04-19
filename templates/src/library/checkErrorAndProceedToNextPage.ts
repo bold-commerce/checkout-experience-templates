@@ -5,7 +5,6 @@ import {HistoryLocationState} from 'react-router';
 import {getCheckoutUrl, getTotals, isOnlyDiscountCodeError} from 'src/utils';
 import {errorFields, errorTypes} from 'src/constants';
 import {orderCompleteAnalytics} from 'src/analytics';
-import {useGetCurrencyInformation,} from 'src/hooks';
 
 export function checkErrorAndProceedToNextPage(page: string, loaderName: string, history: HistoryLocationState, callOrderCompleteAnalytics = false) {
     return async function checkErrorAndProceedToNextPageThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
@@ -24,7 +23,7 @@ export function checkErrorAndProceedToNextPage(page: string, loaderName: string,
                 const taxes = appState.taxes;
                 const shipping = appState.shipping.selected_shipping as IApplicationStateSelectShippingLine;
                 const lineItems = appState.line_items;
-                const {currency} = useGetCurrencyInformation();
+                const currency = appState.currency.iso_code;
                 const totals = getTotals(lineItems, payments, taxes, discounts, shipping);
                 orderCompleteAnalytics(lineItems, currency, totals, shipping);
             }

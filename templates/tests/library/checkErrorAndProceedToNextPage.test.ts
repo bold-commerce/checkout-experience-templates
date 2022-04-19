@@ -5,7 +5,6 @@ import {checkErrorAndProceedToNextPage} from 'src/library';
 import {stateMock} from 'src/mocks';
 import {getCheckoutUrl, isOnlyDiscountCodeError} from 'src/utils';
 import {orderCompleteAnalytics} from 'src/analytics';
-import {useGetCurrencyInformation,} from 'src/hooks';
 
 jest.mock('src/action');
 jest.mock('src/utils');
@@ -14,7 +13,6 @@ jest.mock('src/hooks');
 const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButton, true);
 const isOnlyDiscountCodeErrorMock = mocked(isOnlyDiscountCodeError, true);
 const orderCompleteAnalyticsMock = mocked(orderCompleteAnalytics, true);
-const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 
 describe('testing checkErrorAndProceedToNextPage', () => {
     const dispatch = jest.fn();
@@ -32,7 +30,6 @@ describe('testing checkErrorAndProceedToNextPage', () => {
         getState.mockReturnValue(stateMock);
         actionSetLoaderAndDisableButtonMock.mockReturnValue(actionSetLoaderAndDisableButtonThunkMock);
         isOnlyDiscountCodeErrorMock.mockReturnValue(false);
-        useGetCurrencyInformationMock.mockReturnValue({currency: 'CAD', currencySymbol: '$', formattedPrice: '{{$amount}}'})
     });
 
     test('call without errors on state', async () => {
@@ -70,7 +67,6 @@ describe('testing checkErrorAndProceedToNextPage', () => {
 
         const checkErrorAndProceedToNextPageThunk = checkErrorAndProceedToNextPage(page, loaderName, historyMock, true);
         await checkErrorAndProceedToNextPageThunk(dispatch, getState).then(() => {
-            expect(useGetCurrencyInformationMock).toHaveBeenCalledTimes(1);
             expect(orderCompleteAnalyticsMock).toHaveBeenCalledTimes(1);
         });
     });
