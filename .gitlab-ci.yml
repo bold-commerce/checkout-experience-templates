@@ -116,7 +116,7 @@ CacheBustStaging:
   extends: .CloudflareCacheBust
   needs: [DeployStaging]
   when: delayed
-  start_in: 1 minutes
+  start_in: 2 minutes
 
 UpdateArgoImageProduction:
   stage: update-argo-image-production
@@ -152,4 +152,4 @@ CacheBust:
   extends: .CloudflareCacheBust
   needs: [DeployProduction]
   when: delayed
-  start_in: 1 minutes
+  start_in: 2 minutes
