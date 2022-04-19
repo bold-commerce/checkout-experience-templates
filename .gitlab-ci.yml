@@ -150,6 +150,7 @@ CacheBust:
     - main
   variables:
     URL: 'cashier.boldcommerce.com/assets/experience'
+    ZONE_ID: '2e857d867fb3ba231743b024b90fb22a'
   extends: .CloudflareCacheBust
   needs: [DeployProduction]
   when: delayed
