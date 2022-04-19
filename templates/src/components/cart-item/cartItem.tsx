@@ -3,9 +3,10 @@ import { Price, Image} from '@boldcommerce/stacks-ui';
 import { ICartItemProps } from 'src/types';
 import { useGetCurrencyInformation, useCartItem } from 'src/hooks';
 import { SemiControlledNumberInput } from '../semi-controlled-number-input/semiControlledNumberInput';
+import { getLineItemPropertiesForDisplay } from 'src/utils';
 
-export function CartItem(props: ICartItemProps): React.ReactElement {
-    const { product_data } = props.line_item;
+export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLineItemProperties = true}: ICartItemProps): React.ReactElement {
+    const { product_data } = line_item;
     const { formattedPrice } = useGetCurrencyInformation();
     const {
         decrementQuantity: decrementLocalQuantity,
@@ -13,9 +14,10 @@ export function CartItem(props: ICartItemProps): React.ReactElement {
         updateQuantity: commit,
         quantity: localQuantity,
     } = useCartItem(
-        props.line_item,
-        props.onUpdateQuantity,
+        line_item,
+        onUpdateQuantity,
     );
+    const properties = getLineItemPropertiesForDisplay(product_data.properties);
 
     return (
         <li className="cart-item">
@@ -25,20 +27,24 @@ export function CartItem(props: ICartItemProps): React.ReactElement {
                 {(product_data.title && product_data.title !== 'Default Title' ) && (
                     <p className="cart-item__variant-title">{product_data.title}</p>
                 )}
+                {   showLineItemProperties && properties.map((property) => {
+                    return <p className='cart-item__property' key={property}>{property}</p>;
+                })
+                }
             </div>
             <div className="cart-item__price-quantity">
                 <div className="cart-item__quantity-container">
-                    {props.onUpdateQuantity ? (
+                    {onUpdateQuantity ? (
                         <div className="cart-item__quantity-controls">
-                            <button className="cart-item__quantity-decrease" disabled={props.quantityDisabled} aria-label="decrement quantity" onClick={decrementLocalQuantity}>-</button>
+                            <button className="cart-item__quantity-decrease" disabled={quantityDisabled} aria-label="decrement quantity" onClick={decrementLocalQuantity}>-</button>
                             <SemiControlledNumberInput
                                 className="cart-item__quantity-input"
                                 min={1}
                                 value={localQuantity}
-                                disabled={props.quantityDisabled}
+                                disabled={quantityDisabled}
                                 onCommit={commit}
                             />
-                            <button className="cart-item__quantity-increase" disabled={props.quantityDisabled} aria-label="increment quantity" onClick={incrementLocalQuantity}>+</button>
+                            <button className="cart-item__quantity-increase" disabled={quantityDisabled} aria-label="increment quantity" onClick={incrementLocalQuantity}>+</button>
                         </div>
                     ) : (
                         <div className="cart-item__quantity">

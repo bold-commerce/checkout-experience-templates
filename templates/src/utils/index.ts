@@ -12,6 +12,7 @@ export * from './getErrorTerm';
 export * from './getFieldNamesSummary';
 export * from './getGiftCardDisplayFormat';
 export * from './getLanguageBlob';
+export * from './getLineItemPropertiesForDisplay';
 export * from './getPigiIframe';
 export * from './getPigiStylingRules';
 export * from './getTerm';

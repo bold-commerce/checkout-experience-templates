@@ -3,14 +3,21 @@ import {stateMock} from 'src/mocks';
 import {fireEvent, render} from '@testing-library/react';
 import {CartItem, SemiControlledNumberInput} from 'src/components';
 import { mocked } from 'jest-mock';
+import { getLineItemPropertiesForDisplay } from 'src/utils';
 
 jest.mock('src/components/semi-controlled-number-input/semiControlledNumberInput');
+jest.mock('src/utils', () => ({
+    ... jest.requireActual('src/utils'),
+    getLineItemPropertiesForDisplay: jest.fn()
+}))
 
 const SemiControlledNumberInputMock = mocked(SemiControlledNumberInput);
+const getLineItemPropertiesForDisplayMock = mocked(getLineItemPropertiesForDisplay, true);
 
 describe('Testing CartItem component', () => {
     beforeEach(() => {
         jest.useFakeTimers();
+        getLineItemPropertiesForDisplayMock.mockReturnValueOnce(['properties: value']);
     });
 
     afterEach(() => {
@@ -26,19 +33,41 @@ describe('Testing CartItem component', () => {
             title: 'Variant Title'
         }
     };
+    const lineItemWithVariantAndProperties: IApplicationStateLineItem = {
+        ...lineItem,
+        product_data: {
+            ...lineItem.product_data,
+            title: 'Variant Title',
+            properties: {'property': 'value'}
+        }
+    }
+    const lineItemWithProperties: IApplicationStateLineItem = {
+        ...lineItem,
+        product_data: {
+            ...lineItem.product_data,
+            properties: {'property': 'value'}
+        }
+    }
 
     const dataArray = [
         {
             name: 'rendering the cart item component without variant',
-            props: { line_item: lineItem },
-            counters: { variant_title: 0 }
-        },
-        {
+            props: { line_item: lineItem, showLineItemProperties: false  },
+            counters: { variant_title: 0, properties: 0 }
+        }, {
             name: 'rendering the cart item component with a variant',
-            props: { line_item: lineItemVariant },
-            counters: { variant_title: 1 }
-        },
-    ];
+            props: { line_item: lineItemVariant, showLineItemProperties: false  },
+            counters: { variant_title: 1, properties: 0 }
+        }, {
+            name: 'rendering the cart item component with line item properties',
+            props: { line_item: lineItemWithProperties, showLineItemProperties: true },
+            counters: { variant_title: 0, properties: 1 }
+        }, {
+            name: 'rendering the cart item component with a variant and line item properties',
+            props: { line_item: lineItemWithVariantAndProperties, showLineItemProperties: true },
+            counters: { variant_title: 1, properties: 1 }
+        }
+    ]
 
     test.each(dataArray)('$name', ({counters, props}) => {
         const {container} = render(<CartItem {...props}/>);
@@ -46,6 +75,7 @@ describe('Testing CartItem component', () => {
         expect(container.getElementsByClassName('cart-item__text').length).toBe(1);
         expect(container.getElementsByClassName('cart-item__title').length).toBe(1);
         expect(container.getElementsByClassName('cart-item__variant-title').length).toBe(counters.variant_title);
+        expect(container.getElementsByClassName('cart-item__property').length).toBe(counters.properties);
         expect(container.getElementsByClassName('cart-item__price-quantity').length).toBe(1);
         expect(container.getElementsByClassName('cart-item__quantity-container').length).toBe(1);
         expect(container.getElementsByClassName('cart-item__quantity').length).toBe(1);
@@ -68,6 +98,7 @@ describe('Testing CartItem component', () => {
             onCommit = props.onCommit;
             return <div data-testid="test-input" />;
         });
+        getLineItemPropertiesForDisplayMock.mockReturnValue([]);
         const onUpdateQuantity = jest.fn();
         const _lineItem: IApplicationStateLineItem = {
             ...lineItem,
