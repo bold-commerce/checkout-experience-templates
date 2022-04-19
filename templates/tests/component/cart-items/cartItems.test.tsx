@@ -2,7 +2,11 @@ import {IApplicationStateLineItem, ICartItemsProps} from 'src/types';
 import {stateMock} from 'src/mocks';
 import {render} from '@testing-library/react';
 import {CartItems} from 'src/components';
+import {mocked} from 'jest-mock';
+import {useGetCurrencyInformation} from 'src/hooks';
 
+jest.mock('src/hooks/useGetCurrencyInformation');
+const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 
 describe('Testing CartItems component', () => {
     const lineItems: Array<IApplicationStateLineItem> = stateMock.data.application_state.line_items;
@@ -10,10 +14,15 @@ describe('Testing CartItems component', () => {
         line_items: lineItems
     };
 
+    beforeEach(() => {
+        jest.clearAllMocks();
+        useGetCurrencyInformationMock.mockReturnValueOnce({formattedPrice: '${{amount}}', currency: 'CAD', currencySymbol: '$'})
+    });
+
     test('rendering the component successfully', () => {
         const {container} = render(<CartItems {...props}/>);
         expect(container.getElementsByClassName('cart-items').length).toBe(1);
         expect(container.getElementsByClassName('cart-item').length).toBe(lineItems.length);
     });
-    
+
 });

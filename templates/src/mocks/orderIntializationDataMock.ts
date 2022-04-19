@@ -627,7 +627,15 @@ export const initialDataMock: IInitializeEndpointData = {
             ],
             'taxes': [],
             'discounts': []
-        }
+        },
+        'currency': {
+            'iso_code': 'CAD',
+            'iso_numeric_code': 124,
+            'symbol': '$',
+            'format': '${{amount}}',
+            'has_decimal': true,
+            'show_iso_code': true
+        },
     },
     'jwt_token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfb3JkZXJfaWQiOiJhRnpSV21JUXUxeWNSY1hLZHRoYXNYUGU1TEdZQ201b1IzRzhqNmNQRWgya1VJTE0ydUEyejdPaFJrZzI4YVduIiwiZXhwIjoxNjI3MzExMTM1fQ.6YwERIdKKv1YO19PauBbKnoupfLjtpLiMEt4i_YG5Ao',
     'public_order_id': 'aFzRWmIQu1ycRcXKdthasXPe5LGYCm5oR3G8j6cPEh2kUILM2uA2z7OhRkg28aWn'

@@ -1,10 +1,11 @@
-import {IUseGetCurrencyInformation} from 'src/types';
+import {IApplicationStateCurrency, IUseGetCurrencyInformation} from 'src/types';
+import {useAppSelector} from 'src/hooks/rootHooks';
 
 export function useGetCurrencyInformation(showCurrency = false): IUseGetCurrencyInformation {
-    // TODO CE-415 - retrieve the information from application state once PAPI team implement it on init endpoint
-    const currency = window.currency;
-    const currencySymbol = window.currencySymbol;
-    let formattedPrice = currencySymbol+'{{amount}}';
+    const currencyData: IApplicationStateCurrency = useAppSelector((state) => state.data.application_state.currency);
+    const currency = currencyData.iso_code;
+    const currencySymbol = currencyData.symbol;
+    let formattedPrice = currencyData.format;
     if(showCurrency){
         formattedPrice = `${currency} ${formattedPrice}`;
     }

@@ -3,6 +3,7 @@ export * from './applicationStateReducer';
 export * from './availableShippingLinesReducer';
 export * from './buttonDisableReducer';
 export * from './countryReducer';
+export * from './currency';
 export * from './customerReducer';
 export * from './dataReducer';
 export * from './discountsReducer';

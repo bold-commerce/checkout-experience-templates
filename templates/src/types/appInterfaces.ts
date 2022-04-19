@@ -150,9 +150,28 @@ export interface IApplicationState {
     payments: Array<IApplicationStatePayment>,
     order_total: number,
     order_meta_data: IApplicationStateOrderMetaData,
+    currency: IApplicationStateCurrency,
     resumable_link: string,
     created_via: string,
     is_processed: boolean
+}
+
+export interface IApplicationStateCurrency {
+    iso_code: string,
+    iso_numeric_code: number,
+    symbol: string,
+    format: string,
+    has_decimal: boolean,
+    show_iso_code: boolean
+}
+
+export interface IApplicationStateCurrency {
+    iso_code: string,
+    iso_numeric_code: number,
+    symbol: string,
+    format: string,
+    has_decimal: boolean,
+    show_iso_code: boolean
 }
 
 export interface IApplicationStateLineItem {
