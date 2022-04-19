@@ -162,12 +162,14 @@ export interface ICartItemsProps {
     line_items: Array<IApplicationStateLineItem>;
     onUpdateQuantity?: (lineItemKey: string, quantity: number) => Promise<void>;
     quantityDisabled?: boolean;
+    showLineItemProperties?: boolean;
 }
 
 export interface ICartItemProps {
     line_item: IApplicationStateLineItem;
     onUpdateQuantity?: (lineItemKey: string, quantity: number) => Promise<void>;
     quantityDisabled?: boolean;
+    showLineItemProperties?: boolean;
 }
 
 export interface ISemiControlledNumberInputProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {

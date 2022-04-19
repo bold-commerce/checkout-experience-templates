@@ -96,7 +96,7 @@ describe('testing updateLineItemQuantity', () => {
                         image_url: 'test_image_url',
                         line_item_key: lineItemKey,
                         price: 1337,
-                        properties: [],
+                        properties: {},
                         quantity,
                         requires_shipping: true,
                         sku: 'test_sku',

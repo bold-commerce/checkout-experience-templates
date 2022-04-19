@@ -52,7 +52,7 @@
     "webpack-dev-server": "^4.0.0"
   },
   "dependencies": {
-    "@bold-commerce/checkout-frontend-library": "^0.17.0",
+    "@bold-commerce/checkout-frontend-library": "^0.18.0",
     "@boldcommerce/stacks-ui": "^1.1.1",
     "@reduxjs/toolkit": "^1.5.1",
     "@types/google.maps": "^3.45.6",

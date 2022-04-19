@@ -54,7 +54,7 @@ export interface IProductData {
     title: string,
     product_title: string,
     image_url: string,
-    properties: Array<string>
+    properties: Record<string, string>,
     description: string,
     quantity: number,
     price: number,

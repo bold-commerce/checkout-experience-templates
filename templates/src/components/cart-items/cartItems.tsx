@@ -11,6 +11,7 @@ export function CartItems(props: ICartItemsProps): React.ReactElement {
                     line_item={item}
                     onUpdateQuantity={props.onUpdateQuantity}
                     quantityDisabled={props.quantityDisabled}
+                    showLineItemProperties={props.showLineItemProperties}
                 />
             )}
         </ul>
