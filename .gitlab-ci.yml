@@ -142,7 +142,7 @@ CacheBustStaging:
   only:
     - main
   variables:
-    URL: 'checkout.staging.boldapps.net/assets/experience'
+    URL: 'https://checkout.staging.boldapps.net/assets/experience'
     ZONE_ID: '3a879e2c777829b3cb095f7cccb41272'
   extends: .CloudflareCacheBust
   needs: [DeployStaging]
