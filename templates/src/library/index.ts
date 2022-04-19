@@ -33,3 +33,4 @@ export * from './validateCustomerOnLoad';
 export * from './validateEmailAddress';
 export * from './validateShippingAddress';
 export * from './validateShippingLine';
+export * from './updateLineItemQuantity';

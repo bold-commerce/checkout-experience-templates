@@ -60,3 +60,4 @@ export * from './supported-languages/supportedLanguages';
 export * from './taxes-amount/taxesAmount';
 export * from './thank-you/thankYou';
 export * from './title/title';
+export * from './semi-controlled-number-input/semiControlledNumberInput';

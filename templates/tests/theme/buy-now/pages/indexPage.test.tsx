@@ -19,13 +19,14 @@ const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
 
 
 describe('testing IndexPage', () => {
+    const useIndexPageSpy = jest.spyOn(useIndexPage, 'useIndexPage');
     const getTermValue = 'test term';
     const selectShippingLineValue = {
         id: '1',
         amount: 99,
         description: 'test shipping'
-    }
-
+    };
+    
     const visibleProps: IBuyNowContainerPageProps = {
         show: true,
         navigateTo: jest.fn()
@@ -34,7 +35,7 @@ describe('testing IndexPage', () => {
     const hiddenProps: IBuyNowContainerPageProps = {
         show: false,
         navigateTo: jest.fn()
-    }
+    };
 
     const propsFromHook: IUseIndexPageProps = {
         loginUrl: jest.fn(),
@@ -47,10 +48,10 @@ describe('testing IndexPage', () => {
         shippingHeadingText: getTermValue,
         address: addressMock,
         paymentHeadingText: getTermValue,
-        checkoutOnClick: jest.fn()
-    }
-
-    const useIndexPageSpy = jest.spyOn(useIndexPage, 'useIndexPage');
+        quantityDisabled: false,
+        checkoutOnClick: jest.fn(),
+        updateLineItemQuantity: jest.fn(),
+    };
 
     beforeEach(() => {
         jest.clearAllMocks();

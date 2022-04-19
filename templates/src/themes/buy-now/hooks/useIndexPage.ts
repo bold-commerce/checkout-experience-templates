@@ -8,6 +8,8 @@ import { displayOrderProcessingScreen, processOrder } from 'src/library';
 import { sendAddPaymentActionAsync, sendRefreshOrderActionAsync } from '@bold-commerce/checkout-frontend-library';
 import { getTerm } from 'src/utils';
 import { sendEvents } from 'src/analytics';
+import { updateLineItemQuantity } from 'src/library';
+import { useGetButtonDisableVariable } from 'src/hooks';
 
 export function useIndexPage(): IUseIndexPageProps {
     const dispatch = useDispatch();
@@ -17,6 +19,7 @@ export function useIndexPage(): IUseIndexPageProps {
     const { email, loginUrl } = useLogin();
     const orderTotal = useGetOrderTotal();
     const address = useGetShippingData();
+    const quantityDisabled = useGetButtonDisableVariable('updateLineItemQuantity');
 
     const websiteName = window.shopName;
     const loginText = getTerm('not_you', Constants.CUSTOMER_INFO);
@@ -37,5 +40,23 @@ export function useIndexPage(): IUseIndexPageProps {
         }
     }, [orderTotal, history]);
 
-    return { loginUrl, loginText, orderTotal, websiteName, lineItems, summaryHeadingText, email, shippingHeadingText, address, paymentHeadingText, checkoutOnClick };
+    const updateLineItemQty = useCallback(async (lineItemKey: string, qty: number) => {
+        await dispatch(updateLineItemQuantity(lineItemKey, qty));
+    }, []);
+
+    return {
+        loginText,
+        orderTotal,
+        websiteName,
+        lineItems,
+        summaryHeadingText,
+        email,
+        shippingHeadingText,
+        address,
+        paymentHeadingText,
+        quantityDisabled,
+        loginUrl,
+        checkoutOnClick,
+        updateLineItemQuantity: updateLineItemQty,
+    };
 }

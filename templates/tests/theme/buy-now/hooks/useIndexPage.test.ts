@@ -4,7 +4,7 @@ import { getTerm } from 'src/utils';
 import { useGetLineItems, useGetOrderTotal, useGetShippingData, useLogin, useGetErrors } from 'src/hooks';
 import {useIndexPage} from 'src/themes/buy-now/hooks';
 import { renderHook } from '@testing-library/react-hooks';
-import { displayOrderProcessingScreen, processOrder } from 'src/library';
+import { displayOrderProcessingScreen, processOrder, updateLineItemQuantity } from 'src/library';
 import { useDispatch } from 'react-redux';
 import * as sendRefreshOrderAction from '@bold-commerce/checkout-frontend-library/lib/pigi/sendRefreshOrderAction';
 import * as sendAddPaymentAction from '@bold-commerce/checkout-frontend-library/lib/pigi/sendAddPaymentAction';
@@ -17,7 +17,10 @@ jest.mock('src/hooks/useGetLineItems');
 jest.mock('src/hooks/useGetOrderTotal');
 jest.mock('src/hooks/useGetAddressData');
 jest.mock('src/hooks/useGetErrors');
-jest.mock('src/library');
+jest.mock('src/library/displayOrderProcessingScreen');
+jest.mock('src/library/processOrder');
+jest.mock('src/library/updateLineItemQuantity');
+
 const useDispatchMock = mocked(useDispatch, true);
 const getTermMock = mocked(getTerm, true);
 const useGetLineItemsMock = mocked(useGetLineItems, true);
@@ -26,6 +29,10 @@ const useGetOrderTotalMock = mocked(useGetOrderTotal, true);
 const useGetShippingDataMock = mocked(useGetShippingData, true);
 const useGetErrorsMock = mocked(useGetErrors, true);
 const processOrderMock = mocked(processOrder, true);
+const updateLineItemQuantityMock = mocked(updateLineItemQuantity, true);
+
+const sendRefreshOrderActionAsyncSpy = jest.spyOn(sendRefreshOrderAction, 'sendRefreshOrderActionAsync');
+const sendAddPaymentActionAsyncSpy = jest.spyOn(sendAddPaymentAction, 'sendAddPaymentActionAsync');
 
 describe('testing hook useIndexPage', () => {
     window.shopName = 'Test Shop';
@@ -37,13 +44,10 @@ describe('testing hook useIndexPage', () => {
         handleCheckboxChange: jest.fn(),
         acceptMarketingChecked: false,
         acceptMarketingHidden: true
-    }
+    };
 
     const dispatchMock = jest.fn();
     const processOrderThunkMock = jest.fn();
-
-    const sendRefreshOrderActionAsyncSpy = jest.spyOn(sendRefreshOrderAction, 'sendRefreshOrderActionAsync');
-    const sendAddPaymentActionAsyncSpy = jest.spyOn(sendAddPaymentAction, 'sendAddPaymentActionAsync');
 
     const errorMock = {
         address_type: 'billing',
@@ -74,7 +78,7 @@ describe('testing hook useIndexPage', () => {
         expect(hookResult.orderTotal).toBe(9999);
         expect(hookResult.websiteName).toBe(window.shopName);
         expect(hookResult.lineItems).toBe(stateMock.data.application_state.line_items);
-        expect(hookResult.summaryHeadingText).toBe(getTermValue)
+        expect(hookResult.summaryHeadingText).toBe(getTermValue);
         expect(hookResult.email).toBe(emailValue);
         expect(hookResult.shippingHeadingText).toBe(getTermValue);
         expect(hookResult.address).toBe(addressMock);
@@ -115,5 +119,17 @@ describe('testing hook useIndexPage', () => {
         expect(sendRefreshOrderActionAsyncSpy).toHaveBeenCalledTimes(0);
         expect(sendAddPaymentActionAsyncSpy).toHaveBeenCalledTimes(0);
         expect(processOrderMock).toHaveBeenCalledTimes(1);
+    });
+
+    test('calling updateLineItemQuantity should call proper function with correct arguments', async () => {
+        const lineItemKey = 'test_line_item_key';
+        const quantity = 5;
+
+        const { result } = renderHook(useIndexPage);
+        const { updateLineItemQuantity } = result.current;
+        await updateLineItemQuantity(lineItemKey, quantity);
+
+        expect(dispatchMock).toBeCalledTimes(1);
+        expect(updateLineItemQuantityMock).toBeCalledWith(lineItemKey, quantity);      
     });
 });
