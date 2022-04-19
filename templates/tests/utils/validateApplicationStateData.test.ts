@@ -1,6 +1,7 @@
 import {validateApplicationStateData} from 'src/utils';
 import {
     IApplicationState,
+    IApplicationStateCurrency,
     IApplicationStateCustomer,
     IApplicationStateDiscount,
     IApplicationStateLineItem,
@@ -48,6 +49,15 @@ describe('testing function validateApplicationStateData', () => {
         id: ''
     };
 
+    const currency: IApplicationStateCurrency = {
+        iso_code: 'CAD',
+        iso_numeric_code: 124,
+        symbol: '$',
+        format: '${{amount}}',
+        has_decimal: true,
+        show_iso_code: true
+    };
+
     const appData = {
         customer: {} as IApplicationStateCustomer,
         addresses: {
@@ -67,6 +77,7 @@ describe('testing function validateApplicationStateData', () => {
         order_total: 0,
         resumable_link: '',
         created_via: '',
+        currency: currency,
         is_processed: false,
         order_meta_data: {} as IApplicationStateOrderMetaData
     } as IApplicationState;
@@ -89,6 +100,7 @@ describe('testing function validateApplicationStateData', () => {
         payments: [] as Array<IApplicationStatePayment>,
         order_total: 0,
         resumable_link: '',
+        currency: currency,
         created_via: '',
         is_processed: false,
         order_meta_data: {} as IApplicationStateOrderMetaData

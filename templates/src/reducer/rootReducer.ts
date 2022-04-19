@@ -29,6 +29,7 @@ import {
     checkoutProcessReducer,
     createdViaReducer,
     resumableLinkReducer,
+    currencyReducer,
     isProcessedReducer
 } from 'src/reducer';
 import {autocompleteServices, Constants} from 'src/constants';
@@ -88,6 +89,7 @@ const appStateReducer = combineReducers({
     payments: paymentsReducer,
     order_meta_data: orderMetaReducer,
     resumable_link: resumableLinkReducer,
+    currency: currencyReducer,
     created_via: createdViaReducer,
     is_processed: isProcessedReducer
 });

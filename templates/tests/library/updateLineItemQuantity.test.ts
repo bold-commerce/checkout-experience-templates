@@ -70,6 +70,14 @@ describe('testing updateLineItemQuantity', () => {
             order_total: 1337 * quantity,
             payments: [],
             resumable_link: 'test_resumable_links',
+            currency: {
+                iso_code: 'CAD',
+                iso_numeric_code: 124,
+                symbol: '$',
+                format: '${{amount}}',
+                has_decimal: true,
+                show_iso_code: true
+            },
             shipping: {
                 available_shipping_lines: [{
                     id: '123',

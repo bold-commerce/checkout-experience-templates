@@ -4,7 +4,10 @@ import {fireEvent, render} from '@testing-library/react';
 import {CartItem, SemiControlledNumberInput} from 'src/components';
 import { mocked } from 'jest-mock';
 import { getLineItemPropertiesForDisplay } from 'src/utils';
+import {useGetCurrencyInformation} from 'src/hooks';
 
+jest.mock('src/hooks/useGetCurrencyInformation');
+const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 jest.mock('src/components/semi-controlled-number-input/semiControlledNumberInput');
 jest.mock('src/utils', () => ({
     ... jest.requireActual('src/utils'),
@@ -18,6 +21,7 @@ describe('Testing CartItem component', () => {
     beforeEach(() => {
         jest.useFakeTimers();
         getLineItemPropertiesForDisplayMock.mockReturnValueOnce(['properties: value']);
+        useGetCurrencyInformationMock.mockReturnValue({formattedPrice: '${{amount}}', currency: 'CAD', currencySymbol: '$'})
     });
 
     afterEach(() => {
@@ -87,11 +91,11 @@ describe('Testing CartItem component', () => {
     test('rendering the cart item with quantity selector', () => {
         SemiControlledNumberInputMock.mockImplementation(() => <div data-testid="test-input" />);
         const { container, getByTestId } = render(<CartItem line_item={lineItem} onUpdateQuantity={jest.fn()} />);
-        
+
         expect(container.getElementsByClassName('cart-item__quantity-controls').length).toBe(1);
         expect(getByTestId('test-input')).toBeTruthy();
     });
-    
+
     test('updating the local quantity and submitting the quantity', () => {
         let onCommit: (qty: number) => void = jest.fn();
         SemiControlledNumberInputMock.mockImplementation((props) => {
@@ -113,7 +117,7 @@ describe('Testing CartItem component', () => {
         const [ decrementButton ] = container.getElementsByClassName('cart-item__quantity-decrease');
         expect(incrementButton).toBeTruthy();
         expect(decrementButton).toBeTruthy();
-        
+
         // Testing incrememnting and decrementing should not all onUpdateQuantity
         fireEvent.click(incrementButton);
         fireEvent.click(decrementButton);

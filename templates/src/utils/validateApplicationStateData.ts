@@ -50,6 +50,7 @@ export function validateApplicationStateData(appData: IApplicationState): IAppli
         created_via: appData.created_via,
         is_processed: appData.is_processed,
         line_items: lineItems,
+        currency: appData.currency,
         shipping: {
             selected_shipping: selectedShippingLines,
             available_shipping_lines: availableShippingLines,

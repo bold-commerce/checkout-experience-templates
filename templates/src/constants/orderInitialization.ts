@@ -99,6 +99,14 @@ export const defaultOrderInitialization: IOrderInitialization = {
                 notes: '',
                 tags: [],
             },
+            currency: {
+                iso_code: 'CAD',
+                iso_numeric_code: 124,
+                symbol: '$',
+                format: '${{amount}}',
+                has_decimal: true,
+                show_iso_code: true
+            },
             resumable_link: '',
             created_via: '',
             is_processed: false,
