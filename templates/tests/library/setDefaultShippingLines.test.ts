@@ -16,7 +16,6 @@ describe('Testing hook useSetDefaultShippingLines', () => {
 
     beforeEach(() => {
         dispatch.mockReturnValue(Promise.resolve());
-        getState.mockReturnValue(stateMock);
     });
 
     afterEach(() => {
@@ -27,6 +26,14 @@ describe('Testing hook useSetDefaultShippingLines', () => {
         const newReturnObj = {...returnObject, success: true};
         shippingLinesMock.mockReturnValueOnce(Promise.resolve(newReturnObj));
         
+        const tempMock = {
+            ...stateMock,
+            isValid: {
+                updatedShippingAddress: true
+            }
+        };
+        getState.mockReturnValue(tempMock);
+
         await setDefaultShippingLines(dispatch, getState);
 
         expect(dispatch).toHaveBeenCalledTimes(4);
@@ -36,10 +43,32 @@ describe('Testing hook useSetDefaultShippingLines', () => {
         expect(dispatch).toHaveBeenCalledWith(postShippingLines);
     });
 
+    test('set default shipping lines invalid shipping address', async () => {
+        const tempMock = {
+            ...stateMock,
+            isValid: {
+                updatedShippingAddress: false
+            }
+        };
+        getState.mockReturnValue(tempMock);
+
+        await setDefaultShippingLines(dispatch, getState);
+
+        expect(dispatch).toHaveBeenCalledTimes(0);
+    });
+
     test('set default shipping lines failed api call', async () => {
         const newReturnObj = {...returnObject, success: false};
         shippingLinesMock.mockReturnValueOnce(Promise.resolve(newReturnObj));
-       
+
+        const tempMock = {
+            ...stateMock,
+            isValid: {
+                updatedShippingAddress: true
+            }
+        };
+        getState.mockReturnValue(tempMock);
+
         await setDefaultShippingLines(dispatch, getState);
 
         expect(dispatch).toHaveBeenCalledTimes(0);
@@ -49,8 +78,24 @@ describe('Testing hook useSetDefaultShippingLines', () => {
         const newReturnObj = {...returnObject, success: true};
         shippingLinesMock.mockReturnValueOnce(Promise.resolve(newReturnObj));
 
-        const tempMock = {...stateMock};
-        tempMock.data.application_state.shipping.available_shipping_lines = [];
+        const tempMock = {
+            ...stateMock,
+            data: {
+                ...stateMock.data,
+                application_state: {
+                    ...stateMock.data.application_state,
+                    shipping: {
+                        ...stateMock.data.application_state.shipping,
+                        available_shipping_lines: []
+                    }
+                }
+            },
+            isValid: {
+                ...stateMock.isValid,
+                updatedShippingAddress: true
+            },
+            
+        };
         getState.mockReturnValue(tempMock);
 
         await setDefaultShippingLines(dispatch, getState);

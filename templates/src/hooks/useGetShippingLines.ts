@@ -1,4 +1,4 @@
-import {shippingLines} from 'src/library';
+import {shippingLines, validateShippingLine} from 'src/library';
 import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {getTerm} from 'src/utils';
@@ -18,7 +18,10 @@ export function useGetShippingLines(): IUseGetShippingLines {
     useEffect(() => {
         if(isValidAddress && updatedAddress){
             dispatch(actionSetButtonDisable('shippingPageButton', true));
-            dispatch(shippingLines(updatedAddress));
+            dispatch(shippingLines(updatedAddress)).then(() => {
+                dispatch(validateShippingLine);
+            });
+            
         }
     }, [isValidAddress, updatedAddress]);
 

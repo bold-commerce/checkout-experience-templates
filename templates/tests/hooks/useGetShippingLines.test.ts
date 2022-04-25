@@ -1,15 +1,16 @@
 import {renderHook} from '@testing-library/react-hooks';
+import { useDispatch } from 'react-redux';
 import {useGetShippingLines} from 'src/hooks';
 import * as useGetLoaderScreenVariable from 'src/hooks/useGetLoaderScreenVariable';
 import * as useGetValidVariable from 'src/hooks/useGetValidVariable';
 import * as getTerm from 'src/utils/getTerm';
+import {mocked} from 'jest-mock';
 
-const mockDispatch = jest.fn();
-jest.mock('react-redux', () => ({
-    useDispatch: () => mockDispatch
-}));
+jest.mock('react-redux');
+const useDispatchMock = mocked(useDispatch, true);
 
 describe('Testing hook useGetShippingLines', () => {
+    const mockDispatch = jest.fn();
     let useGetLoaderScreenVariableSpy: jest.SpyInstance;
     let useGetValidVariableSpy: jest.SpyInstance;
     let getTermSpy: jest.SpyInstance;
@@ -81,7 +82,7 @@ describe('Testing hook useGetShippingLines', () => {
             updatedParameter: true,
             validTextParameter: 'testText1',
             fieldTextParameter: 'testText2',
-            dispatchCalled: 2,
+            dispatchCalled: 3,
             getLoaderCalled: 1,
             getValidCalled: 2,
             getTermCalled: 2
@@ -93,6 +94,8 @@ describe('Testing hook useGetShippingLines', () => {
         useGetLoaderScreenVariableSpy = jest.spyOn(useGetLoaderScreenVariable, 'useGetLoaderScreenVariable');
         useGetValidVariableSpy = jest.spyOn(useGetValidVariable, 'useGetValidVariable');
         getTermSpy = jest.spyOn(getTerm, 'getTerm');
+        useDispatchMock.mockReturnValue(mockDispatch);
+        mockDispatch.mockReturnValue(Promise.resolve());
     });
 
     test.each(dataArray)( '$name', async ({
@@ -112,6 +115,7 @@ describe('Testing hook useGetShippingLines', () => {
 
         const {result} = renderHook(() => useGetShippingLines());
         const hookResult = result.current;
+        await Promise.resolve();
 
         expect(mockDispatch).toHaveBeenCalledTimes(dispatchCalled);
         expect(useGetLoaderScreenVariableSpy).toHaveBeenCalledTimes(getLoaderCalled);
