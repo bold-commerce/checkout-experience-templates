@@ -39,7 +39,7 @@ describe('Testing AddressSavedFieldRadio component', () => {
             const { container } =render(<AddressSavedFieldRadio {...props}/>);
             const element: Partial<HTMLInputElement> = screen.getByTestId('field-radio');
             expect(element).toBeTruthy();
-            expect(element.value).toBe(props.address.address_line_1);
+            expect(element.value).toBe(`${props.address.id}__${props.address.address_line_1}`);
             expect(element.checked).toBe(props.checked);
             expect(container.getElementsByClassName('saved-address-list-item').length).toBe(1);
             expect(container.getElementsByClassName('condensed-shipping').length).toBe(1);

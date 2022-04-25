@@ -16,11 +16,11 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
     const title = type === Constants.SHIPPING ? getTerm('shipping_address',Constants.SHIPPING_INFO) : getTerm('billing_address',Constants.PAYMENT_INFO);
     const id = `${type}-saved-address-select`;
     const savedAddresses: Array<IAddress> = useGetSavedAddressOptions();
-    const options = savedAddresses.map(address => ({ value: '' + address.address_line_1, name: address.address_line_1 }));
+    const options = savedAddresses.map(address => ({ value: `${address.id}__${address.address_line_1}`, name: address.address_line_1 }));
 
     const handleChange = useCallback(e => {
         const value = e.target.value;
-        let address = savedAddresses.find(o => o.address_line_1 === value);
+        let address = savedAddresses.find(o => `${o.id}__${o.address_line_1}` === value);
         if(!address){
             address = defaultAddressState;
         }
