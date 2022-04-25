@@ -48,6 +48,7 @@ export * from './useGetPaymentSection';
 export * from './useGetPigiDisplaySca';
 export * from './useGetPigiUrl';
 export * from './useGetSavedAddressData';
+export * from './useGetSelectedLanguageIso';
 export * from './useGetSelectShippingLine';
 export * from './useGetSessionExpired';
 export * from './useGetAutocompleteService';

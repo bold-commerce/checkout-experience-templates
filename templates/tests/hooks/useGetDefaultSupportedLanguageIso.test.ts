@@ -19,14 +19,17 @@ describe('Testing hook useGetDefaultSupportedLanguageIso', () => {
     });
 
     const hookData = [
-        {clearLanguages: false, clearDefault: false, expected: 'en', dispatchCalls: 0},
-        {clearLanguages: false, clearDefault: true, expected: 'en', dispatchCalls: 0},
-        {clearLanguages: true, clearDefault: false, expected: null, dispatchCalls: 1},
+        {clearLanguages: false, clearDefault: false, expected: 'en', dispatchCalls: 0, selectedIso: ''},
+        {clearLanguages: false, clearDefault: true, expected: 'en', dispatchCalls: 0, selectedIso: ''},
+        {clearLanguages: false, clearDefault: false, expected: 'en', dispatchCalls: 0, selectedIso: 'fr'}, // unsupported language
+        {clearLanguages: false, clearDefault: false, expected: 'de', dispatchCalls: 0, selectedIso: 'de'}, // non-default supported language
+        {clearLanguages: true, clearDefault: false, expected: null, dispatchCalls: 1, selectedIso: ''},
     ];
 
     test.each(hookData)(
-        'rendering the hook properly ($clearLanguages, $clearDefault, $expected, $dispatchCalls)',
-        ({clearLanguages, clearDefault, expected, dispatchCalls}) => {
+        'rendering the hook properly ($clearLanguages, $clearDefault, $expected, $dispatchCalls, $selectedIso)',
+        ({clearLanguages, clearDefault, expected, dispatchCalls, selectedIso}) => {
+            store.data.application_state.order_meta_data.note_attributes['_language_iso_code'] = selectedIso;
             if(clearLanguages) {
                 store.data.initial_data.supported_languages = [];
             }
