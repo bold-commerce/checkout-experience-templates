@@ -4,6 +4,7 @@ import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 import {stateMock} from 'src/mocks';
 import {act} from '@testing-library/react';
+import {actionSetLoaderAndDisableButton} from 'src/action';
 
 jest.mock('src/utils');
 jest.mock('src/action');
@@ -17,14 +18,17 @@ jest.mock('react-redux', () => ({
 }));
 const useGetAvailableShippingLinesMock = mocked(useGetAvailableShippingLines, true);
 const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
+const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButton, true);
 const getTermMock = mocked(getTerm, true);
-const useCallApiAtOnEventsMock = mocked (useCallApiAtOnEvents, true);
 
 describe('Testing hook useGetShippingLinesData', () => {
     const appStateMock = stateMock.data.application_state;
+    const actionSetLoaderAndDisableButtonFunctionMock = jest.fn();
     beforeEach(() => {
         jest.clearAllMocks();
         getTermMock.mockReturnValue('Test');
+        actionSetLoaderAndDisableButtonFunctionMock.mockName('actionSetLoaderAndDisableButton');
+        actionSetLoaderAndDisableButtonMock.mockReturnValue(actionSetLoaderAndDisableButtonFunctionMock);
     });
 
     test('rendering the hook properly', () => {
@@ -43,7 +47,6 @@ describe('Testing hook useGetShippingLinesData', () => {
         const event = {target: {value: 'shipping_id_1'}};
         useGetAvailableShippingLinesMock.mockReturnValueOnce(appStateMock.shipping.available_shipping_lines);
         useGetSelectShippingLineMock.mockReturnValueOnce(appStateMock.shipping.available_shipping_lines[0]);
-        useCallApiAtOnEventsMock.mockReturnValueOnce(true);
 
         const {result} = renderHook(() => useGetShippingLinesData());
         const hookResult = result.current;
@@ -52,23 +55,9 @@ describe('Testing hook useGetShippingLinesData', () => {
             hookResult.handleChange(event);
         });
 
-        expect(mockDispatch).toBeCalledTimes(2);
-    });
+        expect(mockDispatch).toBeCalledTimes(3);
+        expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
 
-    test('testing the change handler with callApiAtOnEvents false ', () => {
-        const event = {target: {value: 'shipping_id_1'}};
-        useGetAvailableShippingLinesMock.mockReturnValueOnce(appStateMock.shipping.available_shipping_lines);
-        useGetSelectShippingLineMock.mockReturnValueOnce(appStateMock.shipping.available_shipping_lines[0]);
-        useCallApiAtOnEventsMock.mockReturnValueOnce(false);
-
-        const {result} = renderHook(() => useGetShippingLinesData());
-        const hookResult = result.current;
-
-        act(() => {
-            hookResult.handleChange(event);
-        });
-
-        expect(mockDispatch).toBeCalledTimes(1);
     });
 
 });
