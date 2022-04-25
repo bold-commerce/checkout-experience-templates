@@ -3,6 +3,7 @@ import {changeShippingLine, IShipping, IApiReturnObject, getShipping} from '@bol
 import {IOrderInitialization} from 'src/types';
 import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
 import {getSummaryStateFromLib} from 'src/library';
+import {actionSetLoaderAndDisableButton} from 'src/action';
 
 export async function postShippingLines(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
     const previousShipping: IShipping = getShipping();
@@ -14,4 +15,6 @@ export async function postShippingLines(dispatch: Dispatch, getState: () => IOrd
         handleErrorIfNeeded(response, dispatch, getState);
         await dispatch(getSummaryStateFromLib);
     }
+
+    dispatch(actionSetLoaderAndDisableButton('shippingPageButton' , false));
 }
