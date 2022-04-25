@@ -6,6 +6,9 @@ import { getShippingLines, IApiReturnObject } from '@bold-commerce/checkout-fron
 import { handleErrorIfNeeded } from 'src/utils';
 
 export async function setDefaultShippingLines(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
+    const hasValidShippingAddress = getState().isValid.updatedShippingAddress;
+    if(!hasValidShippingAddress) { return; }
+
     const response: IApiReturnObject = await getShippingLines();
     handleErrorIfNeeded(response, dispatch, getState);
 
