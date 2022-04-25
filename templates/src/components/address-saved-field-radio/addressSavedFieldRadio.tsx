@@ -9,7 +9,7 @@ export function AddressSavedFieldRadio(props: ISavedAddressFieldRadioProps): Rea
         <li className="saved-address-list-item" >
             <FieldRadio 
                 label={label} 
-                value={props.address.address_line_1} 
+                value={`${props.address.id}__${props.address.address_line_1}`}
                 checked={props.checked}
                 handleChange={props.handleChange} />
         </li>

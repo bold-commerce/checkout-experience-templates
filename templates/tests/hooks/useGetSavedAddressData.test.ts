@@ -35,7 +35,7 @@ describe('Testing hook useGetSavedAddressData', () => {
 
     const hookData = [
         {type: Constants.SHIPPING, address: [], expected: []},
-        {type: Constants.SHIPPING, address: [address as IAddress], expected: [{value: address.address_line_1, name: address.address_line_1}]},
+        {type: Constants.SHIPPING, address: [address as IAddress], expected: [{value: `${address.id}__${address.address_line_1}`, name: address.address_line_1}]},
     ];
 
     test.each(hookData)(
