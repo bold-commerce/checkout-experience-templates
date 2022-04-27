@@ -1,5 +1,6 @@
 import React, { ForwardedRef } from 'react';
 import ClassNames from 'classnames';
+import { useGetCurrencyInformation } from 'src/hooks';
 import { useGetCloseBuyNow, useIndexPage } from 'src/themes/buy-now/hooks';
 import { BillingAddressCheckbox, CartItems, CloseableHeader, CondensedSection, CondensedShipping, ExpandableDiscount, FlashError, Payment } from 'src/components';
 import { Price } from '@boldcommerce/stacks-ui';
@@ -24,8 +25,9 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
         updateLineItemQuantity,
     } = useIndexPage();
     const closeBuyNow = useGetCloseBuyNow();
+    const { formattedPrice } = useGetCurrencyInformation();
     const login = <a onClick={loginUrl}>{loginText}</a>;
-    const subTotal = <Price amount={orderTotal} />;
+    const subTotal = <Price amount={orderTotal} moneyFormatString={formattedPrice}/>;
     const checkout = getTerm('complete_order', Constants.PAYMENT_INFO);
 
     return (

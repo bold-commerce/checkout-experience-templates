@@ -4,7 +4,7 @@ import {useGetShippingLinesData} from 'src/hooks';
 import {Price} from '@boldcommerce/stacks-ui';
 
 export function ShippingLine(): React.ReactElement {
-    const {shippingLines, selectedLine, handleChange, shippingLinesLength, noShippingAreaText} = useGetShippingLinesData();
+    const {shippingLines, selectedLine, handleChange, shippingLinesLength, noShippingAreaText, formattedPrice} = useGetShippingLinesData();
 
     return (
         <>
@@ -20,7 +20,7 @@ export function ShippingLine(): React.ReactElement {
                                 checked={selectedLine.id === line.id}
                                 handleChange={handleChange}
                             />
-                            <Price className={'shipping_line__items-amount'} amount={line.amount}/>
+                            <Price className={'shipping_line__items-amount'} amount={line.amount} moneyFormatString={formattedPrice}/>
                         </div>
                     ):
                     <LockedSection classNameSection={'shipping-line__no-valid-address'}

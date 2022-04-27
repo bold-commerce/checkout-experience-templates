@@ -215,6 +215,7 @@ export interface IShippingLinesHookProps{
     noShippingAreaText: string
     shippingLinesLength: number
     handleChange: (e) => void
+    formattedPrice: string
 }
 
 export interface ISavedAddressHookProps{
