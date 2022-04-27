@@ -15,6 +15,7 @@ import {addressMock, stateMock} from 'src/mocks';
 import {ThankYouPage} from 'src/pages';
 import * as Store from 'src/store';
 import {IAddress} from 'src/types';
+import {neuroIdInit} from 'src/utils';
 
 jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/hooks/useGetAddressData');
@@ -22,6 +23,8 @@ jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useSendEvent');
 jest.mock('src/hooks/useGetValidVariable');
+jest.mock('src/utils/neuroIdCalls');
+mocked(neuroIdInit, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useGetCustomerInfoDataMock = mocked(useGetCustomerInfoData, true);

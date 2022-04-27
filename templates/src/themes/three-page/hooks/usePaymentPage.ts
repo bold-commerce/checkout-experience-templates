@@ -10,8 +10,8 @@ import {
     useGetSelectShippingLine,
     useGetTaxes
 } from 'src/hooks';
-import {getCheckoutUrl, getTerm, getTotals} from 'src/utils';
-import {Constants} from 'src/constants';
+import {getCheckoutUrl, getNeuroIdPageName, getTerm, getTotals, neuroIdSubmit} from 'src/utils';
+import {Constants, NeuroIdConstants} from 'src/constants';
 import {useCallback} from 'react';
 import {displayOrderProcessingScreen, processOrder} from 'src/library';
 import {sendAddPaymentAction, sendRefreshOrderAction} from '@bold-commerce/checkout-frontend-library';
@@ -40,15 +40,18 @@ export function usePaymentPage(): IUsePaymentPage{
 
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
+        neuroIdSubmit(getNeuroIdPageName(NeuroIdConstants.customerPage));
         history.replace(getCheckoutUrl('/shipping_lines'));
     } , [history]);
 
     const nextButtonOnClick = useCallback(async () => {
+        const pageNameNeuroId = getNeuroIdPageName(NeuroIdConstants.paymentPage);
+
         sendEvents('Checkout', 'Clicked continue to complete order button');
         if (errors.length === 0) {
             dispatch(displayOrderProcessingScreen);
             if (totals.totalAmountDue <= 0) {
-                dispatch(processOrder(history));
+                dispatch(processOrder(history, pageNameNeuroId));
             } else {
                 sendRefreshOrderAction();
                 sendAddPaymentAction();

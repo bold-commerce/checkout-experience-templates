@@ -2,7 +2,7 @@ import {renderHook} from '@testing-library/react-hooks';
 import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
-import {getCheckoutUrl, getTerm} from 'src/utils';
+import {getCheckoutUrl, getTerm, getNeuroIdPageName, neuroIdSubmit} from 'src/utils';
 import {callCustomerPageApi} from 'src/library';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {useHistory} from 'react-router';
@@ -10,6 +10,7 @@ import {useHistory} from 'react-router';
 jest.mock('react-redux');
 jest.mock('react-router');
 jest.mock('src/utils/getTerm');
+jest.mock('src/utils/neuroIdCalls');
 jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/hooks/useGetButtonDisableVariable');
 jest.mock('src/hooks/useGetIsOrderProcessed');
@@ -21,6 +22,8 @@ const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true);
 const callCustomerPageApiMock = mocked(callCustomerPageApi, true);
 const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
+const neuroIdSubmitMock = mocked(neuroIdSubmit, true);
+const getNeuroIdPageNameMock = mocked(getNeuroIdPageName, true);
 
 describe('Testing hook useCustomerPage', () => {
     const mockDispatch = jest.fn();
@@ -28,6 +31,7 @@ describe('Testing hook useCustomerPage', () => {
     const getTermValue = 'test-value';
     const eventMock = {preventDefault: jest.fn()};
     const historyMock = {replace: jest.fn()};
+    const pageNameWithPrefix = 'prefix_page_name';
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -37,6 +41,7 @@ describe('Testing hook useCustomerPage', () => {
         useGetIsLoadingMock.mockReturnValue(false);
         useGetButtonDisableVariableMock.mockReturnValue(false);
         callCustomerPageApiMock.mockReturnValue(mockCallCustomerPageApi);
+        getNeuroIdPageNameMock.mockReturnValue(pageNameWithPrefix);
         window = Object.create(window);
         Object.defineProperty(window, 'location', {
             value: {
@@ -63,6 +68,8 @@ describe('Testing hook useCustomerPage', () => {
         result.current.nextButtonOnClick();
         expect(mockDispatch).toHaveBeenCalledTimes(1);
         expect(mockDispatch).toHaveBeenCalledWith(mockCallCustomerPageApi);
+        expect(neuroIdSubmitMock).toHaveBeenCalledTimes(1);
+        expect(neuroIdSubmitMock).toHaveBeenCalledWith(pageNameWithPrefix);
     });
 
     test('rendering the hook with complete order', () => {

@@ -1,4 +1,4 @@
-import {getBreadcrumbs, getTerm} from 'src/utils';
+import {getBreadcrumbs, getTerm, neuroIdSubmitFromBreadcrumb} from 'src/utils';
 import {BreadcrumbsStatus} from 'src/constants';
 import {renderHook} from '@testing-library/react-hooks';
 import {Action, Location} from 'history';
@@ -19,7 +19,9 @@ const historyMock = {
 };
 
 jest.mock('src/utils/getTerm');
+jest.mock('src/utils/neuroIdCallsBreadcrumbs');
 const getTermMock = mocked(getTerm, true);
+const neuroIdSubmitFromBreadcrumbMock = mocked(neuroIdSubmitFromBreadcrumb, true);
 
 describe('Test getBreadcrumbs function', () => {
     const active = 5;
@@ -44,23 +46,27 @@ describe('Test getBreadcrumbs function', () => {
         const results = result.current;
 
         results[0].onClick(eventMock);
+        expect(neuroIdSubmitFromBreadcrumbMock).toHaveBeenCalledTimes(1);
         expect(window.location.href).toEqual(window.returnUrl);
         expect(results[0].status).toBe(BreadcrumbsStatus.COMPLETED);
         expect(preventDefaultMock).toHaveBeenCalledTimes(1);
 
         results[1].onClick(eventMock);
+        expect(neuroIdSubmitFromBreadcrumbMock).toHaveBeenCalledTimes(2);
         expect(results[1].text).toStrictEqual(getTermValue);
         expect(replaceMock).toHaveBeenCalledTimes(1);
         expect(results[0].status).toBe(BreadcrumbsStatus.COMPLETED);
         expect(preventDefaultMock).toHaveBeenCalledTimes(2);
 
         results[2].onClick(eventMock);
+        expect(neuroIdSubmitFromBreadcrumbMock).toHaveBeenCalledTimes(3);
         expect(results[2].text).toStrictEqual(getTermValue);
         expect(replaceMock).toHaveBeenCalledTimes(2);
         expect(results[0].status).toBe(BreadcrumbsStatus.COMPLETED);
         expect(preventDefaultMock).toHaveBeenCalledTimes(3);
 
         results[3].onClick(eventMock);
+        expect(neuroIdSubmitFromBreadcrumbMock).toHaveBeenCalledTimes(4);
         expect(results[3].text).toStrictEqual(getTermValue);
         expect(replaceMock).toHaveBeenCalledTimes(3);
         expect(results[0].status).toBe(BreadcrumbsStatus.COMPLETED);

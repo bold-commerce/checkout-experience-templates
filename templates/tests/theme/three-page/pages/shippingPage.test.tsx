@@ -6,6 +6,7 @@ import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {useGetShopUrlFromShopAlias, useScrollToElementOnNavigation} from 'src/hooks';
 import {useShippingPage} from 'src/themes/three-page/hooks';
+import {neuroIdInit} from 'src/utils';
 
 const shopURL = 'https://some-shop-url.test.com';
 const store = {
@@ -25,7 +26,9 @@ jest.mock('react-redux', () => ({
 jest.mock('src/themes/three-page/hooks/useShippingPage');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useScrollToElementOnNavigation');
+jest.mock('src/utils/neuroIdCalls');
 mocked(useScrollToElementOnNavigation, true);
+mocked(neuroIdInit, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useShippingPageMock = mocked(useShippingPage, true);
 

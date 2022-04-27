@@ -3,9 +3,9 @@ import {useDispatch} from 'react-redux';
 import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
 import {callCustomerPageApi} from 'src/library';
 import {useHistory} from 'react-router';
-import {Constants} from 'src/constants';
+import {Constants, NeuroIdConstants} from 'src/constants';
 import {IUseCustomerPageProp} from 'src/types';
-import {getCheckoutUrl, getTerm} from 'src/utils';
+import {getCheckoutUrl, getNeuroIdPageName, getTerm, neuroIdSubmit} from 'src/utils';
 import {sendEvents} from 'src/analytics';
 
 export function useCustomerPage(): IUseCustomerPageProp {
@@ -20,13 +20,15 @@ export function useCustomerPage(): IUseCustomerPageProp {
     const backLinkText = `< ${getTerm('return_to_cart', Constants.CUSTOMER_INFO)}`;
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
+        neuroIdSubmit(getNeuroIdPageName(NeuroIdConstants.customerPage));
         window.location.href = window.returnUrl;
     } , [window.returnUrl]);
     const nextButtonText = getTerm('cont_to_shipping', Constants.SHIPPING_INFO);
     const active = 1;
     const nextButtonOnClick = useCallback(() => {
+        const pageNameNeuroId = getNeuroIdPageName(NeuroIdConstants.customerPage);
         sendEvents('Checkout', 'Clicked continue to shipping lines button');
-        dispatch(callCustomerPageApi(history));
+        dispatch(callCustomerPageApi(history, pageNameNeuroId));
     } , []);
     window.history.replaceState(null, '', getCheckoutUrl('/resume'));
 

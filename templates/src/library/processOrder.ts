@@ -8,7 +8,7 @@ import {getCheckoutUrl, handleErrorIfNeeded} from 'src/utils';
 import {errorFields, errorSubTypes} from 'src/constants';
 import {useRemoveAllFlashErrors} from 'src/hooks';
 
-export function processOrder(history: HistoryLocationState) {
+export function processOrder(history: HistoryLocationState, pageNameNeuroId?: string) {
     return async function processOrderThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         let {errors} = getState();
         useRemoveAllFlashErrors(dispatch, errors);
@@ -19,7 +19,7 @@ export function processOrder(history: HistoryLocationState) {
 
             if (response.success) {
                 await dispatch(actionSetAppStateValid('orderProcessed', true));
-                await dispatch(checkErrorAndProceedToNextPage('/thank_you', 'paymentPageButton', history, true));
+                await dispatch(checkErrorAndProceedToNextPage('/thank_you', 'paymentPageButton', history, true, pageNameNeuroId));
                 await dispatch(getApplicationStateFromLib);
             }
             else{

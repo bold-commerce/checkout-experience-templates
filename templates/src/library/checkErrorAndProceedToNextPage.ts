@@ -2,11 +2,16 @@ import {Dispatch} from 'redux';
 import {IApplicationStateSelectShippingLine, IOrderInitialization} from 'src/types';
 import {actionRemoveErrorByField, actionRemoveErrorByTypeAndCode, actionSetLoaderAndDisableButton} from 'src/action';
 import {HistoryLocationState} from 'react-router';
-import {getCheckoutUrl, getTotals, isOnlyDiscountCodeError} from 'src/utils';
+import {getCheckoutUrl, getTotals, isOnlyDiscountCodeError, neuroIdSubmit} from 'src/utils';
 import {errorFields, errorTypes} from 'src/constants';
 import {orderCompleteAnalytics} from 'src/analytics';
 
-export function checkErrorAndProceedToNextPage(page: string, loaderName: string, history: HistoryLocationState, callOrderCompleteAnalytics = false) {
+export function checkErrorAndProceedToNextPage(
+    page: string,
+    loaderName: string,
+    history: HistoryLocationState,
+    callOrderCompleteAnalytics = false,
+    pageNameNeuroId?: string) {
     return async function checkErrorAndProceedToNextPageThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         dispatch(actionRemoveErrorByField(`${errorFields.discounts}`));
         dispatch(actionRemoveErrorByTypeAndCode(`${errorTypes.discount_code_validation}`, '02'));
@@ -15,6 +20,9 @@ export function checkErrorAndProceedToNextPage(page: string, loaderName: string,
         dispatch(actionSetLoaderAndDisableButton(loaderName, false));
 
         if (errors.length <= 0 || isOnlyDiscountCodeError(errors)) {
+            if (pageNameNeuroId) {
+                neuroIdSubmit(pageNameNeuroId);
+            }
             history.replace(getCheckoutUrl(page));
             if(callOrderCompleteAnalytics){
                 const appState = getState().data.application_state;
