@@ -17,7 +17,7 @@ import {
 } from 'src/hooks';
 import {usePaymentPage} from 'src/themes/three-page/hooks';
 import {displayOrderProcessingScreen, processOrder} from 'src/library';
-import {getCheckoutUrl, getTerm} from 'src/utils';
+import {getCheckoutUrl, getNeuroIdPageName, getTerm, neuroIdSubmit} from 'src/utils';
 import {stateMock} from 'src/mocks';
 
 jest.mock('@bold-commerce/checkout-frontend-library');
@@ -34,6 +34,8 @@ jest.mock('src/hooks/useGetLineItems');
 jest.mock('src/utils/getTerm');
 jest.mock('src/library');
 jest.mock('src/hooks/useGetIsOrderProcessed');
+jest.mock('src/utils/neuroIdCalls');
+
 const useDispatchMock = mocked(useDispatch, true);
 const useHistoryMock = mocked(useHistory, true);
 const useGetErrorsMock = mocked(useGetErrors, true);
@@ -49,6 +51,8 @@ const sendAddPaymentActionMock = mocked(sendAddPaymentAction, true);
 const sendRefreshOrderActionMock = mocked(sendRefreshOrderAction, true);
 const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true);
 const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
+const neuroIdSubmitMock = mocked(neuroIdSubmit, true);
+const getNeuroIdPageNameMock = mocked(getNeuroIdPageName, true);
 
 describe('Testing hook usePaymentPage', () => {
     const dispatchMock = jest.fn();
@@ -75,6 +79,7 @@ describe('Testing hook usePaymentPage', () => {
         amount: 1999
     };
     const eventMock = {preventDefault: jest.fn()};
+    const pageNameWithPrefix = 'prefix_page_name';
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -91,6 +96,7 @@ describe('Testing hook usePaymentPage', () => {
         useGetDiscountsMock.mockReturnValue(appState.discounts);
         useGetPaymentsMock.mockReturnValue(appState.payments);
         processOrderMock.mockReturnValue(processOrderThunkMock);
+        getNeuroIdPageNameMock.mockReturnValue(pageNameWithPrefix);
     });
 
     test('Render with empty errors array', () => {
@@ -126,6 +132,8 @@ describe('Testing hook usePaymentPage', () => {
         expect(processOrderMock).toHaveBeenCalledTimes(0);
         expect(sendRefreshOrderActionMock).toHaveBeenCalledTimes(1);
         expect(sendAddPaymentActionMock).toHaveBeenCalledTimes(1);
+        expect(neuroIdSubmitMock).toHaveBeenCalledTimes(1);
+        expect(neuroIdSubmitMock).toHaveBeenCalledWith(pageNameWithPrefix);
     });
 
     test('Render with empty errors array and full payment', () => {
@@ -174,9 +182,11 @@ describe('Testing hook usePaymentPage', () => {
         expect(dispatchMock).toHaveBeenCalledTimes(2);
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
         expect(processOrderMock).toHaveBeenCalledTimes(1);
-        expect(processOrderMock).toHaveBeenCalledWith(historyMock);
+        expect(processOrderMock).toHaveBeenCalledWith(historyMock, pageNameWithPrefix);
         expect(sendRefreshOrderActionMock).toHaveBeenCalledTimes(0);
         expect(sendAddPaymentActionMock).toHaveBeenCalledTimes(0);
+        expect(neuroIdSubmitMock).toHaveBeenCalledTimes(1);
+        expect(neuroIdSubmitMock).toHaveBeenCalledWith(pageNameWithPrefix);
     });
 
     test('Render with errors in array', () => {
@@ -212,6 +222,8 @@ describe('Testing hook usePaymentPage', () => {
         expect(processOrderMock).toHaveBeenCalledTimes(0);
         expect(sendRefreshOrderActionMock).toHaveBeenCalledTimes(0);
         expect(sendAddPaymentActionMock).toHaveBeenCalledTimes(0);
+        expect(neuroIdSubmitMock).toHaveBeenCalledTimes(1);
+        expect(neuroIdSubmitMock).toHaveBeenCalledWith(pageNameWithPrefix);
     });
 
     test('rendering the hook with complete order', () => {

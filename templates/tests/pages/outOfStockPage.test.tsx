@@ -10,12 +10,15 @@ import {
 } from 'src/hooks';
 import {OutOfStockPage} from 'src/pages';
 import {IUseContactUs, IUseFooterRights, IUseOutOfStock} from 'src/types';
+import {neuroIdInit} from 'src/utils';
 
 jest.mock('src/hooks/useGetOutOfStock');
 jest.mock('src/hooks/useGetContactUs');
 jest.mock('src/hooks/useGetFooterRights');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
+jest.mock('src/utils/neuroIdCalls');
+mocked(neuroIdInit, true);
 const useGetOutOfStockMock = mocked(useGetOutOfStock, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
 const useGetFooterRightsMock = mocked(useGetFooterRights, true);

@@ -10,7 +10,7 @@ import {
 import {HistoryLocationState} from 'react-router';
 import {actionSetLoaderAndDisableButton} from 'src/action';
 
-export function callCustomerPageApi(history: HistoryLocationState) {
+export function callCustomerPageApi(history: HistoryLocationState, pageNameNeuroId?: string) {
     return async function callCustomerPageApiThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         const state = getState();
         dispatch(actionSetLoaderAndDisableButton('customerPageButton', true));
@@ -20,7 +20,7 @@ export function callCustomerPageApi(history: HistoryLocationState) {
         const validateAddresses = async () => {
             dispatch(validateShippingAddress).then(() => {
                 dispatch(validateBillingAddress).then(() => {
-                    dispatch(checkErrorAndProceedToNextPage('/shipping_lines', 'customerPageButton', history));
+                    dispatch(checkErrorAndProceedToNextPage('/shipping_lines', 'customerPageButton', history, false, pageNameNeuroId));
                 });
             });
         };

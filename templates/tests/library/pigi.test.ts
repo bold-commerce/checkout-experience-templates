@@ -22,7 +22,7 @@ import {
 } from 'src/library';
 import {stateMock} from 'src/mocks';
 import {IPigiResponsesPayload} from 'src/types';
-import {updatePigiHeight} from 'src/utils';
+import {getNeuroIdPageName, updatePigiHeight} from 'src/utils';
 import {useSendEvent} from 'src/hooks';
 
 jest.mock('@bold-commerce/checkout-frontend-library');
@@ -30,6 +30,7 @@ jest.mock('src/action');
 jest.mock('src/library/processOrder');
 jest.mock('src/utils');
 jest.mock('src/hooks/useSendEvent');
+jest.mock('src/utils/neuroIdCalls');
 const setPigiListenerMock = mocked(setPigiListener, true);
 const removePigiListenerMock = mocked(removePigiListener, true);
 const sendUpdateLanguageActionMock = mocked(sendUpdateLanguageAction, true);
@@ -39,6 +40,7 @@ const actionShowHideOverlayContentMock = mocked(actionShowHideOverlayContent, tr
 const processOrderMock = mocked(processOrder, true);
 const updatePigiHeightMock = mocked(updatePigiHeight, true);
 const useSendEventMock = mocked(useSendEvent, true);
+const getNeuroIdPageNameMock = mocked(getNeuroIdPageName, true);
 
 describe('testing getPaymentIframe function', () => {const callbackEvent = (): void => { return; };
     const frameId = 'frame-id';
@@ -46,6 +48,7 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
     const dispatchMock = jest.fn();
     const getStateMock = jest.fn();
     const historyMock = {replace: jest.fn()} as unknown as History;
+    const neuroIdPaymentPageName = 'new_experience_payment_page';
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -86,14 +89,16 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
         const payloadMock: IPigiResponsesPayload = {height: 100, success: true};
         const processOrderThunkMock = jest.fn();
         processOrderMock.mockReturnValueOnce(processOrderThunkMock);
+        getNeuroIdPageNameMock.mockReturnValue(neuroIdPaymentPageName);
 
         const handlePigiAddPaymentThunk = await handlePigiAddPayment(payloadMock, historyMock);
         await handlePigiAddPaymentThunk(dispatchMock).then(() => {
             expect(processOrderMock).toHaveBeenCalledTimes(1);
-            expect(processOrderMock).toHaveBeenCalledWith(historyMock);
+            expect(processOrderMock).toHaveBeenCalledWith(historyMock, neuroIdPaymentPageName);
             expect(dispatchMock).toHaveBeenCalledTimes(2);
             expect(dispatchMock).toHaveBeenCalledWith(getUpdatedApplicationState);
             expect(dispatchMock).toHaveBeenCalledWith(processOrderThunkMock);
+            expect(getNeuroIdPageNameMock).toHaveBeenCalledTimes(1);
         });
     });
 

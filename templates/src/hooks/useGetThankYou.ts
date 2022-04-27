@@ -1,14 +1,17 @@
 import {useCallback} from 'react';
 
-import {Constants} from 'src/constants';
+import {Constants, NeuroIdConstants} from 'src/constants';
 import {useGetCustomerInfoData, useGetShopUrlFromShopAlias, useGetValidVariable} from 'src/hooks';
 import {IUseGetThankYou} from 'src/types';
-import {getTerm} from 'src/utils';
+import {getNeuroIdPageName, getTerm, neuroIdSubmit} from 'src/utils';
 
 export function useGetThankYou(): IUseGetThankYou {
     const websiteName = window.shopName;
     const shopURL = useGetShopUrlFromShopAlias(window.shopAlias);
-    const returnUrl = useCallback(() => { window.location.href = shopURL; } , [shopURL]);
+    const returnUrl = useCallback(() => {
+        neuroIdSubmit(getNeuroIdPageName(NeuroIdConstants.thankYouPage));
+        window.location.href = shopURL;
+    }, [shopURL]);
     const customerInformation = useGetCustomerInfoData();
     const terms = {
         thankYou: getTerm('thank_you', Constants.CONFIRMATION_PAGE_INFO),

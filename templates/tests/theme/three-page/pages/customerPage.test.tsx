@@ -6,6 +6,7 @@ import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {useGetShopUrlFromShopAlias, useScrollToElementOnNavigation, useSendEvent} from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
+import {neuroIdInit} from 'src/utils';
 
 const shopURL = 'https://some-shop-url.test.com';
 const store = {
@@ -25,7 +26,9 @@ jest.mock('src/themes/three-page/hooks/useCustomerPage');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useScrollToElementOnNavigation');
 jest.mock('src/hooks/useSendEvent');
+jest.mock('src/utils/neuroIdCalls');
 mocked(useScrollToElementOnNavigation, true);
+mocked(neuroIdInit, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useCustomerPageMock = mocked(useCustomerPage, true);
 const useSendEventMock = mocked(useSendEvent, true);

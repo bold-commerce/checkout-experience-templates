@@ -1,4 +1,4 @@
-import {displayFatalErrorFromTranslation, getHook, handleErrorIfNeeded} from 'src/utils';
+import {displayFatalErrorFromTranslation, getHook, getNeuroIdPageName, handleErrorIfNeeded, neuroIdSubmit} from 'src/utils';
 import {mocked} from 'jest-mock';
 import {HistoryLocationState} from 'react-router';
 import {apiErrors, httpStatusCode} from '@bold-commerce/checkout-frontend-library/lib/variables';
@@ -7,8 +7,11 @@ import {IApiResponse} from '@bold-commerce/checkout-frontend-library';
 
 jest.mock('src/utils/displayFatalErrorFromTranslation');
 jest.mock('src/utils/standaloneHooks');
+jest.mock('src/utils/neuroIdCalls');
 const displayFatalErrorFromTranslationMock = mocked(displayFatalErrorFromTranslation, true);
 const getHooksMock = mocked(getHook, true);
+const getNeuroIdPageNameMock = mocked(getNeuroIdPageName, true);
+const neuroIdSubmitMock = mocked(neuroIdSubmit, true);
 
 describe('Test function handleErrorIfNeeded', () => {
     const dispatchMock = jest.fn();
@@ -32,8 +35,8 @@ describe('Test function handleErrorIfNeeded', () => {
     ];
 
     const sessionDataSet = [
-        {resResponse: {errors: [{message: 'Expired JWT'}]}, status: httpStatusCode.UNAUTHORIZED, error: 'Session Expired' },
-        {resResponse: {errors: [{message: 'Missing JWT'}]}, status: httpStatusCode.UNAUTHORIZED , error: 'Session Issues' },
+        {resResponse: {errors: [{message: 'Expired JWT'}]}, status: httpStatusCode.UNAUTHORIZED, error: 'Session Expired', neuroIdSubmitCalls: 1 },
+        {resResponse: {errors: [{message: 'Missing JWT'}]}, status: httpStatusCode.UNAUTHORIZED , error: 'Session Issues', neuroIdSubmitCalls: 0 },
     ]
 
     beforeEach(() => {
@@ -58,11 +61,14 @@ describe('Test function handleErrorIfNeeded', () => {
 
     test.each(sessionDataSet)(
         'handle error $status, with Errors: $errors',
-        ({resResponse, error, status}) => {
+        ({resResponse, error, status, neuroIdSubmitCalls}) => {
             response.error = {status: status};
             response.response = resResponse as IApiResponse;
-            expect(() => {handleErrorIfNeeded(response, dispatchMock, stateMock)}).toThrow(error);
+            getNeuroIdPageNameMock.mockReturnValue('some_page_name');
 
+            expect(() => {handleErrorIfNeeded(response, dispatchMock, stateMock)}).toThrow(error);
+            expect(getNeuroIdPageNameMock).toHaveBeenCalledTimes(neuroIdSubmitCalls);
+            expect(neuroIdSubmitMock).toHaveBeenCalledTimes(neuroIdSubmitCalls);
         });
 
 });

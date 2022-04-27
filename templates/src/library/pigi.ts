@@ -7,10 +7,10 @@ import {
     actionSetPigiIframeLoader,
     actionShowHideOverlayContent
 } from 'src/action';
-import {pigiHandleScaSteps, pigiPaymentTypes} from 'src/constants';
+import {NeuroIdConstants, pigiHandleScaSteps, pigiPaymentTypes} from 'src/constants';
 import {displayOrderProcessingScreen, getUpdatedApplicationState, processOrder} from 'src/library';
 import {IOrderInitialization, IPigiResponsesPayload} from 'src/types';
-import {updatePigiHeight} from 'src/utils';
+import {getNeuroIdPageName, updatePigiHeight} from 'src/utils';
 import {useSendEvent} from 'src/hooks';
 
 export function setPigiListenerInLibrary(frameId: string, callbackEvent: (evt: Event) => void) {
@@ -40,10 +40,12 @@ export function handlePigiAddPayment(payload: IPigiResponsesPayload, history: Hi
     return async function handlePigiAddPaymentThunk(dispatch: Dispatch): Promise<void> {
         dispatch(getUpdatedApplicationState);
         if(payload.success && payload.paymentType !== pigiPaymentTypes.GIFT_CARD) {
+            const pageNameNeuroId = getNeuroIdPageName(NeuroIdConstants.paymentPage);
+
             if(payload.paymentType === pigiPaymentTypes.PAYPAL){
                 dispatch(displayOrderProcessingScreen);
             }
-            dispatch(processOrder(history));
+            dispatch(processOrder(history, pageNameNeuroId));
         } else {
             dispatch(actionShowHideOverlayContent(false));
         }

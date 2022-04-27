@@ -28,6 +28,8 @@ export * from './isObjectEqual';
 export * from './isOnlyDiscountCodeError';
 export * from './lockUnlockScroll';
 export * from './navigateDialog';
+export * from './neuroIdCalls';
+export * from './neuroIdCallsBreadcrumbs';
 export * from './standaloneHooks';
 export * from './scriptsAreLoaded';
 export * from './scrollToElement';
