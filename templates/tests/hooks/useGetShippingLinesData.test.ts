@@ -5,6 +5,17 @@ import {getTerm} from 'src/utils';
 import {stateMock} from 'src/mocks';
 import {act} from '@testing-library/react';
 import {actionSetLoaderAndDisableButton} from 'src/action';
+import {initialDataMock} from 'src/mocks';
+
+const store = {
+    data: initialDataMock
+};
+
+jest.mock('src/hooks/rootHooks');
+jest.mock('react-redux', () => ({
+    useSelector: jest.fn().mockImplementation(func => func(store)),
+    useDispatch: () => mockDispatch
+}));
 
 jest.mock('src/utils');
 jest.mock('src/action');
@@ -13,9 +24,7 @@ jest.mock('src/hooks/useDebounceShippingLines');
 jest.mock('src/hooks/useGetSelectShippingLine');
 jest.mock('src/hooks/useGetAvailableShippingLines');
 const mockDispatch = jest.fn();
-jest.mock('react-redux', () => ({
-    useDispatch: () => mockDispatch
-}));
+
 const useGetAvailableShippingLinesMock = mocked(useGetAvailableShippingLines, true);
 const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
 const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButton, true);

@@ -4,6 +4,16 @@ import { getTerm } from 'src/utils';
 import { mocked } from 'jest-mock';
 import { addressMock, emptyAddressMock } from 'src/mocks';
 import { useGetSelectShippingLine } from 'src/hooks';
+import {initialDataMock} from 'src/mocks';
+
+const store = {
+    data: initialDataMock
+};
+
+jest.mock('src/hooks/rootHooks');
+jest.mock('react-redux', () => ({
+    useSelector: jest.fn().mockImplementation(func => func(store))
+}));
 
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useGetSelectShippingLine');

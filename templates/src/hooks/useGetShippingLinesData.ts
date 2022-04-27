@@ -3,12 +3,13 @@ import {IApplicationStateSelectShippingLine, IShippingLinesHookProps} from 'src/
 import {useGetAvailableShippingLines, useGetSelectShippingLine} from 'src/hooks';
 import {useCallback} from 'react';
 import {actionSetLoaderAndDisableButton, actionSetSelectedShippingLine} from 'src/action';
-import {useDebouncedShippingLines} from 'src/hooks';
+import {useDebouncedShippingLines, useGetCurrencyInformation} from 'src/hooks';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
 
 export function useGetShippingLinesData(): IShippingLinesHookProps{
     const dispatch = useDispatch();
+    const { formattedPrice } = useGetCurrencyInformation();
     const shippingLines: Array<IApplicationStateSelectShippingLine> = useGetAvailableShippingLines();
     const selectedLine: IApplicationStateSelectShippingLine = useGetSelectShippingLine();
     const shippingLinesLength = shippingLines.length;
@@ -26,5 +27,5 @@ export function useGetShippingLinesData(): IShippingLinesHookProps{
         }
     }, []);
 
-    return {shippingLines, selectedLine, noShippingAreaText, shippingLinesLength, handleChange};
+    return {shippingLines, selectedLine, noShippingAreaText, shippingLinesLength, handleChange, formattedPrice};
 }
