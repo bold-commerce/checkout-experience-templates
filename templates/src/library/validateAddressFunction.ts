@@ -27,10 +27,8 @@ export function validateAddressFunction(type: string, address: Partial<IAddress>
         }
 
         const validateAddressFunction = async () => {
-            if (type === Constants.SHIPPING) {
-                dispatch(actionRemoveErrorByAddressType(type));
-            }
-
+            dispatch(actionRemoveErrorByAddressType(type));
+            
             if (isObjectEquals(address, defaultAddressState) || !isObjectEquals(address, libraryAddress)) {
                 const isAddressFieldsValidated = validateAddressFields(validationField, type, dispatch);
 
@@ -49,11 +47,17 @@ export function validateAddressFunction(type: string, address: Partial<IAddress>
                     await dispatch(postAddress(type));
                 } else if (type === Constants.SHIPPING) {
                     dispatch(actionSetAppStateValid('shippingAddress', false));
+                } else if (type === Constants.BILLING){
+                    dispatch(actionSetAppStateValid('billingAddress', false));
                 }
             }
 
             if (!isObjectEquals(address, defaultAddressState) && isObjectEquals(address, libraryAddress)) {
-                dispatch(actionSetAppStateValid('shippingAddress', true));
+                if (type === Constants.SHIPPING) {
+                    dispatch(actionSetAppStateValid('shippingAddress', true));
+                } else if (type === Constants.BILLING){
+                    dispatch(actionSetAppStateValid('billingAddress', true));
+                }
             }
         };
 
