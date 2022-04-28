@@ -16,7 +16,7 @@ export function SummaryDiscountLine(props: ISummaryDiscountLineProps): React.Rea
                     <div className={'discount-code__discount-code-value'}>{props.code}</div>
                     {!notLoadingCloseDiscount ?
                         discountCloseLoading ? <div className={'discount-code__spinner-div'}> <span className="discount-code__spinner"/> </div>
-                            : <div data-testid='delete-discount' className={'discount-code__delete-discount-code'} onClick={() => deleteElementFromState(REMOVE_DISCOUNT, props.code)}/>
+                            : <button data-testid='delete-discount' className={'discount-code__delete-discount-code'} onClick={() => deleteElementFromState(REMOVE_DISCOUNT, props.code)} aria-label="Delete discount"/>
                         : null
                     }
                 </div>

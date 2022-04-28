@@ -10,7 +10,7 @@ export function SummaryLineExpandable(props: ISummaryLineExpandable): React.Reac
     return (
         <div className={classes.container}>
             <div className={classes.title.container}>
-                <span className={classes.title.arrow} onClick={toggle} />
+                <button className={classes.title.arrow} onClick={toggle}/>
                 <span className={classes.title.text}>{props.title}</span>
                 {!expand && <Price className={classes.list.price} moneyFormatString={formattedPrice} amount={props.total} textAlign={'right'}/>}
             </div>

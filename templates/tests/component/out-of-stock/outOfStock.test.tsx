@@ -39,7 +39,6 @@ describe('Testing OutOfStock component', () => {
     const hookReturn: IUseOutOfStock = {
         returnUrl: jest.fn(),
         terms: terms,
-        websiteName: '',
     };
 
     beforeEach(() => {

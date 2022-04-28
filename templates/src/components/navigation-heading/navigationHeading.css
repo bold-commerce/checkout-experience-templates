@@ -9,11 +9,6 @@
     align-content: center;
 }
 
-.nav-heading a,
-.nav-heading__title:hover {
-    cursor: pointer;
-}
-
 .nav-heading__title {
     color: #0A75C2;
     line-height: 20px;

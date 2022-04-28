@@ -18,14 +18,12 @@ describe('Testing hook useGetOutOfStock', () => {
             returnToProduct: 'Return to product',
             outOfStockHeader: 'Inventory Issue',
             outOfStockBody: 'Inventory Issue body'
-        },
-        websiteName: 'websiteName',
+        }
     };
 
     beforeEach(() => {
         jest.clearAllMocks();
         window.returnUrl = shopUrl;
-        window.shopName = mockResponse.websiteName;
         getTermMock.mockReturnValue('');
 
         window = Object.create(window);
@@ -52,6 +50,5 @@ describe('Testing hook useGetOutOfStock', () => {
         expect(getTermMock).toHaveBeenCalledWith('inventory_issues', Constants.OUT_OF_STOCK_INFO);
         expect(getTermMock).toHaveBeenCalledWith('unavailable_products_message', Constants.OUT_OF_STOCK_INFO);
         expect(result.current.terms).toStrictEqual(mockResponse.terms);
-        expect(result.current.websiteName).toBe('websiteName')
     });
 });

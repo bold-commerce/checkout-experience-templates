@@ -8,7 +8,7 @@ import { useGetCloseBuyNow, useIndexPage } from 'src/themes/buy-now/hooks';
 
 function SummaryPage(props : IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivElement>): React.ReactElement {
     const { checkoutOnClick } = useIndexPage();
-    const closeBuyNow = useGetCloseBuyNow();
+    const {closeBuyNow} = useGetCloseBuyNow();
     return (
         <div ref={ref} className={classNames('buy-now buy-now__secondary', props.show ? 'buy-now__secondary--open' : 'buy-now__secondary--closed')}>
             <div className='summary-page' >

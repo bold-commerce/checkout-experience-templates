@@ -21,7 +21,6 @@ export function useIndexPage(): IUseIndexPageProps {
     const address = useGetShippingData();
     const quantityDisabled = useGetButtonDisableVariable('updateLineItemQuantity');
 
-    const websiteName = window.shopName;
     const loginText = getTerm('not_you', Constants.CUSTOMER_INFO);
     const summaryHeadingText =  getTerm('summary', Constants.SUMMARY_INFO);
     const shippingHeadingText = getTerm('shipping', Constants.SUMMARY_INFO);
@@ -47,7 +46,6 @@ export function useIndexPage(): IUseIndexPageProps {
     return {
         loginText,
         orderTotal,
-        websiteName,
         lineItems,
         summaryHeadingText,
         email,

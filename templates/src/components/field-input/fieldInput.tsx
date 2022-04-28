@@ -25,6 +25,7 @@ export function FieldInput(props: IFieldInputProps): React.ReactElement {
                 onBlur= {props.handleBlur}
                 messageType = {props.errorMessage ? 'alert' : ''}
                 messageText = {props.errorMessage ? props.errorMessage : ''}
+                autoFocus={props.autoFocus}
             />
             <span data-testid='input-field__label' className={ClassNames(['input-field__label', {'field--alert' : props.errorMessage} ])}>{props.placeholder}</span>
         </div>

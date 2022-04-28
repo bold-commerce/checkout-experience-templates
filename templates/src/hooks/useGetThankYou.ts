@@ -6,7 +6,6 @@ import {IUseGetThankYou} from 'src/types';
 import {getNeuroIdPageName, getTerm, neuroIdSubmit} from 'src/utils';
 
 export function useGetThankYou(): IUseGetThankYou {
-    const websiteName = window.shopName;
     const shopURL = useGetShopUrlFromShopAlias(window.shopAlias);
     const returnUrl = useCallback(() => {
         neuroIdSubmit(getNeuroIdPageName(NeuroIdConstants.thankYouPage));
@@ -26,7 +25,6 @@ export function useGetThankYou(): IUseGetThankYou {
         returnUrl,
         thankYouTitle,
         terms,
-        isGeneric,
-        websiteName
+        isGeneric
     };
 }

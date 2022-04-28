@@ -30,5 +30,9 @@ export function useGetPaymentSection(): IUseGetPaymentSection {
         }, 1000);
     };
 
+    useEffect(() => {
+        setNotValidText(notValidDisplayText);
+    }, [notValidDisplayText]);
+
     return {loading, isValidAddress, isValidShippingLine, notValidText, fieldSectionText, onLoad, isValidPigiLoad};
 }

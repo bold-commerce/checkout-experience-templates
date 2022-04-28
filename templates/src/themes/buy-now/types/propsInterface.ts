@@ -32,6 +32,8 @@ export interface IBuyNowContainerPageProps {
     navigateTo: (page: string) => void;
 }
 
-export interface ISessionExpiredPageProps {
-    closeModal: () => void;
+export interface IUseGetCloseBuyNow {
+    closeBuyNow: () => void;
+    websiteName: string;
+    terms: Record<string, string>; 
 }

@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import { sendEvents, sendPageView } from 'src/analytics';
-import { Footer, GenericMessageSection, Header } from 'src/components';
-import { Constants } from 'src/constants';
-import { ISessionExpiredPageProps } from 'src/themes/buy-now/types';
-import { getErrorTerm } from 'src/utils';
+import { CloseableHeader, GenericMessageSection } from 'src/components';
+import { useGetSessionExpired } from 'src/hooks';
+import { useGetCloseBuyNow } from '../hooks';
 
-export function SessionExpiredPage(props: ISessionExpiredPageProps): React.ReactElement {
-    const { closeModal } = props;
-    const sessionExpiredHeader = getErrorTerm('session_expired', Constants.GENERIC_ERROR_INFO);
+export function SessionExpiredPage(): React.ReactElement {
+    const {closeBuyNow, websiteName, terms: modalTerms} = useGetCloseBuyNow();
+    const { terms: sessionTerms } = useGetSessionExpired();
     
     useEffect(() => {
         sendPageView('/session-expired');
@@ -18,17 +17,15 @@ export function SessionExpiredPage(props: ISessionExpiredPageProps): React.React
         <div className="checkout-experience-container">
             <div className="buy-now-container" style={{height: 'min-content', overflowX: 'hidden', overflowY: 'auto'}}>
                 <div className="buy-now">
-                    <Header isMobile={false}/>
+                    <CloseableHeader title={websiteName} onClose={closeBuyNow} />
                     <GenericMessageSection
                         className="session-expired__message"
-                        messageTitle={sessionExpiredHeader}
-                        messageText="Close this modal and try again"
+                        messageTitle={sessionTerms.sessionExpiredHeader}
+                        messageText={modalTerms.closeModalDescription}
                     />
-                    <Footer
-                        className="session-expired__footer-container"
-                        nextButtonText="Close modal"
-                        nextButtonOnClick={closeModal}
-                    />
+                    <button data-testid="close-modal" className={'buy-now__checkout-button'} onClick={closeBuyNow} >
+                        {modalTerms.closeModal}
+                    </button>
                 </div>
             </div>
         </div>

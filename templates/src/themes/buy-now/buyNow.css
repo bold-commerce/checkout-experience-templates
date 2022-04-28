@@ -27,6 +27,23 @@ html, body, .buy-now__app {
   font-family: inherit;
 }
 
+.buy-now-container a:hover {
+  cursor: pointer;
+  color: #0A75C2;
+  text-decoration: underline;
+}
+
+.buy-now-container a:focus {
+  border-radius: 1px;
+  outline: 2px solid #2283C8;
+  color: #0A75C2;
+}
+
+.buy-now-container a:active {
+  color: #0F67A8;
+  text-decoration: underline;
+}
+
 .buy-now{
   padding: 16px 32px;
   transition: all 0.6s;
@@ -119,15 +136,25 @@ html, body, .buy-now__app {
   margin: 16px 0;
 }
 
+.buy-now__checkout-button:hover {
+  cursor: pointer;
+  outline: 4px solid #E2E2E2;
+  background-color: #2283C8;
+}
+
+.buy-now__checkout-button:focus {
+  outline: 4px solid #C0E7FE;
+}
+
+.buy-now__checkout-button:active {
+  background-color: #0F67A8;
+}
+
 .buy-now__section .nav-heading {
   width: 100%;
   display: inline-flex;
   justify-content: space-between;
   align-content: center;
-}
-
-.buy-now__checkout-button:hover {
-  cursor: pointer;
 }
 
 .buy-now .stx-radio__input {
@@ -284,6 +311,11 @@ html, body, .buy-now__app {
 
 .buy-now.thank-you > * {
   margin: 0;
+}
+
+.buy-now .contact-us {
+  order: 0;
+  padding: 0;
 }
 
 .buy-now .generic-message-section__section-title{

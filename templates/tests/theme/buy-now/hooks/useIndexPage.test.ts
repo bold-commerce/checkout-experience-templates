@@ -35,7 +35,6 @@ const sendRefreshOrderActionAsyncSpy = jest.spyOn(sendRefreshOrderAction, 'sendR
 const sendAddPaymentActionAsyncSpy = jest.spyOn(sendAddPaymentAction, 'sendAddPaymentActionAsync');
 
 describe('testing hook useIndexPage', () => {
-    window.shopName = 'Test Shop';
     const getTermValue = 'test term';
     const emailValue = 'test@email.com';
     const useLoginValue = {
@@ -76,7 +75,6 @@ describe('testing hook useIndexPage', () => {
         const hookResult = result.current;
         expect(hookResult.loginText).toBe(getTermValue);
         expect(hookResult.orderTotal).toBe(9999);
-        expect(hookResult.websiteName).toBe(window.shopName);
         expect(hookResult.lineItems).toBe(stateMock.data.application_state.line_items);
         expect(hookResult.summaryHeadingText).toBe(getTermValue);
         expect(hookResult.email).toBe(emailValue);

@@ -17,7 +17,8 @@ export function SummaryDiscountCode(): React.ReactElement {
                     value={discountCodeText}
                     handleChange={updateNewDiscountCode}
                     id={'add-discount-code-field-input'}
-                    errorMessage={discountError} />
+                    errorMessage={discountError} 
+                    autoFocus={true}/>
                 <Button data-testid='apply-discount' loading={buttonLoading} disabled={buttonLoading || buttonDisabled} className={classNames(['btn-checkout', 'discount-code__button'])} onClick={() => addDiscount()}>{'Apply'}</Button>
             </div>
             <div className={'discount-code__list-discounts'}>

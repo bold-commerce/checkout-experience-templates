@@ -34,6 +34,7 @@ export interface IFieldInputProps {
     label?: string;
     helpText?: string;
     type?: string;
+    autoFocus?: boolean;
     id?: string;
     name?: string;
     errorMessage?: string | null;
@@ -348,7 +349,6 @@ export interface IUseGetThankYou {
     thankYouTitle: string;
     terms: Record<string, string>;
     isGeneric: boolean;
-    websiteName: string;
 }
 
 export interface IUseGetCartItem {
@@ -386,7 +386,6 @@ export interface IUseGetOrderRecap {
 export interface IUseOutOfStock {
     returnUrl: () => void;
     terms: Record<string, string>;
-    websiteName: string;
 }
 
 export interface IUseSessionExpired {
@@ -446,7 +445,6 @@ export interface IUseIndexPageProps {
     loginUrl: (event) => void;
     loginText: string;
     orderTotal: number;
-    websiteName: string;
     lineItems: Array<IApplicationStateLineItem>;
     summaryHeadingText: string;
     email: string;

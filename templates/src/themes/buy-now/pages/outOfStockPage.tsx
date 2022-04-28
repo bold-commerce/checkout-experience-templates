@@ -6,8 +6,8 @@ import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
 import { sendEvents, sendPageView } from 'src/analytics';
 
 export function OutOfStockPage(): React.ReactElement {
-    const {terms, websiteName} = useGetOutOfStock();
-    const closeBuyNow = useGetCloseBuyNow();
+    const {terms} = useGetOutOfStock();
+    const {closeBuyNow, websiteName} = useGetCloseBuyNow();
 
     useEffect(() => {
         sendPageView('/out-of-stock');

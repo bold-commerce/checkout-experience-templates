@@ -14,7 +14,7 @@ export function SummaryLineExpanded(props: ISummaryLineExpanded): React.ReactEle
                 {!isLoading && props.hasDeleteButton ?
                     closeLoading ?
                         <div className={props.classes.list.loading}> <span className={props.classes.list.loadingSpan}/> </div> :
-                        <span data-testid='delete-discount'  className={props.classes.list.delete} onClick={() => deleteElementFromState(eventDeleteName, itemId)} />
+                        <button data-testid='delete-discount'  className={props.classes.list.delete} onClick={() => deleteElementFromState(eventDeleteName, itemId)} />
                     : null}
             </div>
             <Price className={props.classes.list.price} moneyFormatString={formattedPrice} amount={props.amount} textAlign={textAlign}/>

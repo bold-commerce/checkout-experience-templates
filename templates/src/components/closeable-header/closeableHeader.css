@@ -14,6 +14,13 @@
     white-space: nowrap;
 }
 
+.closeable-header__title {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
 .closeable-header__button {
     display: inline-flex;
     width: 16px;
@@ -21,6 +28,7 @@
     border: transparent 1px solid;
     border-radius: 6px;
     padding: 0;
+    margin-right: 4px; /* matches outline width on focus state */
     background:
         linear-gradient(
             45deg,
@@ -40,4 +48,13 @@
             transparent 57%,
             transparent 100%
         );
+}
+
+.closeable-header__button:hover {
+    cursor: pointer;
+    outline: 4px solid #E2E2E2;
+}
+
+.closeable-header__button:focus {
+    outline: 4px solid #C0E7FE;
 }
