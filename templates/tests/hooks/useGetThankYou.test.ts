@@ -25,8 +25,7 @@ describe('Testing hook useGetThankYou', () => {
             orderConfirmedText: 'Order confirmed text',
             keepShopping: 'Keep shopping'
         },
-        isGeneric: false,
-        websiteName: 'Shop Name'
+        isGeneric: false
     };
 
     beforeEach(() => {

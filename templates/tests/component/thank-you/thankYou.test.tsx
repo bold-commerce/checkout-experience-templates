@@ -67,8 +67,7 @@ describe('testing ThankYou component', () => {
             orderConfirmedText: 'Order confirmed text',
             keepShopping: 'Keep shopping'
         },
-        isGeneric: false,
-        websiteName: 'Shop Name'
+        isGeneric: false
     };
 
     beforeEach(() => {

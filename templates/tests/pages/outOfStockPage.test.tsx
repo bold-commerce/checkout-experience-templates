@@ -34,7 +34,6 @@ describe('testing OutOfStockPage', () => {
     const hookReturn: IUseOutOfStock = {
         returnUrl: jest.fn(),
         terms: terms,
-        websiteName: '',
     };
     const contactUsHookReturn: IUseContactUs = {
         needHelp: 'Need help?',

@@ -21,7 +21,7 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
 
     return (
         <li className="cart-item">
-            <Image src={product_data.image_url} alt={product_data.title} className="cart-item__img-container cart-item__img-container--empty" />
+            <Image src={product_data.image_url} alt={product_data.product_title} className="cart-item__img-container cart-item__img-container--empty" />
             <div className="cart-item__text">
                 <h2 className="cart-item__title">{product_data.product_title}</h2>
                 {(product_data.title && product_data.title !== 'Default Title' ) && (

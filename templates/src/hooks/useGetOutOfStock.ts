@@ -16,11 +16,9 @@ export function useGetOutOfStock(): IUseOutOfStock {
         outOfStockHeader: getTerm('inventory_issues', Constants.OUT_OF_STOCK_INFO),
         outOfStockBody: getTerm('unavailable_products_message', Constants.OUT_OF_STOCK_INFO)
     };
-    const websiteName = window.shopName;
 
     return {
         returnUrl,
-        terms,
-        websiteName
+        terms
     };
 }

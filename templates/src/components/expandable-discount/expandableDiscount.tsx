@@ -9,7 +9,7 @@ export function ExpandableDiscount(): React.ReactElement {
     return (
         <div className={classNames(['expandable-discount'])}>
             {!expandDiscount ? 
-                <a className={classNames(['expandable-discount__toggle'])} data-testid='discount-toggle' onClick={toggleDiscount} tabIndex={1} href="#discount">{discountCodeInputText}</a> :
+                <a className={classNames(['expandable-discount__toggle'])} data-testid='discount-toggle' onClick={toggleDiscount} href="#discount">{discountCodeInputText}</a> :
                 <SummaryDiscountCode />
             }
         </div>

@@ -7,7 +7,7 @@ export function NavigationHeading(props: INavigationHeadingProps): React.ReactEl
     return (
         <div className={classNames('nav-heading', className)}>
             { navigation ?
-                <a className='nav-heading__title' data-testid='navigation' onClick={navigation}>{text}</a> :
+                <a className='nav-heading__title' data-testid='navigation' onClick={navigation} href="#navigation">{text}</a> :
                 <p>{text}</p>
             }
             {secondary}    

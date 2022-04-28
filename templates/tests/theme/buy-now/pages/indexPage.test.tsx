@@ -41,7 +41,6 @@ describe('testing IndexPage', () => {
         loginUrl: jest.fn(),
         loginText: 'login',
         orderTotal: 8888,
-        websiteName: 'test store',
         lineItems: [],
         summaryHeadingText: getTermValue,
         email: 'test@email.gg',

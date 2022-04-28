@@ -26,7 +26,6 @@ describe('testing SummaryPage', () => {
         loginUrl: jest.fn(),
         loginText: 'login',
         orderTotal: 8888,
-        websiteName: 'test store',
         lineItems: [],
         summaryHeadingText: 'summary',
         email: 'test@email.gg',

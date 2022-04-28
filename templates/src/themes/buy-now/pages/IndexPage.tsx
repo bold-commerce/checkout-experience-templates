@@ -15,7 +15,6 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
         lineItems,
         loginText,
         orderTotal,
-        websiteName,
         quantityDisabled,
         summaryHeadingText,
         shippingHeadingText,
@@ -24,7 +23,7 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
         checkoutOnClick,
         updateLineItemQuantity,
     } = useIndexPage();
-    const closeBuyNow = useGetCloseBuyNow();
+    const {closeBuyNow, websiteName} = useGetCloseBuyNow();
     const { formattedPrice } = useGetCurrencyInformation();
     const login = <a onClick={loginUrl}>{loginText}</a>;
     const subTotal = <Price amount={orderTotal} moneyFormatString={formattedPrice}/>;

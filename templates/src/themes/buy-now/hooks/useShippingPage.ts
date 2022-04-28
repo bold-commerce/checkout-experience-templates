@@ -6,7 +6,7 @@ import { IUseShippingPage } from 'src/themes/buy-now/types';
 import { getTerm } from 'src/utils';
 
 export function useShippingPage(): IUseShippingPage {
-    const closeBuyNow = useGetCloseBuyNow();
+    const {closeBuyNow} = useGetCloseBuyNow();
     const [stopBack, setStopBack ] = useState(false);
     const flashText = getTerm('buy_now_shipping_address_incomplete', Constants.CUSTOM);
     const isValidAddress = useGetValidVariable('shippingAddress');

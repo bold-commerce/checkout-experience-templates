@@ -5,8 +5,8 @@ import { useGetThankYou } from 'src/hooks';
 import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
 
 export function ThankYouPage(): React.ReactElement{
-    const { websiteName, thankYouTitle, terms} = useGetThankYou();
-    const closeBuyNow = useGetCloseBuyNow();
+    const { thankYouTitle, terms} = useGetThankYou();
+    const {closeBuyNow, websiteName} = useGetCloseBuyNow();
 
     useEffect(() => {
         sendPageView('/thank-you');
