@@ -1,7 +1,7 @@
 import {useDispatch} from 'react-redux';
 import {useCallback} from 'react';
 import {useCallApiAtOnEvents, useGetAppSettingData, useIsUserAuthenticated, useGetShippingData} from 'src/hooks';
-import {actionRemoveErrorByAddressType, actionUpdateBillingType, actionUpdateBillingTypeInSettings} from 'src/action';
+import {actionRemoveErrorByAddressType, actionSetAppStateValid, actionUpdateBillingType, actionUpdateBillingTypeInSettings} from 'src/action';
 import {IAddressProps, IBillingAddress} from 'src/types';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
@@ -24,6 +24,7 @@ export function useBillingAddress(): IBillingAddress{
     const toggleBillingSameAsShipping = useCallback(() => {
         const billingType = customBilling === Constants.SHIPPING_SAME ? Constants.SHIPPING_DIFFERENT : Constants.SHIPPING_SAME;
 
+        dispatch(actionSetAppStateValid('billingAddress', false));
         dispatch(actionUpdateBillingTypeInSettings(billingType));
         dispatch(actionUpdateBillingType(billingType, shippingAddress));
 

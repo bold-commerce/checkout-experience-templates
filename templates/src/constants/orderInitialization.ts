@@ -26,6 +26,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
     isValid: {
         shippingAddress: false,
         updatedShippingAddress: false,
+        billingAddress: false,
         orderProcessed: false,
         shippingLine: false,
         pigi: false,

@@ -4,9 +4,10 @@ import {mocked} from 'jest-mock';
 import {getBillingAddress, setBillingAddress, updateBillingAddress,} from '@bold-commerce/checkout-frontend-library';
 import * as handleErrorIfNeeded from 'src/utils/handleErrorIfNeeded';
 import {defaultAddressState} from 'src/constants';
-import {postBillingAddress} from 'src/library';
+import {postBillingAddress, setBillingAddressAsValid} from 'src/library';
 import * as isObjectEquals from 'src/utils/isObjectEqual';
 import { addressMock } from 'src/mocks';
+import * as appAction from 'src/action/appAction';
 
 jest.mock('@bold-commerce/checkout-frontend-library');
 const setBillingAddressMock = mocked(setBillingAddress, true);
@@ -21,12 +22,14 @@ describe('testing postBillingAddress', () => {
     const fakeInvalidData = {something: 'different'};
     let handleErrorSpy: jest.SpyInstance;
     let isObjectEqualsSpy: jest.SpyInstance;
+    let actionSetAppStateValidSpy: jest.SpyInstance;
 
     beforeEach(() => {
         jest.resetAllMocks();
         getState.mockReturnValue(stateMock);
         handleErrorSpy = jest.spyOn(handleErrorIfNeeded, 'handleErrorIfNeeded').mockImplementation();
         isObjectEqualsSpy = jest.spyOn(isObjectEquals, 'isObjectEquals');
+        actionSetAppStateValidSpy = jest.spyOn(appAction, 'actionSetAppStateValid');
     });
 
     test('calling post billing address endpoint with getState returning undefined', async () => {
@@ -38,6 +41,7 @@ describe('testing postBillingAddress', () => {
         expect(setBillingAddressMock).toHaveBeenCalledTimes(0);
         expect(updateBillingAddressMock).toHaveBeenCalledTimes(0);
         expect(getAddressesMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidSpy).toHaveBeenCalledTimes(1);
     });
 
     test('calling post billing address endpoint with getState returning a different data structure', async () => {
@@ -49,6 +53,7 @@ describe('testing postBillingAddress', () => {
         expect(setBillingAddressMock).toHaveBeenCalledTimes(0);
         expect(updateBillingAddressMock).toHaveBeenCalledTimes(0);
         expect(getAddressesMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidSpy).toHaveBeenCalledTimes(1);
     });
 
     test('calling post billing address endpoint with getAddress returning undefined', async () => {
@@ -60,6 +65,7 @@ describe('testing postBillingAddress', () => {
         expect(setBillingAddressMock).toHaveBeenCalledTimes(0);
         expect(updateBillingAddressMock).toHaveBeenCalledTimes(1);
         expect(getAddressesMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidSpy).toHaveBeenCalledTimes(1);
     });
 
     test('calling post billing address with empty address', async () => {
@@ -71,6 +77,7 @@ describe('testing postBillingAddress', () => {
             expect(setBillingAddressMock).toHaveBeenCalledTimes(1);
             expect(updateBillingAddressMock).toHaveBeenCalledTimes(0);
             expect(handleErrorSpy).toHaveBeenCalledTimes(1);
+            expect(actionSetAppStateValidSpy).toHaveBeenCalledTimes(1);
         });
 
     });
@@ -84,6 +91,8 @@ describe('testing postBillingAddress', () => {
             expect(setBillingAddressMock).toHaveBeenCalledTimes(0);
             expect(updateBillingAddressMock).toHaveBeenCalledTimes(1);
             expect(handleErrorSpy).toHaveBeenCalledTimes(1);
+            expect(actionSetAppStateValidSpy).toHaveBeenCalledTimes(1);
+            expect(dispatch).toHaveBeenCalledWith(setBillingAddressAsValid);
         });
     });
 
@@ -96,6 +105,7 @@ describe('testing postBillingAddress', () => {
             expect(setBillingAddressMock).toHaveBeenCalledTimes(0);
             expect(updateBillingAddressMock).toHaveBeenCalledTimes(0);
             expect(handleErrorSpy).toHaveBeenCalledTimes(0);
+            expect(actionSetAppStateValidSpy).toHaveBeenCalledTimes(1);
         });
     });
 
@@ -107,6 +117,8 @@ describe('testing postBillingAddress', () => {
             expect(setBillingAddressMock).toHaveBeenCalledTimes(1);
             expect(updateBillingAddressMock).toHaveBeenCalledTimes(0);
             expect(handleErrorSpy).toHaveBeenCalledTimes(1);
+            expect(actionSetAppStateValidSpy).toHaveBeenCalledTimes(1);
+            expect(dispatch).toHaveBeenCalledWith(setBillingAddressAsValid);
         });
     });
 

@@ -241,6 +241,7 @@ export interface IIsButtonDisable {
 export interface IIsValid{
     shippingAddress: boolean
     updatedShippingAddress: boolean
+    billingAddress: boolean,
     orderProcessed: boolean
     shippingLine: boolean
     pigi: boolean

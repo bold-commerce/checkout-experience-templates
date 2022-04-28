@@ -27,6 +27,7 @@ describe('Testing hook useBillingAddress', () => {
     let actionUpdateBillingTypeInSettingsSpy: jest.SpyInstance;
     let actionRemoveErrorByAddressTypeSpy: jest.SpyInstance;
     let actionUpdateBillingTypeSpy: jest.SpyInstance;
+    let actionSetAppStateValidSpy: jest.SpyInstance;
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -37,7 +38,7 @@ describe('Testing hook useBillingAddress', () => {
         actionUpdateBillingTypeInSettingsSpy = jest.spyOn(appAction, 'actionUpdateBillingTypeInSettings');
         actionUpdateBillingTypeSpy = jest.spyOn(customerAction, 'actionUpdateBillingType');
         actionRemoveErrorByAddressTypeSpy = jest.spyOn(appAction, 'actionRemoveErrorByAddressType');
-
+        actionSetAppStateValidSpy = jest.spyOn(appAction, 'actionSetAppStateValid');
     });
 
     test('rendering the hook properly', () => {
@@ -107,6 +108,7 @@ describe('Testing hook useBillingAddress', () => {
 
         expect(actionUpdateBillingTypeInSettingsSpy).toBeCalled();
         expect(actionUpdateBillingTypeSpy).toBeCalled();
+        expect(actionSetAppStateValidSpy).toBeCalled();
         expect(mockDispatch).toHaveBeenCalledWith(validateBillingAddress);
     });
 
@@ -127,6 +129,7 @@ describe('Testing hook useBillingAddress', () => {
 
         expect(actionUpdateBillingTypeInSettingsSpy).toBeCalled();
         expect(actionUpdateBillingTypeSpy).toBeCalled();
+        expect(actionSetAppStateValidSpy).toBeCalled();
         expect(mockDispatch).not.toHaveBeenCalledWith(validateBillingAddress);
     });
 
