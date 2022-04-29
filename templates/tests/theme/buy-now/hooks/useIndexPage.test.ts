@@ -107,7 +107,32 @@ describe('testing hook useIndexPage', () => {
         const hookResult = result.current;
         expect(hookResult.loginText).toBe(getTermValue);
         expect(hookResult.orderTotal).toBe(9999);
-        expect(hookResult.websiteName).toBe(window.shopName);
+        expect(hookResult.lineItems).toBe(stateMock.data.application_state.line_items);
+        expect(hookResult.summaryHeadingText).toBe(getTermValue);
+        expect(hookResult.email).toBe(emailValue);
+        expect(hookResult.shippingHeadingText).toBe(getTermValue);
+        expect(hookResult.address).toBe(addressMock);
+        expect(hookResult.paymentHeadingText).toBe(getTermValue);
+
+        await hookResult.checkoutOnClick();
+        expect(dispatchMock).toHaveBeenCalledWith(validateBillingAddress);
+        expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
+        expect(sendRefreshOrderActionAsyncSpy).toHaveBeenCalledTimes(1);
+        expect(sendAddPaymentActionAsyncSpy).toHaveBeenCalledTimes(1);
+        expect(processOrderMock).toHaveBeenCalledTimes(0);
+    });
+
+    test('test the hook with different billing address', async () => {
+        useGetOrderTotalMock.mockReturnValue(9999);
+        useGetErrorsMock.mockReturnValue([]);
+        useGetValidVariableMock.mockReturnValue(true);
+        useGetAppSettingDataMock.mockReturnValue(Constants.SHIPPING_DIFFERENT);
+        useGetValidVariableMock.mockReturnValue(true);
+
+        const {result} = renderHook(() => useIndexPage());
+        const hookResult = result.current;
+        expect(hookResult.loginText).toBe(getTermValue);
+        expect(hookResult.orderTotal).toBe(9999);
         expect(hookResult.lineItems).toBe(stateMock.data.application_state.line_items);
         expect(hookResult.summaryHeadingText).toBe(getTermValue);
         expect(hookResult.email).toBe(emailValue);
