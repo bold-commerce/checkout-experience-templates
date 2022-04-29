@@ -1,6 +1,6 @@
 import {actionUpdateAddress, actionUpdateBillingType, actionUpdateBillingTypeInSettings} from 'src/action';
-import { Constants } from 'src/constants';
-import { validateShippingAddress, setDefaultAddresses, validateBillingAddress } from 'src/library';
+import { Constants, defaultAddressState } from 'src/constants';
+import { validateShippingAddress, setDefaultAddresses, validateBillingAddress, setShippingAddressAsValid, setBillingAddressAsValid } from 'src/library';
 import { initialDataMock, stateMock } from 'src/mocks';
 import { IAddress } from 'src/types';
 
@@ -15,9 +15,24 @@ describe('Testing hook useSetDefaultAddress', () => {
 
     beforeEach(() => {
         getState.mockReturnValue(stateMock);
-    })
-    test('set default addresses properly', async () => {
+    });
 
+    afterEach(() => {
+        jest.resetAllMocks();
+    })
+
+    test('resume checkout, validate addresses', async () => {
+        await setDefaultAddresses(dispatch, getState)
+        expect(dispatch).toBeCalledWith(setShippingAddressAsValid);
+        expect(dispatch).toBeCalledWith(setBillingAddressAsValid);
+
+        expect(dispatch).toHaveBeenCalledTimes(2);
+    });
+
+    test('set default addresses properly', async () => {
+        stateMock.data.application_state.addresses.shipping = defaultAddressState;
+        stateMock.data.application_state.addresses.billing = defaultAddressState;
+        
         await setDefaultAddresses(dispatch, getState)
         expect(dispatch).toBeCalledWith(actionUpdateAddress(Constants.SHIPPING, savedAddresses[0]));
         expect(dispatch).toBeCalledWith(validateShippingAddress);
