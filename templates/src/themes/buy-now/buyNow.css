@@ -27,6 +27,10 @@ html, body, .buy-now__app {
   font-family: inherit;
 }
 
+.buy-now-container select {
+  background-image: none;
+}
+
 .buy-now-container a:hover {
   cursor: pointer;
   color: #0A75C2;
@@ -321,4 +325,10 @@ html, body, .buy-now__app {
 .buy-now .generic-message-section__section-title{
   margin: 0;
   padding-bottom: 16px;
+}
+
+.buy-now__app .address__address,
+.buy-now__app .address__address2 {
+  width: 100%;
+  padding-left: 0;
 }
