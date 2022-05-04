@@ -2,7 +2,6 @@ import {useDispatch} from 'react-redux';
 import {
     useGetButtonDisableVariable,
     useGetDiscounts,
-    useGetErrors,
     useGetIsLoading,
     useGetIsOrderProcessed,
     useGetLineItems,
@@ -14,10 +13,15 @@ import {getCheckoutUrl, getNeuroIdPageName, getTerm, getTotals, neuroIdSubmit} f
 import {Constants, NeuroIdConstants} from 'src/constants';
 import {useCallback} from 'react';
 import {displayOrderProcessingScreen, processOrder} from 'src/library';
-import {sendAddPaymentAction, sendRefreshOrderAction} from '@bold-commerce/checkout-frontend-library';
+import {
+    sendAddPaymentAction,
+    sendClearErrorMessageAction,
+    sendRefreshOrderAction
+} from '@bold-commerce/checkout-frontend-library';
 import {useHistory} from 'react-router';
 import {IUsePaymentPage} from 'src/types';
 import {sendEvents} from 'src/analytics';
+import {actionClearErrors} from 'src/action';
 
 export function usePaymentPage(): IUsePaymentPage{
     const history = useHistory();
@@ -26,7 +30,6 @@ export function usePaymentPage(): IUsePaymentPage{
     if(isOrderCompleted){
         history.replace(getCheckoutUrl('/thank_you'));
     }
-    const errors = useGetErrors();
     const backLinkText = `< ${getTerm('return_to_shipping', Constants.PAYMENT_INFO)}`;
     const nextButtonText = getTerm('complete_order', Constants.PAYMENT_INFO);
     const nextButtonLoading = useGetIsLoading();
@@ -44,18 +47,19 @@ export function usePaymentPage(): IUsePaymentPage{
         history.replace(getCheckoutUrl('/shipping_lines'));
     } , [history]);
 
-    const nextButtonOnClick = useCallback(async () => {
+    const nextButtonOnClick = useCallback( () => {
         const pageNameNeuroId = getNeuroIdPageName(NeuroIdConstants.paymentPage);
-
         sendEvents('Checkout', 'Clicked continue to complete order button');
-        if (errors.length === 0) {
-            dispatch(displayOrderProcessingScreen);
-            if (totals.totalAmountDue <= 0) {
-                dispatch(processOrder(history, pageNameNeuroId));
-            } else {
-                sendRefreshOrderAction();
-                sendAddPaymentAction();
-            }
+
+        dispatch(actionClearErrors);
+        sendClearErrorMessageAction();
+        dispatch(displayOrderProcessingScreen);
+
+        if (totals.totalAmountDue <= 0) {
+            dispatch(processOrder(history, pageNameNeuroId));
+        } else {
+            sendRefreshOrderAction();
+            sendAddPaymentAction();
         }
     },[totals, history]);
 

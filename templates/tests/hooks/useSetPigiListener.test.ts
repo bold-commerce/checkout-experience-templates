@@ -148,7 +148,7 @@ describe('Testing hook useSetPigiListener', () => {
         expect(handlePigiHeightMock).toHaveBeenCalledTimes(1);
         expect(handlePigiHeightMock).toHaveBeenCalledWith(payload);
         expect(handlePigiScaMock).toHaveBeenCalledTimes(1);
-        expect(handlePigiScaMock).toHaveBeenCalledWith(payload);
+        expect(handlePigiScaMock).toHaveBeenCalledWith(payload, historyMock);
         expect(dispatchMock).toHaveBeenCalledTimes(3);
     });
 

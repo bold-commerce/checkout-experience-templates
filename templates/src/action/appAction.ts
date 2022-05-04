@@ -244,6 +244,12 @@ export function actionRemoveError(error: IError): AnyAction {
     };
 }
 
+export function actionClearErrors(): AnyAction {
+    return {
+        type: AppActions.CLEAR_ERRORS
+    };
+}
+
 export function actionUpdateAppData(data: IOrderInitialization): AnyAction {
     return {
         type: AppActions.UPDATE_APP_DATA,

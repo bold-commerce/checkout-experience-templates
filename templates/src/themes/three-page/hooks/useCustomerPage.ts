@@ -7,6 +7,7 @@ import {Constants, NeuroIdConstants} from 'src/constants';
 import {IUseCustomerPageProp} from 'src/types';
 import {getCheckoutUrl, getNeuroIdPageName, getTerm, neuroIdSubmit} from 'src/utils';
 import {sendEvents} from 'src/analytics';
+import {actionClearErrors} from 'src/action';
 
 export function useCustomerPage(): IUseCustomerPageProp {
     const dispatch = useDispatch();
@@ -28,6 +29,8 @@ export function useCustomerPage(): IUseCustomerPageProp {
     const nextButtonOnClick = useCallback(() => {
         const pageNameNeuroId = getNeuroIdPageName(NeuroIdConstants.customerPage);
         sendEvents('Checkout', 'Clicked continue to shipping lines button');
+
+        dispatch(actionClearErrors);
         dispatch(callCustomerPageApi(history, pageNameNeuroId));
     } , []);
     window.history.replaceState(null, '', getCheckoutUrl('/resume'));

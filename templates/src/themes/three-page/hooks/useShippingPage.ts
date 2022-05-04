@@ -7,6 +7,7 @@ import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} fr
 import {useHistory} from 'react-router';
 import {callShippingLinesPageApi} from 'src/library';
 import {sendEvents} from 'src/analytics';
+import {actionClearErrors} from 'src/action';
 
 export function useShippingPage(): IUseCustomerPageProp{
     const dispatch = useDispatch();
@@ -27,8 +28,9 @@ export function useShippingPage(): IUseCustomerPageProp{
     const active = 2;
     const nextButtonOnClick = useCallback(() => {
         const pageNameNeuroId = getNeuroIdPageName(NeuroIdConstants.shippingPage);
-
         sendEvents('Checkout', 'Clicked continue to payment button');
+
+        dispatch(actionClearErrors);
         dispatch(callShippingLinesPageApi(history, pageNameNeuroId));
     } , []);
 

@@ -39,7 +39,7 @@ export function useSetPigiListener(): void {
                 dispatch(handlePigiPaymentAdded());
                 break;
             case pigiActionTypes.PIGI_HANDLE_SCA:
-                dispatch(handlePigiSca(payload));
+                dispatch(handlePigiSca(payload, history));
                 break;
             case pigiActionTypes.PIGI_REFRESH_ORDER:
                 dispatch(handlePigiRefreshOrder());

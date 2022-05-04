@@ -58,20 +58,28 @@ export function handlePigiPaymentAdded() {
     };
 }
 
-export function handlePigiSca(payload: IPigiResponsesPayload) {
-    return async function handlePigiScaThunk(dispatch: Dispatch): Promise<void> {
+export function handlePigiSca(payload: IPigiResponsesPayload, history: History) {
+    return async function handlePigiScaThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
+        const {isValid: {scaToken}} = getState();
         if (payload.step === pigiHandleScaSteps.DISPLAYED) {
-            dispatch(actionShowHideOverlayContent(false));
             window.scrollTo(0, 0);
             updatePigiHeight('100%');
             dispatch(actionSetPigiDisplaySca(true));
+            dispatch(actionShowHideOverlayContent(false));
         } else if (payload.step === pigiHandleScaSteps.COMPLETED) {
             dispatch(actionShowHideOverlayContent(true));
             dispatch(actionSetPigiDisplaySca(false));
+            if(scaToken) {
+                dispatch(actionSetAppStateValid('scaToken', false));
+                dispatch(processOrder(history));
+            }
         } else if (payload.step === pigiHandleScaSteps.FAILED) {
-            dispatch(actionSetPigiDisplaySca(false));
-            updatePigiHeight(`${payload.height}px`);
-            dispatch(actionShowHideOverlayContent(false));
+            dispatch(actionShowHideOverlayContent(true));
+            dispatch(getUpdatedApplicationState).then(() => {
+                dispatch(actionSetPigiDisplaySca(false));
+                updatePigiHeight(`${payload.height}px`);
+                dispatch(actionShowHideOverlayContent(false));
+            });
         }
     };
 }

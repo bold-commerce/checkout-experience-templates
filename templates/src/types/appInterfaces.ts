@@ -241,10 +241,11 @@ export interface IIsButtonDisable {
 export interface IIsValid{
     shippingAddress: boolean
     updatedShippingAddress: boolean
-    billingAddress: boolean,
+    billingAddress: boolean
     orderProcessed: boolean
     shippingLine: boolean
     pigi: boolean
+    scaToken: boolean
 }
 
 export interface IOrderInitialization {
