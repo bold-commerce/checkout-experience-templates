@@ -153,9 +153,10 @@ describe('testing validateAddressFunction', () => {
         await validateCustomerAddressThunk(dispatchMock, getStateMock).then(() => {
             expect(validateAddressMock).not.toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.country_code);
             expect(handleErrorSpy).toHaveBeenCalledTimes(0);
-            expect(setValidSpy).toHaveBeenCalledTimes(1);
+            expect(setValidSpy).toHaveBeenCalledTimes(2);
             expect(setValidSpy).toHaveBeenCalledWith('shippingAddress', true);
-            expect(dispatchMock).toHaveBeenCalledTimes(2);
+            expect(setValidSpy).toHaveBeenCalledWith('updatedShippingAddress', true);
+            expect(dispatchMock).toHaveBeenCalledTimes(3);
             expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
             expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
         });

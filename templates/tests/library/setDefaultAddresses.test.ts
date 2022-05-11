@@ -23,10 +23,15 @@ describe('Testing hook useSetDefaultAddress', () => {
 
     test('resume checkout, validate addresses', async () => {
         await setDefaultAddresses(dispatch, getState)
-        expect(dispatch).toBeCalledWith(setShippingAddressAsValid);
-        expect(dispatch).toBeCalledWith(setBillingAddressAsValid);
+        expect(dispatch).toBeCalledWith(validateShippingAddress);
+        expect(dispatch).toBeCalledWith(validateBillingAddress);
 
         expect(dispatch).toHaveBeenCalledTimes(2);
+
+        expect(dispatch).not.toBeCalledWith(actionUpdateAddress(expect.anything(), expect.anything()));
+
+        expect(dispatch).not.toBeCalledWith(actionUpdateBillingTypeInSettings(expect.anything()));
+        expect(dispatch).not.toBeCalledWith(actionUpdateBillingType(expect.anything(), expect.anything()));
     });
 
     test('set default addresses properly', async () => {
@@ -35,10 +40,11 @@ describe('Testing hook useSetDefaultAddress', () => {
         
         await setDefaultAddresses(dispatch, getState)
         expect(dispatch).toBeCalledWith(actionUpdateAddress(Constants.SHIPPING, savedAddresses[0]));
-        expect(dispatch).toBeCalledWith(validateShippingAddress);
 
         expect(dispatch).toBeCalledWith(actionUpdateBillingTypeInSettings(Constants.SHIPPING_SAME));
         expect(dispatch).toBeCalledWith(actionUpdateBillingType(Constants.SHIPPING_SAME, savedAddresses[0]));
+
+        expect(dispatch).toBeCalledWith(validateShippingAddress);
         expect(dispatch).toBeCalledWith(validateBillingAddress);
 
         expect(dispatch).toHaveBeenCalledTimes(5);

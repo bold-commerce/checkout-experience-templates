@@ -55,6 +55,7 @@ export function validateAddressFunction(type: string, address: Partial<IAddress>
             if (!isObjectEquals(address, defaultAddressState) && isObjectEquals(address, libraryAddress)) {
                 if (type === Constants.SHIPPING) {
                     dispatch(actionSetAppStateValid('shippingAddress', true));
+                    dispatch(actionSetAppStateValid('updatedShippingAddress', true));
                 } else if (type === Constants.BILLING){
                     dispatch(actionSetAppStateValid('billingAddress', true));
                 }

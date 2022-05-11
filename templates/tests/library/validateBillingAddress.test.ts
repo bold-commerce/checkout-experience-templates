@@ -1,5 +1,5 @@
 import {mocked} from 'jest-mock';
-import {validateBillingAddress} from 'src/library';
+import {setBillingAddressAsValid, validateBillingAddress} from 'src/library';
 import {getBillingAddress} from '@bold-commerce/checkout-frontend-library';
 import * as validateAddressFunction from 'src/library/validateAddressFunction';
 import * as postAddress from 'src/library/postAddress';
@@ -62,11 +62,12 @@ describe('testing validateBillingAddress', () => {
             expect(validateAddressFunctionSpy).toHaveBeenCalledTimes(0);
             expect(getBillingAddressMock).toHaveBeenCalledTimes(0);
             expect(getStateMock).toHaveBeenCalledTimes(1);
-            expect(dispatchMock).toHaveBeenCalledTimes(3);
+            expect(dispatchMock).toHaveBeenCalledTimes(4);
             expect(actionUpdateBillingAsShippingSpy).toHaveBeenCalledTimes(1);
             expect(postAddressSpy).toHaveBeenCalledTimes(1);
             expect(dispatchMock).not.toHaveBeenCalledWith(validateAddressMock);
             expect(dispatchMock).toHaveBeenCalledWith(postAddressReturnedFunctionMock);
+            expect(dispatchMock).toHaveBeenCalledWith(setBillingAddressAsValid);
         });
     });
 
