@@ -5,7 +5,8 @@ import {
     sendPageViewForGoogleAnalytics,
     sendPageViewForFacebookPixel,
     orderCompleteForGoogleAnalytics,
-    orderCompletedForFacebookPixel
+    orderCompletedForFacebookPixel,
+    orderCompleteForCustomAnalytics
 } from 'src/analytics';
 import {IApplicationStateLineItem, IApplicationStateSelectShippingLine, ITotals} from 'src/types';
 
@@ -27,4 +28,5 @@ export function sendPageView(page: string, step?: number): void {
 export function orderCompleteAnalytics(lineItems: Array<IApplicationStateLineItem>, currency: string, totals: ITotals, shipping: IApplicationStateSelectShippingLine): void {
     orderCompleteForGoogleAnalytics(lineItems, currency, totals, shipping);
     orderCompletedForFacebookPixel(lineItems, currency, totals);
+    orderCompleteForCustomAnalytics();
 }
