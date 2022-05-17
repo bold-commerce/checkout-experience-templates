@@ -1,6 +1,7 @@
 import {setPigiListener, removePigiListener, sendUpdateLanguageAction} from '@bold-commerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {
+    actionSetAppStateValid,
     actionSetPigiDisplaySca,
     actionSetPigiIframeLoader,
     actionShowHideOverlayContent
@@ -18,7 +19,7 @@ import {
     processOrder,
     setPigiListenerInLibrary,
     removePigiListenerInLibrary,
-    updatePigiLanguage
+    updatePigiLanguage,
 } from 'src/library';
 import {stateMock} from 'src/mocks';
 import {IPigiResponsesPayload} from 'src/types';
@@ -28,6 +29,7 @@ import {useSendEvent} from 'src/hooks';
 jest.mock('@bold-commerce/checkout-frontend-library');
 jest.mock('src/action');
 jest.mock('src/library/processOrder');
+jest.mock('src/library/applicationState');
 jest.mock('src/utils');
 jest.mock('src/hooks/useSendEvent');
 jest.mock('src/utils/neuroIdCalls');
@@ -41,6 +43,8 @@ const processOrderMock = mocked(processOrder, true);
 const updatePigiHeightMock = mocked(updatePigiHeight, true);
 const useSendEventMock = mocked(useSendEvent, true);
 const getNeuroIdPageNameMock = mocked(getNeuroIdPageName, true);
+const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true);
+const getUpdatedApplicationStateMock = mocked(getUpdatedApplicationState, true);
 
 describe('testing getPaymentIframe function', () => {const callbackEvent = (): void => { return; };
     const frameId = 'frame-id';
@@ -71,8 +75,8 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
         const removePigiListenerThunk = await removePigiListenerInLibrary();
         await removePigiListenerThunk().then(() => {
             expect(removePigiListenerMock).toHaveBeenCalledTimes(1);
-        })
-    })
+        });
+    });
 
     test('handlePigiInitialized called', async () => {
         const handlePigiInitializedThunk = await handlePigiInitialized();
@@ -155,8 +159,8 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
         actionShowHideOverlayContentMock.mockReturnValueOnce(overlayActionMock);
         actionSetPigiDisplayScaMock.mockReturnValueOnce(displayScaActionMock);
 
-        const handlePigiScaThunk = await handlePigiSca(payloadMock);
-        await handlePigiScaThunk(dispatchMock).then(() => {
+        const handlePigiScaThunk = await handlePigiSca(payloadMock, historyMock);
+        await handlePigiScaThunk(dispatchMock, getStateMock).then(() => {
             expect(actionShowHideOverlayContentMock).toHaveBeenCalledTimes(1);
             expect(actionShowHideOverlayContentMock).toHaveBeenCalledWith(false);
             expect(window.scrollTo).toHaveBeenCalledTimes(1);
@@ -178,8 +182,8 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
         actionShowHideOverlayContentMock.mockReturnValueOnce(overlayActionMock);
         actionSetPigiDisplayScaMock.mockReturnValueOnce(displayScaActionMock);
 
-        const handlePigiScaThunk = await handlePigiSca(payloadMock);
-        await handlePigiScaThunk(dispatchMock).then(() => {
+        const handlePigiScaThunk = await handlePigiSca(payloadMock, historyMock);
+        await handlePigiScaThunk(dispatchMock, getStateMock).then(() => {
             expect(actionShowHideOverlayContentMock).toHaveBeenCalledTimes(1);
             expect(actionShowHideOverlayContentMock).toHaveBeenCalledWith(true);
             expect(actionSetPigiDisplayScaMock).toHaveBeenCalledTimes(1);
@@ -190,32 +194,64 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
         });
     });
 
+    test('handlePigiSca called with step COMPLETED with SCAToken', async () => {
+        const payloadMock: IPigiResponsesPayload = {height: 100, success: true, step: 'COMPLETED'};
+        const overlayActionMock = {...actionMock, type: 'OVERLAY_ACTION_TEST'};
+        const displayScaActionMock = {...actionMock, type: 'DISPLAY_SCA_ACTION_TEST'};
+        const SetValidActionMock = {...actionMock, type: 'SET_VALID_ACTION_TEST'};
+        const processOrderThunkMock = jest.fn();
+        actionShowHideOverlayContentMock.mockReturnValueOnce(overlayActionMock);
+        actionSetPigiDisplayScaMock.mockReturnValueOnce(displayScaActionMock);
+        actionSetAppStateValidMock.mockReturnValueOnce(SetValidActionMock);
+        processOrderMock.mockReturnValueOnce(processOrderThunkMock);
+        const newStateMock = {...stateMock};
+        newStateMock.isValid.scaToken = true;
+        getStateMock.mockReturnValueOnce(newStateMock);
+
+        const handlePigiScaThunk = await handlePigiSca(payloadMock, historyMock);
+        await handlePigiScaThunk(dispatchMock, getStateMock).then(() => {
+            expect(actionShowHideOverlayContentMock).toHaveBeenCalledTimes(1);
+            expect(actionShowHideOverlayContentMock).toHaveBeenCalledWith(true);
+            expect(actionSetPigiDisplayScaMock).toHaveBeenCalledTimes(1);
+            expect(actionSetPigiDisplayScaMock).toHaveBeenCalledWith(false);
+            expect(processOrderMock).toHaveBeenCalledTimes(1);
+            expect(dispatchMock).toHaveBeenCalledTimes(4);
+            expect(dispatchMock).toHaveBeenCalledWith(overlayActionMock);
+            expect(dispatchMock).toHaveBeenCalledWith(displayScaActionMock);
+            expect(dispatchMock).toHaveBeenCalledWith(SetValidActionMock);
+            expect(dispatchMock).toHaveBeenCalledWith(processOrderThunkMock);
+        });
+    });
+
     test('handlePigiSca called with step FAILED', async () => {
         const payloadMock: IPigiResponsesPayload = {height: 100, success: true, step: 'FAILED'};
         const overlayActionMock = {...actionMock, type: 'OVERLAY_ACTION_TEST'};
         const displayScaActionMock = {...actionMock, type: 'DISPLAY_SCA_ACTION_TEST'};
         actionShowHideOverlayContentMock.mockReturnValueOnce(overlayActionMock);
         actionSetPigiDisplayScaMock.mockReturnValueOnce(displayScaActionMock);
+        getUpdatedApplicationStateMock.mockResolvedValue();
 
-        const handlePigiScaThunk = await handlePigiSca(payloadMock);
-        await handlePigiScaThunk(dispatchMock).then(() => {
-            expect(actionShowHideOverlayContentMock).toHaveBeenCalledTimes(1);
+        const handlePigiScaThunk = await handlePigiSca(payloadMock, historyMock);
+        await handlePigiScaThunk(dispatchMock, getStateMock).then(() => {
+            expect(actionShowHideOverlayContentMock).toHaveBeenCalledTimes(2);
             expect(actionShowHideOverlayContentMock).toHaveBeenCalledWith(false);
             expect(updatePigiHeightMock).toHaveBeenCalledTimes(1);
             expect(updatePigiHeightMock).toHaveBeenCalledWith('100px');
             expect(actionSetPigiDisplayScaMock).toHaveBeenCalledTimes(1);
             expect(actionSetPigiDisplayScaMock).toHaveBeenCalledWith(false);
-            expect(dispatchMock).toHaveBeenCalledTimes(2);
+            expect(dispatchMock).toHaveBeenCalledTimes(4);
+            expect(dispatchMock).toHaveBeenCalledWith(overlayActionMock);
             expect(dispatchMock).toHaveBeenCalledWith(overlayActionMock);
             expect(dispatchMock).toHaveBeenCalledWith(displayScaActionMock);
+            expect(dispatchMock).toHaveBeenCalledWith(getUpdatedApplicationStateMock);
         });
     });
 
     test('handlePigiSca called with step undefined', async () => {
         const payloadMock: IPigiResponsesPayload = {height: 100, success: true};
 
-        const handlePigiScaThunk = await handlePigiSca(payloadMock);
-        await handlePigiScaThunk(dispatchMock).then(() => {
+        const handlePigiScaThunk = await handlePigiSca(payloadMock, historyMock);
+        await handlePigiScaThunk(dispatchMock, getStateMock).then(() => {
             expect(actionShowHideOverlayContentMock).toHaveBeenCalledTimes(0);
             expect(actionSetPigiDisplayScaMock).toHaveBeenCalledTimes(0);
             expect(dispatchMock).toHaveBeenCalledTimes(0);
@@ -245,7 +281,7 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
         const payloadMock: IPigiResponsesPayload = {height: 123, success: true, step: 'DISPLAYED'};
         const newStateMock = {...stateMock};
         newStateMock.appSetting.pigiDisplaySca = true;
-        getStateMock.mockReturnValue(newStateMock);
+        getStateMock.mockReturnValueOnce(newStateMock);
 
         const handlePigiHeightThunk = await handlePigiHeight(payloadMock);
         await handlePigiHeightThunk(dispatchMock, getStateMock).then(() => {
@@ -258,7 +294,7 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
     test('testing updatePigiLanguage', async () => {
         const newStateMock = {...stateMock};
         newStateMock.appSetting.languageIso = 'es';
-        getStateMock.mockReturnValue(newStateMock);
+        getStateMock.mockReturnValueOnce(newStateMock);
 
         const updatePigiLanguageThunk = await updatePigiLanguage();
         await updatePigiLanguageThunk(dispatchMock, getStateMock).then(() => {

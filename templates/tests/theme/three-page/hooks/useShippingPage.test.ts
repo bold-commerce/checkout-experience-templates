@@ -6,6 +6,7 @@ import {getCheckoutUrl, getNeuroIdPageName, getTerm, neuroIdSubmit} from 'src/ut
 import {useHistory} from 'react-router';
 import {callShippingLinesPageApi} from 'src/library';
 import {useShippingPage} from 'src/themes/three-page/hooks';
+import {actionClearErrors} from 'src/action';
 
 jest.mock('react-redux');
 jest.mock('react-router');
@@ -59,7 +60,8 @@ describe('Testing hook useShippingPage', () => {
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
 
         result.current.nextButtonOnClick();
-        expect(mockDispatch).toHaveBeenCalledTimes(1);
+        expect(mockDispatch).toHaveBeenCalledTimes(2);
+        expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors);
         expect(mockDispatch).toHaveBeenCalledWith(mockCallShippingLinesPageApi);
         expect(neuroIdSubmitMock).toHaveBeenCalledTimes(1);
         expect(neuroIdSubmitMock).toHaveBeenCalledWith(pageNameWithPrefix);

@@ -1,6 +1,7 @@
 import {
     actionAddDiscount,
     actionAddError,
+    actionClearErrors,
     actionGetInitialData,
     actionOrderMetaData,
     actionOrderTotal,
@@ -546,6 +547,16 @@ describe('Testing App Actions', () => {
         };
 
         const result = actionUpdateIsProcessedOrder(data);
+
+        expect(result).toStrictEqual(actionReturnExpectation);
+    });
+
+    test('actionUpdateAppData', () => {
+        const actionReturnExpectation = {
+            type: AppActions.CLEAR_ERRORS,
+        };
+
+        const result = actionClearErrors();
 
         expect(result).toStrictEqual(actionReturnExpectation);
     });

@@ -6,6 +6,7 @@ import {getCheckoutUrl, getTerm, getNeuroIdPageName, neuroIdSubmit} from 'src/ut
 import {callCustomerPageApi} from 'src/library';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {useHistory} from 'react-router';
+import {actionClearErrors} from 'src/action';
 
 jest.mock('react-redux');
 jest.mock('react-router');
@@ -66,7 +67,8 @@ describe('Testing hook useCustomerPage', () => {
 
         expect(window.location.href).toEqual(window.returnUrl);
         result.current.nextButtonOnClick();
-        expect(mockDispatch).toHaveBeenCalledTimes(1);
+        expect(mockDispatch).toHaveBeenCalledTimes(2);
+        expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors);
         expect(mockDispatch).toHaveBeenCalledWith(mockCallCustomerPageApi);
         expect(neuroIdSubmitMock).toHaveBeenCalledTimes(1);
         expect(neuroIdSubmitMock).toHaveBeenCalledWith(pageNameWithPrefix);

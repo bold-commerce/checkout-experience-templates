@@ -30,6 +30,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
         orderProcessed: false,
         shippingLine: false,
         pigi: false,
+        scaToken: false,
     },
     overlay: {
         inverted: false,

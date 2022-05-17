@@ -13,8 +13,8 @@ export function checkErrorAndProceedToNextPage(
     callOrderCompleteAnalytics = false,
     pageNameNeuroId?: string) {
     return async function checkErrorAndProceedToNextPageThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
-        dispatch(actionRemoveErrorByField(`${errorFields.discounts}`));
-        dispatch(actionRemoveErrorByTypeAndCode(`${errorTypes.discount_code_validation}`, '02'));
+        await dispatch(actionRemoveErrorByField(`${errorFields.discounts}`));
+        await dispatch(actionRemoveErrorByTypeAndCode(`${errorTypes.discount_code_validation}`, '02'));
 
         const {errors} = getState();
         dispatch(actionSetLoaderAndDisableButton(loaderName, false));

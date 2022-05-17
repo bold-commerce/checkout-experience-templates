@@ -1,8 +1,11 @@
-import {processOrder as processOrderLib} from '@bold-commerce/checkout-frontend-library';
+import {
+    processOrder as processOrderLib,
+    sendHandleScaActionAsync
+} from '@bold-commerce/checkout-frontend-library';
 import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import {mocked} from 'jest-mock';
 import {HistoryLocationState} from 'react-router';
-import {actionShowHideOverlayContent, SHOW_HIDE_OVERLAY} from 'src/action';
+import {actionSetAppStateValid, actionShowHideOverlayContent, SET_VALID, SHOW_HIDE_OVERLAY} from 'src/action';
 import {checkErrorAndProceedToNextPage, getApplicationStateFromLib, processOrder} from 'src/library';
 import {stateMock} from 'src/mocks';
 import {getCheckoutUrl, handleErrorIfNeeded} from 'src/utils';
@@ -19,6 +22,8 @@ const actionShowHideOverlayContentMock = mocked(actionShowHideOverlayContent, tr
 const checkErrorAndProceedToNextPageMock = mocked(checkErrorAndProceedToNextPage, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded , true);
 const useRemoveAllFlashErrorsMock = mocked(useRemoveAllFlashErrors , true);
+const sendHandleScaActionAsyncMock = mocked(sendHandleScaActionAsync , true);
+const actionSetAppStateValidMock = mocked(actionSetAppStateValid , true);
 
 describe('testing checkErrorAndProceedToNextPage', () => {
     const dispatch = jest.fn();
@@ -27,6 +32,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
     const returnObject = {...baseReturnObject};
     const historyMock = {replace: jest.fn()} as HistoryLocationState;
     const showHideAction = {type: SHOW_HIDE_OVERLAY, payload: {shown: false}};
+    const setValidAction = {type: SET_VALID, payload: {'test': false}};
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -37,10 +43,11 @@ describe('testing checkErrorAndProceedToNextPage', () => {
         processOrderLibMock.mockReturnValue(Promise.resolve(returnObject));
         checkErrorAndProceedToNextPageMock.mockReturnValue(checkErrorAndProceedToNextPageThunkMock);
         actionShowHideOverlayContentMock.mockReturnValue(showHideAction);
+        actionSetAppStateValidMock.mockReturnValue(setValidAction);
     });
 
     test('call without errors on state and success true', async () => {
-        const successReturnObj = {...baseReturnObject, success: true};
+        const successReturnObj = {...baseReturnObject, success: true, response: {}};
         processOrderLibMock.mockReturnValueOnce(successReturnObj);
         const noErrorsState = {...stateMock, errors: []};
         getState
@@ -56,7 +63,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(successReturnObj, dispatch, getState);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('/thank_you', 'paymentPageButton', historyMock, true, undefined);
-            expect(dispatch).toHaveBeenCalledTimes(4);
+            expect(dispatch).toHaveBeenCalledTimes(5);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(dispatch).toHaveBeenCalledWith(getApplicationStateFromLib);
             expect(dispatch).toHaveBeenCalledWith(showHideAction);
@@ -64,8 +71,32 @@ describe('testing checkErrorAndProceedToNextPage', () => {
         });
     });
 
+    test('call without errors on state and success true with handleSCA', async () => {
+        const successReturnObj = {...baseReturnObject, success: true, response: {handleSCA: true}};
+        processOrderLibMock.mockReturnValueOnce(successReturnObj);
+        const noErrorsState = {...stateMock, errors: []};
+        getState
+            .mockReturnValueOnce(noErrorsState)
+            .mockReturnValueOnce(noErrorsState);
+
+        const processOrderThunk = processOrder(historyMock);
+        await processOrderThunk(dispatch, getState).then(() => {
+            expect(getState).toHaveBeenCalledTimes(2);
+            expect(processOrderLibMock).toHaveBeenCalledTimes(1);
+            expect(useRemoveAllFlashErrorsMock).toHaveBeenCalledTimes(1);
+            expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
+            expect(handleErrorIfNeededMock).toHaveBeenCalledWith(successReturnObj, dispatch, getState);
+            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(0);
+            expect(sendHandleScaActionAsyncMock).toHaveBeenCalledTimes(1);
+            expect(dispatch).toHaveBeenCalledTimes(2);
+            expect(dispatch).toHaveBeenCalledWith(setValidAction);
+            expect(dispatch).toHaveBeenCalledWith(setValidAction);
+
+        });
+    });
+
     test('call without errors on state and success true - Neuro ID page name provided', async () => {
-        const successReturnObj = {...baseReturnObject, success: true};
+        const successReturnObj = {...baseReturnObject, success: true, response: {}};
         processOrderLibMock.mockReturnValueOnce(successReturnObj);
         const noErrorsState = {...stateMock, errors: []};
         const pageNameNeuroID = 'page_name_neuro_id';
@@ -82,7 +113,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(successReturnObj, dispatch, getState);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('/thank_you', 'paymentPageButton', historyMock, true, pageNameNeuroID);
-            expect(dispatch).toHaveBeenCalledTimes(4);
+            expect(dispatch).toHaveBeenCalledTimes(5);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(dispatch).toHaveBeenCalledWith(getApplicationStateFromLib);
             expect(dispatch).toHaveBeenCalledWith(showHideAction);
@@ -91,7 +122,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
     });
 
     test('call without errors on state and success false', async () => {
-        const successReturnObj = {...baseReturnObject, success: false};
+        const successReturnObj = {...baseReturnObject, success: false, response: {}};
         processOrderLibMock.mockReturnValueOnce(successReturnObj);
         const noErrorsState = {...stateMock, errors: []};
         getState
@@ -105,7 +136,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(successReturnObj, dispatch, getState);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(0);
-            expect(dispatch).toHaveBeenCalledTimes(1);
+            expect(dispatch).toHaveBeenCalledTimes(2);
             expect(dispatch).not.toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(dispatch).not.toHaveBeenCalledWith(getApplicationStateFromLib);
             expect(dispatch).toHaveBeenCalledWith(showHideAction);
@@ -119,7 +150,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
             expect(processOrderLibMock).toHaveBeenCalledTimes(0);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(0);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(0);
-            expect(dispatch).toHaveBeenCalledTimes(1);
+            expect(dispatch).toHaveBeenCalledTimes(2);
             expect(dispatch).not.toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(dispatch).not.toHaveBeenCalledWith(getApplicationStateFromLib);
             expect(dispatch).toHaveBeenCalledWith(showHideAction);
@@ -152,7 +183,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
             expect(processOrderLibMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(0);
-            expect(dispatch).toHaveBeenCalledTimes(1);
+            expect(dispatch).toHaveBeenCalledTimes(2);
             expect(dispatch).toHaveBeenCalledWith(showHideAction);
             expect(historyMock.replace).toHaveBeenCalledTimes(1);
             expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('/out_of_stock'));
