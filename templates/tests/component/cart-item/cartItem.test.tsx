@@ -1,11 +1,18 @@
 import {IApplicationStateLineItem} from 'src/types';
-import {stateMock} from 'src/mocks';
+import {initialDataMock, stateMock} from 'src/mocks';
 import {fireEvent, render} from '@testing-library/react';
 import {CartItem, SemiControlledNumberInput} from 'src/components';
 import { mocked } from 'jest-mock';
 import { getLineItemPropertiesForDisplay } from 'src/utils';
 import {useGetCurrencyInformation} from 'src/hooks';
 
+const store = {
+    data: initialDataMock
+};
+
+jest.mock('react-redux', () => ({
+    useSelector: jest.fn().mockImplementation(func => func(store))
+}));
 jest.mock('src/hooks/useGetCurrencyInformation');
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 jest.mock('src/components/semi-controlled-number-input/semiControlledNumberInput');

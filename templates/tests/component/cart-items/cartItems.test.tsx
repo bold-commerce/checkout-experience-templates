@@ -1,10 +1,17 @@
 import {IApplicationStateLineItem, ICartItemsProps} from 'src/types';
-import {stateMock} from 'src/mocks';
+import {initialDataMock, stateMock} from 'src/mocks';
 import {render} from '@testing-library/react';
 import {CartItems} from 'src/components';
 import {mocked} from 'jest-mock';
 import {useGetCurrencyInformation} from 'src/hooks';
 
+const store = {
+    data: initialDataMock
+};
+
+jest.mock('react-redux', () => ({
+    useSelector: jest.fn().mockImplementation(func => func(store))
+}));
 jest.mock('src/hooks/useGetCurrencyInformation');
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 

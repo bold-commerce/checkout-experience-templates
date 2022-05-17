@@ -20,6 +20,7 @@ export * from './useGetAutocompleteAPIKey';
 export * from './useGetAutocompleteService';
 export * from './useGetAvailableShippingLines';
 export * from './useGetButtonDisableVariable';
+export * from './useGetCartParameters';
 export * from './useGetCondensedShipping';
 export * from './useGetContactUs';
 export * from './useGetCountryData';

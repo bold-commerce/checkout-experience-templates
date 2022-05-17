@@ -34,6 +34,7 @@ export * from './renderHtmlEntities';
 export * from './standaloneHooks';
 export * from './scriptsAreLoaded';
 export * from './scrollToElement';
+export * from './shouldHideRoProperty';
 export * from './updatePigiHeight';
 export * from './validateAddressFields';
 export * from './validateApplicationStateData';
