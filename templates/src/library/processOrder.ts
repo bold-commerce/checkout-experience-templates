@@ -2,7 +2,6 @@ import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
 import {
     IApiReturnObject,
-    IApiSuccessResponse,
     processOrder as processOrderLib,
     sendHandleScaActionAsync,
 } from '@bold-commerce/checkout-frontend-library';
@@ -12,6 +11,7 @@ import {actionSetAppStateValid, actionShowHideOverlayContent} from 'src/action';
 import {getCheckoutUrl, handleErrorIfNeeded} from 'src/utils';
 import {errorFields, errorSubTypes} from 'src/constants';
 import {useRemoveAllFlashErrors} from 'src/hooks';
+import {httpStatusCode} from '@bold-commerce/checkout-frontend-library/lib/variables';
 
 export function processOrder(history: HistoryLocationState, pageNameNeuroId?: string) {
     return async function processOrderThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
@@ -24,10 +24,7 @@ export function processOrder(history: HistoryLocationState, pageNameNeuroId?: st
             handleErrorIfNeeded(response, dispatch, getState);
 
             if (response.success) {
-                const successResponse = response.response as IApiSuccessResponse;
-                const handleSCA = successResponse.handleSCA;
-
-                if(handleSCA) {
+                if(response.status === httpStatusCode.ACCEPTED){
                     await dispatch(actionSetAppStateValid('scaToken', true));
                     await sendHandleScaActionAsync();
                 } else {

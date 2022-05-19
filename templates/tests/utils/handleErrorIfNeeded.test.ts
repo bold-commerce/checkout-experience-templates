@@ -20,6 +20,7 @@ describe('Test function handleErrorIfNeeded', () => {
     const historyMock = {replace: jest.fn()} as HistoryLocationState;
 
     const response = {
+        status: 200,
         success: true,
         error: {status: apiErrors.noPigiIframe.status},
         response: {},
@@ -37,7 +38,7 @@ describe('Test function handleErrorIfNeeded', () => {
     const sessionDataSet = [
         {resResponse: {errors: [{message: 'Expired JWT'}]}, status: httpStatusCode.UNAUTHORIZED, error: 'Session Expired', neuroIdSubmitCalls: 1 },
         {resResponse: {errors: [{message: 'Missing JWT'}]}, status: httpStatusCode.UNAUTHORIZED , error: 'Session Issues', neuroIdSubmitCalls: 0 },
-    ]
+    ];
 
     beforeEach(() => {
         jest.clearAllMocks();
