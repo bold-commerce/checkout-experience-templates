@@ -2,7 +2,7 @@ import {
     processOrder as processOrderLib,
     sendHandleScaActionAsync
 } from '@bold-commerce/checkout-frontend-library';
-import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
+import {baseReturnObject, httpStatusCode} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import {mocked} from 'jest-mock';
 import {HistoryLocationState} from 'react-router';
 import {actionSetAppStateValid, actionShowHideOverlayContent, SET_VALID, SHOW_HIDE_OVERLAY} from 'src/action';
@@ -72,7 +72,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
     });
 
     test('call without errors on state and success true with handleSCA', async () => {
-        const successReturnObj = {...baseReturnObject, success: true, response: {handleSCA: true}};
+        const successReturnObj = {...baseReturnObject, success: true, status: httpStatusCode.ACCEPTED, response: {handleSCA: true}};
         processOrderLibMock.mockReturnValueOnce(successReturnObj);
         const noErrorsState = {...stateMock, errors: []};
         getState
