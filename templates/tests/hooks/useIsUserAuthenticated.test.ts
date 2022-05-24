@@ -12,8 +12,9 @@ describe('Testing hook useIsUserAuthenticated', () => {
     });
 
     const hookData = [
-        { id: 1, expected: true},
-        { id: 0, expected: false},
+        { id: '0-abc-1', expected: true},
+        { id: '1', expected: true},
+        { id: '0', expected: false},
         { id: null, expected: false},
     ];
 
