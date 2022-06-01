@@ -614,7 +614,8 @@ export const initialDataMock: IInitializeEndpointData = {
                 token: 'payment_token',
                 retain: false,
                 value: 20000,
-                brand: 'Visa'
+                brand: 'Visa',
+                driver: 'Credit'
             }
         ],
         'order_total': 20000,

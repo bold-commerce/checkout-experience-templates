@@ -48,6 +48,7 @@ describe('Testing SummaryLineExpandable component', () => {
         textAlign: 'center',
         eventDeleteName: '',
         itemId: '',
+        content: '',
         deleteElementFromState: jest.fn(),
         closeLoading: false,
         isLoading: false,
