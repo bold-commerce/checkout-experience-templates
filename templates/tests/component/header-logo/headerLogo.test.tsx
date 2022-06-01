@@ -8,7 +8,7 @@ describe('Testing GuestCustomer component', () => {
     test('Rendering the component without logo', () => {
         window.headerLogoUrl = '';
         const {container} = render(<HeaderLogo />);
-        expect(container.getElementsByClassName('website-title-logo-clickable').length).toBe(1);
+        expect(container.getElementsByClassName('website-title-logo-clickable').length).toBe(0);
         expect(container.getElementsByClassName('website-title-logo').length).toBe(0);
 
     });
