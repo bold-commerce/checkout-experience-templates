@@ -5,12 +5,12 @@ import {useSummaryLineExpanded} from 'src/hooks';
 
 
 export function SummaryLineExpanded(props: ISummaryLineExpanded): React.ReactElement {
-    const {textAlign, eventDeleteName, itemId, deleteElementFromState, closeLoading, isLoading, formattedPrice}  = useSummaryLineExpanded(props);
+    const {textAlign, eventDeleteName, itemId, deleteElementFromState, closeLoading, isLoading, formattedPrice, content}  = useSummaryLineExpanded(props);
 
     return (
         <div className={props.classes.list.li}>
             <div className={props.classes.list.text}>
-                {props.content}
+                {content}
                 {!isLoading && props.hasDeleteButton ?
                     closeLoading ?
                         <div className={props.classes.list.loading}> <span className={props.classes.list.loadingSpan}/> </div> :

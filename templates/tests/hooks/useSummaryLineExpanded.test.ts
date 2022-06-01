@@ -12,6 +12,8 @@ import {
 } from 'src/hooks';
 import {act} from '@testing-library/react';
 import {mocked} from 'jest-mock';
+import {stateMock} from 'src/mocks';
+import {Constants} from 'src/constants';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -52,7 +54,20 @@ describe('Testing hook useSummaryLineExpanded', () => {
     const props: ISummaryLineExpanded = {
         eventDeleteName: REMOVE_DISCOUNT,
         amount: 5,
-        content: 'TEST',
+        eventToggleName: Constants.TAXES_TOGGLE,
+        content: stateMock.data.application_state.taxes[0],
+        id: 'TEST_ID',
+        classes: classes,
+        textAlign: 'center',
+        hasDeleteButton: true,
+        itemId: 'TEST_ID',
+    };
+
+    const paymentProps: ISummaryLineExpanded = {
+        eventDeleteName: REMOVE_PAYMENT,
+        amount: 5,
+        eventToggleName: Constants.PAYMENTS_TOGGLE,
+        content: stateMock.data.application_state.payments[0],
         id: 'TEST_ID',
         classes: classes,
         textAlign: 'center',
@@ -62,7 +77,8 @@ describe('Testing hook useSummaryLineExpanded', () => {
 
     const mandatoryProps: ISummaryLineExpanded = {
         amount: 5,
-        content: 'TEST',
+        eventToggleName: Constants.TAXES_TOGGLE,
+        content: stateMock.data.application_state.taxes[0],
         id: 'TEST_ID',
         classes: classes,
     };
@@ -92,8 +108,21 @@ describe('Testing hook useSummaryLineExpanded', () => {
         expect(hookResult.eventDeleteName).toBe(props.eventDeleteName);
         expect(hookResult.closeLoading).toBe(false);
         expect(hookResult.formattedPrice).toBe(currencyData.formattedPrice);
+        expect(hookResult.content).toBe('test tax');
 
     });
+
+    test('rendering the hook properly for payment', () => {
+        const {result} = renderHook(() => useSummaryLineExpanded(paymentProps));
+        const hookResult = result.current;
+        expect(hookResult.itemId).toBe(props.itemId);
+        expect(hookResult.textAlign).toBe(props.textAlign);
+        expect(hookResult.closeLoading).toBe(false);
+        expect(hookResult.formattedPrice).toBe(currencyData.formattedPrice);
+        expect(hookResult.content).toBe('Visa: Visa');
+
+    });
+
 
     test('rendering the hook properly with only mandatory props', () => {
         const {result} = renderHook(() => useSummaryLineExpanded(mandatoryProps));

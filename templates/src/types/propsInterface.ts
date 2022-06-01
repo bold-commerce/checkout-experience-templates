@@ -144,8 +144,9 @@ export interface ISummaryLineExpandable {
 
 export interface ISummaryLineExpanded {
     eventDeleteName?: string;
+    eventToggleName: string;
     amount: number;
-    content: string;
+    content: IApplicationStateSelectShippingLine | IApplicationStateDiscount | IApplicationStateTax | IApplicationStatePayment;
     id: string;
     classes: IPaymentsSummaryClasses;
     textAlign?: string;
@@ -307,6 +308,7 @@ export interface IUseSummaryLineExpanded{
     textAlign: string,
     eventDeleteName: string,
     itemId: string,
+    content: string,
     deleteElementFromState: (i ,e) => void,
     closeLoading: boolean,
     isLoading: boolean,

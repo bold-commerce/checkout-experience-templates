@@ -1,18 +1,26 @@
 import {useDispatch} from 'react-redux';
 import {actionDeleteElement, actionSetLoaderAndDisableButton, REMOVE_DISCOUNT, REMOVE_PAYMENT} from 'src/action';
-import {useGetCurrencyInformation, useGetIsLoading, useGetLoaderScreenVariable} from 'src/hooks';
+import {useGetCurrencyInformation, useGetIsLoading, useGetLoaderScreenVariable, useGetPaymentType} from 'src/hooks';
 import {useCallback} from 'react';
 import {deleteDiscounts} from 'src/library';
-import {ISummaryLineExpanded, IUseSummaryLineExpanded} from 'src/types';
+import {IApplicationStatePayment, ISummaryLineExpanded, IUseSummaryLineExpanded} from 'src/types';
+import {Constants} from 'src/constants';
+import {getFieldNamesSummary} from 'src/utils';
 
 export function useSummaryLineExpanded(props: ISummaryLineExpanded): IUseSummaryLineExpanded{
 
     const dispatch = useDispatch();
+    const fieldNames = getFieldNamesSummary(props.eventToggleName);
     const textAlign = props.textAlign ? props.textAlign : 'right';
     const eventDeleteName = props.eventDeleteName ? props.eventDeleteName : '';
     const itemId = props.itemId ? props.itemId : '';
     const isLoading = useGetIsLoading();
     const {formattedPrice} = useGetCurrencyInformation();
+    let content = props.content[fieldNames.content];
+    const paymentType = useGetPaymentType(props.content as IApplicationStatePayment);
+    if(props.eventToggleName === Constants.PAYMENTS_TOGGLE){
+        content = `${paymentType.paymentMethodName}: ${paymentType.paymentMethodValue}`;
+    }
     let deleteElementFromState;
     let closeLoading = false;
     if(eventDeleteName){
@@ -35,5 +43,5 @@ export function useSummaryLineExpanded(props: ISummaryLineExpanded): IUseSummary
         }
     }
 
-    return {textAlign, eventDeleteName, itemId, deleteElementFromState, closeLoading, isLoading, formattedPrice};
+    return {textAlign, eventDeleteName, itemId, deleteElementFromState, closeLoading, isLoading, formattedPrice, content};
 }

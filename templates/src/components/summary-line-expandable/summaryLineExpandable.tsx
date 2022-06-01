@@ -19,8 +19,9 @@ export function SummaryLineExpandable(props: ISummaryLineExpandable): React.Reac
                     return (
                         <SummaryLineExpanded
                             key={`summary-line-expanded-${props.eventToggleName}-${index}`}
+                            eventToggleName={props.eventToggleName}
                             amount={item[fieldNames.amount]}
-                            content={item[fieldNames.content]}
+                            content={item}
                             id={`${index}`}
                             classes={classes}
                             hasDeleteButton={props.hasDeleteButton}

@@ -68,6 +68,7 @@ describe('Testing TaxesAmount component', () => {
         eventDeleteName: '',
         itemId: '',
         deleteElementFromState: jest.fn(),
+        content: '',
         closeLoading: false,
         isLoading: false,
         formattedPrice: '${{amount}}'

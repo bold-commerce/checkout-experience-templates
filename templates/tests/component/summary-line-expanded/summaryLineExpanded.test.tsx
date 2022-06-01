@@ -3,6 +3,7 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import {SummaryLineExpanded} from 'src/components';
 import {mocked} from 'jest-mock';
 import {useSummaryLineExpanded} from 'src/hooks';
+import {stateMock} from 'src/mocks';
 
 jest.mock('src/hooks/useSummaryLineExpanded');
 const useSummaryLineExpandedMock = mocked(useSummaryLineExpanded, true);
@@ -29,7 +30,8 @@ describe('Testing SummaryLineExpanded component', () => {
 
     const props: ISummaryLineExpanded = {
         amount: 5,
-        content: 'code',
+        content: stateMock.data.application_state.taxes[0],
+        eventToggleName: '',
         id: 'test-id',
         classes: classes
     };
@@ -38,6 +40,7 @@ describe('Testing SummaryLineExpanded component', () => {
         textAlign: 'center',
         eventDeleteName: '',
         itemId: '',
+        content: '',
         deleteElementFromState: jest.fn(),
         closeLoading: false,
         isLoading: false,
