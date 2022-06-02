@@ -7,14 +7,16 @@ export function HeaderLogo(): React.ReactElement {
     const shopURL = useGetShopUrlFromShopAlias(shopAlias);
 
     return (
-        <div className={'website-title-logo-clickable'}>
+        <>
             {headerLogoUrl ?
-                <div className={'website-title-clickable__logo'}>
-                    <a href={shopURL} className={'website-title-clickable__black'}>
-                        <img src={headerLogoUrl} className={'website-title-logo'}/>
-                    </a>
+                <div className={'website-title-logo-clickable'}>
+                    <div className={'website-title-clickable__logo'}>
+                        <a href={shopURL} className={'website-title-clickable__black'}>
+                            <img src={headerLogoUrl} className={'website-title-logo'}/>
+                        </a>
+                    </div>
                 </div> : ''
             }
-        </div>
+        </>
     );
 }
