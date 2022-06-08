@@ -20,7 +20,7 @@ export function FlashError(): React.ReactElement {
         <div className="flash-error" ref={rootRef}>
             {errors.map((item, index) =>
                 <div key={`flash-error-${index}`} className="flash-error__container">
-                    <span key={`flash-error-text-${index}`} className="flash-error__text">{item}</span>
+                    <span aria-live="assertive" key={`flash-error-text-${index}`} className="flash-error__text">{item}</span>
                 </div>
             )}
         </div>

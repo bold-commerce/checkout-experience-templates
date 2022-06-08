@@ -4,7 +4,9 @@ import {BuyNowContainerPage} from 'src/themes/buy-now/pages';
 import {useBuyNowContainerPage} from 'src/themes/buy-now/hooks';
 import React from 'react';
 import {IUseBuyNowContainerPage} from 'src/themes/buy-now/types';
+import {useGetFlashErrors} from 'src/hooks';
 
+jest.mock('src/hooks/useGetFlashErrors');
 jest.mock('src/themes/buy-now/hooks/useBuyNowContainerPage');
 jest.mock('src/themes/buy-now/pages', () => ({
     ...jest.requireActual('src/themes/buy-now/pages'),
@@ -22,6 +24,7 @@ jest.mock('react', () => {
 });
 
 const useBuyNowContainerPageMock = mocked(useBuyNowContainerPage, true);
+const useGetFlashErrorsMock = mocked(useGetFlashErrors, true);
 
 describe('testing BuyNowContainerPage', () => {
     const props: IUseBuyNowContainerPage = {
@@ -35,11 +38,20 @@ describe('testing BuyNowContainerPage', () => {
     });
 
     test('Rendering buyNowContainerPage properly', () => {
+        useGetFlashErrorsMock.mockReturnValueOnce([]);
         const {container} = render(<BuyNowContainerPage/>);
 
         expect(container.getElementsByClassName('checkout-experience-container').length).toBe(1);
         expect(container.getElementsByClassName('buy-now-container').length).toBe(1);
         expect(container.getElementsByClassName('mockIndex').length).toBe(1);
         expect(container.getElementsByClassName('mockShipping').length).toBe(1);
+        expect(props.navigateTo).toHaveBeenCalledTimes(0);
+    });
+
+    test('Render buyNowContainerPage with flash errors', () => {
+        useGetFlashErrorsMock.mockReturnValueOnce(['error', 'error-2']);
+        render(<BuyNowContainerPage/>);
+
+        expect(props.navigateTo).toHaveBeenCalledTimes(1);
     });
 });
