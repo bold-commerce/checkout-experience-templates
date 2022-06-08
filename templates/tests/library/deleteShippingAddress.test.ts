@@ -1,14 +1,13 @@
-import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import {IOrderInitialization} from 'src/types';
 import {stateMock} from 'src/mocks/stateMock';
 import {mocked} from 'jest-mock';
-import {deleteShippingAddress as deleteAddress} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, deleteShippingAddress as deleteAddress} from '@bold-commerce/checkout-frontend-library';
 import {deleteShippingAddress} from 'src/library';
 import {getApplicationStateFromLib}  from 'src/library/applicationState';
 import {handleErrorIfNeeded} from 'src/utils/handleErrorIfNeeded';
 
 const mockDispatch = jest.fn();
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/address');
 jest.mock('src/library/applicationState');
 jest.mock('src/utils/handleErrorIfNeeded');
 jest.mock('react-redux', () => ({

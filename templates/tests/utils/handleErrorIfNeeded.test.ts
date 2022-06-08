@@ -1,9 +1,8 @@
 import {displayFatalErrorFromTranslation, getHook, getNeuroIdPageName, handleErrorIfNeeded, neuroIdSubmit} from 'src/utils';
 import {mocked} from 'jest-mock';
 import {HistoryLocationState} from 'react-router';
-import {apiErrors, httpStatusCode} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import SpyInstance = jest.SpyInstance;
-import {IApiResponse} from '@bold-commerce/checkout-frontend-library';
+import {apiErrors, httpStatusCode, IApiResponse} from '@bold-commerce/checkout-frontend-library';
 
 jest.mock('src/utils/displayFatalErrorFromTranslation');
 jest.mock('src/utils/standaloneHooks');

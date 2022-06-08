@@ -1,14 +1,13 @@
 import * as shippingLines from 'src/library';
-import {getShippingLines} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, getShippingLines} from '@bold-commerce/checkout-frontend-library';
 import {stateMock} from 'src/mocks/stateMock';
 import * as actionSetLoader from 'src/action/appAction';
 import {mocked} from 'jest-mock';
-import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import * as handleErrorIfNeeded from 'src/utils/handleErrorIfNeeded';
 import {getSummaryStateFromLib, postShippingLines} from 'src/library';
 import {useSendEvent} from 'src/hooks';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/shipping');
 jest.mock('src/library/applicationState');
 jest.mock('src/hooks/useSendEvent');
 const shippingLinesMock = mocked(getShippingLines, true);

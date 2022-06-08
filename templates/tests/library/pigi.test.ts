@@ -26,7 +26,7 @@ import {IPigiResponsesPayload} from 'src/types';
 import {getNeuroIdPageName, updatePigiHeight} from 'src/utils';
 import {useSendEvent} from 'src/hooks';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/pigi');
 jest.mock('src/action');
 jest.mock('src/library/processOrder');
 jest.mock('src/library/applicationState');

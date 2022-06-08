@@ -14,8 +14,7 @@
     "types": [
       "node",
       "jest",
-      "google.maps",
-      "@types/testing-library__jest-dom"
+      "google.maps"
     ],
     "paths": {
       "src/*": ["src/*"]

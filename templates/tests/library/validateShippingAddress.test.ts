@@ -4,7 +4,7 @@ import {getShippingAddress} from '@bold-commerce/checkout-frontend-library';
 import * as validateAddressFunction from 'src/library/validateAddressFunction';
 import {defaultAddressState} from 'src/constants';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
 const getShippingAddressMock = mocked(getShippingAddress, true);
 jest.mock('src/library/generateTaxes');
 const generateTaxesMock = mocked(generateTaxes, true);

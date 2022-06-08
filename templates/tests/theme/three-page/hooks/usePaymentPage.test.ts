@@ -18,9 +18,9 @@ import {usePaymentPage} from 'src/themes/three-page/hooks';
 import {displayOrderProcessingScreen, processOrder} from 'src/library';
 import {getCheckoutUrl, getNeuroIdPageName, getTerm, neuroIdSubmit} from 'src/utils';
 import {stateMock} from 'src/mocks';
-import {actionClearErrors} from "src/action";
+import {actionClearErrors} from 'src/action';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/pigi');
 jest.mock('react-redux');
 jest.mock('react-router');
 jest.mock('src/hooks/useGetIsLoading');

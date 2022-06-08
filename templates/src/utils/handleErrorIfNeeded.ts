@@ -1,6 +1,5 @@
-import {IApiErrorResponse, IApiReturnObject, IFetchError} from '@bold-commerce/checkout-frontend-library';
+import {apiErrors, httpStatusCode, IApiErrorResponse, IApiReturnObject, IFetchError} from '@bold-commerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
-import {apiErrors, httpStatusCode} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import {IError, IOrderInitialization} from 'src/types';
 import {displayFatalErrorFromTranslation, getCheckoutUrl, getHook, getNeuroIdPageName, neuroIdSubmit} from 'src/utils';
 import {actionAddError, actionShowHideOverlayContent} from 'src/action';

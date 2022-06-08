@@ -1,13 +1,12 @@
-import {getPaymentIframeUrl} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, getPaymentIframeUrl} from '@bold-commerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
-import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import {stateMock} from 'src/mocks/stateMock';
 import {getPaymentIframe, postCssStylingPigi} from 'src/library';
 import {displayFatalErrorFromTranslation, handleErrorIfNeeded} from 'src/utils';
 import * as AppActions from 'src/action/appActionType';
 import * as appAction from 'src/action/appAction';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/paymentIframe');
 jest.mock('src/utils');
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);
 const displayFatalErrorFromTranslationMock = mocked(displayFatalErrorFromTranslation, true);

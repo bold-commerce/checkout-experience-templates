@@ -1,7 +1,6 @@
-import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import {stateMock} from 'src/mocks/stateMock';
 import {mocked} from 'jest-mock';
-import {getBillingAddress, setBillingAddress, updateBillingAddress,} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, getBillingAddress, setBillingAddress, updateBillingAddress,} from '@bold-commerce/checkout-frontend-library';
 import * as handleErrorIfNeeded from 'src/utils/handleErrorIfNeeded';
 import {defaultAddressState} from 'src/constants';
 import {postBillingAddress, setBillingAddressAsValid} from 'src/library';
@@ -9,7 +8,8 @@ import * as isObjectEquals from 'src/utils/isObjectEqual';
 import { addressMock } from 'src/mocks';
 import * as appAction from 'src/action/appAction';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/address');
 const setBillingAddressMock = mocked(setBillingAddress, true);
 const updateBillingAddressMock = mocked(updateBillingAddress, true);
 const getAddressesMock = mocked(getBillingAddress, true);

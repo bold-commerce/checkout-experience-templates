@@ -1,6 +1,7 @@
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
 import {
+    httpStatusCode,
     IApiReturnObject,
     processOrder as processOrderLib,
     sendHandleScaActionAsync,
@@ -11,7 +12,6 @@ import {actionSetAppStateValid, actionShowHideOverlayContent} from 'src/action';
 import {getCheckoutUrl, handleErrorIfNeeded} from 'src/utils';
 import {errorFields, errorSubTypes} from 'src/constants';
 import {useRemoveAllFlashErrors} from 'src/hooks';
-import {httpStatusCode} from '@bold-commerce/checkout-frontend-library/lib/variables';
 
 export function processOrder(history: HistoryLocationState, pageNameNeuroId?: string) {
     return async function processOrderThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {

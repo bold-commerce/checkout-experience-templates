@@ -1,11 +1,10 @@
-import {initialize} from '@bold-commerce/checkout-frontend-library';
-import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
+import {baseReturnObject, initialize} from '@bold-commerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {initializeSession} from 'src/library';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {displayFatalErrorFromTranslation, handleErrorIfNeeded} from 'src/utils';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/initialize');
 jest.mock('src/utils');
 const initializedMock = mocked(initialize, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);
