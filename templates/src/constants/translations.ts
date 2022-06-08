@@ -122,6 +122,15 @@ export const errorsTerms: Array<IErrorTerm> = [
     {
         type: errorTypes.order,
         field: errorFields.discounts,
+        severity: errorSeverities.validation,
+        subType: errorSubTypes.discounts,
+        showType: errorShowType.field,
+        section: 'discount_code',
+        term: 'require_shipping_page'
+    },
+    {
+        type: errorTypes.order,
+        field: errorFields.discounts,
         severity: errorSeverities.critical,
         subType: errorSubTypes.public_order_id,
         showType: errorShowType.flash,
