@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { useGetFlashErrors } from 'src/hooks';
 import { useBuyNowContainerPage } from 'src/themes/buy-now/hooks';
 import { IndexPage, ShippingPage, SummaryPage } from 'src/themes/buy-now/pages';
 
@@ -7,6 +8,13 @@ export function BuyNowContainerPage() : React.ReactElement{
     const shippingRef = useRef<HTMLDivElement>(null);
     const summaryRef = useRef<HTMLDivElement>(null);
     const {openSection, navigateTo, containerStyle} = useBuyNowContainerPage({indexRef, shippingRef, summaryRef});
+    const errors = useGetFlashErrors();
+
+    useEffect(() => {
+        if(errors.length > 0) {
+            navigateTo('/');
+        }
+    }, [errors]);
 
     return (
         <div className="checkout-experience-container" >
