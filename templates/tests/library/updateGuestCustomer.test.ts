@@ -1,13 +1,12 @@
 import {mocked} from 'jest-mock';
-import {updateCustomer as putGuestCustomer} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, updateCustomer as putGuestCustomer} from '@bold-commerce/checkout-frontend-library';
 import {getCustomerFromLib, updateCustomer} from 'src/library';
-import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import {Dispatch} from 'redux';
 import {IApplicationStateCustomer, IOrderInitialization} from 'src/types';
 import {stateMock} from 'src/mocks';
 import {handleErrorIfNeeded} from 'src/utils';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/customer');
 jest.mock('src/utils/handleErrorIfNeeded');
 jest.mock('src/library/applicationState');
 const putGuestCustomerMock = mocked(putGuestCustomer, true);

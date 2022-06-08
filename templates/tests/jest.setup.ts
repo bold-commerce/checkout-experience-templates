@@ -5,6 +5,6 @@ jest.mock('src/constants/orderInitialization', () => ({
         ...stateMock,
         errors: [],
     },
- }));
+}));
 
 window.initializedOrder = {data: initialDataMock};

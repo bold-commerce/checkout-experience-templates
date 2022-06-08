@@ -1,11 +1,10 @@
 import {mocked} from 'jest-mock';
-import {setTaxes} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, setTaxes} from '@bold-commerce/checkout-frontend-library';
 import {initialDataMock} from 'src/mocks';
 import {generateTaxes, getSummaryStateFromLib} from 'src/library';
 import * as HandleError from 'src/utils/handleErrorIfNeeded';
-import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/taxes');
 const setTaxesMock = mocked(setTaxes, true);
 
 describe('testing Generate Taxes Thunk Action', () => {

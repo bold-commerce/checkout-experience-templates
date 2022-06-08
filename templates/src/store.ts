@@ -2,7 +2,7 @@ import {applyMiddleware, createStore, Store, Middleware} from 'redux';
 import RootReducer from './reducer/rootReducer';
 import thunkMiddleware from 'redux-thunk';
 import {actionGetInitialData} from './action';
-import {composeWithDevTools} from 'redux-devtools-extension';
+import {composeWithDevTools} from '@redux-devtools/extension';
 import {initializeSession} from 'src/library';
 import {getOrderInitialization} from './utils/getOrderInitialization';
 import { IInitializeEndpointData } from './types';

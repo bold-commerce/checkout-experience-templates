@@ -1,6 +1,5 @@
 import React from 'react';
 import {render, fireEvent, screen} from '@testing-library/react';
-import '@testing-library/jest-dom';
 import {FieldSelect} from 'src/components';
 import {IFieldSelectProps, ISelectList} from 'src/types';
 

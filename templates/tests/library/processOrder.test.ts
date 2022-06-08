@@ -1,8 +1,9 @@
 import {
+    baseReturnObject,
+    httpStatusCode,
     processOrder as processOrderLib,
     sendHandleScaActionAsync
 } from '@bold-commerce/checkout-frontend-library';
-import {baseReturnObject, httpStatusCode} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import {mocked} from 'jest-mock';
 import {HistoryLocationState} from 'react-router';
 import {actionSetAppStateValid, actionShowHideOverlayContent, SET_VALID, SHOW_HIDE_OVERLAY} from 'src/action';
@@ -12,7 +13,8 @@ import {getCheckoutUrl, handleErrorIfNeeded} from 'src/utils';
 import {errorFields, errorSeverities, errorShowType, errorSubTypes, errorTypes} from 'src/constants';
 import {useRemoveAllFlashErrors} from 'src/hooks';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/pigi');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/order');
 jest.mock('src/action');
 jest.mock('src/hooks');
 jest.mock('src/library/checkErrorAndProceedToNextPage');

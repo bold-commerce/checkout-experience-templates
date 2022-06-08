@@ -3,7 +3,6 @@ import {SummaryDiscountCode} from 'src/components';
 import {IApplicationStateDiscount, ISummaryDiscountLine} from 'src/types';
 import {mocked} from 'jest-mock';
 import {useSummaryDiscountCode, useSummaryDiscountLine} from 'src/hooks';
-import '@testing-library/jest-dom/extend-expect';
 
 jest.mock('src/hooks/useSummaryDiscountLine');
 jest.mock('src/hooks/useSummaryDiscountCode');
@@ -37,8 +36,8 @@ describe('Testing SummaryDiscountCode Component', () => {
     };
 
     beforeEach(() => {
-        useSummaryDiscountCodeMock.mockReturnValueOnce(hooksData).mockReturnValueOnce({...hooksData, buttonDisabled: true, discountCodeText: ''});
-        useSummaryDiscountLineMock.mockReturnValueOnce(hookResultForDiscountLine);
+        useSummaryDiscountCodeMock.mockReturnValue(hooksData);
+        useSummaryDiscountLineMock.mockReturnValue(hookResultForDiscountLine);
     });
 
     test('rendering the component', () => {
@@ -47,18 +46,21 @@ describe('Testing SummaryDiscountCode Component', () => {
         expect(container.getElementsByClassName('discount-code-input').length).toBe(1);
         expect(container.getElementsByClassName('discount-code__input-field').length).toBe(1);
         expect(container.getElementsByClassName('discount-code__button').length).toBe(1);
-        expect(getByTestId('apply-discount')).toBeEnabled();
+        const applyDiscount: Partial<HTMLInputElement> = getByTestId('apply-discount');
+        expect(applyDiscount.disabled).toEqual(false);
         expect(container.getElementsByClassName('discount-code__list-discounts').length).toBe(1);
         expect(container.getElementsByClassName('discount-code__discount-line').length).toBe(discounts.length);
     });
 
     test('rendering the component with null value', () => {
+        useSummaryDiscountCodeMock.mockReturnValueOnce({...hooksData, buttonDisabled: true, discountCodeText: ''});
         const {container, getByTestId} = render(<SummaryDiscountCode />);
         expect(container.getElementsByClassName('discount-code').length).toBe(1);
         expect(container.getElementsByClassName('discount-code-input').length).toBe(1);
         expect(container.getElementsByClassName('discount-code__input-field').length).toBe(1);
         expect(container.getElementsByClassName('discount-code__button').length).toBe(1);
-        expect(getByTestId('apply-discount')).toBeDisabled();
+        const applyDiscount: Partial<HTMLInputElement> = getByTestId('apply-discount');
+        expect(applyDiscount.disabled).toEqual(true);
         expect(container.getElementsByClassName('discount-code__list-discounts').length).toBe(1);
         expect(container.getElementsByClassName('discount-code__discount-line').length).toBe(discounts.length);
     });

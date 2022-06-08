@@ -7,7 +7,7 @@ import {Constants, defaultAddressState} from 'src/constants';
 import * as CustomerActions from 'src/action/customerAction';
 import * as appActions from 'src/action/appAction';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
 const getBillingAddressMock = mocked(getBillingAddress, true);
 
 describe('testing validateBillingAddress', () => {

@@ -3,7 +3,6 @@ import {mocked} from 'jest-mock';
 import { useExpandableDiscount, useSummaryDiscountCode, useSummaryDiscountLine} from 'src/hooks';
 import { ExpandableDiscount } from 'src/components';
 import { ISummaryDiscountLine } from 'src/types';
-import '@testing-library/jest-dom/extend-expect';
 
 jest.mock('src/hooks/useExpandableDiscount');
 jest.mock('src/hooks/useSummaryDiscountLine');
@@ -15,7 +14,7 @@ const useSummaryDiscountCodeMock = mocked(useSummaryDiscountCode, true);
 
 describe('Testing ExpandableDiscount Component', () => {
     const hooksData = {
-        expandDiscount: false, 
+        expandDiscount: false,
         toggleDiscount: jest.fn(),
         discountCodeInputText: 'TEST',
     };
@@ -51,8 +50,8 @@ describe('Testing ExpandableDiscount Component', () => {
     test('render expanded component', () => {
         const {container, getByTestId} = render(<ExpandableDiscount />);
         expect(container.getElementsByClassName('expandable-discount__toggle').length).toBe(0);
-        expect(getByTestId('input-field')).toBeVisible();
-        expect(getByTestId('apply-discount')).toBeVisible();
+        expect(getByTestId('input-field')).toBeTruthy();
+        expect(getByTestId('apply-discount')).toBeTruthy();
     });
 
     test('firing the click event of the expand discount button', async () => {

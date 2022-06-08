@@ -1,12 +1,12 @@
-import {changeShippingLine, getShipping, IShipping, IShippingLine} from '@bold-commerce/checkout-frontend-library';
-import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
+import {baseReturnObject, changeShippingLine, getShipping, IShipping, IShippingLine} from '@bold-commerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {stateMock} from 'src/mocks';
 import {getSummaryStateFromLib, postShippingLines} from 'src/library';
 import {handleErrorIfNeeded} from 'src/utils';
 import {actionSetLoaderAndDisableButton} from 'src/action';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/shipping');
 jest.mock('src/utils/handleErrorIfNeeded');
 jest.mock('src/library/applicationState');
 jest.mock('src/action');
@@ -15,7 +15,6 @@ const getShippingMock = mocked(getShipping, true);
 const getSummaryStateFromLibMock = mocked(getSummaryStateFromLib, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);
 const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButton, true);
-
 
 describe('testing postShippingLines', () => {
 

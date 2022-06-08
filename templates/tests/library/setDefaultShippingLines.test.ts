@@ -1,12 +1,10 @@
-import { getShippingLines } from '@bold-commerce/checkout-frontend-library';
-import { baseReturnObject } from '@bold-commerce/checkout-frontend-library/lib/variables';
+import {baseReturnObject, getShippingLines} from '@bold-commerce/checkout-frontend-library';
 import {actionSetSelectedShippingLine} from 'src/action';
-import { getShippingFromLib, postShippingLines, setDefaultShippingLines, validateShippingLine } from 'src/library';
-import { stateMock } from 'src/mocks';
-import { mocked } from 'jest-mock';
+import {getShippingFromLib, postShippingLines, setDefaultShippingLines, validateShippingLine} from 'src/library';
+import {stateMock} from 'src/mocks';
+import {mocked} from 'jest-mock';
 
-
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/shipping');
 const shippingLinesMock = mocked(getShippingLines, true);
 
 describe('Testing hook useSetDefaultShippingLines', () => {
@@ -25,7 +23,7 @@ describe('Testing hook useSetDefaultShippingLines', () => {
     test('set default shipping lines properly', async () => {
         const newReturnObj = {...returnObject, success: true};
         shippingLinesMock.mockReturnValueOnce(Promise.resolve(newReturnObj));
-        
+
         const tempMock = {
             ...stateMock,
             isValid: {
@@ -94,7 +92,7 @@ describe('Testing hook useSetDefaultShippingLines', () => {
                 ...stateMock.isValid,
                 updatedShippingAddress: true
             },
-            
+
         };
         getState.mockReturnValue(tempMock);
 

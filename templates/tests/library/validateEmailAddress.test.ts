@@ -1,11 +1,11 @@
-import {getCustomer, validateEmail} from '@bold-commerce/checkout-frontend-library';
-import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
+import {baseReturnObject, getCustomer, validateEmail} from '@bold-commerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
 import {validateEmailAddress, postGuestCustomer} from 'src/library';
 import {stateMock} from 'src/mocks/stateMock';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/customer');
 jest.mock('src/utils/handleErrorIfNeeded');
 jest.mock('src/utils/isObjectEqual');
 jest.mock('src/library/postGuestCustomer');

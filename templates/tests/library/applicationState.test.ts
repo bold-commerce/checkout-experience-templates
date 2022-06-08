@@ -1,5 +1,6 @@
 import {mocked} from 'jest-mock';
 import {
+    baseReturnObject,
     getApplicationState,
     getBillingAddress,
     getCustomer,
@@ -12,7 +13,6 @@ import {
     getShippingAddress,
     getTaxes
 } from '@bold-commerce/checkout-frontend-library';
-import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import {initialDataMock} from 'src/mocks';
 import {
     getAddressesFromLib,
@@ -37,9 +37,9 @@ import * as customerAction from 'src/action/customerAction';
 import * as CustomerActions from 'src/action/customerActionType';
 import {Constants, defaultAddressState} from 'src/constants';
 import {handleErrorIfNeeded} from 'src/utils';
-import {actionUpdateIsProcessedOrder} from 'src/action/appAction';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/order');
 jest.mock('src/utils');
 const getApplicationStateMock = mocked(getApplicationState, true);
 const getBillingAddressMock = mocked(getBillingAddress, true);

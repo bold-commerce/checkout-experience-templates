@@ -1,13 +1,12 @@
 import {mocked} from 'jest-mock';
-import {deleteDiscount} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, deleteDiscount} from '@bold-commerce/checkout-frontend-library';
 import {initialDataMock} from 'src/mocks';
 import {deleteDiscounts} from 'src/library';
 import * as HandleError from 'src/utils/handleErrorIfNeeded';
-import {baseReturnObject} from '@bold-commerce/checkout-frontend-library/lib/variables';
 import * as AppActions from 'src/action/appAction';
 import * as appState from 'src/library/applicationState';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/discounts');
 const addDiscountMock = mocked(deleteDiscount, true);
 
 describe('testing delete Discount Thunk Action', () => {

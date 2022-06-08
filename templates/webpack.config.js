@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* global __dirname, process */
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -53,9 +52,10 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: path.join(__dirname, 'src', 'index.html')
-        })
-    ]
+    plugins: [],
+    performance: {
+        hints: 'warning',
+        maxEntrypointSize: 1048576,
+        maxAssetSize: 1048576
+    }
 };

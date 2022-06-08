@@ -1,12 +1,10 @@
-import { mocked } from 'jest-mock';
-import { IApiSuccessResponse, IShipping, updateLineItemQuantity as updateLineItemQuantityAPI } from '@bold-commerce/checkout-frontend-library';
-import { getApplicationStateFromLib, updateLineItemQuantity } from 'src/library';
-import { IApplicationState, IApplicationStateCustomer, IApplicationStateOrderMetaData, IProductData } from 'src/types';
-import { actionSetLoaderAndDisableButton } from 'src/action';
-import { baseReturnObject } from '@bold-commerce/checkout-frontend-library/lib/variables';
-import { handleErrorIfNeeded } from 'src/utils';
+import {mocked} from 'jest-mock';
+import {baseReturnObject, updateLineItemQuantity as updateLineItemQuantityAPI} from '@bold-commerce/checkout-frontend-library';
+import {getApplicationStateFromLib, updateLineItemQuantity} from 'src/library';
+import {actionSetLoaderAndDisableButton} from 'src/action';
+import {handleErrorIfNeeded} from 'src/utils';
 
-jest.mock('@bold-commerce/checkout-frontend-library');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/items');
 jest.mock('src/utils/handleErrorIfNeeded');
 jest.mock('src/action', () => ({
     ...jest.requireActual('src/action'),
