@@ -6,9 +6,9 @@ export function CloseableHeader(props: ICloseableHeaderProps): React.ReactElemen
     const { className, title, onClose } = props;
 
     return (
-        <div className={ClassNames(className, 'closeable-header')}>
-            <h1 className='closeable-header__title'>{title}</h1>
+        <header className={ClassNames(className, 'closeable-header')}>
+            <h2 className='closeable-header__title'>{title}</h2>
             <button className='closeable-header__button' data-testid='closeable-header' onClick={onClose} aria-label="Close"></button>
-        </div>
+        </header>
     );
 }
