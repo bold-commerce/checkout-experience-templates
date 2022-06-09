@@ -31,7 +31,7 @@ function Theme(): React.ReactElement {
     }, []);
 
     return (
-        <div className={'buy-now__app'} onClick={closeModal}>
+        <div className={'buy-now__app'} role='dialog' aria-modal={true} aria-label={`Buy now checkout ${window.shopName}`} onClick={closeModal}>
             <div className="checkout-experience-container overlay-container">
                 <Overlay/> 
             </div>

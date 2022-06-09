@@ -1,6 +1,7 @@
 html, body, .buy-now__app {
   height: 100%;
   margin: 0;
+  color:#00000090;
 }
 
 .checkout-experience-container {
@@ -283,7 +284,7 @@ html, body, .buy-now__app {
   margin-top: 20px;
 }
 
-.buy-now .billing-address-checkbox h2 {
+.buy-now .billing-address-checkbox h3 {
   margin-bottom: 0;
 }
 
