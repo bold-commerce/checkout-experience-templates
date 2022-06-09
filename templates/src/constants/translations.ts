@@ -21,6 +21,24 @@ export const errorsTerms: Array<IErrorTerm> = [
         term: 'enter_email'
     },
     {
+        type: errorTypes.address,
+        field: errorFields.country_code,
+        severity: errorSeverities.critical,
+        subType: errorSubTypes.no_shipping_to_address,
+        showType: errorShowType.field,
+        section: 'custom',
+        term: 'cannot_ship_to_country',
+    },
+    {
+        type: errorTypes.address,
+        field: errorFields.province,
+        severity: errorSeverities.critical,
+        subType: errorSubTypes.no_shipping_to_address,
+        showType: errorShowType.field,
+        section: 'custom',
+        term: 'cannot_ship_to_province',
+    },
+    {
         type: errorTypes.order,
         field: errorFields.postal_code,
         severity: errorSeverities.validation,

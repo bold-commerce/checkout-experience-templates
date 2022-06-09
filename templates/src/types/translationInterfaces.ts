@@ -47,7 +47,8 @@ export interface IErrorSubTypes {
     customer: string;
     cart: string;
     tax: string;
-    insufficient_stock: string
+    insufficient_stock: string;
+    no_shipping_to_address: string;
 }
 
 export interface IErrorShowType {

@@ -8,7 +8,6 @@ import {Constants, debounceConstants} from 'src/constants';
 import {renderHook} from '@testing-library/react-hooks';
 import {initialDataMock} from 'src/mocks';
 import {IAddressPostalCodeAndProvinceDataProps} from 'src/types';
-import map from 'lodash/map';
 import {getTerm} from 'src/utils';
 import {mocked} from 'jest-mock';
 
@@ -39,7 +38,7 @@ describe('Testing hook useGetAddressProvinceInputData', () => {
         showProvince: countryInfo.show_province,
         provinceLabel: getTermValue
     } as IAddressPostalCodeAndProvinceDataProps;
-    const provinceOptions = map(countryInfo.provinces, province => ({ value: province.iso_code, name: province.name }));
+    const provinceOptions = countryInfo.provinces.map(province => ({ value: province.iso_code, name: province.name }));
     const target ={
         target: {
             value: '',

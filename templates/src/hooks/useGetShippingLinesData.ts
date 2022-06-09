@@ -6,12 +6,14 @@ import {actionSetLoaderAndDisableButton, actionSetSelectedShippingLine} from 'sr
 import {useDebouncedShippingLines, useGetCurrencyInformation} from 'src/hooks';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
+import {useGetValidVariable} from './useGetValidVariable';
 
-export function useGetShippingLinesData(): IShippingLinesHookProps{
+export function useGetShippingLinesData(): IShippingLinesHookProps {
     const dispatch = useDispatch();
     const { formattedPrice } = useGetCurrencyInformation();
     const shippingLines: Array<IApplicationStateSelectShippingLine> = useGetAvailableShippingLines();
     const selectedLine: IApplicationStateSelectShippingLine = useGetSelectShippingLine();
+    const shippingAddressValid = useGetValidVariable('shippingAddress');
     const shippingLinesLength = shippingLines.length;
 
     const noShippingAreaText = getTerm('no_shipping_available', Constants.SHIPPING_METHOD_INFO);
@@ -27,5 +29,5 @@ export function useGetShippingLinesData(): IShippingLinesHookProps{
         }
     }, []);
 
-    return {shippingLines, selectedLine, noShippingAreaText, shippingLinesLength, handleChange, formattedPrice};
+    return {shippingLines, selectedLine, noShippingAreaText, shippingLinesLength, handleChange, formattedPrice, shippingAddressValid};
 }

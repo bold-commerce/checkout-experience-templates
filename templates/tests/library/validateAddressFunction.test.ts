@@ -39,72 +39,77 @@ describe('testing validateAddressFunction', () => {
         const newReturnObj = {...returnObject, success: true};
         const {shipping} = initialDataMock.application_state.addresses;
         validateAddressMock.mockReturnValueOnce(Promise.resolve(newReturnObj));
-        getStateMock.mockReturnValueOnce(stateMock);
+        getStateMock.mockReturnValue(stateMock);
 
         const validateCustomerAddressThunk = validateAddressFunction(Constants.SHIPPING, shipping, defaultAddressState);
-        await validateCustomerAddressThunk(dispatchMock, getStateMock).then(() => {
-            expect(validateAddressMock).toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code, shipping.business_name, shipping.phone_number);
-            expect(handleErrorSpy).toHaveBeenCalledTimes(1);
-            expect(setValidSpy).toHaveBeenCalledTimes(0);
-            expect(dispatchMock).toHaveBeenCalledTimes(2);
-            expect(dispatchMock).toHaveBeenCalledWith(postAddressReturnedFunctionMock);
-            expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
-        });
+        await validateCustomerAddressThunk(dispatchMock, getStateMock);
+        
+        expect(validateAddressMock).toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code, shipping.business_name, shipping.phone_number);
+        expect(handleErrorSpy).toHaveBeenCalledTimes(1);
+        expect(setValidSpy).toHaveBeenCalledTimes(0);
+        expect(dispatchMock).toHaveBeenCalledTimes(2);
+        expect(dispatchMock).toHaveBeenCalledWith(postAddressReturnedFunctionMock);
+        expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
     });
 
     test('calling validate address endpoint with success for billing', async () => {
         const newReturnObj = {...returnObject, success: true};
         const {billing} = initialDataMock.application_state.addresses;
         validateAddressMock.mockReturnValueOnce(Promise.resolve(newReturnObj));
-        getStateMock.mockReturnValueOnce(stateMock);
+        getStateMock.mockReturnValue(stateMock);
 
         const validateCustomerAddressThunk = validateAddressFunction(Constants.BILLING, billing, defaultAddressState);
-        await validateCustomerAddressThunk(dispatchMock, getStateMock).then(() => {
-            expect(validateAddressMock).toHaveBeenCalledWith(billing.postal_code, billing.province,  billing.province_code, billing.country, billing.country_code, billing.business_name, billing.phone_number);
-            expect(handleErrorSpy).toHaveBeenCalledTimes(1);
-            expect(setValidSpy).toHaveBeenCalledTimes(0);
-            expect(dispatchMock).toHaveBeenCalledTimes(2);
-            expect(dispatchMock).toHaveBeenCalledWith(postAddressReturnedFunctionMock);
-            expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
-        });
+        await validateCustomerAddressThunk(dispatchMock, getStateMock);
+
+        expect(validateAddressMock).toHaveBeenCalledWith(billing.postal_code, billing.province,  billing.province_code, billing.country, billing.country_code, billing.business_name, billing.phone_number);
+        expect(handleErrorSpy).toHaveBeenCalledTimes(1);
+        expect(setValidSpy).toHaveBeenCalledTimes(0);
+        expect(dispatchMock).toHaveBeenCalledTimes(2);
+        expect(dispatchMock).toHaveBeenCalledWith(postAddressReturnedFunctionMock);
+        expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
     });
 
-    test('calling validate address endpoint where validateAddressFields is returning true for Shipping', async () => {
+    test('calling validate address endpoint where validateAddressFields is returning false for Shipping', async () => {
         const newReturnObj = {...returnObject, success: true};
-        const {shipping} = initialDataMock.application_state.addresses;
-        shipping.first_name = '';
+        const shipping = {
+            ...initialDataMock.application_state.addresses.shipping,
+            first_name: '',
+        };
         validateAddressMock.mockReturnValueOnce(Promise.resolve(newReturnObj));
-        getStateMock.mockReturnValueOnce(stateMock);
+        getStateMock.mockReturnValue(stateMock);
 
         const validateCustomerAddressThunk = validateAddressFunction(Constants.SHIPPING, shipping, defaultAddressState);
-        await validateCustomerAddressThunk(dispatchMock, getStateMock).then(() => {
-            expect(validateAddressMock).toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code, shipping.business_name, shipping.phone_number);
-            expect(handleErrorSpy).toHaveBeenCalledTimes(1);
-            expect(setValidSpy).toHaveBeenCalledTimes(1);
-            expect(setValidSpy).toHaveBeenCalledWith('shippingAddress', false);
-            expect(dispatchMock).toHaveBeenCalledTimes(3);
-            expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
-            expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
-        });
+        await validateCustomerAddressThunk(dispatchMock, getStateMock);
+
+        expect(validateAddressMock).toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code, shipping.business_name, shipping.phone_number);
+        expect(handleErrorSpy).toHaveBeenCalledTimes(1);
+        expect(setValidSpy).toHaveBeenCalledTimes(1);
+        expect(setValidSpy).toHaveBeenCalledWith('shippingAddress', false);
+        expect(dispatchMock).toHaveBeenCalledTimes(3);
+        expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
+        expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
+
     });
 
-    test('calling validate address endpoint where validateAddressFields is returning true for billing', async () => {
+    test('calling validate address endpoint where validateAddressFields is returning false for billing', async () => {
         const newReturnObj = {...returnObject, success: true};
-        const {billing} = initialDataMock.application_state.addresses;
-        billing.first_name = '';
+        const billing = {
+            ...initialDataMock.application_state.addresses.billing,
+            first_name: '',
+        };
         validateAddressMock.mockReturnValueOnce(Promise.resolve(newReturnObj));
-        getStateMock.mockReturnValueOnce(stateMock);
+        getStateMock.mockReturnValue(stateMock);
 
         const validateCustomerAddressThunk = validateAddressFunction(Constants.BILLING, billing, defaultAddressState);
-        await validateCustomerAddressThunk(dispatchMock, getStateMock).then(() => {
-            expect(validateAddressMock).toHaveBeenCalledWith(billing.postal_code, billing.province, billing.province_code, billing.country, billing.country_code, billing.business_name, billing.phone_number);
-            expect(handleErrorSpy).toHaveBeenCalledTimes(1);
-            expect(setValidSpy).toHaveBeenCalledTimes(1);
-            expect(setValidSpy).toHaveBeenCalledWith('billingAddress', false);
-            expect(dispatchMock).toHaveBeenCalledTimes(3);
-            expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
-            expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
-        });
+        await validateCustomerAddressThunk(dispatchMock, getStateMock);
+
+        expect(validateAddressMock).toHaveBeenCalledWith(billing.postal_code, billing.province, billing.province_code, billing.country, billing.country_code, billing.business_name, billing.phone_number);
+        expect(handleErrorSpy).toHaveBeenCalledTimes(1);
+        expect(setValidSpy).toHaveBeenCalledTimes(1);
+        expect(setValidSpy).toHaveBeenCalledWith('billingAddress', false);
+        expect(dispatchMock).toHaveBeenCalledTimes(3);
+        expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
+        expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
     });
 
     test('calling validate address endpoint with same default address', async () => {
@@ -113,8 +118,7 @@ describe('testing validateAddressFunction', () => {
         const validationField = {first_name, last_name, address_line_1, country_code, city};
         const validationFieldParams = [validationField, Constants.BILLING, dispatchMock];
         validateAddressMock.mockReturnValueOnce(Promise.resolve(newReturnObj));
-
-        const getStateReturn = {
+        getStateMock.mockReturnValue({
             ...stateMock,
             data: {
                 ...stateMock.data,
@@ -122,81 +126,97 @@ describe('testing validateAddressFunction', () => {
                     ...stateMock.data.application_state,
                     addresses: {
                         ...stateMock.data.application_state.addresses,
-                        billing: defaultAddressState
-                    }
-                }
-            }
-        };
-        getStateReturn.data.initial_data.general_settings.checkout_process.phone_number_required = true;
-        getStateMock.mockReturnValueOnce(getStateReturn);
+                        billing: defaultAddressState,
+                    },
+                },
+                initial_data: {
+                    ...stateMock.data.initial_data,
+                    general_settings: {
+                        ...stateMock.data.initial_data.general_settings,
+                        checkout_process: {
+                            ...stateMock.data.initial_data.general_settings.checkout_process,
+                            phone_number_required: true,
+                        },
+                    },
+                },
+            },
+        });
 
         const validateCustomerAddressThunk = validateAddressFunction(Constants.BILLING, defaultAddressState, defaultAddressState);
-        await validateCustomerAddressThunk(dispatchMock, getStateMock).then(() => {
-            expect(validateAddressMock).not.toHaveBeenCalledWith(...validationFieldParams);
-            expect(handleErrorSpy).toHaveBeenCalledTimes(1);
-            expect(setValidSpy).toHaveBeenCalledTimes(1);
-            expect(setValidSpy).toHaveBeenCalledWith('billingAddress', false);
-            expect(dispatchMock).toHaveBeenCalledTimes(9);
-            expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
-            expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
-        });
+        await validateCustomerAddressThunk(dispatchMock, getStateMock);
+
+        expect(validateAddressMock).not.toHaveBeenCalledWith(...validationFieldParams);
+        expect(handleErrorSpy).toHaveBeenCalledTimes(1);
+        expect(setValidSpy).toHaveBeenCalledTimes(1);
+        expect(setValidSpy).toHaveBeenCalledWith('billingAddress', false);
+        expect(dispatchMock).toHaveBeenCalledTimes(9);
+        expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
+        expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
     });
 
     test('calling validate address endpoint with same address object for shipping', async () => {
         const newReturnObj = {...returnObject, success: true};
         const {shipping} = stateMock.data.application_state.addresses;
         validateAddressMock.mockReturnValueOnce(Promise.resolve(newReturnObj));
-        getStateMock.mockReturnValueOnce(stateMock);
+        getStateMock.mockReturnValue(stateMock);
 
         const validateCustomerAddressThunk = validateAddressFunction(Constants.SHIPPING, shipping, shipping);
-        await validateCustomerAddressThunk(dispatchMock, getStateMock).then(() => {
-            expect(validateAddressMock).not.toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.country_code);
-            expect(handleErrorSpy).toHaveBeenCalledTimes(0);
-            expect(setValidSpy).toHaveBeenCalledTimes(2);
-            expect(setValidSpy).toHaveBeenCalledWith('shippingAddress', true);
-            expect(setValidSpy).toHaveBeenCalledWith('updatedShippingAddress', true);
-            expect(dispatchMock).toHaveBeenCalledTimes(3);
-            expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
-            expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
-        });
+        await validateCustomerAddressThunk(dispatchMock, getStateMock);
+
+        expect(validateAddressMock).not.toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.country_code);
+        expect(handleErrorSpy).toHaveBeenCalledTimes(0);
+        expect(setValidSpy).toHaveBeenCalledTimes(2);
+        expect(setValidSpy).toHaveBeenCalledWith('shippingAddress', true);
+        expect(setValidSpy).toHaveBeenCalledWith('updatedShippingAddress', true);
+        expect(dispatchMock).toHaveBeenCalledTimes(3);
+        expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
+        expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
     });
 
     test('calling validate address endpoint with same address object for billing', async () => {
         const newReturnObj = {...returnObject, success: true};
         const {billing} = stateMock.data.application_state.addresses;
         validateAddressMock.mockReturnValueOnce(Promise.resolve(newReturnObj));
-        getStateMock.mockReturnValueOnce(stateMock);
+        getStateMock.mockReturnValue(stateMock);
 
         const validateCustomerAddressThunk = validateAddressFunction(Constants.BILLING, billing, billing);
-        await validateCustomerAddressThunk(dispatchMock, getStateMock).then(() => {
-            expect(validateAddressMock).not.toHaveBeenCalledWith(billing.postal_code, billing.province, billing.country_code);
-            expect(handleErrorSpy).toHaveBeenCalledTimes(0);
-            expect(setValidSpy).toHaveBeenCalledTimes(1);
-            expect(setValidSpy).toHaveBeenCalledWith('billingAddress', true);
-            expect(dispatchMock).toHaveBeenCalledTimes(2);
-            expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
-            expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
-        });
+        await validateCustomerAddressThunk(dispatchMock, getStateMock);
+
+        expect(validateAddressMock).not.toHaveBeenCalledWith(billing.postal_code, billing.province, billing.country_code);
+        expect(handleErrorSpy).toHaveBeenCalledTimes(0);
+        expect(setValidSpy).toHaveBeenCalledTimes(1);
+        expect(setValidSpy).toHaveBeenCalledWith('billingAddress', true);
+        expect(dispatchMock).toHaveBeenCalledTimes(2);
+        expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
+        expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
     });
 
     test('calling validate address endpoint with empty address that is different than before', async () => {
         const newReturnObj = {...returnObject, success: true};
         const {shipping} = initialDataMock.application_state.addresses;
         validateAddressMock.mockReturnValueOnce(Promise.resolve(newReturnObj));
-        const getStateReturn = {...stateMock};
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        getStateReturn.data.initial_data.general_settings.checkout_process = undefined;
-        getStateMock.mockReturnValueOnce(getStateReturn);
+        getStateMock.mockReturnValue({
+            ...stateMock,
+            data: {
+                ...stateMock.data,
+                initial_data: {
+                    ...stateMock.data.initial_data,
+                    general_settings: {
+                        ...stateMock.data.initial_data.general_settings,
+                        checkout_process: undefined,
+                    },
+                },
+            },
+        });
 
         const validateCustomerAddressThunk = validateAddressFunction(Constants.SHIPPING, defaultAddressState, shipping);
-        await validateCustomerAddressThunk(dispatchMock, getStateMock).then(() => {
-            expect(validateAddressMock).not.toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.country_code);
-            expect(handleErrorSpy).toHaveBeenCalledTimes(1);
-            expect(setValidSpy).toHaveBeenCalledTimes(1);
-            expect(dispatchMock).toHaveBeenCalledTimes(8);
-            expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
-            expect(dispatchMock).toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
-        });
+        await validateCustomerAddressThunk(dispatchMock, getStateMock);
+
+        expect(validateAddressMock).not.toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.country_code);
+        expect(handleErrorSpy).toHaveBeenCalledTimes(1);
+        expect(setValidSpy).toHaveBeenCalledTimes(1);
+        expect(dispatchMock).toHaveBeenCalledTimes(8);
+        expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
+        expect(dispatchMock).toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
     });
 });

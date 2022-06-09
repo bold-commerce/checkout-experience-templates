@@ -11,7 +11,6 @@ import {actionRemoveErrorByAddressType, actionSetAppStateValid} from 'src/action
 
 export function validateAddressFunction(type: string, address: Partial<IAddress>, libraryAddress: Partial<IAddress>) {
     return async function validateCustomerThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
-
         const generalSetting = getState().data.initial_data.general_settings.checkout_process;
 
         const validationField = ((
@@ -30,7 +29,7 @@ export function validateAddressFunction(type: string, address: Partial<IAddress>
             dispatch(actionRemoveErrorByAddressType(type));
             
             if (isObjectEquals(address, defaultAddressState) || !isObjectEquals(address, libraryAddress)) {
-                const isAddressFieldsValidated = validateAddressFields(validationField, type, dispatch);
+                const isAddressFieldsValidated = validateAddressFields(validationField, type, dispatch, getState);
 
                 const response: IApiReturnObject = await validateAddress(
                     address.postal_code as string,

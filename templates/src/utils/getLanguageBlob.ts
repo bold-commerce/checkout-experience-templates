@@ -1,12 +1,20 @@
 import {ISupportedLanguage} from 'src/types';
 import {Constants} from 'src/constants';
 
-export function getLanguageBlob(language: ISupportedLanguage | null, typeBlob?: string): Array<Array<string>> | null {
-    let languageBlobParsed;
-    if(language && language.language_blob && typeof language.language_blob === 'string') {
-        const blob = JSON.parse(language.language_blob);
-        languageBlobParsed = blob['terms'];
-        return !typeBlob || typeBlob === Constants.LANGUAGE_BLOB_TYPE ? languageBlobParsed : languageBlobParsed.error_messages;
+export function getLanguageBlob(language: ISupportedLanguage | null, typeBlob?: string): string[][] | null {
+    if (typeof language?.language_blob !== 'string') {
+        return null;
     }
-    return null;
+
+    const blob = JSON.parse(language.language_blob);
+    const languageBlobParsed = blob['terms'];
+
+    if (typeBlob === Constants.LANGUAGE_BLOB_ERROR_TYPE) {
+        return {
+            custom: languageBlobParsed.custom,
+            ...languageBlobParsed.error_messages,
+        };
+    }
+
+    return languageBlobParsed;
 }

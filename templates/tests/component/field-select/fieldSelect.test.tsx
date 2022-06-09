@@ -78,6 +78,18 @@ describe('Testing FieldSelect component', () => {
         expect(container.getElementsByClassName('select-field--has-focus').length).toBe(0);
     });
 
+
+    test('Test blur with handleBlur being undefined in props', () => {
+        const localProps = {...props, handleBlur: undefined};
+        
+        const { getByTestId } = render(<FieldSelect {...localProps}/>);
+
+        const element = getByTestId('input-select');
+        fireEvent.blur(element);
+
+        // No expecting needed. If component throws an error test will fail which is good.
+    });
+
     test('Check the placeholder without empty value', () => {
         render(<FieldSelect {...props}/>);
         const options= screen.getAllByTestId('input-select__options');

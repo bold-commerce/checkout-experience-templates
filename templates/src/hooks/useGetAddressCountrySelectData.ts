@@ -6,6 +6,7 @@ import {IAddressCountryHookProps, ICountryInformation} from 'src/types';
 import {AddressLabelMapping, Constants, defaultAddressState} from 'src/constants';
 import {getTerm} from 'src/utils';
 
+
 export function useGetAddressCountryInputData(type: string, debounceApiCall: () => void): IAddressCountryHookProps {
     const dispatch = useDispatch();
     const callApiAtOnEvents: boolean = useCallApiAtOnEvents();
@@ -15,6 +16,7 @@ export function useGetAddressCountryInputData(type: string, debounceApiCall: () 
     const countriesList: ICountryInformation[] = useGetCountryInfoList();
     const countryOptions = countriesList.map(country => ({ value: country.iso_code, name: country.name }));
     const value: string = useGetAddressDataField(type, Constants.ADDRESS_COUNTRY_CODE);
+    const countryName = useGetAddressDataField(type, Constants.ADDRESS_COUNTRY);
     const id = `${type}-address__country`;
     const countryError = useGetErrorByField('country', type);
     const countryCodeError = useGetErrorByField('country_code', type);
@@ -43,5 +45,5 @@ export function useGetAddressCountryInputData(type: string, debounceApiCall: () 
         }
     }, [errorMessage, callApiAtOnEvents, type]);
 
-    return {placeholder, label, id, name , value, countryOptions ,handleChange, errorMessage};
+    return {placeholder, label, id, name, value, countryOptions, countryName, handleChange, errorMessage};
 }

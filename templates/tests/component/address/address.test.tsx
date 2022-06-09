@@ -1,6 +1,6 @@
 import {IAddressProps} from 'src/types';
 import {Constants} from 'src/constants';
-import {render, screen} from '@testing-library/react';
+import {render} from '@testing-library/react';
 import {Address} from 'src/components';
 import {Provider} from 'react-redux';
 import * as Store from 'src/store';
@@ -17,8 +17,7 @@ const useInitiateGenericAutocompleteMock = mocked(useInitiateGenericAutocomplete
 
 const store = Store.initializeStore();
 describe('Testing Address component', () => {
-
-    const props: IAddressProps= {
+    const props: IAddressProps = {
         type: Constants.SHIPPING,
         title: 'test',
         showTitle: true,
@@ -33,7 +32,9 @@ describe('Testing Address component', () => {
         useGetGeneralSettingCheckoutFieldsMock
             .mockReturnValueOnce('optional')
             .mockReturnValueOnce(true);
-        const {container} = render(<Provider store={store}><Address {...props}/></Provider>);
+
+        const { container, getByPlaceholderText } = render(<Provider store={store}><Address {...props}/></Provider>);
+        
         expect(container.getElementsByClassName('address__FieldSection').length).toBe(1);
         expect(container.getElementsByClassName('address__saved-select').length).toBe(1);
         expect(container.getElementsByClassName('address__first').length).toBe(1);
@@ -49,7 +50,7 @@ describe('Testing Address component', () => {
         expect(useDebouncedValidateAddressMock).toHaveBeenCalledTimes(1);
         expect(useInitiateGenericAutocompleteMock).toHaveBeenCalledTimes(1);
         expect(useGetGeneralSettingCheckoutFieldsMock).toHaveBeenCalledTimes(2);
-        expect(screen.getByPlaceholderText('Company (optional)')).toBeTruthy();
+        expect(getByPlaceholderText('Company (optional)')).toBeTruthy();
     });
 
     test('Render the Address properly with hidden fields', () => {
@@ -57,7 +58,9 @@ describe('Testing Address component', () => {
         useGetGeneralSettingCheckoutFieldsMock
             .mockReturnValueOnce('hidden')
             .mockReturnValueOnce(false);
-        const {container} = render(<Provider store={store}><Address {...localProps}/></Provider>);
+
+        const { container } = render(<Provider store={store}><Address {...localProps}/></Provider>);
+
         expect(container.getElementsByClassName('address__hidden').length).toBe(1);
         expect(container.getElementsByClassName('address__saved-select').length).toBe(0);
         expect(useDebouncedValidateAddressMock).toHaveBeenCalledTimes(1);
@@ -69,7 +72,9 @@ describe('Testing Address component', () => {
         useGetGeneralSettingCheckoutFieldsMock
             .mockReturnValueOnce('required')
             .mockReturnValueOnce(false);
-        render(<Provider store={store}><Address {...props}/></Provider>);
-        expect(screen.getByPlaceholderText('Company')).toBeTruthy();
+
+        const { getByPlaceholderText} = render(<Provider store={store}><Address {...props}/></Provider>);
+
+        expect(getByPlaceholderText('Company')).toBeTruthy();
     });
 });

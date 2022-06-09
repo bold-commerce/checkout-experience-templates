@@ -1,11 +1,11 @@
-import {apiErrors, httpStatusCode, IApiErrorResponse, IApiReturnObject, IFetchError} from '@bold-commerce/checkout-frontend-library';
+import {apiErrors, httpStatusCode, IApiReturnObject, IFetchError} from '@bold-commerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
 import {IError, IOrderInitialization} from 'src/types';
 import {displayFatalErrorFromTranslation, getCheckoutUrl, getHook, getNeuroIdPageName, neuroIdSubmit, retrieveErrorFromResponse} from 'src/utils';
 import {actionAddError, actionShowHideOverlayContent} from 'src/action';
 import {HistoryLocationState} from 'react-router';
 
-export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispatch, getState: () => IOrderInitialization, addressType = '' ): void{
+export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispatch, getState: () => IOrderInitialization, addressType = ''): void {
     const error: IFetchError = response.error;
 
     const state = getState();

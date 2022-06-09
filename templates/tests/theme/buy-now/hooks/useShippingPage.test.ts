@@ -28,6 +28,7 @@ describe('Testing useShippingPage hook', () => {
     test('rendering the useShippingPageHook properly', () => {
         useGetValidVariableMock.mockReturnValueOnce(false).mockReturnValue(true);
         useGetCloseBuyNowMock.mockReturnValue(closeModalMock);
+
         const { result, rerender } = renderHook(() => useShippingPage());
 
         expect(result.current.closeBuyNow).toBe(closeModalMock.closeBuyNow);

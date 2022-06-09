@@ -1,12 +1,18 @@
 import {render} from '@testing-library/react';
 import {ShippingLine} from 'src/components';
-import React from 'react';
 import * as useGetShippingLinesData from 'src/hooks/useGetShippingLinesData';
-import {IApplicationStateSelectShippingLine, IApplicationStateShippingAvailableLine} from 'src/types';
-import resetAllMocks = jest.resetAllMocks;
+import {IApplicationStateSelectShippingLine, IShippingLineProps, IShippingLinesHookProps} from 'src/types';
+
+type Data = {
+    name: string;
+    parameter: IShippingLinesHookProps;
+    selectors: Record<string, number>;
+    called: number;
+    props?: IShippingLineProps;
+}
 
 describe('Testing shipping line component', () => {
-    let useGetShippingLinesDataSpy: jest.SpyInstance;
+    const useGetShippingLinesDataSpy = jest.spyOn(useGetShippingLinesData, 'useGetShippingLinesData');
 
     const selectShippingLine1: IApplicationStateSelectShippingLine = {
         id: '1',
@@ -18,55 +24,146 @@ describe('Testing shipping line component', () => {
         description: 'test 2',
         amount: 200
     };
-    const shippingLine1: IApplicationStateShippingAvailableLine = {
-        id: 1,
-        line: selectShippingLine1
-    };
-    const shippingLine2: IApplicationStateShippingAvailableLine = {
-        id: 1,
-        line: selectShippingLine2
-    };
-    const dataArray = [
+    const dataArray: Data[] = [
         {
             name: 'Render shipping line properly with zero shipping lines',
-            parameter: {shippingLines: [], selectedLine: null, handleChange: jest.fn(), shippingLinesLength: 0},
+            parameter: {
+                shippingLines: [],
+                selectedLine: null,
+                handleChange: jest.fn(),
+                shippingLinesLength: 0,
+                shippingAddressValid: true,
+                noShippingAreaText: 'No shipping available',
+                formattedPrice: '${{amount}}',
+            },
+            selectors: {
+                '.shipping_line__items': 0,
+                '.shipping_line__items-description': 0,
+                '.shipping-line__no-valid-address-label': 1,
+                '.shipping-line__block': 0,
+            },
             called: 1,
-            lineItemsLength: 0,
-            lineDescriptionLength: 0,
-            noShippingText: 1
+        },
+        {
+            name: 'Render shipping line properly with zero shipping lines & show no rates as alert',
+            parameter: {
+                shippingLines: [],
+                selectedLine: null,
+                handleChange: jest.fn(),
+                shippingLinesLength: 0,
+                shippingAddressValid: true,
+                noShippingAreaText: 'No shipping available',
+                formattedPrice: '${{amount}}',
+            },
+            selectors: {
+                '.shipping_line__items': 0,
+                '.shipping_line__items-description': 0,
+                '.shipping-line__no-valid-address-label': 0,
+                '.flash-error__container': 1,
+                '.flash-error__text': 1,
+                '.shipping-line__block': 0,
+            },
+            props: {
+                showNoRatesAsAlert: true,
+            },
+            called: 1,
+        },
+        {
+            name: 'Render shipping line properly with one shipping line and no selected line',
+            parameter: {
+                shippingLines: [selectShippingLine1],
+                selectedLine: null,
+                handleChange: jest.fn(),
+                shippingLinesLength: 1,
+                shippingAddressValid: true,
+                noShippingAreaText: 'No shipping available',
+                formattedPrice: '${{amount}}',
+            },
+            selectors: {
+                '.shipping_line__items': 1,
+                '.shipping_line__items-description': 1,
+                '.shipping-line__no-valid-address-label': 0,
+                '.shipping-line__block': 0,
+                'input[type="radio"][checked]': 0,
+            },
+            called: 1,
         },
         {
             name: 'Render shipping line properly with one shipping line',
-            parameter: {shippingLines: [shippingLine1], selectedLine: selectShippingLine1, handleChange: jest.fn(), shippingLinesLength: 1},
+            parameter: {
+                shippingLines: [selectShippingLine1],
+                selectedLine: selectShippingLine1,
+                handleChange: jest.fn(),
+                shippingLinesLength: 1,
+                shippingAddressValid: true,
+                noShippingAreaText: 'No shipping available',
+                formattedPrice: '${{amount}}',
+            },
+            selectors: {
+                '.shipping_line__items': 1,
+                '.shipping_line__items-description': 1,
+                '.shipping-line__no-valid-address-label': 0,
+                '.shipping-line__block': 0,
+                'input[type="radio"][checked]': 1,
+            },
             called: 1,
-            lineItemsLength: 1,
-            lineDescriptionLength: 1,
-            noShippingText: 0
         },
         {
             name: 'Render shipping line properly with multiple shipping lines',
-            parameter: {shippingLines: [shippingLine1, shippingLine2],
-                selectedLine: selectShippingLine1, handleChange: jest.fn() ,shippingLinesLength: 2},
+            parameter: {
+                shippingLines: [selectShippingLine1, selectShippingLine2],
+                selectedLine: selectShippingLine1,
+                handleChange: jest.fn(),
+                shippingLinesLength: 2,
+                shippingAddressValid: true,
+                noShippingAreaText: 'No shipping available',
+                formattedPrice: '${{amount}}',
+            },
+            selectors: {
+                '.shipping_line__items': 2,
+                '.shipping_line__items-description': 2,
+                '.shipping-line__no-valid-address-label': 0,
+                '.shipping-line__block': 0,
+                'input[type="radio"][checked]': 1,
+            },
             called: 1,
-            lineItemsLength: 2,
-            lineDescriptionLength: 2,
-            noShippingText: 0
-        }
+        },
+        {
+            name: 'Render shipping lines in block when showNoRatesAsAlert is true',
+            props: {
+                showNoRatesAsAlert: true,
+            },
+            parameter: {
+                shippingLines: [selectShippingLine1, selectShippingLine2],
+                selectedLine: selectShippingLine1,
+                handleChange: jest.fn(),
+                shippingLinesLength: 2,
+                shippingAddressValid: true,
+                noShippingAreaText: 'No shipping available',
+                formattedPrice: '${{amount}}',
+            },
+            selectors: {
+                '.shipping_line__items': 2,
+                '.shipping_line__items-description': 2,
+                '.shipping-line__no-valid-address-label': 0,
+                '.shipping-line__block': 1,
+                'input[type="radio"][checked]': 1,
+            },
+            called: 1,
+        },
     ];
 
     beforeEach(() => {
-        resetAllMocks();
-        useGetShippingLinesDataSpy = jest.spyOn(useGetShippingLinesData, 'useGetShippingLinesData');
+        jest.resetAllMocks();
     });
 
-    test.each(dataArray)( '$name', async ({name, parameter, called, lineItemsLength, lineDescriptionLength, noShippingText}) => {
+    test.each(dataArray)('$name', async ({parameter, called, selectors, props = {}}) => {
         useGetShippingLinesDataSpy.mockReturnValueOnce(parameter);
 
-        const {container} = render(<ShippingLine/>);
+        const {container} = render(<ShippingLine {...props} />);
         expect(useGetShippingLinesDataSpy).toHaveBeenCalledTimes(called);
-        expect(container.getElementsByClassName('shipping_line__items').length).toBe(lineItemsLength);
-        expect(container.getElementsByClassName('shipping_line__items-description').length).toBe(lineDescriptionLength);
-        expect(container.getElementsByClassName('shipping-line__no-valid-address-label').length).toBe(noShippingText);
-
+        for (const [ selector, expectedLength ] of Object.entries(selectors)) {
+            expect(container.querySelectorAll(selector)).toHaveLength(expectedLength);
+        }
     });
 });
