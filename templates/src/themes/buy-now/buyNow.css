@@ -1,7 +1,7 @@
 html, body, .buy-now__app {
   height: 100%;
   margin: 0;
-  color:#00000090;
+  color: #00000090;
 }
 
 .checkout-experience-container {
@@ -171,8 +171,8 @@ html, body, .buy-now__app {
 .buy-now .address,
 .buy-now .shipping-lines,
 .buy-now .stx-radio-field__label,
-.buy-now__app .shipping-page .stx-radio__input,
-.buy-now__app .shipping-page .shipping_line__items-description {
+.buy-now__app .buy-now__shipping .stx-radio__input,
+.buy-now__app .buy-now__shipping .shipping_line__items-description {
   padding: 0;
   margin: 0;
 }
@@ -183,7 +183,7 @@ html, body, .buy-now__app {
   grid-auto-flow: column;
 }
 
-.buy-now__back .nav-heading__title::before {
+.buy-now__back .nav-heading__navigation::before {
   position: relative;
   border-style: solid;
   border-width: 0.25em 0.25em 0 0;
@@ -195,7 +195,7 @@ html, body, .buy-now__app {
   margin: 0 5px;
 }
 
-.shipping-page .field-section__heading {
+.buy-now__shipping .field-section__heading {
   letter-spacing: normal;
   text-transform: unset;
   color: #1A1A1A;
@@ -205,14 +205,14 @@ html, body, .buy-now__app {
   font-style: normal;
 }
 
-.shipping-page .buy-now__back {
+.buy-now__shipping .buy-now__back {
   padding: 16px 0;
   border-width: 1px 0;
   border-color: #D9D9D9;
   border-style: solid;
 }
 
-.summary-page .buy-now__back {
+.buy-now__summary .buy-now__back {
   padding-top: 16px;
   border-top: 1px solid #D9D9D9;
 }
@@ -224,13 +224,13 @@ html, body, .buy-now__app {
   font-weight: 700;
 }
 
-.buy-now__app .shipping-page .shipping_line__items {
+.buy-now__app .buy-now__shipping .shipping_line__items {
   padding: 8px;
   align-items: baseline;
   justify-content: space-between;
 }
 
-.buy-now__app .shipping-page .shipping_line__items-description .stx-radio-field {
+.buy-now__app .buy-now__shipping .shipping_line__items-description .stx-radio-field {
   display: inline-flex;  
 }
 
@@ -276,7 +276,7 @@ html, body, .buy-now__app {
   font-family: inherit;
 }
 
-.buy-now .shipping-page .flash-error__container {
+.buy-now .buy-now__shipping .flash-error__container {
   margin-top: 16px;
 }
 
@@ -332,4 +332,24 @@ html, body, .buy-now__app {
 .buy-now__app .address__address2 {
   width: 100%;
   padding-left: 0;
+}
+
+.buy-now__customer.buy-now__section {
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.buy-now__customer p {
+  color: #00000090;
+}
+
+.buy-now__customer {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.buy-now__payment .payment {
+  padding-top: 0;
 }

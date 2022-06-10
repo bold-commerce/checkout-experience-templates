@@ -9,7 +9,7 @@ export function CondensedSection(props: ICondensedSectionProps): React.ReactElem
 
     return (
         <div className={cssClass}>
-            <NavigationHeading {...navigationHeadingProps} />
+            { navigationHeadingProps && <NavigationHeading {...navigationHeadingProps} />}
             {children}
         </div>
     );
