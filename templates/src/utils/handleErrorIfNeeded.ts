@@ -1,7 +1,7 @@
 import {apiErrors, httpStatusCode, IApiErrorResponse, IApiReturnObject, IFetchError} from '@bold-commerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
 import {IError, IOrderInitialization} from 'src/types';
-import {displayFatalErrorFromTranslation, getCheckoutUrl, getHook, getNeuroIdPageName, neuroIdSubmit} from 'src/utils';
+import {displayFatalErrorFromTranslation, getCheckoutUrl, getHook, getNeuroIdPageName, neuroIdSubmit, retrieveErrorFromResponse} from 'src/utils';
 import {actionAddError, actionShowHideOverlayContent} from 'src/action';
 import {HistoryLocationState} from 'react-router';
 
@@ -29,8 +29,7 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
                 break;
             }
             case httpStatusCode.UNAUTHORIZED: {
-                const {response: res} = response;
-                const {errors} = res as {errors: Array<IApiErrorResponse>} || {};
+                const errors = retrieveErrorFromResponse(response);
                 if (errors && Array.isArray(errors)) {
                     errors.forEach(e => {
                         switch (e.message) {
@@ -52,8 +51,7 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
                 break;
             }
             case httpStatusCode.UNPROCESSABLE_ENTITY: {
-                const {response: res} = response;
-                const {errors} = res as {errors: Array<IApiErrorResponse>} || {};
+                const errors = retrieveErrorFromResponse(response);
                 if (errors && Array.isArray(errors)) {
                     errors.forEach(e => {
                         const error: IError = Object.assign(e , {address_type: addressType});
