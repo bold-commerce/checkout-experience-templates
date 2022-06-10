@@ -460,7 +460,7 @@ export interface IUseIndexPageProps {
 
 export interface ICondensedSectionProps {
     className?: string;
-    navigationHeadingProps: INavigationHeadingProps;
+    navigationHeadingProps?: INavigationHeadingProps;
     children?: ReactChild | Array<ReactChild>
 }
 

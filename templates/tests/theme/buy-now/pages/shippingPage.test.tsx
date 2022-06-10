@@ -48,7 +48,7 @@ describe('testing ShippingPage', () => {
         expect(container.getElementsByClassName('buy-now').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__secondary').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__secondary--closed').length).toBe(1);
-        expect(container.getElementsByClassName('shipping-page').length).toBe(1);
+        expect(container.getElementsByClassName('buy-now__shipping').length).toBe(1);
     });
 
 
@@ -63,7 +63,7 @@ describe('testing ShippingPage', () => {
         expect(container.getElementsByClassName('buy-now').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__secondary').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__secondary--open').length).toBe(1);
-        expect(container.getElementsByClassName('shipping-page').length).toBe(1);
+        expect(container.getElementsByClassName('buy-now__shipping').length).toBe(1);
     });
 
     test('firing click event on navigation with valid address', () => {

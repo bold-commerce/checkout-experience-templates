@@ -50,7 +50,7 @@ describe('testing SummaryPage', () => {
         expect(container.getElementsByClassName('buy-now').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__secondary').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__secondary--closed').length).toBe(1);
-        expect(container.getElementsByClassName('summary-page').length).toBe(1);
+        expect(container.getElementsByClassName('buy-now__summary').length).toBe(1);
     });
 
 
@@ -63,7 +63,7 @@ describe('testing SummaryPage', () => {
         expect(container.getElementsByClassName('buy-now').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__secondary').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__secondary--open').length).toBe(1);
-        expect(container.getElementsByClassName('summary-page').length).toBe(1);
+        expect(container.getElementsByClassName('buy-now__summary').length).toBe(1);
     });
 
     test('firing click event on navigation', () => {

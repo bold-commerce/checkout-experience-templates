@@ -16,13 +16,13 @@ describe('Testing navigationHeader component', () => {
         const { container } = render( <NavigationHeading {...propsWithNavigation} />);
     
         expect(container.getElementsByClassName('nav-heading').length).toBe(1);
-        expect(container.getElementsByClassName('nav-heading__title').length).toBe(1);
+        expect(container.getElementsByClassName('nav-heading__navigation').length).toBe(1);
     });
     
     test('rendering the component successfully without navigation', () => {
         const { container } = render( <NavigationHeading {...propsTitleOnly} />);
     
         expect(container.getElementsByClassName('nav-heading').length).toBe(1);
-        expect(container.getElementsByClassName('nav-heading__title').length).toBe(0);
+        expect(container.getElementsByClassName('nav-heading__navigation').length).toBe(0);
     });
 });

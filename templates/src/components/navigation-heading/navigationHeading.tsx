@@ -6,10 +6,12 @@ export function NavigationHeading(props: INavigationHeadingProps): React.ReactEl
     const { className, text, navigation, secondary } = props;
     return (
         <div className={classNames('nav-heading', className)}>
-            { navigation ?
-                <a className='nav-heading__title' data-testid='navigation' onClick={navigation} href="#navigation">{text}</a> :
-                <p>{text}</p>
-            }
+            <h3 className='nav-heading__title'>
+                { navigation ?
+                    <a className='nav-heading__navigation' data-testid='navigation' onClick={navigation} href="#navigation">{text}</a> :
+                    <>{text}</>
+                }
+            </h3>
             {secondary}    
         </div>
     );
