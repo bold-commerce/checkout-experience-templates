@@ -31,6 +31,7 @@ export * from './navigateDialog';
 export * from './neuroIdCalls';
 export * from './neuroIdCallsBreadcrumbs';
 export * from './renderHtmlEntities';
+export * from './retrieveErrorFromResponse';
 export * from './standaloneHooks';
 export * from './scriptsAreLoaded';
 export * from './scrollToElement';
