@@ -1,13 +1,14 @@
-import {useCallback} from 'react';
+import {useCallback, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
-import {callCustomerPageApi} from 'src/library';
+import {callCustomerPageApi, checkInventory} from 'src/library';
 import {useHistory} from 'react-router';
 import {Constants, NeuroIdConstants} from 'src/constants';
 import {IUseCustomerPageProp} from 'src/types';
 import {getCheckoutUrl, getNeuroIdPageName, getTerm, neuroIdSubmit} from 'src/utils';
 import {sendEvents} from 'src/analytics';
 import {actionClearErrors} from 'src/action';
+import {checkInventoryStage} from '@bold-commerce/checkout-frontend-library';
 
 export function useCustomerPage(): IUseCustomerPageProp {
     const dispatch = useDispatch();
@@ -34,6 +35,10 @@ export function useCustomerPage(): IUseCustomerPageProp {
         dispatch(callCustomerPageApi(history, pageNameNeuroId));
     } , []);
     window.history.replaceState(null, '', getCheckoutUrl('/resume'));
+
+    useEffect( () => {
+        dispatch(checkInventory(checkInventoryStage.initial));
+    }, []);
 
     return {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading};
 }
