@@ -2,6 +2,7 @@ export * from './applicationState';
 export * from './callCustomerPageApi';
 export * from './callShippingLinesPageApi';
 export * from './checkErrorAndProceedToNextPage';
+export * from './checkInventory';
 export * from './checkLoadPigiErrors';
 export * from './deleteAddress';
 export * from './deleteBillingAddress';

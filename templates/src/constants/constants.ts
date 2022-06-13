@@ -49,6 +49,7 @@ export class Constants {
     static LANGUAGE_BLOB_TYPE = 'LANGUAGE_BLOB_TYPE';
     static LANGUAGE_BLOB_ERROR_TYPE = 'LANGUAGE_BLOB_ERROR_TYPE';
     static OUT_OF_STOCK_INFO = 'out_of_stock';
+    static OUT_OF_STOCK_FAIL = 'fail';
 }
 
 export const errorTypes: IErrorTypes = {

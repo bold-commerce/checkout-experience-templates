@@ -3,6 +3,11 @@ import { act } from 'react-dom/test-utils';
 import { useBuyNowContainerPage } from 'src/themes/buy-now/hooks';
 import { RefObject } from 'react';
 import { IUseBuyNowContainerPageProps } from 'src/themes/buy-now/types';
+import {mocked} from 'jest-mock';
+import {useDispatch} from 'react-redux';
+
+jest.mock('react-redux');
+const useDispatchMock = mocked(useDispatch, true);
 
 describe('testing hook useBuyNowContainerPage', () => {
     const mockResizeObserver = global.ResizeObserver = jest.fn().mockImplementation(function (this: ResizeObserver, cb) {
@@ -12,13 +17,16 @@ describe('testing hook useBuyNowContainerPage', () => {
         this.disconnect = jest.fn();
         this.unobserve = jest.fn();
     });
-
+    const dispatchMock = jest.fn();
     /**
      * Calls all callbacks passed to the ResizeObserver constructor to be called
      */
     const triggerResize = () => {
         mockResizeObserver.mock.calls.forEach((args, i) => args[0]([], mockResizeObserver.mock.instances[i]));
     };
+    beforeEach(() => {
+        useDispatchMock.mockReturnValue(dispatchMock);
+    });
 
     afterEach(() => {
         mockResizeObserver.mockClear();
