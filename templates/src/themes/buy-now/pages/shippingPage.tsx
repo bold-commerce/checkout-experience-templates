@@ -21,7 +21,7 @@ function ShippingPage(props : IBuyNowContainerPageProps, ref: ForwardedRef<HTMLD
                 <NavigationHeading className="buy-now__back" text={getTerm('previous_step',Constants.SAVED_PAYMENT_INFO)} navigation={backOnClick} />
                 {stopBack && (
                     <div key="flash-error-text-shipping" className="flash-error__container">
-                        <span key="flash-error-text-shipping" className="flash-error__text">
+                        <span key="flash-error-text-shipping" aria-live="assertive" className="flash-error__text">
                             {flashText}
                         </span>
                     </div>
