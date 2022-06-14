@@ -9,13 +9,16 @@ import * as useIndexPage from 'src/themes/buy-now/hooks/useIndexPage';
 import { IBuyNowContainerPageProps } from 'src/themes/buy-now/types';
 import * as Store from 'src/store';
 import { Provider } from 'react-redux';
+import { useCheckShippingAddress } from 'src/themes/buy-now/hooks';
 
 const store = Store.initializeStore();
 
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useGetSelectShippingLine');
+jest.mock('src/themes/buy-now/hooks/useCheckShippingAddress');
 const getTermMock = mocked(getTerm, true);
 const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
+const useCheckShippingAddressMock = mocked(useCheckShippingAddress);
 
 
 describe('testing IndexPage', () => {
@@ -47,6 +50,8 @@ describe('testing IndexPage', () => {
         shippingHeadingText: getTermValue,
         address: addressMock,
         paymentHeadingText: getTermValue,
+        shippingIssueLinkText: 'shipping issue link text',
+        shippingIssueText: 'shipping issue test',
         quantityDisabled: false,
         checkoutOnClick: jest.fn(),
         updateLineItemQuantity: jest.fn(),
@@ -57,6 +62,7 @@ describe('testing IndexPage', () => {
         useIndexPageSpy.mockReturnValue(propsFromHook);
         getTermMock.mockReturnValue(getTermValue);
         useGetSelectShippingLineMock.mockReturnValue(selectShippingLineValue);
+        useCheckShippingAddressMock.mockReturnValue({isValid: true});
     });
 
     test('Rendering visible indexPage properly', () => {
@@ -93,6 +99,25 @@ describe('testing IndexPage', () => {
         expect(container.getElementsByClassName('buy-now__checkout-button').length).toBe(1);
     });
 
+    test('Rendering with shipping error', () => {
+        useCheckShippingAddressMock.mockReturnValue({isValid: false});
+
+        const { container, getByText } = render(
+            <Provider store={store}>
+                <IndexPage {...visibleProps} />
+            </Provider>
+        );
+
+        expect(container.querySelector('.flash-error')).toBeTruthy();
+        expect(getByText(propsFromHook.shippingIssueText)).toBeTruthy();
+        expect(getByText(propsFromHook.shippingIssueLinkText)).toBeTruthy();
+
+        const shippingIssueLink = getByText(propsFromHook.shippingIssueLinkText);
+        fireEvent.click(shippingIssueLink);
+
+        expect(visibleProps.navigateTo).toBeCalledTimes(1);
+    });
+
     test('firing click event to summary page', () => {
         render(
             <Provider store={store}>
@@ -105,7 +130,6 @@ describe('testing IndexPage', () => {
 
         expect(visibleProps.navigateTo).toHaveBeenCalledWith('/summary');
         expect(visibleProps.navigateTo).toHaveBeenCalledTimes(1);
-
     });
 
     test('firing click event to shipping page', () => {
@@ -120,6 +144,5 @@ describe('testing IndexPage', () => {
 
         expect(visibleProps.navigateTo).toHaveBeenCalledWith('/shipping');
         expect(visibleProps.navigateTo).toHaveBeenCalledTimes(1);
-
     });
 });

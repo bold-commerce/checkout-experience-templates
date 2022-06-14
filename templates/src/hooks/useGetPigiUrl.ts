@@ -5,12 +5,17 @@ import {useEffect, useState} from 'react';
 export function useGetPigiUrl(): string {
     const dispatch = useDispatch();
     const [pigiUrl, setPigiUrl] = useState('');
+    
     useEffect(() => {
+        let isCancelled = false;
+
         dispatch(getPaymentIframe()).then((url) => {
-            if(url) {
-                setPigiUrl(url);
-            }
+            !isCancelled && url && setPigiUrl(url);
         });
+
+        return () => {
+            isCancelled = true;
+        };
     }, []);
 
     return pigiUrl;

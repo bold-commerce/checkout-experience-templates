@@ -103,18 +103,15 @@ export function actionPopulateSavedAddressField(type: string, data: IAddress): A
 }
 
 export function actionUpdateAddress(type: string, data: Partial<IAddress>): AnyAction {
-    if (type === Constants.SHIPPING) {
-        return {
-            type: CustomerActions.UPDATE_SHIPPING_ADDRESS,
-            payload: {data}
-        };
-    }
-    else
-    {
-        return {
-            type: CustomerActions.UPDATE_BILLING_ADDRESS,
-            payload: {data}
-        };
-    }
+    const addressData = {...data};
 
+    // Removing ID since it's not needed and it messes things up because you
+    // can't update your address in checkout
+    delete addressData.id;
+    return {
+        type: type === Constants.SHIPPING
+            ? CustomerActions.UPDATE_SHIPPING_ADDRESS
+            : CustomerActions.UPDATE_BILLING_ADDRESS,
+        payload: {data: addressData},
+    };
 }

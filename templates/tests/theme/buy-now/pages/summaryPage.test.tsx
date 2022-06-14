@@ -3,7 +3,6 @@ import {SummaryPage} from 'src/themes/buy-now/pages';
 import * as Store from 'src/store';
 import {Provider} from 'react-redux';
 import { addressMock } from 'src/mocks';
-import React from 'react';
 import { IBuyNowContainerPageProps } from 'src/themes/buy-now/types';
 import * as useIndexPage from 'src/themes/buy-now/hooks/useIndexPage';
 import { IUseIndexPageProps } from 'src/types';
@@ -31,6 +30,8 @@ describe('testing SummaryPage', () => {
         email: 'test@email.gg',
         shippingHeadingText: 'shipping',
         address: addressMock,
+        shippingIssueLinkText: 'shipping issue link',
+        shippingIssueText: 'shipping issue',
         paymentHeadingText: 'payment',
         quantityDisabled: false,
         checkoutOnClick: jest.fn(),

@@ -30,6 +30,8 @@ export function useIndexPage(): IUseIndexPageProps {
     const summaryHeadingText =  getTerm('summary', Constants.SUMMARY_INFO);
     const shippingHeadingText = getTerm('shipping', Constants.SUMMARY_INFO);
     const paymentHeadingText = getTerm('payments', Constants.SUMMARY_INFO);
+    const shippingIssueText = getTerm('shipping_address_issue', Constants.CUSTOM);
+    const shippingIssueLinkText = getTerm('shipping_address_issue_link', Constants.CUSTOM);
 
     const checkoutOnClick = useCallback(async () => {
         if(customBilling === Constants.SHIPPING_DIFFERENT) {
@@ -64,6 +66,8 @@ export function useIndexPage(): IUseIndexPageProps {
         address,
         paymentHeadingText,
         quantityDisabled,
+        shippingIssueText,
+        shippingIssueLinkText,
         loginUrl,
         checkoutOnClick,
         updateLineItemQuantity: updateLineItemQty,

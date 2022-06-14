@@ -95,10 +95,9 @@ describe('Test function handleErrorIfNeeded', () => {
             getNeuroIdPageNameMock.mockReturnValue('some_page_name');
             retrieveErrorFromResponseMock.mockReturnValue(resResponse.errors as Array<IApiErrorResponse>);
 
-            expect(() => {handleErrorIfNeeded(response, dispatchMock, stateMock)}).toThrow(error);
+            expect(() => handleErrorIfNeeded(response, dispatchMock, stateMock)).toThrow(error);
             expect(getNeuroIdPageNameMock).toHaveBeenCalledTimes(neuroIdSubmitCalls);
             expect(neuroIdSubmitMock).toHaveBeenCalledTimes(neuroIdSubmitCalls);
             expect(retrieveErrorFromResponseMock).toHaveBeenCalledTimes(retrieveErrorFromResponseCall);
         });
-
 });

@@ -18,6 +18,10 @@ export function useGetBillingDataField(fieldId: string): string{
     return useAppSelector((state) => state.data.application_state.addresses.billing[fieldId]);
 }
 
+export function useGetAddressData(type: string): IAddress {
+    return type === Constants.SHIPPING ? useGetShippingData() : useGetBillingData();
+}
+
 export function useGetAddressDataField(type: string, fieldId: string): string{
     if(type === Constants.SHIPPING) {
         return useGetShippingDataField(fieldId);

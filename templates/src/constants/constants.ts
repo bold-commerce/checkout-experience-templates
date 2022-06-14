@@ -99,7 +99,8 @@ export const errorSubTypes: IErrorSubTypes = {
     customer: 'customer',
     tax: 'tax',
     cart: 'cart',
-    insufficient_stock: 'insufficient_stock'
+    insufficient_stock: 'insufficient_stock',
+    no_shipping_to_address: 'no_shipping_to_address',
 };
 
 export const errorShowType: IErrorShowType = {

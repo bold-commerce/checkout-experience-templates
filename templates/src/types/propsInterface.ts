@@ -1,4 +1,4 @@
-import React, { ReactChild } from 'react';
+import React from 'react';
 import {
     IApplicationStateDiscount,
     IApplicationStateLineItem,
@@ -15,6 +15,10 @@ export interface IAddressProps {
     type: string;
     showTitle: boolean;
     showSavedAddresses: boolean;
+    savedAddressesSelectProps?: {
+        autoSelect?: boolean;
+        placeholderValue?: string;
+    },
     handleChange?: (e) => void;
     handleBlur?: (e) => void;
     handleFocus?: (e) => void;
@@ -58,12 +62,13 @@ export interface IFieldCheckboxProps {
 
 export interface IFieldSelectProps {
     placeholder: string;
+    placeholderValue?: string;
     className: string;
     value?: string;
     label?: string;
     id?: string;
     name?: string;
-    isPlaceholderDisabled: boolean;
+    isPlaceholderDisabled?: boolean;
     options: Array<ISelectList>;
     errorMessage?: string | null;
     handleChange?: (e) => void;
@@ -85,9 +90,11 @@ export interface IAddressFieldSelectProps{
     debounceApiCall: () => void
 }
 
-export interface ISavedAddressFieldSelectProps{
+export interface IAddressSavedSelectProps {
     type: string;
     className: string;
+    autoSelect?: boolean;
+    placeholderValue?: string;
 }
 
 export interface ISavedAddressFieldRadioListProps{
@@ -189,15 +196,17 @@ export interface IAddressHookProps{
     handleBlur?: () => void;
 }
 
-export interface IAddressProvinceHookProps extends IAddressHookProps{
+export interface IAddressProvinceHookProps extends IAddressHookProps {
     showProvince: boolean;
     label: string;
     provinceOptions: Array<ISelectList>;
+    provinceName: string | undefined;
 }
 
-export interface IAddressCountryHookProps extends IAddressHookProps{
+export interface IAddressCountryHookProps extends IAddressHookProps {
     countryOptions: Array<ISelectList>;
     label: string;
+    countryName: string | undefined;
 }
 
 export interface IAddressFieldHookProps extends IAddressHookProps{
@@ -212,12 +221,13 @@ export interface IAddressPostalCodeAndProvinceDataProps {
 }
 
 export interface IShippingLinesHookProps{
-    selectedLine: IApplicationStateSelectShippingLine
+    selectedLine: IApplicationStateSelectShippingLine | null
     shippingLines: Array<IApplicationStateSelectShippingLine>
     noShippingAreaText: string
     shippingLinesLength: number
     handleChange: (e) => void
     formattedPrice: string
+    shippingAddressValid: boolean;
 }
 
 export interface ISavedAddressHookProps{
@@ -227,6 +237,7 @@ export interface ISavedAddressHookProps{
     placeholder: string;
     options: Array<ISelectList>;
     savedAddresses: Array<IAddress>;
+    selectedOptionId: string | undefined;
     handleChange: (e) => void;
 }
 
@@ -453,6 +464,8 @@ export interface IUseIndexPageProps {
     shippingHeadingText: string;
     address: IAddress;
     paymentHeadingText: string;
+    shippingIssueText: string;
+    shippingIssueLinkText: string;
     quantityDisabled: boolean;
     checkoutOnClick: () => Promise<void>;
     updateLineItemQuantity: (lineItemKey: string, qty: number) => Promise<void>;
@@ -461,7 +474,7 @@ export interface IUseIndexPageProps {
 export interface ICondensedSectionProps {
     className?: string;
     navigationHeadingProps?: INavigationHeadingProps;
-    children?: ReactChild | Array<ReactChild>
+    children?: React.ReactNode;
 }
 
 export interface ICloseableHeaderProps {
@@ -479,4 +492,19 @@ export interface ICondensedShippingProps {
     address: IAddress;
     showMethod?: boolean;
     showPhone?: boolean;
+}
+
+export interface IShippingLineProps {
+    showNoRatesAsAlert?: boolean;
+}
+
+export interface IConditionalWrapProps {
+    condition: boolean;
+    children: React.ReactNode;
+    element?: React.ElementType;
+    [key: string]: unknown;
+}
+
+export interface IShippingLinesProps {
+    showNoRatesAsAlert?: boolean;
 }

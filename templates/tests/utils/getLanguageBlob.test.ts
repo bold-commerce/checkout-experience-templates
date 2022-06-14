@@ -8,7 +8,10 @@ describe('Test function getLanguageBlob', () => {
 
     const languageBlobMock: ISupportedLanguage = initialDataMock.initial_data.supported_languages[0];
     const languageBlobExpected = JSON.parse(languageBlobMock.language_blob);
-    const languageErrorBlobExpected = languageBlobExpected['terms'].error_messages;
+    const languageErrorBlobExpected = {
+        custom: undefined,
+        ...languageBlobExpected['terms'].error_messages,
+    };
 
     beforeEach(() => {
         jest.restoreAllMocks();

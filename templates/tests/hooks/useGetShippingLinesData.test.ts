@@ -1,5 +1,5 @@
 import {renderHook} from '@testing-library/react-hooks';
-import {useGetAvailableShippingLines, useGetShippingLinesData, useCallApiAtOnEvents, useGetSelectShippingLine} from 'src/hooks';
+import {useGetAvailableShippingLines, useGetShippingLinesData, useGetSelectShippingLine} from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 import {stateMock} from 'src/mocks';
@@ -8,7 +8,8 @@ import {actionSetLoaderAndDisableButton} from 'src/action';
 import {initialDataMock} from 'src/mocks';
 
 const store = {
-    data: initialDataMock
+    data: initialDataMock,
+    isValid: {},
 };
 
 jest.mock('src/hooks/rootHooks');

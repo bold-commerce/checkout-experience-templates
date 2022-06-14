@@ -1,6 +1,6 @@
 import React, { ForwardedRef } from 'react';
 import { useGetCurrencyInformation } from 'src/hooks';
-import { useGetCloseBuyNow, useIndexPage } from 'src/themes/buy-now/hooks';
+import { useGetCloseBuyNow, useIndexPage, useCheckShippingAddress } from 'src/themes/buy-now/hooks';
 import { BillingAddressCheckbox, CartItems, CloseableHeader, CondensedSection, CondensedShipping, ExpandableDiscount, FlashError, Payment } from 'src/components';
 import { Price } from '@boldcommerce/stacks-ui';
 import { getTerm } from 'src/utils';
@@ -18,11 +18,14 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
         summaryHeadingText,
         shippingHeadingText,
         paymentHeadingText,
+        shippingIssueLinkText,
+        shippingIssueText,
         loginUrl,
         checkoutOnClick,
         updateLineItemQuantity,
     } = useIndexPage();
-    const {closeBuyNow, websiteName} = useGetCloseBuyNow();
+    const { isValid: isShippingAddressValid } = useCheckShippingAddress();
+    const { closeBuyNow, websiteName } = useGetCloseBuyNow();
     const { formattedPrice } = useGetCurrencyInformation();
     const subTotal = <Price amount={orderTotal} moneyFormatString={formattedPrice}/>;
     const checkout = getTerm('complete_order', Constants.PAYMENT_INFO);
@@ -44,6 +47,19 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
             </CondensedSection>
             <CondensedSection {...{ className: 'buy-now__shipping buy-now__section', navigationHeadingProps: { text: shippingHeadingText, navigation: () => props.navigateTo('/shipping') } }} >
                 <CondensedShipping address={ address } showMethod />
+                {!isShippingAddressValid && (
+                    <div className="flash-error">
+                        <div className="flash-error__container">
+                            <span className="flash-error__text">
+                                {shippingIssueText}{' '}
+                                <a
+                                    onClick={() => props.navigateTo('/shipping')}
+                                    children={shippingIssueLinkText}
+                                />
+                            </span>
+                        </div>
+                    </div>
+                )}
             </CondensedSection>
             <CondensedSection {...{ className: 'buy-now__payment buy-now__section', navigationHeadingProps: { text: paymentHeadingText, className: 'payment-heading' } }} >
                 <Payment showTitle={false}/>

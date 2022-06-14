@@ -1,4 +1,5 @@
-import { CSSProperties, Dispatch, RefObject, SetStateAction } from 'react';
+import type { CSSProperties, Dispatch, RefObject, SetStateAction } from 'react';
+
 export interface IUseModal{
     isOpen: boolean;
 }
@@ -36,4 +37,8 @@ export interface IUseGetCloseBuyNow {
     closeBuyNow: () => void;
     websiteName: string;
     terms: Record<string, string>; 
+}
+
+export interface IUseCheckShippingAddress {
+    isValid: boolean;
 }
