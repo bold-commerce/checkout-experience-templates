@@ -2,8 +2,11 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {SelectField} from '@boldcommerce/stacks-ui/lib/';
 import ClassNames from 'classnames';
 import {IFieldSelectProps} from 'src/types';
+import {useGetIsLoading} from 'src/hooks';
 
 export function FieldSelect(props: IFieldSelectProps): React.ReactElement {
+
+    const isLoading = useGetIsLoading();
     const [isFocus, setIsFocus] = useState(false);
 
     const handleFocus = useCallback(evt => {
@@ -36,6 +39,7 @@ export function FieldSelect(props: IFieldSelectProps): React.ReactElement {
                 onBlur={handleBlur}
                 messageType = {props.errorMessage ? 'alert' : ''}
                 messageText = {props.errorMessage ? props.errorMessage : ''}
+                disabled={isLoading}
             >
                 {props.placeholder && (
                     <option data-testid='input-select__options' value={props.placeholderValue ?? ''} disabled={props.isPlaceholderDisabled}>

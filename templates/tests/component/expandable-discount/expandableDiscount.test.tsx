@@ -1,13 +1,15 @@
 import {fireEvent, render} from '@testing-library/react';
 import {mocked} from 'jest-mock';
-import { useExpandableDiscount, useSummaryDiscountCode, useSummaryDiscountLine} from 'src/hooks';
+import {useExpandableDiscount, useGetIsLoading, useSummaryDiscountCode, useSummaryDiscountLine} from 'src/hooks';
 import { ExpandableDiscount } from 'src/components';
 import { ISummaryDiscountLine } from 'src/types';
 
 jest.mock('src/hooks/useExpandableDiscount');
 jest.mock('src/hooks/useSummaryDiscountLine');
 jest.mock('src/hooks/useSummaryDiscountCode');
+jest.mock('src/hooks/useGetIsLoading');
 
+const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 const useExpandableDiscountMock = mocked(useExpandableDiscount, true);
 const useSummaryDiscountLineMock = mocked(useSummaryDiscountLine, true);
 const useSummaryDiscountCodeMock = mocked(useSummaryDiscountCode, true);
@@ -40,6 +42,7 @@ describe('Testing ExpandableDiscount Component', () => {
         useExpandableDiscountMock.mockReturnValueOnce(hooksData).mockReturnValueOnce({...hooksData, expandDiscount: true}).mockReturnValue(hooksData);
         useSummaryDiscountCodeMock.mockReturnValueOnce(hookResultForDiscountCode);
         useSummaryDiscountLineMock.mockReturnValueOnce(hookResultForDiscountLine);
+        useGetIsLoadingMock.mockReturnValue(false);
     });
 
     test('rendering the component', () => {

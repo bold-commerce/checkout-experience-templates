@@ -5,8 +5,12 @@ import {IAddressProps, IBillingAddress} from 'src/types';
 import {Constants} from 'src/constants';
 import {Provider} from 'react-redux';
 import * as Store from 'src/store';
+import {mocked} from 'jest-mock';
+import {useGetIsLoading} from 'src/hooks';
 
 const store = Store.initializeStore();
+jest.mock('src/hooks/useGetIsLoading');
+const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 
 describe('Testing BillingAddress component', () => {
     let billingAddressHook: jest.SpyInstance;
@@ -30,6 +34,7 @@ describe('Testing BillingAddress component', () => {
 
     beforeEach(() => {
         billingAddressHook = jest.spyOn(useBillingAddress, 'useBillingAddress');
+        useGetIsLoadingMock.mockReturnValue(false);
     });
 
     test('Render the BillingAddress properly', () => {

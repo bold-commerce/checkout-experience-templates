@@ -2,10 +2,12 @@ import {fireEvent, render} from '@testing-library/react';
 import {SummaryDiscountCode} from 'src/components';
 import {IApplicationStateDiscount, ISummaryDiscountLine} from 'src/types';
 import {mocked} from 'jest-mock';
-import {useSummaryDiscountCode, useSummaryDiscountLine} from 'src/hooks';
+import {useGetIsLoading, useSummaryDiscountCode, useSummaryDiscountLine} from 'src/hooks';
 
 jest.mock('src/hooks/useSummaryDiscountLine');
 jest.mock('src/hooks/useSummaryDiscountCode');
+jest.mock('src/hooks/useGetIsLoading');
+const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 const useSummaryDiscountLineMock = mocked(useSummaryDiscountLine, true);
 const useSummaryDiscountCodeMock = mocked(useSummaryDiscountCode, true);
 
@@ -38,6 +40,7 @@ describe('Testing SummaryDiscountCode Component', () => {
     beforeEach(() => {
         useSummaryDiscountCodeMock.mockReturnValue(hooksData);
         useSummaryDiscountLineMock.mockReturnValue(hookResultForDiscountLine);
+        useGetIsLoadingMock.mockReturnValue(false);
     });
 
     test('rendering the component', () => {

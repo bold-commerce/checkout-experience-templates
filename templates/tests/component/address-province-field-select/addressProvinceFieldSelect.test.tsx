@@ -6,7 +6,11 @@ import {Constants} from 'src/constants';
 import * as useGetAddressProvinceInputData from 'src/hooks/useGetAddressProvinceSelectData';
 import {fireEvent, render, screen} from '@testing-library/react';
 import {AddressProvinceSelect} from 'src/components';
+import {mocked} from 'jest-mock';
+import {useGetIsLoading} from 'src/hooks';
 
+jest.mock('src/hooks/useGetIsLoading');
+const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 
 describe('Testing AddressProvinceSelect component', () => {
     const addressHook = jest.spyOn(useGetAddressProvinceInputData, 'useGetAddressProvinceInputData');
@@ -38,6 +42,10 @@ describe('Testing AddressProvinceSelect component', () => {
         jest.resetAllMocks();
     });
 
+    beforeEach(() => {
+        useGetIsLoadingMock.mockReturnValue(false);
+    });
+
     test('Render the AddressProvinceSelect properly', () => {
         addressHook.mockReturnValue(hookResult);
         const {container} = render(<AddressProvinceSelect {...props}/>);
@@ -56,7 +64,7 @@ describe('Testing AddressProvinceSelect component', () => {
         addressHook.mockReturnValue(localHookResult);
 
         const {container} = render(<AddressProvinceSelect {...props}/>);
-        
+
         expect(container.getElementsByClassName('address__hidden').length).toBe(1);
     });
 

@@ -3,7 +3,11 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import {AddressFieldInput} from 'src/components';
 import {IAddressFieldHookProps, IAddressFieldInputProps} from 'src/types';
 import {Constants} from 'src/constants';
+import {mocked} from 'jest-mock';
+import {useGetIsLoading} from 'src/hooks';
 
+jest.mock('src/hooks/useGetIsLoading');
+const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 
 describe('Testing addressFieldInput component', () => {
     let addressHook: jest.SpyInstance;
@@ -24,6 +28,10 @@ describe('Testing addressFieldInput component', () => {
         showField: true,
         handleChange: jest.fn()
     };
+
+    beforeEach(() => {
+        useGetIsLoadingMock.mockReturnValue(false);
+    });
 
     test('Render the AddressFieldInput properly', () => {
         addressHook = jest.spyOn(useGetAddressFieldInputData, 'useGetAddressFieldInputData').mockReturnValue(hookResult);

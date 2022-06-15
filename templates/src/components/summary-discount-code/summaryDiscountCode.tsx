@@ -1,12 +1,13 @@
 import React from 'react';
 import {Button} from '@boldcommerce/stacks-ui';
-import {useSummaryDiscountCode} from 'src/hooks';
+import {useGetIsLoading, useSummaryDiscountCode} from 'src/hooks';
 import {FieldInput, SummaryDiscountLine} from 'src/components';
 import {IApplicationStateDiscount} from 'src/types';
 import classNames from 'classnames';
 
 export function SummaryDiscountCode(): React.ReactElement {
     const {discounts, discountError, buttonLoading, buttonDisabled, addDiscount, updateNewDiscountCode, discountCodeText, discountCodeInputText} = useSummaryDiscountCode();
+    const isLoading = useGetIsLoading();
 
     return (
         <div className={classNames(['discount-code', 'discount-code--border-bottom'])}>
@@ -17,9 +18,9 @@ export function SummaryDiscountCode(): React.ReactElement {
                     value={discountCodeText}
                     handleChange={updateNewDiscountCode}
                     id={'add-discount-code-field-input'}
-                    errorMessage={discountError} 
+                    errorMessage={discountError}
                     autoFocus={true}/>
-                <Button data-testid='apply-discount' loading={buttonLoading} disabled={buttonLoading || buttonDisabled} className={classNames(['btn-checkout', 'discount-code__button'])} onClick={() => addDiscount()}>{'Apply'}</Button>
+                <Button data-testid='apply-discount' loading={buttonLoading} disabled={buttonLoading || buttonDisabled || isLoading} className={classNames(['btn-checkout', 'discount-code__button'])} onClick={() => addDiscount()}>{'Apply'}</Button>
             </div>
             <div className={'discount-code__list-discounts'}>
                 {

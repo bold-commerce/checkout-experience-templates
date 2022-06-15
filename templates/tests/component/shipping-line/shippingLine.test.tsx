@@ -1,7 +1,13 @@
 import {render} from '@testing-library/react';
 import {ShippingLine} from 'src/components';
 import * as useGetShippingLinesData from 'src/hooks/useGetShippingLinesData';
-import {IApplicationStateSelectShippingLine, IShippingLineProps, IShippingLinesHookProps} from 'src/types';
+import {IApplicationStateSelectShippingLine, IApplicationStateShippingAvailableLine, IShippingLineProps, IShippingLinesHookProps} from 'src/types';
+import resetAllMocks = jest.resetAllMocks;
+import {mocked} from 'jest-mock';
+import {useGetIsLoading} from 'src/hooks';
+
+jest.mock('src/hooks/useGetIsLoading');
+const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 
 type Data = {
     name: string;
@@ -12,7 +18,7 @@ type Data = {
 }
 
 describe('Testing shipping line component', () => {
-    const useGetShippingLinesDataSpy = jest.spyOn(useGetShippingLinesData, 'useGetShippingLinesData');
+    let useGetShippingLinesDataSpy = jest.spyOn(useGetShippingLinesData, 'useGetShippingLinesData');
 
     const selectShippingLine1: IApplicationStateSelectShippingLine = {
         id: '1',
@@ -154,6 +160,9 @@ describe('Testing shipping line component', () => {
     ];
 
     beforeEach(() => {
+        resetAllMocks();
+        useGetShippingLinesDataSpy = jest.spyOn(useGetShippingLinesData, 'useGetShippingLinesData');
+        useGetIsLoadingMock.mockReturnValue(false);
         jest.resetAllMocks();
     });
 
