@@ -2,6 +2,11 @@ import React from 'react';
 import {render, fireEvent, screen} from '@testing-library/react';
 import {FieldSelect} from 'src/components';
 import {IFieldSelectProps, ISelectList} from 'src/types';
+import {mocked} from 'jest-mock';
+import {useGetIsLoading} from 'src/hooks';
+
+jest.mock('src/hooks/useGetIsLoading');
+const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 
 describe('Testing FieldSelect component', () => {
     const options: Array<ISelectList>= [
@@ -20,6 +25,10 @@ describe('Testing FieldSelect component', () => {
         handleChange: jest.fn(),
         handleBlur: jest.fn()
     };
+
+    beforeEach(() => {
+        useGetIsLoadingMock.mockReturnValue(false);
+    });
 
     test('Render the FieldInput properly with correct data', () => {
         const {container} = render(<FieldSelect {...props}/>);

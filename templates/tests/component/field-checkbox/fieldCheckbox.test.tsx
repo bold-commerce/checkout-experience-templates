@@ -2,6 +2,11 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import {FieldCheckbox} from 'src/components';
 import React from 'react';
 import {IFieldCheckboxProps} from 'src/types';
+import {mocked} from 'jest-mock';
+import {useGetIsLoading} from 'src/hooks';
+
+jest.mock('src/hooks/useGetIsLoading');
+const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 
 describe('Testing FieldCheckbox component', () => {
     const props: IFieldCheckboxProps = {
@@ -11,6 +16,10 @@ describe('Testing FieldCheckbox component', () => {
         name: 'test-name',
         handleChange: jest.fn()
     };
+
+    beforeEach(() => {
+        useGetIsLoadingMock.mockReturnValue(false);
+    });
 
     test('Render the FieldCheckbox with proper data', () => {
         render(<FieldCheckbox {...props}/>);

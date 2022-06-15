@@ -2,9 +2,10 @@ import React, {useMemo} from 'react';
 import {InputField} from '@boldcommerce/stacks-ui/lib/';
 import ClassNames from 'classnames';
 import {IFieldInputProps} from 'src/types';
+import {useGetIsLoading} from 'src/hooks';
 
 export function FieldInput(props: IFieldInputProps): React.ReactElement {
-
+    const isLoading = useGetIsLoading();
     const cssClass  = useMemo(() => ClassNames([
         'input-field__container',
         props.className,
@@ -26,6 +27,7 @@ export function FieldInput(props: IFieldInputProps): React.ReactElement {
                 messageType = {props.errorMessage ? 'alert' : ''}
                 messageText = {props.errorMessage ? props.errorMessage : ''}
                 autoFocus={props.autoFocus}
+                disabled={isLoading}
             />
             <span data-testid='input-field__label' className={ClassNames(['input-field__label', {'field--alert' : props.errorMessage} ])}>{props.placeholder}</span>
         </div>

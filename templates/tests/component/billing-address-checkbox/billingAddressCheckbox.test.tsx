@@ -5,8 +5,12 @@ import {IAddressProps, IBillingAddress} from 'src/types';
 import {Constants} from 'src/constants';
 import {Provider} from 'react-redux';
 import * as Store from 'src/store';
+import {mocked} from 'jest-mock';
+import {useGetIsLoading} from 'src/hooks';
 
 const store = Store.initializeStore();
+jest.mock('src/hooks/useGetIsLoading');
+const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 
 describe('Testing BillingAddressCheckbox component', () => {
     let billingAddressHook: jest.SpyInstance;
@@ -30,6 +34,7 @@ describe('Testing BillingAddressCheckbox component', () => {
 
     beforeEach(() => {
         billingAddressHook = jest.spyOn(useBillingAddress, 'useBillingAddress');
+        useGetIsLoadingMock.mockReturnValue(false);
     });
 
     test('Render the BillingAddress properly', () => {
@@ -61,7 +66,7 @@ describe('Testing BillingAddressCheckbox component', () => {
     test('trigger handle change event', () => {
         billingAddressHook.mockReturnValue(hookResult);
         render(<BillingAddressCheckbox/>);
-        
+
         const sameCheckbox: Partial<HTMLInputElement> = screen.getByTestId('field-checkbox');
         fireEvent.click(sameCheckbox as Element);
         expect(hookResult.toggleBillingSameAsShipping).toBeCalled();

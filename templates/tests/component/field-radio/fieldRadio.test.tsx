@@ -2,6 +2,11 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import {FieldRadio} from 'src/components';
 import React from 'react';
 import {IFieldRadioProps} from 'src/types';
+import {mocked} from 'jest-mock';
+import {useGetIsLoading} from 'src/hooks';
+
+jest.mock('src/hooks/useGetIsLoading');
+const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 
 describe('Testing FieldRadio component', () => {
     const props: IFieldRadioProps = {
@@ -11,6 +16,10 @@ describe('Testing FieldRadio component', () => {
         name: 'test-name',
         handleChange: jest.fn()
     };
+
+    beforeEach(() => {
+        useGetIsLoadingMock.mockReturnValue(false);
+    });
 
     test('Render the FieldRadio with proper data', () => {
         render(<FieldRadio {...props}/>);

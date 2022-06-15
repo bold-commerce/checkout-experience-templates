@@ -3,7 +3,11 @@ import {Constants} from 'src/constants';
 import * as useGetAddressCountryInputData from 'src/hooks/useGetAddressCountrySelectData';
 import {fireEvent, render} from '@testing-library/react';
 import {AddressCountrySelect} from 'src/components';
+import {mocked} from 'jest-mock';
+import {useGetIsLoading} from 'src/hooks';
 
+jest.mock('src/hooks/useGetIsLoading');
+const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 
 describe('Testing AddressCountrySelect component', () => {
     const addressHook = jest.spyOn(useGetAddressCountryInputData, 'useGetAddressCountryInputData');
@@ -29,6 +33,10 @@ describe('Testing AddressCountrySelect component', () => {
         countryName: 'Option 1',
         handleChange: jest.fn()
     };
+
+    beforeEach(() => {
+        useGetIsLoadingMock.mockReturnValue(false);
+    });
 
     afterEach(() => {
         jest.resetAllMocks();
