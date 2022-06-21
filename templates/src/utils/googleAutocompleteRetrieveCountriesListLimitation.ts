@@ -1,5 +1,5 @@
 import {Constants} from 'src/constants';
-import {ICountryInformation} from 'src/types';
+import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
 
 export const googleAutocompleteRetrieveCountriesListLimitation = (getCountryInfoList: Array<ICountryInformation>): Array<string> => {
     const countryCodesList: Array<string> = [];

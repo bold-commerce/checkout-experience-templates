@@ -5,7 +5,7 @@ import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 describe('testing resumableLinkReducer Reducer', () => {
 
     test('should return the initial state ', () => {
-        expect(resumableLinkReducer(undefined)).toEqual('checkout');
+        expect(resumableLinkReducer(undefined)).toEqual('');
     });
 
 });

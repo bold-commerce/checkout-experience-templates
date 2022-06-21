@@ -1,4 +1,4 @@
-import {IAddress, IAddressFieldSelectProps, IAddressSavedSelectProps, ISavedAddressHookProps, ISelectList} from 'src/types';
+import {IAddressFieldSelectProps, IAddressSavedSelectProps, ISavedAddressHookProps, ISelectList} from 'src/types';
 import {Constants} from 'src/constants';
 import * as useGetSavedAddressData from 'src/hooks/useGetSavedAddressData';
 import {fireEvent, render} from '@testing-library/react';
@@ -6,6 +6,7 @@ import {AddressSavedSelect} from 'src/components';
 import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {useGetIsLoading} from 'src/hooks';
+import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 jest.mock('src/hooks/useGetIsLoading');
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);

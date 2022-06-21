@@ -1,7 +1,8 @@
-import { IAddress, IOrderInitialization } from 'src/types';
+import { IOrderInitialization } from 'src/types';
 import { Constants, errorSeverities, errorSubTypes, errorTypes } from 'src/constants';
 import { actionAddError } from 'src/action';
 import { Dispatch } from 'redux';
+import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 export function validateAddressFields(validationFields: Partial<IAddress>, type: string, dispatch: Dispatch, getState: () => IOrderInitialization): boolean {
     const allowedCountries = getState().data.initial_data.country_info;
@@ -25,7 +26,7 @@ export function validateAddressFields(validationFields: Partial<IAddress>, type:
 
             return false;
         }
-        
+
         // Checking that the entered county is allowed
         if (key === Constants.ADDRESS_COUNTRY_CODE && type === Constants.SHIPPING) {
             const isCountryAllowed = allowedCountries.some(x => x.iso_code === value);
@@ -38,7 +39,7 @@ export function validateAddressFields(validationFields: Partial<IAddress>, type:
 
             return latch && isCountryAllowed;
         }
-        
+
         // Checking that the entered province is allowed
         if (key === Constants.ADDRESS_PROVINCE_CODE && type === Constants.SHIPPING) {
             const countryCode = validationFields[Constants.ADDRESS_COUNTRY_CODE];

@@ -48,7 +48,7 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
         const historyMock = {} as HistoryLocationState;
         const newStateMock = {...stateMock};
         newStateMock.data.application_state.customer.platform_id = null;
-        newStateMock.data.application_state.shipping.selected_shipping = {};
+        newStateMock.data.application_state.shipping.selected_shipping = {id: '', description: '', amount: 0};
         newStateMock.errors = [];
         getState.mockReturnValue(newStateMock);
 

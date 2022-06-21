@@ -5,10 +5,10 @@ import {actionGetInitialData} from './action';
 import {composeWithDevTools} from '@redux-devtools/extension';
 import {initializeSession} from 'src/library';
 import {getOrderInitialization} from './utils/getOrderInitialization';
-import { IInitializeEndpointData } from './types';
 import { defaultOrderInitialization } from './constants/orderInitialization';
+import {IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
 
-export function initializeStore(orderData?:  IInitializeEndpointData): Store {
+export function initializeStore(orderData?: IInitializeOrderResponse): Store {
 
     const compose = composeWithDevTools({});
     const middleware: Middleware[] = [thunkMiddleware];

@@ -2,11 +2,12 @@ import {Constants, defaultAddressState} from 'src/constants';
 import {useDispatch} from 'react-redux';
 import {getTerm} from 'src/utils';
 import {useGetSavedAddressOptions, useCallApiAtOnEvents} from 'src/hooks';
-import {IAddress, ISavedAddressHookProps} from 'src/types';
 import {useCallback, useMemo} from 'react';
+import {ISavedAddressHookProps} from 'src/types';
 import * as CustomerActions from 'src/action/customerAction';
 import { validateShippingAddress } from 'src/library';
 import { actionSetAppStateValid, actionUpdateAddress } from 'src/action';
+import {IAddress} from '@bold-commerce/checkout-frontend-library';
 import { useGetAddressData } from './useGetAddressData';
 
 /**
@@ -20,8 +21,8 @@ const makeAddressId = (address: IAddress) => {
  * Compares 2 address parts to test for equality. Parts will be "normalized" before
  * comparison.
  */
-const compareAddressPart = (a: string | undefined, b: string | undefined) => {
-    return a?.toLowerCase()?.trim() === b?.toLowerCase()?.trim();
+const compareAddressPart = (a: string , b: string ) => {
+    return a.toLowerCase().trim() === b.toLowerCase().trim();
 };
 
 export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
@@ -41,7 +42,7 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
     const selectedOptionId = useMemo(() => {
         if (!currentAddress) { return undefined; }
 
-        const address = savedAddresses.find(address => 
+        const address = savedAddresses.find(address =>
             compareAddressPart(address.first_name, currentAddress.first_name) &&
             compareAddressPart(address.last_name, currentAddress.last_name) &&
             compareAddressPart(address.address_line_1, currentAddress.address_line_1) &&
@@ -51,7 +52,7 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
             (compareAddressPart(address.country, currentAddress.country) || compareAddressPart(address.country_code, currentAddress.country_code)) &&
             compareAddressPart(address.postal_code, currentAddress.postal_code) &&
             compareAddressPart(address.business_name, currentAddress.business_name) &&
-            compareAddressPart(address.phone_number, currentAddress.phone_number)        
+            compareAddressPart(address.phone_number, currentAddress.phone_number)
         );
 
         return !address ? undefined : makeAddressId(address);

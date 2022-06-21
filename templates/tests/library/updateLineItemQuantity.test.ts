@@ -25,7 +25,7 @@ describe('testing updateLineItemQuantity', () => {
 
     test('calling function successfully', async () => {
         returnObject.success = true;
-        updateLineItemQuantityAPIMock.mockReturnValueOnce(returnObject);
+        updateLineItemQuantityAPIMock.mockReturnValueOnce(Promise.resolve(returnObject));
 
         await updateLineItemQuantity('123', 3)(dispatch, getState);
 
@@ -39,7 +39,7 @@ describe('testing updateLineItemQuantity', () => {
 
     test('calling function with response success false', async () => {
         returnObject.success = false;
-        updateLineItemQuantityAPIMock.mockReturnValueOnce(returnObject);
+        updateLineItemQuantityAPIMock.mockReturnValueOnce(Promise.resolve(returnObject));
 
         await updateLineItemQuantity('123', 3)(dispatch, getState);
 

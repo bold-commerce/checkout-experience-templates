@@ -2,8 +2,8 @@ import React from 'react';
 import {Button} from '@boldcommerce/stacks-ui';
 import {useGetIsLoading, useSummaryDiscountCode} from 'src/hooks';
 import {FieldInput, SummaryDiscountLine} from 'src/components';
-import {IApplicationStateDiscount} from 'src/types';
 import classNames from 'classnames';
+import {IDiscount} from '@bold-commerce/checkout-frontend-library';
 
 export function SummaryDiscountCode(): React.ReactElement {
     const {discounts, discountError, buttonLoading, buttonDisabled, addDiscount, updateNewDiscountCode, discountCodeText, discountCodeInputText} = useSummaryDiscountCode();
@@ -24,7 +24,7 @@ export function SummaryDiscountCode(): React.ReactElement {
             </div>
             <div className={'discount-code__list-discounts'}>
                 {
-                    discounts.map((discount: IApplicationStateDiscount) => {
+                    discounts.map((discount: IDiscount) => {
                         return (
                             <SummaryDiscountLine
                                 key={`discount-line-${discount.code}`}

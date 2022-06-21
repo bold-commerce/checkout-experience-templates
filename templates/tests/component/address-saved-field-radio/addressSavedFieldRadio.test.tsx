@@ -1,8 +1,9 @@
 import {fireEvent, render, screen} from '@testing-library/react';
 import {AddressSavedFieldRadio} from 'src/components';
 import React from 'react';
-import {IAddress, ISavedAddressFieldRadioProps} from 'src/types';
+import {ISavedAddressFieldRadioProps} from 'src/types';
 import { initialDataMock } from 'src/mocks';
+import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 const mockDispatch = jest.fn();
 const store = {

@@ -1,11 +1,11 @@
-import {baseReturnObject, addGuestCustomer, getCustomer} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, addGuestCustomer, getCustomer, ICustomer} from '@bold-commerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
 import {mocked} from 'jest-mock';
 import * as handleErrorIfNeeded from 'src/utils/handleErrorIfNeeded';
 import {postGuestCustomer, updateCustomer} from 'src/library';
 import * as applicationState from 'src/library/applicationState';
 import {initialDataMock, stateMock} from 'src/mocks';
-import {IApplicationStateCustomer, IOrderInitialization} from 'src/types';
+import {IOrderInitialization} from 'src/types';
 
 jest.mock('@bold-commerce/checkout-frontend-library/lib/customer');
 jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
@@ -17,10 +17,11 @@ const getCustomerMock = mocked(getCustomer, true);
 describe('testing postGuestCustomer', () => {
     const returnObject = {...baseReturnObject};
     let dispatch: Dispatch;
-    const customer: IApplicationStateCustomer = initialDataMock.application_state.customer;
+    const customer: ICustomer = initialDataMock.application_state.customer;
     let getState: () => IOrderInitialization;
     let handleErrorSpy: jest.SpyInstance;
     let getCustomerFromLibSpy: jest.SpyInstance;
+    const getCustomerMockData: ICustomer = {email_address: '', first_name: '', last_name: '', platform_id: '', accepts_marketing: true, saved_addresses: [], public_id: null};
 
     beforeEach(() => {
         dispatch = jest.fn();
@@ -37,7 +38,7 @@ describe('testing postGuestCustomer', () => {
     test('calling postGuestCustomer endpoint with prev customer empty successfully ', async () => {
         returnObject.success = true;
         returnObject.response = { data: { customer: customer, application_state: initialDataMock.application_state }};
-        getCustomerMock.mockReturnValueOnce({email_address: '', first_name: '', last_name: ''});
+        getCustomerMock.mockReturnValueOnce(getCustomerMockData);
         addGuestCustomerMock.mockReturnValueOnce(Promise.resolve(returnObject));
         await postGuestCustomer(dispatch, getState).then(() => {
             expect(addGuestCustomerMock).toHaveBeenCalledTimes(1);
@@ -52,7 +53,7 @@ describe('testing postGuestCustomer', () => {
     test('calling postGuestCustomer endpoint with prev customer empty unsuccessfully ', async () => {
         returnObject.success = false;
         addGuestCustomerMock.mockReturnValueOnce(Promise.resolve(returnObject));
-        getCustomerMock.mockReturnValueOnce({email_address: '', first_name: '', last_name: ''});
+        getCustomerMock.mockReturnValueOnce(getCustomerMockData);
         addGuestCustomerMock.mockReturnValueOnce(Promise.resolve(returnObject));
         await postGuestCustomer(dispatch, getState).then(() => {
             expect(addGuestCustomerMock).toHaveBeenCalledTimes(1);
@@ -67,9 +68,9 @@ describe('testing postGuestCustomer', () => {
     test('calling postGuestCustomer with updated values', async () => {
         returnObject.success = true;
         returnObject.response = { data: { customer: customer, application_state: initialDataMock.application_state }};
-        getCustomerMock.mockReturnValueOnce({email_address: 'joes@gmail.com'});
+        getCustomerMock.mockReturnValueOnce({...getCustomerMockData, email_address: 'joes@gmail.com'});
         addGuestCustomerMock.mockReturnValueOnce(Promise.resolve(returnObject));
-        updateGuestCustomerMock.mockReturnValueOnce(Promise.resolve(returnObject));
+        updateGuestCustomerMock.mockReturnValueOnce(Promise.resolve());
         await postGuestCustomer(dispatch, getState).then(() => {
             expect(addGuestCustomerMock).toHaveBeenCalledTimes(0);
             expect(dispatch).toHaveBeenCalledWith(updateGuestCustomerMock);

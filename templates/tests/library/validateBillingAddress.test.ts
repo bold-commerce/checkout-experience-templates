@@ -1,6 +1,6 @@
 import {mocked} from 'jest-mock';
 import {setBillingAddressAsValid, validateBillingAddress} from 'src/library';
-import {getBillingAddress} from '@bold-commerce/checkout-frontend-library';
+import {getBillingAddress, IAddress} from '@bold-commerce/checkout-frontend-library';
 import * as validateAddressFunction from 'src/library/validateAddressFunction';
 import * as postAddress from 'src/library/postAddress';
 import {Constants, defaultAddressState} from 'src/constants';
@@ -37,7 +37,7 @@ describe('testing validateBillingAddress', () => {
         getStateMock.mockReturnValueOnce({appSetting: {billingType: Constants.SHIPPING_DIFFERENT}, isValid: {shippingAddress: true},
             data: {application_state: {addresses: {shipping: defaultAddressState}}}})
             .mockReturnValueOnce({data: {application_state: {addresses: {billing: defaultAddressState}}}});
-        getBillingAddressMock.mockReturnValueOnce({});
+        getBillingAddressMock.mockReturnValueOnce({} as IAddress);
         await validateBillingAddress(dispatchMock, getStateMock).then(() => {
             expect(actionRemoveErrorByAddressTypeSpy).toHaveBeenCalledTimes(1);
             expect(validateAddressFunctionSpy).toHaveBeenCalledTimes(1);
@@ -56,7 +56,7 @@ describe('testing validateBillingAddress', () => {
         getStateMock.mockReturnValueOnce({appSetting: {billingType: Constants.SHIPPING_SAME}, isValid: {shippingAddress: true},
             data: {application_state: {addresses: {shipping: defaultAddressState}}}})
             .mockReturnValueOnce({data: {application_state: {addresses: {billing: defaultAddressState}}}});
-        getBillingAddressMock.mockReturnValueOnce({});
+        getBillingAddressMock.mockReturnValueOnce({} as IAddress);
         await validateBillingAddress(dispatchMock, getStateMock).then(() => {
             expect(actionRemoveErrorByAddressTypeSpy).toHaveBeenCalledTimes(1);
             expect(validateAddressFunctionSpy).toHaveBeenCalledTimes(0);
@@ -75,7 +75,7 @@ describe('testing validateBillingAddress', () => {
         getStateMock.mockReturnValueOnce({appSetting: {billingType: Constants.SHIPPING_SAME}, isValid: {shippingAddress: false},
             data: {application_state: {addresses: {shipping: defaultAddressState}}}})
             .mockReturnValueOnce({data: {application_state: {addresses: {billing: defaultAddressState}}}});
-        getBillingAddressMock.mockReturnValueOnce({});
+        getBillingAddressMock.mockReturnValueOnce({} as IAddress);
         await validateBillingAddress(dispatchMock, getStateMock).then(() => {
             expect(actionRemoveErrorByAddressTypeSpy).toHaveBeenCalledTimes(1);
             expect(validateAddressFunctionSpy).toHaveBeenCalledTimes(0);
@@ -93,7 +93,7 @@ describe('testing validateBillingAddress', () => {
         getStateMock.mockReturnValueOnce({appSetting: {billingType: Constants.SHIPPING_DIFFERENT}, isValid: {shippingAddress: true},
             data: {application_state: {addresses: {shipping: defaultAddressState}}}})
             .mockReturnValueOnce({data: {application_state: {addresses: {billing: defaultAddressState}}}});
-        getBillingAddressMock.mockReturnValueOnce({});
+        getBillingAddressMock.mockReturnValueOnce({} as IAddress);
         await validateBillingAddress(dispatchMock, getStateMock).then(() => {
             expect(actionRemoveErrorByAddressTypeSpy).toHaveBeenCalledTimes(1);
             expect(getBillingAddressMock).toHaveBeenCalledTimes(1);

@@ -1,10 +1,11 @@
 import {Dispatch} from 'redux';
-import {IAddress, IOrderInitialization} from 'src/types';
+import {IOrderInitialization} from 'src/types';
 import {
     IApiReturnObject,
     getBillingAddress,
     setBillingAddress,
-    updateBillingAddress
+    updateBillingAddress,
+    IAddress
 } from '@bold-commerce/checkout-frontend-library';
 import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
 import {Constants, defaultAddressState} from 'src/constants';

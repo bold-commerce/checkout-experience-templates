@@ -56,6 +56,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
             },
             addresses: {
                 shipping: {
+                    id: '',
                     first_name: '',
                     last_name: '',
                     address_line_1: '',
@@ -70,6 +71,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
                     phone_number: '',
                 },
                 billing: {
+                    id: '',
                     first_name: '',
                     last_name: '',
                     address_line_1: '',
@@ -90,14 +92,18 @@ export const defaultOrderInitialization: IOrderInitialization = {
             order_total: 0,
             line_items: [],
             shipping: {
-                selected_shipping: {},
+                selected_shipping: {
+                    id: '',
+                    description: '',
+                    amount: 0
+                },
                 available_shipping_lines: [],
                 taxes: [],
                 discounts: [],
             },
             order_meta_data: {
-                cart_parameters: [],
-                note_attributes: [],
+                cart_parameters: {},
+                note_attributes: {},
                 notes: '',
                 tags: [],
             },

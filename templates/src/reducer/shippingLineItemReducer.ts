@@ -1,11 +1,11 @@
 import {UPDATE_SHIPPING_LINES_DISCOUNT, UPDATE_SHIPPING_LINES_TAXES} from 'src/action';
 import {AnyAction} from 'redux';
-import {IApplicationStateDiscount, IApplicationStateTax} from 'src/types';
 import { defaultOrderInitialization } from 'src/constants/orderInitialization';
+import {IDiscount, ITax} from '@bold-commerce/checkout-frontend-library';
 
 const {data: {application_state}} = defaultOrderInitialization;
 
-export function shippingLineItemTaxesReducer(state: Array<IApplicationStateTax> = application_state.shipping.taxes, action: AnyAction): Array<IApplicationStateTax> {
+export function shippingLineItemTaxesReducer(state: Array<ITax> = application_state.shipping.taxes, action: AnyAction): Array<ITax> {
     switch (action.type) {
         case UPDATE_SHIPPING_LINES_TAXES: {
             return action.payload.data;
@@ -15,7 +15,7 @@ export function shippingLineItemTaxesReducer(state: Array<IApplicationStateTax> 
     }
 }
 
-export function shippingLineItemDiscountReducer(state: Array<IApplicationStateDiscount> = application_state.shipping.discounts, action: AnyAction): Array<IApplicationStateDiscount> {
+export function shippingLineItemDiscountReducer(state: Array<IDiscount> = application_state.shipping.discounts, action: AnyAction): Array<IDiscount> {
     switch (action.type) {
         case UPDATE_SHIPPING_LINES_DISCOUNT: {
             return action.payload.data;

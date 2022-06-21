@@ -30,7 +30,7 @@ describe('testing delete shipping address', () => {
 
     test('calling delete shipping address with success', async () => {
         returnObject.success = true;
-        deleteShippingAddressMock.mockReturnValue(returnObject);
+        deleteShippingAddressMock.mockReturnValue(Promise.resolve(returnObject));
 
         await deleteShippingAddress(mockDispatch, getState).then(async () => {
             expect(deleteShippingAddressMock).toHaveBeenCalledTimes(1);

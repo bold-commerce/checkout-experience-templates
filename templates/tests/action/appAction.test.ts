@@ -36,7 +36,8 @@ import {
 import * as AppActions from 'src/action/appActionType';
 import {autocompleteServices} from 'src/constants';
 import {initialDataMock, stateMock} from 'src/mocks';
-import {IApplicationStateLineItem, IApplicationStateSelectShippingLine, IError, IOrderInitialization} from 'src/types';
+import {IError, IOrderInitialization} from 'src/types';
+import {ILineItem, IShippingLine} from '@bold-commerce/checkout-frontend-library';
 
 describe('Testing App Actions', () => {
 
@@ -232,7 +233,7 @@ describe('Testing App Actions', () => {
     });
 
     test('actionSetSelectedShippingLine', () => {
-        const line = initialDataMock.application_state.shipping.selected_shipping as IApplicationStateSelectShippingLine;
+        const line = initialDataMock.application_state.shipping.selected_shipping as IShippingLine;
         const actionReturnExpectation = {
             type: AppActions.SET_SELECTED_SHIPPING_LINE,
             payload: {line}
@@ -244,7 +245,7 @@ describe('Testing App Actions', () => {
     });
 
     test('actionUpdateLineItem', () => {
-        const line = [initialDataMock.application_state.shipping.selected_shipping as IApplicationStateLineItem];
+        const line = [initialDataMock.application_state.line_items[0] as ILineItem];
         const actionReturnExpectation = {
             type: AppActions.UPDATE_LINE_ITEMS,
             payload: {line}

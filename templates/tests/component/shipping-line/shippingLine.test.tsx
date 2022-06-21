@@ -1,8 +1,9 @@
 import {render} from '@testing-library/react';
 import {ShippingLine} from 'src/components';
 import * as useGetShippingLinesData from 'src/hooks/useGetShippingLinesData';
-import {IApplicationStateSelectShippingLine, IApplicationStateShippingAvailableLine, IShippingLineProps, IShippingLinesHookProps} from 'src/types';
+import { IShippingLineProps, IShippingLinesHookProps} from 'src/types';
 import resetAllMocks = jest.resetAllMocks;
+import {IShippingLine} from '@bold-commerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {useGetIsLoading} from 'src/hooks';
 
@@ -20,12 +21,12 @@ type Data = {
 describe('Testing shipping line component', () => {
     let useGetShippingLinesDataSpy = jest.spyOn(useGetShippingLinesData, 'useGetShippingLinesData');
 
-    const selectShippingLine1: IApplicationStateSelectShippingLine = {
+    const selectShippingLine1: IShippingLine = {
         id: '1',
         description: 'test 1',
         amount: 100
     };
-    const selectShippingLine2: IApplicationStateSelectShippingLine = {
+    const selectShippingLine2: IShippingLine = {
         id: '2',
         description: 'test 2',
         amount: 200

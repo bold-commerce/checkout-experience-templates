@@ -1,10 +1,10 @@
-import {ICountryInformation} from 'src/types';
 import {googleAutocompleteRetrieveOptions} from 'src/utils';
 import AutocompleteOptions = google.maps.places.AutocompleteOptions;
 import SpyInstance = jest.SpyInstance;
 import * as googleAutocompleteRetrieveCountriesListLimitation from 'src/utils/googleAutocompleteRetrieveCountriesListLimitation';
 import {Constants} from 'src/constants';
 import {countriesListMock} from 'src/mocks';
+import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
 
 describe('Test googleAutocompleteRetrieveOptions function', () => {
     const countriesList: Array<ICountryInformation> = countriesListMock;

@@ -4,7 +4,7 @@ import {UPDATE_ORDER_PROCESSED} from 'src/action';
 
 const {data: {application_state}} = defaultOrderInitialization;
 
-export const resumableLinkReducer = (state = application_state.created_via): string => state;
+export const resumableLinkReducer = (state = application_state.resumable_link): string | null => state;
 
 export const createdViaReducer = (state = application_state.created_via): string => state;
 

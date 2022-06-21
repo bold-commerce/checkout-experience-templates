@@ -50,7 +50,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
 
     test('call without errors on state and success true', async () => {
         const successReturnObj = {...baseReturnObject, success: true, response: {}};
-        processOrderLibMock.mockReturnValueOnce(successReturnObj);
+        processOrderLibMock.mockReturnValueOnce(Promise.resolve(successReturnObj));
         const noErrorsState = {...stateMock, errors: []};
         getState
             .mockReturnValueOnce(noErrorsState)
@@ -75,7 +75,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
 
     test('call without errors on state and success true with handleSCA', async () => {
         const successReturnObj = {...baseReturnObject, success: true, status: httpStatusCode.ACCEPTED, response: {handleSCA: true}};
-        processOrderLibMock.mockReturnValueOnce(successReturnObj);
+        processOrderLibMock.mockReturnValueOnce(Promise.resolve(successReturnObj));
         const noErrorsState = {...stateMock, errors: []};
         getState
             .mockReturnValueOnce(noErrorsState)
@@ -99,7 +99,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
 
     test('call without errors on state and success true - Neuro ID page name provided', async () => {
         const successReturnObj = {...baseReturnObject, success: true, response: {}};
-        processOrderLibMock.mockReturnValueOnce(successReturnObj);
+        processOrderLibMock.mockReturnValueOnce(Promise.resolve(successReturnObj));
         const noErrorsState = {...stateMock, errors: []};
         const pageNameNeuroID = 'page_name_neuro_id';
         getState
@@ -125,7 +125,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
 
     test('call without errors on state and success false', async () => {
         const successReturnObj = {...baseReturnObject, success: false, response: {}};
-        processOrderLibMock.mockReturnValueOnce(successReturnObj);
+        processOrderLibMock.mockReturnValueOnce(Promise.resolve(successReturnObj));
         const noErrorsState = {...stateMock, errors: []};
         getState
             .mockReturnValueOnce(noErrorsState)
@@ -162,7 +162,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
     test('testing with inventory issue', async () => {
 
         const successReturnObj = {...baseReturnObject, success: false};
-        processOrderLibMock.mockReturnValueOnce(successReturnObj);
+        processOrderLibMock.mockReturnValueOnce(Promise.resolve(successReturnObj));
         const noErrorsState = {...stateMock, errors: []};
         const errorsState = {...stateMock, errors: [{
             type: errorTypes.order,

@@ -1,17 +1,13 @@
 import {validateApplicationStateData} from 'src/utils';
 import {
-    IApplicationState,
-    IApplicationStateCurrency,
-    IApplicationStateCustomer,
-    IApplicationStateDiscount,
-    IApplicationStateLineItem,
-    IApplicationStateOrderMetaData,
-    IApplicationStatePayment,
-    IApplicationStateSelectShippingLine,
-    IApplicationStateShipping,
-    IApplicationStateTax
-} from 'src/types';
-
+    ICurrency,
+    ICustomer, IDiscount,
+    ILineItem, IOrderMetaData, IPayment,
+    IShipping,
+    IShippingLine,
+    ITax
+} from "@bold-commerce/checkout-frontend-library";
+import {IApplicationState} from "@bold-commerce/checkout-frontend-library/lib/types/apiInterfaces";
 
 describe('testing function validateApplicationStateData', () => {
     const defaultAddress = {
@@ -49,7 +45,7 @@ describe('testing function validateApplicationStateData', () => {
         id: ''
     };
 
-    const currency: IApplicationStateCurrency = {
+    const currency: ICurrency = {
         iso_code: 'CAD',
         iso_numeric_code: 124,
         symbol: '$',
@@ -59,51 +55,51 @@ describe('testing function validateApplicationStateData', () => {
     };
 
     const appData = {
-        customer: {} as IApplicationStateCustomer,
+        customer: {} as ICustomer,
         addresses: {
             billing: billingAddress,
             shipping: defaultAddress,
         },
-        line_items: [] as Array<IApplicationStateLineItem>,
+        line_items: [] as Array<ILineItem>,
         shipping: {
             selected_shipping: defaultShipping,
-            available_shipping_lines: [] as Array<IApplicationStateSelectShippingLine>,
+            available_shipping_lines: [] as Array<IShippingLine>,
             taxes: [],
             discounts: [],
-        } as IApplicationStateShipping,
-        taxes: [] as Array<IApplicationStateTax>,
-        discounts: [] as Array<IApplicationStateDiscount>,
-        payments: [] as Array<IApplicationStatePayment>,
+        } as IShipping,
+        taxes: [] as Array<ITax>,
+        discounts: [] as Array<IDiscount>,
+        payments: [] as Array<IPayment>,
         order_total: 0,
         resumable_link: '',
         created_via: '',
         currency: currency,
         is_processed: false,
-        order_meta_data: {} as IApplicationStateOrderMetaData
+        order_meta_data: {} as IOrderMetaData
     } as IApplicationState;
 
     const expected = {
-        customer: {} as IApplicationStateCustomer,
+        customer: {} as ICustomer,
         addresses: {
             billing: billingAddress,
             shipping: defaultAddress,
         },
-        line_items: [] as Array<IApplicationStateLineItem>,
+        line_items: [] as Array<ILineItem>,
         shipping: {
             selected_shipping: defaultShipping,
-            available_shipping_lines: [] as Array<IApplicationStateSelectShippingLine>,
+            available_shipping_lines: [] as Array<IShippingLine>,
             taxes: [],
             discounts: [],
-        } as IApplicationStateShipping,
-        taxes: [] as Array<IApplicationStateTax>,
-        discounts: [] as Array<IApplicationStateDiscount>,
-        payments: [] as Array<IApplicationStatePayment>,
+        } as IShipping,
+        taxes: [] as Array<ITax>,
+        discounts: [] as Array<IDiscount>,
+        payments: [] as Array<IPayment>,
         order_total: 0,
         resumable_link: '',
         currency: currency,
         created_via: '',
         is_processed: false,
-        order_meta_data: {} as IApplicationStateOrderMetaData
+        order_meta_data: {} as IOrderMetaData
     } as IApplicationState;
 
     const dataArray = [

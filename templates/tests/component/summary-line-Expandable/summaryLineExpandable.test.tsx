@@ -1,5 +1,4 @@
 import {
-    IApplicationStateDiscount,
     ISummaryLineExpandable,
     IUseSummaryLineExpandable,
     IUseSummaryLineExpanded
@@ -10,6 +9,7 @@ import {useSummaryLineExpandable, useSummaryLineExpanded} from 'src/hooks';
 import {SummaryLineExpandable} from 'src/components';
 import {render} from '@testing-library/react';
 import {classesListSummary} from 'src/mocks';
+import {IDiscount} from '@bold-commerce/checkout-frontend-library';
 
 jest.mock('src/hooks');
 const useSummaryLineExpandableMock = mocked(useSummaryLineExpandable, true);
@@ -35,7 +35,7 @@ describe('Testing SummaryLineExpandable component', () => {
         fieldNames: fieldNameSummary,
         formattedPrice: '${{amount}}'
     };
-    const content: Array<IApplicationStateDiscount> = [
+    const content: Array<IDiscount> = [
         {
             code: 'test',
             text: 'text',

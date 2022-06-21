@@ -7,10 +7,9 @@ import {
     actionUpdateCustomerField, actionUpdateShippingAddressField
 } from 'src/action';
 import * as CustomerActions from 'src/action/customerActionType';
-import {IAddress} from 'src/types';
 import {initialDataMock} from 'src/mocks';
 import {Constants} from 'src/constants';
-import { AnyAction } from 'redux';
+import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 describe('Testing Customer Actions', () => {
 
@@ -115,7 +114,7 @@ describe('Testing Customer Actions', () => {
     test.each(actionUpdateBillingTypeData)(
         'actionUpdateBillingType ($actionType, $type)',
         ({actionType, type, data }) => {
-            let actionReturnExpectation = {
+            const actionReturnExpectation = {
                 type: actionType,
                 ...(data && {payload: {data}}),
             };
@@ -162,9 +161,12 @@ describe('Testing Customer Actions', () => {
     test.each(actionUpdateAddressData)(
         'actionUpdateAddress ($actionType, $type)',
         ({actionType, type, data}) => {
+
+            const resultData = {...data};
+            delete resultData.id;
             const actionReturnExpectation = {
                 type: actionType,
-                payload: {data}
+                payload: {data: resultData}
             };
 
             const result = actionUpdateAddress(type, data);

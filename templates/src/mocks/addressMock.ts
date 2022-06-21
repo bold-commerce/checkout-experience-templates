@@ -1,4 +1,4 @@
-import {IAddress} from 'src/types';
+import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 export const addressMock: IAddress = {
     first_name: 'First Name',

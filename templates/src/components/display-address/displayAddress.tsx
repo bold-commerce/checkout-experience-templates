@@ -1,5 +1,5 @@
-import {IAddress} from 'src/types';
 import React from 'react';
+import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 export function DisplayAddress(props: IAddress): React.ReactElement {
     return (

@@ -1,13 +1,14 @@
 import { useCallback, useLayoutEffect, useState } from 'react';
-import { IApplicationStateLineItem, IUseGetCartItem } from 'src/types';
+import { IUseGetCartItem } from 'src/types';
 import { useDebouncedCallback } from 'use-debounce';
+import {ILineItem} from '@bold-commerce/checkout-frontend-library';
 
 interface onUpdateQuantityFn {
     (lineItemKey: string, quantity: number): Promise<void>;
 }
 
 export function useCartItem(
-    lineItem: IApplicationStateLineItem,
+    lineItem: ILineItem,
     onUpdateQuantity?: onUpdateQuantityFn,
 ): IUseGetCartItem {
     const productData = lineItem.product_data;
@@ -16,7 +17,7 @@ export function useCartItem(
     /**
      * Handles the `onCommit` event of the `SemiControlledNumberInput` component and calls
      * `props.onUpdateQuantity` with the new quantity.
-     * 
+     *
      * Also called when the debounce timer is up.
      */
     const commit = useCallback((newQuantity: number) => {

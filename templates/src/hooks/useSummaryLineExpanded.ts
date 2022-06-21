@@ -3,9 +3,10 @@ import {actionDeleteElement, actionSetLoaderAndDisableButton, REMOVE_DISCOUNT, R
 import {useGetCurrencyInformation, useGetIsLoading, useGetLoaderScreenVariable, useGetPaymentType} from 'src/hooks';
 import {useCallback} from 'react';
 import {deleteDiscounts} from 'src/library';
-import {IApplicationStatePayment, ISummaryLineExpanded, IUseSummaryLineExpanded} from 'src/types';
+import {ISummaryLineExpanded, IUseSummaryLineExpanded} from 'src/types';
 import {Constants} from 'src/constants';
 import {getFieldNamesSummary} from 'src/utils';
+import {IPayment} from '@bold-commerce/checkout-frontend-library';
 
 export function useSummaryLineExpanded(props: ISummaryLineExpanded): IUseSummaryLineExpanded{
 
@@ -17,7 +18,7 @@ export function useSummaryLineExpanded(props: ISummaryLineExpanded): IUseSummary
     const isLoading = useGetIsLoading();
     const {formattedPrice} = useGetCurrencyInformation();
     let content = props.content[fieldNames.content];
-    const paymentType = useGetPaymentType(props.content as IApplicationStatePayment);
+    const paymentType = useGetPaymentType(props.content as IPayment);
     if(props.eventToggleName === Constants.PAYMENTS_TOGGLE){
         content = `${paymentType.paymentMethodName}: ${paymentType.paymentMethodValue}`;
     }

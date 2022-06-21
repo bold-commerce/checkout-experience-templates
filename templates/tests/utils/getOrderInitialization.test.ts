@@ -1,5 +1,5 @@
-import { stateMock } from "src/mocks";
-import { getOrderInitialization } from "src/utils/getOrderInitialization";
+import { stateMock } from 'src/mocks';
+import { getOrderInitialization } from 'src/utils/getOrderInitialization';
 import * as getValidatedOrderData from 'src/utils/getValidatedOrderData';
 import * as validateApplicationStateData from 'src/utils/validateApplicationStateData';
 

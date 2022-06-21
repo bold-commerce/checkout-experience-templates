@@ -49,7 +49,7 @@ describe('testing post Discount Thunk Action', () => {
         localReturnObject.success = true;
 
 
-        addDiscountMock.mockReturnValue(localReturnObject);
+        addDiscountMock.mockReturnValue(Promise.resolve(localReturnObject));
         const postDiscount = postDiscounts('TEST');
         await postDiscount(dispatchMock, getStateMock).then(() => {
             expect(addDiscountMock).toHaveBeenCalledTimes(1);
@@ -63,7 +63,7 @@ describe('testing post Discount Thunk Action', () => {
     test('calling post Discount failure', async () => {
 
         const localReturnObject = {...baseReturnObject};
-        addDiscountMock.mockReturnValue(localReturnObject);
+        addDiscountMock.mockReturnValue(Promise.resolve(localReturnObject));
         const postDiscount = postDiscounts('TEST');
         await postDiscount(dispatchMock, getStateMock).then(() => {
             expect(addDiscountMock).toHaveBeenCalledTimes(1);
@@ -89,7 +89,7 @@ describe('testing post Discount Thunk Action', () => {
         localReturnObject.response = apiSuccess;
         localReturnObject.success = true;
 
-        addDiscountMock.mockReturnValue(localReturnObject);
+        addDiscountMock.mockReturnValue(Promise.resolve(localReturnObject));
         const postDiscount = postDiscounts('TEST');
         await postDiscount(dispatchMock, getStateMock).then(() => {
             expect(addDiscountMock).toHaveBeenCalledTimes(1);

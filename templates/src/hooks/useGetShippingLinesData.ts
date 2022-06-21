@@ -1,19 +1,20 @@
 import {useDispatch} from 'react-redux';
-import {IApplicationStateSelectShippingLine, IShippingLinesHookProps} from 'src/types';
+import {IShippingLinesHookProps} from 'src/types';
 import {useGetAvailableShippingLines, useGetSelectShippingLine} from 'src/hooks';
 import {useCallback} from 'react';
 import {actionSetLoaderAndDisableButton, actionSetSelectedShippingLine} from 'src/action';
 import {useDebouncedShippingLines, useGetCurrencyInformation} from 'src/hooks';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
+import {IShippingLine} from '@bold-commerce/checkout-frontend-library';
 import {useGetValidVariable} from './useGetValidVariable';
 
 export function useGetShippingLinesData(): IShippingLinesHookProps {
     const dispatch = useDispatch();
     const { formattedPrice } = useGetCurrencyInformation();
-    const shippingLines: Array<IApplicationStateSelectShippingLine> = useGetAvailableShippingLines();
-    const selectedLine: IApplicationStateSelectShippingLine = useGetSelectShippingLine();
     const shippingAddressValid = useGetValidVariable('shippingAddress');
+    const shippingLines: Array<IShippingLine> = useGetAvailableShippingLines();
+    const selectedLine: IShippingLine = useGetSelectShippingLine();
     const shippingLinesLength = shippingLines.length;
 
     const noShippingAreaText = getTerm('no_shipping_available', Constants.SHIPPING_METHOD_INFO);

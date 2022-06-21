@@ -1,8 +1,12 @@
 import {mocked} from 'jest-mock';
-import {baseReturnObject, updateCustomer as putGuestCustomer} from '@bold-commerce/checkout-frontend-library';
+import {
+    baseReturnObject,
+    ICustomer,
+    updateCustomer as putGuestCustomer
+} from '@bold-commerce/checkout-frontend-library';
 import {getCustomerFromLib, updateCustomer} from 'src/library';
 import {Dispatch} from 'redux';
-import {IApplicationStateCustomer, IOrderInitialization} from 'src/types';
+import {IOrderInitialization} from 'src/types';
 import {stateMock} from 'src/mocks';
 import {handleErrorIfNeeded} from 'src/utils';
 
@@ -16,7 +20,7 @@ const handleErrorIfNeededMock = mocked(handleErrorIfNeeded , true);
 describe('testing updateGuestCustomer', () => {
     const returnObject = {...baseReturnObject};
     let dispatch: Dispatch;
-    const customer: IApplicationStateCustomer = stateMock.data.application_state.customer;
+    const customer: ICustomer = stateMock.data.application_state.customer;
     let getState: () => IOrderInitialization;
 
     beforeEach(() => {

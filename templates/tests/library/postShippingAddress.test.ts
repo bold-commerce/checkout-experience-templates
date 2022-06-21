@@ -32,8 +32,8 @@ describe('testing postAddress', () => {
     beforeEach(() => {
         jest.resetAllMocks();
         getState.mockReturnValue(stateMock);
-        setShippingAddressMock.mockReturnValue(successReturnObject);
-        updateShippingAddressMock.mockReturnValue(successReturnObject);
+        setShippingAddressMock.mockReturnValue(Promise.resolve(successReturnObject));
+        updateShippingAddressMock.mockReturnValue(Promise.resolve(successReturnObject));
         actionSetAppStateValidMock.mockReturnValue(actionReturnMock);
         getAddressesMock.mockReturnValue(stateMock.data.application_state.addresses.shipping);
     });
@@ -134,8 +134,11 @@ describe('testing postAddress', () => {
     });
 
     test('calling put shipping address when previous is different from new address', async () => {
-        const address = {...defaultAddressState, address_line_1: 'test_address'};
-        getAddressesMock.mockReturnValueOnce({shipping: address});
+        const address = {...defaultAddressState, address_line_1: 'test_address', id: '1'};
+        getAddressesMock.mockReturnValueOnce(address);
+        const stateAddress = {...stateMock.data.application_state.addresses.shipping, id: '1'};
+        const newStateMock = {data: {application_state: {addresses: {shipping: stateAddress}}}};
+        getState.mockReturnValueOnce(newStateMock);
 
         await postShippingAddress(dispatch, getState).then(() => {
             expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
@@ -144,7 +147,7 @@ describe('testing postAddress', () => {
             expect(dispatch).toHaveBeenCalledTimes(2);
             expect(dispatch).toHaveBeenCalledWith(actionReturnMock);
             expect(updateShippingAddressMock).toHaveBeenCalledTimes(1);
-            expect(updateShippingAddressMock).toHaveBeenCalledWith(stateMock.data.application_state.addresses.shipping);
+            expect(updateShippingAddressMock).toHaveBeenCalledWith(stateAddress);
             expect(setShippingAddressMock).toHaveBeenCalledTimes(0);
             expect(dispatch).toHaveBeenCalledWith(setShippingAddressAsValid);
             expect(handleErrorMock).toHaveBeenCalledTimes(1);

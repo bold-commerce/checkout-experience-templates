@@ -1,13 +1,13 @@
 import {discountsReducer} from 'src/reducer';
 import {stateMock} from 'src/mocks';
 import {ADD_DISCOUNT, REMOVE_DISCOUNT, UPDATE_DISCOUNTS} from 'src/action';
-import {IApplicationStateDiscount} from 'src/types';
+import {IDiscount} from '@bold-commerce/checkout-frontend-library';
 
 
 describe('testing discountsReducer Reducer', () => {
 
     const defaultValues = stateMock.data.application_state.discounts;
-    const newDiscount: IApplicationStateDiscount = {
+    const newDiscount: IDiscount = {
         code: 'code',
         text: 'description',
         value: 5,

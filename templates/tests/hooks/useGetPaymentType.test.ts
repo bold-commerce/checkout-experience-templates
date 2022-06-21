@@ -1,7 +1,8 @@
 import {getTerm, getCardDisplayFormat, getGiftCardDisplayFormat} from 'src/utils';
 import {mocked} from 'jest-mock';
-import {IApplicationStatePayment, IDisplayPaymentMethod} from 'src/types';
+import {IDisplayPaymentMethod} from 'src/types';
 import {useGetPaymentType} from 'src/hooks';
+import {IPayment} from '@bold-commerce/checkout-frontend-library';
 
 
 jest.mock('src/utils/getTerm');
@@ -16,7 +17,7 @@ describe('Testing function getPaymentType', () => {
         jest.clearAllMocks();
     });
 
-    const appStatePayment: IApplicationStatePayment = {
+    const appStatePayment: IPayment = {
         gateway_public_id: '',
         amount: 0,
         currency: '',
@@ -58,6 +59,14 @@ describe('Testing function getPaymentType', () => {
             expected: {
                 paymentMethodName: 'Visa',
                 paymentMethodValue: '•••• •••• •••• 4242',
+            }
+        },
+        {
+            payment: {...appStatePayment, 'brand': undefined, 'driver': 'stripe', 'lineText': '4242', 'tag': 'Credit'},
+            getCardDisplayFormatResult: '',
+            expected: {
+                paymentMethodName: '',
+                paymentMethodValue: '',
             },
         },
     ];

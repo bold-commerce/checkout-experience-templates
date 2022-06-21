@@ -4,13 +4,14 @@
 import {useEffect, useState} from 'react';
 import {AddressFieldIds, autocompleteServices} from 'src/constants';
 import {googleAutocompleteRetrieveOptions, isAutocompleteDataPopulated, scriptsAreLoaded} from 'src/utils';
-import {IAutocompleteData, ICountryInformation} from 'src/types';
+import {IAutocompleteData} from 'src/types';
 import {useGetCountryInfoList} from 'src/hooks/useGetCountryData';
 import AutocompleteOptions = google.maps.places.AutocompleteOptions;
 import Autocomplete = google.maps.places.Autocomplete;
 import PlaceResult = google.maps.places.PlaceResult;
 import {GoogleAutocompleteConstants} from 'src/constants';
 import {useDispatchAutocompleteData, useGetAutocompleteAPIKey} from 'src/hooks';
+import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
 
 export function useInitiateGoogleAutocomplete(): void {
     let autocomplete: Autocomplete;

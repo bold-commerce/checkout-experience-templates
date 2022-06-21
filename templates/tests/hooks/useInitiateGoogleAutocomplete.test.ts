@@ -5,8 +5,8 @@ import {useInitiateGoogleAutocomplete} from 'src/hooks';
 import * as scriptsAreLoaded from 'src/utils/scriptsAreLoaded';
 import * as isAutocompleteDataPopulated from 'src/utils/isAutocompleteDataPopulated';
 import SpyInstance = jest.SpyInstance;
-import {ICountryInformation} from 'src/types';
 import {GoogleAutocompleteConstants} from 'src/constants';
+import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({

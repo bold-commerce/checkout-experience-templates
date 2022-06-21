@@ -33,7 +33,7 @@ describe('testing delete Discount Thunk Action', () => {
         const localReturnObject = {...baseReturnObject};
         localReturnObject.success = true;
 
-        addDiscountMock.mockReturnValue(localReturnObject);
+        addDiscountMock.mockReturnValue(Promise.resolve(localReturnObject));
         const postDiscount = deleteDiscounts('TEST');
         await postDiscount(dispatchMock, getStateMock).then(() => {
             expect(addDiscountMock).toHaveBeenCalledTimes(1);
@@ -48,7 +48,7 @@ describe('testing delete Discount Thunk Action', () => {
 
     test('calling delete discount failure', async () => {
         const localReturnObject = {...baseReturnObject};
-        addDiscountMock.mockReturnValue(localReturnObject);
+        addDiscountMock.mockReturnValue(Promise.resolve(localReturnObject));
         const postDiscount = deleteDiscounts('TEST');
         await postDiscount(dispatchMock, getStateMock).then(() => {
             expect(addDiscountMock).toHaveBeenCalledTimes(1);

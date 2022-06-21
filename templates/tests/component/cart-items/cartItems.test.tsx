@@ -1,9 +1,10 @@
-import {IApplicationStateLineItem, ICartItemsProps} from 'src/types';
+import {ICartItemsProps} from 'src/types';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {render} from '@testing-library/react';
 import {CartItems} from 'src/components';
 import {mocked} from 'jest-mock';
 import {useGetCurrencyInformation} from 'src/hooks';
+import {ILineItem} from '@bold-commerce/checkout-frontend-library';
 
 const store = {
     data: initialDataMock
@@ -16,7 +17,7 @@ jest.mock('src/hooks/useGetCurrencyInformation');
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 
 describe('Testing CartItems component', () => {
-    const lineItems: Array<IApplicationStateLineItem> = stateMock.data.application_state.line_items;
+    const lineItems: Array<ILineItem> = stateMock.data.application_state.line_items;
     const props: ICartItemsProps = {
         line_items: lineItems
     };

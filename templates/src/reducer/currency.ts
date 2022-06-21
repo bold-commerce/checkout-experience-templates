@@ -1,6 +1,6 @@
 import {defaultOrderInitialization} from 'src/constants/orderInitialization';
-import {IApplicationStateCurrency} from 'src/types';
+import {ICurrency} from '@bold-commerce/checkout-frontend-library';
 
 const {data:{application_state: {currency}}} = defaultOrderInitialization;
 
-export const currencyReducer = (state = currency): IApplicationStateCurrency => state;
+export const currencyReducer = (state = currency): ICurrency => state;

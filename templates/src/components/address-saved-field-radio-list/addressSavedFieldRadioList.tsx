@@ -1,7 +1,8 @@
 import React from 'react';
 import { FieldSection, AddressNewFieldRadio, AddressSavedFieldRadio } from 'src/components';
 import { useGetSavedAddressData, useGetShippingData } from 'src/hooks';
-import { IAddress, ISavedAddressFieldRadioListProps } from 'src/types';
+import { ISavedAddressFieldRadioListProps } from 'src/types';
+import { IAddress } from '@bold-commerce/checkout-frontend-library';
 
 export function AddressSavedFieldRadioList(props: ISavedAddressFieldRadioListProps): React.ReactElement {
     const { title, placeholder, savedAddresses, handleChange } = useGetSavedAddressData(props.type);
@@ -15,7 +16,7 @@ export function AddressSavedFieldRadioList(props: ISavedAddressFieldRadioListPro
                         return (
                             <AddressSavedFieldRadio
                                 key={`address_${address.id}`}
-                                address={address} 
+                                address={address}
                                 checked={address.id === selectedAddress.id}
                                 handleChange={handleChange}/>
                         );
@@ -24,7 +25,7 @@ export function AddressSavedFieldRadioList(props: ISavedAddressFieldRadioListPro
                 <AddressNewFieldRadio
                     key={'address_new'}
                     type={props.type}
-                    label={placeholder} 
+                    label={placeholder}
                     checked={!selectedAddress.id}
                     handleChange={handleChange}/>
             </ul>

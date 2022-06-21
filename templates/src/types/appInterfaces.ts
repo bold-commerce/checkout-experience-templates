@@ -1,5 +1,6 @@
-import {IAddress, IInitialState, IProductData} from 'src/types/globalInterface';
+import {IInitialState} from 'src/types/globalInterface';
 import {IError} from 'src/types/translationInterfaces';
+import {IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
 
 export interface IPaymentsSummaryClasses {
     container: string,
@@ -20,88 +21,6 @@ export interface IPaymentsSummaryClasses {
     }
 }
 
-export interface IApplicationStateShipping {
-    selected_shipping: Partial<IApplicationStateSelectShippingLine>,
-    available_shipping_lines: Array<IApplicationStateSelectShippingLine>,
-    taxes: Array<IApplicationStateTax>,
-    discounts: Array<IApplicationStateDiscount>
-}
-
-export interface IApplicationStateShippingAvailableLine {
-    id: number,
-    line: IApplicationStateSelectShippingLine
-}
-
-export interface IApplicationStateFee {
-    amount: number,
-    name: string
-}
-
-export interface IApplicationStateTax {
-    value: number,
-    name: string,
-    is_included: boolean
-}
-
-export interface IApplicationStateDiscount {
-    code: string,
-    text: string,
-    value: number,
-    valid: boolean
-}
-
-export interface IApplicationStatePayment {
-    gateway_public_id: string,
-    amount: number,
-    currency: string,
-    tag: string,
-    type: string,
-    display_string: string,
-    id: string,
-    token: string,
-    retain: boolean,
-    friendly_brand?: string,
-    lineText?: string,
-    value: number,
-    brand: string,
-    driver?: string,
-}
-
-export interface ICountryInformationProvince {
-    iso_code: string,
-    name: string,
-    valid_for_shipping: boolean,
-    valid_for_billing: boolean
-}
-
-export interface ICountryInformation {
-    iso_code: string,
-    name: string,
-    show_province: boolean,
-    province_label: string,
-    show_postal_code: boolean,
-    provinces: Array<ICountryInformationProvince>,
-    valid_for_shipping: boolean,
-    valid_for_billing: boolean
-}
-
-export interface ISupportedLanguage{
-    id: number,
-    shop_id: number,
-    iso_language: string,
-    language_name: string,
-    language_blob: string,
-    is_default: boolean,
-    out_of_date: number,
-    enabled: number,
-    source: null | string,
-    created_at: string | null,
-    updated_at: string | null,
-    deleted_at: string | null,
-    name: string,
-    shop_language_id: number
-}
-
 export interface ICheckoutProcess{
     company_name_option: string,
     phone_number_required: boolean,
@@ -113,89 +32,9 @@ export interface IAddressAutoComplete{
     api_key: string | null,
 }
 
-export interface IGeneralSettings{
-    checkout_process: ICheckoutProcess,
-    address_autocomplete: IAddressAutoComplete,
-}
-
-export interface IInitializeEndpointData {
-    jwt_token: string,
-    public_order_id: string,
-    initial_data: IInitialData,
-    application_state: IApplicationState
-}
 
 export interface IInitializeOrderData {
-    data: IInitializeEndpointData
-}
-
-
-export interface IInitialData {
-    shop_name: string,
-    country_info: Array<ICountryInformation>,
-    supported_languages: Array<ISupportedLanguage>
-    general_settings: IGeneralSettings
-}
-
-export interface IApplicationState {
-    customer: IApplicationStateCustomer,
-    addresses: {
-        billing: Partial<IAddress>,
-        shipping: Partial<IAddress>
-    },
-    line_items: Array<IApplicationStateLineItem>,
-    shipping: IApplicationStateShipping,
-    taxes: Array<IApplicationStateTax>,
-    discounts: Array<IApplicationStateDiscount>,
-    payments: Array<IApplicationStatePayment>,
-    order_total: number,
-    order_meta_data: IApplicationStateOrderMetaData,
-    currency: IApplicationStateCurrency,
-    resumable_link: string,
-    created_via: string,
-    is_processed: boolean
-}
-
-export interface IApplicationStateCurrency {
-    iso_code: string,
-    iso_numeric_code: number,
-    symbol: string,
-    format: string,
-    has_decimal: boolean,
-    show_iso_code: boolean
-}
-
-export interface IApplicationStateCurrency {
-    iso_code: string,
-    iso_numeric_code: number,
-    symbol: string,
-    format: string,
-    has_decimal: boolean,
-    show_iso_code: boolean
-}
-
-export interface IApplicationStateLineItem {
-    product_data: IProductData,
-    taxes: Array<IApplicationStateTax>,
-    fees: Array<IApplicationStateFee>,
-    discounts: Array<IApplicationStateDiscount>
-}
-
-export interface IApplicationStateOrderMetaData {
-    cart_parameters: Array<string>
-    note_attributes: Array<string>
-    notes: string,
-    tags: Array<string>
-}
-
-export interface IApplicationStateCustomer {
-    platform_id: string | null,
-    public_id: string | null,
-    first_name: string,
-    last_name: string,
-    email_address: string,
-    accepts_marketing: boolean,
-    saved_addresses: Array<IAddress>
+    data: IInitializeOrderResponse
 }
 
 export interface ITotals {
@@ -206,12 +45,6 @@ export interface ITotals {
     totalDiscounts: number,
     totalTaxes: number,
     totalFees: number
-}
-
-export interface IApplicationStateSelectShippingLine {
-    id: string,
-    description: string,
-    amount: number
 }
 
 export interface IOverlay{
@@ -255,7 +88,7 @@ export interface IOrderInitialization {
     isButtonDisable: IIsButtonDisable
     isValid: IIsValid,
     errors: Array<IError>
-    data: IInitializeEndpointData
+    data: IInitializeOrderResponse
 }
 
 export interface ISummaryDiscountLineProps {

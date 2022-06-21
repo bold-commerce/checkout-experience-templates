@@ -1,5 +1,5 @@
-import {ISupportedLanguage} from 'src/types';
 import { defaultOrderInitialization } from 'src/constants/orderInitialization';
+import {ISupportedLanguage} from '@bold-commerce/checkout-frontend-library';
 
 const {data:{initial_data}} = defaultOrderInitialization;
 
