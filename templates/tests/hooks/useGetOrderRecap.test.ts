@@ -10,8 +10,8 @@ import {
     useGetSelectShippingLine
 } from 'src/hooks';
 import {emptyAddressMock, initialDataMock} from 'src/mocks';
-import {IAddress, IApplicationStateSelectShippingLine} from 'src/types';
 import {getTerm} from 'src/utils';
+import {IAddress, IShippingLine} from '@bold-commerce/checkout-frontend-library';
 
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useGetCustomerInformation');
@@ -44,7 +44,7 @@ describe('Testing hook useGetOrderRecap', () => {
         useGetCustomerInfoDataMock.mockReturnValue(initialDataMock.application_state.customer);
         useGetShippingDataMock.mockReturnValue(initialDataMock.application_state.addresses.shipping as IAddress);
         useGetBillingDataMock.mockReturnValue(initialDataMock.application_state.addresses.billing as IAddress);
-        useGetSelectShippingLineMock.mockReturnValue(initialDataMock.application_state.shipping.selected_shipping as IApplicationStateSelectShippingLine);
+        useGetSelectShippingLineMock.mockReturnValue(initialDataMock.application_state.shipping.selected_shipping as IShippingLine);
     });
 
     test('rendering the hook with all data', () => {

@@ -17,7 +17,7 @@ describe('testing Generate Taxes Thunk Action', () => {
     beforeEach(() => {
         returnObject.success = true;
         returnObject.response = {data: {taxes: application_state.taxes, application_state}};
-        setTaxesMock.mockReturnValue(returnObject);
+        setTaxesMock.mockReturnValue(Promise.resolve(returnObject));
         handleErrorIfNeededSpy = jest.spyOn(HandleError, 'handleErrorIfNeeded');
     });
 

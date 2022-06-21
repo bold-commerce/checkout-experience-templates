@@ -1,14 +1,6 @@
 import React from 'react';
-import {
-    IApplicationStateDiscount,
-    IApplicationStateLineItem,
-    IApplicationStatePayment,
-    IApplicationStateSelectShippingLine,
-    IApplicationStateTax, ICountryInformationProvince,
-    IPaymentsSummaryClasses
-} from 'src/types/appInterfaces';
-import {ISelectList} from 'src/types/customerInterface';
-import {IAddress, IFieldNamesSummary} from 'src/types/globalInterface';
+import {IFieldNamesSummary, ISelectList, IPaymentsSummaryClasses} from 'src/types';
+import {IAddress, IDiscount, ILineItem, IPayment, IShippingLine, ITax, IProvince} from '@bold-commerce/checkout-frontend-library';
 
 export interface IAddressProps {
     title: string;
@@ -145,7 +137,7 @@ export interface ISummaryLineExpandable {
     hasDeleteButton?: boolean;
     total: number;
     textAlign?: string;
-    content: Array<IApplicationStateSelectShippingLine | IApplicationStateDiscount | IApplicationStateTax | IApplicationStatePayment>;
+    content: Array<IShippingLine | IDiscount | ITax | IPayment>;
     title: string;
 }
 
@@ -153,7 +145,7 @@ export interface ISummaryLineExpanded {
     eventDeleteName?: string;
     eventToggleName: string;
     amount: number;
-    content: IApplicationStateSelectShippingLine | IApplicationStateDiscount | IApplicationStateTax | IApplicationStatePayment;
+    content: IShippingLine | IDiscount | ITax | IPayment;
     id: string;
     classes: IPaymentsSummaryClasses;
     textAlign?: string;
@@ -168,14 +160,14 @@ export interface ISummarySection {
 export type ITaxesAmount = ISummarySection;
 
 export interface ICartItemsProps {
-    line_items: Array<IApplicationStateLineItem>;
+    line_items: Array<ILineItem>;
     onUpdateQuantity?: (lineItemKey: string, quantity: number) => Promise<void>;
     quantityDisabled?: boolean;
     showLineItemProperties?: boolean;
 }
 
 export interface ICartItemProps {
-    line_item: IApplicationStateLineItem;
+    line_item: ILineItem;
     onUpdateQuantity?: (lineItemKey: string, quantity: number) => Promise<void>;
     quantityDisabled?: boolean;
     showLineItemProperties?: boolean;
@@ -217,12 +209,12 @@ export interface IAddressPostalCodeAndProvinceDataProps {
     showPostalCode: boolean;
     showProvince: boolean;
     provinceLabel: string;
-    province: Array<ICountryInformationProvince>
+    province: Array<IProvince>
 }
 
 export interface IShippingLinesHookProps{
-    selectedLine: IApplicationStateSelectShippingLine | null
-    shippingLines: Array<IApplicationStateSelectShippingLine>
+    selectedLine: IShippingLine | null
+    shippingLines: Array<IShippingLine>
     noShippingAreaText: string
     shippingLinesLength: number
     handleChange: (e) => void
@@ -299,7 +291,7 @@ export interface IBillingAddress {
 }
 
 export interface ISummaryDiscountCode {
-    discounts: Array<IApplicationStateDiscount>;
+    discounts: Array<IDiscount>;
     discountError: string;
     buttonLoading: boolean;
     buttonDisabled: boolean;
@@ -354,7 +346,7 @@ export interface IUseCartSummary {
     totals: number;
     showSummary: boolean;
     toggleSummary: () => void;
-    lineItems: Array<IApplicationStateLineItem>
+    lineItems: Array<ILineItem>
 }
 
 export interface IUseGetThankYou {
@@ -417,7 +409,7 @@ export interface IUseFooterRights {
 }
 
 export interface IUseGetDisplayPaymentMethods {
-    paymentsMethod: Array<IApplicationStatePayment>;
+    paymentsMethod: Array<IPayment>;
     terms: Record<string, string>;
 }
 
@@ -458,7 +450,7 @@ export interface IUseIndexPageProps {
     loginUrl: (event) => void;
     loginText: string;
     orderTotal: number;
-    lineItems: Array<IApplicationStateLineItem>;
+    lineItems: Array<ILineItem>;
     summaryHeadingText: string;
     email: string;
     shippingHeadingText: string;

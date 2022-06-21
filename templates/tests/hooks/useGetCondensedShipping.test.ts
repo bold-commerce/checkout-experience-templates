@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { useGetCondensedShipping } from 'src/hooks';
 import { initialDataMock } from 'src/mocks';
-import { IAddress } from 'src/types';
+import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 describe('testing hook useGetCondensedShipping', () => {
 

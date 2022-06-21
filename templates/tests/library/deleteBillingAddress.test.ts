@@ -30,7 +30,7 @@ describe('testing deleteBillingAddress', () => {
 
     test('calling delete billing address with success', async () => {
         returnObject.success = true;
-        deleteBillingAddressMock.mockReturnValue(returnObject);
+        deleteBillingAddressMock.mockReturnValue(Promise.resolve(returnObject));
 
         await deleteBillingAddress(mockDispatch, getState).then(() => {
             expect(deleteBillingAddressMock).toHaveBeenCalledTimes(1);

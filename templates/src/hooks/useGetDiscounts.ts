@@ -1,6 +1,6 @@
-import {IApplicationStateDiscount} from 'src/types';
 import {useAppSelector} from 'src/hooks/rootHooks';
+import {IDiscount} from '@bold-commerce/checkout-frontend-library';
 
-export function useGetDiscounts(): Array<IApplicationStateDiscount> {
+export function useGetDiscounts(): Array<IDiscount> {
     return useAppSelector((state) => state.data.application_state.discounts);
 }

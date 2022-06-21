@@ -1,25 +1,25 @@
+import {defaultAddressState} from 'src/constants';
 import {
     IApplicationState,
-    IApplicationStateCustomer,
-    IApplicationStateDiscount,
-    IApplicationStateLineItem,
-    IApplicationStateOrderMetaData,
-    IApplicationStatePayment,
-    IApplicationStateSelectShippingLine,
-    IApplicationStateTax
-} from 'src/types';
-import {defaultAddressState} from 'src/constants';
+    ICustomer,
+    IDiscount,
+    ILineItem,
+    IOrderMetaData,
+    IPayment,
+    IShippingLine,
+    ITax
+} from '@bold-commerce/checkout-frontend-library';
 
 export function validateApplicationStateData(appData: IApplicationState): IApplicationState {
-    const customer: IApplicationStateCustomer = appData.customer;
+    const customer: ICustomer = appData.customer;
     let shippingAddress = appData.addresses.shipping;
     let billingAddress = appData.addresses.billing;
-    const payments: Array<IApplicationStatePayment> = appData.payments;
-    const discount: Array<IApplicationStateDiscount> = appData.discounts;
-    const taxes: Array<IApplicationStateTax> = appData.taxes;
-    const lineItems: Array<IApplicationStateLineItem> = appData.line_items;
-    const availableShippingLines: Array<IApplicationStateSelectShippingLine> = appData.shipping.available_shipping_lines;
-    const metaData: IApplicationStateOrderMetaData = appData.order_meta_data;
+    const payments: Array<IPayment> = appData.payments;
+    const discount: Array<IDiscount> = appData.discounts;
+    const taxes: Array<ITax> = appData.taxes;
+    const lineItems: Array<ILineItem> = appData.line_items;
+    const availableShippingLines: Array<IShippingLine> = appData.shipping.available_shipping_lines;
+    const metaData: IOrderMetaData = appData.order_meta_data;
 
     if(!shippingAddress || Object.keys(shippingAddress).length <=0){
         shippingAddress = defaultAddressState;

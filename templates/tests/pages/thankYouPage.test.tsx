@@ -9,13 +9,13 @@ import {
     useGetShippingData,
     useGetShopUrlFromShopAlias,
     useSupportedLanguages,
-    useSendEvent, useGetValidVariable
+    useGetValidVariable
 } from 'src/hooks';
 import {addressMock, stateMock} from 'src/mocks';
 import {ThankYouPage} from 'src/pages';
 import * as Store from 'src/store';
-import {IAddress} from 'src/types';
 import {neuroIdInit} from 'src/utils';
+import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/hooks/useGetAddressData');

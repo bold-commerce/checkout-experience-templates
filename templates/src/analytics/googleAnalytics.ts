@@ -1,5 +1,6 @@
 import {isObjectEmpty} from 'src/utils';
-import {IApplicationStateLineItem, IApplicationStateSelectShippingLine, ITotals} from 'src/types';
+import {ITotals} from 'src/types';
+import {ILineItem, IShippingLine} from '@bold-commerce/checkout-frontend-library';
 
 export function isGoogleAnalyticsEnabled(): boolean {
     return typeof window['ga'] === 'function'&& !!window['google_analytics_tracking_id'] && typeof window['google_analytics_tracking_id'] === 'string';
@@ -27,7 +28,7 @@ export function sendEventForGoogleAnalytics(event: string, category: string) : v
 }
 
 
-export function orderCompleteForGoogleAnalytics(lineItems: Array<IApplicationStateLineItem>, currency: string, totals: ITotals, shipping: IApplicationStateSelectShippingLine): void {
+export function orderCompleteForGoogleAnalytics(lineItems: Array<ILineItem>, currency: string, totals: ITotals, shipping: IShippingLine): void {
 
     if(!isGoogleAnalyticsEnabled()){
         return;

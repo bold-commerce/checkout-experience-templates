@@ -1,6 +1,7 @@
 import {Dispatch} from 'redux';
-import {IAddress, IOrderInitialization} from 'src/types';
+import {IOrderInitialization} from 'src/types';
 import {
+    IAddress,
     IApiReturnObject,
     validateAddress,
 } from '@bold-commerce/checkout-frontend-library';

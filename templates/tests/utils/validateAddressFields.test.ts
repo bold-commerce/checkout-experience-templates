@@ -43,7 +43,14 @@ describe('testing validate Address field function', () => {
             type: Constants.SHIPPING,
             called: 1,
             expected: false,
-        }
+        },
+        {
+            name: 'call function with undefined data',
+            validateFields: {first_name: '', last_name: '', address_line_1: '', postal_code: '', province_code: undefined, country_code: undefined, city: ''},
+            type: Constants.SHIPPING,
+            called: 6,
+            expected: false
+        },
     ];
 
     beforeEach(() => {

@@ -26,6 +26,11 @@ describe('Test formatPaymentLine function', () => {
     creditPaymentWithBrand.friendly_brand= undefined;
     creditPaymentWithBrand.brand = 'Visa';
 
+    const creditPaymentWithEmptyBrand = {...basePayment};
+    creditPaymentWithEmptyBrand.tag = 'Credit';
+    creditPaymentWithEmptyBrand.friendly_brand= undefined;
+    creditPaymentWithEmptyBrand.brand = undefined;
+
     const giftPayment = {...basePayment};
     giftPayment.tag = 'BoldGiftCard';
 
@@ -64,6 +69,10 @@ describe('Test formatPaymentLine function', () => {
         },
         {
             line: defaultPaymentWithNoLineText,
+            result: ''
+        },
+        {
+            line: creditPaymentWithEmptyBrand,
             result: ''
         }
     ];

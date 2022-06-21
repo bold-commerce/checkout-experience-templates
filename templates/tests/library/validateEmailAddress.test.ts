@@ -1,4 +1,4 @@
-import {baseReturnObject, getCustomer, validateEmail} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, getCustomer, ICustomer, validateEmail} from '@bold-commerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
 import {validateEmailAddress, postGuestCustomer} from 'src/library';
@@ -49,7 +49,7 @@ describe('testing validateEmailAddress', () => {
     });
 
     test('calling validate email address endpoint with getCustomer returning undefined', async () => {
-        getCustomerMock.mockReturnValueOnce(undefined);
+        getCustomerMock.mockReturnValueOnce(undefined as unknown as ICustomer);
 
         await validateEmailAddress(dispatch, getState).catch((error) => {
             expect(error).toBeTruthy();
@@ -71,7 +71,7 @@ describe('testing validateEmailAddress', () => {
     test('calling validate email address endpoint with success true', async () => {
         returnObject.success = true;
         validateEmailMock.mockReturnValueOnce(Promise.resolve(returnObject));
-        getCustomerMock.mockReturnValueOnce({});
+        getCustomerMock.mockReturnValueOnce({} as ICustomer);
 
         await validateEmailAddress(dispatch, getState).then(() => {
             expect(handleErrorMock).toHaveBeenCalledTimes(1);
@@ -85,7 +85,7 @@ describe('testing validateEmailAddress', () => {
     test('calling validate email address endpoint with success false', async () => {
         returnObject.success = false;
         validateEmailMock.mockReturnValueOnce(Promise.resolve(returnObject));
-        getCustomerMock.mockReturnValueOnce({});
+        getCustomerMock.mockReturnValueOnce({} as ICustomer);
 
         await validateEmailAddress(dispatch, getState).then(() => {
             expect(handleErrorMock).toHaveBeenCalledTimes(1);

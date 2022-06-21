@@ -1,4 +1,4 @@
-import {IAddress, ICountryInformation} from 'src/types';
+import {IAddress, ICountryInformation} from '@bold-commerce/checkout-frontend-library';
 
 export const defaultAddressState : IAddress = {
     first_name: '',

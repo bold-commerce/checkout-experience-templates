@@ -1,15 +1,15 @@
 import {AnyAction} from 'redux';
 import * as CustomerActionsType from 'src/action/customerActionType';
-import {IAddress} from 'src/types';
 import {defaultAddressState} from 'src/constants';
 import { defaultOrderInitialization } from 'src/constants/orderInitialization';
+import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 const {data:{application_state}} = defaultOrderInitialization;
 
-export function shippingReducer(state = application_state.addresses.shipping, action: AnyAction ) : Partial<IAddress> {
+export function shippingReducer(state = application_state.addresses.shipping, action: AnyAction ): IAddress {
     switch (action.type) {
         case CustomerActionsType.UPDATE_SHIPPING_ADDRESS_FIELD: {
-            return {...state , [action.payload.field]: action.payload.value};
+            return {...state , [action.payload.field]: action.payload.value} as IAddress;
         }
         case CustomerActionsType.UPDATE_SHIPPING_SAVED_ADDRESS_FIELD:
         case CustomerActionsType.UPDATE_SHIPPING_ADDRESS:{
@@ -21,10 +21,10 @@ export function shippingReducer(state = application_state.addresses.shipping, ac
     }
 }
 
-export function billingReducer(state = application_state.addresses.billing, action: AnyAction ) : Partial<IAddress> {
+export function billingReducer(state = application_state.addresses.billing, action: AnyAction ): IAddress {
     switch (action.type) {
         case CustomerActionsType.UPDATE_BILLING_ADDRESS_FIELD: {
-            return {...state , [action.payload.field]: action.payload.value};
+            return {...state , [action.payload.field]: action.payload.value} as IAddress;
         }
         case CustomerActionsType.CLEAR_BILLING_INFO: {
             return defaultAddressState;

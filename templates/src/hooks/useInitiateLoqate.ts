@@ -2,11 +2,12 @@
 // TODO: Remove above comment and implement tests on CE-272
 
 import {useGetCountryInfoList} from 'src/hooks/useGetCountryData';
-import {IAutocompleteData, ICountryInformation, ILoqateSettingsOptions} from 'src/types';
+import {IAutocompleteData, ILoqateSettingsOptions} from 'src/types';
 import {isAutocompleteDataPopulated, scriptsAreLoaded} from 'src/utils';
 import {useEffect, useState} from 'react';
 import {autocompleteServices, LoqateConstants} from 'src/constants';
 import {useDispatchAutocompleteData, useGetAutocompleteAPIKey} from 'src/hooks';
+import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
 
 export function useInitiateLoqate(scriptIsLoaded = false): {scriptIsLoaded: boolean} {
     //Needs to be passed as parameter coming from endpoint - no hard coded values

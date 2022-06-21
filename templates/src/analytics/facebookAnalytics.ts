@@ -1,5 +1,6 @@
 import {isObjectEmpty} from 'src/utils';
-import {IApplicationStateLineItem, ITotals} from 'src/types';
+import {ITotals} from 'src/types';
+import {ILineItem} from '@bold-commerce/checkout-frontend-library';
 
 export function isFacebookPixelInstalled(): boolean {
     return typeof window['fbq'] === 'function' && typeof window['facebook_analytics_tracking_id'] === 'string' && !!window['facebook_analytics_tracking_id'] && window['facebook_analytics_tracking_id'].trim() !== '';
@@ -30,7 +31,7 @@ export function addPaymentInfoForFacebookPixel(value: string, currency: string):
     sendFacebookEvent('AddPaymentInfo', {value, currency});
 }
 
-export function orderCompletedForFacebookPixel(lineItems: Array<IApplicationStateLineItem>, currency: string, totals: ITotals): void {
+export function orderCompletedForFacebookPixel(lineItems: Array<ILineItem>, currency: string, totals: ITotals): void {
 
     if (!isFacebookPixelInstalled()) {
         return;

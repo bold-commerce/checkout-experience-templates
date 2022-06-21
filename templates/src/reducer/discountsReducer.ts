@@ -1,11 +1,11 @@
 import {AnyAction} from 'redux';
 import * as AppActionsType from '../action/appActionType';
-import {IApplicationStateDiscount} from 'src/types';
 import { defaultOrderInitialization } from 'src/constants/orderInitialization';
+import {IDiscount} from '@bold-commerce/checkout-frontend-library';
 
 const {data:{application_state}} = defaultOrderInitialization;
 
-export function discountsReducer(state = application_state.discounts, action: AnyAction ) : Array<IApplicationStateDiscount> {
+export function discountsReducer(state = application_state.discounts, action: AnyAction ): Array<IDiscount> {
     switch (action.type) {
         // to be modified in another MR
         case AppActionsType.ADD_DISCOUNT:

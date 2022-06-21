@@ -1,16 +1,15 @@
 import  * as AppActions from './appActionType';
 import {AnyAction} from 'redux';
-import {
-    IApplicationStateDiscount,
-    IApplicationStateLineItem,
-    IApplicationStateOrderMetaData,
-    IApplicationStatePayment,
-    IApplicationStateSelectShippingLine,
-    IApplicationStateTax,
-    IError,
-    IOrderInitialization
-} from 'src/types';
+import {IError, IOrderInitialization} from 'src/types';
 import {autocompleteServices} from 'src/constants';
+import {
+    IDiscount,
+    ILineItem,
+    IOrderMetaData,
+    IPayment,
+    IShippingLine,
+    ITax
+} from '@bold-commerce/checkout-frontend-library';
 
 export function actionGetInitialData(url:string): AnyAction {
     return {
@@ -125,21 +124,21 @@ export function actionRemoveDiscount(code?: string): AnyAction {
     };
 }
 
-export function actionSetSelectedShippingLine(line: IApplicationStateSelectShippingLine): AnyAction {
+export function actionSetSelectedShippingLine(line: IShippingLine): AnyAction {
     return {
         type: AppActions.SET_SELECTED_SHIPPING_LINE,
         payload: {line}
     };
 }
 
-export function actionUpdateLineItem(line: Array<IApplicationStateLineItem>): AnyAction {
+export function actionUpdateLineItem(line: Array<ILineItem>): AnyAction {
     return {
         type: AppActions.UPDATE_LINE_ITEMS,
         payload: {line}
     };
 }
 
-export function actionUpdateTaxes(data: Array<IApplicationStateTax>): AnyAction {
+export function actionUpdateTaxes(data: Array<ITax>): AnyAction {
     return {
         type: AppActions.UPDATE_TAXES,
         payload: {data}
@@ -153,49 +152,49 @@ export function actionOrderTotal(data: number): AnyAction {
     };
 }
 
-export function actionUpdateDiscounts(data: Array<IApplicationStateDiscount>): AnyAction {
+export function actionUpdateDiscounts(data: Array<IDiscount>): AnyAction {
     return {
         type: AppActions.UPDATE_DISCOUNTS,
         payload: {data}
     };
 }
 
-export function actionUpdatePayments(data: Array<IApplicationStatePayment>): AnyAction {
+export function actionUpdatePayments(data: Array<IPayment>): AnyAction {
     return {
         type: AppActions.UPDATE_PAYMENT,
         payload: {data}
     };
 }
 
-export function actionOrderMetaData(data: IApplicationStateOrderMetaData): AnyAction {
+export function actionOrderMetaData(data: IOrderMetaData): AnyAction {
     return {
         type: AppActions.UPDATE_ORDER_META_DATA,
         payload: {data}
     };
 }
 
-export function actionUpdateSelectedShippingLine(data: Partial<IApplicationStateSelectShippingLine>): AnyAction {
+export function actionUpdateSelectedShippingLine(data: Partial<IShippingLine>): AnyAction {
     return {
         type: AppActions.UPDATE_SELECTED_SHIPPING_LINE,
         payload: {data}
     };
 }
 
-export function actionUpdateAvailableShippingLines(data: Array<IApplicationStateSelectShippingLine>): AnyAction {
+export function actionUpdateAvailableShippingLines(data: Array<IShippingLine>): AnyAction {
     return {
         type: AppActions.UPDATE_AVAILABLE_SHIPPING_LINES,
         payload: {data}
     };
 }
 
-export function actionUpdateShippingLinesTaxes(data: Array<IApplicationStateTax>): AnyAction {
+export function actionUpdateShippingLinesTaxes(data: Array<ITax>): AnyAction {
     return {
         type: AppActions.UPDATE_SHIPPING_LINES_TAXES,
         payload: {data}
     };
 }
 
-export function actionUpdateShippingLinesDiscount(data: Array<IApplicationStateDiscount>): AnyAction {
+export function actionUpdateShippingLinesDiscount(data: Array<IDiscount>): AnyAction {
     return {
         type: AppActions.UPDATE_SHIPPING_LINES_DISCOUNT,
         payload: {data}

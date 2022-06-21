@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import { AddressSavedFieldRadioList } from 'src/components';
-import { IAddress, ISavedAddressFieldRadioListProps, ISavedAddressHookProps } from 'src/types';
+import { ISavedAddressFieldRadioListProps, ISavedAddressHookProps } from 'src/types';
 import { initialDataMock } from 'src/mocks';
 import { useGetSavedAddressData, useGetShippingData } from 'src/hooks';
 import { mocked } from 'jest-mock';
@@ -8,6 +8,7 @@ import { Constants } from 'src/constants';
 import { Provider } from 'react-redux';
 import * as Store from 'src/store';
 import { getTerm } from 'src/utils';
+import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 jest.mock('src/hooks/useGetSavedAddressData');
 jest.mock('src/hooks/useGetAddressData');
@@ -20,7 +21,7 @@ const store = Store.initializeStore();
 
 describe('Testing AddressSavedFieldRadioList component', () => {
     const savedAddresses: Array<IAddress> = [
-        {...initialDataMock.application_state.addresses.shipping, id: '1'} as IAddress, 
+        {...initialDataMock.application_state.addresses.shipping, id: '1'} as IAddress,
         {...initialDataMock.application_state.addresses.billing, id: '2'} as IAddress
     ];
     const shippingData: IAddress = savedAddresses[0];
@@ -46,7 +47,7 @@ describe('Testing AddressSavedFieldRadioList component', () => {
         getTermMock.mockReturnValue('Shipping address');
 
         const {container} = render(<Provider store={store}><AddressSavedFieldRadioList {...props}/></Provider>);
-        
+
         expect(container.getElementsByClassName('saved-address-list').length).toBe(1);
         expect(container.getElementsByClassName('saved-address-list-item').length).toBe(3);
     });

@@ -3,6 +3,7 @@ import {validateShippingLine} from 'src/library';
 import {stateMock} from 'src/mocks/stateMock';
 import {actionAddError, actionRemoveErrorByType, actionSetAppStateValid} from 'src/action';
 import {errorTypes} from 'src/constants';
+import {IShippingLine} from "@bold-commerce/checkout-frontend-library";
 
 jest.mock('src/action');
 const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true);
@@ -72,7 +73,7 @@ describe('testing validateShippingLine', () => {
 
     test('calling validate shipping line with success false empty object', async () => {
         const newMock = {...stateMock};
-        newMock.data.application_state.shipping.selected_shipping = {};
+        newMock.data.application_state.shipping.selected_shipping = {} as IShippingLine;
         getState.mockReturnValueOnce(newMock);
 
         await validateShippingLine(dispatch, getState).then(() => {

@@ -103,7 +103,7 @@ describe('Test function retrieveErrorFromResponse', () => {
         },
     ];
 
-    test.each(dataset)('Test function', ({name, response, expected}) => {
+    test.each(dataset)('$name', ({name, response, expected}) => {
         const result = retrieveErrorFromResponse(response as any as IApiReturnObject);
 
         expect(result).toEqual(expected);

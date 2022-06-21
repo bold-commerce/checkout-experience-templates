@@ -1,10 +1,11 @@
 import {Dispatch} from 'redux';
-import {IApplicationStateSelectShippingLine, IOrderInitialization} from 'src/types';
+import {IOrderInitialization} from 'src/types';
 import {actionRemoveErrorByField, actionRemoveErrorByTypeAndCode, actionSetLoaderAndDisableButton} from 'src/action';
 import {HistoryLocationState} from 'react-router';
 import {getCheckoutUrl, getTotals, isOnlyDiscountCodeError, neuroIdSubmit} from 'src/utils';
 import {errorFields, errorTypes} from 'src/constants';
 import {orderCompleteAnalytics} from 'src/analytics';
+import {IShippingLine} from '@bold-commerce/checkout-frontend-library';
 
 export function checkErrorAndProceedToNextPage(
     page: string,
@@ -29,7 +30,7 @@ export function checkErrorAndProceedToNextPage(
                 const discounts = appState.discounts;
                 const payments = appState.payments;
                 const taxes = appState.taxes;
-                const shipping = appState.shipping.selected_shipping as IApplicationStateSelectShippingLine;
+                const shipping = appState.shipping.selected_shipping as IShippingLine;
                 const lineItems = appState.line_items;
                 const currency = appState.currency.iso_code;
                 const totals = getTotals(lineItems, payments, taxes, discounts, shipping);

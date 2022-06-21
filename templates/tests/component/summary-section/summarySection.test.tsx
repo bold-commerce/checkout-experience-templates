@@ -1,10 +1,11 @@
 import {render} from '@testing-library/react';
 import {SummarySection} from 'src/components';
-import {IApplicationStateDiscount, ISummaryDiscountLine, IUseCartSummary} from 'src/types';
+import {ISummaryDiscountLine, IUseCartSummary} from 'src/types';
 import {useCartSummary, useSummaryDiscountCode, useSummaryDiscountLine} from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 import {initialDataMock} from 'src/mocks';
+import {IDiscount} from '@bold-commerce/checkout-frontend-library';
 
 const store = {
     data: initialDataMock
@@ -32,7 +33,7 @@ describe('Testing CartSummary component', () => {
         lineItems: []
     };
 
-    const discounts : Array<IApplicationStateDiscount> = [
+    const discounts : Array<IDiscount> = [
         {
             code: 'test',
             text: 'test-text',

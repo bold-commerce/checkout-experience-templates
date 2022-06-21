@@ -1,7 +1,7 @@
 import {useAppSelector} from 'src/hooks';
-import {IApplicationStateCustomer} from 'src/types';
+import {ICustomer} from '@bold-commerce/checkout-frontend-library';
 
-export function useGetCustomerInfoData(): IApplicationStateCustomer {
+export function useGetCustomerInfoData(): ICustomer {
     return useAppSelector((state) => state.data.application_state.customer);
 }
 

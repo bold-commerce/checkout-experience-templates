@@ -33,47 +33,6 @@ export interface IInitialState {
     pigiDisplaySca: boolean,
 }
 
-export interface IAddress {
-    id?: string | null
-    first_name: string,
-    last_name: string,
-    address_line_1: string,
-    address_line_2: string,
-    country: string,
-    city: string,
-    province: string,
-    country_code: string,
-    province_code: string,
-    postal_code: string,
-    business_name: string,
-    phone_number: string
-}
-
-export interface IProductData {
-    id: string,
-    title: string,
-    product_title: string,
-    image_url: string,
-    properties: Record<string, string>,
-    description: string,
-    quantity: number,
-    price: number,
-    total_price: number,
-    visible: boolean,
-    line_item_key: string,
-    barcode: string,
-    compare_at_price: number,
-    weight: number,
-    weight_unit: string,
-    product_id: string,
-    variant_id: string,
-    requires_shipping: boolean,
-    sku: string,
-    taxable: boolean,
-    tags: string,
-    vendor: string
-}
-
 export interface IBreadcrumb {
     name: string,
     text: string,

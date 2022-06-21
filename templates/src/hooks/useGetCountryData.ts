@@ -1,5 +1,5 @@
-import {ICountryInformation} from 'src/types';
 import {useAppSelector} from 'src/hooks';
+import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
 
 export function useGetCountryInfoList(): ICountryInformation[]{
     return useAppSelector((state) => state.data.initial_data.country_info);

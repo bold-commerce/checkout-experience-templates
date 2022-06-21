@@ -1,6 +1,12 @@
 import {stateMock} from 'src/mocks/stateMock';
 import {mocked} from 'jest-mock';
-import {baseReturnObject, getBillingAddress, setBillingAddress, updateBillingAddress,} from '@bold-commerce/checkout-frontend-library';
+import {
+    baseReturnObject,
+    getBillingAddress,
+    IAddress,
+    setBillingAddress,
+    updateBillingAddress,
+} from '@bold-commerce/checkout-frontend-library';
 import * as handleErrorIfNeeded from 'src/utils/handleErrorIfNeeded';
 import {defaultAddressState} from 'src/constants';
 import {postBillingAddress, setBillingAddressAsValid} from 'src/library';
@@ -56,22 +62,10 @@ describe('testing postBillingAddress', () => {
         expect(actionSetAppStateValidSpy).toHaveBeenCalledTimes(1);
     });
 
-    test('calling post billing address endpoint with getAddress returning undefined', async () => {
-        getAddressesMock.mockReturnValueOnce(undefined);
-        const expectedError = new TypeError("Cannot destructure property `shipping` of 'undefined' or 'null'.");
-        await postBillingAddress(dispatch, getState).catch((error) => {
-            expect(error).toStrictEqual(expectedError);
-        });
-        expect(setBillingAddressMock).toHaveBeenCalledTimes(0);
-        expect(updateBillingAddressMock).toHaveBeenCalledTimes(1);
-        expect(getAddressesMock).toHaveBeenCalledTimes(1);
-        expect(actionSetAppStateValidSpy).toHaveBeenCalledTimes(1);
-    });
-
     test('calling post billing address with empty address', async () => {
         returnObject.success = true;
         getAddressesMock.mockReturnValueOnce(defaultAddressState);
-        setBillingAddressMock.mockReturnValueOnce(returnObject);
+        setBillingAddressMock.mockReturnValueOnce(Promise.resolve(returnObject));
         isObjectEqualsSpy.mockReturnValueOnce(true);
         await postBillingAddress(dispatch, getState).then(() => {
             expect(setBillingAddressMock).toHaveBeenCalledTimes(1);

@@ -1,11 +1,11 @@
 import {AnyAction} from 'redux';
 import * as CustomerActionsType from '../action/customerActionType';
-import {IApplicationStateCustomer} from 'src/types';
 import { defaultOrderInitialization } from 'src/constants/orderInitialization';
+import {ICustomer} from '@bold-commerce/checkout-frontend-library';
 
 const {data:{application_state}} = defaultOrderInitialization;
 
-export function customerReducer(state = application_state.customer, action: AnyAction ) : IApplicationStateCustomer {
+export function customerReducer(state = application_state.customer, action: AnyAction ): ICustomer {
     switch (action.type) {
         case CustomerActionsType.UPDATE_CUSTOMER_EMAIL:
             return {...state, email_address: action.payload.email};

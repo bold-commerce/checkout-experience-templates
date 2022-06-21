@@ -3,6 +3,8 @@ import {initialDataMock} from 'src/mocks';
 
 describe('testing getTotals', () => {
 
+    const paymentMock = {...initialDataMock.application_state.payments[0], value: undefined};
+    const paymentsMock = [paymentMock];
     const dataProvider = [
         {
             name: 'getTotals with success',
@@ -28,7 +30,7 @@ describe('testing getTotals', () => {
         {
             name: 'getTotals without line items array',
             mockLineItems: [],
-            mockPayments: initialDataMock.application_state.payments,
+            mockPayments: paymentsMock,
             mockTaxes: initialDataMock.application_state.taxes,
             mockDiscounts: initialDataMock.application_state.discounts,
             mockShipping: {

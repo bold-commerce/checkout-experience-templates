@@ -2,9 +2,10 @@ import {useDispatch} from 'react-redux';
 import {useGetCountryInfoList, useGetAddressDataField, useCallApiAtOnEvents, useGetErrorByField} from 'src/hooks';
 import {useCallback} from 'react';
 import {actionUpdateAddressField, actionRemoveErrorByField} from 'src/action';
-import {IAddressCountryHookProps, ICountryInformation} from 'src/types';
+import {IAddressCountryHookProps} from 'src/types';
 import {AddressLabelMapping, Constants, defaultAddressState} from 'src/constants';
 import {getTerm} from 'src/utils';
+import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
 
 
 export function useGetAddressCountryInputData(type: string, debounceApiCall: () => void): IAddressCountryHookProps {
@@ -13,7 +14,7 @@ export function useGetAddressCountryInputData(type: string, debounceApiCall: () 
     const name = Constants.ADDRESS_COUNTRY;
     const placeholder = getTerm('country_field_placeholder',Constants.SHIPPING_INFO);
     const label = getTerm(AddressLabelMapping[Constants.ADDRESS_COUNTRY],Constants.SHIPPING_INFO);
-    const countriesList: ICountryInformation[] = useGetCountryInfoList();
+    const countriesList: Array<ICountryInformation> = useGetCountryInfoList();
     const countryOptions = countriesList.map(country => ({ value: country.iso_code, name: country.name }));
     const value: string = useGetAddressDataField(type, Constants.ADDRESS_COUNTRY_CODE);
     const countryName = useGetAddressDataField(type, Constants.ADDRESS_COUNTRY);

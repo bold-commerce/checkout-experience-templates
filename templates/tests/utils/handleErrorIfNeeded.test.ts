@@ -2,7 +2,13 @@ import {displayFatalErrorFromTranslation, getHook, getNeuroIdPageName, handleErr
 import {mocked} from 'jest-mock';
 import {HistoryLocationState} from 'react-router';
 import SpyInstance = jest.SpyInstance;
-import {apiErrors, httpStatusCode, IApiErrorResponse, IApiResponse} from '@bold-commerce/checkout-frontend-library';
+import {
+    apiErrors,
+    httpStatusCode,
+    IApiErrorResponse,
+    IApiResponse,
+    IFetchError
+} from '@bold-commerce/checkout-frontend-library';
 
 jest.mock('src/utils/displayFatalErrorFromTranslation');
 jest.mock('src/utils/standaloneHooks');
@@ -27,17 +33,26 @@ describe('Test function handleErrorIfNeeded', () => {
         sub_type: 'some sub type'
     }];
 
+    const fetchError: IFetchError = {
+        body: undefined,
+        message: '',
+        name: '',
+        status: apiErrors.noPigiIframe.status,
+        statusText: undefined,
+        metaData: undefined
+    };
+
     const response = {
         status: 200,
         success: true,
-        error: {status: apiErrors.noPigiIframe.status},
+        error: fetchError,
         response: {},
     };
 
     const dataSet = [
         {status: apiErrors.noCsrf.status, resResponse: {}, displayErrorCalls: 1, dispatchCalls: 0, consoleCalls: 0, historyCall: 0},
         {status: apiErrors.general.status, resResponse: {}, displayErrorCalls: 0, dispatchCalls: 0, consoleCalls: 0, historyCall: 0},
-        {status: 'unknown', resResponse: [], displayErrorCalls: 0, dispatchCalls: 0, consoleCalls: 1, historyCall: 0},
+        {status: 0, resResponse: [], displayErrorCalls: 0, dispatchCalls: 0, consoleCalls: 1, historyCall: 0},
     ];
 
     const errorDataSet = [
@@ -60,7 +75,7 @@ describe('Test function handleErrorIfNeeded', () => {
     test.each(dataSet)(
         'handle error $status, with Errors else than 401 and 422',
         ({status, resResponse, displayErrorCalls, dispatchCalls, consoleCalls, historyCall}) => {
-            response.error = {status: status};
+            response.error = {...fetchError, status: status};
             response.response = resResponse as IApiResponse;
 
             handleErrorIfNeeded(response, dispatchMock, stateMock);
@@ -74,7 +89,7 @@ describe('Test function handleErrorIfNeeded', () => {
     test.each(errorDataSet)(
         'handle error $status, with Errors 401 and 422',
         ({status, resResponse, errorsFromResponse , displayErrorCalls, dispatchCalls, consoleCalls, historyCall, retrieveErrorFromResponseCall}) => {
-            response.error = {status: status};
+            response.error = {...fetchError, status: status};
             response.response = resResponse as IApiResponse;
 
             retrieveErrorFromResponseMock.mockReturnValue(errorsFromResponse as Array<IApiErrorResponse>);
@@ -90,7 +105,7 @@ describe('Test function handleErrorIfNeeded', () => {
     test.each(sessionDataSet)(
         'handle error status, with Errors: errors',
         ({resResponse, error, status, neuroIdSubmitCalls, retrieveErrorFromResponseCall}) => {
-            response.error = {status: status};
+            response.error = {...fetchError, status: status};
             response.response = resResponse as IApiResponse;
             getNeuroIdPageNameMock.mockReturnValue('some_page_name');
             retrieveErrorFromResponseMock.mockReturnValue(resResponse.errors as Array<IApiErrorResponse>);

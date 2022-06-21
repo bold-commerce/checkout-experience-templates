@@ -1,6 +1,6 @@
-import {IInitializeEndpointData} from 'src/types';
+import {IAddress, IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
 
-export const initialDataMock: IInitializeEndpointData = {
+export const initialDataMock: IInitializeOrderResponse = {
     'initial_data': {
         'shop_name': 'local-dev-store.mybigcommerce.com',
         'country_info': [
@@ -534,6 +534,7 @@ export const initialDataMock: IInitializeEndpointData = {
         },
         'addresses': {
             'shipping': {
+                id: null,
                 first_name: 'John',
                 last_name: 'Doe',
                 address_line_1: '50 Fultz Boulevard',
@@ -543,6 +544,9 @@ export const initialDataMock: IInitializeEndpointData = {
                 country_code: 'CA',
                 province_code: 'MB',
                 postal_code: 'R3Y 0L6',
+                business_name: 'Bold Commerce',
+                address_line_2: '',
+                phone_number: ''
             },
             'billing': {
                 first_name: 'Jane',
@@ -555,7 +559,8 @@ export const initialDataMock: IInitializeEndpointData = {
                 country_code: 'CA',
                 province_code: 'MB',
                 postal_code: 'R3Z 4S2',
-                business_name: 'Bold Commerce'
+                business_name: 'Bold Commerce',
+                phone_number: ''
             }
         },
         'line_items': [
@@ -623,8 +628,8 @@ export const initialDataMock: IInitializeEndpointData = {
         'created_via': 'checkout',
         'is_processed': false,
         'order_meta_data': {
-            'cart_parameters': [],
-            'note_attributes': [],
+            'cart_parameters': {},
+            'note_attributes': {},
             'notes': '',
             'tags': []
         },
@@ -657,18 +662,19 @@ export const initialDataMock: IInitializeEndpointData = {
     'public_order_id': 'aFzRWmIQu1ycRcXKdthasXPe5LGYCm5oR3G8j6cPEh2kUILM2uA2z7OhRkg28aWn'
 };
 
-export const initialDataMockEmptyAddresses: IInitializeEndpointData = {
+
+export const initialDataMockEmptyAddresses: IInitializeOrderResponse = {
     ...initialDataMock,
     application_state: {
         ...initialDataMock.application_state,
         addresses: {
-            billing: {},
-            shipping: {}
+            billing: {} as IAddress,
+            shipping: {} as IAddress
         }
     }
 };
 
-export const initialDataMockEmptyShippingLines: IInitializeEndpointData = {
+export const initialDataMockEmptyShippingLines: IInitializeOrderResponse = {
     ...initialDataMock,
     application_state: {
         ...initialDataMock.application_state,

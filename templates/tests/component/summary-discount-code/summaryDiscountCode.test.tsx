@@ -1,8 +1,9 @@
 import {fireEvent, render} from '@testing-library/react';
 import {SummaryDiscountCode} from 'src/components';
-import {IApplicationStateDiscount, ISummaryDiscountLine} from 'src/types';
+import {ISummaryDiscountLine} from 'src/types';
 import {mocked} from 'jest-mock';
 import {useGetIsLoading, useSummaryDiscountCode, useSummaryDiscountLine} from 'src/hooks';
+import {IDiscount} from '@bold-commerce/checkout-frontend-library';
 
 jest.mock('src/hooks/useSummaryDiscountLine');
 jest.mock('src/hooks/useSummaryDiscountCode');
@@ -12,7 +13,7 @@ const useSummaryDiscountLineMock = mocked(useSummaryDiscountLine, true);
 const useSummaryDiscountCodeMock = mocked(useSummaryDiscountCode, true);
 
 describe('Testing SummaryDiscountCode Component', () => {
-    const discounts : Array<IApplicationStateDiscount> = [
+    const discounts : Array<IDiscount> = [
         {
             code: 'test',
             text: 'test-text',

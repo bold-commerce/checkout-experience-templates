@@ -1,10 +1,10 @@
-import {IApplicationStateLineItem} from 'src/types';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {fireEvent, render} from '@testing-library/react';
 import {CartItem, SemiControlledNumberInput} from 'src/components';
 import { mocked } from 'jest-mock';
 import { getLineItemPropertiesForDisplay } from 'src/utils';
 import {useGetCurrencyInformation} from 'src/hooks';
+import {ILineItem} from '@bold-commerce/checkout-frontend-library';
 
 const store = {
     data: initialDataMock
@@ -36,15 +36,15 @@ describe('Testing CartItem component', () => {
         jest.useRealTimers();
     });
 
-    const lineItem: IApplicationStateLineItem = stateMock.data.application_state.line_items[0];
-    const lineItemVariant: IApplicationStateLineItem = {
+    const lineItem: ILineItem = stateMock.data.application_state.line_items[0];
+    const lineItemVariant: ILineItem = {
         ...lineItem,
         product_data: {
             ...lineItem.product_data,
             title: 'Variant Title'
         }
     };
-    const lineItemWithVariantAndProperties: IApplicationStateLineItem = {
+    const lineItemWithVariantAndProperties: ILineItem = {
         ...lineItem,
         product_data: {
             ...lineItem.product_data,
@@ -52,7 +52,7 @@ describe('Testing CartItem component', () => {
             properties: {'property': 'value'}
         }
     }
-    const lineItemWithProperties: IApplicationStateLineItem = {
+    const lineItemWithProperties: ILineItem = {
         ...lineItem,
         product_data: {
             ...lineItem.product_data,
@@ -111,7 +111,7 @@ describe('Testing CartItem component', () => {
         });
         getLineItemPropertiesForDisplayMock.mockReturnValue([]);
         const onUpdateQuantity = jest.fn();
-        const _lineItem: IApplicationStateLineItem = {
+        const _lineItem: ILineItem = {
             ...lineItem,
             product_data: {
                 ...lineItem.product_data,

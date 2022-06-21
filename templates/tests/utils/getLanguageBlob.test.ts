@@ -1,7 +1,7 @@
 import {getLanguageBlob} from 'src/utils';
 import {Constants} from 'src/constants';
 import {initialDataMock} from 'src/mocks';
-import {ISupportedLanguage} from 'src/types';
+import {ISupportedLanguage} from '@bold-commerce/checkout-frontend-library';
 
 describe('Test function getLanguageBlob', () => {
     let jsonParseSpy: jest.SpyInstance;

@@ -6,9 +6,9 @@ import {HistoryLocationState} from 'react-router';
 import {
     checkInventory as checkInventoryLib,
     baseReturnObject,
-    checkInventoryStage
+    checkInventoryStage,
 } from '@bold-commerce/checkout-frontend-library';
-
+import {stateMock} from 'src/mocks';
 
 jest.mock('@bold-commerce/checkout-frontend-library/lib/order');
 jest.mock('src/utils/handleErrorIfNeeded');
@@ -35,8 +35,8 @@ describe('testing checkLoadPigiErrors', () => {
     test('calling checkInventory successfully', async () => {
         const localReturnObject = {...baseReturnObject};
         localReturnObject.success = true;
-        localReturnObject.response = {data: {inventory_check: {result: 'Pass'}}};
-        checkInventoryLibMock.mockReturnValueOnce(localReturnObject);
+        localReturnObject.response = {data: {inventory_check: {result: 'pass'}, application_state: stateMock.data.application_state}};
+        checkInventoryLibMock.mockReturnValueOnce(Promise.resolve(localReturnObject));
 
         const inventory = checkInventory(checkInventoryStage.initial);
         await inventory(dispatch, getState).then(() => {
@@ -51,8 +51,8 @@ describe('testing checkLoadPigiErrors', () => {
     test('calling checkInventory successfully with inventory issue', async () => {
         const localReturnObject = {...baseReturnObject};
         localReturnObject.success = true;
-        localReturnObject.response = {data: {inventory_check: {result: 'fail'}}};
-        checkInventoryLibMock.mockReturnValueOnce(localReturnObject);
+        localReturnObject.response = {data: {inventory_check: {result: 'fail'}, application_state: stateMock.data.application_state}};
+        checkInventoryLibMock.mockReturnValueOnce(Promise.resolve(localReturnObject));
 
         const inventory = checkInventory(checkInventoryStage.initial);
         await inventory(dispatch, getState).then(() => {

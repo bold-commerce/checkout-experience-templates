@@ -1,7 +1,7 @@
 import * as CustomerActions from 'src/action/customerActionType';
 import {AnyAction} from 'redux';
 import {Constants} from 'src/constants';
-import {IAddress, IApplicationStateCustomer} from 'src/types';
+import {IAddress, ICustomer} from '@bold-commerce/checkout-frontend-library';
 
 export function actionUpdateCustomerEmail (email:string): AnyAction{
     return {
@@ -17,7 +17,7 @@ export function actionUpdateCustomerField(field:string, value:string): AnyAction
     };
 }
 
-export function actionUpdateCustomer(customer: IApplicationStateCustomer): AnyAction{
+export function actionUpdateCustomer(customer: ICustomer): AnyAction{
     return {
         type: CustomerActions.UPDATE_CUSTOMER,
         payload: {customer}

@@ -1,12 +1,14 @@
 import {billingReducer, shippingReducer} from 'src/reducer';
 import {
     CLEAR_BILLING_INFO,
-    UPDATE_BILLING_ADDRESS_FIELD, UPDATE_BILLING_SAVED_ADDRESS_FIELD, UPDATE_BILLING_TYPE_SAME,
+    UPDATE_BILLING_ADDRESS_FIELD,
+    UPDATE_BILLING_SAVED_ADDRESS_FIELD,
+    UPDATE_BILLING_TYPE_SAME,
     UPDATE_SHIPPING_ADDRESS_FIELD,
     UPDATE_SHIPPING_SAVED_ADDRESS_FIELD
 } from 'src/action';
-import {IAddress} from 'src/types';
 import {defaultAddressState} from 'src/constants';
+import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 describe('testing shipping Reducer', () => {
 
@@ -19,8 +21,12 @@ describe('testing shipping Reducer', () => {
         'last_name': 'Doe',
         'postal_code': 'R3Y 0L6',
         'province': 'Manitoba',
-        'province_code': 'MB'
-    };
+        'province_code': 'MB',
+        'address_line_2': '',
+        'business_name': 'Bold Commerce',
+        'id': null,
+        'phone_number': ''
+};
 
     test('should return the initial state ', () => {
         expect(shippingReducer(undefined , {type: ''})).toEqual(
@@ -62,7 +68,8 @@ describe('testing Billing Reducer', () => {
         'last_name': 'Doe',
         'postal_code': 'R3Z 4S2',
         'province': 'Manitoba',
-        'province_code': 'MB'
+        'province_code': 'MB',
+        'phone_number': ''
     };
 
     test('should return the initial state ', () => {

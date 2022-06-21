@@ -2,16 +2,17 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { actionGetInitialData, actionUpdateAppData } from 'src/action';
 import { initializeSession, setDefaultAddresses, setDefaultShippingLines } from 'src/library';
-import { IInitializeEndpointData, IOrderInitialization } from 'src/types';
+import { IOrderInitialization } from 'src/types';
 import { getOrderInitialization } from 'src/utils/getOrderInitialization';
 import { IUseModal } from '../types';
+import {IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
 
 export function useModal(): IUseModal {
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpenEvent = useCallback(async (e) => {
-        const data: IInitializeEndpointData = e.detail;
+        const data: IInitializeOrderResponse = e.detail;
         setIsOpen(true);
         document.body.style.position = 'fixed'; // prevent background scrolling
         const orderData: IOrderInitialization = getOrderInitialization(data);
@@ -21,7 +22,7 @@ export function useModal(): IUseModal {
         dispatch(setDefaultAddresses).then(() => {
             dispatch(setDefaultShippingLines);
         });
-        
+
     }, [setIsOpen, dispatch]);
 
     const handleCloseEvent = useCallback(() => {

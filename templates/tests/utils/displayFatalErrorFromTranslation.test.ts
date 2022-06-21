@@ -1,4 +1,4 @@
-import {IOrderInitialization, IOverlay, ISupportedLanguage} from 'src/types';
+import {IOrderInitialization, IOverlay} from 'src/types';
 import {Dispatch} from 'redux';
 import {displayFatalErrorFromTranslation} from 'src/utils';
 import * as overlayAction from 'src/action/overlayAction';
@@ -11,6 +11,7 @@ import SpyInstance = jest.SpyInstance;
 import {stateMock} from 'src/mocks/stateMock';
 import {SET_OVERLAY_CONTENT} from 'src/action';
 import {Constants} from 'src/constants';
+import {ISupportedLanguage} from '@bold-commerce/checkout-frontend-library';
 
 describe('Test displayFatalErrorFromTranslation function', () => {
     let dispatch: Dispatch;

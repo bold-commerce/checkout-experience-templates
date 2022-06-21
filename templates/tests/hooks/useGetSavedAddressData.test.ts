@@ -4,7 +4,7 @@ import {renderHook} from '@testing-library/react-hooks';
 import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
-import {IAddress} from 'src/types';
+import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -143,7 +143,7 @@ describe('Testing hook useGetSavedAddressData', () => {
         expect(result.current.options).toEqual([
             {
                 name: 'Incomplete address #1',
-                value: '1__incomplete',
+                value: 'null__incomplete',
             },
             {
                 name: '100 Main Street',

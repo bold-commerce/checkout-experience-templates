@@ -1,6 +1,6 @@
 import {useAppSelector} from 'src/hooks/rootHooks';
-import {IAddress} from 'src/types';
 import {Constants} from 'src/constants';
+import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 export function useGetShippingData(): IAddress{
     return useAppSelector((state) => state.data.application_state.addresses.shipping);

@@ -1,8 +1,9 @@
-import {IApplicationStatePayment, IDisplayPaymentMethod} from 'src/types';
+import {IDisplayPaymentMethod} from 'src/types';
 import {getTerm} from 'src/utils';
 import {getCardDisplayFormat, getGiftCardDisplayFormat} from 'src/utils';
+import {IPayment} from '@bold-commerce/checkout-frontend-library';
 
-export function useGetPaymentType(props: IApplicationStatePayment): IDisplayPaymentMethod {
+export function useGetPaymentType(props: IPayment): IDisplayPaymentMethod {
     if (!props.tag || !props.driver) {
         return {paymentMethodName: '', paymentMethodValue: ''};
     }
@@ -47,8 +48,8 @@ export function useGetPaymentType(props: IApplicationStatePayment): IDisplayPaym
         // Other - Branded Cards - Credit cards
         default:
             return {
-                paymentMethodName: props.brand,
-                paymentMethodValue: getCardDisplayFormat(props.brand, lineText),
+                paymentMethodName: props.brand ?? '',
+                paymentMethodValue: getCardDisplayFormat(props.brand ?? '', lineText),
             };
     }
 }

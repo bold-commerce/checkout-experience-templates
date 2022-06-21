@@ -1,6 +1,6 @@
 import {mocked} from 'jest-mock';
 import {generateTaxes, validateShippingAddress} from 'src/library';
-import {getShippingAddress} from '@bold-commerce/checkout-frontend-library';
+import {getShippingAddress, IAddress} from '@bold-commerce/checkout-frontend-library';
 import * as validateAddressFunction from 'src/library/validateAddressFunction';
 import {defaultAddressState} from 'src/constants';
 
@@ -27,7 +27,7 @@ describe('testing validateShippingAddress', () => {
     test('testing updated address true', async () => {
         getStateMock.mockReturnValueOnce({data: {application_state: {addresses: {shipping: defaultAddressState}}}})
             .mockReturnValueOnce({isValid: {updatedShippingAddress: true}});
-        getShippingAddressMock.mockReturnValueOnce({});
+        getShippingAddressMock.mockReturnValueOnce({} as IAddress);
         await validateShippingAddress(dispatchMock, getStateMock).then(() => {
             expect(getShippingAddressMock).toHaveBeenCalledTimes(1);
             expect(dispatchMock).toHaveBeenCalledTimes(2);
@@ -39,7 +39,7 @@ describe('testing validateShippingAddress', () => {
     test('testing updated address false', async () => {
         getStateMock.mockReturnValueOnce({data: {application_state: {addresses: {shipping: defaultAddressState}}}})
             .mockReturnValueOnce({isValid: {updatedShippingAddress: false}});
-        getShippingAddressMock.mockReturnValueOnce({});
+        getShippingAddressMock.mockReturnValueOnce({} as IAddress);
         await validateShippingAddress(dispatchMock, getStateMock).then(() => {
             expect(getShippingAddressMock).toHaveBeenCalledTimes(1);
             expect(dispatchMock).toHaveBeenCalledTimes(1);

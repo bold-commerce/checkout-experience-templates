@@ -11,7 +11,9 @@ import {
     getPayments,
     getShipping,
     getShippingAddress,
-    getTaxes
+    getTaxes,
+    IAddress,
+    IShippingLine
 } from '@bold-commerce/checkout-frontend-library';
 import {initialDataMock} from 'src/mocks';
 import {
@@ -153,7 +155,7 @@ describe('testing Update Application State Thunk Actions', () => {
     });
 
     test('calling getBillingAddressFromLib empty address', () => {
-        getBillingAddressMock.mockReturnValueOnce({});
+        getBillingAddressMock.mockReturnValueOnce({} as IAddress);
         const actionMock = {
             type: CustomerActions.UPDATE_BILLING_ADDRESS,
             payload: {data: defaultAddressState}
@@ -331,7 +333,7 @@ describe('testing Update Application State Thunk Actions', () => {
 
     test('calling getShippingFromLib empty selected_shipping', () => {
         const shippingMock = {...shipping};
-        shippingMock.selected_shipping = {};
+        shippingMock.selected_shipping = {} as IShippingLine;
         getShippingMock.mockReturnValueOnce(shippingMock);
         const selectedShippingLineMock = {
             id: '',
@@ -403,7 +405,7 @@ describe('testing Update Application State Thunk Actions', () => {
     });
 
     test('calling getShippingAddressFromLib empty address', () => {
-        getShippingAddressMock.mockReturnValueOnce({});
+        getShippingAddressMock.mockReturnValueOnce({} as IAddress);
         const actionMock = {
             type: CustomerActions.UPDATE_SHIPPING_ADDRESS,
             payload: {data: defaultAddressState}

@@ -1,6 +1,6 @@
-import {ICountryInformation} from 'src/types';
 import {googleAutocompleteRetrieveCountriesListLimitation} from 'src/utils';
 import AutocompleteOptions = google.maps.places.AutocompleteOptions;
+import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
 
 export const googleAutocompleteRetrieveOptions = (getCountryInfoList: Array<ICountryInformation>): AutocompleteOptions => {
     const countriesRestrictions = googleAutocompleteRetrieveCountriesListLimitation(getCountryInfoList);

@@ -1,13 +1,13 @@
 import {stateMock} from 'src/mocks';
 import {selectShippingLineReducer} from 'src/reducer';
 import {SET_SELECTED_SHIPPING_LINE, UPDATE_SELECTED_SHIPPING_LINE} from 'src/action';
-import {IApplicationStateSelectShippingLine} from 'src/types';
+import {IShippingLine} from '@bold-commerce/checkout-frontend-library';
 
 
 describe('testing selectShippingLineReducer Reducer', () => {
 
     const defaultValues = stateMock.data.application_state.shipping.selected_shipping;
-    const shippingLine: IApplicationStateSelectShippingLine= {
+    const shippingLine: IShippingLine= {
         id: '2',
         description: 'Test carrier',
         amount: 19.99
