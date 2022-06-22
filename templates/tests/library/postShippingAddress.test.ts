@@ -41,31 +41,35 @@ describe('testing postAddress', () => {
     test('calling post shipping address endpoint with getState returning undefined', async () => {
         getState.mockReturnValueOnce(undefined);
         const expectedError = new TypeError("Cannot destructure property `data` of 'undefined' or 'null'.");
-        await postShippingAddress(dispatch, getState).catch((error) => {
-            expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
-            expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
-            expect(getAddressesMock).toHaveBeenCalledTimes(1);
-            expect(dispatch).toHaveBeenCalledTimes(1);
-            expect(dispatch).toHaveBeenCalledWith(actionReturnMock);
-            expect(setShippingAddressMock).toHaveBeenCalledTimes(0);
-            expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
-            expect(error).toStrictEqual(expectedError);
-        });
+        
+        await expect(async () => {
+            await postShippingAddress(dispatch, getState);
+        }).rejects.toThrow(expectedError);
+        
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
+        expect(getAddressesMock).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledWith(actionReturnMock);
+        expect(setShippingAddressMock).toHaveBeenCalledTimes(0);
+        expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
     });
 
     test('calling post shipping address endpoint with getState returning a different data structure', async () => {
         getState.mockReturnValueOnce(fakeInvalidData);
         const expectedError = new TypeError("Cannot destructure property `application_state` of 'undefined' or 'null'.");
-        await postShippingAddress(dispatch, getState).catch((error) => {
-            expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
-            expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
-            expect(getAddressesMock).toHaveBeenCalledTimes(1);
-            expect(dispatch).toHaveBeenCalledTimes(1);
-            expect(dispatch).toHaveBeenCalledWith(actionReturnMock);
-            expect(setShippingAddressMock).toHaveBeenCalledTimes(0);
-            expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
-            expect(error).toStrictEqual(expectedError);
-        });
+
+        await expect(async () => {
+            await postShippingAddress(dispatch, getState);
+        }).rejects.toThrow(expectedError);
+        
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
+        expect(getAddressesMock).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledWith(actionReturnMock);
+        expect(setShippingAddressMock).toHaveBeenCalledTimes(0);
+        expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
     });
 
     test('calling post shipping address when previous is equal default address', async () => {
@@ -73,100 +77,36 @@ describe('testing postAddress', () => {
         getState.mockReturnValueOnce(newStateMock);
         getAddressesMock.mockReturnValueOnce(defaultAddressState);
 
-        await postShippingAddress(dispatch, getState).then(() => {
-            expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
-            expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
-            expect(getAddressesMock).toHaveBeenCalledTimes(1);
-            expect(dispatch).toHaveBeenCalledTimes(2);
-            expect(dispatch).toHaveBeenCalledWith(actionReturnMock);
-            expect(setShippingAddressMock).toHaveBeenCalledTimes(1);
-            expect(setShippingAddressMock).toHaveBeenCalledWith(defaultAddressState);
-            expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
-            expect(dispatch).toHaveBeenCalledWith(setShippingAddressAsValid);
-            expect(handleErrorMock).toHaveBeenCalledTimes(1);
-            expect(handleErrorMock).toHaveBeenCalledWith(successReturnObject, dispatch, getState, 'shipping');
-        });
-    });
-
-    test('calling post shipping address when previous is different id from new address', async () => {
-        const previous = {...defaultAddressState, id: '0'};
-        const address = {...defaultAddressState, id: '1'};
-        const newStateMock = {data: {application_state: {addresses: {shipping: address}}}};
-        getState.mockReturnValueOnce(newStateMock);
-        getAddressesMock.mockReturnValue(previous);
-
-
-        await postShippingAddress(dispatch, getState).then(() => {
-            expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
-            expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
-            expect(getAddressesMock).toHaveBeenCalledTimes(1);
-            expect(dispatch).toHaveBeenCalledTimes(2);
-            expect(dispatch).toHaveBeenCalledWith(actionReturnMock);
-            expect(setShippingAddressMock).toHaveBeenCalledTimes(1);
-            expect(setShippingAddressMock).toHaveBeenCalledWith(address);
-            expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
-            expect(dispatch).toHaveBeenCalledWith(setShippingAddressAsValid);
-            expect(handleErrorMock).toHaveBeenCalledTimes(1);
-            expect(handleErrorMock).toHaveBeenCalledWith(successReturnObject, dispatch, getState, 'shipping');
-        });
-    });
-
-    test('calling put shipping address when previous is same id but with changes', async () => {
-        const previous = {...defaultAddressState, id: '1'};
-        const address = {...defaultAddressState, id: '1', address_line_1: 'test_address'};
-        const newStateMock = {data: {application_state: {addresses: {shipping: address}}}};
-        getState.mockReturnValueOnce(newStateMock);
-        getAddressesMock.mockReturnValue(previous);
-
-        await postShippingAddress(dispatch, getState).then(() => {
-            expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
-            expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
-            expect(getAddressesMock).toHaveBeenCalledTimes(1);
-            expect(dispatch).toHaveBeenCalledTimes(2);
-            expect(dispatch).toHaveBeenCalledWith(actionReturnMock);
-            expect(updateShippingAddressMock).toHaveBeenCalledTimes(1);
-            expect(updateShippingAddressMock).toHaveBeenCalledWith(address);
-            expect(setShippingAddressMock).toHaveBeenCalledTimes(0);
-            expect(dispatch).toHaveBeenCalledWith(setShippingAddressAsValid);
-            expect(handleErrorMock).toHaveBeenCalledTimes(1);
-            expect(handleErrorMock).toHaveBeenCalledWith(successReturnObject, dispatch, getState, 'shipping');
-        });
-    });
-
-    test('calling put shipping address when previous is different from new address', async () => {
-        const address = {...defaultAddressState, address_line_1: 'test_address', id: '1'};
-        getAddressesMock.mockReturnValueOnce(address);
-        const stateAddress = {...stateMock.data.application_state.addresses.shipping, id: '1'};
-        const newStateMock = {data: {application_state: {addresses: {shipping: stateAddress}}}};
-        getState.mockReturnValueOnce(newStateMock);
-
-        await postShippingAddress(dispatch, getState).then(() => {
-            expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
-            expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
-            expect(getAddressesMock).toHaveBeenCalledTimes(1);
-            expect(dispatch).toHaveBeenCalledTimes(2);
-            expect(dispatch).toHaveBeenCalledWith(actionReturnMock);
-            expect(updateShippingAddressMock).toHaveBeenCalledTimes(1);
-            expect(updateShippingAddressMock).toHaveBeenCalledWith(stateAddress);
-            expect(setShippingAddressMock).toHaveBeenCalledTimes(0);
-            expect(dispatch).toHaveBeenCalledWith(setShippingAddressAsValid);
-            expect(handleErrorMock).toHaveBeenCalledTimes(1);
-            expect(handleErrorMock).toHaveBeenCalledWith(successReturnObject, dispatch, getState, 'shipping');
-        });
+        await postShippingAddress(dispatch, getState);
+        
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
+        expect(getAddressesMock).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledTimes(2);
+        expect(dispatch).toHaveBeenCalledWith(actionReturnMock);
+        expect(setShippingAddressMock).toHaveBeenCalledTimes(1);
+        expect(setShippingAddressMock).toHaveBeenCalledWith(defaultAddressState);
+        expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
+        expect(dispatch).toHaveBeenCalledWith(setShippingAddressAsValid);
+        expect(handleErrorMock).toHaveBeenCalledTimes(1);
+        expect(handleErrorMock).toHaveBeenCalledWith(successReturnObject, dispatch, getState, 'shipping');
     });
 
     test('When previous is same as new address', async () => {
         getAddressesMock.mockReturnValueOnce(stateMock.data.application_state.addresses.shipping);
 
-        await postShippingAddress(dispatch, getState).then(() => {
-            expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
-            expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
-            expect(getAddressesMock).toHaveBeenCalledTimes(1);
-            expect(dispatch).toHaveBeenCalledTimes(1);
-            expect(dispatch).toHaveBeenCalledWith(actionReturnMock);
-            expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
-            expect(setShippingAddressMock).toHaveBeenCalledTimes(0);
-            expect(handleErrorMock).toHaveBeenCalledTimes(0);
-        });
+        await postShippingAddress(dispatch, getState);
+        
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(2);
+        expect(actionSetAppStateValidMock.mock.calls).toEqual([
+            ['shippingAddress', false],
+            ['shippingAddress', true],
+        ]);
+        expect(getAddressesMock).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledTimes(2);
+        expect(dispatch.mock.calls).toEqual([[actionReturnMock], [actionReturnMock]]);
+        expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
+        expect(setShippingAddressMock).toHaveBeenCalledTimes(0);
+        expect(handleErrorMock).toHaveBeenCalledTimes(0);
     });
 });

@@ -1,6 +1,6 @@
 import {Constants, defaultAddressState} from 'src/constants';
 import {useDispatch} from 'react-redux';
-import {getTerm} from 'src/utils';
+import {compareAddresses, getTerm} from 'src/utils';
 import {useGetSavedAddressOptions, useCallApiAtOnEvents} from 'src/hooks';
 import {useCallback, useMemo} from 'react';
 import {ISavedAddressHookProps} from 'src/types';
@@ -15,14 +15,6 @@ import { useGetAddressData } from './useGetAddressData';
  */
 const makeAddressId = (address: IAddress) => {
     return `${address.id}__${address.address_line_1 || 'incomplete'}`;
-};
-
-/**
- * Compares 2 address parts to test for equality. Parts will be "normalized" before
- * comparison.
- */
-const compareAddressPart = (a: string , b: string ) => {
-    return a.toLowerCase().trim() === b.toLowerCase().trim();
 };
 
 export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
@@ -41,20 +33,7 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
     const currentAddress = useGetAddressData(type);
     const selectedOptionId = useMemo(() => {
         if (!currentAddress) { return undefined; }
-
-        const address = savedAddresses.find(address =>
-            compareAddressPart(address.first_name, currentAddress.first_name) &&
-            compareAddressPart(address.last_name, currentAddress.last_name) &&
-            compareAddressPart(address.address_line_1, currentAddress.address_line_1) &&
-            compareAddressPart(address.address_line_2, currentAddress.address_line_2) &&
-            compareAddressPart(address.city, currentAddress.city) &&
-            (compareAddressPart(address.province, currentAddress.province) || compareAddressPart(address.province_code, currentAddress.province_code)) &&
-            (compareAddressPart(address.country, currentAddress.country) || compareAddressPart(address.country_code, currentAddress.country_code)) &&
-            compareAddressPart(address.postal_code, currentAddress.postal_code) &&
-            compareAddressPart(address.business_name, currentAddress.business_name) &&
-            compareAddressPart(address.phone_number, currentAddress.phone_number)
-        );
-
+        const address = savedAddresses.find(address => compareAddresses(address, currentAddress));
         return !address ? undefined : makeAddressId(address);
     }, [savedAddresses, currentAddress]);
 
