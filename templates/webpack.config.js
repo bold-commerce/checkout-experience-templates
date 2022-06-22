@@ -2,6 +2,8 @@
 /* global __dirname, process */
 const path = require('path');
 
+const isDev = process.env.NODE_ENV === 'development';
+
 module.exports = {
     entry: {
         one_page: './src/themes/one-page/init.tsx',
@@ -54,7 +56,7 @@ module.exports = {
     },
     plugins: [],
     performance: {
-        hints: 'warning',
+        hints: isDev ? false : 'warning',
         maxEntrypointSize: 1048576,
         maxAssetSize: 1048576
     }
