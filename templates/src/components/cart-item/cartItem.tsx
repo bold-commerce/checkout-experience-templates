@@ -37,15 +37,15 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
                 <div className="cart-item__quantity-container">
                     {onUpdateQuantity ? (
                         <div className="cart-item__quantity-controls">
-                            <button className="cart-item__quantity-decrease" disabled={quantityDisabled} aria-label="decrement quantity" onClick={decrementLocalQuantity}>-</button>
+                            <button className="cart-item__quantity-decrease" aria-disabled={quantityDisabled} aria-label="decrement quantity" onClick={decrementLocalQuantity}>-</button>
                             <SemiControlledNumberInput
                                 className="cart-item__quantity-input"
                                 min={1}
                                 value={localQuantity}
-                                disabled={quantityDisabled}
+                                aria-disabled={quantityDisabled}
                                 onCommit={commit}
                             />
-                            <button className="cart-item__quantity-increase" disabled={quantityDisabled} aria-label="increment quantity" onClick={incrementLocalQuantity}>+</button>
+                            <button className="cart-item__quantity-increase" aria-disabled={quantityDisabled} aria-label="increment quantity" onClick={incrementLocalQuantity}>+</button>
                         </div>
                     ) : (
                         <div className="cart-item__quantity">

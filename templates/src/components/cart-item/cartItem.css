@@ -122,8 +122,8 @@ li {
     border-bottom-left-radius: 4px;
 }
 
-.cart-item__quantity-increase:disabled,
-.cart-item__quantity-decrease:disabled {
+.cart-item__quantity-increase[aria-disabled="true"],
+.cart-item__quantity-decrease[aria-disabled="true"] {
     background-color: #F4F4F4;
     border-color: #F4F4F4;
 }
