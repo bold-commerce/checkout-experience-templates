@@ -4,8 +4,9 @@ import { OutOfStockPage } from 'src/themes/buy-now/pages';
 import { initialDataMock } from 'src/mocks';
 import { mocked } from 'jest-mock';
 import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
-import { IUseGetCloseBuyNow } from 'src/themes/buy-now/types';
+import { IUseFocusTrap, IUseGetCloseBuyNow } from 'src/themes/buy-now/types';
 import * as analytics from 'src/analytics/analytics';
+import { useFocusTrap } from 'src/themes/buy-now/hooks/useFocusTrap';
 
 const store = {
     data: initialDataMock,
@@ -19,7 +20,10 @@ jest.mock('react-redux', () => ({
 }));
 
 jest.mock('src/themes/buy-now/hooks/useGetCloseBuyNow');
+jest.mock('src/themes/buy-now/hooks/useGetCloseBuyNow');
+jest.mock('src/themes/buy-now/hooks/useFocusTrap');
 const useGetCloseBuyNowMock = mocked(useGetCloseBuyNow, true);
+const useFocusTrapMock = mocked(useFocusTrap, true);
 
 describe('testing the out of stock page', () => {
     let sendPageViewSpy: jest.SpyInstance;
@@ -29,11 +33,22 @@ describe('testing the out of stock page', () => {
         websiteName: 'websiteName',
         terms: {}
     };
-
+    const focusTrapMock: IUseFocusTrap = {
+        activeElement: 'thank_you',
+        focusTrapOptions: {
+            // NOTE: JSDom doesn't support some of the visibility checks that tabbable
+            //  performs to determine if a node is visible (and so tabbable/focusable)
+            //  so we have to use this displayCheck mode to run tests in this env
+            tabbableOptions: {
+                displayCheck: 'none'
+            }
+        }
+    };
 
     beforeEach(() => {
         jest.clearAllMocks();
         useGetCloseBuyNowMock.mockReturnValue(closeModalMock);
+        useFocusTrapMock.mockReturnValueOnce(focusTrapMock)
         sendPageViewSpy = jest.spyOn(analytics, 'sendPageView');
         sendEventsSpy = jest.spyOn(analytics, 'sendEvents');
     });

@@ -6,23 +6,36 @@ import { getTerm } from 'src/utils';
 import { mocked } from 'jest-mock';
 import { useGetSelectShippingLine } from 'src/hooks';
 import * as useIndexPage from 'src/themes/buy-now/hooks/useIndexPage';
-import { IBuyNowContainerPageProps } from 'src/themes/buy-now/types';
+import { IBuyNowContainerPageProps, IUseFocusTrap } from 'src/themes/buy-now/types';
 import * as Store from 'src/store';
 import { Provider } from 'react-redux';
 import { useCheckShippingAddress } from 'src/themes/buy-now/hooks';
+import { useFocusTrap } from 'src/themes/buy-now/hooks';
 
 const store = Store.initializeStore();
 
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useGetSelectShippingLine');
 jest.mock('src/themes/buy-now/hooks/useCheckShippingAddress');
+jest.mock('src/themes/buy-now/hooks/useFocusTrap');
 const getTermMock = mocked(getTerm, true);
 const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
 const useCheckShippingAddressMock = mocked(useCheckShippingAddress);
-
+const useFocusTrapMock = mocked(useFocusTrap, true);
 
 describe('testing IndexPage', () => {
     const useIndexPageSpy = jest.spyOn(useIndexPage, 'useIndexPage');
+    const focusTrapMock: IUseFocusTrap = {
+        activeElement: 'thank_you',
+        focusTrapOptions: {
+            // NOTE: JSDom doesn't support some of the visibility checks that tabbable
+            //  performs to determine if a node is visible (and so tabbable/focusable)
+            //  so we have to use this displayCheck mode to run tests in this env
+            tabbableOptions: {
+                displayCheck: 'none'
+            }
+        }
+    };
     const getTermValue = 'test term';
     const selectShippingLineValue = {
         id: '1',
@@ -59,6 +72,7 @@ describe('testing IndexPage', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        useFocusTrapMock.mockReturnValueOnce(focusTrapMock);
         useIndexPageSpy.mockReturnValue(propsFromHook);
         getTermMock.mockReturnValue(getTermValue);
         useGetSelectShippingLineMock.mockReturnValue(selectShippingLineValue);

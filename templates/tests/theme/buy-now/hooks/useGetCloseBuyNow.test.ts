@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
-import {act} from '@testing-library/react';
+import {act, fireEvent} from '@testing-library/react';
 import { getTerm } from 'src/utils';
 import { mocked } from 'jest-mock';
 
@@ -25,5 +25,19 @@ describe('testing hook useGetCloseBuyNow', () => {
 
         expect(dispatchEventSpy).toHaveBeenCalledWith(closeEvent);
         expect(result.current.websiteName).toBe(window.shopName);
+    });
+
+    test('pressing escape closes modal', () => {
+        renderHook(() => useGetCloseBuyNow());
+        const dispatchEventSpy = jest.spyOn(document, 'dispatchEvent');
+
+        fireEvent.keyDown(window, {
+            key: 'Escape',
+            code: 'Escape',
+            keyCode: 27,
+            charCode: 27
+        });
+
+        expect(dispatchEventSpy).toHaveBeenCalledWith(closeEvent);
     });
 });

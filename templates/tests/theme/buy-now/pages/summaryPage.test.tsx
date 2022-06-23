@@ -3,13 +3,30 @@ import {SummaryPage} from 'src/themes/buy-now/pages';
 import * as Store from 'src/store';
 import {Provider} from 'react-redux';
 import { addressMock } from 'src/mocks';
-import { IBuyNowContainerPageProps } from 'src/themes/buy-now/types';
+import { mocked } from 'jest-mock';
+import React from 'react';
+import { IBuyNowContainerPageProps, IUseFocusTrap } from 'src/themes/buy-now/types';
 import * as useIndexPage from 'src/themes/buy-now/hooks/useIndexPage';
 import { IUseIndexPageProps } from 'src/types';
+import { useFocusTrap } from 'src/themes/buy-now/hooks';
 
 const store = Store.initializeStore();
 
+jest.mock('src/themes/buy-now/hooks/useFocusTrap');
+const useFocusTrapMock = mocked(useFocusTrap, true);
+
 describe('testing SummaryPage', () => {
+    const focusTrapMock: IUseFocusTrap = {
+        activeElement: 'thank_you',
+        focusTrapOptions: {
+            // NOTE: JSDom doesn't support some of the visibility checks that tabbable
+            //  performs to determine if a node is visible (and so tabbable/focusable)
+            //  so we have to use this displayCheck mode to run tests in this env
+            tabbableOptions: {
+                displayCheck: 'none'
+            }
+        }
+    };
     const useIndexPageSpy = jest.spyOn(useIndexPage, 'useIndexPage');
     const visibleProps: IBuyNowContainerPageProps = {
         show: true,
@@ -40,6 +57,7 @@ describe('testing SummaryPage', () => {
 
     beforeEach(() => {
         useIndexPageSpy.mockReturnValue(propsFromHook);
+        useFocusTrapMock.mockReturnValueOnce(focusTrapMock);
     });
 
     test('Rendering hidden summaryPage properly', () => {

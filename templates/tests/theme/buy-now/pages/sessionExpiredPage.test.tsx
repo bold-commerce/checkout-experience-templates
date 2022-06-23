@@ -2,8 +2,8 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { SessionExpiredPage } from 'src/themes/buy-now/pages';
 import { GenericMessageSection, CloseableHeader } from 'src/components';
 import { mocked } from 'jest-mock';
-import { IUseGetCloseBuyNow } from 'src/themes/buy-now/types';
-import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
+import { IUseFocusTrap, IUseGetCloseBuyNow } from 'src/themes/buy-now/types';
+import { useGetCloseBuyNow, useFocusTrap } from 'src/themes/buy-now/hooks';
 import { IUseSessionExpired } from 'src/types';
 import { useGetSessionExpired } from 'src/hooks';
 import * as analytics from 'src/analytics/analytics';
@@ -34,7 +34,8 @@ jest.mock('src/hooks', () => ({
 
 jest.mock('src/themes/buy-now/hooks', () => ({
     ...jest.requireActual('src/themes/buy-now/hooks'),
-    useGetCloseBuyNow: jest.fn()
+    useGetCloseBuyNow: jest.fn(),
+    useFocusTrap: jest.fn()
 }));
 
 describe('testing SessionExpiredPage', () => {
@@ -43,12 +44,24 @@ describe('testing SessionExpiredPage', () => {
     let sendPageViewSpy: jest.SpyInstance;
     let sendEventsSpy: jest.SpyInstance;
     const useGetCloseBuyNowMock = mocked(useGetCloseBuyNow, true);
+    const useFocusTrapMock = mocked(useFocusTrap, true);
     const closeModalMock: IUseGetCloseBuyNow = {
         closeBuyNow: jest.fn(),
         websiteName: 'websiteName',
         terms: {
             closeModal: 'Close Modal',
             closeModalDescription: 'Close this modal and try again'
+        }
+    };
+    const focusTrapMock: IUseFocusTrap = {
+        activeElement: 'thank_you',
+        focusTrapOptions: {
+            // NOTE: JSDom doesn't support some of the visibility checks that tabbable
+            //  performs to determine if a node is visible (and so tabbable/focusable)
+            //  so we have to use this displayCheck mode to run tests in this env
+            tabbableOptions: {
+                displayCheck: 'none'
+            }
         }
     };
     const useGetSessionExpiredMock = mocked(useGetSessionExpired, true);
@@ -63,6 +76,7 @@ describe('testing SessionExpiredPage', () => {
         headerMock.mockReturnValueOnce(<div className="header">Header</div>);
         genericMessageSectionMock.mockReturnValueOnce(<div className="message">Message</div>);
         useGetCloseBuyNowMock.mockReturnValueOnce(closeModalMock);
+        useFocusTrapMock.mockReturnValueOnce(focusTrapMock);
         useGetSessionExpiredMock.mockReturnValueOnce(sessionExpiredHookMock)
     });
     

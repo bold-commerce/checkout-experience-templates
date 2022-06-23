@@ -1,7 +1,12 @@
-import type { CSSProperties, Dispatch, RefObject, SetStateAction } from 'react';
-
+import { CSSProperties, Dispatch, RefObject, SetStateAction } from 'react';
+import { Options as FocusTrapOptions } from 'focus-trap';
 export interface IUseModal{
     isOpen: boolean;
+}
+
+export interface IUseFocusTrap {
+    activeElement: string,
+    focusTrapOptions: FocusTrapOptions
 }
 
 export interface IUseShippingPage {
