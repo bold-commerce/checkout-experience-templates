@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Constants } from 'src/constants';
 import { getTerm } from 'src/utils';
 import { IUseGetCloseBuyNow } from '../types';
@@ -11,6 +11,18 @@ export function useGetCloseBuyNow(): IUseGetCloseBuyNow {
     };
     const closeBuyNow = useCallback(() => {
         document.dispatchEvent(new CustomEvent('buyNow:close'));
+    }, []);
+
+    useEffect(() => {
+        const closeOnEscape = (e) => {
+            if(e.keyCode === 27){
+                document.dispatchEvent(new CustomEvent('buyNow:close'));
+            }
+        };
+        window.addEventListener('keydown', closeOnEscape);
+        return () => {
+            window.removeEventListener('keydown', closeOnEscape);
+        };
     }, []);
     
 

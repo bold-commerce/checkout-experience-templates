@@ -3,16 +3,29 @@ import {ShippingPage} from 'src/themes/buy-now/pages';
 import * as Store from 'src/store';
 import {Provider} from 'react-redux';
 import React from 'react';
-import { IBuyNowContainerPageProps, IUseShippingPage } from 'src/themes/buy-now/types';
-import { useShippingPage } from 'src/themes/buy-now/hooks';
+import { IBuyNowContainerPageProps, IUseFocusTrap, IUseShippingPage } from 'src/themes/buy-now/types';
+import { useFocusTrap, useShippingPage } from 'src/themes/buy-now/hooks';
 import { mocked } from 'jest-mock';
 
 const store = Store.initializeStore();
 
+jest.mock('src/themes/buy-now/hooks/useFocusTrap');
 jest.mock('src/themes/buy-now/hooks/useShippingPage');
+const useFocusTrapMock = mocked(useFocusTrap, true);
 const useShippingPageMock = mocked(useShippingPage, true);
 
 describe('testing ShippingPage', () => {
+    const focusTrapMock: IUseFocusTrap = {
+        activeElement: 'thank_you',
+        focusTrapOptions: {
+            // NOTE: JSDom doesn't support some of the visibility checks that tabbable
+            //  performs to determine if a node is visible (and so tabbable/focusable)
+            //  so we have to use this displayCheck mode to run tests in this env
+            tabbableOptions: {
+                displayCheck: 'none'
+            }
+        }
+    };
     const visibleProps: IBuyNowContainerPageProps = {
         show: true,
         navigateTo: jest.fn()
@@ -35,6 +48,7 @@ describe('testing ShippingPage', () => {
 
     beforeEach(() => {
         jest.resetAllMocks();
+        useFocusTrapMock.mockReturnValueOnce(focusTrapMock);
     })
 
     test('Rendering hidden shippingPage properly', () => { 
