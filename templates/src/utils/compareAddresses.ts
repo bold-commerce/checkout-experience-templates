@@ -452,27 +452,49 @@ export const compareAddresses = (address1: OptionalPartial<IAddress>, address2: 
         return false;
     }
 
-    for (const [ field, value1 ] of Object.entries(address1)) {
-        const v1 = value1?.trim()?.toLowerCase();
-        const v2 = address2[field]?.trim()?.toLowerCase();
+    // Creating a set of month fields in the addresses to make sure we compare all the fields
+    // and not just a subset of one or the other. So if address1 has a phone and address2 doesn't
+    // (or vise vera) the function will return false
+    const fields = new Set([
+        ...Object.keys(address1),
+        ...Object.keys(address2),
+    ]);
+
+    for (const field of fields) {
+        // Ignoring ID field
+        if (field.toLowerCase() === 'id') { continue; }
+
+        // If one of the values is not a string or undefined then we fallback to strict equal
+        let value1 = address1[field] as unknown;
+        let value2 = address2[field] as unknown;
+        if (
+            (typeof value1 !== 'undefined' && typeof value1 !== 'string') ||
+            (typeof value2 !== 'undefined' && typeof value2 !== 'string')
+        ) {
+            if (value1 === value2) { continue; }
+            return false;
+        }
+        
+        value1 = value1?.trim()?.toLowerCase();
+        value2 = value2?.trim()?.toLowerCase();
 
         // Checking type and value are exact
-        if (v1 === v2) { continue; }
+        if (value1 === value2) { continue; }
 
         // Checking they are both falsey
-        if (!v1 && !v2) { continue; }
+        if (!value1 && !value2) { continue; }
 
         // Only doing additional checks if both values are strings
-        if (typeof v1 === 'string' && typeof v2 === 'string') {
+        if (typeof value1 === 'string' && typeof value2 === 'string') {
 
             // Only doing additional checks if the field is an address_line_# field
             if (['address_line_1', 'address_line_2'].includes(field)) {
 
                 // Checking if the values are the same when dots are removed from the end of words of the field
-                if (v1.replace(/\.(?: |$)/g, '') === v2.replace(/\.(?: |$)/g, '')) { continue; }
+                if (value1.replace(/\.(?: |$)/g, '') === value2.replace(/\.(?: |$)/g, '')) { continue; }
 
                 // Checking if the values are the same when the abbreviations are replaced with full words
-                if (convert(v1) === convert(v2)) { continue; }
+                if (convert(value1) === convert(value2)) { continue; }
             }
 
             // Only doing additional checks if the field is province

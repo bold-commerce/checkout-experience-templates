@@ -174,6 +174,46 @@ describe('Test compareAddress function', () => {
             address2: undefined,
             shouldMatch: true,
         },
+        {
+            name: 'Address with ID as number. ID should be ignored',
+            address1: {
+                id: 1 as unknown as string,
+                address_line_1: '123 Fake st'
+            }, 
+            address2: {
+                id: 2 as unknown as string,
+                address_line_1: '123 fake street'
+            },
+            shouldMatch: true,
+        },
+        {
+            name: 'Address1 doesn\'t have fields that address2 has',
+            address1: {}, 
+            address2: {
+                address_line_1: '123 fake st',
+            },
+            shouldMatch: false,
+        },
+        {
+            name: 'Addresses have none string field that match',
+            address1: {
+                address_line_2: 1 as unknown as string,
+            }, 
+            address2: {
+                address_line_2: 1 as unknown as string,
+            },
+            shouldMatch: true,
+        },
+        {
+            name: 'Addresses have none string field that don\'t match',
+            address1: {
+                address_line_2: 1 as unknown as string,
+            }, 
+            address2: {
+                address_line_2: 2 as unknown as string,
+            },
+            shouldMatch: false,
+        },
     ];
 
     test.each(testData)('Comparing addresses ($name)', ({
