@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { actionGetInitialData, actionUpdateAppData } from 'src/action';
-import { initializeSession, setDefaultAddresses, setDefaultShippingLines } from 'src/library';
+import { checkInventory, initializeSession, setDefaultAddresses, setDefaultShippingLines } from 'src/library';
 import { IOrderInitialization } from 'src/types';
 import { getOrderInitialization } from 'src/utils/getOrderInitialization';
 import { IUseModal } from '../types';
-import {IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
+import { checkInventoryStage, IInitializeOrderResponse } from '@bold-commerce/checkout-frontend-library';
 
 export function useModal(): IUseModal {
     const dispatch = useDispatch();
@@ -22,6 +22,7 @@ export function useModal(): IUseModal {
         dispatch(setDefaultAddresses).then(() => {
             dispatch(setDefaultShippingLines);
         });
+        dispatch(checkInventory(checkInventoryStage.initial));
 
     }, [setIsOpen, dispatch]);
 
