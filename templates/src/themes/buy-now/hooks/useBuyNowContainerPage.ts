@@ -1,12 +1,8 @@
 import { CSSProperties, RefObject, useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import { sendEvents, sendPageView } from 'src/analytics';
 import { IUseBuyNowContainerPage, IUseBuyNowContainerPageProps } from 'src/themes/buy-now/types';
-import {useDispatch} from 'react-redux';
-import {checkInventory} from 'src/library';
-import {checkInventoryStage} from '@bold-commerce/checkout-frontend-library';
 
 export function useBuyNowContainerPage(props : IUseBuyNowContainerPageProps) : IUseBuyNowContainerPage {
-    const dispatch = useDispatch();
     const [ openSection, setOpenSection ] = useState('/');
     const [ openRef, setOpenRef ] = useState<RefObject<HTMLElement>>(props.indexRef);
     const [ containerStyle, setContainerStyle ] = useState<CSSProperties>({
@@ -34,7 +30,6 @@ export function useBuyNowContainerPage(props : IUseBuyNowContainerPageProps) : I
     useEffect(() => {
         sendPageView(openSection);
         sendEvents('Checkout', `Landed on buy now ${openSection} page`);
-        dispatch(checkInventory(checkInventoryStage.initial));
     }, [openSection]);
 
     useLayoutEffect(() => {
