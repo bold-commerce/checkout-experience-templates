@@ -165,3 +165,18 @@ export interface IDisplayPaymentMethod {
 export interface IPaymentIframe {
     onLoad: () => void;
 }
+
+// TODO - DELETE ONCE NEW ERROR FORMAT NOT NEEDE - CE-579
+export interface INewApiErrorWarningResponse {
+    code: string;
+    details: INewApiErrorResponseErrorWarningMessage | Array<INewApiErrorResponseErrorWarningMessage>;
+    message: string;
+    type: string;
+}
+
+export interface INewApiErrorResponseErrorWarningMessage {
+    error_message?: string;
+    warning_message?: string;
+    field: string;
+}
+// END TODO - CE-579
