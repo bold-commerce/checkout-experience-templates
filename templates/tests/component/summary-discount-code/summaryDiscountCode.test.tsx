@@ -50,8 +50,8 @@ describe('Testing SummaryDiscountCode Component', () => {
         expect(container.getElementsByClassName('discount-code-input').length).toBe(1);
         expect(container.getElementsByClassName('discount-code__input-field').length).toBe(1);
         expect(container.getElementsByClassName('discount-code__button').length).toBe(1);
-        const applyDiscount: Partial<HTMLInputElement> = getByTestId('apply-discount');
-        expect(applyDiscount.disabled).toEqual(false);
+        const applyDiscount = getByTestId('apply-discount');
+        expect(applyDiscount?.getAttribute('aria-disabled')).toEqual('false');
         expect(container.getElementsByClassName('discount-code__list-discounts').length).toBe(1);
         expect(container.getElementsByClassName('discount-code__discount-line').length).toBe(discounts.length);
     });
@@ -63,8 +63,8 @@ describe('Testing SummaryDiscountCode Component', () => {
         expect(container.getElementsByClassName('discount-code-input').length).toBe(1);
         expect(container.getElementsByClassName('discount-code__input-field').length).toBe(1);
         expect(container.getElementsByClassName('discount-code__button').length).toBe(1);
-        const applyDiscount: Partial<HTMLInputElement> = getByTestId('apply-discount');
-        expect(applyDiscount.disabled).toEqual(true);
+        const applyDiscount = getByTestId('apply-discount');
+        expect(applyDiscount?.getAttribute('aria-disabled')).toEqual('true');
         expect(container.getElementsByClassName('discount-code__list-discounts').length).toBe(1);
         expect(container.getElementsByClassName('discount-code__discount-line').length).toBe(discounts.length);
     });

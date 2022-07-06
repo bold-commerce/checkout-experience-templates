@@ -28,18 +28,18 @@
     font-size: 14px;
 }
 
-.discount-code-input .btn-checkout:hover {
+.discount-code-input .btn-checkout:hover:not(.discount-code__button) {
     cursor: pointer;
     outline: 4px solid #E2E2E2;
     background-color: #2283C8;
 }
+
+.discount-code__button[aria-disabled="true"]:hover {
+    cursor: not-allowed;
+}
   
 .discount-code-input .btn-checkout:focus {
     outline: 4px solid #C0E7FE;
-}
-  
-.discount-code-input .btn-checkout:active {
-    background-color: #0F67A8;
 }
 
 .discount-code__input-field {
@@ -63,7 +63,7 @@
     order: 3;
 }
 
-.discount-code-input .btn-checkout.stx-button--is-disabled:not(.stx-button--is-loading) {
+.discount-code-input .btn-checkout.stx-button--is-disabled:not(.stx-button--is-loading), .discount-code__button[aria-disabled="true"] {
     background: #fff;
     border-color: #595959;
     color: #595959;
