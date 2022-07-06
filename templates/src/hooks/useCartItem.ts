@@ -9,6 +9,7 @@ interface onUpdateQuantityFn {
 
 export function useCartItem(
     lineItem: ILineItem,
+    quantityDisabled?: boolean,
     onUpdateQuantity?: onUpdateQuantityFn,
 ): IUseGetCartItem {
     const productData = lineItem.product_data;
@@ -34,8 +35,12 @@ export function useCartItem(
     /**
      * increments the quantity of the local state
      */
-    const incrementQuantity = useCallback(() => {
+    const incrementQuantity = useCallback(async (event) => {
         setLocalQuantity(ps => {
+            if(quantityDisabled) {
+                event.preventDefault();
+                return ps;
+            } 
             const newQty = ps + 1;
             debounceUpdateQuantity(newQty);
             return newQty;
@@ -45,8 +50,12 @@ export function useCartItem(
     /**
      * Decrements the quantity of the local state. Quantity is not allowed to be less than 1.
      */
-    const decrementQuantity = useCallback(() => {
+    const decrementQuantity = useCallback(async (event) => {
         setLocalQuantity(ps => {
+            if(quantityDisabled) {
+                event.preventDefault();
+                return ps;
+            } 
             const newQty = Math.max(1, ps - 1);
             debounceUpdateQuantity(newQty);
             return newQty;

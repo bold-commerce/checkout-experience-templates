@@ -4,7 +4,8 @@ import {
     useGetDiscounts,
     useGetErrorByField,
     useGetAppSettingData,
-    useGetCustomerInfoDataByField
+    useGetCustomerInfoDataByField,
+    useGetIsLoading
 } from 'src/hooks';
 import {useDispatch} from 'react-redux';
 import {actionRemoveErrorByField, actionRemoveErrorByType, actionSetLoaderAndDisableButton, actionUpdateDiscountCodeText} from 'src/action';
@@ -19,11 +20,17 @@ export function useSummaryDiscountCode(): ISummaryDiscountCode {
     const discountCodeText = useGetAppSettingData('discountText');
     const discountError =  useGetErrorByField(errorFields.discounts, '' , errorTypes.discount_code_validation);
     const buttonLoading = useGetLoaderScreenVariable('discountButton');
-    const buttonDisabled = discountCodeText === '';
+    const isLoading = useGetIsLoading();
+    const buttonDisabled = discountCodeText === '' || buttonLoading || isLoading;
     const discountCodeInputText = getTerm('discount_code', Constants.SUMMARY_INFO);
     const dispatch = useDispatch();
 
-    const addDiscount = useCallback(async () => {
+    const addDiscount = useCallback(async (event) => {
+        if(buttonDisabled) {
+            event.preventDefault();
+            return;
+        } 
+        
         dispatch(actionSetLoaderAndDisableButton('discountButton', true));
 
         if(emailAddress === ''){

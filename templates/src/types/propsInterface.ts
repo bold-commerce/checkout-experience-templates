@@ -295,7 +295,7 @@ export interface ISummaryDiscountCode {
     discountError: string;
     buttonLoading: boolean;
     buttonDisabled: boolean;
-    addDiscount: () => void;
+    addDiscount: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
     updateNewDiscountCode: (e) => void;
     discountCodeText: string;
     discountCodeInputText: string;
@@ -358,8 +358,8 @@ export interface IUseGetThankYou {
 
 export interface IUseGetCartItem {
     quantity: number;
-    incrementQuantity: () => void;
-    decrementQuantity: () => void;
+    incrementQuantity: (e) => void;
+    decrementQuantity: (e) => void;
     updateQuantity: (quantity: number) => void;
 }
 

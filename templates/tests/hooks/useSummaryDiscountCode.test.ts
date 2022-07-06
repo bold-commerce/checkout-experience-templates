@@ -5,7 +5,8 @@ import {
     useGetDiscounts,
     useGetErrorByField,
     useGetAppSettingData,
-    useGetCustomerInfoDataByField
+    useGetCustomerInfoDataByField,
+    useGetIsLoading
 } from 'src/hooks';
 import {useSummaryDiscountCode} from 'src/hooks';
 import {renderHook} from '@testing-library/react-hooks';
@@ -24,6 +25,7 @@ jest.mock('src/hooks/useGetDiscounts');
 jest.mock('src/hooks/useGetErrorByField');
 jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/hooks/useGetCustomerInformation');
+jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/utils');
 jest.mock('src/action');
 jest.mock('src/library');
@@ -40,6 +42,7 @@ const actionUpdateDiscountCodeTextMock = mocked(actionUpdateDiscountCodeText, tr
 const postDiscountsMock = mocked(postDiscounts, true);
 const validateEmailAddressMock = mocked(validateEmailAddress, true);
 const useGetCustomerInfoDataByFieldMock = mocked(useGetCustomerInfoDataByField, true);
+const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 
 describe('Testing hook useSummaryDiscountCode', () => {
 
@@ -59,12 +62,13 @@ describe('Testing hook useSummaryDiscountCode', () => {
         jest.resetAllMocks();
         mockDispatch.mockImplementation(() => Promise.resolve());
         getTermMock.mockReturnValueOnce(data.getTerm);
-        useGetAppSettingDataMock.mockReturnValueOnce(data.discountText);
+        useGetAppSettingDataMock.mockReturnValue(data.discountText);
         useGetErrorByFieldMock.mockReturnValueOnce(data.errorByField);
         useGetLoaderScreenVariableMock.mockReturnValueOnce(data.loaderVariable);
         useGetDiscountsMock.mockReturnValueOnce(discounts);
         actionSetLoaderAndDisableButtonMock.mockReturnValue(actionSetLoaderAndDisableButtonReturn);
         postDiscountsMock.mockReturnValue(postDiscountThunkMock);
+        useGetIsLoadingMock.mockReturnValue(false);
     });
 
     test('rendering the hook properly', () => {
@@ -82,30 +86,38 @@ describe('Testing hook useSummaryDiscountCode', () => {
         useGetCustomerInfoDataByFieldMock.mockReturnValueOnce('abc@gmail.com');
         const {result} = renderHook(() => useSummaryDiscountCode());
         const hookResult = result.current;
+        const event = {
+            currentTarget: document.createElement('button'),
+            preventDefault: jest.fn(),
+         } as unknown as React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
-        await hookResult.addDiscount();
+        await hookResult.addDiscount(event);
 
+        expect(event.preventDefault).not.toBeCalled();
         expect(mockDispatch).toHaveBeenCalledTimes(3);
         expect(actionSetLoaderAndDisableButtonMock).toBeCalled();
         expect(mockDispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonReturn);
         expect(mockDispatch).toHaveBeenCalledWith(validateEmailAddressMock);
         expect(mockDispatch).toHaveBeenCalledWith(postDiscountThunkMock);
-
     });
 
     test('testing the add discount event without customer email address',  async () => {
         useGetCustomerInfoDataByFieldMock.mockReturnValueOnce('');
         const {result} = renderHook(() => useSummaryDiscountCode());
         const hookResult = result.current;
+        const event = {
+            currentTarget: document.createElement('button'),
+            preventDefault: jest.fn(),
+         } as unknown as React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
-        await hookResult.addDiscount();
+        await hookResult.addDiscount(event);
 
+        expect(event.preventDefault).not.toBeCalled();
         expect(mockDispatch).toHaveBeenCalledTimes(2);
         expect(actionSetLoaderAndDisableButtonMock).toBeCalled();
         expect(mockDispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonReturn);
         expect(mockDispatch).not.toHaveBeenCalledWith(validateEmailAddressMock);
         expect(mockDispatch).toHaveBeenCalledWith(postDiscountThunkMock);
-
     });
 
     test('testing the update discount event', () => {
@@ -122,5 +134,17 @@ describe('Testing hook useSummaryDiscountCode', () => {
         expect(actionUpdateDiscountCodeTextMock).toBeCalled();
     });
 
+    test('testing click is prevented when button is disabled',  async () => {
+        useGetAppSettingDataMock.mockReturnValue('');
+        const {result} = renderHook(() => useSummaryDiscountCode());
+        const hookResult = result.current;
+        const event = {
+            currentTarget: document.createElement('button'),
+            preventDefault: jest.fn(),
+         } as unknown as React.MouseEvent<HTMLButtonElement, MouseEvent>;
+        await hookResult.addDiscount(event);
+ 
+        expect(event.preventDefault).toBeCalled();
+    });
 
 });
