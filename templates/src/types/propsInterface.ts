@@ -1,5 +1,11 @@
 import React from 'react';
-import {IFieldNamesSummary, ISelectList, IPaymentsSummaryClasses} from 'src/types';
+import {
+    IFieldNamesSummary,
+    ISelectList,
+    IPaymentsSummaryClasses,
+    IError,
+    IErrorShowType
+} from 'src/types';
 import {IAddress, IDiscount, ILineItem, IPayment, IShippingLine, ITax, IProvince} from '@bold-commerce/checkout-frontend-library';
 
 export interface IAddressProps {
@@ -499,4 +505,13 @@ export interface IConditionalWrapProps {
 
 export interface IShippingLinesProps {
     showNoRatesAsAlert?: boolean;
+}
+
+export interface IUseGetFlashError {
+    message: string;
+    error: IError;
+}
+
+export interface IFlashErrorProps {
+    type?: keyof IErrorShowType
 }

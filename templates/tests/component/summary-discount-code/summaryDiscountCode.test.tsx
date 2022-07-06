@@ -2,15 +2,26 @@ import {fireEvent, render} from '@testing-library/react';
 import {SummaryDiscountCode} from 'src/components';
 import {ISummaryDiscountLine} from 'src/types';
 import {mocked} from 'jest-mock';
-import {useGetIsLoading, useSummaryDiscountCode, useSummaryDiscountLine} from 'src/hooks';
+import {
+    useGetFlashErrors,
+    useGetIsLoading,
+    useSummaryDiscountCode,
+    useSummaryDiscountLine
+} from 'src/hooks';
 import {IDiscount} from '@bold-commerce/checkout-frontend-library';
 
+const mockDispatch = jest.fn();
 jest.mock('src/hooks/useSummaryDiscountLine');
 jest.mock('src/hooks/useSummaryDiscountCode');
 jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/hooks/useGetFlashErrors');
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 const useSummaryDiscountLineMock = mocked(useSummaryDiscountLine, true);
 const useSummaryDiscountCodeMock = mocked(useSummaryDiscountCode, true);
+const useGetFlashErrorsMock = mocked(useGetFlashErrors, true);
+jest.mock('react-redux', () => ({
+    useDispatch: () => mockDispatch
+}));
 
 describe('Testing SummaryDiscountCode Component', () => {
     const discounts : Array<IDiscount> = [
@@ -42,6 +53,7 @@ describe('Testing SummaryDiscountCode Component', () => {
         useSummaryDiscountCodeMock.mockReturnValue(hooksData);
         useSummaryDiscountLineMock.mockReturnValue(hookResultForDiscountLine);
         useGetIsLoadingMock.mockReturnValue(false);
+        useGetFlashErrorsMock.mockReturnValue([]);
     });
 
     test('rendering the component', () => {

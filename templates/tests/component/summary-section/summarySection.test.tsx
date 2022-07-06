@@ -1,7 +1,7 @@
 import {render} from '@testing-library/react';
 import {SummarySection} from 'src/components';
 import {ISummaryDiscountLine, IUseCartSummary} from 'src/types';
-import {useCartSummary, useSummaryDiscountCode, useSummaryDiscountLine} from 'src/hooks';
+import {useCartSummary, useGetFlashErrors, useSummaryDiscountCode, useSummaryDiscountLine} from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 import {initialDataMock} from 'src/mocks';
@@ -10,14 +10,17 @@ import {IDiscount} from '@bold-commerce/checkout-frontend-library';
 const store = {
     data: initialDataMock
 };
-
+const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
-    useSelector: jest.fn().mockImplementation(func => func(store))
+    useSelector: jest.fn().mockImplementation(func => func(store)),
+    useDispatch: () => mockDispatch
 }));
 jest.mock('src/hooks/useCartSummary');
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useSummaryDiscountLine');
 jest.mock('src/hooks/useSummaryDiscountCode');
+jest.mock('src/hooks/useGetFlashErrors');
+const useGetFlashErrorsMock = mocked(useGetFlashErrors, true);
 const useCartSummaryMock = mocked(useCartSummary, true);
 const getTermMock = mocked(getTerm, true);
 const useSummaryDiscountLineMock = mocked(useSummaryDiscountLine, true);
@@ -62,6 +65,7 @@ describe('Testing CartSummary component', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         getTermMock.mockReturnValue('test');
+        useGetFlashErrorsMock.mockReturnValue([]);
     });
 
     test('Rendering the component correctly - wider screen', () => {

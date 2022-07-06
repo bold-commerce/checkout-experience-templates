@@ -5,6 +5,7 @@ import {useBuyNowContainerPage} from 'src/themes/buy-now/hooks';
 import React from 'react';
 import {IUseBuyNowContainerPage} from 'src/themes/buy-now/types';
 import {useGetFlashErrors} from 'src/hooks';
+import {IError} from 'src/types';
 
 jest.mock('src/hooks/useGetFlashErrors');
 jest.mock('src/themes/buy-now/hooks/useBuyNowContainerPage');
@@ -33,6 +34,14 @@ describe('testing BuyNowContainerPage', () => {
         containerStyle: {}
     };
 
+    const error: IError = {
+        message: 'error message',
+        type: 'test-type',
+        field: 'test',
+        severity: 'validation',
+        sub_type: '',
+    };
+
     beforeEach(() => {
         useBuyNowContainerPageMock.mockReturnValue(props);
     });
@@ -49,7 +58,7 @@ describe('testing BuyNowContainerPage', () => {
     });
 
     test('Render buyNowContainerPage with flash errors', () => {
-        useGetFlashErrorsMock.mockReturnValueOnce(['error', 'error-2']);
+        useGetFlashErrorsMock.mockReturnValueOnce([{message: 'error', error: error}, {message: 'error-2', error: error}]);
         render(<BuyNowContainerPage/>);
 
         expect(props.navigateTo).toHaveBeenCalledTimes(1);

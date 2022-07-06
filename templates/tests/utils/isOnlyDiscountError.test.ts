@@ -2,7 +2,7 @@ import {isOnlyDiscountCodeError} from 'src/utils';
 
 const errors = [];
 
-describe('testing checkErrorAndProceedToNextPage', () => {
+describe('testing isOnlyDiscountCodeError', () => {
     const discountErrors = [
         {
             return1: true,
