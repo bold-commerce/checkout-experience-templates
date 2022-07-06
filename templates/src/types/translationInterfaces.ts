@@ -22,6 +22,7 @@ export interface IErrorFields {
     address_line_1: string;
     city: string;
     discounts: string;
+    discountsFlash: string;
     public_order_id: string;
     payment: string;
     customer: string;
@@ -54,6 +55,7 @@ export interface IErrorSubTypes {
 export interface IErrorShowType {
     field: string;
     flash: string;
+    discountFlash: string;
     none: string;
 }
 

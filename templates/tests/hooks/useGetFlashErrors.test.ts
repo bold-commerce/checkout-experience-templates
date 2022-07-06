@@ -17,7 +17,7 @@ const getErrorTermMock = mocked(getErrorTerm, true);
 const useGetErrorsMock = mocked(useGetErrors, true);
 
 describe('Testing hook useGetFlashErrors', () => {
-    const error: Array<IError> = [{
+    const errors: Array<IError> = [{
         message: 'Test message',
         field: errorFields.discounts,
         severity: errorSeverities.critical,
@@ -54,7 +54,7 @@ describe('Testing hook useGetFlashErrors', () => {
     });
 
     test('rendering the hook with flash errors', () => {
-        useGetErrorsMock.mockReturnValueOnce(error);
+        useGetErrorsMock.mockReturnValueOnce(errors);
         useAppSelectorMock.mockReturnValueOnce(stateMock.appSetting.languageIso);
         useGetSupportedLanguageDataMock.mockReturnValueOnce(stateMock.data.initial_data.supported_languages[0]);
         getLanguageBlobMock.mockReturnValueOnce(null);
@@ -62,7 +62,7 @@ describe('Testing hook useGetFlashErrors', () => {
 
 
         const {result} = renderHook(() => useGetFlashErrors());
-        expect(result.current).toStrictEqual(['TEST']);
+        expect(result.current).toStrictEqual([{message: 'TEST', error: errors[0]}]);
         expect(getErrorTerm).toHaveBeenCalledTimes(1);
     });
 

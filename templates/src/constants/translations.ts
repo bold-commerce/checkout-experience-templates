@@ -209,4 +209,13 @@ export const errorsTerms: Array<IErrorTerm> = [
         section: '',
         term: ''
     },
+    {
+        type: errorTypes.validation,
+        field: errorFields.discountsFlash,
+        severity: errorSeverities.validation,
+        subType: errorSubTypes.discounts,
+        showType: errorShowType.discountFlash,
+        section: 'discount_code',
+        term: 'discount_code_removed'
+    },
 ];

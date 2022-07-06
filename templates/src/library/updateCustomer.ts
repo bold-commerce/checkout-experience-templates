@@ -7,7 +7,7 @@ import {
     getCustomer
 } from '@bold-commerce/checkout-frontend-library';
 import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
-import {getCustomerFromLib} from 'src/library';
+import {getCustomerFromLib, validateDiscounts} from 'src/library';
 
 
 export async function updateCustomer(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
@@ -24,6 +24,7 @@ export async function updateCustomer(dispatch: Dispatch, getState: () => IOrderI
 
         if (response.success) {
             await dispatch(getCustomerFromLib);
+            await dispatch(validateDiscounts);
         }
     }
 }

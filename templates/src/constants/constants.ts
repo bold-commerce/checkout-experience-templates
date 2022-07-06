@@ -74,6 +74,7 @@ export const errorFields: IErrorFields = {
     last_name: 'last_name',
     city: 'city',
     discounts: 'discounts',
+    discountsFlash: 'discountsFlash',
     public_order_id: 'public_order_id',
     payment: 'payment',
     customer: 'customer',
@@ -106,6 +107,7 @@ export const errorSubTypes: IErrorSubTypes = {
 export const errorShowType: IErrorShowType = {
     field: 'field',
     flash: 'flash',
+    discountFlash: 'discountFlash',
     none: 'none',
 };
 

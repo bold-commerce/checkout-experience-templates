@@ -26,6 +26,7 @@ export * from './isAutocompleteDataPopulated';
 export * from './isObjectEmpty';
 export * from './isObjectEqual';
 export * from './isOnlyDiscountCodeError';
+export * from './isOnlyFlashError';
 export * from './lockUnlockScroll';
 export * from './navigateDialog';
 export * from './neuroIdCalls';

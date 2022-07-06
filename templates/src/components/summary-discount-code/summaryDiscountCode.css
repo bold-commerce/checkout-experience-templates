@@ -14,7 +14,6 @@
 .discount-code-input {
     display: flex;
     width: 100%;
-    order: 1;
 }
 
 .discount-code-input .btn-checkout{

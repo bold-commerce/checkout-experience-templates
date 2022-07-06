@@ -32,6 +32,8 @@ export * from './validateAddressFunction';
 export * from './validateBillingAddress';
 export * from './validateCustomerAndShippingOnLoad';
 export * from './validateCustomerOnLoad';
+export * from './validateDiscount';
+export * from './validateDiscounts';
 export * from './validateEmailAddress';
 export * from './validateShippingAddress';
 export * from './validateShippingLine';
