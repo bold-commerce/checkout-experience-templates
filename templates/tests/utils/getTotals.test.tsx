@@ -114,7 +114,7 @@ describe('testing getTotals', () => {
     ];
 
     test.each(dataProvider)(
-        '%s',
+        '$name',
         ({name, mockLineItems, mockPayments, mockTaxes, mockDiscounts, mockShipping, mockTotals}) => {
             const totals = getTotals(mockLineItems, mockPayments, mockTaxes, mockDiscounts, mockShipping);
             expect(totals).toStrictEqual(mockTotals);

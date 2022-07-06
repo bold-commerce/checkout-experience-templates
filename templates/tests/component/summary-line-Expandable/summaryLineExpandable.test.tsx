@@ -9,14 +9,14 @@ import {useSummaryLineExpandable, useSummaryLineExpanded} from 'src/hooks';
 import {SummaryLineExpandable} from 'src/components';
 import {render} from '@testing-library/react';
 import {classesListSummary} from 'src/mocks';
-import {IDiscount} from '@bold-commerce/checkout-frontend-library';
+import {IDiscount, IPayment} from '@bold-commerce/checkout-frontend-library';
 
 jest.mock('src/hooks');
 const useSummaryLineExpandableMock = mocked(useSummaryLineExpandable, true);
 const useSummaryLineExpandedMock = mocked(useSummaryLineExpanded, true);
 
 describe('Testing SummaryLineExpandable component', () => {
-    const fieldNameSummary = {content: 'test', amount: '200', id: '1'};
+    const fieldNameSummary = {content: 'description', amount: 'amount', id: 'id'};
 
     const props: ISummaryLineExpandable = {
         eventToggleName: Constants.SHIPPING_TOGGLE,
@@ -73,7 +73,7 @@ describe('Testing SummaryLineExpandable component', () => {
         expect(container.getElementsByClassName('summary-line--no-line').length).toBe(1);
     });
 
-    test('rendering the hook properly without line item expanded = false', () => {
+    test('rendering the component properly without line item expanded = false', () => {
         const localHooksResult = {...hookProps, expand: false};
         useSummaryLineExpandableMock.mockReturnValueOnce(localHooksResult);
 
@@ -86,7 +86,7 @@ describe('Testing SummaryLineExpandable component', () => {
         expect(container.getElementsByClassName('summary-line--no-line').length).toBe(0);
     });
 
-    test('rendering the hook properly with line item', () => {
+    test('rendering the component properly with line item', () => {
         useSummaryLineExpandableMock.mockReturnValueOnce(hookProps);
         const localProps = {...props, content: content };
 
@@ -94,11 +94,51 @@ describe('Testing SummaryLineExpandable component', () => {
         expect(container.getElementsByClassName(classesListSummary.list.li).length).toBe(content.length);
     });
 
-    test('rendering the hook properly with line item - item id as null', () => {
-        const localHooks = {...hookProps};
-        localHooks.fieldNames.id = '';
-        useSummaryLineExpandableMock.mockReturnValueOnce(hookProps);
+    test('rendering the component properly with line item - item id empty', () => {
+        const localHooks = {...hookProps, fieldNames: {...hookProps.fieldNames, id: ''}};
+        useSummaryLineExpandableMock.mockReturnValueOnce(localHooks);
         const localProps = {...props, content: content };
+
+        const { container } = render(<SummaryLineExpandable {...localProps}/>);
+        expect(container.getElementsByClassName(classesListSummary.list.li).length).toBe(content.length);
+    });
+
+    test('rendering the component properly with payment line item - item amount and value defined', () => {
+        const localContent: Array<IPayment> = [
+            {
+                gateway_public_id: 'test',
+                amount: 200,
+                currency: 'CAD',
+                type: 'credit',
+                display_string: '1111',
+                id: 'test',
+                token: 'test',
+                retain: true,
+                value: 200
+            }
+        ];
+        useSummaryLineExpandableMock.mockReturnValueOnce(hookProps);
+        const localProps = {...props, content: localContent, eventToggleName: Constants.PAYMENTS_TOGGLE};
+
+        const { container } = render(<SummaryLineExpandable {...localProps}/>);
+        expect(container.getElementsByClassName(classesListSummary.list.li).length).toBe(content.length);
+    });
+
+    test('rendering the component properly with payment line item - item amount define, value and id undefined', () => {
+        const localContent: Array<IPayment> = [
+            {
+                gateway_public_id: 'test',
+                amount: 200,
+                currency: 'CAD',
+                type: 'credit',
+                display_string: '1111',
+                id: 'test',
+                token: 'test',
+                retain: true
+            }
+        ];
+        useSummaryLineExpandableMock.mockReturnValueOnce(hookProps);
+        const localProps = {...props, content: localContent, eventToggleName: Constants.PAYMENTS_TOGGLE};
 
         const { container } = render(<SummaryLineExpandable {...localProps}/>);
         expect(container.getElementsByClassName(classesListSummary.list.li).length).toBe(content.length);

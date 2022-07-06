@@ -40,7 +40,8 @@ export function getTotals(
 
     // Payments
     payments.map((item: IPayment) => {
-        totals.totalPaid += item.value ?? (item.amount * 100);
+        const valueToSum = item.value && item.amount ? item.value : item.amount; // TODO: use item.amount after FF CE-539-Add-PaymentLine-Model is Enabled by default
+        totals.totalPaid += valueToSum;
     });
 
     totals.totalOrder = totals.totalSubtotal + shipping.amount + totals.totalTaxes - totals.totalDiscounts;

@@ -157,11 +157,6 @@ export interface IFrontEndEvent {
     CheckoutExperienceThankYouPageDisplayed?: string,
 }
 
-export interface IDisplayPaymentMethod {
-    paymentMethodName: string,
-    paymentMethodValue: string,
-}
-
 export interface IPaymentIframe {
     onLoad: () => void;
 }

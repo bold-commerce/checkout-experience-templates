@@ -610,17 +610,14 @@ export const initialDataMock: IInitializeOrderResponse = {
         'payments': [
             {
                 gateway_public_id: 'payment_gateway_public_id_1',
-                amount: 200.00,
-                tag: 'Credit',
+                amount: 20000,
                 currency: 'CAD',
                 type: 'credit_card',
-                display_string: 'PAYMENT OPERATED BY xxx',
+                display_string: '1111',
                 id: 'payment_id',
                 token: 'payment_token',
                 retain: false,
-                value: 20000,
-                brand: 'Visa',
-                driver: 'Credit'
+                brand: 'Visa'
             }
         ],
         'order_total': 20000,

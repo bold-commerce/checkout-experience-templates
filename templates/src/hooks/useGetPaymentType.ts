@@ -1,55 +1,41 @@
-import {IDisplayPaymentMethod} from 'src/types';
 import {getTerm} from 'src/utils';
 import {getCardDisplayFormat, getGiftCardDisplayFormat} from 'src/utils';
 import {IPayment} from '@bold-commerce/checkout-frontend-library';
 
-export function useGetPaymentType(props: IPayment): IDisplayPaymentMethod {
-    if (!props.tag || !props.driver) {
-        return {paymentMethodName: '', paymentMethodValue: ''};
+export function useGetPaymentType(props: IPayment): string {
+    const {driver, lineText, brand, display_string: displayString, type} = props; // TODO: remove driver and lineText and change displayString to displayText after FF CE-539-Add-PaymentLine-Model is Enabled by default
+    if (driver && type) { // TODO: change condition to (!type) after FF CE-539-Add-PaymentLine-Model is Enabled by default
+        return '';
     }
-    const lineText = props.lineText ? props.lineText : '';
+    const displayText = displayString ? displayString : lineText ?? ''; // TODO: remove after FF CE-539-Add-PaymentLine-Model is Enabled by default
+    const formattedType = type ? type.toLowerCase().replace(/\s|_/g, '') : ''; // TODO: change variable to paymentType after FF CE-539-Add-PaymentLine-Model is Enabled by default
+    const formattedDriver = driver ? driver.toLowerCase().replace(/\s|_/g, '') : ''; // TODO: remove after FF CE-539-Add-PaymentLine-Model is Enabled by default
+    const paymentType = formattedType ? formattedType : formattedDriver; // TODO: remove after FF CE-539-Add-PaymentLine-Model is Enabled by default
 
     // Gift Card (any type)
-    if (props.tag.toLowerCase().includes('giftcard')) {
-
-        return {
-            paymentMethodName: getTerm('gift_card', 'payment_method'),
-            paymentMethodValue: getGiftCardDisplayFormat(lineText),
-        };
+    if (paymentType.includes('giftcard')) {
+        return `${getTerm('gift_card', 'payment_method')}: ${getGiftCardDisplayFormat(displayText)}`;
     }
 
-    // Amazon Pay
-    if (props.driver.toLowerCase().includes('amazon')) {
-        return {
-            paymentMethodName: getTerm('amazon', 'payment_method'),
-            paymentMethodValue: lineText,
-        };
-    }
-
-    switch (props.driver.toLowerCase().substring(0, 7)) {
+    switch (paymentType) {
         // Paypal
-        case 'paypal_':
-            return {
-                paymentMethodName: getTerm('paypal', 'payment_method'),
-                paymentMethodValue: lineText,
-            };
+        case 'paypal':
+        case 'paypalbraintree':
+        case 'paypalpaypal':
+            return `${getTerm('paypal', 'payment_method')}: ${displayText}`;
+        // Amazon
+        case 'amazon':
+        case 'amazonpay':
+            return `${getTerm('amazon', 'payment_method')}: ${displayText}`;
         // Venmo
-        case 'venmo_b':
-            return {
-                paymentMethodName: getTerm('venmo', 'payment_method'),
-                paymentMethodValue: lineText,
-            };
+        case 'venmo':
+        case 'venmobraintree':
+            return `${getTerm('venmo', 'payment_method')}: ${displayText}`;
         // Payment by Plugin
-        case 'plugin_':
-            return {
-                paymentMethodName: getTerm('plugin', 'payment_method'),
-                paymentMethodValue: lineText,
-            };
+        case 'pluginv2':
+            return `${getTerm('plugin', 'payment_method')}: ${displayText}`;
         // Other - Branded Cards - Credit cards
         default:
-            return {
-                paymentMethodName: props.brand ?? '',
-                paymentMethodValue: getCardDisplayFormat(props.brand ?? '', lineText),
-            };
+            return brand ? `${brand}: ${getCardDisplayFormat(brand, displayText)}` : getCardDisplayFormat('', displayText);
     }
 }
