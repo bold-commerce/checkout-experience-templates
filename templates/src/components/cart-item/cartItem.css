@@ -93,6 +93,14 @@ li {
     border-radius: 0;
 }
 
+.cart-item__quantity-input:hover {
+    outline: 4px solid #E2E2E2;
+}
+
+.cart-item__quantity-input:focus {
+    outline: 4px solid #C0E7FE;
+}
+
 .cart-item__quantity-input::-webkit-outer-spin-button,
 .cart-item__quantity-input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -110,6 +118,17 @@ li {
     cursor: pointer;
     padding: 0;
     background: none;
+}
+
+.cart-item__quantity-increase:hover,
+.cart-item__quantity-decrease:hover {
+    cursor: pointer;
+    outline: 4px solid #E2E2E2;
+  }
+  
+.cart-item__quantity-increase:focus,
+.cart-item__quantity-decrease:focus {
+    outline: 4px solid #C0E7FE;
 }
 
 .cart-item__quantity-increase {
