@@ -3,6 +3,7 @@ import {Price} from '@boldcommerce/stacks-ui';
 import {ISummaryLineExpandable} from 'src/types';
 import {SummaryLineExpanded} from 'src/components';
 import {useSummaryLineExpandable} from 'src/hooks';
+import {Constants} from 'src/constants';
 
 export function SummaryLineExpandable(props: ISummaryLineExpandable): React.ReactElement {
     const {expand, classes, toggle, fieldNames, formattedPrice} = useSummaryLineExpandable(props);
@@ -16,11 +17,15 @@ export function SummaryLineExpandable(props: ISummaryLineExpandable): React.Reac
             </div>
             {
                 expand && props.content && Array.isArray(props.content) && props.content.length > 0 && props.content.map((item, index) => {
+                    let itemAmount = item[fieldNames.amount];
+                    if(props.eventToggleName === Constants.PAYMENTS_TOGGLE) { // TODO: Remove condition after FF CE-539-Add-PaymentLine-Model is Enabled by default
+                        itemAmount = item[fieldNames.amount] && item['value'] ? item['value'] : item[fieldNames.amount];
+                    }
                     return (
                         <SummaryLineExpanded
                             key={`summary-line-expanded-${props.eventToggleName}-${index}`}
                             eventToggleName={props.eventToggleName}
-                            amount={item[fieldNames.amount]}
+                            amount={itemAmount}
                             content={item}
                             id={`${index}`}
                             classes={classes}

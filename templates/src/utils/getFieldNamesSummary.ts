@@ -14,7 +14,7 @@ export function getFieldNamesSummary(eventName: string): IFieldNamesSummary {
             break;
         case Constants.PAYMENTS_TOGGLE:
             fieldNames.content = 'brand';
-            fieldNames.amount = 'value';
+            fieldNames.amount = 'amount';
             fieldNames.id = 'id';
             break;
         case Constants.DISCOUNTS_TOGGLE:

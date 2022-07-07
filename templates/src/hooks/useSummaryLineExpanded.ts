@@ -18,9 +18,9 @@ export function useSummaryLineExpanded(props: ISummaryLineExpanded): IUseSummary
     const isLoading = useGetIsLoading();
     const {formattedPrice} = useGetCurrencyInformation();
     let content = props.content[fieldNames.content];
-    const paymentType = useGetPaymentType(props.content as IPayment);
+    const paymentMethodText = useGetPaymentType(props.content as IPayment);
     if(props.eventToggleName === Constants.PAYMENTS_TOGGLE){
-        content = `${paymentType.paymentMethodName}: ${paymentType.paymentMethodValue}`;
+        content = paymentMethodText;
     }
     let deleteElementFromState;
     let closeLoading = false;

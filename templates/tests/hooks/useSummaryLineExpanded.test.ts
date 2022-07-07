@@ -1,5 +1,5 @@
 import {IPaymentsSummaryClasses, ISummaryLineExpanded, IUseGetCurrencyInformation} from 'src/types';
-import {actionSetLoaderAndDisableButton, REMOVE_DISCOUNT, REMOVE_PAYMENT} from 'src/action';
+import {REMOVE_DISCOUNT, REMOVE_PAYMENT} from 'src/action';
 import * as appAction from 'src/action/appAction';
 import * as appStateAction from 'src/action/applicationStateActions';
 import * as deleteDiscounts from 'src/library/deleteDiscounts';
@@ -14,6 +14,7 @@ import {act} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 import {stateMock} from 'src/mocks';
 import {Constants} from 'src/constants';
+import {IPayment} from '@bold-commerce/checkout-frontend-library';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -25,7 +26,6 @@ jest.mock('src/hooks/useGetCurrencyInformation');
 const useGetLoaderScreenVariableMock = mocked(useGetLoaderScreenVariable, true);
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
-
 
 describe('Testing hook useSummaryLineExpanded', () => {
     let actionSetLoaderAndDisableButtonSpy: jest.SpyInstance;
@@ -119,8 +119,29 @@ describe('Testing hook useSummaryLineExpanded', () => {
         expect(hookResult.textAlign).toBe(props.textAlign);
         expect(hookResult.closeLoading).toBe(false);
         expect(hookResult.formattedPrice).toBe(currencyData.formattedPrice);
-        expect(hookResult.content).toBe('Visa: Visa');
+        expect(hookResult.content).toBe('Visa: •••• •••• •••• 1111');
+    });
 
+    test('rendering the hook properly for payment with no payment method name', () => {
+        const localContent: IPayment = {
+            gateway_public_id: 'test',
+            amount: 200,
+            currency: 'CAD',
+            type: 'credit',
+            display_string: '1111',
+            id: 'test',
+            token: 'test',
+            retain: true,
+            value: 200
+        };
+        const localPaymentProps = {...paymentProps, content: localContent};
+        const {result} = renderHook(() => useSummaryLineExpanded(localPaymentProps));
+        const hookResult = result.current;
+        expect(hookResult.itemId).toBe(props.itemId);
+        expect(hookResult.textAlign).toBe(props.textAlign);
+        expect(hookResult.closeLoading).toBe(false);
+        expect(hookResult.formattedPrice).toBe(currencyData.formattedPrice);
+        expect(hookResult.content).toBe('1111');
     });
 
 
