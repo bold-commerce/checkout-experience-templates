@@ -52,7 +52,7 @@ describe('Testing ExpandableDiscount Component', () => {
     };
 
     beforeEach(() => {
-        useExpandableDiscountMock.mockReturnValueOnce(hooksData).mockReturnValueOnce({...hooksData, expandDiscount: true}).mockReturnValue(hooksData);
+        jest.resetAllMocks();
         useSummaryDiscountCodeMock.mockReturnValueOnce(hookResultForDiscountCode);
         useSummaryDiscountLineMock.mockReturnValueOnce(hookResultForDiscountLine);
         useGetIsLoadingMock.mockReturnValue(false);
@@ -60,19 +60,28 @@ describe('Testing ExpandableDiscount Component', () => {
     });
 
     test('rendering the component', () => {
+        useExpandableDiscountMock.mockReturnValueOnce(hooksData);
+
         const {container} = render(<ExpandableDiscount />);
+
         expect(container.getElementsByClassName('expandable-discount__toggle').length).toBe(1);
     });
 
     test('render expanded component', () => {
+        useExpandableDiscountMock.mockReturnValueOnce({...hooksData, expandDiscount: true});
+
         const {container, getByTestId} = render(<ExpandableDiscount />);
+
         expect(container.getElementsByClassName('expandable-discount__toggle').length).toBe(0);
         expect(getByTestId('input-field')).toBeTruthy();
         expect(getByTestId('apply-discount')).toBeTruthy();
     });
 
     test('firing the click event of the expand discount button', async () => {
+        useExpandableDiscountMock.mockReturnValueOnce(hooksData);
+
         const {getByTestId} = render(<ExpandableDiscount />);
+
         const button = getByTestId('discount-toggle');
         fireEvent.click(button);
         expect(hooksData.toggleDiscount).toHaveBeenCalled();

@@ -53,7 +53,7 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
                     {!isShippingAddressValid && (
                         <div className="flash-error">
                             <div className="flash-error__container">
-                                <span className="flash-error__text">
+                                <span className="flash-error__text" aria-live="assertive">
                                     {shippingIssueText}{' '}
                                     <a
                                         onClick={() => props.navigateTo('/shipping')}

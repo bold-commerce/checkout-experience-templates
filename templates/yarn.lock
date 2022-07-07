@@ -320,10 +320,10 @@
   resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-frontend-library/-/checkout-frontend-library-0.27.0.tgz#3a6d123d93375a568ed92dda1443f26632c0b7d1"
   integrity sha512-4P03X9gVu7omI4KkQmsIppsdO8fzLevNzDaSj+LGxuSKL2awe+ln+N0J7Bt3Ty3BZtskREXa3ZKqdQ3NTfGL8A==
 
-"@boldcommerce/stacks-ui@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.npmjs.org/@boldcommerce/stacks-ui/-/stacks-ui-1.1.1.tgz"
-  integrity sha512-DKHYco2HSiOLyjOIauv6JcCXUJ1InmTH/eA+qMlnaf2AsA1ZgabOln5fyOhpTzawq647p9TkPrEv7F9x9vsOmA==
+"@boldcommerce/stacks-ui@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@boldcommerce/stacks-ui/-/stacks-ui-1.4.0.tgz#ec128443e3f94b5da88172e3573f75a2aad156af"
+  integrity sha512-IN/3/zF4+CNBxc7+7jC+f2xP+ko4yQMEBr4jo/Y8gEDtUQ/2kp6RpEpCPnYyzeYu4kK27Xw42x4joM7WpvLAHg==
   dependencies:
     prop-types-extra "^1.1.1"
 
