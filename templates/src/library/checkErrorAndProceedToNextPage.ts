@@ -5,7 +5,7 @@ import {HistoryLocationState} from 'react-router';
 import {getCheckoutUrl, getTotals, isOnlyDiscountCodeError, neuroIdSubmit, isOnlyFlashError} from 'src/utils';
 import {errorFields, errorTypes} from 'src/constants';
 import {orderCompleteAnalytics} from 'src/analytics';
-import {IShippingLine} from '@bold-commerce/checkout-frontend-library';
+import {IFees, IShippingLine} from '@bold-commerce/checkout-frontend-library';
 
 export function checkErrorAndProceedToNextPage(
     page: string,
@@ -33,7 +33,8 @@ export function checkErrorAndProceedToNextPage(
                 const shipping = appState.shipping.selected_shipping as IShippingLine;
                 const lineItems = appState.line_items;
                 const currency = appState.currency.iso_code;
-                const totals = getTotals(lineItems, payments, taxes, discounts, shipping);
+                const fees = appState.fees as Array<IFees>;
+                const totals = getTotals(lineItems, payments, taxes, fees, discounts, shipping);
                 orderCompleteAnalytics(lineItems, currency, totals, shipping);
             }
         }

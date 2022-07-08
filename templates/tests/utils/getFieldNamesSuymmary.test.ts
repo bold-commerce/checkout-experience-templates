@@ -7,6 +7,7 @@ describe('Test getFieldNamesSummary function', () => {
         [Constants.TAXES_TOGGLE, {content: 'name', amount: 'value', id: ''}],
         [Constants.PAYMENTS_TOGGLE, {content: 'brand', amount: 'amount', id: 'id'}],
         [Constants.DISCOUNTS_TOGGLE, {content: 'code', amount: 'value', id: 'code'}],
+        [Constants.FEES_TOGGLE, {content: 'line_text', amount: 'value', id: 'id'}],
         ['anything else', {content: '', amount: '', id: ''}],
         ['', {content: '', amount: '', id: ''}],
     ];

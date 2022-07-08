@@ -2,6 +2,7 @@ import {useDispatch} from 'react-redux';
 import {
     useGetButtonDisableVariable,
     useGetDiscounts,
+    useGetFees,
     useGetIsLoading,
     useGetIsOrderProcessed,
     useGetLineItems,
@@ -37,9 +38,10 @@ export function usePaymentPage(): IUsePaymentPage{
     const discounts = useGetDiscounts();
     const payments = useGetPayments();
     const taxes = useGetTaxes();
+    const fees = useGetFees();
     const shipping = useGetSelectShippingLine();
     const lineItems = useGetLineItems();
-    const totals = getTotals(lineItems, payments, taxes, discounts, shipping);
+    const totals = getTotals(lineItems, payments, taxes, fees, discounts, shipping);
 
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();

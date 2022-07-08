@@ -620,6 +620,7 @@ export const initialDataMock: IInitializeOrderResponse = {
                 brand: 'Visa'
             }
         ],
+        'fees': [],
         'order_total': 20000,
         'resumable_link': '',
         'created_via': 'checkout',

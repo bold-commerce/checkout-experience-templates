@@ -24,6 +24,7 @@ import {
     actionUpdateBillingTypeInSettings,
     actionUpdateDiscountCodeText,
     actionUpdateDiscounts,
+    actionUpdateFees,
     actionUpdateIsProcessedOrder,
     actionUpdateLineItem,
     actionUpdatePayments,
@@ -38,6 +39,7 @@ import {autocompleteServices} from 'src/constants';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {IError, IOrderInitialization} from 'src/types';
 import {ILineItem, IShippingLine} from '@bold-commerce/checkout-frontend-library';
+import {feesMock} from '@bold-commerce/checkout-frontend-library/lib/variables/mocks';
 
 describe('Testing App Actions', () => {
 
@@ -288,6 +290,18 @@ describe('Testing App Actions', () => {
         };
 
         const result = actionUpdateDiscounts(data);
+
+        expect(result).toStrictEqual(actionReturnExpectation);
+    });
+
+    test('actionUpdateFees', () => {
+        const data = [feesMock];
+        const actionReturnExpectation = {
+            type: AppActions.UPDATE_FEES,
+            payload: {data}
+        };
+
+        const result = actionUpdateFees(data);
 
         expect(result).toStrictEqual(actionReturnExpectation);
     });

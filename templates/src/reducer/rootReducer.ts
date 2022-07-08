@@ -30,7 +30,8 @@ import {
     createdViaReducer,
     resumableLinkReducer,
     currencyReducer,
-    isProcessedReducer
+    isProcessedReducer,
+    feesReducer
 } from 'src/reducer';
 import {autocompleteServices, Constants} from 'src/constants';
 import { defaultOrderInitialization } from 'src/constants/orderInitialization';
@@ -91,7 +92,8 @@ const appStateReducer = combineReducers({
     resumable_link: resumableLinkReducer,
     currency: currencyReducer,
     created_via: createdViaReducer,
-    is_processed: isProcessedReducer
+    is_processed: isProcessedReducer,
+    fees: feesReducer
 });
 
 const generalSettingReducer = combineReducers({

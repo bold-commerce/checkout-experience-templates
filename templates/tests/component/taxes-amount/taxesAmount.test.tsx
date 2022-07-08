@@ -3,10 +3,13 @@ import {getClassesListSummary, getTerm, getTotals} from 'src/utils';
 import {
     useGetCurrencyInformation,
     useGetDiscounts,
+    useGetFees,
     useGetLineItems,
     useGetPayments,
     useGetSelectShippingLine,
-    useGetTaxes, useSummaryLineExpandable, useSummaryLineExpanded
+    useGetTaxes,
+    useSummaryLineExpandable,
+    useSummaryLineExpanded
 } from 'src/hooks';
 import {
     ITaxesAmount,
@@ -18,6 +21,7 @@ import {
 import {classesListSummary, stateMock} from 'src/mocks';
 import {render, screen} from '@testing-library/react';
 import {TaxesAmount} from 'src/components';
+import {feesMock} from '@bold-commerce/checkout-frontend-library/lib/variables/mocks';
 
 jest.mock('src/hooks');
 jest.mock('src/utils');
@@ -32,6 +36,7 @@ const getClassesListSummaryMock = mocked(getClassesListSummary, true);
 const useSummaryLineExpandableMock = mocked(useSummaryLineExpandable, true);
 const useSummaryLineExpandedMock = mocked(useSummaryLineExpanded, true);
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
+const useGetFeesMock = mocked(useGetFees, true);
 
 describe('Testing TaxesAmount component', () => {
 
@@ -39,7 +44,7 @@ describe('Testing TaxesAmount component', () => {
         orderCompleted: false
     };
     const appState = stateMock.data.application_state;
-    const getTermResponse = ['discounts', 'payments', 'amount_remaining', 'subTotal', 'shipping', 'taxes', 'total',  ];
+    const getTermResponse = ['discounts', 'fees', 'payments', 'amount_remaining', 'subTotal', 'shipping', 'taxes', 'total'];
     const selectedShippingLine = {
         id: 'shipping_id_1',
         description: 'USPS ground carrier',
@@ -52,6 +57,7 @@ describe('Testing TaxesAmount component', () => {
         totalPaid: 0,
         totalFees: 0,
         totalTaxes: 0,
+        totalAdditionalFees: 0,
         totalDiscounts: 0
     };
 
@@ -99,9 +105,11 @@ describe('Testing TaxesAmount component', () => {
             .mockReturnValueOnce(getTermResponse[3])
             .mockReturnValueOnce(getTermResponse[4])
             .mockReturnValueOnce(getTermResponse[5])
-            .mockReturnValueOnce(getTermResponse[6]);
+            .mockReturnValueOnce(getTermResponse[6])
+            .mockReturnValueOnce(getTermResponse[7]);
         useGetDiscountsMock.mockReturnValueOnce(appState.discounts);
         useGetPaymentsMock.mockReturnValueOnce(appState.payments);
+        useGetFeesMock.mockReturnValueOnce([feesMock]);
 
         const { container } = render(<TaxesAmount {...props}/>);
         expect(container.getElementsByClassName('taxes-amount').length).toBe(1);
@@ -112,6 +120,7 @@ describe('Testing TaxesAmount component', () => {
         expect(screen.getAllByText(getTermResponse[4]).length).toBe(1);
         expect(screen.getAllByText(getTermResponse[5]).length).toBe(1);
         expect(screen.getAllByText(getTermResponse[6]).length).toBe(1);
+        expect(screen.getAllByText(getTermResponse[7]).length).toBe(1);
     });
 
     test('Rendering without discounts or payments', () => {
@@ -122,19 +131,22 @@ describe('Testing TaxesAmount component', () => {
             .mockReturnValueOnce(getTermResponse[3])
             .mockReturnValueOnce(getTermResponse[4])
             .mockReturnValueOnce(getTermResponse[5])
-            .mockReturnValueOnce(getTermResponse[6]);
+            .mockReturnValueOnce(getTermResponse[6])
+            .mockReturnValueOnce(getTermResponse[7]);
         useGetDiscountsMock.mockReturnValueOnce([]);
         useGetPaymentsMock.mockReturnValueOnce([]);
+        useGetFeesMock.mockReturnValueOnce([]);
 
         const { container } = render(<TaxesAmount {...props}/>);
         expect(container.getElementsByClassName('taxes-amount').length).toBe(1);
         expect(screen.queryByText(getTermResponse[0])).toEqual(null);
         expect(screen.queryByText(getTermResponse[1])).toEqual(null);
         expect(screen.queryByText(getTermResponse[2])).toEqual(null);
-        expect(screen.getAllByText(getTermResponse[3]).length).toBe(1);
+        expect(screen.queryByText(getTermResponse[3])).toEqual(null);
         expect(screen.getAllByText(getTermResponse[4]).length).toBe(1);
         expect(screen.getAllByText(getTermResponse[5]).length).toBe(1);
         expect(screen.getAllByText(getTermResponse[6]).length).toBe(1);
+        expect(screen.getAllByText(getTermResponse[7]).length).toBe(1);
     });
 
 });

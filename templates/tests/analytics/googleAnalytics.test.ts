@@ -20,6 +20,7 @@ describe('testing Google Analytics implementation', () => {
         totalSubtotal: 0,
         totalOrder: 22099,
         totalAmountDue: 0,
+        totalAdditionalFees: 0,
         totalPaid: 0,
         totalFees: 0,
         totalTaxes: 0.10,

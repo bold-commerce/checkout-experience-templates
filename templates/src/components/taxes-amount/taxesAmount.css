@@ -115,6 +115,7 @@
 .taxes-amount__shipping,
 .taxes-amount__taxes,
 .taxes-amount__payments,
+.taxes-amount__fees,
 .taxes-amount__discounts {
     order: 2;
     display: flex;
@@ -127,6 +128,7 @@
 .taxes-amount__total-label,
 .taxes-amount__amount-due-label,
 .taxes-amount__taxes-label,
+.taxes-amount__fees-label,
 .taxes-amount__payments-label,
 .taxes-amount__discounts-label {
     order: 1;
@@ -135,6 +137,7 @@
 .taxes-amount__shipping-list,
 .taxes-amount__taxes-list,
 .taxes-amount__payments-list,
+.taxes-amount__fees-list,
 .taxes-amount__discounts-list {
     order: 2;
     width: 100%;

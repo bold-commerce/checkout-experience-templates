@@ -3,16 +3,17 @@ import {Constants} from 'src/constants';
 import {getTotals, getTerm} from 'src/utils';
 import {SummaryLineExpandable, SummaryLineNonExpandable} from 'src/components';
 import {REMOVE_DISCOUNT, REMOVE_PAYMENT} from 'src/action/appActionType';
-import {useGetDiscounts, useGetLineItems, useGetPayments, useGetSelectShippingLine, useGetTaxes} from 'src/hooks';
+import {useGetDiscounts, useGetLineItems, useGetPayments, useGetSelectShippingLine, useGetTaxes, useGetFees} from 'src/hooks';
 import {ITaxesAmount} from 'src/types';
 
 export function TaxesAmount(props: ITaxesAmount): React.ReactElement {
     const discounts = useGetDiscounts();
+    const fees = useGetFees();
     const payments = useGetPayments();
     const taxes = useGetTaxes();
     const shipping = useGetSelectShippingLine();
     const lineItems = useGetLineItems();
-    const totals = getTotals(lineItems, payments, taxes, discounts, shipping);
+    const totals = getTotals(lineItems, payments, taxes, fees, discounts, shipping);
 
     const discountSection = <SummaryLineExpandable
         hasList
@@ -22,6 +23,15 @@ export function TaxesAmount(props: ITaxesAmount): React.ReactElement {
         total={totals.totalDiscounts}
         title={getTerm('discounts', Constants.SUMMARY_INFO)}
         eventDeleteName={REMOVE_DISCOUNT}
+    />;
+
+    const feesSection = <SummaryLineExpandable
+        hasList
+        hasDeleteButton={false}
+        content={fees}
+        eventToggleName={Constants.FEES_TOGGLE}
+        total={totals.totalAdditionalFees}
+        title={getTerm('fees', Constants.SUMMARY_INFO)}
     />;
 
     const paymentSection = <SummaryLineExpandable
@@ -59,6 +69,8 @@ export function TaxesAmount(props: ITaxesAmount): React.ReactElement {
             />
 
             {discounts && discounts.length > 0 && discountSection}
+
+            {fees && fees.length > 0 && feesSection}
 
             <SummaryLineExpandable
                 hasBottom

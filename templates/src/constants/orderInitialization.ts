@@ -115,6 +115,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
                 has_decimal: true,
                 show_iso_code: true
             },
+            fees: [],
             resumable_link: '',
             created_via: '',
             is_processed: false,
