@@ -22,6 +22,11 @@ export function getFieldNamesSummary(eventName: string): IFieldNamesSummary {
             fieldNames.amount = 'value';
             fieldNames.id = 'code';
             break;
+        case Constants.FEES_TOGGLE:
+            fieldNames.content = 'line_text';
+            fieldNames.amount = 'value';
+            fieldNames.id = 'id';
+            break;
         default:
             break;
     }

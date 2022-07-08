@@ -14,6 +14,8 @@ export function getClassNameByEventName(eventName: string): string {
             return 'subtotal';
         case Constants.TOTAL_EVENT:
             return 'total';
+        case Constants.FEES_TOGGLE:
+            return 'fees';
         case Constants.AMOUNT_DUE_EVENT:
             return 'amount-due';
         default:

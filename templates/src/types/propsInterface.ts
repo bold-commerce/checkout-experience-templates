@@ -6,7 +6,16 @@ import {
     IError,
     IErrorShowType
 } from 'src/types';
-import {IAddress, IDiscount, ILineItem, IPayment, IShippingLine, ITax, IProvince} from '@bold-commerce/checkout-frontend-library';
+import {
+    IAddress,
+    IDiscount,
+    ILineItem,
+    IPayment,
+    IShippingLine,
+    ITax,
+    IProvince,
+    IFees
+} from '@bold-commerce/checkout-frontend-library';
 
 export interface IAddressProps {
     title: string;
@@ -143,7 +152,7 @@ export interface ISummaryLineExpandable {
     hasDeleteButton?: boolean;
     total: number;
     textAlign?: string;
-    content: Array<IShippingLine | IDiscount | ITax | IPayment>;
+    content: Array<IShippingLine | IDiscount | ITax | IPayment | IFees>;
     title: string;
 }
 
@@ -151,7 +160,7 @@ export interface ISummaryLineExpanded {
     eventDeleteName?: string;
     eventToggleName: string;
     amount: number;
-    content: IShippingLine | IDiscount | ITax | IPayment;
+    content: IShippingLine | IDiscount | ITax | IPayment | IFees;
     id: string;
     classes: IPaymentsSummaryClasses;
     textAlign?: string;

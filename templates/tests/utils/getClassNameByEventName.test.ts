@@ -10,6 +10,7 @@ describe('Testing the return of getClassNameByEventName function', () => {
         [Constants.SUBTOTAL_EVENT, 'subtotal'],
         [Constants.TOTAL_EVENT, 'total'],
         [Constants.AMOUNT_DUE_EVENT, 'amount-due'],
+        [Constants.FEES_TOGGLE, 'fees'],
         ['something else', ''],
         ['', '']
     ];

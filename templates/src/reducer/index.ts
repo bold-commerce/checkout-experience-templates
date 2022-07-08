@@ -8,6 +8,7 @@ export * from './customerReducer';
 export * from './dataReducer';
 export * from './discountsReducer';
 export * from './errorsReducer';
+export * from './feesReducer';
 export * from './generalSettingsReducer';
 export * from './initialStateReducer';
 export * from './lineItemsReducer';

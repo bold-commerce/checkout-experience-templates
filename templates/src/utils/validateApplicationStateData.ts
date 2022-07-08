@@ -20,6 +20,7 @@ export function validateApplicationStateData(appData: IApplicationState): IAppli
     const lineItems: Array<ILineItem> = appData.line_items;
     const availableShippingLines: Array<IShippingLine> = appData.shipping.available_shipping_lines;
     const metaData: IOrderMetaData = appData.order_meta_data;
+    let fees = appData.fees;
 
     if(!shippingAddress || Object.keys(shippingAddress).length <=0){
         shippingAddress = defaultAddressState;
@@ -35,6 +36,11 @@ export function validateApplicationStateData(appData: IApplicationState): IAppli
             amount: 0
         };
     }
+
+    if(!fees){
+        fees = [];
+    }
+
     const applicationState : IApplicationState =
     {
         customer: customer,
@@ -51,6 +57,7 @@ export function validateApplicationStateData(appData: IApplicationState): IAppli
         is_processed: appData.is_processed,
         line_items: lineItems,
         currency: appData.currency,
+        fees: fees,
         shipping: {
             selected_shipping: selectedShippingLines,
             available_shipping_lines: availableShippingLines,

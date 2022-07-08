@@ -34,6 +34,7 @@ describe('testing Analytics functions', () => {
         totalAmountDue: 0,
         totalPaid: 0,
         totalFees: 0,
+        totalAdditionalFees: 0,
         totalTaxes: 0.10,
         totalDiscounts: 0
     };

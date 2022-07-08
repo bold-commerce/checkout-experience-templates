@@ -6,8 +6,8 @@ import {
     IShipping,
     IShippingLine,
     ITax
-} from "@bold-commerce/checkout-frontend-library";
-import {IApplicationState} from "@bold-commerce/checkout-frontend-library/lib/types/apiInterfaces";
+} from '@bold-commerce/checkout-frontend-library';
+import {IApplicationState} from '@bold-commerce/checkout-frontend-library/lib/types/apiInterfaces';
 
 describe('testing function validateApplicationStateData', () => {
     const defaultAddress = {
@@ -96,6 +96,7 @@ describe('testing function validateApplicationStateData', () => {
         payments: [] as Array<IPayment>,
         order_total: 0,
         resumable_link: '',
+        fees: [],
         currency: currency,
         created_via: '',
         is_processed: false,

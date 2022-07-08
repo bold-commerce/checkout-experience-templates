@@ -13,7 +13,8 @@ import {
     getShippingAddress,
     getTaxes,
     IAddress,
-    IShippingLine
+    IShippingLine,
+    getFees
 } from '@bold-commerce/checkout-frontend-library';
 import {initialDataMock} from 'src/mocks';
 import {
@@ -22,6 +23,7 @@ import {
     getBillingAddressFromLib,
     getCustomerFromLib,
     getDiscountsFromLib,
+    getFeesFromLib,
     getIsOrderProcessFromLib,
     getLineItemsFromLib,
     getOrderMetaDataFromLib,
@@ -39,6 +41,8 @@ import * as customerAction from 'src/action/customerAction';
 import * as CustomerActions from 'src/action/customerActionType';
 import {Constants, defaultAddressState} from 'src/constants';
 import {handleErrorIfNeeded} from 'src/utils';
+import {actionUpdateFees} from 'src/action/appAction';
+import {feesMock} from '@bold-commerce/checkout-frontend-library/lib/variables/mocks';
 
 jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
 jest.mock('@bold-commerce/checkout-frontend-library/lib/order');
@@ -54,6 +58,7 @@ const getPaymentsMock = mocked(getPayments, true);
 const getShippingMock = mocked(getShipping, true);
 const getShippingAddressMock = mocked(getShippingAddress, true);
 const getTaxesMock = mocked(getTaxes, true);
+const getFeesMock = mocked(getFees, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);
 
 describe('testing Update Application State Thunk Actions', () => {
@@ -74,6 +79,7 @@ describe('testing Update Application State Thunk Actions', () => {
     let actionUpdateShippingLinesDiscountSpy: jest.SpyInstance;
     let actionUpdateShippingLinesTaxesSpy: jest.SpyInstance;
     let actionUpdateTaxesSpy: jest.SpyInstance;
+    let actionUpdateFeesSpy: jest.SpyInstance;
 
     beforeEach(() => {
         getApplicationStateMock.mockReturnValue(application_state);
@@ -87,6 +93,7 @@ describe('testing Update Application State Thunk Actions', () => {
         getShippingMock.mockReturnValue(shipping);
         getShippingAddressMock.mockReturnValue(shippingAddress);
         getTaxesMock.mockReturnValue(taxes);
+        getFeesMock.mockReturnValue([feesMock]);
         actionUpdateAddressSpy = jest.spyOn(customerAction, 'actionUpdateAddress');
         actionUpdateCustomerSpy = jest.spyOn(customerAction, 'actionUpdateCustomer');
         actionUpdateDiscountsSpy = jest.spyOn(appAction, 'actionUpdateDiscounts');
@@ -100,6 +107,7 @@ describe('testing Update Application State Thunk Actions', () => {
         actionUpdateShippingLinesTaxesSpy = jest.spyOn(appAction, 'actionUpdateShippingLinesTaxes');
         actionUpdateTaxesSpy = jest.spyOn(appAction, 'actionUpdateTaxes');
         actionUpdateIsProcessedOrderSpy = jest.spyOn(appAction, 'actionUpdateIsProcessedOrder');
+        actionUpdateFeesSpy = jest.spyOn(appAction, 'actionUpdateFees');
     });
 
     afterEach(() => {
@@ -283,6 +291,22 @@ describe('testing Update Application State Thunk Actions', () => {
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
 
+    test('calling getFeesFromLib', () => {
+        const actionMock = {
+            type: AppActions.UPDATE_FEES,
+            payload: {data: [feesMock]}
+        };
+        actionUpdateFeesSpy.mockReturnValueOnce(actionMock);
+
+        getFeesFromLib(dispatchMock);
+
+        expect(getFeesMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateFeesSpy).toHaveBeenCalledTimes(1);
+        expect(actionUpdateFeesSpy).toHaveBeenCalledWith([feesMock]);
+        expect(dispatchMock).toHaveBeenCalledTimes(1);
+        expect(dispatchMock).toHaveBeenCalledWith(actionMock);
+    });
+
     test('calling getShippingFromLib filled selected_shipping', () => {
         const actionUpdateSelectedShippingLineMock = {
             type: AppActions.UPDATE_SELECTED_SHIPPING_LINE,
@@ -424,12 +448,13 @@ describe('testing Update Application State Thunk Actions', () => {
     test('calling getSummaryStateFromLib', () => {
         getSummaryStateFromLib(dispatchMock);
 
-        expect(dispatchMock).toHaveBeenCalledTimes(5);
+        expect(dispatchMock).toHaveBeenCalledTimes(6);
         expect(dispatchMock).toHaveBeenCalledWith(getLineItemsFromLib);
         expect(dispatchMock).toHaveBeenCalledWith(getOrderTotalFromLib);
         expect(dispatchMock).toHaveBeenCalledWith(getOrderMetaDataFromLib);
         expect(dispatchMock).toHaveBeenCalledWith(getDiscountsFromLib);
         expect(dispatchMock).toHaveBeenCalledWith(getTaxesFromLib);
+        expect(dispatchMock).toHaveBeenCalledWith(getFeesFromLib);
     });
 
     test('calling getTaxesFromLib', () => {

@@ -4,6 +4,7 @@ import {
     getBillingAddress,
     getCustomer,
     getDiscounts,
+    getFees,
     getLineItems,
     getOrderMetaData,
     getPayments,
@@ -20,6 +21,7 @@ import {
     actionUpdateAvailableShippingLines,
     actionUpdateCustomer,
     actionUpdateDiscounts,
+    actionUpdateFees,
     actionUpdateIsProcessedOrder,
     actionUpdateLineItem,
     actionUpdatePayments,
@@ -64,6 +66,11 @@ export async function getBillingAddressFromLib(dispatch: Dispatch): Promise<void
 export async function getCustomerFromLib(dispatch: Dispatch): Promise<void>{
     const customer = getCustomer();
     dispatch(actionUpdateCustomer(customer));
+}
+
+export async function getFeesFromLib(dispatch: Dispatch): Promise<void>{
+    const fees = getFees();
+    dispatch(actionUpdateFees(fees));
 }
 
 export async function getDiscountsFromLib(dispatch: Dispatch): Promise<void>{
@@ -126,6 +133,7 @@ export async function getSummaryStateFromLib(dispatch: Dispatch): Promise<void>{
     dispatch(getOrderMetaDataFromLib);
     dispatch(getDiscountsFromLib);
     dispatch(getTaxesFromLib);
+    dispatch(getFeesFromLib);
 }
 
 export async function getTaxesFromLib(dispatch: Dispatch): Promise<void>{

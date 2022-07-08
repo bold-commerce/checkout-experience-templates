@@ -30,6 +30,7 @@ export * from './useGetDefaultSupportedLanguageIso';
 export * from './useGetDiscounts';
 export * from './useGetDisplayPaymentMethods';
 export * from './useGetErrors';
+export * from './useGetFees';
 export * from './useGetErrorByField';
 export * from './useGetFlashErrors';
 export * from './useGetFooterRights';

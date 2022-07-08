@@ -4,6 +4,7 @@ import {IError, IOrderInitialization} from 'src/types';
 import {autocompleteServices} from 'src/constants';
 import {
     IDiscount,
+    IFees,
     ILineItem,
     IOrderMetaData,
     IPayment,
@@ -155,6 +156,13 @@ export function actionOrderTotal(data: number): AnyAction {
 export function actionUpdateDiscounts(data: Array<IDiscount>): AnyAction {
     return {
         type: AppActions.UPDATE_DISCOUNTS,
+        payload: {data}
+    };
+}
+
+export function actionUpdateFees(data: Array<IFees>): AnyAction {
+    return {
+        type: AppActions.UPDATE_FEES,
         payload: {data}
     };
 }

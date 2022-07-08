@@ -12,6 +12,7 @@ export class Constants {
     static SHIPPING_TOGGLE = 'SHIPPING_TOGGLE';
     static TAXES_TOGGLE = 'TAXES_TOGGLE';
     static DISCOUNTS_TOGGLE = 'DISCOUNTS_TOGGLE';
+    static FEES_TOGGLE = 'FEES_TOGGLE';
     static PAYMENTS_TOGGLE = 'PAYMENTS_TOGGLE';
     static SUBTOTAL_EVENT = 'SUBTOTAL_EVENT';
     static TOTAL_EVENT = 'TOTAL_EVENT';

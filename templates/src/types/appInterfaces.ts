@@ -44,7 +44,8 @@ export interface ITotals {
     totalPaid: number,
     totalDiscounts: number,
     totalTaxes: number,
-    totalFees: number
+    totalFees: number,
+    totalAdditionalFees: number
 }
 
 export interface IOverlay{
