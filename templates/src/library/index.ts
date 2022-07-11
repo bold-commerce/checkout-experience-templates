@@ -7,6 +7,8 @@ export * from './checkLoadPigiErrors';
 export * from './deleteAddress';
 export * from './deleteBillingAddress';
 export * from './deleteDiscounts';
+export * from './deleteGiftCardPayment';
+export * from './deletePayment';
 export * from './deleteShippingAddress';
 export * from './displayOrderProcessingScreen';
 export * from './generateTaxes';

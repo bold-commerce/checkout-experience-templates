@@ -327,10 +327,11 @@ export interface IUseSummaryLineExpanded{
     eventDeleteName: string,
     itemId: string,
     content: string,
-    deleteElementFromState: (i ,e) => void,
+    deleteElement: () => void,
     closeLoading: boolean,
     isLoading: boolean,
     formattedPrice: string,
+    deleteDataTestId: string,
 }
 
 export interface IUseSummaryLineExpandable{

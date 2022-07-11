@@ -49,10 +49,11 @@ describe('Testing SummaryLineExpandable component', () => {
         eventDeleteName: '',
         itemId: '',
         content: '',
-        deleteElementFromState: jest.fn(),
+        deleteElement: jest.fn(),
         closeLoading: false,
         isLoading: false,
-        formattedPrice: '${{amount}}'
+        formattedPrice: '${{amount}}',
+        deleteDataTestId: 'some-test-id'
     };
 
     beforeEach(() => {

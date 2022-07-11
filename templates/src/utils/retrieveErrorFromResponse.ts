@@ -11,7 +11,7 @@ export function retrieveErrorFromResponse(response: IApiReturnObject): Array<IAp
     // @ts-ignore
     if (errors) {
         errors.forEach(newErrorsList => {
-            const newErrors = newErrorsList as any as INewApiErrorWarningResponse;
+            const newErrors = newErrorsList as unknown as INewApiErrorWarningResponse;
             if (newErrors && newErrors.details) {
                 if (Array.isArray(newErrors.details)) {
                     newErrors.details.forEach((e, index) => {
