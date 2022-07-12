@@ -73,11 +73,12 @@ describe('Testing TaxesAmount component', () => {
         textAlign: 'center',
         eventDeleteName: '',
         itemId: '',
-        deleteElementFromState: jest.fn(),
+        deleteElement: jest.fn(),
         content: '',
         closeLoading: false,
         isLoading: false,
-        formattedPrice: '${{amount}}'
+        formattedPrice: '${{amount}}',
+        deleteDataTestId: 'some-test-id'
     };
     const currencyData: IUseGetCurrencyInformation = {
         currency: 'CAD',

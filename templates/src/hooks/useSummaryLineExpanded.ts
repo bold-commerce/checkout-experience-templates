@@ -1,5 +1,5 @@
 import {useDispatch} from 'react-redux';
-import {actionDeleteElement, actionSetLoaderAndDisableButton, REMOVE_DISCOUNT, REMOVE_PAYMENT} from 'src/action';
+import {actionSetLoaderAndDisableButton, REMOVE_DISCOUNT, REMOVE_PAYMENT} from 'src/action';
 import {useGetCurrencyInformation, useGetIsLoading, useGetLoaderScreenVariable, useGetPaymentType} from 'src/hooks';
 import {useCallback} from 'react';
 import {deleteDiscounts} from 'src/library';
@@ -7,42 +7,60 @@ import {ISummaryLineExpanded, IUseSummaryLineExpanded} from 'src/types';
 import {Constants} from 'src/constants';
 import {getFieldNamesSummary} from 'src/utils';
 import {IPayment} from '@bold-commerce/checkout-frontend-library';
+import {deletePayment} from 'src/library/deletePayment';
+import {deleteGiftCardPayment} from 'src/library/deleteGiftCardPayment';
 
-export function useSummaryLineExpanded(props: ISummaryLineExpanded): IUseSummaryLineExpanded{
-
+export function useSummaryLineExpanded(props: ISummaryLineExpanded): IUseSummaryLineExpanded {
     const dispatch = useDispatch();
+    const isLoading = useGetIsLoading();
+    const paymentMethodText = useGetPaymentType(props.content as IPayment);
+    const discountCloseLoading = useGetLoaderScreenVariable('discountClose');
+    const paymentCloseLoading = useGetLoaderScreenVariable('paymentClose');
+    const {formattedPrice} = useGetCurrencyInformation();
     const fieldNames = getFieldNamesSummary(props.eventToggleName);
     const textAlign = props.textAlign ? props.textAlign : 'right';
     const eventDeleteName = props.eventDeleteName ? props.eventDeleteName : '';
     const itemId = props.itemId ? props.itemId : '';
-    const isLoading = useGetIsLoading();
-    const {formattedPrice} = useGetCurrencyInformation();
+    const deleteDiscountElement = useCallback(() => {
+        dispatch(actionSetLoaderAndDisableButton('discountClose' , true));
+        dispatch(deleteDiscounts(itemId));
+    }, []);
+    const deleteGenericPaymentElement = useCallback(() => {
+        dispatch(actionSetLoaderAndDisableButton('paymentClose' , true));
+        dispatch(deletePayment(itemId));
+    }, []);
+    const deleteGiftCardPaymentElement = useCallback(() => {
+        dispatch(actionSetLoaderAndDisableButton('paymentClose' , true));
+        dispatch(deleteGiftCardPayment(itemId));
+    }, []);
     let content = props.content[fieldNames.content];
-    const paymentMethodText = useGetPaymentType(props.content as IPayment);
+    let closeLoading = false;
+    let deleteDataTestId = '';
+    let deleteElement;
+    let isGiftCard = false;
+
     if(props.eventToggleName === Constants.PAYMENTS_TOGGLE){
+        const {driver, type} = props.content as IPayment;
+        isGiftCard = `${type}${driver}`.toLowerCase().replace(/\s|_/g, '').includes('giftcard');
         content = paymentMethodText;
     }
-    let deleteElementFromState;
-    let closeLoading = false;
+
     if(eventDeleteName){
         switch (eventDeleteName) {
             case REMOVE_DISCOUNT:
-                closeLoading = useGetLoaderScreenVariable('discountClose');
-                deleteElementFromState = useCallback((eventName: string, id: string) => {
-                    dispatch(actionSetLoaderAndDisableButton('discountClose' , true));
-                    dispatch(deleteDiscounts(id));
-                }, []);
+                deleteDataTestId = 'delete-discount';
+                closeLoading = discountCloseLoading;
+                deleteElement = deleteDiscountElement;
                 break;
             case REMOVE_PAYMENT:
-                closeLoading = useGetLoaderScreenVariable('paymentClose');
-                deleteElementFromState = useCallback((eventName: string, id: string) => {
-                    dispatch(actionDeleteElement(eventName, id));
-                }, []);
+                deleteDataTestId = 'delete-payment';
+                closeLoading = paymentCloseLoading;
+                deleteElement = isGiftCard ? deleteGiftCardPaymentElement : deleteGenericPaymentElement;
                 break;
             default:
                 break;
         }
     }
 
-    return {textAlign, eventDeleteName, itemId, deleteElementFromState, closeLoading, isLoading, formattedPrice, content};
+    return {textAlign, eventDeleteName, itemId, deleteElement, closeLoading, isLoading, formattedPrice, content, deleteDataTestId};
 }

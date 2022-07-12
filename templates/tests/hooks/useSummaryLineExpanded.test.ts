@@ -1,13 +1,12 @@
 import {IPaymentsSummaryClasses, ISummaryLineExpanded, IUseGetCurrencyInformation} from 'src/types';
-import {REMOVE_DISCOUNT, REMOVE_PAYMENT} from 'src/action';
-import * as appAction from 'src/action/appAction';
-import * as appStateAction from 'src/action/applicationStateActions';
-import * as deleteDiscounts from 'src/library/deleteDiscounts';
+import {actionSetLoaderAndDisableButton, REMOVE_DISCOUNT, REMOVE_PAYMENT} from 'src/action';
+import {deleteDiscounts, deletePayment, deleteGiftCardPayment} from 'src/library';
 import {renderHook} from '@testing-library/react-hooks';
 import {
     useGetCurrencyInformation,
     useGetIsLoading,
     useGetLoaderScreenVariable,
+    useGetPaymentType,
     useSummaryLineExpanded
 } from 'src/hooks';
 import {act} from '@testing-library/react';
@@ -20,18 +19,25 @@ const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch
 }));
+jest.mock('src/action');
+jest.mock('src/library/deleteDiscounts');
+jest.mock('src/library/deletePayment');
+jest.mock('src/library/deleteGiftCardPayment');
 jest.mock('src/hooks/useGetLoaderScreenVariable');
 jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/hooks/useGetCurrencyInformation');
-const useGetLoaderScreenVariableMock = mocked(useGetLoaderScreenVariable, true);
-const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+jest.mock('src/hooks/useGetPaymentType');
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
+const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+const useGetLoaderScreenVariableMock = mocked(useGetLoaderScreenVariable, true);
+const useGetPaymentTypeMock = mocked(useGetPaymentType, true);
+const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButton, true);
+const deleteDiscountsMock = mocked(deleteDiscounts, true);
+const deletePaymentMock = mocked(deletePayment, true);
+const deleteGiftCardPaymentMock = mocked(deleteGiftCardPayment, true);
 
 describe('Testing hook useSummaryLineExpanded', () => {
-    let actionSetLoaderAndDisableButtonSpy: jest.SpyInstance;
-    let deleteDiscountsSpy: jest.SpyInstance;
-    let actionDeleteElementSpy: jest.SpyInstance;
-
+    const paymentMethodText = 'Some Payment Method Text';
     const classes: IPaymentsSummaryClasses =  {
         container: 'TEST',
         title: {
@@ -93,11 +99,8 @@ describe('Testing hook useSummaryLineExpanded', () => {
         jest.clearAllMocks();
         useGetLoaderScreenVariableMock.mockReturnValue(false);
         useGetIsLoadingMock.mockReturnValue(false);
-        actionSetLoaderAndDisableButtonSpy = jest.spyOn(appAction, 'actionSetLoaderAndDisableButton');
-        deleteDiscountsSpy = jest.spyOn(deleteDiscounts, 'deleteDiscounts');
-        actionDeleteElementSpy = jest.spyOn(appStateAction, 'actionDeleteElement');
         useGetCurrencyInformationMock.mockReturnValue(currencyData);
-
+        useGetPaymentTypeMock.mockReturnValue(paymentMethodText);
     });
 
     test('rendering the hook properly', () => {
@@ -109,7 +112,6 @@ describe('Testing hook useSummaryLineExpanded', () => {
         expect(hookResult.closeLoading).toBe(false);
         expect(hookResult.formattedPrice).toBe(currencyData.formattedPrice);
         expect(hookResult.content).toBe('test tax');
-
     });
 
     test('rendering the hook properly for payment', () => {
@@ -119,7 +121,7 @@ describe('Testing hook useSummaryLineExpanded', () => {
         expect(hookResult.textAlign).toBe(props.textAlign);
         expect(hookResult.closeLoading).toBe(false);
         expect(hookResult.formattedPrice).toBe(currencyData.formattedPrice);
-        expect(hookResult.content).toBe('Visa: •••• •••• •••• 1111');
+        expect(hookResult.content).toBe(paymentMethodText);
     });
 
     test('rendering the hook properly for payment with no payment method name', () => {
@@ -141,9 +143,8 @@ describe('Testing hook useSummaryLineExpanded', () => {
         expect(hookResult.textAlign).toBe(props.textAlign);
         expect(hookResult.closeLoading).toBe(false);
         expect(hookResult.formattedPrice).toBe(currencyData.formattedPrice);
-        expect(hookResult.content).toBe('1111');
+        expect(hookResult.content).toBe(paymentMethodText);
     });
-
 
     test('rendering the hook properly with only mandatory props', () => {
         const {result} = renderHook(() => useSummaryLineExpanded(mandatoryProps));
@@ -152,43 +153,87 @@ describe('Testing hook useSummaryLineExpanded', () => {
         expect(hookResult.textAlign).toBe('right');
         expect(hookResult.eventDeleteName).toBe('');
         expect(hookResult.closeLoading).toBe(false);
-        expect(hookResult.deleteElementFromState).toBe(undefined);
+        expect(hookResult.deleteElement).toBe(undefined);
     });
 
     test('rendering the hook with REMOVE_DISCOUNT', () => {
-        const localProps = {...mandatoryProps};
-        localProps.eventDeleteName = REMOVE_DISCOUNT;
+        const localProps = {...mandatoryProps, eventDeleteName: REMOVE_DISCOUNT, itemId: 'TEST_ID'};
 
         const {result} = renderHook(() => useSummaryLineExpanded(localProps));
         const hookResult = result.current;
         act(() => {
-            hookResult.deleteElementFromState('TEST', 'TEST_ID');
+            hookResult.deleteElement();
         });
 
-        expect(useGetLoaderScreenVariableMock).toHaveBeenCalled();
+        expect(useGetLoaderScreenVariableMock).toHaveBeenCalledTimes(2);
         expect(useGetLoaderScreenVariableMock).toHaveBeenCalledWith('discountClose');
-        expect(actionSetLoaderAndDisableButtonSpy).toHaveBeenCalled();
-        expect(actionSetLoaderAndDisableButtonSpy).toHaveBeenCalledWith('discountClose', true);
-        expect(deleteDiscountsSpy).toHaveBeenCalled();
-        expect(deleteDiscountsSpy).toHaveBeenCalledWith('TEST_ID');
+        expect(useGetLoaderScreenVariableMock).toHaveBeenCalledWith('paymentClose');
+        expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalled();
+        expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledWith('discountClose', true);
+        expect(deleteDiscountsMock).toHaveBeenCalled();
+        expect(deleteDiscountsMock).toHaveBeenCalledWith('TEST_ID');
     });
 
-    test('rendering the hook with REMOVE_PAYMENT', () => {
-        const localProps = {...mandatoryProps};
-        localProps.eventDeleteName = REMOVE_PAYMENT;
+    test('rendering the hook with generic REMOVE_PAYMENT', () => {
+        const localProps = {
+            ...mandatoryProps,
+            eventToggleName: Constants.PAYMENTS_TOGGLE,
+            eventDeleteName: REMOVE_PAYMENT,
+            itemId: 'TEST_ID',
+            content: stateMock.data.application_state.payments[0]
+        };
 
-        useGetLoaderScreenVariableMock.mockReturnValueOnce(false);
         const {result} = renderHook(() => useSummaryLineExpanded(localProps));
         const hookResult = result.current;
         act(() => {
-            hookResult.deleteElementFromState('TEST', 'TEST_ID');
+            hookResult.deleteElement();
         });
 
-        expect(useGetLoaderScreenVariableMock).toHaveBeenCalled();
+        expect(useGetLoaderScreenVariableMock).toHaveBeenCalledTimes(2);
+        expect(useGetLoaderScreenVariableMock).toHaveBeenCalledWith('discountClose');
         expect(useGetLoaderScreenVariableMock).toHaveBeenCalledWith('paymentClose');
-        expect(actionDeleteElementSpy).toHaveBeenCalled();
-        expect(actionDeleteElementSpy).toHaveBeenCalledWith('TEST', 'TEST_ID');
+        expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalled();
+        expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledWith('paymentClose', true);
+        expect(deleteDiscountsMock).not.toHaveBeenCalled();
+        expect(deletePaymentMock).toHaveBeenCalled();
+        expect(deleteGiftCardPaymentMock).not.toHaveBeenCalled();
+        expect(deletePaymentMock).toHaveBeenCalledWith('TEST_ID');
+    });
 
+    test('rendering the hook with gift card REMOVE_PAYMENT', () => {
+        const localProps = {
+            ...mandatoryProps,
+            eventToggleName: Constants.PAYMENTS_TOGGLE,
+            eventDeleteName: REMOVE_PAYMENT,
+            itemId: 'TEST_ID',
+            content: {
+                gateway_public_id: '',
+                amount: 20000,
+                currency: 'CAD',
+                type: 'gift_card',
+                display_string: '1111',
+                id: '1',
+                token: 'payment_token',
+                retain: false,
+                brand: ''
+            }
+        };
+
+        const {result} = renderHook(() => useSummaryLineExpanded(localProps));
+        const hookResult = result.current;
+        act(() => {
+            hookResult.deleteElement();
+        });
+
+        expect(useGetLoaderScreenVariableMock).toHaveBeenCalledTimes(2);
+        expect(useGetLoaderScreenVariableMock).toHaveBeenCalledWith('discountClose');
+        expect(useGetLoaderScreenVariableMock).toHaveBeenCalledWith('paymentClose');
+        expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalled();
+        expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledWith('paymentClose', true);
+        expect(deleteDiscountsMock).not.toHaveBeenCalled();
+        expect(deletePaymentMock).not.toHaveBeenCalled();
+        expect(deleteGiftCardPaymentMock).toHaveBeenCalled();
+        expect(deleteGiftCardPaymentMock).toHaveBeenCalledWith('TEST_ID');
     });
 
     test('rendering the hook with other event name', () => {
@@ -198,7 +243,7 @@ describe('Testing hook useSummaryLineExpanded', () => {
         const {result} = renderHook(() => useSummaryLineExpanded(localProps));
         const hookResult = result.current;
 
-        expect(hookResult.deleteElementFromState).toBe(undefined);
+        expect(hookResult.deleteElement).toBe(undefined);
         expect(hookResult.closeLoading).toBe(false);
     });
 

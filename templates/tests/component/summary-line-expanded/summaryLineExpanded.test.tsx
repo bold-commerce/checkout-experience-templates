@@ -41,10 +41,11 @@ describe('Testing SummaryLineExpanded component', () => {
         eventDeleteName: '',
         itemId: '',
         content: '',
-        deleteElementFromState: jest.fn(),
+        deleteElement: jest.fn(),
         closeLoading: false,
         isLoading: false,
-        formattedPrice: '${{amount}}'
+        formattedPrice: '${{amount}}',
+        deleteDataTestId: 'some-test-id'
     };
 
     beforeEach(() => {
@@ -102,9 +103,9 @@ describe('Testing SummaryLineExpanded component', () => {
         useSummaryLineExpandedMock.mockReturnValueOnce(hookLocalProps);
 
         render(<SummaryLineExpanded {...localProps} />);
-        const input = screen.getByTestId('delete-discount');
+        const input = screen.getByTestId('some-test-id');
         fireEvent.click(input);
-        expect(hookResult.deleteElementFromState).toHaveBeenCalled();
+        expect(hookResult.deleteElement).toHaveBeenCalled();
     });
 
 });
