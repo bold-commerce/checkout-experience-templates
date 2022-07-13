@@ -72,7 +72,7 @@ describe('Testing hook useCustomerPage', () => {
         expect(window.location.href).toEqual(window.returnUrl);
         result.current.nextButtonOnClick();
         expect(mockDispatch).toHaveBeenCalledTimes(3);
-        expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors);
+        expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors());
         expect(mockDispatch).toHaveBeenCalledWith(mockCallCustomerPageApi);
         expect(mockDispatch).toHaveBeenCalledWith(mockCheckInventory);
         expect(neuroIdSubmitMock).toHaveBeenCalledTimes(1);

@@ -31,7 +31,7 @@ export function useCustomerPage(): IUseCustomerPageProp {
         const pageNameNeuroId = getNeuroIdPageName(NeuroIdConstants.customerPage);
         sendEvents('Checkout', 'Clicked continue to shipping lines button');
 
-        dispatch(actionClearErrors);
+        dispatch(actionClearErrors());
         dispatch(callCustomerPageApi(history, pageNameNeuroId));
     } , []);
     window.history.replaceState(null, '', getCheckoutUrl('/resume'));

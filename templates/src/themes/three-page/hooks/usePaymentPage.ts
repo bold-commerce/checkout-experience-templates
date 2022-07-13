@@ -53,7 +53,7 @@ export function usePaymentPage(): IUsePaymentPage{
         const pageNameNeuroId = getNeuroIdPageName(NeuroIdConstants.paymentPage);
         sendEvents('Checkout', 'Clicked continue to complete order button');
 
-        dispatch(actionClearErrors);
+        dispatch(actionClearErrors());
         sendClearErrorMessageAction();
         dispatch(displayOrderProcessingScreen);
 
