@@ -116,7 +116,7 @@ describe('Testing hook usePaymentPage', () => {
 
         result.current.nextButtonOnClick();
         expect(dispatchMock).toHaveBeenCalledTimes(2);
-        expect(dispatchMock).toHaveBeenCalledWith(actionClearErrors);
+        expect(dispatchMock).toHaveBeenCalledWith(actionClearErrors());
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
         expect(sendRefreshOrderActionMock).toHaveBeenCalledTimes(1);
@@ -168,7 +168,7 @@ describe('Testing hook usePaymentPage', () => {
 
         result.current.nextButtonOnClick();
         expect(dispatchMock).toHaveBeenCalledTimes(3);
-        expect(dispatchMock).toHaveBeenCalledWith(actionClearErrors);
+        expect(dispatchMock).toHaveBeenCalledWith(actionClearErrors());
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
         expect(processOrderMock).toHaveBeenCalledTimes(1);
         expect(processOrderMock).toHaveBeenCalledWith(historyMock, pageNameWithPrefix);

@@ -30,7 +30,7 @@ export function useShippingPage(): IUseCustomerPageProp{
         const pageNameNeuroId = getNeuroIdPageName(NeuroIdConstants.shippingPage);
         sendEvents('Checkout', 'Clicked continue to payment button');
 
-        dispatch(actionClearErrors);
+        dispatch(actionClearErrors());
         dispatch(callShippingLinesPageApi(history, pageNameNeuroId));
     } , []);
 

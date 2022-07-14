@@ -61,7 +61,7 @@ describe('Testing hook useShippingPage', () => {
 
         result.current.nextButtonOnClick();
         expect(mockDispatch).toHaveBeenCalledTimes(2);
-        expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors);
+        expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors());
         expect(mockDispatch).toHaveBeenCalledWith(mockCallShippingLinesPageApi);
         expect(neuroIdSubmitMock).toHaveBeenCalledTimes(1);
         expect(neuroIdSubmitMock).toHaveBeenCalledWith(pageNameWithPrefix);
