@@ -4,6 +4,7 @@ import {IError, IOrderInitialization} from 'src/types';
 import {displayFatalErrorFromTranslation, getCheckoutUrl, getHook, getNeuroIdPageName, neuroIdSubmit, retrieveErrorFromResponse} from 'src/utils';
 import {actionAddError, actionShowHideOverlayContent} from 'src/action';
 import {HistoryLocationState} from 'react-router';
+import {Constants} from 'src/constants';
 
 export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispatch, getState: () => IOrderInitialization, addressType = ''): void {
     const error = response.error;
@@ -37,7 +38,7 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
                                 const location = window.location.pathname.split('/');
                                 const history: HistoryLocationState = getHook('history');
                                 neuroIdSubmit(getNeuroIdPageName(location[location.length-1]));
-                                history.replace(getCheckoutUrl('/session_expired'));
+                                history.replace(getCheckoutUrl(Constants.SESSION_EXPIRED_ROUTE));
                                 dispatch(actionShowHideOverlayContent(false));
                                 throw new Error('Session Expired');
                             }

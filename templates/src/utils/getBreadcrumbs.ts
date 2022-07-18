@@ -34,7 +34,7 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): Array<I
             onClick: (event) => {
                 event.preventDefault();
                 neuroIdSubmitFromBreadcrumb(active);
-                history.replace(getCheckoutUrl('/shipping_lines'));
+                history.replace(getCheckoutUrl(Constants.SHIPPING_ROUTE));
             },
         },
         {
@@ -44,7 +44,7 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): Array<I
             onClick: (event) => {
                 event.preventDefault();
                 neuroIdSubmitFromBreadcrumb(active);
-                history.replace(getCheckoutUrl('/payment'));
+                history.replace(getCheckoutUrl(Constants.PAYMENT_ROUTE));
             },
         },
     ];

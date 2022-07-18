@@ -188,7 +188,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
             expect(dispatch).toHaveBeenCalledTimes(2);
             expect(dispatch).toHaveBeenCalledWith(showHideAction);
             expect(historyMock.replace).toHaveBeenCalledTimes(1);
-            expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('/out_of_stock'));
+            expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('out_of_stock'));
         });
     });
 });

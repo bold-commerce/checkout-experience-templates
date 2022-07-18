@@ -112,7 +112,7 @@ describe('Testing hook usePaymentPage', () => {
 
         result.current.backLinkOnClick && result.current.backLinkOnClick(eventMock);
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
-        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('/shipping_lines'));
+        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('shipping_lines'));
 
         result.current.nextButtonOnClick();
         expect(dispatchMock).toHaveBeenCalledTimes(2);
@@ -164,7 +164,7 @@ describe('Testing hook usePaymentPage', () => {
 
         result.current.backLinkOnClick && result.current.backLinkOnClick(eventMock);
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
-        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('/shipping_lines'));
+        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('shipping_lines'));
 
         result.current.nextButtonOnClick();
         expect(dispatchMock).toHaveBeenCalledTimes(3);
@@ -182,6 +182,6 @@ describe('Testing hook usePaymentPage', () => {
         useGetIsOrderProcessedMock.mockReturnValue(true);
         renderHook(() => usePaymentPage());
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
-        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('/thank_you'));
+        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('thank_you'));
     });
 });

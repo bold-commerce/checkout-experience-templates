@@ -14,7 +14,7 @@ export function useShippingPage(): IUseCustomerPageProp{
     const history = useHistory();
     const isOrderCompleted = useGetIsOrderProcessed();
     if(isOrderCompleted){
-        history.replace(getCheckoutUrl('/thank_you'));
+        history.replace(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
     }
     const nextButtonDisable = useGetButtonDisableVariable('shippingPageButton');
     const nextButtonLoading = useGetIsLoading();

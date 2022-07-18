@@ -26,8 +26,8 @@ describe('Testing hook useGetContactUs', () => {
             .mockReturnValueOnce(mockResponse.contactUs);
         const {result} = renderHook(() => useGetContactUs());
 
-        expect(getTermMock).toHaveBeenCalledWith('help', Constants.CONFIRMATION_PAGE_INFO);
-        expect(getTermMock).toHaveBeenCalledWith('contact_us', Constants.CONFIRMATION_PAGE_INFO);
+        expect(getTermMock).toHaveBeenCalledWith('help', Constants.CONFIRMATION_PAGE_INFO, undefined, 'Need Help?');
+        expect(getTermMock).toHaveBeenCalledWith('contact_us', Constants.CONFIRMATION_PAGE_INFO, undefined, 'Contact us');
         expect(result.current).toStrictEqual(mockResponse);
     });
 });

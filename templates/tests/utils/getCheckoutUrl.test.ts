@@ -1,4 +1,4 @@
-import {displayFatalError, getCheckoutUrl} from 'src/utils';
+import {getCheckoutUrl} from 'src/utils';
 
 describe('Test getCheckoutUrl function', () => {
 
@@ -7,10 +7,10 @@ describe('Test getCheckoutUrl function', () => {
     });
 
     const dataSet = [
-        {destination: '/shipping_lines', platform: 'bigcommerce', shopAlias: 'store.bigcommerce.com'},
-        {destination: '/payment', platform: 'shopify', shopAlias: 'store.shopify.com'},
-        {destination: '/thank_you', platform: 'woocommerce', shopAlias: 'store.woo.com'},
-        {destination: '/inventory_issues', platform: 'commercetools', shopAlias: 'store.commercetools.com'},
+        {destination: 'shipping_lines', platform: 'bigcommerce', shopAlias: 'store.bigcommerce.com'},
+        {destination: 'payment', platform: 'shopify', shopAlias: 'store.shopify.com'},
+        {destination: 'thank_you', platform: 'woocommerce', shopAlias: 'store.woo.com'},
+        {destination: 'inventory_issues', platform: 'commercetools', shopAlias: 'store.commercetools.com'},
     ];
 
     test.each(dataSet)(
@@ -21,6 +21,6 @@ describe('Test getCheckoutUrl function', () => {
             window.shopAlias = shopAlias;
 
             const result = getCheckoutUrl(destination);
-            expect(result).toStrictEqual(`/${platform}/${shopAlias}/experience${destination}`);
+            expect(result).toStrictEqual(`/${platform}/${shopAlias}/experience/${destination}`);
         });
 });

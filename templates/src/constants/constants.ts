@@ -51,6 +51,13 @@ export class Constants {
     static LANGUAGE_BLOB_ERROR_TYPE = 'LANGUAGE_BLOB_ERROR_TYPE';
     static OUT_OF_STOCK_INFO = 'out_of_stock';
     static OUT_OF_STOCK_FAIL = 'fail';
+    static EXPERIENCE_ROUTE = 'experience';
+    static RESUME_ROUTE = 'resume';
+    static SHIPPING_ROUTE = 'shipping_lines';
+    static PAYMENT_ROUTE = 'payment';
+    static OUT_OF_STOCK_ROUTE = 'out_of_stock';
+    static THANK_YOU_ROUTE = 'thank_you';
+    static SESSION_EXPIRED_ROUTE = 'session_expired';
 }
 
 export const errorTypes: IErrorTypes = {

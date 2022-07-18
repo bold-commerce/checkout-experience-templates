@@ -18,6 +18,7 @@ describe('Test function getErrorTerm', () => {
     const nonExistingTerm = 'term';
     const nonExistingSection = 'section';
     const existingTerm = 'fatal_err_header';
+    const defaultTerm = 'Some default term';
     const existingSection = Constants.GENERIC_ERROR_INFO;
     const translatedCorrectlyByFunction = 'Looks like something went wrong...';
     const languageBlobParsedMock = JSON.parse(initialDataMock.initial_data.supported_languages[0].language_blob)['terms'].error_messages;
@@ -26,15 +27,23 @@ describe('Test function getErrorTerm', () => {
     const dataProviderLanguageBlobNotProvided = [
         [
             'LanguageBlob parameter is undefined - blob returned by functions is null', // Test name
-            [nonExistingTerm, nonExistingSection, undefined],   // getTerm function parameters
+            [nonExistingTerm, nonExistingSection, undefined, undefined],   // getTerm function parameters
             [1, 1, 1],               // number of time each function inside getTerm function is called
             [englishIso, null, null],              // mockValue returned by each function if called inside getTerm function
             [englishIso, [null, Constants.LANGUAGE_BLOB_ERROR_TYPE]],                    // Parameter used to call function inside getTerm function
             nonExistingTerm                                     // expected value
         ],
         [
+            'LanguageBlob parameter is undefined - blob returned by functions is null - default term provided', // Test name
+            [nonExistingTerm, nonExistingSection, undefined, defaultTerm],   // getTerm function parameters
+            [1, 1, 1],               // number of time each function inside getTerm function is called
+            [englishIso, null, null],              // mockValue returned by each function if called inside getTerm function
+            [englishIso, [null, Constants.LANGUAGE_BLOB_ERROR_TYPE]],                    // Parameter used to call function inside getTerm function
+            defaultTerm                                     // expected value
+        ],
+        [
             'LanguageBlob parameter is undefined - blob returned by functions is complete - term does not exist',
-            [nonExistingTerm, existingSection, undefined],
+            [nonExistingTerm, existingSection, undefined, undefined],
             [1, 1, 1],
             [englishIso, languageBlobMock, languageBlobParsedMock],
             [englishIso, [languageBlobMock, Constants.LANGUAGE_BLOB_ERROR_TYPE]],
@@ -42,7 +51,7 @@ describe('Test function getErrorTerm', () => {
         ],
         [
             'LanguageBlob parameter is undefined - blob returned by functions is complete - section does not exist',
-            [existingTerm, nonExistingSection, undefined],
+            [existingTerm, nonExistingSection, undefined, undefined],
             [1, 1, 1],
             [englishIso, languageBlobMock, languageBlobParsedMock],
             [englishIso, [languageBlobMock, Constants.LANGUAGE_BLOB_ERROR_TYPE]],
@@ -50,7 +59,7 @@ describe('Test function getErrorTerm', () => {
         ],
         [
             'LanguageBlob parameter is undefined - blob returned by functions is complete - section and term exist - string correctly translated',
-            [existingTerm, existingSection, undefined],
+            [existingTerm, existingSection, undefined, undefined],
             [1, 1, 1],
             [englishIso, languageBlobMock, languageBlobParsedMock],
             [englishIso, [languageBlobMock, Constants.LANGUAGE_BLOB_ERROR_TYPE]],
@@ -60,17 +69,17 @@ describe('Test function getErrorTerm', () => {
     const dataProviderLanguageBlobProvided = [
         [
             'LanguageBlob parameter is valid - term does not exist',
-            [nonExistingTerm, existingSection, languageBlobParsedMock],
+            [nonExistingTerm, existingSection, languageBlobParsedMock, undefined],
             nonExistingTerm
         ],
         [
             'LanguageBlob parameter is valid - section does not exist',
-            [existingTerm, nonExistingSection, languageBlobParsedMock],
+            [existingTerm, nonExistingSection, languageBlobParsedMock, undefined],
             existingTerm
         ],
         [
             'LanguageBlob parameter is valid - section and term do exist, text is correctly translated',
-            [existingTerm, existingSection, languageBlobParsedMock],
+            [existingTerm, existingSection, languageBlobParsedMock, undefined],
             translatedCorrectlyByFunction
         ]
     ];
@@ -85,7 +94,7 @@ describe('Test function getErrorTerm', () => {
             useGetSupportedLanguageDataMock.mockReturnValue(mockedValuesReturned[1]);
             getLanguageBlobMock.mockReturnValueOnce(mockedValuesReturned[2]);
 
-            const returned = getErrorTerm(getTermParameters[0], getTermParameters[1], getTermParameters[2]);
+            const returned = getErrorTerm(getTermParameters[0], getTermParameters[1], getTermParameters[2], getTermParameters[3]);
 
             expect(useGetSupportedLanguageDataMock).toHaveBeenCalledTimes(timesCalled[1]);
             expect(useGetSupportedLanguageDataMock).toHaveBeenCalledWith(otherFctParameters[0]);
@@ -98,7 +107,7 @@ describe('Test function getErrorTerm', () => {
     test.each(dataProviderLanguageBlobProvided)(
         '%s',
         (name, getTermParameters, expectedResult) => {
-            const returned = getErrorTerm(getTermParameters[0], getTermParameters[1], getTermParameters[2]);
+            const returned = getErrorTerm(getTermParameters[0], getTermParameters[1], getTermParameters[2], getTermParameters[3]);
 
             expect(useGetSupportedLanguageDataMock).not.toHaveBeenCalled();
             expect(getLanguageBlobMock).not.toHaveBeenCalled();

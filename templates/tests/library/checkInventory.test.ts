@@ -61,7 +61,7 @@ describe('testing checkLoadPigiErrors', () => {
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(dispatch).toHaveBeenCalledWith(actionShowHideOverlayContent(false));
             expect(historyMock.replace).toHaveBeenCalledTimes(1);
-            expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('/out_of_stock'));
+            expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('out_of_stock'));
         });
     });
 });

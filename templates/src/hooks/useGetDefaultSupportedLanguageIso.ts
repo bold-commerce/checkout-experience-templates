@@ -1,6 +1,7 @@
 import {displayFatalError} from 'src/utils';
 import {useDispatch} from 'react-redux';
 import {useGetAllSupportedLanguages, useGetSelectedLanguageIso} from 'src/hooks';
+import {Constants} from 'src/constants';
 
 export function useGetDefaultSupportedLanguageIso(): string | null {
     const dispatch = useDispatch();
@@ -18,7 +19,11 @@ export function useGetDefaultSupportedLanguageIso(): string | null {
         }
         return language.iso_language;
     } else {
-        displayFatalError(dispatch);
+        const location = window.location.pathname.split('/');
+        const currentPath = location[location.length-1];
+        if (currentPath !== Constants.SESSION_EXPIRED_ROUTE) {
+            displayFatalError(dispatch);
+        }
         return null;
     }
 }
