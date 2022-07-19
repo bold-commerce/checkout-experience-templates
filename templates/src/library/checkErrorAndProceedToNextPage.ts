@@ -2,7 +2,7 @@ import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
 import {actionRemoveErrorByField, actionRemoveErrorByTypeAndCode, actionSetLoaderAndDisableButton} from 'src/action';
 import {HistoryLocationState} from 'react-router';
-import {getCheckoutUrl, getTotals, isOnlyDiscountCodeError, neuroIdSubmit, isOnlyFlashError} from 'src/utils';
+import {getCheckoutUrl, getTotals, isOnlyDiscountCodeError, neuroIdSubmit} from 'src/utils';
 import {errorFields, errorTypes} from 'src/constants';
 import {orderCompleteAnalytics} from 'src/analytics';
 import {IFees, IShippingLine} from '@bold-commerce/checkout-frontend-library';
@@ -20,7 +20,7 @@ export function checkErrorAndProceedToNextPage(
         const {errors} = getState();
         dispatch(actionSetLoaderAndDisableButton(loaderName, false));
 
-        if (errors.length <= 0 || isOnlyDiscountCodeError(errors) || isOnlyFlashError(errors)) {
+        if (errors.length <= 0 || isOnlyDiscountCodeError(errors)) {
             if (pageNameNeuroId) {
                 neuroIdSubmit(pageNameNeuroId);
             }

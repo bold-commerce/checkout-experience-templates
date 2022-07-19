@@ -192,6 +192,15 @@ export const errorsTerms: Array<IErrorTerm> = [
         term: 'no_tax'
     },
     {
+        type: errorTypes.api,
+        field: '',
+        severity: errorSeverities.critical,
+        subType: '',
+        showType: errorShowType.flash,
+        section: 'generic',
+        term: 'unknown_error'
+    },
+    {
         type: errorTypes.order,
         field: errorFields.inventory,
         severity: errorSeverities.validation,

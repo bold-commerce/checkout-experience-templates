@@ -10,6 +10,13 @@ describe('Test function retrieveErrorFromResponse', () => {
         severity: 'some severity',
         sub_type: 'some sub_type'
     };
+    const someApiError: IApiErrorResponse = {
+        message: '',
+        type: 'api',
+        field: '',
+        severity: 'critical',
+        sub_type: ''
+    };
     const someNewError: INewApiErrorWarningResponse = {
         code: '02',
         details: {
@@ -183,6 +190,137 @@ describe('Test function retrieveErrorFromResponse', () => {
                 response: null,
             },
             expected: [],
+        },
+        {
+            name: 'response.error object is populated with new API error - no error',
+            response: {
+                status: 200,
+                success: false,
+                response: {},
+            },
+            expected: undefined,
+        },
+        {
+            name: 'response.error object is populated with new API error - error undefined',
+            response: {
+                status: 200,
+                success: false,
+                error: undefined,
+                response: {data: {}},
+            },
+            expected: undefined,
+        },
+        {
+            name: 'response.error object is populated with new API error - empty',
+            response: {
+                status: 200,
+                success: false,
+                error: {},
+                response: {data: {}},
+            },
+            expected: undefined,
+        },
+        {
+            name: 'response.error object is populated with new API error - any keys',
+            response: {
+                status: 200,
+                success: false,
+                error: {
+                    test: 'some test string',
+                    testint: 2,
+                    testbool: true,
+                },
+                response: {data: {}},
+            },
+            expected: undefined,
+        },
+        {
+            name: 'response.error object is populated with new API error - status undefined',
+            response: {
+                status: 200,
+                success: false,
+                error: {
+                    status: undefined,
+                },
+                response: {data: {}},
+            },
+            expected: undefined,
+        },
+        {
+            name: 'response.error object is populated with new API error - only status (0)',
+            response: {
+                status: 200,
+                success: false,
+                error: {
+                    status: 0,
+                },
+                response: {data: {}},
+            },
+            expected: undefined,
+        },
+        {
+            name: 'response.error object is populated with new API error - only status (correct)',
+            response: {
+                status: 200,
+                success: false,
+                error: {
+                    status: 1903,
+                },
+                response: {data: {}},
+            },
+            expected: undefined,
+        },
+        {
+            name: 'response.error object is populated with new API error - only message (undefined)',
+            response: {
+                status: 200,
+                success: false,
+                error: {
+                    message: undefined,
+                },
+                response: {data: {}},
+            },
+            expected: undefined,
+        },
+        {
+            name: 'response.error object is populated with new API error - only message (empty)',
+            response: {
+                status: 200,
+                success: false,
+                error: {
+                    message: '',
+                },
+                response: {data: {}},
+            },
+            expected: undefined,
+        },
+        {
+            name: 'response.error object is populated with new API error - only message (correct)',
+            response: {
+                status: 200,
+                success: false,
+                error: {
+                    message: 'some message',
+                },
+                response: {data: {}},
+            },
+            expected: undefined,
+        },
+        {
+            name: 'response.error object is populated with new API error - response.error.message OK & response.error.status OK',
+            response: {
+                status: 200,
+                success: false,
+                error: {
+                    body: undefined,
+                    message: 'some message',
+                    name: 'fetchError',
+                    status: 1903, //emptyKeysToCheck: apiErrors.emptyKeysToCheck.status
+                    statusText: undefined
+                },
+                response: {data: {}},
+            },
+            expected: someApiError,
         },
     ];
 

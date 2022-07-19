@@ -1,7 +1,7 @@
-import {apiErrors, httpStatusCode, IApiReturnObject} from '@bold-commerce/checkout-frontend-library';
+import {apiErrors, httpStatusCode, IApiErrorResponse, IApiReturnObject} from '@bold-commerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
 import {IError, IOrderInitialization} from 'src/types';
-import {displayFatalErrorFromTranslation, getCheckoutUrl, getHook, getNeuroIdPageName, neuroIdSubmit, retrieveErrorFromResponse} from 'src/utils';
+import {displayFatalErrorFromTranslation, getCheckoutUrl, getHook, getNeuroIdPageName, isOnlyFlashError, neuroIdSubmit, retrieveErrorFromResponse} from 'src/utils';
 import {actionAddError, actionShowHideOverlayContent} from 'src/action';
 import {HistoryLocationState} from 'react-router';
 
@@ -25,7 +25,10 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
             case apiErrors.emptyFieldInResponse.status:
             case apiErrors.emptyKeysToCheck.status:
             case apiErrors.noFieldInResponse.status: {
-                //TODO: add flash error exception
+                const error = retrieveErrorFromResponse(response) as IApiErrorResponse;
+                if (error && isOnlyFlashError([error])) {
+                    dispatch(actionAddError(error));
+                }
                 break;
             }
             case httpStatusCode.UNAUTHORIZED: {
