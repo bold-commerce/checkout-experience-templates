@@ -66,7 +66,7 @@ describe('testing shippingLines', () => {
 
         const getShippingLines = shippingLines.shippingLines(true);
         await getShippingLines(mockDispatch, getState);
-        expect(mockDispatch).toHaveBeenCalledTimes(7);
+        expect(mockDispatch).toHaveBeenCalledTimes(8);
         expect(setLoaderSpy).toHaveBeenCalledTimes(2);
         expect(setButtonDisableSpy).toHaveBeenCalledTimes(1);
         expect(setButtonDisableSpy).toHaveBeenCalledWith('shippingPageButton', false);

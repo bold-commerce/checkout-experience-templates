@@ -2,7 +2,7 @@ import {renderHook} from '@testing-library/react-hooks';
 import { stateMock } from 'src/mocks';
 import { useModal } from 'src/themes/buy-now/hooks/useModal';
 import {act} from '@testing-library/react';
-import { checkInventory, initializeSession, setDefaultAddresses, setDefaultShippingLines } from 'src/library';
+import { checkInventory, initializeSession, setDefaultAddresses } from 'src/library';
 import { mocked } from 'jest-mock';
 import { actionGetInitialData, actionUpdateAppData } from 'src/action';
 import { getOrderInitialization } from 'src/utils/getOrderInitialization';
@@ -15,12 +15,10 @@ jest.mock('react-redux', () => ({
 jest.mock('src/utils/getOrderInitialization');
 jest.mock('src/library/session');
 jest.mock('src/library/setDefaultAddresses');
-jest.mock('src/library/setDefaultShippingLines');
 jest.mock('src/library/checkInventory');
 const getOrderInitializationMock = mocked(getOrderInitialization, true);
 const initializeSessionMock = mocked(initializeSession, true);
 const setDefaultAddressesMock = mocked(setDefaultAddresses, true);
-const setDefaultShippingLinesMock = mocked(setDefaultShippingLines, true);
 const checkInventoryMock = mocked(checkInventory, true);
 
 describe('Testing useModal', () => {
@@ -62,7 +60,6 @@ describe('Testing useModal', () => {
         expect(mockDispatch).toHaveBeenCalledWith(initializeSessionMock);
         expect(mockDispatch).toHaveBeenCalledWith(actionGetInitialData('store.com'));
         expect(mockDispatch).toHaveBeenCalledWith(setDefaultAddressesMock);
-        expect(mockDispatch).toHaveBeenCalledWith(setDefaultShippingLinesMock);
         expect(mockDispatch).toHaveBeenCalledWith(mockInventoryCheck); 
 
         expect(result.current.isOpen).toBe(true);

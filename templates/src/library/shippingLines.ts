@@ -3,7 +3,7 @@ import {Dispatch} from 'redux';
 import {handleErrorIfNeeded} from 'src/utils';
 import {IOrderInitialization} from 'src/types';
 import {actionSetButtonDisable, actionSetAppStateValid, actionSetLoader, actionSetSelectedShippingLine} from 'src/action';
-import {getShippingFromLib, getSummaryStateFromLib} from 'src/library';
+import {getShippingFromLib, getSummaryStateFromLib, postShippingLines} from 'src/library';
 import {useSendEvent} from 'src/hooks';
 
 export function shippingLines(updatedAddress: boolean) {
@@ -23,6 +23,7 @@ export function shippingLines(updatedAddress: boolean) {
 
             if (updatedAddress && shippingLines && shippingLines.length > 0) {
                 dispatch(actionSetSelectedShippingLine(shippingLines[0]));
+                dispatch(postShippingLines);
                 dispatch(actionSetAppStateValid('updatedShippingAddress', false));
             }
             if(shippingLines && shippingLines.length > 0){

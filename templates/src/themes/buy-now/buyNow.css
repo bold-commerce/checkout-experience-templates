@@ -246,13 +246,6 @@ html, body, .buy-now__app {
   position: relative;
 }
 
-.buy-now .address__address2 .input-field__label {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 85%;
-}
-
 .buy-now__app .stx-radio__input {
   width: 18px;
   height: 18px;
@@ -352,4 +345,32 @@ html, body, .buy-now__app {
 
 .buy-now__payment .payment {
   padding-top: 0;
+}
+
+.buy-now .address__address2 .input-field__label {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 85%;
+}
+
+.buy-now .field-section__content .input-field__container.address__city {
+  width: 100%;
+  padding-right: 0;
+}
+
+.buy-now .field-section__content .select-field__container.address__country,
+.buy-now .field-section__content .input-field__container.address__postal_code {
+  width: 50%;
+  padding-right: 15px;
+}
+
+.buy-now .field-section__content .select-field__container.address__province,
+.buy-now .field-section__content .input-field__container.address__phone {
+  width: 50%;
+  padding-right: 0;
+}
+
+.buy-now .input-field__container.address__phone.address__phone--full-width {
+  width: 100%;
 }

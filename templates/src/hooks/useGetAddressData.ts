@@ -7,7 +7,7 @@ export function useGetShippingData(): IAddress{
 }
 
 export function useGetShippingDataField(fieldId: string): string{
-    return useAppSelector((state) => state.data.application_state.addresses.shipping[fieldId]);
+    return useAppSelector((state) => state.data.application_state.addresses.shipping[fieldId]) ?? '';
 }
 
 export function useGetBillingData(): IAddress{
@@ -15,7 +15,7 @@ export function useGetBillingData(): IAddress{
 }
 
 export function useGetBillingDataField(fieldId: string): string{
-    return useAppSelector((state) => state.data.application_state.addresses.billing[fieldId]);
+    return useAppSelector((state) => state.data.application_state.addresses.billing[fieldId]) ?? '';
 }
 
 export function useGetAddressData(type: string): IAddress {

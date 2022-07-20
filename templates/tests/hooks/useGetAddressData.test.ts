@@ -41,6 +41,12 @@ describe('Testing hook useGetAddressData', () => {
         expect(useAppSelector).toHaveBeenCalledTimes(1);
     });
 
+    test('useGetShippingDataField with null return', () => {
+        const {result} = renderHook(() => useGetShippingDataField('null_field'));
+        expect(result.current).toStrictEqual('');
+        expect(useAppSelector).toHaveBeenCalledTimes(1);
+    });
+
     test('useGetBillingData', () => {
         const {result} = renderHook(() => useGetBillingData());
         expect(result.current).toStrictEqual(billing);
@@ -50,6 +56,12 @@ describe('Testing hook useGetAddressData', () => {
     test('useGetBillingDataField', () => {
         const {result} = renderHook(() => useGetBillingDataField(addressField));
         expect(result.current).toStrictEqual(billing[addressField]);
+        expect(useAppSelector).toHaveBeenCalledTimes(1);
+    });
+
+    test('useGetBillingDataField', () => {
+        const {result} = renderHook(() => useGetBillingDataField('null_field'));
+        expect(result.current).toStrictEqual('');
         expect(useAppSelector).toHaveBeenCalledTimes(1);
     });
 

@@ -57,16 +57,15 @@ describe('Testing hook useGetAddressFieldInputData', () => {
     });
 
     const hookData = [
-        {type: Constants.SHIPPING, field: Constants.ADDRESS_FIRST_NAME, placeholder: Constants.ADDRESS_FIRST_NAME, debounce: debounceMock, showField: true, dispatchCalls: 2},
-        {type: Constants.SHIPPING, field: Constants.ADDRESS_LAST_NAME, placeholder: Constants.ADDRESS_LAST_NAME, debounce: debounceMock, showField: true, dispatchCalls: 2},
-        {type: Constants.SHIPPING, field: Constants.ADDRESS_POSTAL_CODE, placeholder: Constants.ADDRESS_POSTAL_CODE, debounce: debounceMock, showField: false, dispatchCalls: 1},
+        {type: Constants.SHIPPING, field: Constants.ADDRESS_FIRST_NAME, placeholder: Constants.ADDRESS_FIRST_NAME, debounce: debounceMock, dispatchCalls: 2},
+        {type: Constants.SHIPPING, field: Constants.ADDRESS_LAST_NAME, placeholder: Constants.ADDRESS_LAST_NAME, debounce: debounceMock, dispatchCalls: 2},
+        {type: Constants.SHIPPING, field: Constants.ADDRESS_POSTAL_CODE, placeholder: Constants.ADDRESS_POSTAL_CODE, debounce: debounceMock, dispatchCalls: 1},
     ];
 
     test.each(hookData)(
         'rendering the hook properly ($type, $field, $showField)',
-        ({type, field, debounce, placeholder, showField, dispatchCalls}) => {
+        ({type, field, debounce, placeholder, dispatchCalls}) => {
             const {result} = renderHook(() => useGetAddressFieldInputData(type, field, debounce, placeholder));
-            expect(result.current.showField).toStrictEqual(showField);
             expect(result.current.placeholder).toStrictEqual(getTermValue);
             expect(result.current.id).toStrictEqual(type+'-address__'+field);
             expect(result.current.name).toStrictEqual(field);
@@ -83,7 +82,6 @@ describe('Testing hook useGetAddressFieldInputData', () => {
         useGetErrorByFieldMock.mockReturnValueOnce('error');
 
         const {result} = renderHook(() => useGetAddressFieldInputData(type, field, debounceMock,placeholder));
-        expect(result.current.showField).toStrictEqual(true);
         expect(result.current.placeholder).toStrictEqual(getTermValue);
         expect(result.current.id).toStrictEqual(type+'-address__'+field);
         expect(result.current.name).toStrictEqual(field);
@@ -101,7 +99,6 @@ describe('Testing hook useGetAddressFieldInputData', () => {
         useDebounceCustomerMock.mockReturnValue(function() {} as DebouncedState<() => void >);
 
         const {result} = renderHook(() => useGetAddressFieldInputData(type, field, debounceMock, placeholder));
-        expect(result.current.showField).toStrictEqual(true);
         expect(result.current.placeholder).toStrictEqual(getTermValue);
         expect(result.current.id).toStrictEqual(type+'-address__'+field);
         expect(result.current.name).toStrictEqual(field);
