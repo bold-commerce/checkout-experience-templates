@@ -1,4 +1,4 @@
-import {displayFatalErrorFromTranslation, getHook, getNeuroIdPageName, handleErrorIfNeeded, neuroIdSubmit, retrieveErrorFromResponse} from 'src/utils';
+import {displayFatalErrorFromTranslation, getHook, getNeuroIdPageName, handleErrorIfNeeded, isOnlyFlashError, neuroIdSubmit, retrieveErrorFromResponse} from 'src/utils';
 import {mocked} from 'jest-mock';
 import {HistoryLocationState} from 'react-router';
 import SpyInstance = jest.SpyInstance;
@@ -14,11 +14,13 @@ jest.mock('src/utils/displayFatalErrorFromTranslation');
 jest.mock('src/utils/standaloneHooks');
 jest.mock('src/utils/neuroIdCalls');
 jest.mock('src/utils/retrieveErrorFromResponse');
+jest.mock('src/utils/isOnlyFlashError');
 const displayFatalErrorFromTranslationMock = mocked(displayFatalErrorFromTranslation, true);
 const getHooksMock = mocked(getHook, true);
 const getNeuroIdPageNameMock = mocked(getNeuroIdPageName, true);
 const neuroIdSubmitMock = mocked(neuroIdSubmit, true);
 const retrieveErrorFromResponseMock = mocked(retrieveErrorFromResponse, true);
+const isOnlyFlashErrorMock = mocked(isOnlyFlashError, true);
 
 describe('Test function handleErrorIfNeeded', () => {
     const dispatchMock = jest.fn();
@@ -31,6 +33,14 @@ describe('Test function handleErrorIfNeeded', () => {
         type: 'some type',
         severity: 'some severity',
         sub_type: 'some sub type'
+    }];
+
+    const flashErrorFromResponseMock: Array<IApiErrorResponse> = [{
+        message: 'some message',
+        field: 'customer',
+        type: 'order',
+        severity: 'validation',
+        sub_type: 'customer'
     }];
 
     const fetchError: IFetchError = {
@@ -50,15 +60,15 @@ describe('Test function handleErrorIfNeeded', () => {
     };
 
     const dataSet = [
-        {status: apiErrors.noCsrf.status, resResponse: {}, displayErrorCalls: 1, dispatchCalls: 0, consoleCalls: 0, historyCall: 0},
-        {status: apiErrors.general.status, resResponse: {}, displayErrorCalls: 0, dispatchCalls: 0, consoleCalls: 0, historyCall: 0},
+        {status: apiErrors.noCsrf.status, resResponse: {}, errorsFromResponse:  undefined, displayErrorCalls: 1, dispatchCalls: 0, consoleCalls: 0, historyCall: 0},
         {status: 0, resResponse: [], displayErrorCalls: 0, dispatchCalls: 0, consoleCalls: 1, historyCall: 0},
     ];
 
     const errorDataSet = [
-        {status: httpStatusCode.UNPROCESSABLE_ENTITY, resResponse: {errors: [{addressType: 'test'}], test: {}}, errorsFromResponse: errorsFromResponseMock, displayErrorCalls: 0, dispatchCalls: 1, consoleCalls: 0, historyCall: 0, retrieveErrorFromResponseCall: 1},
-        {status: httpStatusCode.UNPROCESSABLE_ENTITY, resResponse: undefined, errorsFromResponse: {}, displayErrorCalls: 0, dispatchCalls: 0, consoleCalls: 0, historyCall: 0, retrieveErrorFromResponseCall: 1},
-        {status: httpStatusCode.UNAUTHORIZED, resResponse: undefined, errorsFromResponse: {}, displayErrorCalls: 0, dispatchCalls: 0, consoleCalls: 0, historyCall: 0, retrieveErrorFromResponseCall: 1},
+        {status: httpStatusCode.UNPROCESSABLE_ENTITY, resResponse: {errors: [{addressType: 'test'}], test: {}}, errorsFromResponse: errorsFromResponseMock, displayErrorCalls: 0, dispatchCalls: 1, consoleCalls: 0, historyCall: 0, retrieveErrorFromResponseCall: 1, isOnlyFlashErrorCall: 0},
+        {status: httpStatusCode.UNPROCESSABLE_ENTITY, resResponse: undefined, errorsFromResponse: {}, displayErrorCalls: 0, dispatchCalls: 0, consoleCalls: 0, historyCall: 0, retrieveErrorFromResponseCall: 1, isOnlyFlashErrorCall: 0},
+        {status: httpStatusCode.UNAUTHORIZED, resResponse: undefined, errorsFromResponse: {}, displayErrorCalls: 0, dispatchCalls: 0, consoleCalls: 0, historyCall: 0, retrieveErrorFromResponseCall: 1, isOnlyFlashErrorCall: 0},
+        {status: apiErrors.general.status, resResponse: {}, errorsFromResponse: flashErrorFromResponseMock, displayErrorCalls: 0, dispatchCalls: 1, consoleCalls: 0, historyCall: 0, retrieveErrorFromResponseCall: 1, isOnlyFlashErrorCall: 1},
     ];
 
     const sessionDataSet = [
@@ -70,6 +80,7 @@ describe('Test function handleErrorIfNeeded', () => {
         jest.clearAllMocks();
         consoleSpy = jest.spyOn(global.console, 'error').mockImplementation(jest.fn());
         getHooksMock.mockReturnValueOnce(historyMock);
+        isOnlyFlashErrorMock.mockReturnValue(true);
     });
 
     test.each(dataSet)(
@@ -87,8 +98,8 @@ describe('Test function handleErrorIfNeeded', () => {
         });
 
     test.each(errorDataSet)(
-        'handle error $status, with Errors 401 and 422',
-        ({status, resResponse, errorsFromResponse , displayErrorCalls, dispatchCalls, consoleCalls, historyCall, retrieveErrorFromResponseCall}) => {
+        'handle error status, with Errors 401 and 422 - or Error displaying Flash Message',
+        ({status, resResponse, errorsFromResponse , displayErrorCalls, dispatchCalls, consoleCalls, historyCall, retrieveErrorFromResponseCall, isOnlyFlashErrorCall}) => {
             response.error = {...fetchError, status: status};
             response.response = resResponse as IApiResponse;
 
@@ -100,6 +111,7 @@ describe('Test function handleErrorIfNeeded', () => {
             expect(consoleSpy).toHaveBeenCalledTimes(consoleCalls);
             expect(historyMock.replace).toHaveBeenCalledTimes(historyCall);
             expect(retrieveErrorFromResponseMock).toHaveBeenCalledTimes(retrieveErrorFromResponseCall);
+            expect(isOnlyFlashErrorMock).toHaveBeenCalledTimes(isOnlyFlashErrorCall);
         });
 
     test.each(sessionDataSet)(

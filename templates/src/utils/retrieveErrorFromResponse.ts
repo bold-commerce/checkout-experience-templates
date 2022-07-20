@@ -2,7 +2,7 @@ import {IApiErrorResponse, IApiErrorsResponse, IApiReturnObject} from '@bold-com
 import {errorSeverities, errorTypes} from 'src/constants';
 import {INewApiErrorWarningResponse} from 'src/types';
 
-export function retrieveErrorFromResponse(response: IApiReturnObject): Array<IApiErrorResponse> {
+export function retrieveErrorFromResponse(response: IApiReturnObject): Array<IApiErrorResponse> | IApiErrorResponse {
     const {response: res} = response;
     let {errors} = res as {errors: Array<IApiErrorResponse>} || {};
 
@@ -57,8 +57,19 @@ export function retrieveErrorFromResponse(response: IApiReturnObject): Array<IAp
 
     if (!errors) {
         const errorBody = response.error?.body as IApiErrorsResponse;
+        const errorMessage = !!response.error?.message;
+        const errorStatus = !!response.error?.status;
         if(errorBody?.errors) {
             errors = errorBody.errors;
+        } else if (errorMessage && errorStatus) {
+            const apiError = {
+                message: '',
+                type: errorTypes.api,
+                field: '',
+                severity: errorSeverities.critical,
+                sub_type: '',
+            } as IApiErrorResponse;
+            return apiError;
         }
     }
 

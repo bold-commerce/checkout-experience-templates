@@ -61,6 +61,7 @@ export class Constants {
 }
 
 export const errorTypes: IErrorTypes = {
+    api: 'api',
     authorization: 'authorization',
     validation: 'validation',
     order: 'order',

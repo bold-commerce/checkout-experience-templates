@@ -1,4 +1,5 @@
 import {isOnlyDiscountCodeError} from 'src/utils';
+import {errorFields, errorSeverities, errorTypes} from 'src/constants';
 
 const errors = [];
 
@@ -46,6 +47,18 @@ describe('testing isOnlyDiscountCodeError', () => {
             type: 'some type',
         }];
         const result = isOnlyDiscountCodeError(oneError);
+        expect(result).toBe(false);
+    });
+
+    test('call with error array length = 1 and error is Flash but not Discount Error', async () => {
+        const flashError = [{
+            field: '',
+            message: 'some message',
+            severity: 'critical',
+            sub_type: '',
+            type: 'api',
+        }];
+        const result = isOnlyDiscountCodeError(flashError);
         expect(result).toBe(false);
     });
 
