@@ -2,13 +2,13 @@ import {useCallback} from 'react';
 import {actionRemoveErrorByField, actionUpdateAddressField, actionUpdateCustomerField} from 'src/action';
 import {useDispatch} from 'react-redux';
 import {useCallApiAtOnEvents, useGetAddressDataField} from 'src/hooks';
-import {IAddressFieldHookProps} from 'src/types';
+import {IAddressHookProps} from 'src/types';
 import {AddressLabelMapping, Constants} from 'src/constants';
 import {getTerm} from 'src/utils';
-import {useGetAddressPostalCodeAndProvinceData, useGetErrorByField} from 'src/hooks';
+import {useGetErrorByField} from 'src/hooks';
 import { useDebounceCustomer } from './useDebounceCustomer';
 
-export function useGetAddressFieldInputData(type: string, fieldId: string, debounceApiCall: () => void, placeholderId: string): IAddressFieldHookProps {
+export function useGetAddressFieldInputData(type: string, fieldId: string, debounceApiCall: () => void, placeholderId: string): IAddressHookProps {
     const dispatch = useDispatch();
     const callApiAtOnEvents: boolean = useCallApiAtOnEvents();
     const debounceApiCallGuestCustomer = useDebounceCustomer();
@@ -18,12 +18,6 @@ export function useGetAddressFieldInputData(type: string, fieldId: string, debou
 
     const value: string = useGetAddressDataField(type, fieldId);
     const id = `${type}-address__${fieldId}`;
-    let showField = true;
-
-    if(fieldId === Constants.ADDRESS_POSTAL_CODE){
-        const {showPostalCode} = useGetAddressPostalCodeAndProvinceData(type);
-        showField = showPostalCode;
-    }
 
     const handleChange = useCallback(e => {
         const value = e.target.value;
@@ -50,5 +44,5 @@ export function useGetAddressFieldInputData(type: string, fieldId: string, debou
 
     }, [type, errorMessage, fieldId]);
 
-    return {placeholder, id, name , value, showField, errorMessage, handleChange};
+    return {placeholder, id, name , value, errorMessage, handleChange};
 }

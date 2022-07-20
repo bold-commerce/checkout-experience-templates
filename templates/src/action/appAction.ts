@@ -270,3 +270,9 @@ export function actionUpdateIsProcessedOrder(data: boolean): AnyAction {
         payload: {data},
     };
 }
+
+export function actionClearValidStates(): AnyAction {
+    return {
+        type: AppActions.CLEAR_VALID_STATES
+    };
+}

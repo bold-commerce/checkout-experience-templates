@@ -1,7 +1,7 @@
 import * as useGetAddressFieldInputData from 'src/hooks/useGetAddressFieldInputData';
 import {fireEvent, render, screen} from '@testing-library/react';
 import {AddressFieldInput} from 'src/components';
-import {IAddressFieldHookProps, IAddressFieldInputProps} from 'src/types';
+import {IAddressHookProps, IAddressFieldInputProps} from 'src/types';
 import {Constants} from 'src/constants';
 import {mocked} from 'jest-mock';
 import {useGetIsLoading} from 'src/hooks';
@@ -20,12 +20,11 @@ describe('Testing addressFieldInput component', () => {
         debounceApiCall: () => jest.fn()
     };
 
-    const hookResult: IAddressFieldHookProps= {
+    const hookResult: IAddressHookProps= {
         placeholder: 'test',
         id: 'test-id',
         name: 'test-name',
         value: '1',
-        showField: true,
         handleChange: jest.fn()
     };
 
@@ -43,14 +42,6 @@ describe('Testing addressFieldInput component', () => {
         expect(element.value).toBe(hookResult.value);
         expect(element.name).toBe(hookResult.name);
         expect(element.placeholder).toBe(hookResult.placeholder);
-    });
-
-    test('Render the AddressFieldInput with showField as false', () => {
-        const localHookResult = {...hookResult};
-        localHookResult.showField = false;
-        addressHook = jest.spyOn(useGetAddressFieldInputData, 'useGetAddressFieldInputData').mockReturnValue(localHookResult);
-        const {container} = render(<AddressFieldInput {...props}/>);
-        expect(container.getElementsByClassName('address__hidden').length).toBe(1);
     });
 
     test('test the change event', () => {

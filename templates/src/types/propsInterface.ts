@@ -216,10 +216,6 @@ export interface IAddressCountryHookProps extends IAddressHookProps {
     countryName: string | undefined;
 }
 
-export interface IAddressFieldHookProps extends IAddressHookProps{
-    showField: boolean;
-}
-
 export interface IAddressPostalCodeAndProvinceDataProps {
     showPostalCode: boolean;
     showProvince: boolean;

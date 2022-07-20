@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { actionGetInitialData, actionUpdateAppData } from 'src/action';
-import { checkInventory, initializeSession, setDefaultAddresses, setDefaultShippingLines } from 'src/library';
+import { actionClearValidStates, actionGetInitialData, actionUpdateAppData } from 'src/action';
+import { checkInventory, initializeSession, setDefaultAddresses } from 'src/library';
 import { IOrderInitialization } from 'src/types';
 import { getOrderInitialization } from 'src/utils/getOrderInitialization';
 import { IUseModal } from '../types';
@@ -19,14 +19,13 @@ export function useModal(): IUseModal {
         dispatch(actionUpdateAppData(orderData));
         dispatch(initializeSession);
         dispatch(actionGetInitialData(window.location.hostname));
-        dispatch(setDefaultAddresses).then(() => {
-            dispatch(setDefaultShippingLines);
-        });
+        dispatch(setDefaultAddresses);
         dispatch(checkInventory(checkInventoryStage.initial));
 
     }, [setIsOpen, dispatch]);
 
     const handleCloseEvent = useCallback(() => {
+        dispatch(actionClearValidStates());
         setIsOpen(false);
         document.body.style.position = 'initial'; // re-enable scrolling
     }, [setIsOpen, dispatch]);

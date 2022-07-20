@@ -9,7 +9,7 @@ import {
     AddressSavedSelect,
 } from 'src/components';
 import {Constants} from 'src/constants';
-import {useDebouncedValidateAddress, useGetGeneralSettingCheckoutFields, useInitiateGenericAutocomplete} from 'src/hooks';
+import {useDebouncedValidateAddress, useGetAddressPostalCodeAndProvinceData, useGetGeneralSettingCheckoutFields, useInitiateGenericAutocomplete} from 'src/hooks';
 
 export function Address(props: IAddressProps): React.ReactElement {
     const {type, title, showTitle, showSavedAddresses} = props;
@@ -19,6 +19,9 @@ export function Address(props: IAddressProps): React.ReactElement {
     const companyField = company === 'required' ? Constants.ADDRESS_BUSINESS : Constants.ADDRESS_BUSINESS_OPTIONAL;
     const isPhoneRequired = useGetGeneralSettingCheckoutFields('phone_number_required') as boolean;
     const phoneField = isPhoneRequired ? Constants.ADDRESS_PHONE : Constants.ADDRESS_PHONE_OPTIONAL;
+    const {showPostalCode} = useGetAddressPostalCodeAndProvinceData(type);
+    const postalCodeCN = ClassNames('address__postal_code', {'address__hidden': !showPostalCode});
+    const phoneCN = ClassNames('address__phone', {'address__phone--full-width': !showPostalCode});
     const businessNameCN = ClassNames('address__company', {'address__hidden': hideCompany});
     const commonProps = {type, debounceApiCall};
 
@@ -43,8 +46,8 @@ export function Address(props: IAddressProps): React.ReactElement {
                 <AddressFieldInput {...commonProps} className="address__city"  fieldId={Constants.ADDRESS_CITY} placeholder={Constants.ADDRESS_CITY}/>
                 <AddressCountrySelect {...commonProps} className="address__country" />
                 <AddressProvinceSelect {...commonProps} className="address__province" />
-                <AddressFieldInput {...commonProps} className="address__postal_code"  fieldId={Constants.ADDRESS_POSTAL_CODE} placeholder={Constants.ADDRESS_POSTAL_CODE}/>
-                <AddressFieldInput {...commonProps} className="address__phone" fieldId={Constants.ADDRESS_PHONE} placeholder={phoneField}/>
+                <AddressFieldInput {...commonProps} className={postalCodeCN}  fieldId={Constants.ADDRESS_POSTAL_CODE} placeholder={Constants.ADDRESS_POSTAL_CODE}/>
+                <AddressFieldInput {...commonProps} className={phoneCN} fieldId={Constants.ADDRESS_PHONE} placeholder={phoneField}/>
             </FieldSection>
         </div>
     );

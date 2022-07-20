@@ -25,7 +25,6 @@ export * from './processOrder';
 export * from './returnToPageOnError';
 export * from './session';
 export * from './setDefaultAddresses';
-export * from './setDefaultShippingLines';
 export * from './setBillingAddressAsValid';
 export * from './setShippingAddressAsValid';
 export * from './shippingLines';
