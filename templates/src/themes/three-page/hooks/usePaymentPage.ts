@@ -29,7 +29,7 @@ export function usePaymentPage(): IUsePaymentPage{
     const dispatch = useDispatch();
     const isOrderCompleted = useGetIsOrderProcessed();
     if(isOrderCompleted){
-        history.replace(getCheckoutUrl('/thank_you'));
+        history.replace(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
     }
     const backLinkText = `< ${getTerm('return_to_shipping', Constants.PAYMENT_INFO)}`;
     const nextButtonText = getTerm('complete_order', Constants.PAYMENT_INFO);
@@ -46,7 +46,7 @@ export function usePaymentPage(): IUsePaymentPage{
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
         neuroIdSubmit(getNeuroIdPageName(NeuroIdConstants.customerPage));
-        history.replace(getCheckoutUrl('/shipping_lines'));
+        history.replace(getCheckoutUrl(Constants.SHIPPING_ROUTE));
     } , [history]);
 
     const nextButtonOnClick = useCallback( () => {

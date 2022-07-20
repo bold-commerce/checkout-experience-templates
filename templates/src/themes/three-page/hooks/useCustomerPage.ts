@@ -16,7 +16,7 @@ export function useCustomerPage(): IUseCustomerPageProp {
     const nextButtonLoading = useGetIsLoading();
     const isOrderCompleted = useGetIsOrderProcessed();
     if(isOrderCompleted){
-        history.replace(getCheckoutUrl('/thank_you'));
+        history.replace(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
     }
     const nextButtonDisable = useGetButtonDisableVariable('customerPageButton');
     const backLinkText = `< ${getTerm('return_to_cart', Constants.CUSTOMER_INFO)}`;
@@ -34,7 +34,7 @@ export function useCustomerPage(): IUseCustomerPageProp {
         dispatch(actionClearErrors());
         dispatch(callCustomerPageApi(history, pageNameNeuroId));
     } , []);
-    window.history.replaceState(null, '', getCheckoutUrl('/resume'));
+    window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
 
     useEffect( () => {
         dispatch(checkInventory(checkInventoryStage.initial));

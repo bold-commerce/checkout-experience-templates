@@ -71,7 +71,7 @@ describe('Testing hook useShippingPage', () => {
         useGetIsOrderProcessedMock.mockReturnValue(true);
         renderHook(() => useShippingPage());
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
-        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('/thank_you'));
+        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('thank_you'));
     });
 
 });

@@ -83,7 +83,7 @@ describe('Testing hook useCustomerPage', () => {
         useGetIsOrderProcessedMock.mockReturnValue(true);
         renderHook(() => useCustomerPage());
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
-        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('/thank_you'));
+        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('thank_you'));
     });
 
 });

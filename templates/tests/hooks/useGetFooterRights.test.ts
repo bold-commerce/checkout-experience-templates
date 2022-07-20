@@ -48,7 +48,7 @@ describe('Testing hook useGetFooterRights', () => {
         window.shopAlias = data.shopAlias;
         const {result} = renderHook(() => useGetFooterRights());
 
-        expect(getTermMock).toHaveBeenCalledWith('footer_rights', Constants.GLOBAL_INFO);
+        expect(getTermMock).toHaveBeenCalledWith('footer_rights', Constants.GLOBAL_INFO, undefined, 'All rights reserved');
         expect(result.current).toStrictEqual(data.expectedResponse);
     });
 });

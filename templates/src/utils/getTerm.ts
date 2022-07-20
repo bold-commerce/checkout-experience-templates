@@ -1,19 +1,15 @@
 import {getLanguageBlob} from 'src/utils';
 import {useAppSelector, useGetSupportedLanguageData} from 'src/hooks';
 
-export function getTerm (term: string, section: string, languageBlob?: Array<Array<string>>): string {
-    let blob;
-    if (languageBlob) {
-        blob = languageBlob;
-    } else {
+export function getTerm (term: string, section: string, languageBlob?: Array<Array<string>>, defaultTerm?: string): string {
+    const backupTerm = defaultTerm ?? term;
+    let blob: Array<Array<string>> | undefined | null = languageBlob;
+
+    if (!blob) {
         const languageIso = useAppSelector((state) => state.appSetting.languageIso);
         const language = useGetSupportedLanguageData(languageIso);
         blob = getLanguageBlob(language);
     }
 
-    if(blob && blob[section] && blob[section][term]) {
-        return blob[section][term];
-    } else {
-        return term;
-    }
+    return blob?.[section]?.[term] ?? backupTerm;
 }

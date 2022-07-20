@@ -16,6 +16,7 @@ import {useDispatch} from 'react-redux';
 import {setHook} from 'src/utils';
 import {useHistory} from  'react-router-dom';
 import {initiateCheckout} from 'src/analytics';
+import {Constants} from 'src/constants';
 
 setHook('history', useHistory);
 
@@ -32,12 +33,12 @@ function Theme(): React.ReactElement {
         <div className={'App'}>
             <BrowserRouter>
                 <Switch>
-                    <Route path='*/out_of_stock' component={OutOfStockPage} />
-                    <Route path='*/payment' component={PaymentPage} />
-                    <Route path='*/session_expired' component={SessionExpiredPage} />
-                    <Route path='*/shipping_lines' component={ShippingLinesPage} />
-                    <Route path='*/thank_you' component={ThankYouPage} />
-                    <Route path='*/experience' component={CustomerPage} />
+                    <Route path={`*/${Constants.OUT_OF_STOCK_ROUTE}`} component={OutOfStockPage} />
+                    <Route path={`*/${Constants.PAYMENT_ROUTE}`} component={PaymentPage} />
+                    <Route path={`*/${Constants.SESSION_EXPIRED_ROUTE}`} component={SessionExpiredPage} />
+                    <Route path={`*/${Constants.SHIPPING_ROUTE}`} component={ShippingLinesPage} />
+                    <Route path={`*/${Constants.THANK_YOU_ROUTE}`} component={ThankYouPage} />
+                    <Route path={`*/${Constants.EXPERIENCE_ROUTE}`} component={CustomerPage} />
                 </Switch>
                 <StandaloneHooks/>
             </BrowserRouter>

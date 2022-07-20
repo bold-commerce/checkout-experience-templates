@@ -46,9 +46,9 @@ describe('Testing hook useGetSessionExpired', () => {
 
         result.current.returnUrl();
         expect(window.location.href).toEqual(shopUrl);
-        expect(getTermMock).toHaveBeenCalledWith('return_to_cart', Constants.CUSTOMER_INFO);
-        expect(getErrorTermMock).toHaveBeenCalledWith('session_expired', Constants.GENERIC_ERROR_INFO);
-        expect(getErrorTermMock).toHaveBeenCalledWith('return_to_cart_and_checkout', Constants.GENERIC_ERROR_INFO);
+        expect(getTermMock).toHaveBeenCalledWith('return_to_cart', Constants.CUSTOMER_INFO, undefined, 'Return to cart');
+        expect(getErrorTermMock).toHaveBeenCalledWith('session_expired', Constants.GENERIC_ERROR_INFO, undefined, 'Your checkout session expired');
+        expect(getErrorTermMock).toHaveBeenCalledWith('return_to_cart_and_checkout', Constants.GENERIC_ERROR_INFO, undefined, 'Return to your cart and check out again');
         expect(result.current.terms).toStrictEqual(mockResponse.terms);
     });
 });

@@ -26,7 +26,7 @@ export function checkInventory(stage: IInventoryStage) {
             const {data} = response.response as IApiSuccessResponse;
             const {inventory_check} = data as ICheckInventoryResponse;
             if(inventory_check.result === Constants.OUT_OF_STOCK_FAIL) {
-                history.replace(getCheckoutUrl('/out_of_stock'));
+                history.replace(getCheckoutUrl(Constants.OUT_OF_STOCK_ROUTE));
             }
         }
         dispatch(actionShowHideOverlayContent(false));

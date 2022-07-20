@@ -11,9 +11,9 @@ export function useGetSessionExpired(): IUseSessionExpired {
         window.location.href = window.returnUrl;
     }, [window.returnUrl]);
     const terms = {
-        returnToCart: getTerm('return_to_cart', Constants.CUSTOMER_INFO),
-        sessionExpiredHeader: getErrorTerm('session_expired', Constants.GENERIC_ERROR_INFO),
-        sessionExpiredBody: getErrorTerm('return_to_cart_and_checkout', Constants.GENERIC_ERROR_INFO)
+        returnToCart: getTerm('return_to_cart', Constants.CUSTOMER_INFO, undefined, 'Return to cart'),
+        sessionExpiredHeader: getErrorTerm('session_expired', Constants.GENERIC_ERROR_INFO, undefined, 'Your checkout session expired'),
+        sessionExpiredBody: getErrorTerm('return_to_cart_and_checkout', Constants.GENERIC_ERROR_INFO, undefined, 'Return to your cart and check out again')
     };
 
     return {
