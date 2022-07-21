@@ -1,20 +1,12 @@
-
-@media only screen and (min-width: 1280px) {
-    .Breadcrumb {
-        display: flex;
-        flex-direction: row;
-        left: 6.64%;
-        right: 57.97%;
-        top: 6.56%;
-        bottom: 92.27%;
-        padding: 10px 0px;
-    }
-}
-
-@media only screen and (max-width: 1279px) {
-    .Breadcrumb {
-        display: none;
-    }
+.Breadcrumb {
+    display: flex;
+    flex-direction: row;
+    left: 6.64%;
+    right: 57.97%;
+    top: 6.56%;
+    bottom: 92.27%;
+    padding: 10px 0px;
+    flex-wrap: wrap;
 }
 
 .Breadcrumb__Item{
@@ -27,7 +19,7 @@
 }
 
 .Breadcrumb__Item--active{
-    font-weight: 500;
+    font-weight: 600;
     color: #000000;
 }
 
@@ -35,12 +27,8 @@
     color: #2A9DCC;
 }
 
-.Breadcrumb__Item--next {
-    font-weight: 700;
-}
-
 .Breadcrumb_Item_Divider {
-    background:transparent url('https://static.boldcommerce.com/images/checkout/experience/chevron_right.svg') no-repeat right center;
-    margin-left: 4px;
-    margin-right: 7px;
+    background: transparent url(https://static.boldcommerce.com/images/checkout/experience/chevron_right_grey.svg) no-repeat center center;
+    margin-right: 6px;
+    padding: 4px;
 }
