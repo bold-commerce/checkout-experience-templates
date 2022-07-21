@@ -11,6 +11,6 @@ export function getBreadcrumbStatus(index: number, active: number): string {
         case 1:
             return BreadcrumbsStatus.NEXT;
         default:
-            return BreadcrumbsStatus.UPCOMING;
+            return BreadcrumbsStatus.NEXT;
     }
 }

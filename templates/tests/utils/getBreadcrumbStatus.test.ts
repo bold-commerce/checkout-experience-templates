@@ -25,6 +25,6 @@ describe('Test getBreadcrumbStatus function', () => {
     test('Upcoming state', () => {
         const index = active + 2;
         const returned = getBreadcrumbStatus(index, active);
-        expect(returned).toBe(BreadcrumbsStatus.UPCOMING);
+        expect(returned).toBe(BreadcrumbsStatus.NEXT);
     });
 });
