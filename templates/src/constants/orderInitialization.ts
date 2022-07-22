@@ -9,7 +9,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
         autocompleteService: autocompleteServices.GOOGLE_AUTOCOMPLETE,
         billingType: 'same',
         discountText: '',
-        pigiDisplaySca: false
+        pigiDisplaySca: false,
     },
     isLoading: {
         pigiIframe: false,
@@ -134,7 +134,8 @@ export const defaultOrderInitialization: IOrderInitialization = {
                     provider: null,
                     api_key: null,
                 },
-            }
+            },
+            alternate_payment_methods: []
         }
     },
 };

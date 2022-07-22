@@ -23,8 +23,9 @@ export function getValidatedOrderData(orderData: IInitializeOrderResponse): IIni
             shop_name: orderData.initial_data.shop_name,
             supported_languages: languages,
             country_info: countryInfo,
-            general_settings: settings
-        }
+            general_settings: settings,
+            alternate_payment_methods: orderData.initial_data.alternate_payment_methods
+        },
     };
     return validatedData;
 }

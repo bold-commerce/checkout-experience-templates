@@ -31,7 +31,8 @@ import {
     resumableLinkReducer,
     currencyReducer,
     isProcessedReducer,
-    feesReducer
+    feesReducer,
+    paymentMethodReducer
 } from 'src/reducer';
 import {autocompleteServices, Constants} from 'src/constants';
 import { defaultOrderInitialization } from 'src/constants/orderInitialization';
@@ -105,7 +106,8 @@ const initialDataReducer = combineReducers({
     shop_name: shopNameReducer,
     country_info: countryReducer,
     supported_languages: languageReducer,
-    general_settings: generalSettingReducer
+    general_settings: generalSettingReducer,
+    alternate_payment_methods: paymentMethodReducer
 });
 
 const dataReducer = combineReducers({

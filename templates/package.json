@@ -42,7 +42,7 @@
     "webpack-dev-server": "^4.9.2"
   },
   "dependencies": {
-    "@bold-commerce/checkout-frontend-library": "^0.29.0",
+    "@bold-commerce/checkout-frontend-library": "^0.29.1",
     "@boldcommerce/stacks-ui": "^1.1.1",
     "@redux-devtools/extension": "^3.2.2",
     "@bugsnag/js": "^7.16.2",
