@@ -29,7 +29,7 @@ export function processOrder(history: HistoryLocationState, pageNameNeuroId?: st
                     await sendHandleScaActionAsync();
                 } else {
                     await dispatch(actionSetAppStateValid('orderProcessed', true));
-                    await dispatch(checkErrorAndProceedToNextPage('/thank_you', 'paymentPageButton', history, true, pageNameNeuroId));
+                    await dispatch(checkErrorAndProceedToNextPage(Constants.THANK_YOU_ROUTE, 'paymentPageButton', history, true, pageNameNeuroId));
                     await dispatch(getApplicationStateFromLib);
                     dispatch(actionShowHideOverlayContent(false));
                 }

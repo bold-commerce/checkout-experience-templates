@@ -67,7 +67,7 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
             expect(dispatch).toHaveBeenCalledWith(returnToPageOnErrorThunkMock);
             expect(returnToPageOnErrorMock).toHaveBeenCalledTimes(2);
             expect(returnToPageOnErrorMock).toHaveBeenCalledWith('', 'customerPageButton', historyMock);
-            expect(returnToPageOnErrorMock).toHaveBeenCalledWith('/shipping_lines', 'shippingPageButton', historyMock);
+            expect(returnToPageOnErrorMock).toHaveBeenCalledWith('shipping_lines', 'shippingPageButton', historyMock);
         });
     });
 
@@ -93,7 +93,7 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
             expect(dispatch).toHaveBeenCalledWith(returnToPageOnErrorThunkMock);
             expect(returnToPageOnErrorMock).toHaveBeenCalledTimes(2);
             expect(returnToPageOnErrorMock).toHaveBeenCalledWith('', 'customerPageButton', historyMock);
-            expect(returnToPageOnErrorMock).toHaveBeenCalledWith('/shipping_lines', 'shippingPageButton', historyMock);
+            expect(returnToPageOnErrorMock).toHaveBeenCalledWith('shipping_lines', 'shippingPageButton', historyMock);
         });
     });
 
@@ -118,7 +118,7 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
             expect(dispatch).toHaveBeenCalledWith(returnToPageOnErrorThunkMock);
             expect(returnToPageOnErrorMock).toHaveBeenCalledTimes(2);
             expect(returnToPageOnErrorMock).toHaveBeenCalledWith('', 'customerPageButton', historyMock);
-            expect(returnToPageOnErrorMock).toHaveBeenCalledWith('/shipping_lines', 'shippingPageButton', historyMock);
+            expect(returnToPageOnErrorMock).toHaveBeenCalledWith('shipping_lines', 'shippingPageButton', historyMock);
         });
     });
 
@@ -143,7 +143,7 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
             expect(dispatch).toHaveBeenCalledWith(returnToPageOnErrorThunkMock);
             expect(returnToPageOnErrorMock).toHaveBeenCalledTimes(1);
             expect(returnToPageOnErrorMock).toHaveBeenCalledWith('', 'customerPageButton', historyMock);
-            expect(returnToPageOnErrorMock).not.toHaveBeenCalledWith('/shipping_lines', 'shippingPageButton', historyMock);
+            expect(returnToPageOnErrorMock).not.toHaveBeenCalledWith('shipping_lines', 'shippingPageButton', historyMock);
         });
     });
 
@@ -168,7 +168,7 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
             expect(dispatch).toHaveBeenCalledWith(returnToPageOnErrorThunkMock);
             expect(returnToPageOnErrorMock).toHaveBeenCalledTimes(1);
             expect(returnToPageOnErrorMock).toHaveBeenCalledWith('', 'customerPageButton', historyMock);
-            expect(returnToPageOnErrorMock).not.toHaveBeenCalledWith('/shipping_lines', 'shippingPageButton', historyMock);
+            expect(returnToPageOnErrorMock).not.toHaveBeenCalledWith('shipping_lines', 'shippingPageButton', historyMock);
         });
     });
 });

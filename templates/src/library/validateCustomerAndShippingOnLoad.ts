@@ -10,6 +10,7 @@ import {
 } from 'src/library';
 import {HistoryLocationState} from 'react-router';
 import {actionSetLoaderAndDisableButton} from 'src/action';
+import {Constants} from 'src/constants';
 
 export function validateCustomerAndShippingOnLoad(history: HistoryLocationState) {
     return async function validateCustomerAndShippingOnLoadThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
@@ -25,7 +26,7 @@ export function validateCustomerAndShippingOnLoad(history: HistoryLocationState)
                         const {errors} = getState();
                         if(!errors || errors.length === 0) {
                             dispatch(validateShippingLine).then(async () => {
-                                dispatch(returnToPageOnError('/shipping_lines', 'shippingPageButton', history));
+                                dispatch(returnToPageOnError(Constants.SHIPPING_ROUTE, 'shippingPageButton', history));
                             });
                         }
                     });
