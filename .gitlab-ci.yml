@@ -47,15 +47,22 @@ Test:
       - main
       - merge_requests
       - blocker
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
   artifacts:
     reports:
       junit: ['templates/junit.xml']
+      cobertura: ['templates/coverage/cobertura-coverage.xml']
   variables:
     WORKING_DIRECTORY: 'templates'
     KUBERNETES_CPU_REQUEST: 4000m
     KUBERNETES_CPU_LIMIT: 4000m
     KUBERNETES_MEMORY_REQUEST: 5000Mi
     KUBERNETES_MEMORY_LIMIT: 5000Mi
+  script:
+    - echo "Running JS Tests"
+    - cd $WORKING_DIRECTORY
+    - yarn install --no-progress --frozen-lockfile --network-timeout 100000
+    - yarn test-ci
   extends: .JestTests
 
 BuildApp:
@@ -75,6 +82,14 @@ BuildApp:
     KUBERNETES_MEMORY_REQUEST: 1024Mi
     KUBERNETES_MEMORY_LIMIT: 1024Mi
     RUNNER_IMAGE: node:12.14.1
+  script:
+    - cd $WORKING_DIRECTORY
+    - echo "CONFIG BUILD"
+    - echo -e "$CONFIGURATION" > config.json
+    - echo "YARN INSTALL"
+    - yarn install --no-progress --frozen-lockfile --network-timeout 100000
+    - echo "YARN BUILD"
+    - yarn build
   extends: .YarnBuild
 
 DockerBuildAndPush:

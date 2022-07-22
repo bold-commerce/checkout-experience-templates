@@ -20,6 +20,8 @@ export * from './customer-section/customerSection';
 export * from './display-address/displayAddress';
 export * from './display-payment-method/displayPaymentMethod';
 export * from './display-payment-methods/displayPaymentMethods';
+export * from './error-boundary/errorBoundary';
+export * from './error-fallback/errorFallback';
 export * from './expandable-discount/expandableDiscount';
 export * from './field-checkbox/fieldCheckbox';
 export * from './field-input/fieldInput';

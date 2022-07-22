@@ -3,6 +3,16 @@
 const path = require('path');
 
 const isDev = process.env.NODE_ENV === 'development';
+const { BugsnagBuildReporterPlugin } = require('webpack-bugsnag-plugins');
+
+const PACKAGE = require('./package.json');
+const CONFIG = require('./config.json');
+const { version } = PACKAGE;
+const { bugsnagApiKeyStaging, bugsnagApiKeyProduction } = CONFIG;
+
+const bugsnagPlugin = [];
+bugsnagApiKeyStaging && bugsnagPlugin.push(new BugsnagBuildReporterPlugin({apiKey: bugsnagApiKeyStaging, appVersion: version}));
+bugsnagApiKeyProduction && bugsnagPlugin.push(new BugsnagBuildReporterPlugin({apiKey: bugsnagApiKeyProduction, appVersion: version}));
 
 module.exports = {
     entry: {
@@ -14,12 +24,14 @@ module.exports = {
         path: path.join(__dirname, '/build'),
         filename: '[name].js',
     },
+    devtool: 'source-map',
     mode: process.env.NODE_ENV,
     target: 'web',
     resolve: {
         alias: {
             src: path.resolve(__dirname, 'src'),
             public: path.resolve(__dirname, 'public'),
+            root: path.resolve(__dirname),
         },
         modules: [path.resolve(__dirname, 'src'), 'node_modules'],
         extensions: ['.tsx', '.ts', '.jsx', '.js']
@@ -54,7 +66,7 @@ module.exports = {
             }
         ]
     },
-    plugins: [],
+    plugins: [...bugsnagPlugin],
     performance: {
         hints: isDev ? false : 'warning',
         maxEntrypointSize: 1048576,

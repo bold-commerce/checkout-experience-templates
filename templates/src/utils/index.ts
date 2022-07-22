@@ -1,3 +1,4 @@
+export * from './bugReporter';
 export * from './cssClassesHelper';
 export * from './displayFatalError';
 export * from './displayFatalErrorFromTranslation';

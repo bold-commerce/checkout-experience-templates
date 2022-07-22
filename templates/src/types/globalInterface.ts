@@ -20,6 +20,8 @@ declare global {
         currencySymbol: string,
         initialTimestamps: IFrontEndEvent,
         storeLoadTimesLocally: boolean,
+        bugsnagApiKey: string,
+        enableConsole: boolean,
     }
 }
 

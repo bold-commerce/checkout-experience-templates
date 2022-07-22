@@ -1,18 +1,22 @@
 {
   "name": "@boldcommerce/checkout-experience-templates",
-  "version": "1.0.0",
+  "version": "1.0.1-build.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
+    "preconfig": "node createRequiredConfig.js",
+    "prerelease": "npm --preid=build version prerelease && node libVersion.js > src/constants/version.ts",
+    "prebuild": "yarn preconfig && yarn prerelease",
     "test": "jest",
     "cover-test": "jest --coverage --colors",
     "build": "webpack --bail --mode production",
-    "build-dev": "webpack --bail --mode development",
-    "webpack": "webpack",
-    "start": "NODE_ENV=development webpack --watch",
-    "serve": "NODE_ENV=development webpack serve",
+    "build-dev": "yarn prebuild && webpack --bail --mode development",
+    "webpack": "yarn prebuild && webpack",
+    "start": "yarn prebuild && NODE_ENV=development webpack --watch",
+    "serve": "yarn prebuild && NODE_ENV=development webpack serve",
     "lint": "eslint ./src --fix",
     "lint-ci": "node_modules/.bin/eslint src",
-    "test-ci": "yarn cover-test --ci --bail --verbose"
+    "test-ci": "yarn cover-test --ci --bail --verbose --reporters=default --reporters=jest-junit --forceExit --watchAll=false --detectOpenHandles"
   },
   "keywords": [],
   "devDependencies": {
@@ -33,6 +37,7 @@
     "ts-jest": "^27.0.3",
     "ts-loader": "^9.2.1",
     "webpack": "^5.37.0",
+    "webpack-bugsnag-plugins": "^1.8.0",
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^4.9.2"
   },
@@ -40,6 +45,7 @@
     "@bold-commerce/checkout-frontend-library": "^0.29.0",
     "@boldcommerce/stacks-ui": "^1.1.1",
     "@redux-devtools/extension": "^3.2.2",
+    "@bugsnag/js": "^7.16.2",
     "@reduxjs/toolkit": "^1.5.1",
     "@types/google.maps": "^3.45.6",
     "@types/node": "^15.3.0",

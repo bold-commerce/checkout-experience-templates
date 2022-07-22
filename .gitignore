@@ -5,5 +5,8 @@ node_modules
 build
 
 /templates/coverage/
+/templates/junit.xml
 package-lock.json
 yarn-error.log
+secrets.json
+config.json
