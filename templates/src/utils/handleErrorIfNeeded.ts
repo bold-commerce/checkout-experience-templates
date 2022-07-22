@@ -1,13 +1,24 @@
 import {apiErrors, httpStatusCode, IApiErrorResponse, IApiReturnObject} from '@bold-commerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
 import {IError, IOrderInitialization} from 'src/types';
-import {displayFatalErrorFromTranslation, getCheckoutUrl, getHook, getNeuroIdPageName, isOnlyFlashError, neuroIdSubmit, retrieveErrorFromResponse} from 'src/utils';
+import {
+    displayFatalErrorFromTranslation,
+    getCheckoutUrl,
+    getHook,
+    getNeuroIdPageName,
+    logError,
+    setApplicationStateMetaDataFromResponse,
+    isOnlyFlashError,
+    neuroIdSubmit,
+    retrieveErrorFromResponse
+} from 'src/utils';
 import {actionAddError, actionShowHideOverlayContent} from 'src/action';
 import {HistoryLocationState} from 'react-router';
 import {Constants} from 'src/constants';
 
 export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispatch, getState: () => IOrderInitialization, addressType = ''): void {
     const error = response.error;
+    setApplicationStateMetaDataFromResponse(response);
 
     const state = getState();
     if(error){
@@ -36,6 +47,7 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
                 const errors = retrieveErrorFromResponse(response);
                 if (errors && Array.isArray(errors)) {
                     errors.forEach(e => {
+                        let message;
                         switch (e.message) {
                             case 'Expired JWT': {
                                 const location = window.location.pathname.split('/');
@@ -43,13 +55,17 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
                                 neuroIdSubmit(getNeuroIdPageName(location[location.length-1]));
                                 history.replace(getCheckoutUrl(Constants.SESSION_EXPIRED_ROUTE));
                                 dispatch(actionShowHideOverlayContent(false));
-                                throw new Error('Session Expired');
+                                message = 'Session Expired';
+                                break;
                             }
                             default: {
                                 displayFatalErrorFromTranslation(state, dispatch);
-                                throw new Error('Session Issues');
+                                message = 'Session Issues';
                             }
                         }
+                        const sessionError = new Error(message);
+                        sessionError.name = 'SessionError';
+                        throw sessionError;
                     });
                 }
                 break;
@@ -65,8 +81,7 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
                 break;
             }
             default:
-                // eslint-disable-next-line no-console
-                console.error(error); //TODO: unhandled exception
+                logError(error, [{section: 'lib_api_return_object', values: response as unknown as {[key: string]: unknown}}]);
         }
     }
 }

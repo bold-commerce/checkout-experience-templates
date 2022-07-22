@@ -29,6 +29,7 @@ export * from './useGetCustomerInformation';
 export * from './useGetDefaultSupportedLanguageIso';
 export * from './useGetDiscounts';
 export * from './useGetDisplayPaymentMethods';
+export * from './useGetErrorFallback';
 export * from './useGetErrors';
 export * from './useGetFees';
 export * from './useGetErrorByField';

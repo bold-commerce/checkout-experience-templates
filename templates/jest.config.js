@@ -20,6 +20,7 @@ module.exports = {
             'lines': 100
         }
     },
+    'coverageReporters' : ['lcov', 'text', 'text-summary', 'cobertura'],
     'collectCoverageFrom': [
         '**/*.{js,jsx,ts,tsx}',
         'src/**/*.{js,jsx,ts,tsx}',

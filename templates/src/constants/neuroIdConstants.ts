@@ -7,4 +7,5 @@ export class NeuroIdConstants {
     static outOfStockPage = 'out_of_stock';
     static thankYouPage = 'thank_you';
     static sessionExpiredPage = 'session_expired';
+    static errorPage = 'error';
 }
