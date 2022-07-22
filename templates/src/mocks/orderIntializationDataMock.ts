@@ -520,7 +520,8 @@ export const initialDataMock: IInitializeOrderResponse = {
                 'provider': null,
                 'api_key': null
             }
-        }
+        },
+        'alternate_payment_methods': []
     },
     'application_state': {
         'customer': {

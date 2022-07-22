@@ -16,6 +16,7 @@ export * from './loadingReducer';
 export * from './orderMetaReducer';
 export * from './orderTotalReducer';
 export * from './overlayReducer';
+export * from './paymentMethodReducer';
 export * from './paymentsReducer';
 export * from './selectShippingLineReducer';
 export * from './shippingLineItemReducer';
