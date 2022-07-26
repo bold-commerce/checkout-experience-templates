@@ -1,4 +1,5 @@
-import {sendAddPaymentAction, sendRefreshOrderAction} from '@bold-commerce/checkout-frontend-library';
+import {IApiErrorResponse, IFetchError, IPigiResponseType} from '@bold-commerce/checkout-frontend-library';
+import { sendRefreshOrderActionAsync, sendAddPaymentActionAsync } from '@bold-commerce/checkout-frontend-library/lib/pigi';
 import {renderHook} from '@testing-library/react-hooks';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
@@ -18,7 +19,8 @@ import {usePaymentPage} from 'src/themes/three-page/hooks';
 import {displayOrderProcessingScreen, processOrder} from 'src/library';
 import {getCheckoutUrl, getNeuroIdPageName, getTerm, neuroIdSubmit} from 'src/utils';
 import {stateMock} from 'src/mocks';
-import {actionClearErrors} from 'src/action';
+import {actionAddError, actionClearErrors, actionShowHideOverlayContent} from 'src/action';
+import { pigiActionTypes } from '@bold-commerce/checkout-frontend-library/lib/variables/constants';
 
 jest.mock('@bold-commerce/checkout-frontend-library/lib/pigi');
 jest.mock('react-redux');
@@ -45,8 +47,8 @@ const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
 const useGetLineItemsMock = mocked(useGetLineItems, true);
 const processOrderMock = mocked(processOrder, true);
 const getTermMock = mocked(getTerm, true);
-const sendAddPaymentActionMock = mocked(sendAddPaymentAction, true);
-const sendRefreshOrderActionMock = mocked(sendRefreshOrderAction, true);
+const sendRefreshOrderActionAsyncMock = mocked(sendRefreshOrderActionAsync, true);
+const sendAddPaymentActionAsyncMock = mocked(sendAddPaymentActionAsync, true);
 const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true);
 const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
 const neuroIdSubmitMock = mocked(neuroIdSubmit, true);
@@ -70,6 +72,29 @@ describe('Testing hook usePaymentPage', () => {
     };
     const eventMock = {preventDefault: jest.fn()};
     const pageNameWithPrefix = 'prefix_page_name';
+    const resolvedRefreshValue: IPigiResponseType = {
+        responseType: pigiActionTypes.PIGI_REFRESH_ORDER,
+        payload: { key: 'value' }
+    }
+    const resolvedPaymentValue: IPigiResponseType = {
+        responseType: pigiActionTypes.PIGI_ADD_PAYMENT,
+        payload: { key: 'value' }
+    }
+    const rejectedValue: IFetchError = {
+        status: 1000,
+        statusText: undefined,
+        body: undefined,
+        metaData: undefined,
+        name: 'FetchError',
+        message: 'There has been an error fetching'
+    }    
+    const convertedFetchError: IApiErrorResponse = {
+        message: '',
+        type: 'api',
+        field: '',
+        severity: 'critical',
+        sub_type: ''
+    }
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -86,9 +111,11 @@ describe('Testing hook usePaymentPage', () => {
         useGetPaymentsMock.mockReturnValue(appState.payments);
         processOrderMock.mockReturnValue(processOrderThunkMock);
         getNeuroIdPageNameMock.mockReturnValue(pageNameWithPrefix);
+        sendRefreshOrderActionAsyncMock.mockResolvedValue(resolvedRefreshValue);
+        sendAddPaymentActionAsyncMock.mockResolvedValue(resolvedPaymentValue);
     });
 
-    test('Render with empty errors array', () => {
+    test('Render with empty errors array', async () => {
         getTermMock
             .mockReturnValueOnce(backLinkTextMock)
             .mockReturnValueOnce(nextButtonTextMock);
@@ -103,8 +130,8 @@ describe('Testing hook usePaymentPage', () => {
         expect(useGetIsLoadingMock).toHaveBeenCalledTimes(1);
         expect(historyMock.replace).toHaveBeenCalledTimes(0);
         expect(dispatchMock).toHaveBeenCalledTimes(0);
-        expect(sendRefreshOrderActionMock).toHaveBeenCalledTimes(0);
-        expect(sendAddPaymentActionMock).toHaveBeenCalledTimes(0);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(0);
+        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(result.current.backLinkText).toBe(backLinkTextExpectation);
         expect(result.current.nextButtonText).toBe(nextButtonTextMock);
         expect(result.current.nextButtonLoading).toBe(nextButtonLoadingMock);
@@ -114,18 +141,18 @@ describe('Testing hook usePaymentPage', () => {
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
         expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('shipping_lines'));
 
-        result.current.nextButtonOnClick();
+        await result.current.nextButtonOnClick();
         expect(dispatchMock).toHaveBeenCalledTimes(2);
         expect(dispatchMock).toHaveBeenCalledWith(actionClearErrors());
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
-        expect(processOrderMock).toHaveBeenCalledTimes(0);
-        expect(sendRefreshOrderActionMock).toHaveBeenCalledTimes(1);
-        expect(sendAddPaymentActionMock).toHaveBeenCalledTimes(1);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
+        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(neuroIdSubmitMock).toHaveBeenCalledTimes(1);
+        expect(processOrderMock).toHaveBeenCalledTimes(0);
         expect(neuroIdSubmitMock).toHaveBeenCalledWith(pageNameWithPrefix);
     });
 
-    test('Render with empty errors array and full payment', () => {
+    test('Render with empty errors array and full payment', async () => {
         const payments = [
             {
                 gateway_public_id: 'payment_gateway_public_id_1',
@@ -156,8 +183,8 @@ describe('Testing hook usePaymentPage', () => {
         expect(useGetIsLoadingMock).toHaveBeenCalledTimes(1);
         expect(historyMock.replace).toHaveBeenCalledTimes(0);
         expect(dispatchMock).toHaveBeenCalledTimes(0);
-        expect(sendRefreshOrderActionMock).toHaveBeenCalledTimes(0);
-        expect(sendAddPaymentActionMock).toHaveBeenCalledTimes(0);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(0);
+        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(result.current.backLinkText).toBe(backLinkTextExpectation);
         expect(result.current.nextButtonText).toBe(nextButtonTextMock);
         expect(result.current.nextButtonLoading).toBe(nextButtonLoadingMock);
@@ -166,14 +193,14 @@ describe('Testing hook usePaymentPage', () => {
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
         expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('shipping_lines'));
 
-        result.current.nextButtonOnClick();
+        await result.current.nextButtonOnClick();
         expect(dispatchMock).toHaveBeenCalledTimes(3);
         expect(dispatchMock).toHaveBeenCalledWith(actionClearErrors());
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
         expect(processOrderMock).toHaveBeenCalledTimes(1);
         expect(processOrderMock).toHaveBeenCalledWith(historyMock, pageNameWithPrefix);
-        expect(sendRefreshOrderActionMock).toHaveBeenCalledTimes(0);
-        expect(sendAddPaymentActionMock).toHaveBeenCalledTimes(0);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(0);
+        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(neuroIdSubmitMock).toHaveBeenCalledTimes(1);
         expect(neuroIdSubmitMock).toHaveBeenCalledWith(pageNameWithPrefix);
     });
@@ -183,5 +210,18 @@ describe('Testing hook usePaymentPage', () => {
         renderHook(() => usePaymentPage());
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
         expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('thank_you'));
+    });
+
+    test('testing if refreshing order action rejected promise', async () => {
+        sendRefreshOrderActionAsyncMock.mockRejectedValue(rejectedValue);
+        const {result: {current}} = renderHook(() => usePaymentPage());
+
+        await current.nextButtonOnClick();
+        expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
+        expect(dispatchMock).toHaveBeenCalledWith(actionShowHideOverlayContent(false));
+        expect(dispatchMock).toHaveBeenCalledWith(actionAddError(convertedFetchError));
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
+        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
+        expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
 });

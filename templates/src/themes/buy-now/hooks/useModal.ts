@@ -21,7 +21,6 @@ export function useModal(): IUseModal {
         dispatch(actionGetInitialData(window.location.hostname));
         dispatch(setDefaultAddresses);
         dispatch(checkInventory(checkInventoryStage.initial));
-
     }, [setIsOpen, dispatch]);
 
     const handleCloseEvent = useCallback(() => {
