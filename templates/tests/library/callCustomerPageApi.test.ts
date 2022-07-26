@@ -61,7 +61,7 @@ describe('testing callCustomerPageApi', () => {
             expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('/shipping_lines', 'customerPageButton', historyMock, false, undefined);
+            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('shipping_lines', 'customerPageButton', historyMock, false, undefined);
         });
     });
 
@@ -84,7 +84,7 @@ describe('testing callCustomerPageApi', () => {
             expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('/shipping_lines', 'customerPageButton', historyMock, false, pageNameNeuroId);
+            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('shipping_lines', 'customerPageButton', historyMock, false, pageNameNeuroId);
         });
     });
 
@@ -106,7 +106,7 @@ describe('testing callCustomerPageApi', () => {
             expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('/shipping_lines', 'customerPageButton', historyMock, false, undefined);
+            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('shipping_lines', 'customerPageButton', historyMock, false, undefined);
         });
     });
 
@@ -129,7 +129,7 @@ describe('testing callCustomerPageApi', () => {
             expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('/shipping_lines', 'customerPageButton', historyMock, false, undefined);
+            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('shipping_lines', 'customerPageButton', historyMock, false, undefined);
         });
     });
 });

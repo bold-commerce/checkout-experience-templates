@@ -43,7 +43,7 @@ describe('testing callShippingLinesPageApi', () => {
             expect(dispatch).toHaveBeenCalledWith(postShippingLines);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('/payment', 'shippingPageButton', historyMock, false, undefined);
+            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('payment', 'shippingPageButton', historyMock, false, undefined);
         });
     });
 
@@ -61,7 +61,7 @@ describe('testing callShippingLinesPageApi', () => {
             expect(dispatch).toHaveBeenCalledWith(postShippingLines);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('/payment', 'shippingPageButton', historyMock, false, pageNameNeuroId);
+            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('payment', 'shippingPageButton', historyMock, false, pageNameNeuroId);
         });
     });
 });
