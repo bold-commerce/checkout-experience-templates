@@ -1,6 +1,6 @@
 {
   "name": "@boldcommerce/checkout-experience-templates",
-  "version": "1.0.1-build.5",
+  "version": "1.0.1-build.6",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -42,7 +42,7 @@
     "webpack-dev-server": "^4.9.2"
   },
   "dependencies": {
-    "@bold-commerce/checkout-frontend-library": "^0.29.1",
+    "@bold-commerce/checkout-frontend-library": "^0.30.0",
     "@boldcommerce/stacks-ui": "^1.1.1",
     "@redux-devtools/extension": "^3.2.2",
     "@bugsnag/js": "^7.16.2",

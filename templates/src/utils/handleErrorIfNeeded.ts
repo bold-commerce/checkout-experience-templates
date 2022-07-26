@@ -6,11 +6,12 @@ import {
     getCheckoutUrl,
     getHook,
     getNeuroIdPageName,
-    logError,
     setApplicationStateMetaDataFromResponse,
     isOnlyFlashError,
     neuroIdSubmit,
-    retrieveErrorFromResponse
+    retrieveErrorFromResponse,
+    displayDefaultFlashError,
+    setMetadata
 } from 'src/utils';
 import {actionAddError, actionShowHideOverlayContent} from 'src/action';
 import {HistoryLocationState} from 'react-router';
@@ -23,13 +24,17 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
     const state = getState();
     if(error){
         switch (error.status) {
+            case httpStatusCode.INTERNAL_SERVER_ERROR:
+            case httpStatusCode.NOT_IMPLEMENTED:
             case apiErrors.noCsrf.status:
             case apiErrors.noAppState.status:
             case apiErrors.emptyAppState.status:
             case apiErrors.noResData.status:
             case apiErrors.emptyResData.status: {
                 displayFatalErrorFromTranslation(state, dispatch);
-                break;
+                const fatalError = new Error(`Got ${error.status} from the API.`);
+                fatalError.name = 'FatalError';
+                throw fatalError;
             }
             case apiErrors.general.status:
             case apiErrors.noPigiIframe.status:
@@ -80,8 +85,24 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
                 }
                 break;
             }
+            case httpStatusCode.BAD_REQUEST:
+            case httpStatusCode.FORBIDDEN:
+            case httpStatusCode.NOT_FOUND:
+            case httpStatusCode.METHOD_NOT_ALLOWED:
+            case httpStatusCode.REQUEST_TIMEOUT:
+            case httpStatusCode.TOO_MANY_REQUEST:
+            case httpStatusCode.SERVICE_UNAVAILABLE:
+            case httpStatusCode.GATEWAY_TIMEOUT:
+            case httpStatusCode.ORDER_LOCKED: {
+                displayDefaultFlashError(dispatch);
+                break;
+            }
             default:
-                logError(error, [{section: 'lib_api_return_object', values: response as unknown as {[key: string]: unknown}}]);
+                setMetadata('lib_api_return_object', response as unknown as {[key: string]: unknown});
+                error.name = 'UnknownFetchError';
+                displayFatalErrorFromTranslation(state, dispatch);
+                throw error;
+
         }
     }
 }

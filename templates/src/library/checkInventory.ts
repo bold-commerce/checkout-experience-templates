@@ -10,7 +10,7 @@ import {
 import {getCheckoutUrl, getHook, handleErrorIfNeeded} from 'src/utils';
 import {HistoryLocationState} from 'react-router';
 import {actionSetOverlayContent, actionShowHideOverlayContent} from 'src/action';
-import {Constants} from 'src/constants';
+import {API_RETRY, Constants} from 'src/constants';
 
 export function checkInventory(stage: IInventoryStage) {
     return async function CheckInventoryThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
@@ -18,7 +18,7 @@ export function checkInventory(stage: IInventoryStage) {
         const overlay: IOverlay = {shown: true, inverted: true, header: '', content: ''};
         dispatch(actionSetOverlayContent(overlay));
 
-        const response: IApiReturnObject = await checkInventoryLib(stage);
+        const response: IApiReturnObject = await checkInventoryLib(stage, API_RETRY);
         const history: HistoryLocationState = getHook('history');
         handleErrorIfNeeded(response, dispatch, getState);
 

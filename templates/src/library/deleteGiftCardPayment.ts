@@ -4,6 +4,7 @@ import {deleteGiftCardPayment as deleteGiftCardPaymentLib, IApiReturnObject, IPa
 import {handleErrorIfNeeded} from 'src/utils';
 import {getSummaryStateFromLib} from 'src/library';
 import {actionDeleteElement, actionSetLoaderAndDisableButton, REMOVE_PAYMENT} from 'src/action';
+import {API_RETRY} from 'src/constants';
 
 export function deleteGiftCardPayment(giftCardId: string) {
     return async function deleteGiftCardPaymentThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
@@ -13,7 +14,7 @@ export function deleteGiftCardPayment(giftCardId: string) {
         const {type, id} = payment || {};
 
         if (id && type && type.toLowerCase().replace(/\s|_/g, '').includes('giftcard')) {
-            const response: IApiReturnObject = await deleteGiftCardPaymentLib(id);
+            const response: IApiReturnObject = await deleteGiftCardPaymentLib(id, API_RETRY);
             handleErrorIfNeeded(response, dispatch, getState);
 
             if(response.success) {

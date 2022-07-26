@@ -6,6 +6,7 @@ import {postGuestCustomer, updateCustomer} from 'src/library';
 import * as applicationState from 'src/library/applicationState';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {IOrderInitialization} from 'src/types';
+import {API_RETRY} from 'src/constants';
 
 jest.mock('@bold-commerce/checkout-frontend-library/lib/customer');
 jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
@@ -42,7 +43,7 @@ describe('testing postGuestCustomer', () => {
         addGuestCustomerMock.mockReturnValueOnce(Promise.resolve(returnObject));
         await postGuestCustomer(dispatch, getState).then(() => {
             expect(addGuestCustomerMock).toHaveBeenCalledTimes(1);
-            expect(addGuestCustomerMock).toHaveBeenCalledWith(customer.first_name, customer.last_name, customer.email_address, customer.accepts_marketing);
+            expect(addGuestCustomerMock).toHaveBeenCalledWith(customer.first_name, customer.last_name, customer.email_address, customer.accepts_marketing, API_RETRY);
             expect(handleErrorSpy).toHaveBeenCalledTimes(1);
             expect(dispatch).toHaveBeenCalledWith(getCustomerFromLibSpy);
         }).catch(error => {
@@ -57,7 +58,7 @@ describe('testing postGuestCustomer', () => {
         addGuestCustomerMock.mockReturnValueOnce(Promise.resolve(returnObject));
         await postGuestCustomer(dispatch, getState).then(() => {
             expect(addGuestCustomerMock).toHaveBeenCalledTimes(1);
-            expect(addGuestCustomerMock).toHaveBeenCalledWith(customer.first_name, customer.last_name, customer.email_address, customer.accepts_marketing);
+            expect(addGuestCustomerMock).toHaveBeenCalledWith(customer.first_name, customer.last_name, customer.email_address, customer.accepts_marketing, API_RETRY);
             expect(handleErrorSpy).toHaveBeenCalledTimes(1);
             expect(dispatch).not.toHaveBeenCalledWith(getCustomerFromLibSpy);
         }).catch(error => {

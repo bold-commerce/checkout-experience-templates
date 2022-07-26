@@ -148,3 +148,5 @@ export const pigiPaymentTypes: IPigiPaymentTypes = {
     GIFT_CARD: 'GIFT_CARD',
     PAYPAL: 'paypal',
 };
+
+export const API_RETRY = 1;

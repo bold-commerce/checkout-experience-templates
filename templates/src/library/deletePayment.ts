@@ -4,6 +4,7 @@ import {deletePayment as deletePaymentLib, IApiReturnObject, IPayment} from '@bo
 import {handleErrorIfNeeded} from 'src/utils';
 import {getSummaryStateFromLib} from 'src/library';
 import {actionDeleteElement, actionSetLoaderAndDisableButton, REMOVE_PAYMENT} from 'src/action';
+import {API_RETRY} from 'src/constants';
 
 export function deletePayment(id: string) {
     return async function deletePaymentThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
@@ -13,7 +14,7 @@ export function deletePayment(id: string) {
         const {gateway_public_id, token} = payment || {};
 
         if (gateway_public_id && token) {
-            const response: IApiReturnObject = await deletePaymentLib({gateway_public_id, token});
+            const response: IApiReturnObject = await deletePaymentLib({gateway_public_id, token}, API_RETRY);
             handleErrorIfNeeded(response, dispatch, getState);
 
             if(response.success) {

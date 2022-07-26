@@ -10,7 +10,7 @@ import {checkErrorAndProceedToNextPage, getApplicationStateFromLib} from 'src/li
 import {HistoryLocationState} from 'react-router';
 import {actionSetAppStateValid, actionShowHideOverlayContent} from 'src/action';
 import {getCheckoutUrl, handleErrorIfNeeded} from 'src/utils';
-import {Constants, errorFields, errorSubTypes} from 'src/constants';
+import {API_RETRY, Constants, errorFields, errorSubTypes} from 'src/constants';
 import {useRemoveAllFlashErrors} from 'src/hooks';
 
 export function processOrder(history: HistoryLocationState, pageNameNeuroId?: string) {
@@ -20,7 +20,7 @@ export function processOrder(history: HistoryLocationState, pageNameNeuroId?: st
         await dispatch(actionSetAppStateValid('scaToken', false));
         errors = getState().errors;
         if (errors.length === 0) {
-            const response: IApiReturnObject = await processOrderLib();
+            const response: IApiReturnObject = await processOrderLib(API_RETRY);
             handleErrorIfNeeded(response, dispatch, getState);
 
             if (response.success) {

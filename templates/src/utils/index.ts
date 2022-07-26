@@ -1,5 +1,6 @@
 export * from './bugReporter';
 export * from './cssClassesHelper';
+export * from './displayDefaultFlashError';
 export * from './displayFatalError';
 export * from './displayFatalErrorFromTranslation';
 export * from './findLanguageDataByIsoCode';

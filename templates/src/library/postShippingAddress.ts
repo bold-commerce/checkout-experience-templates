@@ -7,7 +7,7 @@ import {
     IAddress,
 } from '@bold-commerce/checkout-frontend-library';
 import {actionSetAppStateValid} from 'src/action';
-import {Constants, defaultAddressState} from 'src/constants';
+import {API_RETRY, Constants, defaultAddressState} from 'src/constants';
 import {setShippingAddressAsValid} from 'src/library';
 import {compareAddresses, handleErrorIfNeeded} from 'src/utils';
 
@@ -29,7 +29,7 @@ export async function postShippingAddress(dispatch: Dispatch, getState: () => IO
     const _shipping = {...shipping};
     delete _shipping.id;
 
-    const response: IApiReturnObject = await setShippingAddress(_shipping);
+    const response: IApiReturnObject = await setShippingAddress(_shipping, API_RETRY);
     handleErrorIfNeeded(response, dispatch, getState, Constants.SHIPPING);
     dispatch(setShippingAddressAsValid);
 }
