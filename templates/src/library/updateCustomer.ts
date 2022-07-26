@@ -8,6 +8,7 @@ import {
 } from '@bold-commerce/checkout-frontend-library';
 import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
 import {getCustomerFromLib, validateDiscounts} from 'src/library';
+import {API_RETRY} from 'src/constants';
 
 
 export async function updateCustomer(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
@@ -18,7 +19,8 @@ export async function updateCustomer(dispatch: Dispatch, getState: () => IOrderI
         const response: IApiReturnObject = await putGuestCustomer(customer.first_name,
             customer.last_name,
             customer.email_address,
-            customer.accepts_marketing);
+            customer.accepts_marketing,
+            API_RETRY);
 
         handleErrorIfNeeded(response, dispatch, getState);
 

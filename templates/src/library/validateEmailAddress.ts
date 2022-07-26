@@ -3,6 +3,7 @@ import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
 import {postGuestCustomer} from 'src/library';
+import {API_RETRY} from 'src/constants';
 
 export async function validateEmailAddress(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void>{
     const {data: {application_state: {customer}}} = getState();
@@ -15,7 +16,7 @@ export async function validateEmailAddress(dispatch: Dispatch, getState: () => I
     }
 
     if (customer.email_address === '' || prevEmail !== customer.email_address) {
-        const response:IApiReturnObject = await validateEmail(customer.email_address);
+        const response:IApiReturnObject = await validateEmail(customer.email_address, API_RETRY);
         handleErrorIfNeeded(response, dispatch, getState);
 
         if(response.success){

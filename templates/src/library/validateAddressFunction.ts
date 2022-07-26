@@ -6,7 +6,7 @@ import {
     validateAddress,
 } from '@bold-commerce/checkout-frontend-library';
 import {handleErrorIfNeeded, isObjectEquals, validateAddressFields} from 'src/utils';
-import {Constants, defaultAddressState} from 'src/constants';
+import {API_RETRY, Constants, defaultAddressState} from 'src/constants';
 import {deleteAddress, postAddress} from 'src/library';
 import {actionRemoveErrorByAddressType, actionSetAppStateValid} from 'src/action';
 
@@ -28,7 +28,7 @@ export function validateAddressFunction(type: string, address: Partial<IAddress>
 
         const validateAddressFunction = async () => {
             dispatch(actionRemoveErrorByAddressType(type));
-            
+
             if (isObjectEquals(address, defaultAddressState) || !isObjectEquals(address, libraryAddress)) {
                 const isAddressFieldsValidated = validateAddressFields(validationField, type, dispatch, getState);
 
@@ -39,7 +39,8 @@ export function validateAddressFunction(type: string, address: Partial<IAddress>
                     address.country as string,
                     address.country_code as string,
                     address.business_name as string,
-                    address.phone_number as string);
+                    address.phone_number as string,
+                    API_RETRY);
                 handleErrorIfNeeded(response, dispatch, getState, type);
                 const isAddressValidated = response.success;
 

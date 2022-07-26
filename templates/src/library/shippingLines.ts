@@ -5,12 +5,13 @@ import {IOrderInitialization} from 'src/types';
 import {actionSetButtonDisable, actionSetAppStateValid, actionSetLoader, actionSetSelectedShippingLine} from 'src/action';
 import {getShippingFromLib, getSummaryStateFromLib, postShippingLines} from 'src/library';
 import {useSendEvent} from 'src/hooks';
+import {API_RETRY} from 'src/constants';
 
 export function shippingLines(updatedAddress: boolean) {
     return async function callShippingLines(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         dispatch(actionSetLoader('shippingLines', true));
 
-        const response: IApiReturnObject = await getShippingLines();
+        const response: IApiReturnObject = await getShippingLines(API_RETRY);
         handleErrorIfNeeded(response, dispatch, getState);
 
         if (response.success) {

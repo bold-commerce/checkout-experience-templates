@@ -4,7 +4,7 @@ import {initialDataMock, stateMock} from 'src/mocks';
 import * as handleErrorIfNeeded from 'src/utils/handleErrorIfNeeded';
 import * as setValid from 'src/action/appAction';
 import {deleteAddress, postAddress, validateAddressFunction} from 'src/library';
-import {Constants, defaultAddressState} from 'src/constants';
+import {API_RETRY, Constants, defaultAddressState} from 'src/constants';
 
 jest.mock('@bold-commerce/checkout-frontend-library/lib/address');
 jest.mock('src/library/deleteAddress');
@@ -43,8 +43,8 @@ describe('testing validateAddressFunction', () => {
 
         const validateCustomerAddressThunk = validateAddressFunction(Constants.SHIPPING, shipping, defaultAddressState);
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
-        
-        expect(validateAddressMock).toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code, shipping.business_name, shipping.phone_number);
+
+        expect(validateAddressMock).toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code, shipping.business_name, shipping.phone_number, API_RETRY);
         expect(handleErrorSpy).toHaveBeenCalledTimes(1);
         expect(setValidSpy).toHaveBeenCalledTimes(0);
         expect(dispatchMock).toHaveBeenCalledTimes(2);
@@ -61,7 +61,7 @@ describe('testing validateAddressFunction', () => {
         const validateCustomerAddressThunk = validateAddressFunction(Constants.BILLING, billing, defaultAddressState);
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
 
-        expect(validateAddressMock).toHaveBeenCalledWith(billing.postal_code, billing.province,  billing.province_code, billing.country, billing.country_code, billing.business_name, billing.phone_number);
+        expect(validateAddressMock).toHaveBeenCalledWith(billing.postal_code, billing.province,  billing.province_code, billing.country, billing.country_code, billing.business_name, billing.phone_number, API_RETRY);
         expect(handleErrorSpy).toHaveBeenCalledTimes(1);
         expect(setValidSpy).toHaveBeenCalledTimes(0);
         expect(dispatchMock).toHaveBeenCalledTimes(2);
@@ -81,7 +81,7 @@ describe('testing validateAddressFunction', () => {
         const validateCustomerAddressThunk = validateAddressFunction(Constants.SHIPPING, shipping, defaultAddressState);
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
 
-        expect(validateAddressMock).toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code, shipping.business_name, shipping.phone_number);
+        expect(validateAddressMock).toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code, shipping.business_name, shipping.phone_number, API_RETRY);
         expect(handleErrorSpy).toHaveBeenCalledTimes(1);
         expect(setValidSpy).toHaveBeenCalledTimes(1);
         expect(setValidSpy).toHaveBeenCalledWith('shippingAddress', false);
@@ -103,7 +103,7 @@ describe('testing validateAddressFunction', () => {
         const validateCustomerAddressThunk = validateAddressFunction(Constants.BILLING, billing, defaultAddressState);
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
 
-        expect(validateAddressMock).toHaveBeenCalledWith(billing.postal_code, billing.province, billing.province_code, billing.country, billing.country_code, billing.business_name, billing.phone_number);
+        expect(validateAddressMock).toHaveBeenCalledWith(billing.postal_code, billing.province, billing.province_code, billing.country, billing.country_code, billing.business_name, billing.phone_number, API_RETRY);
         expect(handleErrorSpy).toHaveBeenCalledTimes(1);
         expect(setValidSpy).toHaveBeenCalledTimes(1);
         expect(setValidSpy).toHaveBeenCalledWith('billingAddress', false);

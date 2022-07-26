@@ -315,10 +315,10 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bold-commerce/checkout-frontend-library@^0.29.1":
-  version "0.29.1"
-  resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-frontend-library/-/checkout-frontend-library-0.29.1.tgz#d071d5d67b96a928c7f929153ed85b6b8412d027"
-  integrity sha512-iOS99jChA9KX4VbfBnjVk5j4IDDTW9lZA0y7yWG5BCiqakc6EQEr3MrY5kk2IADreGK8zn4Nb8G1W7h7C4cZJQ==
+"@bold-commerce/checkout-frontend-library@^0.30.0":
+  version "0.30.0"
+  resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-frontend-library/-/checkout-frontend-library-0.30.0.tgz#17927a3027f0287d60f09b779dc44001ed9524e0"
+  integrity sha512-4qf/RiWtUFkvdl3rxFvNx7gUH/GFZ/srhbRYBOHgv39ByvhcY81Zq8AJjkAt7dAWSpCcVcvz6tGWxt4Aga9asw==
 
 "@boldcommerce/stacks-ui@^1.1.1":
   version "1.4.0"

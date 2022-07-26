@@ -4,11 +4,12 @@ import {deleteDiscount, IApiReturnObject} from '@bold-commerce/checkout-frontend
 import {handleErrorIfNeeded} from 'src/utils';
 import {getSummaryStateFromLib} from 'src/library';
 import {actionRemoveDiscount, actionSetLoaderAndDisableButton} from 'src/action';
+import {API_RETRY} from 'src/constants';
 
 export function deleteDiscounts(code: string) {
     return async function deleteDiscountsThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
 
-        const response: IApiReturnObject = await deleteDiscount(code);
+        const response: IApiReturnObject = await deleteDiscount(code, API_RETRY);
         handleErrorIfNeeded(response, dispatch, getState);
 
         if(response.success) {

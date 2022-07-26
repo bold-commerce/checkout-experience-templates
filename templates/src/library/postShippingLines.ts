@@ -4,6 +4,7 @@ import {IOrderInitialization} from 'src/types';
 import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
 import {getSummaryStateFromLib} from 'src/library';
 import {actionSetLoaderAndDisableButton} from 'src/action';
+import {API_RETRY} from 'src/constants';
 
 export async function postShippingLines(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
     const previousShipping: IShipping = getShipping();
@@ -11,7 +12,7 @@ export async function postShippingLines(dispatch: Dispatch, getState: () => IOrd
     const currentShipping = selected_shipping;
 
     if(!isObjectEquals(previousShipping.selected_shipping, currentShipping) && typeof currentShipping.id === 'string') {
-        const response: IApiReturnObject = await changeShippingLine(currentShipping.id);
+        const response: IApiReturnObject = await changeShippingLine(currentShipping.id, API_RETRY);
         handleErrorIfNeeded(response, dispatch, getState);
         await dispatch(getSummaryStateFromLib);
     }

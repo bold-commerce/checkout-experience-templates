@@ -15,12 +15,12 @@ import {
     actionSetLoader,
     actionUpdateDiscountCodeText
 } from 'src/action';
-import {errorFields, errorTypes} from 'src/constants';
+import {API_RETRY, errorFields, errorTypes} from 'src/constants';
 
 export function postDiscounts(code: string) {
     return async function postDiscountsThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
 
-        const response: IApiReturnObject = await addDiscount(code);
+        const response: IApiReturnObject = await addDiscount(code, API_RETRY);
         handleErrorIfNeeded(response, dispatch, getState);
 
         if(response.success) {

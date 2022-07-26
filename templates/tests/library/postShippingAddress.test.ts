@@ -6,7 +6,7 @@ import {
 } from '@bold-commerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {actionSetAppStateValid, SET_VALID} from 'src/action';
-import {defaultAddressState} from 'src/constants';
+import {API_RETRY, defaultAddressState} from 'src/constants';
 import {postShippingAddress, setShippingAddressAsValid} from 'src/library';
 import {stateMock} from 'src/mocks';
 import {handleErrorIfNeeded} from 'src/utils';
@@ -41,11 +41,11 @@ describe('testing postAddress', () => {
     test('calling post shipping address endpoint with getState returning undefined', async () => {
         getState.mockReturnValueOnce(undefined);
         const expectedError = new TypeError("Cannot destructure property `data` of 'undefined' or 'null'.");
-        
+
         await expect(async () => {
             await postShippingAddress(dispatch, getState);
         }).rejects.toThrow(expectedError);
-        
+
         expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
         expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
         expect(getAddressesMock).toHaveBeenCalledTimes(1);
@@ -62,7 +62,7 @@ describe('testing postAddress', () => {
         await expect(async () => {
             await postShippingAddress(dispatch, getState);
         }).rejects.toThrow(expectedError);
-        
+
         expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
         expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
         expect(getAddressesMock).toHaveBeenCalledTimes(1);
@@ -78,14 +78,14 @@ describe('testing postAddress', () => {
         getAddressesMock.mockReturnValueOnce(defaultAddressState);
 
         await postShippingAddress(dispatch, getState);
-        
+
         expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
         expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
         expect(getAddressesMock).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenCalledTimes(2);
         expect(dispatch).toHaveBeenCalledWith(actionReturnMock);
         expect(setShippingAddressMock).toHaveBeenCalledTimes(1);
-        expect(setShippingAddressMock).toHaveBeenCalledWith(defaultAddressState);
+        expect(setShippingAddressMock).toHaveBeenCalledWith(defaultAddressState, API_RETRY);
         expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
         expect(dispatch).toHaveBeenCalledWith(setShippingAddressAsValid);
         expect(handleErrorMock).toHaveBeenCalledTimes(1);
@@ -96,7 +96,7 @@ describe('testing postAddress', () => {
         getAddressesMock.mockReturnValueOnce(stateMock.data.application_state.addresses.shipping);
 
         await postShippingAddress(dispatch, getState);
-        
+
         expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(2);
         expect(actionSetAppStateValidMock.mock.calls).toEqual([
             ['shippingAddress', false],
