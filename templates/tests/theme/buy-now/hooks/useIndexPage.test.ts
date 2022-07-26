@@ -6,9 +6,11 @@ import {useIndexPage} from 'src/themes/buy-now/hooks';
 import { renderHook } from '@testing-library/react-hooks';
 import { displayOrderProcessingScreen, processOrder, updateLineItemQuantity, validateBillingAddress } from 'src/library';
 import { useDispatch } from 'react-redux';
-import * as sendRefreshOrderAction from '@bold-commerce/checkout-frontend-library/lib/pigi/sendRefreshOrderAction';
-import * as sendAddPaymentAction from '@bold-commerce/checkout-frontend-library/lib/pigi/sendAddPaymentAction';
+import { sendRefreshOrderActionAsync, sendAddPaymentActionAsync } from '@bold-commerce/checkout-frontend-library/lib/pigi';
 import { Constants } from 'src/constants';
+import { IApiErrorResponse, IFetchError, IPigiResponseType } from '@bold-commerce/checkout-frontend-library';
+import { pigiActionTypes } from '@bold-commerce/checkout-frontend-library/lib/variables/constants';
+import { actionShowHideOverlayContent, actionAddError } from 'src/action';
 
 jest.mock('react-redux');
 jest.mock('react-router');
@@ -23,6 +25,7 @@ jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/library/displayOrderProcessingScreen');
 jest.mock('src/library/processOrder');
 jest.mock('src/library/updateLineItemQuantity');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/pigi');
 
 const useDispatchMock = mocked(useDispatch, true);
 const getTermMock = mocked(getTerm, true);
@@ -35,9 +38,8 @@ const useGetValidVariableMock = mocked(useGetValidVariable, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 const processOrderMock = mocked(processOrder, true);
 const updateLineItemQuantityMock = mocked(updateLineItemQuantity, true);
-
-const sendRefreshOrderActionAsyncSpy = jest.spyOn(sendRefreshOrderAction, 'sendRefreshOrderActionAsync');
-const sendAddPaymentActionAsyncSpy = jest.spyOn(sendAddPaymentAction, 'sendAddPaymentActionAsync');
+const sendRefreshOrderActionAsyncMock = mocked(sendRefreshOrderActionAsync, true);
+const sendAddPaymentActionAsyncMock = mocked(sendAddPaymentActionAsync, true);
 
 describe('testing hook useIndexPage', () => {
     const getTermValue = 'test term';
@@ -62,6 +64,33 @@ describe('testing hook useIndexPage', () => {
         message: 'Test error message!'
     };
 
+    const resolvedRefreshValue: IPigiResponseType = {
+        responseType: pigiActionTypes.PIGI_REFRESH_ORDER,
+        payload: { key: 'value' }
+    }
+
+    const resolvedPaymentValue: IPigiResponseType = {
+        responseType: pigiActionTypes.PIGI_ADD_PAYMENT,
+        payload: { key: 'value' }
+    }
+    
+    const rejectedValue: IFetchError = {
+        status: 1000,
+        statusText: undefined,
+        body: undefined,
+        metaData: undefined,
+        name: 'FetchError',
+        message: errorMock.message
+    }
+
+    const convertedFetchError: IApiErrorResponse = {
+        message: '',
+        type: 'api',
+        field: '',
+        severity: 'critical',
+        sub_type: ''
+    }
+
     beforeEach(() => {
         jest.resetAllMocks();
         getTermMock.mockReturnValue(getTermValue);
@@ -71,6 +100,8 @@ describe('testing hook useIndexPage', () => {
         useDispatchMock.mockReturnValue(dispatchMock);
         processOrderMock.mockReturnValue(processOrderThunkMock);
         useGetAppSettingDataMock.mockReturnValue(Constants.SHIPPING_SAME);
+        sendRefreshOrderActionAsyncMock.mockResolvedValue(resolvedRefreshValue);
+        sendAddPaymentActionAsyncMock.mockResolvedValue(resolvedPaymentValue);
     });
 
     test('test the hook properly with no errors in array', async () => {
@@ -91,8 +122,8 @@ describe('testing hook useIndexPage', () => {
 
         await hookResult.checkoutOnClick();
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
-        expect(sendRefreshOrderActionAsyncSpy).toHaveBeenCalledTimes(1);
-        expect(sendAddPaymentActionAsyncSpy).toHaveBeenCalledTimes(1);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
+        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
 
@@ -117,8 +148,8 @@ describe('testing hook useIndexPage', () => {
         await hookResult.checkoutOnClick();
         expect(dispatchMock).toHaveBeenCalledWith(validateBillingAddress);
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
-        expect(sendRefreshOrderActionAsyncSpy).toHaveBeenCalledTimes(1);
-        expect(sendAddPaymentActionAsyncSpy).toHaveBeenCalledTimes(1);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
+        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
 
@@ -143,8 +174,8 @@ describe('testing hook useIndexPage', () => {
         await hookResult.checkoutOnClick();
         expect(dispatchMock).toHaveBeenCalledWith(validateBillingAddress);
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
-        expect(sendRefreshOrderActionAsyncSpy).toHaveBeenCalledTimes(1);
-        expect(sendAddPaymentActionAsyncSpy).toHaveBeenCalledTimes(1);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
+        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
 
@@ -156,8 +187,8 @@ describe('testing hook useIndexPage', () => {
 
         await hookResult.checkoutOnClick();
         expect(dispatchMock).not.toHaveBeenCalledWith(displayOrderProcessingScreen);
-        expect(sendRefreshOrderActionAsyncSpy).toHaveBeenCalledTimes(0);
-        expect(sendAddPaymentActionAsyncSpy).toHaveBeenCalledTimes(0);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(0);
+        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
 
@@ -171,8 +202,8 @@ describe('testing hook useIndexPage', () => {
 
         await hookResult.checkoutOnClick();
         expect(dispatchMock).not.toHaveBeenCalledWith(displayOrderProcessingScreen);
-        expect(sendRefreshOrderActionAsyncSpy).toHaveBeenCalledTimes(0);
-        expect(sendAddPaymentActionAsyncSpy).toHaveBeenCalledTimes(0);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(0);
+        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
 
@@ -187,8 +218,8 @@ describe('testing hook useIndexPage', () => {
 
         await hookResult.checkoutOnClick();
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
-        expect(sendRefreshOrderActionAsyncSpy).toHaveBeenCalledTimes(0);
-        expect(sendAddPaymentActionAsyncSpy).toHaveBeenCalledTimes(0);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(0);
+        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(processOrderMock).toHaveBeenCalledTimes(1);
     });
 
@@ -202,5 +233,23 @@ describe('testing hook useIndexPage', () => {
 
         expect(dispatchMock).toBeCalledTimes(1);
         expect(updateLineItemQuantityMock).toBeCalledWith(lineItemKey, quantity);      
+    });
+
+    test('calling onClickCheckout with promise rejected', async () => {
+        useGetOrderTotalMock.mockReturnValue(9999);
+        useGetErrorsMock.mockReturnValue([]);
+        useGetValidVariableMock.mockReturnValue(true);
+        sendRefreshOrderActionAsyncMock.mockRejectedValueOnce(rejectedValue);
+
+        const {result} = renderHook(() => useIndexPage());
+        const hookResult = result.current;
+
+        await hookResult.checkoutOnClick();
+        expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
+        expect(dispatchMock).toHaveBeenCalledWith(actionShowHideOverlayContent(false));
+        expect(dispatchMock).toHaveBeenCalledWith(actionAddError(convertedFetchError));
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
+        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
+        expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
 });

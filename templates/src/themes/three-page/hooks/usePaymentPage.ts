@@ -10,19 +10,21 @@ import {
     useGetSelectShippingLine,
     useGetTaxes
 } from 'src/hooks';
-import {getCheckoutUrl, getNeuroIdPageName, getTerm, getTotals, neuroIdSubmit} from 'src/utils';
+import {getCheckoutUrl, getNeuroIdPageName, getTerm, getTotals, isOnlyFlashError, neuroIdSubmit, retrieveErrorFromResponse} from 'src/utils';
 import {Constants, NeuroIdConstants} from 'src/constants';
 import {useCallback} from 'react';
 import {displayOrderProcessingScreen, processOrder} from 'src/library';
 import {
-    sendAddPaymentAction,
+    sendAddPaymentActionAsync,
+    IApiErrorResponse,
+    IApiReturnObject,
     sendClearErrorMessageAction,
-    sendRefreshOrderAction
+    sendRefreshOrderActionAsync
 } from '@bold-commerce/checkout-frontend-library';
 import {useHistory} from 'react-router';
 import {IUsePaymentPage} from 'src/types';
 import {sendEvents} from 'src/analytics';
-import {actionClearErrors} from 'src/action';
+import {actionClearErrors, actionAddError, actionShowHideOverlayContent} from 'src/action';
 
 export function usePaymentPage(): IUsePaymentPage{
     const history = useHistory();
@@ -60,8 +62,16 @@ export function usePaymentPage(): IUsePaymentPage{
         if (totals.totalAmountDue <= 0) {
             dispatch(processOrder(history, pageNameNeuroId));
         } else {
-            sendRefreshOrderAction();
-            sendAddPaymentAction();
+            sendRefreshOrderActionAsync().then(
+                sendAddPaymentActionAsync,
+                (e) => {
+                    const error = retrieveErrorFromResponse(<IApiReturnObject>{error: e}) as IApiErrorResponse;
+                    if (error && isOnlyFlashError([error])) {
+                        dispatch(actionAddError(error));
+                    }
+                    dispatch(actionShowHideOverlayContent(false));
+                }
+            );
         }
     },[totals, history]);
 
