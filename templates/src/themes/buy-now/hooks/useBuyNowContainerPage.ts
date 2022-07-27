@@ -35,7 +35,7 @@ export function useBuyNowContainerPage(props : IUseBuyNowContainerPageProps) : I
     useLayoutEffect(() => {
         const resizeObserver = new ResizeObserver(() => {
             const height = (openRef.current as HTMLElement).clientHeight;
-            setContainerStyle(ps => ({...ps, height: `${height}px`, overflow: 'auto'}));
+            setContainerStyle(ps => ({...ps, height: `${height}px`, 'overflow-y': 'auto'}));
         });
 
         openRef.current && resizeObserver.observe(openRef.current);

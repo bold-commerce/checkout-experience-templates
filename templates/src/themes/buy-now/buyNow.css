@@ -119,8 +119,12 @@ html, body, .buy-now__app {
   }
 }
 
-.flash-error + .buy-now__products {
-  margin-top: 15px;
+.buy-now__index .flash-error:empty {
+  display: none;
+}
+
+.buy-now__index .flash-error {
+  margin-bottom: 15px;
 }
 
 .buy-now__products {
@@ -373,4 +377,10 @@ html, body, .buy-now__app {
 
 .buy-now .input-field__container.address__phone.address__phone--full-width {
   width: 100%;
+}
+
+@media only screen and (min-height: 716px){
+  .checkout-experience-container {
+    padding-top: 80px;
+  }
 }

@@ -1,17 +1,13 @@
 import { useLocation } from 'react-router-dom';
 import { IUseFocusTrap } from 'src/themes/buy-now/types';
 
-const checkCanFocusTrap = (): Promise<void> => {
-    return new Promise(resolve => setTimeout(resolve, 100));
-};
-
-const checkCanReturnFocus = (): Promise<void> => {
-    return new Promise(resolve => setTimeout(resolve, 100));
+const checkFocusDelay = (): Promise<void> => {
+    return new Promise(resolve => setTimeout(resolve, 700));
 };
 
 const focusTrapOptions = {
-    checkCanFocusTrap,
-    checkCanReturnFocus,
+    checkCanFocusTrap: checkFocusDelay,
+    checkCanReturnFocus: checkFocusDelay,
     escapeDeactivates: false
 };
 
