@@ -18,7 +18,7 @@ export function useShippingPage(): IUseCustomerPageProp{
     }
     const nextButtonDisable = useGetButtonDisableVariable('shippingPageButton');
     const nextButtonLoading = useGetIsLoading();
-    const backLinkText = `< ${getTerm('footer_shipping_cust_info', Constants.SHIPPING_METHOD_INFO)}`;
+    const backLinkText = getTerm('footer_shipping_cust_info', Constants.SHIPPING_METHOD_INFO);
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
         neuroIdSubmit(getNeuroIdPageName(NeuroIdConstants.customerPage));

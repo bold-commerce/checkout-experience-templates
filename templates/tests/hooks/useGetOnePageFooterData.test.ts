@@ -27,7 +27,7 @@ describe('Testing hook useGetAddressFieldInputData', () => {
 
     test('rendering the hook properly', () => {
         const {result} = renderHook(() => useGetOnePageFooterData());
-        expect(result.current.backLinkText).toStrictEqual('< '+getTermValue);
+        expect(result.current.backLinkText).toStrictEqual(getTermValue);
         expect(result.current.nextButtonText).toStrictEqual(getTermValue);
         expect(result.current.nextButtonLoading).toStrictEqual(false);
 

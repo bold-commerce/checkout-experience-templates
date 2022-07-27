@@ -5,7 +5,7 @@ import {useGetIsLoading} from 'src/hooks';
 import {useCallback} from 'react';
 
 export function useGetOnePageFooterData(): IFooterProps{
-    const backLinkText = `< ${getTerm('return_to_cart', Constants.CUSTOMER_INFO)}`;
+    const backLinkText = getTerm('return_to_cart', Constants.CUSTOMER_INFO);
     const nextButtonText = getTerm('complete_order', Constants.PAYMENT_INFO);
     const nextButtonLoading = useGetIsLoading();
     const backLinkOnClick = useCallback((event) => {

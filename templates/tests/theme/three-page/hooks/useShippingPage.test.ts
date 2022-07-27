@@ -49,7 +49,7 @@ describe('Testing hook useShippingPage', () => {
         const {result} = renderHook(() => useShippingPage());
         const hookResult = result.current;
         expect(useDispatchMock).toHaveBeenCalledTimes(1);
-        expect(hookResult.backLinkText).toBe('< ' + getTermValue);
+        expect(hookResult.backLinkText).toBe(getTermValue);
         expect(hookResult.nextButtonText).toBe(getTermValue);
         expect(hookResult.nextButtonDisable).toBe(false);
         expect(hookResult.active).toBe(2);

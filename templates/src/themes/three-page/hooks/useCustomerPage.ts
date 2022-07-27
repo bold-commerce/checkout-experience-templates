@@ -19,7 +19,7 @@ export function useCustomerPage(): IUseCustomerPageProp {
         history.replace(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
     }
     const nextButtonDisable = useGetButtonDisableVariable('customerPageButton');
-    const backLinkText = `< ${getTerm('return_to_cart', Constants.CUSTOMER_INFO)}`;
+    const backLinkText = getTerm('return_to_cart', Constants.CUSTOMER_INFO);
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
         neuroIdSubmit(getNeuroIdPageName(NeuroIdConstants.customerPage));
