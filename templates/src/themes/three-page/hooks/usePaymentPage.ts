@@ -33,7 +33,7 @@ export function usePaymentPage(): IUsePaymentPage{
     if(isOrderCompleted){
         history.replace(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
     }
-    const backLinkText = `< ${getTerm('return_to_shipping', Constants.PAYMENT_INFO)}`;
+    const backLinkText = getTerm('return_to_shipping', Constants.PAYMENT_INFO);
     const nextButtonText = getTerm('complete_order', Constants.PAYMENT_INFO);
     const nextButtonLoading = useGetIsLoading();
     const nextButtonDisable = useGetButtonDisableVariable('paymentPageButton');
