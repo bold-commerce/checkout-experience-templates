@@ -2,21 +2,20 @@
     box-sizing: border-box;
 }
 
-html {
+html, body {
     font-size: 14px;
     overflow-x: hidden;
+    height: 100%;
 }
 
 body {
     font-family: "SF Pro Display", sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 14px;
     line-height: 20px;
     color: #1a1a1a;
     padding: 0;
     margin: 0;
-    overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6, p {
@@ -51,6 +50,10 @@ html.loading {
     height:100%;
 }
 
+#main, .App {
+    height: 100%
+}
+
 .hidden {
     display: none;
 }
@@ -77,6 +80,7 @@ html.loading {
         min-height: 100vh;
         margin: 0 auto;
         position: relative;
+        min-height: 100vh;
     }
 
     .no-summary {
@@ -93,6 +97,7 @@ html.loading {
         position: relative;
         margin: auto;
         width: 768px;
+        min-height: 100vh;
     }
 
     .no-summary {
@@ -114,6 +119,7 @@ html.loading {
         margin: auto;
         width: 100%;
         flex-direction: column;
+        min-height: 100vh;
     }
 
     .website__title {
