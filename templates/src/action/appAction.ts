@@ -284,3 +284,10 @@ export function actionClearValidStates(): AnyAction {
         type: AppActions.CLEAR_VALID_STATES
     };
 }
+
+export function actionSetSessionInitialized(data: boolean): AnyAction {
+    return {
+        type: AppActions.SET_SESSION_INITIALIZED,
+        payload: {data},
+    };
+}

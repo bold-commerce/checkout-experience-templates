@@ -33,13 +33,15 @@ export const defaultOrderInitialization: IOrderInitialization = {
         pigi: false,
         scaToken: false,
     },
+    isSessionInitialized: false,
     overlay: {
         inverted: false,
         shown: false,
         icon: '',
         header: '',
         subHeader: '',
-        content: ''
+        content: '',
+        showCustomContent: false
     },
     errors: [],
     data: {

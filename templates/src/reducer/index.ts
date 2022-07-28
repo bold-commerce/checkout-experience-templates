@@ -10,6 +10,7 @@ export * from './discountsReducer';
 export * from './errorsReducer';
 export * from './feesReducer';
 export * from './generalSettingsReducer';
+export * from './sessionInitializedReducer';
 export * from './initialStateReducer';
 export * from './lineItemsReducer';
 export * from './loadingReducer';

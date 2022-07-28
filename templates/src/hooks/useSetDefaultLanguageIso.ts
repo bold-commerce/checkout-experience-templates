@@ -10,5 +10,5 @@ export function useSetDefaultLanguageIso(): void {
         if(languages) {
             dispatch(actionSetLanguageIso(languages));
         }
-    }, []);
+    }, [languages]);
 }

@@ -32,7 +32,7 @@ describe('testing checkLoadPigiErrors', () => {
         getHookMock.mockReturnValue(historyMock);
     });
 
-    test('calling checkInventory successfully', async () => {
+    test('calling checkInventory successfully with overlay shown', async () => {
         const localReturnObject = {...baseReturnObject};
         localReturnObject.success = true;
         localReturnObject.response = {data: {inventory_check: {result: 'pass'}, application_state: stateMock.data.application_state}};
@@ -42,8 +42,26 @@ describe('testing checkLoadPigiErrors', () => {
         await inventory(dispatch, getState).then(() => {
             expect(dispatch).toBeCalledTimes(2);
             expect(dispatch).toHaveBeenCalledWith(actionSetOverlayContent({shown: true, inverted: true, header: '', content: ''}));
+            expect(checkInventoryLibMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(dispatch).toHaveBeenCalledWith(actionShowHideOverlayContent(false));
+
+        });
+    });
+
+    test('calling checkInventory successfully with overlay hidden', async () => {
+        const localReturnObject = {...baseReturnObject};
+        localReturnObject.success = true;
+        localReturnObject.response = {data: {inventory_check: {result: 'pass'}, application_state: stateMock.data.application_state}};
+        checkInventoryLibMock.mockReturnValueOnce(Promise.resolve(localReturnObject));
+
+        const inventory = checkInventory(checkInventoryStage.initial, false);
+        await inventory(dispatch, getState).then(() => {
+            expect(dispatch).toBeCalledTimes(0);
+            expect(dispatch).not.toHaveBeenCalledWith(actionSetOverlayContent(expect.anything()));
+            expect(checkInventoryLibMock).toHaveBeenCalledTimes(1);
+            expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
+            expect(dispatch).not.toHaveBeenCalledWith(actionShowHideOverlayContent(expect.anything()));
 
         });
     });

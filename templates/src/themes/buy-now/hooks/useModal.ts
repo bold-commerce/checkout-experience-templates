@@ -1,41 +1,70 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { actionClearValidStates, actionGetInitialData, actionUpdateAppData } from 'src/action';
+import { actionClearValidStates, actionGetInitialData, actionSetSessionInitialized, actionSetOverlayContent, actionShowHideOverlayContent, actionUpdateAppData } from 'src/action';
 import { checkInventory, initializeSession, setDefaultAddresses, initializeExpressPay } from 'src/library';
-import { IOrderInitialization } from 'src/types';
+import { IOrderInitialization, IOverlay } from 'src/types';
 import { getOrderInitialization } from 'src/utils/getOrderInitialization';
 import { IUseModal } from '../types';
 import { checkInventoryStage, IInitializeOrderResponse } from '@bold-commerce/checkout-frontend-library';
+import { useGetValidVariable } from 'src/hooks';
+
 
 export function useModal(): IUseModal {
     const dispatch = useDispatch();
+    const isValidPigi = useGetValidVariable('pigi');
     const [isOpen, setIsOpen] = useState(false);
+    const overlay: IOverlay = {
+        shown: true,
+        inverted: true,
+        header: '',
+        content: '',
+        buttonText: '',
+        showCustomContent: true
+    };
 
-    const handleOpenEvent = useCallback(async (e) => {
-        const data: IInitializeOrderResponse = e.detail;
+    const handleOpenEvent = useCallback(() => {
         setIsOpen(true);
-        document.body.style.position = 'fixed'; // prevent background scrolling
+        dispatch(actionSetOverlayContent(overlay));
+    }, [setIsOpen]);
+
+    const handleInitializeEvent = useCallback(async (data: IInitializeOrderResponse) => {
         const orderData: IOrderInitialization = getOrderInitialization(data);
-        dispatch(actionUpdateAppData(orderData));
+        dispatch(actionUpdateAppData({...orderData, overlay}));
         dispatch(initializeSession);
         dispatch(actionGetInitialData(window.location.hostname));
         dispatch(setDefaultAddresses);
-        dispatch(checkInventory(checkInventoryStage.initial));
+        dispatch(checkInventory(checkInventoryStage.initial, false)); 
         dispatch(initializeExpressPay);
     }, [setIsOpen, dispatch]);
 
     const handleCloseEvent = useCallback(() => {
         dispatch(actionClearValidStates());
+        dispatch(actionSetSessionInitialized(false));
         setIsOpen(false);
-        document.body.style.position = 'initial'; // re-enable scrolling
+        window.parent.postMessage({ type: 'buyNow:close' }, '*');
     }, [setIsOpen, dispatch]);
 
+    const handlePostMessage = useCallback((e) => {
+        if(e.data.type === 'buyNow:open'){
+            handleOpenEvent();
+        }
+        else if(e.data.type === 'buyNow:initialized'){
+            handleInitializeEvent(e.data.detail);
+        }
+    }, []);
+
     useEffect(() => {
-        document.addEventListener('buyNow:open', handleOpenEvent);
+        if(isValidPigi){
+            dispatch(actionShowHideOverlayContent(false));
+        }
+    }, [isValidPigi]);
+
+    useEffect(() => {
+        window.addEventListener('message', handlePostMessage);
         document.addEventListener('buyNow:close', handleCloseEvent);
 
         return () => {
-            document.removeEventListener('buyNow:open', handleOpenEvent);
+            window.removeEventListener('message', handlePostMessage);
             document.removeEventListener('buyNow:close', handleCloseEvent);
         };
     }, []);

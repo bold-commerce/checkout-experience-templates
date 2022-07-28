@@ -296,11 +296,17 @@ html, body, .buy-now__app {
 
 .buy-now__app #overlay, 
 .buy-now__app #overlay-inverted {
+  display:flex;
+  flex-direction: column;
   position:relative;
   box-shadow: 0px 1px 8px 2px #00000010;
   border-radius: 8px;
   max-width: 480px;
-  padding: 32px;
+  padding: 16px 32px;
+}
+
+.buy-now__app .overlay__message {
+  margin: auto 0;
 }
 
 .buy-now .thank-you__message {

@@ -1,5 +1,5 @@
 import React, { ForwardedRef } from 'react';
-import { useGetCurrencyInformation } from 'src/hooks';
+import { useGetCurrencyInformation, useGetOverlayVisible } from 'src/hooks';
 import { useFocusTrap, useGetCloseBuyNow, useIndexPage, useCheckShippingAddress } from 'src/themes/buy-now/hooks';
 import { BillingAddressCheckbox, CartItems, CloseableHeader, CondensedSection, CondensedShipping, ExpandableDiscount, FlashError, Payment } from 'src/components';
 import { Price } from '@boldcommerce/stacks-ui';
@@ -30,6 +30,7 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
     const { formattedPrice } = useGetCurrencyInformation();
     const subTotal = <Price amount={orderTotal} moneyFormatString={formattedPrice}/>;
     const checkout = getTerm('complete_order', Constants.PAYMENT_INFO);
+    const overlayVisible = useGetOverlayVisible();
     const customerSection = <>
         <p>{email}</p>
         <a onClick={loginUrl}>{loginText}</a>
@@ -37,7 +38,7 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
     const {focusTrapOptions} = useFocusTrap();
 
     return (
-        <FocusTrap active={props.show} focusTrapOptions={focusTrapOptions}>
+        <FocusTrap active={props.show && !overlayVisible} focusTrapOptions={focusTrapOptions}>
             <div ref={ref} className={`buy-now buy-now__index buy-now--${props.show ? 'open' : 'closed'}`}>
                 <CloseableHeader className='buy-now__index-header' title={websiteName} onClose={closeBuyNow} />
                 <FlashError />
@@ -65,7 +66,7 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
                     )}
                 </CondensedSection>
                 <CondensedSection {...{ className: 'buy-now__payment buy-now__section', navigationHeadingProps: { text: paymentHeadingText, className: 'payment-heading' } }} >
-                    <Payment showTitle={false}/>
+                    <Payment showTitle={false} loadIframeImmediately={true}/>
                     <ExpandableDiscount />
                     <BillingAddressCheckbox />
                 </CondensedSection>

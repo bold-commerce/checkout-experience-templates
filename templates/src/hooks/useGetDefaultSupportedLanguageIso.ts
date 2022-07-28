@@ -21,7 +21,7 @@ export function useGetDefaultSupportedLanguageIso(): string | null {
     } else {
         const location = window.location.pathname.split('/');
         const currentPath = location[location.length-1];
-        if (currentPath !== Constants.SESSION_EXPIRED_ROUTE) {
+        if (currentPath !== Constants.SESSION_EXPIRED_ROUTE && currentPath !== Constants.BUY_NOW_ROUTE) {
             displayFatalError(dispatch);
         }
         return null;

@@ -525,3 +525,12 @@ export interface IUseGetFlashError {
 export interface IFlashErrorProps {
     type?: keyof IErrorShowType
 }
+
+export interface IOverlayProps {
+    children?: React.ReactNode,
+}
+
+export interface IPaymentProps {
+    showTitle?: boolean;
+    loadIframeImmediately?: boolean;
+}

@@ -12,11 +12,13 @@ import {HistoryLocationState} from 'react-router';
 import {actionSetOverlayContent, actionShowHideOverlayContent} from 'src/action';
 import {API_RETRY, Constants} from 'src/constants';
 
-export function checkInventory(stage: IInventoryStage) {
+export function checkInventory(stage: IInventoryStage, showOverlay = true) {
     return async function CheckInventoryThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
-
-        const overlay: IOverlay = {shown: true, inverted: true, header: '', content: ''};
-        dispatch(actionSetOverlayContent(overlay));
+        
+        if(showOverlay){
+            const overlay: IOverlay = {shown: true, inverted: true, header: '', content: ''};
+            dispatch(actionSetOverlayContent(overlay));
+        }
 
         const response: IApiReturnObject = await checkInventoryLib(stage, API_RETRY);
         const history: HistoryLocationState = getHook('history');
@@ -29,6 +31,9 @@ export function checkInventory(stage: IInventoryStage) {
                 history.replace(getCheckoutUrl(Constants.OUT_OF_STOCK_ROUTE));
             }
         }
-        dispatch(actionShowHideOverlayContent(false));
+
+        if(showOverlay){
+            dispatch(actionShowHideOverlayContent(false));
+        }
     };
 }

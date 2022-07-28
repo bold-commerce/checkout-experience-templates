@@ -1,5 +1,6 @@
 import {baseReturnObject, initialize} from '@bold-commerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
+import { actionSetSessionInitialized } from 'src/action';
 import {initializeSession} from 'src/library';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {displayFatalErrorFromTranslation, handleErrorIfNeeded} from 'src/utils';
@@ -24,7 +25,7 @@ describe('testing initializeSession', () => {
         window.environment = environment;
     });
 
-    test('calling initialized endpoint with success true', async () => {
+    test('calling initialized endpoint with success false', async () => {
         initializedMock.mockReturnValueOnce(Promise.resolve(returnObject));
 
         await initializeSession(dispatch, getState).then(() => {
@@ -34,10 +35,11 @@ describe('testing initializeSession', () => {
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(returnObject, dispatch, getState);
             expect(displayFatalErrorFromTranslationMock).toHaveBeenCalledTimes(1);
             expect(displayFatalErrorFromTranslationMock).toHaveBeenCalledWith(stateMock, dispatch);
+            expect(dispatch).not.toHaveBeenCalledWith(actionSetSessionInitialized(true));
         });
     });
 
-    test('calling initialized endpoint with success false', async () => {
+    test('calling initialized endpoint with success true', async () => {
         const successReturnObject = {...baseReturnObject, success: true};
         initializedMock.mockReturnValueOnce(Promise.resolve(successReturnObject));
 
@@ -47,6 +49,7 @@ describe('testing initializeSession', () => {
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(successReturnObject, dispatch, getState);
             expect(displayFatalErrorFromTranslationMock).toHaveBeenCalledTimes(0);
+            expect(dispatch).toHaveBeenCalledWith(actionSetSessionInitialized(true));
         });
     });
 });
