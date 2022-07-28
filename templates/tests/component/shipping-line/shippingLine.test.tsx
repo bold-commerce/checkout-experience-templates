@@ -45,6 +45,7 @@ describe('Testing shipping line component', () => {
             },
             selectors: {
                 '.shipping_line__items': 0,
+                '.shipping_line__items-border': 0,
                 '.shipping_line__items-description': 0,
                 '.shipping-line__no-valid-address-label': 1,
                 '.shipping-line__block': 0,
@@ -64,6 +65,7 @@ describe('Testing shipping line component', () => {
             },
             selectors: {
                 '.shipping_line__items': 0,
+                '.shipping_line__items-border': 0,
                 '.shipping_line__items-description': 0,
                 '.shipping-line__no-valid-address-label': 0,
                 '.flash-error__container': 1,
@@ -88,6 +90,7 @@ describe('Testing shipping line component', () => {
             },
             selectors: {
                 '.shipping_line__items': 1,
+                '.shipping_line__items-border': 0,
                 '.shipping_line__items-description': 1,
                 '.shipping-line__no-valid-address-label': 0,
                 '.shipping-line__block': 0,
@@ -108,6 +111,7 @@ describe('Testing shipping line component', () => {
             },
             selectors: {
                 '.shipping_line__items': 1,
+                '.shipping_line__items-border': 0,
                 '.shipping_line__items-description': 1,
                 '.shipping-line__no-valid-address-label': 0,
                 '.shipping-line__block': 0,
@@ -128,6 +132,7 @@ describe('Testing shipping line component', () => {
             },
             selectors: {
                 '.shipping_line__items': 2,
+                '.shipping_line__items-border': 1,
                 '.shipping_line__items-description': 2,
                 '.shipping-line__no-valid-address-label': 0,
                 '.shipping-line__block': 0,
@@ -151,6 +156,7 @@ describe('Testing shipping line component', () => {
             },
             selectors: {
                 '.shipping_line__items': 2,
+                '.shipping_line__items-border': 1,
                 '.shipping_line__items-description': 2,
                 '.shipping-line__no-valid-address-label': 0,
                 '.shipping-line__block': 1,
