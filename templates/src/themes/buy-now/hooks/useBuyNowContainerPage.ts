@@ -13,7 +13,7 @@ export function useBuyNowContainerPage(props : IUseBuyNowContainerPageProps) : I
 
     const navigateTo = useCallback((page) => {
         setOpenSection(page);
-        
+
         switch(page){
             case '/summary':
                 setOpenRef(props.summaryRef);
@@ -33,13 +33,26 @@ export function useBuyNowContainerPage(props : IUseBuyNowContainerPageProps) : I
     }, [openSection]);
 
     useLayoutEffect(() => {
-        const resizeObserver = new ResizeObserver(() => {
-            const height = (openRef.current as HTMLElement).clientHeight;
-            setContainerStyle(ps => ({...ps, height: `${height}px`, 'overflow-y': 'auto'}));
+        const openResizeObserver = new ResizeObserver(() => {
+            if (openRef.current) {
+                const height = (openRef.current as HTMLElement).clientHeight;
+                setContainerStyle(ps => ({...ps, height: `${height}px`, 'overflow-y': 'auto'}));
+            }
         });
 
-        openRef.current && resizeObserver.observe(openRef.current);
-        return resizeObserver.disconnect.bind(resizeObserver);
+        const containerResizeObserver = new ResizeObserver(() => {
+            if(openRef.current) {
+                const height = (openRef.current.parentElement as HTMLElement).clientHeight ?? 0;
+                document.body.style.setProperty('--buy-now-height', `${height}px`);
+            }
+        });
+        
+        openRef.current && openResizeObserver.observe(openRef.current);
+        openRef.current && openRef.current.parentElement && containerResizeObserver.observe(openRef.current.parentElement);
+        return () => {
+            openResizeObserver.disconnect();
+            containerResizeObserver.disconnect();
+        };
     }, [openRef]);
 
     return {
