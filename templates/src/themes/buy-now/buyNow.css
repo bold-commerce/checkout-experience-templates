@@ -63,11 +63,7 @@ html, body, .buy-now__app {
   overflow-y: auto;
 }
 
-@media only screen and (max-width: 769px) {
-  .checkout-experience-container {
-    justify-content: flex-end;
-  }
-  
+@media only screen and (max-width: 769px) {  
   .buy-now-container {
     height: 100%;
     border-radius: 0;
@@ -382,5 +378,11 @@ html, body, .buy-now__app {
 @media only screen and (min-height: 716px){
   .checkout-experience-container {
     padding-top: 80px;
+  }
+}
+
+@media only screen and (max-width: 769px) {
+  .buy-now-container {
+    height: 100% !important;
   }
 }
