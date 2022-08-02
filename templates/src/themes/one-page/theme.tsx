@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
     useSetApiCallOnEvent,
     useSetDefaultLanguageIso,
@@ -19,7 +19,9 @@ function Theme () : React.ReactElement {
     useSetApiCallOnEvent(true);
     debounceConstants.debouncedGuestCustomerFunction = useDebounceCustomer();
     const acceptMarketingSetting = useGetGeneralSettingCheckoutFields('accepts_marketing_checkbox_option') as string;
-    dispatch(actionSetDefaultCustomerAcceptMarketing(acceptMarketingSetting));
+    useEffect(() => {
+        dispatch(actionSetDefaultCustomerAcceptMarketing(acceptMarketingSetting));
+    },[]);
 
     return (
         <div className={'App'}>
