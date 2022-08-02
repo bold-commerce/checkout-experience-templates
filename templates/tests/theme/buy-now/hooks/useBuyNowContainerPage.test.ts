@@ -5,9 +5,12 @@ import { RefObject } from 'react';
 import { IUseBuyNowContainerPageProps } from 'src/themes/buy-now/types';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
+import { useGetIsOrderProcessing } from 'src/hooks';
 
 jest.mock('react-redux');
+jest.mock('src/hooks/useGetIsOrderProcessing');
 const useDispatchMock = mocked(useDispatch, true);
+const useGetIsOrderProcessingMock = mocked(useGetIsOrderProcessing, true);
 
 describe('testing hook useBuyNowContainerPage', () => {
     const mockResizeObserver = global.ResizeObserver = jest.fn().mockImplementation(function (this: ResizeObserver, cb) {
@@ -26,10 +29,12 @@ describe('testing hook useBuyNowContainerPage', () => {
     };
     beforeEach(() => {
         useDispatchMock.mockReturnValue(dispatchMock);
+        useGetIsOrderProcessingMock.mockReturnValue(false);
     });
 
     afterEach(() => {
         mockResizeObserver.mockClear();
+        document.body.style.removeProperty('--buy-now-height');
     });
     
     test('render the hook properly', () => {
@@ -72,8 +77,9 @@ describe('testing hook useBuyNowContainerPage', () => {
         expect(fourthOpenSection).toBe('/');
 
     });
+
     test('testing ResizeObserver', () => {
-        const testIndexRef = {current: {clientHeight: 100}};
+        const testIndexRef = {current: {clientHeight: 100, parentElement: {}}};
         const props: IUseBuyNowContainerPageProps = {
             indexRef: testIndexRef as RefObject<HTMLElement>,
             shippingRef: {current: null},
@@ -82,12 +88,15 @@ describe('testing hook useBuyNowContainerPage', () => {
         
         const { result } = renderHook(() => useBuyNowContainerPage(props));
         const { containerStyle: firstContainerStyle } = result.current;
+        expect(document.body.style.getPropertyValue('--buy-now-height')).toBe('0px');
 
         testIndexRef.current.clientHeight = 200;
+        testIndexRef.current.parentElement = {clientHeight: 1000};
         act(triggerResize);
         const { containerStyle: secondContainerStyle } = result.current;
 
         expect(firstContainerStyle.height).toBe('100px');
         expect(secondContainerStyle.height).toBe('200px');
+        expect(document.body.style.getPropertyValue('--buy-now-height')).toBe('1000px');
     });
 });

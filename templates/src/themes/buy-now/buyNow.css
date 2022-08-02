@@ -4,10 +4,11 @@ html, body, .buy-now__app {
   color: #00000090;
 }
 
-.checkout-experience-container {
+.buy-now__app .checkout-experience-container {
   height: 100%;
+  min-height: unset;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .buy-now-container {
@@ -49,13 +50,13 @@ html, body, .buy-now__app {
   text-decoration: underline;
 }
 
-.buy-now{
+.buy-now {
   padding: 16px 32px;
   transition: all 0.6s;
   width: 100%;
 }
 
-.buy-now__secondary{
+.buy-now__secondary {
   position: absolute;
   top: 0;
   left: 0;
@@ -112,6 +113,11 @@ html, body, .buy-now__app {
     overflow: clip;
     visibility: hidden;
     position: absolute;
+  }
+
+  .buy-now__app .checkout-experience-container.overlay-container.buy-now--processing-order  {
+    height: var(--buy-now-height);
+    box-sizing: content-box;
   }
 }
 
@@ -284,7 +290,6 @@ html, body, .buy-now__app {
 .overlay-container {
   position:absolute;
   top: 0;
-  bottom: 0;
   left: 0;
   right: 0;
 }

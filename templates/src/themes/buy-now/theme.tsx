@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import {
+    useGetIsOrderProcessing,
     useSetApiCallOnEvent,
     useSetDefaultLanguageIso,
     useWindowDimensions
@@ -23,6 +24,7 @@ function Theme(): React.ReactElement {
     useWindowDimensions();
     useSetApiCallOnEvent(true);
     initiateCheckout();
+    const isOrderProcessing = useGetIsOrderProcessing();
 
     const closeModal = useCallback((e) => {
         if (e.target.className === 'checkout-experience-container' || e.target.className === 'buy-now__app') {
@@ -32,7 +34,7 @@ function Theme(): React.ReactElement {
 
     return (
         <div className={'buy-now__app'} role='dialog' aria-modal={true} aria-label={`Buy now checkout ${window.shopName}`} onClick={closeModal}>
-            <div className="checkout-experience-container overlay-container">
+            <div className={`checkout-experience-container overlay-container ${isOrderProcessing ? 'buy-now--processing-order' : ''}`}>
                 <Overlay/> 
             </div>
             <MemoryRouter>
