@@ -62,6 +62,6 @@ describe('Testing useGetIsOrderProcessing', () => {
     test('Testing useGetIsOrderProcessing with overlay not shown', () => {
         const {result} = renderHook(() => useGetIsOrderProcessing());
         expect(result.current).toStrictEqual(false);
-        expect(useAppSelector).toHaveBeenCalledTimes(1);
+        expect(useAppSelector).toHaveBeenCalledTimes(3);
     });
 });
