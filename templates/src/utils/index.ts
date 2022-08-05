@@ -1,4 +1,5 @@
 export * from './bugReporter';
+export * from './callProcessOrder';
 export * from './cssClassesHelper';
 export * from './displayDefaultFlashError';
 export * from './displayFatalError';
@@ -21,6 +22,7 @@ export * from './getPigiStylingRules';
 export * from './getTerm';
 export * from './getTotalLineItems';
 export * from './getTotals';
+export * from './getTotalsFromState';
 export * from './getValidatedOrderData';
 export * from './googleAutocompleteRetrieveCountriesListLimitation';
 export * from './googleAutocompleteRetrieveOptions';

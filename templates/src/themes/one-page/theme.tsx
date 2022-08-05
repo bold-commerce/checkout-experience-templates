@@ -7,10 +7,17 @@ import {
     useGetGeneralSettingCheckoutFields
 } from 'src/hooks';
 import 'public/app.css';
-import {Overlay, SummarySection, CustomerSection, Header} from 'src/components';
-import {debounceConstants} from 'src/constants';
+import {Overlay, StandaloneHooks} from 'src/components';
+import {Constants, debounceConstants} from 'src/constants';
 import {useDispatch} from 'react-redux';
 import {actionSetDefaultCustomerAcceptMarketing} from 'src/action';
+import {BrowserRouter, Route} from 'react-router-dom';
+import {Switch, useHistory} from 'react-router';
+import {ThemePage} from 'src/themes/one-page/pages';
+import {ThankYouPage} from 'src/pages';
+import {setHook} from 'src/utils';
+
+setHook('history', useHistory);
 
 function Theme () : React.ReactElement {
     const dispatch = useDispatch();
@@ -25,14 +32,15 @@ function Theme () : React.ReactElement {
 
     return (
         <div className={'App'}>
-            <div className={'checkout-experience-container'}>
-                <Header isMobile={true}/>
-                <CustomerSection/>
-                <SummarySection orderCompleted={false}/>
-            </div>
+            <BrowserRouter>
+                <Switch>
+                    <Route path={`*/${Constants.THANK_YOU_ROUTE}`} component={ThankYouPage} />
+                    <Route path={`*/${Constants.EXPERIENCE_ROUTE}`} component={ThemePage} />
+                    <StandaloneHooks/>
+                </Switch>
+            </BrowserRouter>
             <Overlay/>
         </div>
-
     );
 }
 export default Theme;

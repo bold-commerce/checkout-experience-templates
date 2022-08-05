@@ -1,4 +1,10 @@
-import {useCallApiAtOnEvents, useGetAddressData, useGetSavedAddressData, useGetSavedAddressOptions} from 'src/hooks';
+import {
+    useCallApiAtOnEvents,
+    useGetAddressData,
+    useGetAppSettingData,
+    useGetSavedAddressData,
+    useGetSavedAddressOptions
+} from 'src/hooks';
 import {Constants} from 'src/constants';
 import {renderHook} from '@testing-library/react-hooks';
 import {initialDataMock} from 'src/mocks';
@@ -14,10 +20,12 @@ jest.mock('react-redux', () => ({
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useGetAddressData');
 jest.mock('src/hooks/useCallApiAtOnEvents');
+jest.mock('src/hooks/useGetAppSettingData');
 const getTermMock = mocked(getTerm, true);
 const useCallApiAtOnEventsMock = mocked(useCallApiAtOnEvents, true);
 const useGetSavedAddressOptionsMock = mocked(useGetSavedAddressOptions, true);
 const useGetAddressDataMock = mocked(useGetAddressData, true);
+const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 
 describe('Testing hook useGetSavedAddressData', () => {
     const debounceMock = jest.fn();
@@ -32,6 +40,7 @@ describe('Testing hook useGetSavedAddressData', () => {
     beforeEach(() => {
         jest.resetAllMocks();
         getTermMock.mockReturnValue(getTermValue);
+        useGetAppSettingDataMock.mockReturnValueOnce('same');
     });
 
     const hookData = [
@@ -58,11 +67,12 @@ describe('Testing hook useGetSavedAddressData', () => {
             expect(debounceMock).toBeCalledTimes(0);
         }
     );
-        
+
     test('rendering the hook with api calls', () => {
         useCallApiAtOnEventsMock.mockReturnValueOnce(true);
         useGetSavedAddressOptionsMock.mockReturnValueOnce(savedAddresses as Array<IAddress>);
-    
+        mockDispatch.mockReturnValue(Promise.resolve());
+
         const {result} = renderHook(() => useGetSavedAddressData(Constants.SHIPPING));
 
         expect(mockDispatch).toBeCalledTimes(0);

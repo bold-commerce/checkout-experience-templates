@@ -41,7 +41,6 @@ export * from './useGetIsOrderProcessing';
 export * from './useGetLineItems';
 export * from './useGetIsLoading';
 export * from './useGetLoaderScreenVariable';
-export * from './useGetOnePageFooterData';
 export * from './useGetOrderRecap';
 export * from './useGetOrderTotal';
 export * from './useGetOutOfStock';
