@@ -6,8 +6,8 @@ import { IUseFocusTrap, IUseGetCloseBuyNow } from 'src/themes/buy-now/types';
 import { useGetCloseBuyNow, useFocusTrap } from 'src/themes/buy-now/hooks';
 import { IUseSessionExpired } from 'src/types';
 import { useGetSessionExpired } from 'src/hooks';
-import * as analytics from 'src/analytics/analytics';
 import { initialDataMock } from 'src/mocks';
+import {sendEvents, sendPageView} from 'src/analytics/analytics';
 
 const store = {
     data: initialDataMock,
@@ -38,11 +38,13 @@ jest.mock('src/themes/buy-now/hooks', () => ({
     useFocusTrap: jest.fn()
 }));
 
+jest.mock('src/analytics/analytics');
+const sendPageViewMock = mocked(sendPageView, true);
+const sendEventsMock = mocked(sendEvents, true);
+
 describe('testing SessionExpiredPage', () => {
     const headerMock = mocked(CloseableHeader, true);
     const genericMessageSectionMock = mocked(GenericMessageSection, true);
-    let sendPageViewSpy: jest.SpyInstance;
-    let sendEventsSpy: jest.SpyInstance;
     const useGetCloseBuyNowMock = mocked(useGetCloseBuyNow, true);
     const useFocusTrapMock = mocked(useFocusTrap, true);
     const closeModalMock: IUseGetCloseBuyNow = {
@@ -79,23 +81,18 @@ describe('testing SessionExpiredPage', () => {
         useFocusTrapMock.mockReturnValueOnce(focusTrapMock);
         useGetSessionExpiredMock.mockReturnValueOnce(sessionExpiredHookMock)
     });
-    
-    beforeEach(() => {
-        sendPageViewSpy = jest.spyOn(analytics, 'sendPageView');
-        sendEventsSpy = jest.spyOn(analytics, 'sendEvents');
-    });
 
     afterEach(() => {
         jest.clearAllMocks();
     });
-    
+
     afterAll(() => {
         jest.restoreAllMocks();
     });
-    
+
     test('rendering SessionExpiredPage properly', async () => {
         const emptyRef = {};
-        
+
         const { container } = render(
             <SessionExpiredPage/>
         );
@@ -106,14 +103,14 @@ describe('testing SessionExpiredPage', () => {
         expect(container.getElementsByClassName('header')).toHaveLength(1);
         expect(container.getElementsByClassName('message')).toHaveLength(1);
         expect(container.getElementsByClassName('buy-now__checkout-button').length).toBe(1);
-        
+
         expect(headerMock).toHaveBeenCalled();
         expect(genericMessageSectionMock).toHaveBeenCalledWith(expect.objectContaining({
             messageTitle: 'Session expired',
             messageText: 'Close this modal and try again',
         }), emptyRef);
-        expect(sendPageViewSpy).toHaveBeenCalled();
-        expect(sendEventsSpy).toHaveBeenCalled();
+        expect(sendPageViewMock).toHaveBeenCalled();
+        expect(sendEventsMock).toHaveBeenCalled();
     });
 
 

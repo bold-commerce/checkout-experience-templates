@@ -1,39 +1,37 @@
 import {baseReturnObject, addGuestCustomer, getCustomer, ICustomer} from '@bold-commerce/checkout-frontend-library';
-import {Dispatch} from 'redux';
 import {mocked} from 'jest-mock';
-import * as handleErrorIfNeeded from 'src/utils/handleErrorIfNeeded';
-import {postGuestCustomer, updateCustomer} from 'src/library';
-import * as applicationState from 'src/library/applicationState';
+import {Dispatch} from 'redux';
+import {API_RETRY} from 'src/constants';
+import {postGuestCustomer, updateCustomer, getCustomerFromLib} from 'src/library';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {IOrderInitialization} from 'src/types';
-import {API_RETRY} from 'src/constants';
+import {handleErrorIfNeeded} from 'src/utils/handleErrorIfNeeded';
 
 jest.mock('@bold-commerce/checkout-frontend-library/lib/customer');
 jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
+jest.mock('src/library/applicationState');
 jest.mock('src/library/updateCustomer');
+jest.mock('src/utils/handleErrorIfNeeded');
 const addGuestCustomerMock = mocked(addGuestCustomer, true);
 const updateGuestCustomerMock = mocked(updateCustomer, true);
 const getCustomerMock = mocked(getCustomer, true);
+const getCustomerFromLibMock = mocked(getCustomerFromLib, true);
+const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);
 
 describe('testing postGuestCustomer', () => {
     const returnObject = {...baseReturnObject};
     let dispatch: Dispatch;
     const customer: ICustomer = initialDataMock.application_state.customer;
     let getState: () => IOrderInitialization;
-    let handleErrorSpy: jest.SpyInstance;
-    let getCustomerFromLibSpy: jest.SpyInstance;
     const getCustomerMockData: ICustomer = {email_address: '', first_name: '', last_name: '', platform_id: '', accepts_marketing: true, saved_addresses: [], public_id: null};
 
     beforeEach(() => {
         dispatch = jest.fn();
         getState = jest.fn().mockReturnValue(stateMock);
-        handleErrorSpy = jest.spyOn(handleErrorIfNeeded, 'handleErrorIfNeeded');
-        getCustomerFromLibSpy = jest.spyOn(applicationState, 'getCustomerFromLib');
     });
 
     afterEach(() => {
         jest.resetAllMocks();
-        jest.restoreAllMocks();
     });
 
     test('calling postGuestCustomer endpoint with prev customer empty successfully ', async () => {
@@ -44,8 +42,8 @@ describe('testing postGuestCustomer', () => {
         await postGuestCustomer(dispatch, getState).then(() => {
             expect(addGuestCustomerMock).toHaveBeenCalledTimes(1);
             expect(addGuestCustomerMock).toHaveBeenCalledWith(customer.first_name, customer.last_name, customer.email_address, customer.accepts_marketing, API_RETRY);
-            expect(handleErrorSpy).toHaveBeenCalledTimes(1);
-            expect(dispatch).toHaveBeenCalledWith(getCustomerFromLibSpy);
+            expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
+            expect(dispatch).toHaveBeenCalledWith(getCustomerFromLibMock);
         }).catch(error => {
             expect(error).toBe(null);
         });
@@ -59,8 +57,8 @@ describe('testing postGuestCustomer', () => {
         await postGuestCustomer(dispatch, getState).then(() => {
             expect(addGuestCustomerMock).toHaveBeenCalledTimes(1);
             expect(addGuestCustomerMock).toHaveBeenCalledWith(customer.first_name, customer.last_name, customer.email_address, customer.accepts_marketing, API_RETRY);
-            expect(handleErrorSpy).toHaveBeenCalledTimes(1);
-            expect(dispatch).not.toHaveBeenCalledWith(getCustomerFromLibSpy);
+            expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
+            expect(dispatch).not.toHaveBeenCalledWith(getCustomerFromLibMock);
         }).catch(error => {
             expect(error).toBe(null);
         });

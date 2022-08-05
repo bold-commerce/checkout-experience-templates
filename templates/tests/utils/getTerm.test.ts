@@ -1,15 +1,17 @@
-import * as getLanguageBlob from 'src/utils/getLanguageBlob';
+import {mocked} from 'jest-mock';
 import {Constants} from 'src/constants';
+import {useAppSelector, useGetSupportedLanguageData} from 'src/hooks';
 import {initialDataMock} from 'src/mocks';
-import * as useGetSupportedLanguageData from 'src/hooks/useGetSupportedLanguageData';
-import * as useAppSelector from 'src/hooks/rootHooks';
-import {getTerm} from 'src/utils';
+import {getTerm, getLanguageBlob} from 'src/utils';
+
+jest.mock('src/hooks/rootHooks');
+jest.mock('src/hooks/useGetSupportedLanguageData');
+jest.mock('src/utils/getLanguageBlob');
+const useAppSelectorMock = mocked(useAppSelector, true);
+const useGetSupportedLanguageDataMock = mocked(useGetSupportedLanguageData, true);
+const getLanguageBlobMock = mocked(getLanguageBlob, true);
 
 describe('Test function getTerm', () => {
-    let useAppSelectorSpy: jest.SpyInstance;
-    let getLanguageBlobSpy: jest.SpyInstance;
-    let useGetSupportedLanguageDataSpy: jest.SpyInstance;
-
     const languageIsoValueEnglish = 'en';
     const nonExistingTerm = 'term';
     const nonExistingSection = 'section';
@@ -73,32 +75,28 @@ describe('Test function getTerm', () => {
 
     beforeEach(() => {
         jest.resetAllMocks();
-
-        useAppSelectorSpy = jest.spyOn(useAppSelector, 'useAppSelector');
-        getLanguageBlobSpy = jest.spyOn(getLanguageBlob, 'getLanguageBlob');
-        useGetSupportedLanguageDataSpy = jest.spyOn(useGetSupportedLanguageData, 'useGetSupportedLanguageData');
     });
 
     test.each(dataProviderLanguageBlobNotProvided)('%s', (name, getTermParameters, timesCalled, mockedValuesReturned, otherFctParameters, expectedResult) => {
-        useAppSelectorSpy.mockReturnValue(mockedValuesReturned[0]);
-        useGetSupportedLanguageDataSpy.mockReturnValue(mockedValuesReturned[1]);
-        getLanguageBlobSpy.mockReturnValueOnce(mockedValuesReturned[2]);
+        useAppSelectorMock.mockReturnValue(mockedValuesReturned[0]);
+        useGetSupportedLanguageDataMock.mockReturnValue(mockedValuesReturned[1]);
+        getLanguageBlobMock.mockReturnValueOnce(mockedValuesReturned[2]);
 
         const returned = getTerm(getTermParameters[0], getTermParameters[1], getTermParameters[2]);
-        expect(useAppSelectorSpy).toHaveBeenCalledTimes(timesCalled[0]);
-        expect(useGetSupportedLanguageDataSpy).toHaveBeenCalledTimes(timesCalled[1]);
-        expect(useGetSupportedLanguageDataSpy).toHaveBeenCalledWith(otherFctParameters[0]);
-        expect(getLanguageBlobSpy).toHaveBeenCalledTimes(timesCalled[2]);
-        expect(getLanguageBlobSpy).toHaveBeenCalledWith(otherFctParameters[1]);
+        expect(useAppSelectorMock).toHaveBeenCalledTimes(timesCalled[0]);
+        expect(useGetSupportedLanguageDataMock).toHaveBeenCalledTimes(timesCalled[1]);
+        expect(useGetSupportedLanguageDataMock).toHaveBeenCalledWith(otherFctParameters[0]);
+        expect(getLanguageBlobMock).toHaveBeenCalledTimes(timesCalled[2]);
+        expect(getLanguageBlobMock).toHaveBeenCalledWith(otherFctParameters[1]);
 
         expect(returned).toBe(expectedResult);
     });
 
     test.each(dataProviderLanguageBlobProvided)('%s', (name, getTermParameters, expectedResult) => {
         const returned = getTerm(getTermParameters[0], getTermParameters[1], getTermParameters[2]);
-        expect(useAppSelectorSpy).not.toHaveBeenCalled();
-        expect(useGetSupportedLanguageDataSpy).not.toHaveBeenCalled();
-        expect(getLanguageBlobSpy).not.toHaveBeenCalled();
+        expect(useAppSelectorMock).not.toHaveBeenCalled();
+        expect(useGetSupportedLanguageDataMock).not.toHaveBeenCalled();
+        expect(getLanguageBlobMock).not.toHaveBeenCalled();
 
         expect(returned).toBe(expectedResult);
     });

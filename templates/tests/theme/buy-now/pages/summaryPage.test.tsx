@@ -4,7 +4,7 @@ import {addressMock, storeMock} from 'src/mocks';
 import { mocked } from 'jest-mock';
 import React from 'react';
 import { IBuyNowContainerPageProps, IUseFocusTrap } from 'src/themes/buy-now/types';
-import * as useIndexPage from 'src/themes/buy-now/hooks/useIndexPage';
+import {useIndexPage} from 'src/themes/buy-now/hooks/useIndexPage';
 import { IUseIndexPageProps } from 'src/types';
 import { useFocusTrap } from 'src/themes/buy-now/hooks';
 
@@ -15,7 +15,9 @@ jest.mock('react-redux', () => ({
 }));
 
 jest.mock('src/themes/buy-now/hooks/useFocusTrap');
+jest.mock('src/themes/buy-now/hooks/useIndexPage');
 const useFocusTrapMock = mocked(useFocusTrap, true);
+const useIndexPageMock = mocked(useIndexPage, true);
 
 describe('testing SummaryPage', () => {
     const focusTrapMock: IUseFocusTrap = {
@@ -29,7 +31,6 @@ describe('testing SummaryPage', () => {
             }
         }
     };
-    const useIndexPageSpy = jest.spyOn(useIndexPage, 'useIndexPage');
     const visibleProps: IBuyNowContainerPageProps = {
         show: true,
         navigateTo: jest.fn()
@@ -58,7 +59,7 @@ describe('testing SummaryPage', () => {
     };
 
     beforeEach(() => {
-        useIndexPageSpy.mockReturnValue(propsFromHook);
+        useIndexPageMock.mockReturnValue(propsFromHook);
         useFocusTrapMock.mockReturnValueOnce(focusTrapMock);
     });
 

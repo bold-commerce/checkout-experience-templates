@@ -5,7 +5,7 @@ import { initialDataMock } from 'src/mocks';
 import { mocked } from 'jest-mock';
 import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
 import { IUseFocusTrap, IUseGetCloseBuyNow } from 'src/themes/buy-now/types';
-import * as analytics from 'src/analytics/analytics';
+import {sendPageView, sendEvents} from 'src/analytics/analytics';
 import { useFocusTrap } from 'src/themes/buy-now/hooks/useFocusTrap';
 
 const store = {
@@ -19,15 +19,16 @@ jest.mock('react-redux', () => ({
     useDispatch: () => jest.fn()
 }));
 
+jest.mock('src/analytics/analytics');
 jest.mock('src/themes/buy-now/hooks/useGetCloseBuyNow');
 jest.mock('src/themes/buy-now/hooks/useGetCloseBuyNow');
 jest.mock('src/themes/buy-now/hooks/useFocusTrap');
 const useGetCloseBuyNowMock = mocked(useGetCloseBuyNow, true);
 const useFocusTrapMock = mocked(useFocusTrap, true);
+const sendPageViewMock = mocked(sendPageView, true);
+const sendEventsMock = mocked(sendEvents, true);
 
 describe('testing the out of stock page', () => {
-    let sendPageViewSpy: jest.SpyInstance;
-    let sendEventsSpy: jest.SpyInstance;
     const closeModalMock: IUseGetCloseBuyNow = {
         closeBuyNow: jest.fn(),
         websiteName: 'websiteName',
@@ -48,9 +49,7 @@ describe('testing the out of stock page', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         useGetCloseBuyNowMock.mockReturnValue(closeModalMock);
-        useFocusTrapMock.mockReturnValueOnce(focusTrapMock)
-        sendPageViewSpy = jest.spyOn(analytics, 'sendPageView');
-        sendEventsSpy = jest.spyOn(analytics, 'sendEvents');
+        useFocusTrapMock.mockReturnValueOnce(focusTrapMock);
     });
 
     test('render out of stock page properly', () => {
@@ -62,8 +61,8 @@ describe('testing the out of stock page', () => {
         expect(container.getElementsByClassName('out-of-stock__message').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__checkout-button').length).toBe(1);
 
-        expect(sendPageViewSpy).toHaveBeenCalled();
-        expect(sendEventsSpy).toHaveBeenCalled();
+        expect(sendPageViewMock).toHaveBeenCalled();
+        expect(sendEventsMock).toHaveBeenCalled();
     });
 
     test('test the return to product button', () => {

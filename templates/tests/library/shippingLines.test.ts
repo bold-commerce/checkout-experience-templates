@@ -1,15 +1,18 @@
 import * as shippingLines from 'src/library';
 import {baseReturnObject, getShippingLines} from '@bold-commerce/checkout-frontend-library';
 import {stateMock} from 'src/mocks/stateMock';
-import * as actionSetLoader from 'src/action/appAction';
+import {actionSetLoader, actionSetButtonDisable} from 'src/action/appAction';
 import {mocked} from 'jest-mock';
-import * as handleErrorIfNeeded from 'src/utils/handleErrorIfNeeded';
 import {getSummaryStateFromLib} from 'src/library';
 import {useSendEvent} from 'src/hooks';
 
 jest.mock('@bold-commerce/checkout-frontend-library/lib/shipping');
-jest.mock('src/library/applicationState');
+jest.mock('src/action/appAction');
 jest.mock('src/hooks/useSendEvent');
+jest.mock('src/library/applicationState');
+jest.mock('src/utils/handleErrorIfNeeded');
+const actionSetLoaderMock = mocked(actionSetLoader, true);
+const actionSetButtonDisableMock = mocked(actionSetButtonDisable, true);
 const shippingLinesMock = mocked(getShippingLines, true);
 const getSummaryStateFromLibMock = mocked(getSummaryStateFromLib, true);
 const useSendEventMock = mocked(useSendEvent, true);
@@ -18,21 +21,11 @@ describe('testing shippingLines', () => {
     const getState = jest.fn();
     const mockDispatch = jest.fn();
     const returnObject = {...baseReturnObject};
-    let setLoaderSpy: jest.SpyInstance;
-    let setButtonDisableSpy: jest.SpyInstance;
-    let handleErrorSpy:jest.SpyInstance;
 
     beforeEach(() => {
+        jest.resetAllMocks();
         mockDispatch.mockReturnValue(Promise.resolve());
         getState.mockReturnValue(stateMock);
-
-        handleErrorSpy = jest.spyOn(handleErrorIfNeeded, 'handleErrorIfNeeded').mockImplementation();
-        setLoaderSpy = jest.spyOn(actionSetLoader, 'actionSetLoader');
-        setButtonDisableSpy = jest.spyOn(actionSetLoader, 'actionSetButtonDisable');
-    });
-
-    afterEach(() => {
-        jest.resetAllMocks();
     });
 
     test('tests calling get shipping lines', async  () => {
@@ -53,10 +46,10 @@ describe('testing shippingLines', () => {
         const getShippingLines = shippingLines.shippingLines(false);
         await getShippingLines(mockDispatch, getState);
         expect(mockDispatch).toHaveBeenCalledTimes(5);
-        expect(setLoaderSpy).toHaveBeenCalledTimes(2);
-        expect(setButtonDisableSpy).toHaveBeenCalledTimes(1);
-        expect(setButtonDisableSpy).toHaveBeenCalledWith('shippingPageButton', false);
-        expect(setLoaderSpy).toHaveBeenCalledWith('shippingLines', false);
+        expect(actionSetLoaderMock).toHaveBeenCalledTimes(2);
+        expect(actionSetButtonDisableMock).toHaveBeenCalledTimes(1);
+        expect(actionSetButtonDisableMock).toHaveBeenCalledWith('shippingPageButton', false);
+        expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
         expect(mockDispatch).toHaveBeenCalledWith(getSummaryStateFromLibMock);
     });
 
@@ -67,10 +60,10 @@ describe('testing shippingLines', () => {
         const getShippingLines = shippingLines.shippingLines(true);
         await getShippingLines(mockDispatch, getState);
         expect(mockDispatch).toHaveBeenCalledTimes(8);
-        expect(setLoaderSpy).toHaveBeenCalledTimes(2);
-        expect(setButtonDisableSpy).toHaveBeenCalledTimes(1);
-        expect(setButtonDisableSpy).toHaveBeenCalledWith('shippingPageButton', false);
-        expect(setLoaderSpy).toHaveBeenCalledWith('shippingLines', false);
+        expect(actionSetLoaderMock).toHaveBeenCalledTimes(2);
+        expect(actionSetButtonDisableMock).toHaveBeenCalledTimes(1);
+        expect(actionSetButtonDisableMock).toHaveBeenCalledWith('shippingPageButton', false);
+        expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
         expect(mockDispatch).toHaveBeenCalledWith(getSummaryStateFromLibMock);
     });
 
@@ -84,8 +77,8 @@ describe('testing shippingLines', () => {
         const getShippingLines = shippingLines.shippingLines(false);
         await getShippingLines(mockDispatch, getState);
         expect(mockDispatch).toHaveBeenCalledTimes(4);
-        expect(setLoaderSpy).toHaveBeenCalledTimes(2);
-        expect(setLoaderSpy).toHaveBeenCalledWith('shippingLines', false);
+        expect(actionSetLoaderMock).toHaveBeenCalledTimes(2);
+        expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
         expect(mockDispatch).toHaveBeenCalledWith(getSummaryStateFromLibMock);
     });
 
@@ -96,9 +89,9 @@ describe('testing shippingLines', () => {
         const getShippingLines = shippingLines.shippingLines(false);
         await getShippingLines(mockDispatch, getState);
         expect(mockDispatch).toHaveBeenCalledTimes(1);
-        expect(setLoaderSpy).toHaveBeenCalledTimes(1);
-        expect(setButtonDisableSpy).not.toHaveBeenCalled();
-        expect(setLoaderSpy).toHaveBeenCalledWith('shippingLines', true);
+        expect(actionSetLoaderMock).toHaveBeenCalledTimes(1);
+        expect(actionSetButtonDisableMock).not.toHaveBeenCalled();
+        expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', true);
         expect(mockDispatch).not.toHaveBeenCalledWith(getSummaryStateFromLibMock);
     });
 });
