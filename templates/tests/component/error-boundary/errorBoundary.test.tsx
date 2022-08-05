@@ -2,9 +2,15 @@ import {render} from '@testing-library/react';
 import React from 'react';
 import {ErrorBoundary} from 'src/components';
 import * as Store from 'src/store';
-import {Provider} from 'react-redux';
+import {storeMock} from 'src/mocks';
 
 jest.mock('src/utils/bugReporter');
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+    useSelector: jest.fn().mockImplementation(func => func(storeMock)),
+    useDispatch: () => mockDispatch
+}));
+
 
 describe('Test ErrorBoundary', () => {
     const store = Store.initializeStore();
@@ -14,11 +20,9 @@ describe('Test ErrorBoundary', () => {
 
     test('ErrorBoundary no error, no fallback, load children', () => {
         const component =
-            <Provider store={store}>
                 <ErrorBoundary>
                     <div className='test-children'/>
-                </ErrorBoundary>
-            </Provider>;
+                </ErrorBoundary>;
         const {container} = render(component);
         expect(container.getElementsByClassName('test-children').length).toBe(1);
     });

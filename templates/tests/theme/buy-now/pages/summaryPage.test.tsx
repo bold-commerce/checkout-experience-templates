@@ -1,8 +1,6 @@
 import {fireEvent, render, screen} from '@testing-library/react';
 import {SummaryPage} from 'src/themes/buy-now/pages';
-import * as Store from 'src/store';
-import {Provider} from 'react-redux';
-import { addressMock } from 'src/mocks';
+import {addressMock, storeMock} from 'src/mocks';
 import { mocked } from 'jest-mock';
 import React from 'react';
 import { IBuyNowContainerPageProps, IUseFocusTrap } from 'src/themes/buy-now/types';
@@ -10,7 +8,11 @@ import * as useIndexPage from 'src/themes/buy-now/hooks/useIndexPage';
 import { IUseIndexPageProps } from 'src/types';
 import { useFocusTrap } from 'src/themes/buy-now/hooks';
 
-const store = Store.initializeStore();
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+    useSelector: jest.fn().mockImplementation(func => func(storeMock)),
+    useDispatch: () => mockDispatch
+}));
 
 jest.mock('src/themes/buy-now/hooks/useFocusTrap');
 const useFocusTrapMock = mocked(useFocusTrap, true);
@@ -61,11 +63,7 @@ describe('testing SummaryPage', () => {
     });
 
     test('Rendering hidden summaryPage properly', () => {
-        const {container} = render(
-            <Provider store={store}>
-                <SummaryPage {...hiddenProps}/>
-            </Provider>
-        );
+        const {container} = render(<SummaryPage {...hiddenProps}/>);
         expect(container.getElementsByClassName('buy-now').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__secondary').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__secondary--closed').length).toBe(1);
@@ -75,9 +73,7 @@ describe('testing SummaryPage', () => {
 
     test('Rendering visible summaryPage properly', () => {
         const {container} = render(
-            <Provider store={store}>
-                <SummaryPage {...visibleProps}/>
-            </Provider>
+            <SummaryPage {...visibleProps}/>
         );
         expect(container.getElementsByClassName('buy-now').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__secondary').length).toBe(1);
@@ -88,9 +84,7 @@ describe('testing SummaryPage', () => {
     test('firing click event on navigation', () => {
 
         render(
-            <Provider store={store}>
-                <SummaryPage {...visibleProps}/>
-            </Provider>
+            <SummaryPage {...visibleProps}/>
         );
 
         const link = screen.getByTestId('navigation');
@@ -103,9 +97,7 @@ describe('testing SummaryPage', () => {
 
     test('firing click event on complete order button', () => {
         render(
-            <Provider store={store}>
-                <SummaryPage {...visibleProps}/>
-            </Provider>
+            <SummaryPage {...visibleProps}/>
         );
 
         const link = screen.getByTestId('complete_order');

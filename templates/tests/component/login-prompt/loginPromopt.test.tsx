@@ -1,24 +1,22 @@
 import {render} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 import React from 'react';
-import {Provider} from 'react-redux';
+import {storeMock} from 'src/mocks';
 import {LoginPrompt} from 'src/components';
-import * as Store from 'src/store';
 import {getTerm} from 'src/utils';
 
-const store = Store.initializeStore();
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+    useSelector: jest.fn().mockImplementation(func => func(storeMock)),
+    useDispatch: () => mockDispatch
+}));
 jest.mock('src/utils');
 const getTermMock = mocked(getTerm, true);
-
-const component =
-    <Provider store={store}>
-        <LoginPrompt/>
-    </Provider>;
 
 describe('Testing LoginPrompt component', () => {
 
     test('Render the FieldSection properly', () => {
-        const {container} = render(component);
+        const {container} = render(<LoginPrompt/>);
         expect(container.getElementsByClassName('LoginPrompt').length).toBe(1);
         expect(getTermMock).toHaveBeenCalledTimes(2);
         expect(container.getElementsByTagName('a').length).toBe(1);

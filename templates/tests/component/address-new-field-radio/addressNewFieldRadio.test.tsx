@@ -2,11 +2,15 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import {AddressNewFieldRadio} from 'src/components';
 import React from 'react';
 import { INewAddressFieldRadioProps} from 'src/types';
-import { Provider } from 'react-redux';
-import * as Store from 'src/store';
 import { Constants } from 'src/constants';
+import {storeMock} from 'src/mocks';
 
-const store = Store.initializeStore();
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+    useSelector: jest.fn().mockImplementation(func => func(storeMock)),
+    useDispatch: () => mockDispatch
+}));
+
 describe('Testing AddressNewFieldRadio component', () => {
     const props: INewAddressFieldRadioProps = {
         type: Constants.SHIPPING,
@@ -23,15 +27,15 @@ describe('Testing AddressNewFieldRadio component', () => {
     };
 
     test('Render the AddressNewFieldRadio unchecked with hidden Address form', () => {
-        const { container } =render(<Provider store={store}><AddressNewFieldRadio {...props}/></Provider>);
+        const { container } =render(<AddressNewFieldRadio {...props}/>);
         const element: Partial<HTMLInputElement> = screen.getByTestId('field-radio');
         expect(element).toBeTruthy();
         expect(element.checked).toBe(props.checked);
-        expect(container.getElementsByClassName('stx-radio-field__label')[0].innerHTML).toBe(props.label); 
+        expect(container.getElementsByClassName('stx-radio-field__label')[0].innerHTML).toBe(props.label);
     });
 
     test('Render the AddressNewFieldRadio checked with Address form', () => {
-        const { container } =render(<Provider store={store}><AddressNewFieldRadio {...checkedProps}/></Provider>);
+        const { container } =render(<AddressNewFieldRadio {...checkedProps}/>);
         const element: Partial<HTMLInputElement> = screen.getByTestId('field-radio');
         expect(element).toBeTruthy();
         expect(element.checked).toBe(checkedProps.checked);
@@ -49,9 +53,9 @@ describe('Testing AddressNewFieldRadio component', () => {
         expect(container.getElementsByClassName('address__postal_code').length).toBe(1);
         expect(container.getElementsByClassName('address__phone').length).toBe(1);
     });
-    
+
     test('Check change handler event called', () => {
-        render(<Provider store={store}><AddressNewFieldRadio {...props}/></Provider>);
+        render(<AddressNewFieldRadio {...props}/>);
         const element = screen.getByTestId('field-radio');
         fireEvent.click(element);
         expect(props.handleChange).toHaveBeenCalled();

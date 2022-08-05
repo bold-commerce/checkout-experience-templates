@@ -1,22 +1,23 @@
 import {render} from '@testing-library/react';
 import {mocked} from 'jest-mock';
-import {useLogin} from 'src/hooks';
+import {useGetSavedAddressOptions, useLogin} from 'src/hooks';
 import {LoggedInCustomer} from 'src/components';
 import {getTerm} from 'src/utils';
-import * as Store from 'src/store';
-import {Provider} from 'react-redux';
 import React from 'react';
+import {storeMock} from 'src/mocks';
 
 jest.mock('src/hooks/useLogin');
 jest.mock('src/utils/getTerm');
+jest.mock('src/hooks/useGetAddressData');
 const useLoginMock = mocked(useLogin, true);
 const getTermMock = mocked(getTerm, true);
+const useGetSavedAddressOptionsMock = mocked(useGetSavedAddressOptions, true);
 
-const store = Store.initializeStore();
-const component =
-    <Provider store={store}>
-        <LoggedInCustomer/>
-    </Provider>;
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+    useSelector: jest.fn().mockImplementation(func => func(storeMock)),
+    useDispatch: () => mockDispatch
+}));
 
 describe('Testing LoggedInCustomer component', () => {
     const hooksReturn = {
@@ -33,11 +34,12 @@ describe('Testing LoggedInCustomer component', () => {
             .mockReturnValueOnce('customer-info-test')
             .mockReturnValueOnce('not-you-test')
             .mockReturnValueOnce('accepts-marketing-test');
+        useGetSavedAddressOptionsMock.mockReturnValue(storeMock.data.application_state.customer.saved_addresses);
     });
 
     test('Rendering the component correctly', () => {
         useLoginMock.mockReturnValueOnce(hooksReturn);
-        const {container} = render(component);
+        const {container} = render(<LoggedInCustomer/>);
         expect(container.getElementsByClassName('customer-information').length).toBe(1);
         expect(container.getElementsByClassName('customer-information__field-section').length).toBe(1);
         expect(container.getElementsByClassName('customer-information__authenticated').length).toBe(1);
@@ -50,7 +52,7 @@ describe('Testing LoggedInCustomer component', () => {
     test('Rendering the component with hidden field', () => {
         const tempHooksReturn = {...hooksReturn, acceptMarketingHidden: true};
         useLoginMock.mockReturnValueOnce(tempHooksReturn);
-        const {container} = render(component);
+        const {container} = render(<LoggedInCustomer/>);
         expect(container.getElementsByClassName('hidden').length).toBe(1);
         expect(container.getElementsByClassName('customer-information__accepts-marketing').length).toBe(1);
     });

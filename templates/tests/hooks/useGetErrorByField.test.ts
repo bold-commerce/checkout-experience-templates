@@ -97,4 +97,24 @@ describe('Testing useGetErrorByField', () => {
             const {result} = renderHook(() => useGetErrorByField(field, addressType,type));
             expect(result.current).toStrictEqual(expected);
         });
+
+    test('testing with default value', () => {
+
+        const tempError = [{
+            type: errorTypes.validation,
+            field: errorFields.email_address,
+            severity: errorSeverities.validation,
+            sub_type: errorSubTypes.email_address,
+            show_type: errorShowType.field,
+            section: 'core_info',
+            term: 'enter_email',
+            address_type: '',
+        }];
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        store.errors = tempError;
+        const {result} = renderHook(() => useGetErrorByField(errorFields.email_address));
+        expect(result.current).toStrictEqual('Please enter a valid email');
+    });
 });
