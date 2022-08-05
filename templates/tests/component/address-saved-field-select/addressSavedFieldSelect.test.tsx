@@ -1,18 +1,18 @@
-import {IAddressFieldSelectProps, ISavedAddressHookProps, ISelectList} from 'src/types';
-import {Constants} from 'src/constants';
-import * as useGetSavedAddressData from 'src/hooks/useGetSavedAddressData';
-import {fireEvent, render, screen} from '@testing-library/react';
-import {AddressSavedSelect} from 'src/components';
-import {initialDataMock} from 'src/mocks';
-import {mocked} from 'jest-mock';
-import {useGetIsLoading} from 'src/hooks';
 import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {fireEvent, render, screen} from '@testing-library/react';
+import {mocked} from 'jest-mock';
+import {AddressSavedSelect} from 'src/components';
+import {Constants} from 'src/constants';
+import {useGetIsLoading, useGetSavedAddressData} from 'src/hooks';
+import {initialDataMock} from 'src/mocks';
+import {IAddressFieldSelectProps, ISavedAddressHookProps, ISelectList} from 'src/types';
 
 jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/hooks/useGetSavedAddressData');
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+const useGetSavedAddressDataMock = mocked(useGetSavedAddressData, true);
 
 describe('Testing AddressSavedSelect component', () => {
-    let addressHook: jest.SpyInstance;
 
     const props:IAddressFieldSelectProps = {
         type: Constants.SHIPPING,
@@ -43,17 +43,16 @@ describe('Testing AddressSavedSelect component', () => {
     });
 
     test('Render the AddressSavedSelect properly', () => {
-        addressHook = jest.spyOn(useGetSavedAddressData, 'useGetSavedAddressData').mockReturnValue(hookResult);
+        useGetSavedAddressDataMock.mockReturnValueOnce(hookResult);
         const {container} = render(<AddressSavedSelect {...props}/>);
         expect(container.getElementsByClassName(props.className).length).toBe(1);
     });
 
     test('test the change event', () => {
-        addressHook = jest.spyOn(useGetSavedAddressData, 'useGetSavedAddressData').mockReturnValue(hookResult);
+        useGetSavedAddressDataMock.mockReturnValueOnce(hookResult);
         render(<AddressSavedSelect {...props}/>);
         const input = screen.getByTestId('input-select');
         fireEvent.change(input, {target: {value: 'a'}});
         expect(hookResult.handleChange).toHaveBeenCalledTimes(1);
     });
-
 });

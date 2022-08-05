@@ -1,53 +1,46 @@
-import {renderHook} from '@testing-library/react-hooks';
-import * as getTerm from 'src/utils/getTerm';
-import * as useIsUserAuthenticated from 'src/hooks/useIsUserAuthenticated';
-import * as useGetAppSettingData from 'src/hooks/useGetAppSettingData';
-import * as useGetShippingData from 'src/hooks/useGetAddressData';
-import {Constants} from 'src/constants';
-import {useBillingAddress, useCallApiAtOnEvents} from 'src/hooks';
 import {act} from '@testing-library/react';
-import * as customerAction from 'src/action/customerAction';
-import * as appAction from 'src/action/appAction';
-import { addressMock } from 'src/mocks';
-import { mocked } from 'jest-mock';
-import { validateBillingAddress } from 'src/library';
+import {renderHook} from '@testing-library/react-hooks';
+import {mocked} from 'jest-mock';
+import {actionUpdateBillingTypeInSettings, actionUpdateBillingType, actionRemoveErrorByAddressType, actionSetAppStateValid} from 'src/action';
+import {Constants} from 'src/constants';
+import {useBillingAddress, useCallApiAtOnEvents, useIsUserAuthenticated, useGetAppSettingData, useGetShippingData} from 'src/hooks';
+import {validateBillingAddress} from 'src/library';
+import {addressMock} from 'src/mocks';
+import {getTerm} from 'src/utils';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch
 }));
+jest.mock('src/action');
 jest.mock('src/hooks/useCallApiAtOnEvents');
+jest.mock('src/hooks/useIsUserAuthenticated');
+jest.mock('src/hooks/useGetAppSettingData');
+jest.mock('src/hooks/useGetAddressData');
+jest.mock('src/utils');
+const actionUpdateBillingTypeInSettingsMock = mocked(actionUpdateBillingTypeInSettings, true);
+const actionUpdateBillingTypeMock = mocked(actionUpdateBillingType, true);
+const actionRemoveErrorByAddressTypeMock = mocked(actionRemoveErrorByAddressType, true);
+const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true);
 const useCallApiAtOnEventsMock = mocked(useCallApiAtOnEvents, true);
+const useIsUserAuthenticatedMock = mocked(useIsUserAuthenticated, true);
+const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
+const useGetShippingDataMock = mocked(useGetShippingData, true);
+const getTermMock = mocked(getTerm, true);
 
 describe('Testing hook useBillingAddress', () => {
-    let useGetAppSettingDataSpy: jest.SpyInstance;
-    let useIsUserAuthenticatedSpy: jest.SpyInstance;
-    let useGetShippingDataSpy: jest.SpyInstance;
-    let getTermSpy: jest.SpyInstance;
-    let actionUpdateBillingTypeInSettingsSpy: jest.SpyInstance;
-    let actionRemoveErrorByAddressTypeSpy: jest.SpyInstance;
-    let actionUpdateBillingTypeSpy: jest.SpyInstance;
-    let actionSetAppStateValidSpy: jest.SpyInstance;
 
     beforeEach(() => {
         jest.resetAllMocks();
-        getTermSpy = jest.spyOn(getTerm, 'getTerm');
-        useGetAppSettingDataSpy = jest.spyOn(useGetAppSettingData, 'useGetAppSettingData');
-        useIsUserAuthenticatedSpy = jest.spyOn(useIsUserAuthenticated, 'useIsUserAuthenticated');
-        useGetShippingDataSpy = jest.spyOn(useGetShippingData, 'useGetShippingData');
-        actionUpdateBillingTypeInSettingsSpy = jest.spyOn(appAction, 'actionUpdateBillingTypeInSettings');
-        actionUpdateBillingTypeSpy = jest.spyOn(customerAction, 'actionUpdateBillingType');
-        actionRemoveErrorByAddressTypeSpy = jest.spyOn(appAction, 'actionRemoveErrorByAddressType');
-        actionSetAppStateValidSpy = jest.spyOn(appAction, 'actionSetAppStateValid');
     });
 
     test('rendering the hook properly', () => {
         const getTermValue = 'test-value';
         const isLogin = true;
-        useGetAppSettingDataSpy.mockReturnValueOnce(Constants.SHIPPING_SAME);
-        useIsUserAuthenticatedSpy.mockReturnValueOnce(isLogin);
-        useGetShippingDataSpy.mockReturnValueOnce(addressMock);
-        getTermSpy.mockReturnValue(getTermValue);
+        useGetAppSettingDataMock.mockReturnValueOnce(Constants.SHIPPING_SAME);
+        useIsUserAuthenticatedMock.mockReturnValueOnce(isLogin);
+        useGetShippingDataMock.mockReturnValueOnce(addressMock);
+        getTermMock.mockReturnValue(getTermValue);
         const {result} = renderHook(() => useBillingAddress());
         const hookResult = result.current;
 
@@ -60,10 +53,10 @@ describe('Testing hook useBillingAddress', () => {
     test('verifying the address props', () => {
         const getTermValue = 'test-value';
         const isLogin = true;
-        useGetAppSettingDataSpy.mockReturnValueOnce(Constants.SHIPPING_SAME);
-        useIsUserAuthenticatedSpy.mockReturnValueOnce(isLogin);
-        useGetShippingDataSpy.mockReturnValueOnce(addressMock);
-        getTermSpy.mockReturnValue(getTermValue);
+        useGetAppSettingDataMock.mockReturnValueOnce(Constants.SHIPPING_SAME);
+        useIsUserAuthenticatedMock.mockReturnValueOnce(isLogin);
+        useGetShippingDataMock.mockReturnValueOnce(addressMock);
+        getTermMock.mockReturnValue(getTermValue);
         const {result} = renderHook(() => useBillingAddress());
         const hookResult = result.current.addressProps;
 
@@ -76,28 +69,28 @@ describe('Testing hook useBillingAddress', () => {
     test('testing the handle change event', () => {
         const getTermValue = 'test-value';
         const event = {target: {value: 'test-value'}};
-        useGetAppSettingDataSpy.mockReturnValueOnce(Constants.SHIPPING_SAME);
-        useIsUserAuthenticatedSpy.mockReturnValueOnce(true);
-        useGetShippingDataSpy.mockReturnValueOnce(addressMock);
-        getTermSpy.mockReturnValue(getTermValue);
+        useGetAppSettingDataMock.mockReturnValueOnce(Constants.SHIPPING_SAME);
+        useIsUserAuthenticatedMock.mockReturnValueOnce(true);
+        useGetShippingDataMock.mockReturnValueOnce(addressMock);
+        getTermMock.mockReturnValue(getTermValue);
         const {result} = renderHook(() => useBillingAddress());
         const hookResult = result.current;
         act(() => {
             hookResult.handleChange(event);
         });
 
-        expect(actionUpdateBillingTypeInSettingsSpy).toBeCalled();
-        expect(actionUpdateBillingTypeSpy).toBeCalled();
-        expect(actionRemoveErrorByAddressTypeSpy).toBeCalled();
+        expect(actionUpdateBillingTypeInSettingsMock).toBeCalled();
+        expect(actionUpdateBillingTypeMock).toBeCalled();
+        expect(actionRemoveErrorByAddressTypeMock).toBeCalled();
     });
 
-    test('testing the toggle same as shipping event', () => { 
+    test('testing the toggle same as shipping event', () => {
         const getTermValue = 'test-value';
         const event = {target: {value: 'test-value'}};
-        useGetAppSettingDataSpy.mockReturnValueOnce(Constants.SHIPPING_DIFFERENT);
-        useIsUserAuthenticatedSpy.mockReturnValueOnce(true);
-        useGetShippingDataSpy.mockReturnValueOnce(addressMock);
-        getTermSpy.mockReturnValue(getTermValue);
+        useGetAppSettingDataMock.mockReturnValueOnce(Constants.SHIPPING_DIFFERENT);
+        useIsUserAuthenticatedMock.mockReturnValueOnce(true);
+        useGetShippingDataMock.mockReturnValueOnce(addressMock);
+        getTermMock.mockReturnValue(getTermValue);
         useCallApiAtOnEventsMock.mockReturnValueOnce(true);
         const {result} = renderHook(() => useBillingAddress());
         const hookResult = result.current;
@@ -106,19 +99,19 @@ describe('Testing hook useBillingAddress', () => {
             hookResult.toggleBillingSameAsShipping(event);
         });
 
-        expect(actionUpdateBillingTypeInSettingsSpy).toBeCalled();
-        expect(actionUpdateBillingTypeSpy).toBeCalled();
-        expect(actionSetAppStateValidSpy).toBeCalled();
+        expect(actionUpdateBillingTypeInSettingsMock).toBeCalled();
+        expect(actionUpdateBillingTypeMock).toBeCalled();
+        expect(actionSetAppStateValidMock).toBeCalled();
         expect(mockDispatch).toHaveBeenCalledWith(validateBillingAddress);
     });
 
-    test('testing the toggle different from shipping event', () => { 
+    test('testing the toggle different from shipping event', () => {
         const getTermValue = 'test-value';
         const event = {target: {value: 'test-value'}};
-        useGetAppSettingDataSpy.mockReturnValueOnce(Constants.SHIPPING_SAME);
-        useIsUserAuthenticatedSpy.mockReturnValueOnce(true);
-        useGetShippingDataSpy.mockReturnValueOnce(addressMock);
-        getTermSpy.mockReturnValue(getTermValue);
+        useGetAppSettingDataMock.mockReturnValueOnce(Constants.SHIPPING_SAME);
+        useIsUserAuthenticatedMock.mockReturnValueOnce(true);
+        useGetShippingDataMock.mockReturnValueOnce(addressMock);
+        getTermMock.mockReturnValue(getTermValue);
         useCallApiAtOnEventsMock.mockReturnValueOnce(true);
         const {result} = renderHook(() => useBillingAddress());
         const hookResult = result.current;
@@ -127,9 +120,9 @@ describe('Testing hook useBillingAddress', () => {
             hookResult.toggleBillingSameAsShipping(event);
         });
 
-        expect(actionUpdateBillingTypeInSettingsSpy).toBeCalled();
-        expect(actionUpdateBillingTypeSpy).toBeCalled();
-        expect(actionSetAppStateValidSpy).toBeCalled();
+        expect(actionUpdateBillingTypeInSettingsMock).toBeCalled();
+        expect(actionUpdateBillingTypeMock).toBeCalled();
+        expect(actionSetAppStateValidMock).toBeCalled();
         expect(mockDispatch).not.toHaveBeenCalledWith(validateBillingAddress);
     });
 

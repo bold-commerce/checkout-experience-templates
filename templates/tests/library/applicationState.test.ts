@@ -1,4 +1,3 @@
-import {mocked} from 'jest-mock';
 import {
     baseReturnObject,
     getApplicationState,
@@ -16,7 +15,27 @@ import {
     IShippingLine,
     getFees
 } from '@bold-commerce/checkout-frontend-library';
-import {initialDataMock} from 'src/mocks';
+import {feesMock} from '@bold-commerce/checkout-frontend-library/lib/variables/mocks';
+import {mocked} from 'jest-mock';
+import {
+    actionUpdateAddress,
+    actionUpdateCustomer,
+    actionUpdateDiscounts,
+    actionOrderMetaData,
+    actionOrderTotal,
+    actionUpdateAvailableShippingLines,
+    actionUpdateLineItem,
+    actionUpdatePayments,
+    actionUpdateSelectedShippingLine,
+    actionUpdateShippingLinesDiscount,
+    actionUpdateShippingLinesTaxes,
+    actionUpdateTaxes,
+    actionUpdateIsProcessedOrder,
+    actionUpdateFees
+} from 'src/action';
+import * as CustomerActions from 'src/action/customerActionType';
+import * as AppActions from 'src/action/appActionType';
+import {Constants, defaultAddressState} from 'src/constants';
 import {
     getAddressesFromLib,
     getApplicationStateFromLib,
@@ -35,18 +54,27 @@ import {
     getTaxesFromLib,
     getUpdatedApplicationState
 } from 'src/library';
-import * as appAction from 'src/action/appAction';
-import * as AppActions from 'src/action/appActionType';
-import * as customerAction from 'src/action/customerAction';
-import * as CustomerActions from 'src/action/customerActionType';
-import {Constants, defaultAddressState} from 'src/constants';
+import {initialDataMock} from 'src/mocks';
 import {handleErrorIfNeeded} from 'src/utils';
-import {actionUpdateFees} from 'src/action/appAction';
-import {feesMock} from '@bold-commerce/checkout-frontend-library/lib/variables/mocks';
 
 jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
 jest.mock('@bold-commerce/checkout-frontend-library/lib/order');
+jest.mock('src/action');
 jest.mock('src/utils');
+const actionUpdateAddressMock = mocked(actionUpdateAddress, true);
+const actionUpdateCustomerMock = mocked(actionUpdateCustomer, true);
+const actionUpdateDiscountsMock = mocked(actionUpdateDiscounts, true);
+const actionOrderMetaDataMock = mocked(actionOrderMetaData, true);
+const actionOrderTotalMock = mocked(actionOrderTotal, true);
+const actionUpdateAvailableShippingLinesFuncMock = mocked(actionUpdateAvailableShippingLines, true);
+const actionUpdateLineItemMock = mocked(actionUpdateLineItem, true);
+const actionUpdatePaymentsMock = mocked(actionUpdatePayments, true);
+const actionUpdateSelectedShippingLineFuncMock = mocked(actionUpdateSelectedShippingLine, true);
+const actionUpdateShippingLinesDiscountFuncMock = mocked(actionUpdateShippingLinesDiscount, true);
+const actionUpdateShippingLinesTaxesFuncMock = mocked(actionUpdateShippingLinesTaxes, true);
+const actionUpdateTaxesMock = mocked(actionUpdateTaxes, true);
+const actionUpdateIsProcessedOrderMock = mocked(actionUpdateIsProcessedOrder, true);
+const actionUpdateFeesMock = mocked(actionUpdateFees, true);
 const getApplicationStateMock = mocked(getApplicationState, true);
 const getBillingAddressMock = mocked(getBillingAddress, true);
 const getCustomerMock = mocked(getCustomer, true);
@@ -66,20 +94,6 @@ describe('testing Update Application State Thunk Actions', () => {
     const {customer, addresses: {billing: billingAddress, shipping: shippingAddress}} = application_state;
     const {line_items, shipping, taxes, discounts, payments, order_meta_data} = application_state;
     const dispatchMock = jest.fn();
-    let actionUpdateAddressSpy: jest.SpyInstance;
-    let actionUpdateCustomerSpy: jest.SpyInstance;
-    let actionUpdateDiscountsSpy: jest.SpyInstance;
-    let actionOrderMetaDataSpy: jest.SpyInstance;
-    let actionOrderTotalSpy: jest.SpyInstance;
-    let actionUpdateIsProcessedOrderSpy: jest.SpyInstance;
-    let actionUpdateAvailableShippingLinesSpy: jest.SpyInstance;
-    let actionUpdateLineItemSpy: jest.SpyInstance;
-    let actionUpdatePaymentsSpy: jest.SpyInstance;
-    let actionUpdateSelectedShippingLineSpy: jest.SpyInstance;
-    let actionUpdateShippingLinesDiscountSpy: jest.SpyInstance;
-    let actionUpdateShippingLinesTaxesSpy: jest.SpyInstance;
-    let actionUpdateTaxesSpy: jest.SpyInstance;
-    let actionUpdateFeesSpy: jest.SpyInstance;
 
     beforeEach(() => {
         getApplicationStateMock.mockReturnValue(application_state);
@@ -94,20 +108,6 @@ describe('testing Update Application State Thunk Actions', () => {
         getShippingAddressMock.mockReturnValue(shippingAddress);
         getTaxesMock.mockReturnValue(taxes);
         getFeesMock.mockReturnValue([feesMock]);
-        actionUpdateAddressSpy = jest.spyOn(customerAction, 'actionUpdateAddress');
-        actionUpdateCustomerSpy = jest.spyOn(customerAction, 'actionUpdateCustomer');
-        actionUpdateDiscountsSpy = jest.spyOn(appAction, 'actionUpdateDiscounts');
-        actionOrderMetaDataSpy = jest.spyOn(appAction, 'actionOrderMetaData');
-        actionOrderTotalSpy = jest.spyOn(appAction, 'actionOrderTotal');
-        actionUpdateAvailableShippingLinesSpy = jest.spyOn(appAction, 'actionUpdateAvailableShippingLines');
-        actionUpdateLineItemSpy = jest.spyOn(appAction, 'actionUpdateLineItem');
-        actionUpdatePaymentsSpy = jest.spyOn(appAction, 'actionUpdatePayments');
-        actionUpdateSelectedShippingLineSpy = jest.spyOn(appAction, 'actionUpdateSelectedShippingLine');
-        actionUpdateShippingLinesDiscountSpy = jest.spyOn(appAction, 'actionUpdateShippingLinesDiscount');
-        actionUpdateShippingLinesTaxesSpy = jest.spyOn(appAction, 'actionUpdateShippingLinesTaxes');
-        actionUpdateTaxesSpy = jest.spyOn(appAction, 'actionUpdateTaxes');
-        actionUpdateIsProcessedOrderSpy = jest.spyOn(appAction, 'actionUpdateIsProcessedOrder');
-        actionUpdateFeesSpy = jest.spyOn(appAction, 'actionUpdateFees');
     });
 
     afterEach(() => {
@@ -151,13 +151,13 @@ describe('testing Update Application State Thunk Actions', () => {
             type: CustomerActions.UPDATE_BILLING_ADDRESS,
             payload: {data: billingAddress}
         };
-        actionUpdateAddressSpy.mockReturnValueOnce(actionMock);
+        actionUpdateAddressMock.mockReturnValueOnce(actionMock);
 
         getBillingAddressFromLib(dispatchMock);
 
         expect(getBillingAddressMock).toHaveBeenCalledTimes(1);
-        expect(actionUpdateAddressSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateAddressSpy).toHaveBeenCalledWith(Constants.BILLING, billingAddress);
+        expect(actionUpdateAddressMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateAddressMock).toHaveBeenCalledWith(Constants.BILLING, billingAddress);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
@@ -168,13 +168,13 @@ describe('testing Update Application State Thunk Actions', () => {
             type: CustomerActions.UPDATE_BILLING_ADDRESS,
             payload: {data: defaultAddressState}
         };
-        actionUpdateAddressSpy.mockReturnValueOnce(actionMock);
+        actionUpdateAddressMock.mockReturnValueOnce(actionMock);
 
         getBillingAddressFromLib(dispatchMock);
 
         expect(getBillingAddressMock).toHaveBeenCalledTimes(1);
-        expect(actionUpdateAddressSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateAddressSpy).toHaveBeenCalledWith(Constants.BILLING, defaultAddressState);
+        expect(actionUpdateAddressMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateAddressMock).toHaveBeenCalledWith(Constants.BILLING, defaultAddressState);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
@@ -184,13 +184,13 @@ describe('testing Update Application State Thunk Actions', () => {
             type: CustomerActions.UPDATE_CUSTOMER,
             payload: {customer}
         };
-        actionUpdateCustomerSpy.mockReturnValueOnce(actionMock);
+        actionUpdateCustomerMock.mockReturnValueOnce(actionMock);
 
         getCustomerFromLib(dispatchMock);
 
         expect(getCustomerMock).toHaveBeenCalledTimes(1);
-        expect(actionUpdateCustomerSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateCustomerSpy).toHaveBeenCalledWith(customer);
+        expect(actionUpdateCustomerMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateCustomerMock).toHaveBeenCalledWith(customer);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
@@ -200,13 +200,13 @@ describe('testing Update Application State Thunk Actions', () => {
             type: AppActions.UPDATE_DISCOUNTS,
             payload: {data: discounts}
         };
-        actionUpdateDiscountsSpy.mockReturnValueOnce(actionMock);
+        actionUpdateDiscountsMock.mockReturnValueOnce(actionMock);
 
         getDiscountsFromLib(dispatchMock);
 
         expect(getDiscountsMock).toHaveBeenCalledTimes(1);
-        expect(actionUpdateDiscountsSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateDiscountsSpy).toHaveBeenCalledWith(discounts);
+        expect(actionUpdateDiscountsMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateDiscountsMock).toHaveBeenCalledWith(discounts);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
@@ -216,13 +216,13 @@ describe('testing Update Application State Thunk Actions', () => {
             type: AppActions.UPDATE_LINE_ITEMS,
             payload: {line: line_items}
         };
-        actionUpdateLineItemSpy.mockReturnValueOnce(actionMock);
+        actionUpdateLineItemMock.mockReturnValueOnce(actionMock);
 
         getLineItemsFromLib(dispatchMock);
 
         expect(getLineItemsMock).toHaveBeenCalledTimes(1);
-        expect(actionUpdateLineItemSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateLineItemSpy).toHaveBeenCalledWith(line_items);
+        expect(actionUpdateLineItemMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateLineItemMock).toHaveBeenCalledWith(line_items);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
@@ -232,13 +232,13 @@ describe('testing Update Application State Thunk Actions', () => {
             type: AppActions.UPDATE_ORDER_META_DATA,
             payload: {data: order_meta_data}
         };
-        actionOrderMetaDataSpy.mockReturnValueOnce(actionMock);
+        actionOrderMetaDataMock.mockReturnValueOnce(actionMock);
 
         getOrderMetaDataFromLib(dispatchMock);
 
         expect(getOrderMetaDataMock).toHaveBeenCalledTimes(1);
-        expect(actionOrderMetaDataSpy).toHaveBeenCalledTimes(1);
-        expect(actionOrderMetaDataSpy).toHaveBeenCalledWith(order_meta_data);
+        expect(actionOrderMetaDataMock).toHaveBeenCalledTimes(1);
+        expect(actionOrderMetaDataMock).toHaveBeenCalledWith(order_meta_data);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
@@ -248,13 +248,13 @@ describe('testing Update Application State Thunk Actions', () => {
             type: AppActions.UPDATE_ORDER_TOTAL,
             payload: {data: application_state.order_total}
         };
-        actionOrderTotalSpy.mockReturnValueOnce(actionMock);
+        actionOrderTotalMock.mockReturnValueOnce(actionMock);
 
         getOrderTotalFromLib(dispatchMock);
 
         expect(getApplicationStateMock).toHaveBeenCalledTimes(1);
-        expect(actionOrderTotalSpy).toHaveBeenCalledTimes(1);
-        expect(actionOrderTotalSpy).toHaveBeenCalledWith(application_state.order_total);
+        expect(actionOrderTotalMock).toHaveBeenCalledTimes(1);
+        expect(actionOrderTotalMock).toHaveBeenCalledWith(application_state.order_total);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
@@ -264,13 +264,13 @@ describe('testing Update Application State Thunk Actions', () => {
             type: AppActions.UPDATE_ORDER_PROCESSED,
             payload: {data: true}
         };
-        actionUpdateIsProcessedOrderSpy.mockReturnValueOnce(actionMock);
+        actionUpdateIsProcessedOrderMock.mockReturnValueOnce(actionMock);
 
         getIsOrderProcessFromLib(dispatchMock);
 
         expect(getApplicationStateMock).toHaveBeenCalledTimes(1);
-        expect(actionUpdateIsProcessedOrderSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateIsProcessedOrderSpy).toHaveBeenCalledWith(application_state.is_processed);
+        expect(actionUpdateIsProcessedOrderMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateIsProcessedOrderMock).toHaveBeenCalledWith(application_state.is_processed);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
@@ -280,13 +280,13 @@ describe('testing Update Application State Thunk Actions', () => {
             type: AppActions.UPDATE_PAYMENT,
             payload: {data: payments}
         };
-        actionUpdatePaymentsSpy.mockReturnValueOnce(actionMock);
+        actionUpdatePaymentsMock.mockReturnValueOnce(actionMock);
 
         getPaymentsFromLib(dispatchMock);
 
         expect(getPaymentsMock).toHaveBeenCalledTimes(1);
-        expect(actionUpdatePaymentsSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdatePaymentsSpy).toHaveBeenCalledWith(payments);
+        expect(actionUpdatePaymentsMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdatePaymentsMock).toHaveBeenCalledWith(payments);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
@@ -296,13 +296,13 @@ describe('testing Update Application State Thunk Actions', () => {
             type: AppActions.UPDATE_FEES,
             payload: {data: [feesMock]}
         };
-        actionUpdateFeesSpy.mockReturnValueOnce(actionMock);
+        actionUpdateFeesMock.mockReturnValueOnce(actionMock);
 
         getFeesFromLib(dispatchMock);
 
         expect(getFeesMock).toHaveBeenCalledTimes(1);
-        expect(actionUpdateFeesSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateFeesSpy).toHaveBeenCalledWith([feesMock]);
+        expect(actionUpdateFeesMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateFeesMock).toHaveBeenCalledWith([feesMock]);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
@@ -312,41 +312,41 @@ describe('testing Update Application State Thunk Actions', () => {
             type: AppActions.UPDATE_SELECTED_SHIPPING_LINE,
             payload: {data: shipping.selected_shipping}
         };
-        actionUpdateSelectedShippingLineSpy.mockReturnValueOnce(actionUpdateSelectedShippingLineMock);
+        actionUpdateSelectedShippingLineFuncMock.mockReturnValueOnce(actionUpdateSelectedShippingLineMock);
 
         const actionUpdateAvailableShippingLinesMock = {
             type: AppActions.UPDATE_AVAILABLE_SHIPPING_LINES,
             payload: {data: shipping.available_shipping_lines}
         };
-        actionUpdateAvailableShippingLinesSpy.mockReturnValueOnce(actionUpdateAvailableShippingLinesMock);
+        actionUpdateAvailableShippingLinesFuncMock.mockReturnValueOnce(actionUpdateAvailableShippingLinesMock);
 
         const actionUpdateShippingLinesTaxesMock = {
             type: AppActions.UPDATE_SHIPPING_LINES_TAXES,
             payload: {data: shipping.taxes}
         };
-        actionUpdateShippingLinesTaxesSpy.mockReturnValueOnce(actionUpdateShippingLinesTaxesMock);
+        actionUpdateShippingLinesTaxesFuncMock.mockReturnValueOnce(actionUpdateShippingLinesTaxesMock);
 
         const actionUpdateShippingLinesDiscountMock = {
             type: AppActions.UPDATE_SHIPPING_LINES_DISCOUNT,
             payload: {data: shipping.discounts}
         };
-        actionUpdateShippingLinesDiscountSpy.mockReturnValueOnce(actionUpdateShippingLinesDiscountMock);
+        actionUpdateShippingLinesDiscountFuncMock.mockReturnValueOnce(actionUpdateShippingLinesDiscountMock);
 
         getShippingFromLib(dispatchMock);
 
         expect(getShippingMock).toHaveBeenCalledTimes(1);
 
-        expect(actionUpdateSelectedShippingLineSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateSelectedShippingLineSpy).toHaveBeenCalledWith(shipping.selected_shipping);
+        expect(actionUpdateSelectedShippingLineFuncMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateSelectedShippingLineFuncMock).toHaveBeenCalledWith(shipping.selected_shipping);
 
-        expect(actionUpdateAvailableShippingLinesSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateAvailableShippingLinesSpy).toHaveBeenCalledWith(shipping.available_shipping_lines);
+        expect(actionUpdateAvailableShippingLinesFuncMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateAvailableShippingLinesFuncMock).toHaveBeenCalledWith(shipping.available_shipping_lines);
 
-        expect(actionUpdateShippingLinesTaxesSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateShippingLinesTaxesSpy).toHaveBeenCalledWith(shipping.taxes);
+        expect(actionUpdateShippingLinesTaxesFuncMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateShippingLinesTaxesFuncMock).toHaveBeenCalledWith(shipping.taxes);
 
-        expect(actionUpdateShippingLinesDiscountSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateShippingLinesDiscountSpy).toHaveBeenCalledWith(shipping.discounts);
+        expect(actionUpdateShippingLinesDiscountFuncMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateShippingLinesDiscountFuncMock).toHaveBeenCalledWith(shipping.discounts);
 
         expect(dispatchMock).toHaveBeenCalledTimes(4);
         expect(dispatchMock).toHaveBeenCalledWith(actionUpdateSelectedShippingLineMock);
@@ -369,41 +369,41 @@ describe('testing Update Application State Thunk Actions', () => {
             type: AppActions.UPDATE_SELECTED_SHIPPING_LINE,
             payload: {data: selectedShippingLineMock}
         };
-        actionUpdateSelectedShippingLineSpy.mockReturnValueOnce(actionUpdateSelectedShippingLineMock);
+        actionUpdateSelectedShippingLineFuncMock.mockReturnValueOnce(actionUpdateSelectedShippingLineMock);
 
         const actionUpdateAvailableShippingLinesMock = {
             type: AppActions.UPDATE_AVAILABLE_SHIPPING_LINES,
             payload: {data: shippingMock.available_shipping_lines}
         };
-        actionUpdateAvailableShippingLinesSpy.mockReturnValueOnce(actionUpdateAvailableShippingLinesMock);
+        actionUpdateAvailableShippingLinesFuncMock.mockReturnValueOnce(actionUpdateAvailableShippingLinesMock);
 
         const actionUpdateShippingLinesTaxesMock = {
             type: AppActions.UPDATE_SHIPPING_LINES_TAXES,
             payload: {data: shippingMock.taxes}
         };
-        actionUpdateShippingLinesTaxesSpy.mockReturnValueOnce(actionUpdateShippingLinesTaxesMock);
+        actionUpdateShippingLinesTaxesFuncMock.mockReturnValueOnce(actionUpdateShippingLinesTaxesMock);
 
         const actionUpdateShippingLinesDiscountMock = {
             type: AppActions.UPDATE_SHIPPING_LINES_DISCOUNT,
             payload: {data: shippingMock.discounts}
         };
-        actionUpdateShippingLinesDiscountSpy.mockReturnValueOnce(actionUpdateShippingLinesDiscountMock);
+        actionUpdateShippingLinesDiscountFuncMock.mockReturnValueOnce(actionUpdateShippingLinesDiscountMock);
 
         getShippingFromLib(dispatchMock);
 
         expect(getShippingMock).toHaveBeenCalledTimes(1);
 
-        expect(actionUpdateSelectedShippingLineSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateSelectedShippingLineSpy).toHaveBeenCalledWith(selectedShippingLineMock);
+        expect(actionUpdateSelectedShippingLineFuncMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateSelectedShippingLineFuncMock).toHaveBeenCalledWith(selectedShippingLineMock);
 
-        expect(actionUpdateAvailableShippingLinesSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateAvailableShippingLinesSpy).toHaveBeenCalledWith(shippingMock.available_shipping_lines);
+        expect(actionUpdateAvailableShippingLinesFuncMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateAvailableShippingLinesFuncMock).toHaveBeenCalledWith(shippingMock.available_shipping_lines);
 
-        expect(actionUpdateShippingLinesTaxesSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateShippingLinesTaxesSpy).toHaveBeenCalledWith(shippingMock.taxes);
+        expect(actionUpdateShippingLinesTaxesFuncMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateShippingLinesTaxesFuncMock).toHaveBeenCalledWith(shippingMock.taxes);
 
-        expect(actionUpdateShippingLinesDiscountSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateShippingLinesDiscountSpy).toHaveBeenCalledWith(shippingMock.discounts);
+        expect(actionUpdateShippingLinesDiscountFuncMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateShippingLinesDiscountFuncMock).toHaveBeenCalledWith(shippingMock.discounts);
 
         expect(dispatchMock).toHaveBeenCalledTimes(4);
         expect(dispatchMock).toHaveBeenCalledWith(actionUpdateSelectedShippingLineMock);
@@ -417,13 +417,13 @@ describe('testing Update Application State Thunk Actions', () => {
             type: CustomerActions.UPDATE_SHIPPING_ADDRESS,
             payload: {data: shippingAddress}
         };
-        actionUpdateAddressSpy.mockReturnValueOnce(actionMock);
+        actionUpdateAddressMock.mockReturnValueOnce(actionMock);
 
         getShippingAddressFromLib(dispatchMock);
 
         expect(getShippingAddressMock).toHaveBeenCalledTimes(1);
-        expect(actionUpdateAddressSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateAddressSpy).toHaveBeenCalledWith(Constants.SHIPPING, shippingAddress);
+        expect(actionUpdateAddressMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateAddressMock).toHaveBeenCalledWith(Constants.SHIPPING, shippingAddress);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
@@ -434,13 +434,13 @@ describe('testing Update Application State Thunk Actions', () => {
             type: CustomerActions.UPDATE_SHIPPING_ADDRESS,
             payload: {data: defaultAddressState}
         };
-        actionUpdateAddressSpy.mockReturnValueOnce(actionMock);
+        actionUpdateAddressMock.mockReturnValueOnce(actionMock);
 
         getShippingAddressFromLib(dispatchMock);
 
         expect(getShippingAddressMock).toHaveBeenCalledTimes(1);
-        expect(actionUpdateAddressSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateAddressSpy).toHaveBeenCalledWith(Constants.SHIPPING, defaultAddressState);
+        expect(actionUpdateAddressMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateAddressMock).toHaveBeenCalledWith(Constants.SHIPPING, defaultAddressState);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
@@ -462,13 +462,13 @@ describe('testing Update Application State Thunk Actions', () => {
             type: AppActions.UPDATE_TAXES,
             payload: {data: taxes}
         };
-        actionUpdateTaxesSpy.mockReturnValueOnce(actionMock);
+        actionUpdateTaxesMock.mockReturnValueOnce(actionMock);
 
         getTaxesFromLib(dispatchMock);
 
         expect(getTaxesMock).toHaveBeenCalledTimes(1);
-        expect(actionUpdateTaxesSpy).toHaveBeenCalledTimes(1);
-        expect(actionUpdateTaxesSpy).toHaveBeenCalledWith(taxes);
+        expect(actionUpdateTaxesMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateTaxesMock).toHaveBeenCalledWith(taxes);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });

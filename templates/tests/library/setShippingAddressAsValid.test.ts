@@ -1,14 +1,17 @@
+import {mocked} from 'jest-mock';
 import {Dispatch} from 'redux';
-import {IError, IOrderInitialization} from 'src/types';
-import {stateMock} from 'src/mocks';
-import * as setValues from 'src/action/appAction';
-import {setShippingAddressAsValid} from 'src/library';
+import {actionSetAppStateValid} from 'src/action';
 import {Constants} from 'src/constants';
+import {setShippingAddressAsValid} from 'src/library';
+import {stateMock} from 'src/mocks';
+import {IError, IOrderInitialization} from 'src/types';
+
+jest.mock('src/action');
+const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true);
 
 describe('testing postShippingLines', () => {
     let dispatch: Dispatch;
     let getState: () => IOrderInitialization;
-    let setValidSpy: jest.SpyInstance;
     const shippingError:IError = {
         address_type: Constants.SHIPPING,
         message: 'test error',
@@ -22,17 +25,16 @@ describe('testing postShippingLines', () => {
         jest.resetAllMocks();
         dispatch = jest.fn();
         getState = jest.fn().mockReturnValue(stateMock);
-        setValidSpy = jest.spyOn(setValues, 'actionSetAppStateValid');
     });
 
     test('calling post shipping address endpoint with  getState returning a different data structure', async () => {
         await setShippingAddressAsValid(dispatch, getState);
-        expect(setValidSpy).toHaveBeenCalledTimes(2);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(2);
     });
 
     test('calling post shipping address endpoint with  getState returning a different data structure', async () => {
         getState().errors = [shippingError];
         await setShippingAddressAsValid(dispatch, getState);
-        expect(setValidSpy).toHaveBeenCalledTimes(0);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(0);
     });
 });

@@ -27,7 +27,7 @@ describe('testing scriptsAreLoaded', () => {
         },
     ];
 
-    test.each(dataProvider)('%s', ({name, documentBody, idsArray, expectedResult}) => {
+    test.each(dataProvider)('$name', ({documentBody, idsArray, expectedResult}) => {
         document.body.innerHTML = documentBody;
         const areLoaded = scriptsAreLoaded(idsArray);
         expect(areLoaded).toStrictEqual(expectedResult);

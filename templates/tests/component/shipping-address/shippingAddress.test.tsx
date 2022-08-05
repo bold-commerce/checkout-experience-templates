@@ -1,15 +1,19 @@
-import * as getTerm from 'src/utils/getTerm';
 import {render} from '@testing-library/react';
-import {ShippingAddress} from 'src/components';
+import {mocked} from 'jest-mock';
 import {Provider} from 'react-redux';
+import {ShippingAddress} from 'src/components';
 import * as Store from 'src/store';
+import {getTerm} from 'src/utils';
 
 const store = Store.initializeStore();
+jest.mock('src/utils');
+const getTermMock = mocked(getTerm, true);
+
 describe('Testing ShippingAddress component', () => {
-    let getTermSpy: jest.SpyInstance;
+
     beforeEach(() =>{
         jest.resetAllMocks();
-        getTermSpy = jest.spyOn(getTerm, 'getTerm').mockReturnValue('');
+        getTermMock.mockReturnValue('');
     });
 
     test('Render the Address properly', () => {
@@ -18,5 +22,4 @@ describe('Testing ShippingAddress component', () => {
         expect(container.getElementsByClassName('address').length).toBe(1);
 
     });
-
 });

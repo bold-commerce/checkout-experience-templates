@@ -1,48 +1,53 @@
-import {googleAutocompleteRetrieveOptions} from 'src/utils';
-import AutocompleteOptions = google.maps.places.AutocompleteOptions;
-import SpyInstance = jest.SpyInstance;
-import * as googleAutocompleteRetrieveCountriesListLimitation from 'src/utils/googleAutocompleteRetrieveCountriesListLimitation';
+import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
+import {mocked} from 'jest-mock';
 import {Constants} from 'src/constants';
 import {countriesListMock} from 'src/mocks';
-import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
+import {googleAutocompleteRetrieveOptions, googleAutocompleteRetrieveCountriesListLimitation} from 'src/utils';
+import AutocompleteOptions = google.maps.places.AutocompleteOptions;
+
+jest.mock('src/utils/googleAutocompleteRetrieveCountriesListLimitation');
+const googleAutocompleteRetrieveCountriesListLimitationMock = mocked(googleAutocompleteRetrieveCountriesListLimitation, true);
 
 describe('Test googleAutocompleteRetrieveOptions function', () => {
     const countriesList: Array<ICountryInformation> = countriesListMock;
     let expectedAutocompleteOptions: AutocompleteOptions;
-    let googleAutocompleteRetrieveCountriesListLimitationSpy: SpyInstance;
     let expectedCountriesCodeList: Array<string>;
 
-
     beforeEach(() => {
-        jest.restoreAllMocks();
+        jest.resetAllMocks();
         expectedAutocompleteOptions = {
             fields: ['address_components'],
             types: ['address'],
         };
-        googleAutocompleteRetrieveCountriesListLimitationSpy = jest.spyOn(
-            googleAutocompleteRetrieveCountriesListLimitation,
-            'googleAutocompleteRetrieveCountriesListLimitation'
-        );
         expectedCountriesCodeList = ['CA','US','FR','BR','MX'];
     });
 
     test('No countries restriction', () => {
+        googleAutocompleteRetrieveCountriesListLimitationMock.mockReturnValueOnce([]);
+
         const returned = googleAutocompleteRetrieveOptions([]);
-        googleAutocompleteRetrieveCountriesListLimitationSpy.mockReturnValue([]);
+
         expect(returned).toStrictEqual(expectedAutocompleteOptions);
-        expect(googleAutocompleteRetrieveCountriesListLimitationSpy).toHaveBeenCalledTimes(1);
+        expect(googleAutocompleteRetrieveCountriesListLimitationMock).toHaveBeenCalledTimes(1);
     });
+
     test(`More than ${Constants.MAX_COUNTRIES_GOOGLE_AUTOCOMPLETE} restriction`, () => {
+        googleAutocompleteRetrieveCountriesListLimitationMock.mockReturnValueOnce([]);
+
         const returned = googleAutocompleteRetrieveOptions(countriesList);
-        googleAutocompleteRetrieveCountriesListLimitationSpy.mockReturnValue(expectedCountriesCodeList);
+
         expect(returned).toStrictEqual(expectedAutocompleteOptions);
-        expect(googleAutocompleteRetrieveCountriesListLimitationSpy).toHaveBeenCalledTimes(1);
+        expect(googleAutocompleteRetrieveCountriesListLimitationMock).toHaveBeenCalledTimes(1);
     });
+
     test(`More than 1 and less than ${Constants.MAX_COUNTRIES_GOOGLE_AUTOCOMPLETE} countries restrictions`, () => {
-        expectedAutocompleteOptions.componentRestrictions = {country: expectedCountriesCodeList.slice(0, Constants.MAX_COUNTRIES_GOOGLE_AUTOCOMPLETE) as string[]};
+        const expectedSlice = expectedCountriesCodeList.slice(0, Constants.MAX_COUNTRIES_GOOGLE_AUTOCOMPLETE) as string[];
+        expectedAutocompleteOptions.componentRestrictions = {country: expectedSlice};
+        googleAutocompleteRetrieveCountriesListLimitationMock.mockReturnValueOnce(expectedSlice);
+
         const returned = googleAutocompleteRetrieveOptions(countriesList.slice(0, Constants.MAX_COUNTRIES_GOOGLE_AUTOCOMPLETE));
-        googleAutocompleteRetrieveCountriesListLimitationSpy.mockReturnValue(expectedCountriesCodeList.slice(0, Constants.MAX_COUNTRIES_GOOGLE_AUTOCOMPLETE));
+
         expect(returned).toStrictEqual(expectedAutocompleteOptions);
-        expect(googleAutocompleteRetrieveCountriesListLimitationSpy).toHaveBeenCalledTimes(1);
+        expect(googleAutocompleteRetrieveCountriesListLimitationMock).toHaveBeenCalledTimes(1);
     });
 });
