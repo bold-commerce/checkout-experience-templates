@@ -1,11 +1,11 @@
 import {Constants, defaultAddressState} from 'src/constants';
 import {useDispatch} from 'react-redux';
 import {compareAddresses, getTerm} from 'src/utils';
-import {useGetSavedAddressOptions, useCallApiAtOnEvents} from 'src/hooks';
+import {useGetSavedAddressOptions, useCallApiAtOnEvents, useGetAppSettingData} from 'src/hooks';
 import {useCallback, useMemo} from 'react';
 import {ISavedAddressHookProps} from 'src/types';
 import * as CustomerActions from 'src/action/customerAction';
-import { validateShippingAddress } from 'src/library';
+import {validateBillingAddress, validateShippingAddress} from 'src/library';
 import { actionSetAppStateValid, actionUpdateAddress } from 'src/action';
 import {IAddress} from '@bold-commerce/checkout-frontend-library';
 import { useGetAddressData } from './useGetAddressData';
@@ -24,6 +24,7 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
     const placeholder = getTerm('enter_new_address', Constants.CUSTOMER_INFO);
     const title = type === Constants.SHIPPING ? getTerm('shipping_address', Constants.SHIPPING_INFO) : getTerm('billing_address',Constants.PAYMENT_INFO);
     const id = `${type}-saved-address-select`;
+    const billingType = useGetAppSettingData('billingType');
     const savedAddresses: Array<IAddress> = useGetSavedAddressOptions();
     let count = 1;
     const options = savedAddresses.map(address => ({
@@ -45,7 +46,11 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
             dispatch(actionSetAppStateValid('shippingAddress', false));
             if (value !== 'new') {
                 dispatch(actionUpdateAddress(Constants.SHIPPING, address));
-                dispatch(validateShippingAddress);
+                dispatch(validateShippingAddress).then(() => {
+                    if(billingType === Constants.SHIPPING_SAME) {
+                        dispatch(validateBillingAddress);
+                    }
+                });
             }
         }
 

@@ -618,7 +618,8 @@ export const initialDataMock: IInitializeOrderResponse = {
                 id: 'payment_id',
                 token: 'payment_token',
                 retain: false,
-                brand: 'Visa'
+                brand: 'Visa',
+                value: 20000
             }
         ],
         'fees': [],

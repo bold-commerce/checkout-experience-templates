@@ -1,16 +1,36 @@
-import {useGetIsLoading, useGetOnePageFooterData} from 'src/hooks';
+import {useGetIsLoading} from 'src/hooks';
 import {renderHook} from '@testing-library/react-hooks';
 import {mocked} from 'jest-mock';
-import {getTerm} from 'src/utils';
+import {callProcessOrder, getTerm, getTotalsFromState} from 'src/utils';
+import {ITotals} from 'src/types';
+import {useGetOnePageFooterData} from 'src/themes/one-page/hooks';
 
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+    useDispatch: () => mockDispatch
+}));
 jest.mock('src/utils/getTerm');
+jest.mock('src/utils/getTotalsFromState');
+jest.mock('src/utils/callProcessOrder');
 jest.mock('src/hooks/useGetIsLoading');
 const getTermMock = mocked(getTerm, true);
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+const getTotalsFromStateMock = mocked(getTotalsFromState, true);
+const callProcessOrderMock = mocked(callProcessOrder, true);
 
 describe('Testing hook useGetAddressFieldInputData', () => {
     const getTermValue = 'test-value';
     const eventMock = {preventDefault: jest.fn()};
+    const total: ITotals = {
+        totalSubtotal: 2999,
+        totalFees:0,
+        totalTaxes:0,
+        totalAdditionalFees:0,
+        totalOrder:0,
+        totalPaid:0,
+        totalDiscounts:0,
+        totalAmountDue:2999
+    };
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -23,6 +43,7 @@ describe('Testing hook useGetAddressFieldInputData', () => {
         window.returnUrl = 'http://test.com';
         getTermMock.mockReturnValue(getTermValue);
         useGetIsLoadingMock.mockReturnValue(false);
+        getTotalsFromStateMock.mockReturnValue(total);
     });
 
     test('rendering the hook properly', () => {
@@ -34,6 +55,9 @@ describe('Testing hook useGetAddressFieldInputData', () => {
         result.current.nextButtonOnClick();
         result.current.backLinkOnClick && result.current.backLinkOnClick(eventMock);
         expect(window.location.href).toEqual(window.returnUrl);
+
+        result.current.nextButtonOnClick();
+        expect(callProcessOrderMock).toBeCalled();
     });
 
 });

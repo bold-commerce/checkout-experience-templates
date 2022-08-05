@@ -10,7 +10,7 @@ import {
     Header
 } from 'src/components';
 import {IFooterProps} from 'src/types';
-import {useGetOnePageFooterData} from 'src/hooks';
+import {useGetOnePageFooterData} from 'src/themes/one-page/hooks';
 
 export function CustomerSection(): React.ReactElement {
     const footerProps: IFooterProps = useGetOnePageFooterData();
