@@ -1,13 +1,16 @@
 import {fireEvent, render, screen} from '@testing-library/react';
 import {mocked} from 'jest-mock';
-import {Provider} from 'react-redux';
 import {BillingAddress} from 'src/components';
 import {Constants} from 'src/constants';
+import {storeMock} from 'src/mocks';
 import {useGetIsLoading, useBillingAddress} from 'src/hooks';
-import * as Store from 'src/store';
 import {IAddressProps, IBillingAddress} from 'src/types';
 
-const store = Store.initializeStore();
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+    useSelector: jest.fn().mockImplementation(func => func(storeMock)),
+    useDispatch: () => mockDispatch
+}));
 jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/hooks/useBillingAddress');
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
@@ -55,7 +58,7 @@ describe('Testing BillingAddress component', () => {
         const localHookResult = {...hookResult};
         localHookResult.customBilling = Constants.SHIPPING_DIFFERENT;
         useBillingAddressMock.mockReturnValueOnce(localHookResult);
-        const {container} = render(<Provider store={store}><BillingAddress/> </Provider>);
+        const {container} = render(<BillingAddress/>);
         expect(container.getElementsByClassName('shipping-same').length).toBe(1);
         expect(container.getElementsByClassName('shipping-different').length).toBe(1);
 

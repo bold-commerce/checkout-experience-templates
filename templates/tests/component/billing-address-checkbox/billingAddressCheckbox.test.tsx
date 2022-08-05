@@ -1,13 +1,18 @@
 import {fireEvent, render, screen} from '@testing-library/react';
 import {mocked} from 'jest-mock';
-import {Provider} from 'react-redux';
 import {BillingAddressCheckbox} from 'src/components';
 import {Constants} from 'src/constants';
 import {useGetIsLoading, useBillingAddress} from 'src/hooks';
-import * as Store from 'src/store';
+import {storeMock} from 'src/mocks';
 import {IAddressProps, IBillingAddress} from 'src/types';
 
-const store = Store.initializeStore();
+
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+    useSelector: jest.fn().mockImplementation(func => func(storeMock)),
+    useDispatch: () => mockDispatch
+}));
+
 jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/hooks/useBillingAddress');
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
@@ -52,7 +57,7 @@ describe('Testing BillingAddressCheckbox component', () => {
         const localHookResult = {...hookResult};
         localHookResult.customBilling = Constants.SHIPPING_DIFFERENT;
         useBillingAddressMock.mockReturnValueOnce(localHookResult);
-        const {container} = render(<Provider store={store}><BillingAddressCheckbox/> </Provider>);
+        const {container} = render(<BillingAddressCheckbox/>);
         expect(container.getElementsByClassName('billing-address-checkbox').length).toBe(1);
         expect(container.getElementsByClassName('billing-address__FieldSection').length).toBe(1);
         expect(container.getElementsByClassName('new-billing-address').length).toBe(1);
