@@ -1,19 +1,20 @@
 import {renderHook} from '@testing-library/react-hooks';
-import { useDispatch } from 'react-redux';
-import {useGetShippingLines} from 'src/hooks';
-import * as useGetLoaderScreenVariable from 'src/hooks/useGetLoaderScreenVariable';
-import * as useGetValidVariable from 'src/hooks/useGetValidVariable';
-import * as getTerm from 'src/utils/getTerm';
 import {mocked} from 'jest-mock';
+import {useDispatch} from 'react-redux';
+import {useGetShippingLines, useGetLoaderScreenVariable, useGetValidVariable} from 'src/hooks';
+import {getTerm} from 'src/utils';
 
 jest.mock('react-redux');
+jest.mock('src/hooks/useGetLoaderScreenVariable');
+jest.mock('src/hooks/useGetValidVariable');
+jest.mock('src/utils');
 const useDispatchMock = mocked(useDispatch, true);
+const useGetLoaderScreenVariableMock = mocked(useGetLoaderScreenVariable, true);
+const useGetValidVariableMock = mocked(useGetValidVariable, true);
+const getTermMock = mocked(getTerm, true);
 
 describe('Testing hook useGetShippingLines', () => {
     const mockDispatch = jest.fn();
-    let useGetLoaderScreenVariableSpy: jest.SpyInstance;
-    let useGetValidVariableSpy: jest.SpyInstance;
-    let getTermSpy: jest.SpyInstance;
     const dataArray = [
         {
             name: 'Test isValidAddress and isLoading false',
@@ -91,9 +92,6 @@ describe('Testing hook useGetShippingLines', () => {
 
     beforeEach(() => {
         jest.resetAllMocks();
-        useGetLoaderScreenVariableSpy = jest.spyOn(useGetLoaderScreenVariable, 'useGetLoaderScreenVariable');
-        useGetValidVariableSpy = jest.spyOn(useGetValidVariable, 'useGetValidVariable');
-        getTermSpy = jest.spyOn(getTerm, 'getTerm');
         useDispatchMock.mockReturnValue(mockDispatch);
         mockDispatch.mockReturnValue(Promise.resolve());
     });
@@ -109,18 +107,18 @@ describe('Testing hook useGetShippingLines', () => {
         getValidCalled,
         getTermCalled
     }) => {
-        useGetValidVariableSpy.mockReturnValueOnce(validParameter).mockReturnValueOnce(updatedParameter);
-        useGetLoaderScreenVariableSpy.mockReturnValueOnce(loadingParameter);
-        getTermSpy.mockReturnValueOnce(validTextParameter).mockReturnValueOnce(fieldTextParameter);
+        useGetValidVariableMock.mockReturnValueOnce(validParameter).mockReturnValueOnce(updatedParameter);
+        useGetLoaderScreenVariableMock.mockReturnValueOnce(loadingParameter);
+        getTermMock.mockReturnValueOnce(validTextParameter).mockReturnValueOnce(fieldTextParameter);
 
         const {result} = renderHook(() => useGetShippingLines());
         const hookResult = result.current;
         await Promise.resolve();
 
         expect(mockDispatch).toHaveBeenCalledTimes(dispatchCalled);
-        expect(useGetLoaderScreenVariableSpy).toHaveBeenCalledTimes(getLoaderCalled);
-        expect(useGetValidVariableSpy).toHaveBeenCalledTimes(getValidCalled);
-        expect(getTermSpy).toHaveBeenCalledTimes(getTermCalled);
+        expect(useGetLoaderScreenVariableMock).toHaveBeenCalledTimes(getLoaderCalled);
+        expect(useGetValidVariableMock).toHaveBeenCalledTimes(getValidCalled);
+        expect(getTermMock).toHaveBeenCalledTimes(getTermCalled);
         expect(hookResult.loading).toBe(loadingParameter);
         expect(hookResult.isValidAddress).toBe(validParameter);
         expect(hookResult.notValidText).toBe(validTextParameter);

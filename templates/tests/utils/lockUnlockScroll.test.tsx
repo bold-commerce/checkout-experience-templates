@@ -1,35 +1,40 @@
-import {scriptsAreLoaded} from 'src/utils';
+import {lockUnlockScroll} from 'src/utils';
 
-describe('testing scriptsAreLoaded', () => {
-
-    const mockIDOne = 'mock-id-1';
-    const mockIDTwo = 'mock-id-2';
-    const mockScriptIdsArray: string[] = [mockIDOne, mockIDTwo];
+describe('testing lockUnlockScroll', () => {
 
     const dataProvider = [
         {
-            name: 'Scripts exist and are loaded correctly',
-            documentBody: `<p id="${mockIDOne}"></p><p id="${mockIDTwo}"></p>`,
-            idsArray: mockScriptIdsArray,
-            expectedResult: true
+            name: 'Call with true and loading',
+            htmlClassName: 'test loading',
+            lock: true,
+            expectedHtmlClassName: 'test loading'
         },
         {
-            name: 'Array of scripts to check is empty',
-            documentBody: `<p id="${mockIDOne}"></p><p id="${mockIDTwo}"></p>`,
-            idsArray: [],
-            expectedResult: false
+            name: 'Call with true without loading',
+            htmlClassName: 'test',
+            lock: true,
+            expectedHtmlClassName: 'test loading'
         },
         {
-            name: 'Scripts are not present  in the body',
-            documentBody: '<p>Some body without ID nor scripts</p>',
-            idsArray: mockScriptIdsArray,
-            expectedResult: false
+            name: 'Call with false and loading',
+            htmlClassName: 'test loading',
+            lock: false,
+            expectedHtmlClassName: 'test'
+        },
+        {
+            name: 'Call with false, without loading',
+            htmlClassName: 'test',
+            lock: false,
+            expectedHtmlClassName: 'test'
         },
     ];
 
-    test.each(dataProvider)('%s', ({name, documentBody, idsArray, expectedResult}) => {
-        document.body.innerHTML = documentBody;
-        const areLoaded = scriptsAreLoaded(idsArray);
-        expect(areLoaded).toStrictEqual(expectedResult);
+    test.each(dataProvider)('$name', ({htmlClassName, lock, expectedHtmlClassName}) => {
+        const html = document.querySelector('html') as HTMLHtmlElement;
+        html.className = htmlClassName;
+
+        lockUnlockScroll(lock);
+
+        expect(html.className).toBe(expectedHtmlClassName);
     });
 });

@@ -1,14 +1,15 @@
+import {IShippingLine} from '@bold-commerce/checkout-frontend-library';
 import {render} from '@testing-library/react';
+import {mocked} from 'jest-mock';
 import {ShippingLine} from 'src/components';
-import * as useGetShippingLinesData from 'src/hooks/useGetShippingLinesData';
+import {useGetIsLoading, useGetShippingLinesData} from 'src/hooks';
 import { IShippingLineProps, IShippingLinesHookProps} from 'src/types';
 import resetAllMocks = jest.resetAllMocks;
-import {IShippingLine} from '@bold-commerce/checkout-frontend-library';
-import {mocked} from 'jest-mock';
-import {useGetIsLoading} from 'src/hooks';
 
 jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/hooks/useGetShippingLinesData');
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+const useGetShippingLinesDataMock = mocked(useGetShippingLinesData, true);
 
 type Data = {
     name: string;
@@ -19,7 +20,6 @@ type Data = {
 }
 
 describe('Testing shipping line component', () => {
-    let useGetShippingLinesDataSpy = jest.spyOn(useGetShippingLinesData, 'useGetShippingLinesData');
 
     const selectShippingLine1: IShippingLine = {
         id: '1',
@@ -168,16 +168,15 @@ describe('Testing shipping line component', () => {
 
     beforeEach(() => {
         resetAllMocks();
-        useGetShippingLinesDataSpy = jest.spyOn(useGetShippingLinesData, 'useGetShippingLinesData');
         useGetIsLoadingMock.mockReturnValue(false);
         jest.resetAllMocks();
     });
 
     test.each(dataArray)('$name', async ({parameter, called, selectors, props = {}}) => {
-        useGetShippingLinesDataSpy.mockReturnValueOnce(parameter);
+        useGetShippingLinesDataMock.mockReturnValueOnce(parameter);
 
         const {container} = render(<ShippingLine {...props} />);
-        expect(useGetShippingLinesDataSpy).toHaveBeenCalledTimes(called);
+        expect(useGetShippingLinesDataMock).toHaveBeenCalledTimes(called);
         for (const [ selector, expectedLength ] of Object.entries(selectors)) {
             expect(container.querySelectorAll(selector)).toHaveLength(expectedLength);
         }

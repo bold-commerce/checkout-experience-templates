@@ -1,16 +1,16 @@
-import {IAddressCountryHookProps, IAddressFieldSelectProps, ISelectList} from 'src/types';
-import {Constants} from 'src/constants';
-import * as useGetAddressCountryInputData from 'src/hooks/useGetAddressCountrySelectData';
 import {fireEvent, render} from '@testing-library/react';
-import {AddressCountrySelect} from 'src/components';
 import {mocked} from 'jest-mock';
-import {useGetIsLoading} from 'src/hooks';
+import {AddressCountrySelect} from 'src/components';
+import {Constants} from 'src/constants';
+import {useGetIsLoading, useGetAddressCountryInputData} from 'src/hooks';
+import {IAddressCountryHookProps, IAddressFieldSelectProps, ISelectList} from 'src/types';
 
 jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/hooks/useGetAddressCountrySelectData');
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+const useGetAddressCountryInputDataMock = mocked(useGetAddressCountryInputData, true);
 
 describe('Testing AddressCountrySelect component', () => {
-    const addressHook = jest.spyOn(useGetAddressCountryInputData, 'useGetAddressCountryInputData');
 
     const props: IAddressFieldSelectProps = {
         type: Constants.SHIPPING,
@@ -43,7 +43,7 @@ describe('Testing AddressCountrySelect component', () => {
     });
 
     test('Render the AddressCountrySelect properly', () => {
-        addressHook.mockReturnValue(hookResult);
+        useGetAddressCountryInputDataMock.mockReturnValue(hookResult);
 
         const { container, getByText } = render(<AddressCountrySelect {...props}/>);
 
@@ -56,7 +56,7 @@ describe('Testing AddressCountrySelect component', () => {
     });
 
     test('test the change event', () => {
-        addressHook.mockReturnValue(hookResult);
+        useGetAddressCountryInputDataMock.mockReturnValue(hookResult);
 
         const { getByTestId } = render(<AddressCountrySelect {...props}/>);
 
@@ -66,7 +66,7 @@ describe('Testing AddressCountrySelect component', () => {
     });
 
     test('Unsupported country is rendered as an option until changed', () => {
-        addressHook.mockReturnValue({
+        useGetAddressCountryInputDataMock.mockReturnValue({
             ...hookResult,
             countryName: 'Test Country',
             value: 'test-country',
@@ -80,7 +80,7 @@ describe('Testing AddressCountrySelect component', () => {
         expect(container.querySelector('[value="test-country"]')?.textContent).toBe('Test Country');
 
         // Changing the country to a supported country
-        addressHook.mockReturnValue({
+        useGetAddressCountryInputDataMock.mockReturnValue({
             ...hookResult,
             countryName: hookResult.countryOptions[0].name,
             value: hookResult.countryOptions[0].value,
@@ -92,7 +92,7 @@ describe('Testing AddressCountrySelect component', () => {
     });
 
     test('Unsupported country is rendered using country code instead of name', () => {
-        addressHook.mockReturnValue({
+        useGetAddressCountryInputDataMock.mockReturnValue({
             ...hookResult,
             countryName: undefined,
             value: 'test-country',

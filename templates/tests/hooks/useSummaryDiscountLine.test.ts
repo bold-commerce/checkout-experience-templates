@@ -1,30 +1,29 @@
-import * as appAction from 'src/action/appAction';
-import * as deleteDiscounts from 'src/library/deleteDiscounts';
-import {renderHook} from '@testing-library/react-hooks';
-import {useGetIsLoading, useGetLoaderScreenVariable, useSummaryDiscountLine} from 'src/hooks';
 import {act} from '@testing-library/react';
-import {actionSetLoaderAndDisableButton} from 'src/action/appAction';
+import {renderHook} from '@testing-library/react-hooks';
 import {mocked} from 'jest-mock';
+import {actionSetLoaderAndDisableButton} from 'src/action';
+import {useGetIsLoading, useGetLoaderScreenVariable, useSummaryDiscountLine} from 'src/hooks';
+import {deleteDiscounts} from 'src/library';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch
 }));
+jest.mock('src/action');
 jest.mock('src/hooks/useGetLoaderScreenVariable');
 jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/library');
+const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButton, true);
+const deleteDiscountsMock = mocked(deleteDiscounts, true);
 const useGetLoaderScreenVariableMock = mocked(useGetLoaderScreenVariable, true);
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 
 describe('Testing hook useSummaryDiscountLine', () => {
-    let actionSetLoaderAndDisableButtonSpy: jest.SpyInstance;
-    let deleteDiscountsSpy: jest.SpyInstance;
 
     beforeEach(() => {
         jest.clearAllMocks();
         useGetIsLoadingMock.mockReturnValue(false);
         useGetLoaderScreenVariableMock.mockReturnValue(false);
-        actionSetLoaderAndDisableButtonSpy = jest.spyOn(appAction, 'actionSetLoaderAndDisableButton');
-        deleteDiscountsSpy = jest.spyOn(deleteDiscounts, 'deleteDiscounts');
     });
 
     test('rendering the hook properly', () => {
@@ -40,10 +39,9 @@ describe('Testing hook useSummaryDiscountLine', () => {
             hookResult.deleteElementFromState('TEST', 'TEST_ID');
         });
 
-        expect(actionSetLoaderAndDisableButtonSpy).toHaveBeenCalled();
-        expect(actionSetLoaderAndDisableButtonSpy).toHaveBeenCalledWith('discountClose', true);
-        expect(deleteDiscountsSpy).toHaveBeenCalled();
-        expect(deleteDiscountsSpy).toHaveBeenCalledWith( 'TEST_ID');
+        expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalled();
+        expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledWith('discountClose', true);
+        expect(deleteDiscountsMock).toHaveBeenCalled();
+        expect(deleteDiscountsMock).toHaveBeenCalledWith( 'TEST_ID');
     });
-
 });

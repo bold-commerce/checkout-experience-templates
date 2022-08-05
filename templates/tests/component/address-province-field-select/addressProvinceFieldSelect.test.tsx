@@ -1,19 +1,19 @@
+import {fireEvent, render, screen} from '@testing-library/react';
+import {mocked} from 'jest-mock';
+import {AddressProvinceSelect} from 'src/components';
+import {Constants} from 'src/constants';
+import {useGetIsLoading, useGetAddressProvinceInputData} from 'src/hooks';
 import {
     IAddressFieldSelectProps,
     IAddressProvinceHookProps, ISelectList
 } from 'src/types';
-import {Constants} from 'src/constants';
-import * as useGetAddressProvinceInputData from 'src/hooks/useGetAddressProvinceSelectData';
-import {fireEvent, render, screen} from '@testing-library/react';
-import {AddressProvinceSelect} from 'src/components';
-import {mocked} from 'jest-mock';
-import {useGetIsLoading} from 'src/hooks';
 
 jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/hooks/useGetAddressProvinceSelectData');
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+const useGetAddressProvinceInputDataMock = mocked(useGetAddressProvinceInputData, true);
 
 describe('Testing AddressProvinceSelect component', () => {
-    const addressHook = jest.spyOn(useGetAddressProvinceInputData, 'useGetAddressProvinceInputData');
 
     const props:IAddressFieldSelectProps = {
         type: Constants.SHIPPING,
@@ -47,7 +47,7 @@ describe('Testing AddressProvinceSelect component', () => {
     });
 
     test('Render the AddressProvinceSelect properly', () => {
-        addressHook.mockReturnValue(hookResult);
+        useGetAddressProvinceInputDataMock.mockReturnValue(hookResult);
         const {container} = render(<AddressProvinceSelect {...props}/>);
         expect(container.getElementsByClassName(props.className).length).toBe(1);
         expect(container.getElementsByClassName('address__hidden').length).toBe(0);
@@ -61,7 +61,7 @@ describe('Testing AddressProvinceSelect component', () => {
     test('Render the AddressFieldInput with show province as false', () => {
         const localHookResult = {...hookResult};
         localHookResult.showProvince = false;
-        addressHook.mockReturnValue(localHookResult);
+        useGetAddressProvinceInputDataMock.mockReturnValue(localHookResult);
 
         const {container} = render(<AddressProvinceSelect {...props}/>);
 
@@ -69,7 +69,7 @@ describe('Testing AddressProvinceSelect component', () => {
     });
 
     test('test the change event', () => {
-        addressHook.mockReturnValue(hookResult);
+        useGetAddressProvinceInputDataMock.mockReturnValue(hookResult);
 
         render(<AddressProvinceSelect {...props}/>);
 
@@ -79,7 +79,7 @@ describe('Testing AddressProvinceSelect component', () => {
     });
 
     test('Unsupported province is rendered as an option until changed', () => {
-        addressHook.mockReturnValue({
+        useGetAddressProvinceInputDataMock.mockReturnValue({
             ...hookResult,
             provinceName: 'Test Province',
             value: 'test-province',
@@ -93,7 +93,7 @@ describe('Testing AddressProvinceSelect component', () => {
         expect(container.querySelector('[value="test-province"]')?.textContent).toBe('Test Province');
 
         // Changing the country to a supported country
-        addressHook.mockReturnValue({
+        useGetAddressProvinceInputDataMock.mockReturnValue({
             ...hookResult,
             provinceName: hookResult.provinceOptions[0].name,
             value: hookResult.provinceOptions[0].value,
@@ -105,7 +105,7 @@ describe('Testing AddressProvinceSelect component', () => {
     });
 
     test('Unsupported province is rendered using province code instead of name', () => {
-        addressHook.mockReturnValue({
+        useGetAddressProvinceInputDataMock.mockReturnValue({
             ...hookResult,
             provinceName: undefined,
             value: 'test-province',

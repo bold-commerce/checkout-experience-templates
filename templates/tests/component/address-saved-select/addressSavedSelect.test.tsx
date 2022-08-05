@@ -1,15 +1,16 @@
-import {IAddressFieldSelectProps, IAddressSavedSelectProps, ISavedAddressHookProps, ISelectList} from 'src/types';
-import {Constants} from 'src/constants';
-import * as useGetSavedAddressData from 'src/hooks/useGetSavedAddressData';
-import {fireEvent, render} from '@testing-library/react';
-import {AddressSavedSelect} from 'src/components';
-import {initialDataMock} from 'src/mocks';
-import {mocked} from 'jest-mock';
-import {useGetIsLoading} from 'src/hooks';
 import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {fireEvent, render} from '@testing-library/react';
+import {mocked} from 'jest-mock';
+import {AddressSavedSelect} from 'src/components';
+import {Constants} from 'src/constants';
+import {useGetIsLoading, useGetSavedAddressData} from 'src/hooks';
+import {initialDataMock} from 'src/mocks';
+import {IAddressFieldSelectProps, IAddressSavedSelectProps, ISavedAddressHookProps, ISelectList} from 'src/types';
 
 jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/hooks/useGetSavedAddressData');
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+const useGetSavedAddressDataMock = mocked(useGetSavedAddressData, true);
 
 type RenderTestData = {
     name: string;
@@ -19,7 +20,6 @@ type RenderTestData = {
 }
 
 describe('Testing AddressSavedSelect component', () => {
-    const addressHook = jest.spyOn(useGetSavedAddressData, 'useGetSavedAddressData');
     const savedAddresses: Array<IAddress> = initialDataMock.application_state.customer.saved_addresses;
     const props: IAddressFieldSelectProps = {
         type: Constants.SHIPPING,
@@ -106,7 +106,7 @@ describe('Testing AddressSavedSelect component', () => {
         addressSavedSelectProps,
         selectors,
     }) => {
-        addressHook.mockReturnValue(hookReturnValue);
+        useGetSavedAddressDataMock.mockReturnValueOnce(hookReturnValue);
 
         const { container } = render(<AddressSavedSelect {...addressSavedSelectProps} />);
 
@@ -117,7 +117,7 @@ describe('Testing AddressSavedSelect component', () => {
     });
 
     test('test the change event', () => {
-        addressHook.mockReturnValue(hookResult);
+        useGetSavedAddressDataMock.mockReturnValueOnce(hookResult);
 
         const { getByTestId } = render(<AddressSavedSelect {...props}/>);
 
@@ -128,7 +128,7 @@ describe('Testing AddressSavedSelect component', () => {
     });
 
     test('Render with autoSelect=true and selectedOptionId=option1', () => {
-        addressHook.mockReturnValue({
+        useGetSavedAddressDataMock.mockReturnValueOnce({
             ...hookResult,
             selectedOptionId: options[0].value,
         });

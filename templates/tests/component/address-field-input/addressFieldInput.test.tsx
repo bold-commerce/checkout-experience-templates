@@ -1,16 +1,16 @@
-import * as useGetAddressFieldInputData from 'src/hooks/useGetAddressFieldInputData';
 import {fireEvent, render, screen} from '@testing-library/react';
-import {AddressFieldInput} from 'src/components';
-import {IAddressHookProps, IAddressFieldInputProps} from 'src/types';
-import {Constants} from 'src/constants';
 import {mocked} from 'jest-mock';
-import {useGetIsLoading} from 'src/hooks';
+import {AddressFieldInput} from 'src/components';
+import {Constants} from 'src/constants';
+import {useGetIsLoading, useGetAddressFieldInputData} from 'src/hooks';
+import {IAddressHookProps, IAddressFieldInputProps} from 'src/types';
 
 jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/hooks/useGetAddressFieldInputData');
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+const useGetAddressFieldInputDataMock = mocked(useGetAddressFieldInputData, true);
 
 describe('Testing addressFieldInput component', () => {
-    let addressHook: jest.SpyInstance;
 
     const props:IAddressFieldInputProps = {
         type: Constants.SHIPPING,
@@ -33,7 +33,7 @@ describe('Testing addressFieldInput component', () => {
     });
 
     test('Render the AddressFieldInput properly', () => {
-        addressHook = jest.spyOn(useGetAddressFieldInputData, 'useGetAddressFieldInputData').mockReturnValue(hookResult);
+        useGetAddressFieldInputDataMock.mockReturnValueOnce(hookResult);
         const {container} = render(<AddressFieldInput {...props}/>);
         expect(container.getElementsByClassName(props.className).length).toBe(1);
         expect(container.getElementsByClassName('address__hidden').length).toBe(0);
@@ -45,7 +45,7 @@ describe('Testing addressFieldInput component', () => {
     });
 
     test('test the change event', () => {
-        addressHook = jest.spyOn(useGetAddressFieldInputData, 'useGetAddressFieldInputData').mockReturnValue(hookResult);
+        useGetAddressFieldInputDataMock.mockReturnValueOnce(hookResult);
         render(<AddressFieldInput {...props}/>);
         const input = screen.getByTestId('input-field');
         fireEvent.change(input, {target: {value: 'a'}});

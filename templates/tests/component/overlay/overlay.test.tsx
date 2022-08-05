@@ -1,13 +1,13 @@
-import * as lockUnlockScroll from 'src/utils/lockUnlockScroll';
-import * as useGetOverlay from 'src/hooks/useGetOverlay';
-import {IOverlay} from 'src/types';
 import {render, screen} from '@testing-library/react';
+import {mocked} from 'jest-mock';
 import {Overlay} from 'src/components';
+import {useGetOverlay} from 'src/hooks';
+import {IOverlay} from 'src/types';
 
+jest.mock('src/hooks');
+jest.mock('src/utils');
+const useGetOverlayMock = mocked(useGetOverlay, true);
 describe('Testing Overlay component', () => {
-
-    let lockUnlockScrollSpy: jest.SpyInstance;
-    let overlaySpy: jest.SpyInstance;
 
     const overlay: IOverlay ={
         shown: true,
@@ -18,11 +18,11 @@ describe('Testing Overlay component', () => {
     };
 
     beforeEach(() => {
-        lockUnlockScrollSpy = jest.spyOn(lockUnlockScroll, 'lockUnlockScroll');
+        jest.resetAllMocks();
     });
 
     test('Render the Overlay properly', () => {
-        overlaySpy = jest.spyOn(useGetOverlay, 'useGetOverlay').mockReturnValue(overlay);
+        useGetOverlayMock.mockReturnValueOnce(overlay);
         const {container} = render(<Overlay />);
         expect(container.getElementsByClassName('overlay__header').length).toBe(1);
         expect(container.getElementsByClassName('overlay__subheader').length).toBe(1);
@@ -33,7 +33,7 @@ describe('Testing Overlay component', () => {
 
     test('check the overlay ID on basis of inverted = false', () => {
         const props = {...overlay};
-        overlaySpy = jest.spyOn(useGetOverlay, 'useGetOverlay').mockReturnValue(props);
+        useGetOverlayMock.mockReturnValueOnce(props);
         render(<Overlay />);
         const element = screen.getByTestId('overlay-div');
         expect(element.id).toBe('overlay');
@@ -42,7 +42,7 @@ describe('Testing Overlay component', () => {
     test('check the overlay ID on basis of inverted = true', () => {
         const props = {...overlay};
         props.inverted = true;
-        overlaySpy = jest.spyOn(useGetOverlay, 'useGetOverlay').mockReturnValue(props);
+        useGetOverlayMock.mockReturnValueOnce(props);
         render(<Overlay />);
         const element = screen.getByTestId('overlay-div');
         expect(element.id).toBe('overlay-inverted');
@@ -51,7 +51,7 @@ describe('Testing Overlay component', () => {
     test('Should not render if the shown parameter is false', () => {
         const props = {...overlay};
         props.shown = false;
-        overlaySpy = jest.spyOn(useGetOverlay, 'useGetOverlay').mockReturnValue(props);
+        useGetOverlayMock.mockReturnValueOnce(props);
         render(<Overlay />);
         const element = screen.getByTestId('overlay-div');
         expect(element.className.includes('overlay-hidden')).toBe(true);
@@ -60,7 +60,7 @@ describe('Testing Overlay component', () => {
     test('Should not render the button if the inverted is true', () => {
         const props = {...overlay};
         props.inverted = true;
-        overlaySpy = jest.spyOn(useGetOverlay, 'useGetOverlay').mockReturnValue(props);
+        useGetOverlayMock.mockReturnValueOnce(props);
         render(<Overlay />);
         const element = screen.getByTestId('overlay-button');
         expect(element.className.includes('overlay-hidden')).toBe(false);
@@ -69,7 +69,7 @@ describe('Testing Overlay component', () => {
     test('check the icon when inverted = true', () => {
         const props = {...overlay};
         props.inverted = true;
-        overlaySpy = jest.spyOn(useGetOverlay, 'useGetOverlay').mockReturnValue(props);
+        useGetOverlayMock.mockReturnValueOnce(props);
         render(<Overlay />);
         const element = screen.getByTestId('overlay-icon');
         expect(element.className.includes('overlay__loader')).toBe(true);
@@ -79,7 +79,7 @@ describe('Testing Overlay component', () => {
     test('check the icon when inverted = false', () => {
         const props = {...overlay};
         props.inverted = false;
-        overlaySpy = jest.spyOn(useGetOverlay, 'useGetOverlay').mockReturnValue(props);
+        useGetOverlayMock.mockReturnValueOnce(props);
         render(<Overlay />);
         const element = screen.getByTestId('overlay-icon');
         expect(element.className.includes('overlay__loader')).toBe(false);
