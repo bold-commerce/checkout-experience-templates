@@ -481,6 +481,10 @@ export interface ICondensedSectionProps {
     children?: React.ReactNode;
 }
 
+export interface ILineWithTextProp {
+    text: string
+}
+
 export interface ICloseableHeaderProps {
     className?: string;
     title: string;

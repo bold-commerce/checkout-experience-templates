@@ -2,9 +2,10 @@ import {IFooterProps} from 'src/types';
 import {getTerm, getTotalsFromState, callProcessOrder} from 'src/utils';
 import {Constants} from 'src/constants';
 import {useGetIsLoading} from 'src/hooks';
-import {useCallback} from 'react';
+import {useCallback, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
+import {initializeExpressPay} from 'src/library';
 
 export function useGetOnePageFooterData(): IFooterProps{
     const dispatch = useDispatch();
@@ -20,6 +21,10 @@ export function useGetOnePageFooterData(): IFooterProps{
     const nextButtonOnClick = useCallback(() => {
         callProcessOrder(dispatch, totals, history);
     }, [totals]);
+
+    useEffect( () => {
+        dispatch(initializeExpressPay);
+    }, []);
 
     return {backLinkOnClick, backLinkText, nextButtonOnClick, nextButtonText, nextButtonLoading};
 }

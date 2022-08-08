@@ -2,7 +2,10 @@ import {useAppSelector, useGetAppSettingData} from 'src/hooks';
 import {renderHook} from '@testing-library/react-hooks';
 
 const store = {
-    appSetting: {test: 'test'}
+    appSetting: {
+        test: 'test',
+        test2: false
+    }
 };
 
 jest.mock('src/hooks/rootHooks');
@@ -15,12 +18,16 @@ describe('Testing hook useGetAppSettingData', () => {
         jest.clearAllMocks();
     });
 
-    test('test hook properly', () => {
-        const field = 'test';
+    const data = [
+        {name: 'test with string', input: 'test', output: 'test'},
+        {name: 'test with boolean', input: 'test2', output: false}
+    ];
 
-        const {result} = renderHook(() => useGetAppSettingData(field));
-        expect(result.current).toStrictEqual(field);
+    test.each(data)('$name', ({name, input, output}) => {
+        const {result} = renderHook(() => useGetAppSettingData(input));
+        expect(result.current).toStrictEqual(output);
         expect(useAppSelector).toHaveBeenCalledTimes(1);
+
     });
 
 });

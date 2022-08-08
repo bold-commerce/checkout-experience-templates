@@ -7,7 +7,8 @@ import {
     Payment,
     Footer,
     FlashError,
-    Header
+    Header,
+    ExpressPaymentGateway
 } from 'src/components';
 import {IFooterProps} from 'src/types';
 import {useGetOnePageFooterData} from 'src/themes/one-page/hooks';
@@ -19,6 +20,7 @@ export function CustomerSection(): React.ReactElement {
         <div className={'customer-section'}>
             <Header isMobile={false}/>
             <FlashError/>
+            <ExpressPaymentGateway/>
             <CustomerInformation/>
             <ShippingAddress/>
             <BillingAddress/>

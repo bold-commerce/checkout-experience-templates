@@ -9,7 +9,7 @@ import { validateBillingAddress } from 'src/library';
 
 export function useBillingAddress(): IBillingAddress{
     const dispatch = useDispatch();
-    const customBilling = useGetAppSettingData('billingType');
+    const customBilling = useGetAppSettingData('billingType') as string;
     const isCustomerLoggedIn = useIsUserAuthenticated();
     const shippingAddress = useGetShippingData();
     const callApiAtOnEvents = useCallApiAtOnEvents();

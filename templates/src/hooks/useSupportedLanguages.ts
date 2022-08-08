@@ -9,7 +9,7 @@ export function useSupportedLanguages(): IUseSupportedLanguages {
     const dispatch = useDispatch();
     const supportedLanguages = useGetAllSupportedLanguages();
     const languagesOptions = supportedLanguages.map(language => ({ value: language.iso_language, name: language.language_name }));
-    const value = useGetAppSettingData('languageIso');
+    const value = useGetAppSettingData('languageIso') as string;
     const handleChange = useCallback(async e => {
         dispatch(actionSetLanguageIso(e.target.value));
         await dispatch(updatePigiLanguage());

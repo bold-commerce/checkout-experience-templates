@@ -25,7 +25,7 @@ export function getValidatedOrderData(orderData: IInitializeOrderResponse): IIni
             country_info: countryInfo,
             general_settings: settings,
             alternate_payment_methods: orderData.initial_data.alternate_payment_methods
-        },
+        }
     };
     return validatedData;
 }

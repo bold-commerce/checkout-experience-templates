@@ -1,0 +1,15 @@
+.text-with-center-line {
+    display: flex;
+}
+
+.text-with-center-line div {
+    flex-grow: 1;
+    height: 0;
+    align-self: center;
+    border-bottom: 1px solid #d9d9d9
+}
+
+.text-with-center-line__content {
+    padding: 0 10px 0;
+    color: #777777;
+}

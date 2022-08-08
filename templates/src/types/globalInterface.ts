@@ -33,6 +33,7 @@ export interface IInitialState {
     billingType: string,
     discountText: string,
     pigiDisplaySca: boolean,
+    isExpressPaySectionEnable: boolean
 }
 
 export interface IBreadcrumb {

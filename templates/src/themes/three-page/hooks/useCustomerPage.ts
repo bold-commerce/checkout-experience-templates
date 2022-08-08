@@ -1,7 +1,7 @@
 import {useCallback, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
-import {callCustomerPageApi, checkInventory} from 'src/library';
+import {callCustomerPageApi, checkInventory, initializeExpressPay} from 'src/library';
 import {useHistory} from 'react-router';
 import {Constants, NeuroIdConstants} from 'src/constants';
 import {IUseCustomerPageProp} from 'src/types';
@@ -38,6 +38,7 @@ export function useCustomerPage(): IUseCustomerPageProp {
 
     useEffect( () => {
         dispatch(checkInventory(checkInventoryStage.initial));
+        dispatch(initializeExpressPay);
     }, []);
 
     return {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading};

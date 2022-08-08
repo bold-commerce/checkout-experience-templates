@@ -4,6 +4,7 @@ import {mocked} from 'jest-mock';
 import {callProcessOrder, getTerm, getTotalsFromState} from 'src/utils';
 import {ITotals} from 'src/types';
 import {useGetOnePageFooterData} from 'src/themes/one-page/hooks';
+import {initializeExpressPay} from 'src/library';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -13,10 +14,12 @@ jest.mock('src/utils/getTerm');
 jest.mock('src/utils/getTotalsFromState');
 jest.mock('src/utils/callProcessOrder');
 jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/library/initializeExpressPay');
 const getTermMock = mocked(getTerm, true);
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 const getTotalsFromStateMock = mocked(getTotalsFromState, true);
 const callProcessOrderMock = mocked(callProcessOrder, true);
+const initializeExpressPayMock = mocked(initializeExpressPay, true);
 
 describe('Testing hook useGetAddressFieldInputData', () => {
     const getTermValue = 'test-value';
@@ -51,6 +54,7 @@ describe('Testing hook useGetAddressFieldInputData', () => {
         expect(result.current.backLinkText).toStrictEqual(getTermValue);
         expect(result.current.nextButtonText).toStrictEqual(getTermValue);
         expect(result.current.nextButtonLoading).toStrictEqual(false);
+        expect(mockDispatch).toHaveBeenCalledWith(initializeExpressPayMock);
 
         result.current.nextButtonOnClick();
         result.current.backLinkOnClick && result.current.backLinkOnClick(eventMock);
