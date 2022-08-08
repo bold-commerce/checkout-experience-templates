@@ -16,7 +16,8 @@ export const stateMock: IOrderInitialization = {
         'autocompleteService': '',
         'billingType': 'same',
         'discountText': '',
-        'pigiDisplaySca': false
+        'pigiDisplaySca': false,
+        'isExpressPaySectionEnable': false
     },
     'isLoading': {
         pigiIframe: false,

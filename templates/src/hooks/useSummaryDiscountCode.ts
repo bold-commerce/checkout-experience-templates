@@ -17,7 +17,7 @@ import {Constants, errorFields, errorTypes} from 'src/constants';
 export function useSummaryDiscountCode(): ISummaryDiscountCode {
     const discounts = useGetDiscounts();
     const emailAddress = useGetCustomerInfoDataByField('email_address');
-    const discountCodeText = useGetAppSettingData('discountText');
+    const discountCodeText = useGetAppSettingData('discountText') as string;
     const discountError =  useGetErrorByField(errorFields.discounts, '' , errorTypes.discount_code_validation);
     const buttonLoading = useGetLoaderScreenVariable('discountButton');
     const isLoading = useGetIsLoading();
@@ -29,8 +29,8 @@ export function useSummaryDiscountCode(): ISummaryDiscountCode {
         if(buttonDisabled) {
             event.preventDefault();
             return;
-        } 
-        
+        }
+
         dispatch(actionSetLoaderAndDisableButton('discountButton', true));
 
         if(emailAddress === ''){

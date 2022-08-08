@@ -10,6 +10,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
         billingType: 'same',
         discountText: '',
         pigiDisplaySca: false,
+        isExpressPaySectionEnable: false
     },
     isLoading: {
         pigiIframe: false,

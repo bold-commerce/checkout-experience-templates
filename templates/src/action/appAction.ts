@@ -104,6 +104,14 @@ export function actionSetPigiDisplaySca(pigiDisplaySca: boolean): AnyAction {
     };
 }
 
+export function actionSetExpressPaymentSectionEnabled(isExpressPaySectionEnable: boolean): AnyAction {
+    return {
+        type: AppActions.SET_EXPRESS_PAYMENT_SECTION_ENABLED,
+        payload: {isExpressPaySectionEnable}
+    };
+}
+
+
 export function actionAddDiscount(code: string, value: number, text: string): AnyAction {
     return {
         type:AppActions.ADD_DISCOUNT,

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {BillingAddress, Breadcrumbs, CustomerInformation, ShippingAddress, SummarySection, Footer, FlashError, Header} from 'src/components';
+import {BillingAddress, Breadcrumbs, CustomerInformation, ShippingAddress, SummarySection, Footer, FlashError, Header, ExpressPaymentGateway} from 'src/components';
 import {useBeforeUnload, useScrollToElementOnNavigation, useSendEvent} from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
@@ -36,6 +36,7 @@ export function CustomerPage(): React.ReactElement {
                     <Header isMobile={false}/>
                     <Breadcrumbs active={active}/>
                     <FlashError/>
+                    <ExpressPaymentGateway/>
                     <CustomerInformation/>
                     <ShippingAddress/>
                     <BillingAddress/>

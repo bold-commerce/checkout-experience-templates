@@ -11,7 +11,8 @@ export const storeMock: IOrderInitialization = {
         callApiAtOnEvents: false,
         billingType: Constants.SHIPPING_SAME,
         discountText: '',
-        pigiDisplaySca: false
+        pigiDisplaySca: false,
+        isExpressPaySectionEnable: false
     },
     errors: [],
     isLoading: {

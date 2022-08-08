@@ -6,12 +6,10 @@ import {
     UPDATE_BILLING_TYPE,
     UPDATE_DISCOUNT_CODE_TEXT,
     UPDATE_SCREEN_WIDTH,
-    UPDATE_APP_DATA,
+    UPDATE_APP_DATA, SET_EXPRESS_PAYMENT_SECTION_ENABLED,
 } from 'src/action';
 import {Constants} from 'src/constants';
 import rootReducer, {reducer} from 'src/reducer/rootReducer';
-import { defaultOrderInitialization } from 'src/constants/orderInitialization';
-
 
 describe('testing appSettings reducer', () => {
 
@@ -24,6 +22,7 @@ describe('testing appSettings reducer', () => {
         {name: 'testing UPDATE_BILLING_TYPE action',  action: UPDATE_BILLING_TYPE, payload: {type: Constants.SHIPPING_DIFFERENT }, expected: {...defaultState, billingType: Constants.SHIPPING_DIFFERENT }},
         {name: 'testing UPDATE_DISCOUNT_CODE_TEXT action', action: UPDATE_DISCOUNT_CODE_TEXT, payload: {code: 'test'}, expected: {...defaultState, discountText: 'test'}},
         {name: 'testing SET_PIGI_DISPLAY_SCA action', action: SET_PIGI_DISPLAY_SCA, payload: {pigiDisplaySca: true}, expected: {...defaultState, pigiDisplaySca: true}},
+        {name: 'testing SET_EXPRESS_PAYMENT_SECTION_ENABLED action', action: SET_EXPRESS_PAYMENT_SECTION_ENABLED, payload: {isExpressPaySectionEnable: true}, expected: {...defaultState, isExpressPaySectionEnable: true}},
     ];
 
     test.each(dataSet)('$name', ({name, action, payload, expected}) => {

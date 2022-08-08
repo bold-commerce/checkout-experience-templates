@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { actionClearValidStates, actionGetInitialData, actionUpdateAppData } from 'src/action';
-import { checkInventory, initializeSession, setDefaultAddresses } from 'src/library';
+import { checkInventory, initializeSession, setDefaultAddresses, initializeExpressPay } from 'src/library';
 import { IOrderInitialization } from 'src/types';
 import { getOrderInitialization } from 'src/utils/getOrderInitialization';
 import { IUseModal } from '../types';
@@ -21,6 +21,7 @@ export function useModal(): IUseModal {
         dispatch(actionGetInitialData(window.location.hostname));
         dispatch(setDefaultAddresses);
         dispatch(checkInventory(checkInventoryStage.initial));
+        dispatch(initializeExpressPay);
     }, [setIsOpen, dispatch]);
 
     const handleCloseEvent = useCallback(() => {
