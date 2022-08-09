@@ -1,14 +1,18 @@
-import {mocked} from 'jest-mock';
 import {baseReturnObject, validateAddress} from '@bold-commerce/checkout-frontend-library';
-import {initialDataMock, stateMock} from 'src/mocks';
-import * as handleErrorIfNeeded from 'src/utils/handleErrorIfNeeded';
-import * as setValid from 'src/action/appAction';
-import {deleteAddress, postAddress, validateAddressFunction} from 'src/library';
+import {mocked} from 'jest-mock';
+import {actionSetAppStateValid} from 'src/action/appAction';
 import {API_RETRY, Constants, defaultAddressState} from 'src/constants';
+import {deleteAddress, postAddress, validateAddressFunction} from 'src/library';
+import {initialDataMock, stateMock} from 'src/mocks';
+import {handleErrorIfNeeded} from 'src/utils/handleErrorIfNeeded';
 
 jest.mock('@bold-commerce/checkout-frontend-library/lib/address');
+jest.mock('src/action/appAction');
 jest.mock('src/library/deleteAddress');
 jest.mock('src/library/postAddress');
+jest.mock('src/utils/handleErrorIfNeeded');
+const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true);
+const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);
 const validateAddressMock = mocked(validateAddress, true);
 const deleteAddressMock = mocked(deleteAddress, true);
 const postAddressMock = mocked(postAddress, true);
@@ -19,14 +23,10 @@ describe('testing validateAddressFunction', () => {
     const getStateMock = jest.fn();
     const postAddressReturnedFunctionMock = jest.fn();
     const deleteAddressReturnedFunctionMock = jest.fn();
-    let handleErrorSpy: jest.SpyInstance;
-    let setValidSpy: jest.SpyInstance;
 
     beforeEach(() => {
         jest.clearAllMocks();
         dispatchMock.mockReturnValue(Promise.resolve());
-        handleErrorSpy = jest.spyOn(handleErrorIfNeeded, 'handleErrorIfNeeded').mockImplementation();
-        setValidSpy = jest.spyOn(setValid, 'actionSetAppStateValid');
         deleteAddressMock.mockReturnValue(deleteAddressReturnedFunctionMock);
         postAddressMock.mockReturnValue(postAddressReturnedFunctionMock);
     });
@@ -45,8 +45,8 @@ describe('testing validateAddressFunction', () => {
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
 
         expect(validateAddressMock).toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code, shipping.business_name, shipping.phone_number, API_RETRY);
-        expect(handleErrorSpy).toHaveBeenCalledTimes(1);
-        expect(setValidSpy).toHaveBeenCalledTimes(0);
+        expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(0);
         expect(dispatchMock).toHaveBeenCalledTimes(2);
         expect(dispatchMock).toHaveBeenCalledWith(postAddressReturnedFunctionMock);
         expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
@@ -62,8 +62,8 @@ describe('testing validateAddressFunction', () => {
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
 
         expect(validateAddressMock).toHaveBeenCalledWith(billing.postal_code, billing.province,  billing.province_code, billing.country, billing.country_code, billing.business_name, billing.phone_number, API_RETRY);
-        expect(handleErrorSpy).toHaveBeenCalledTimes(1);
-        expect(setValidSpy).toHaveBeenCalledTimes(0);
+        expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(0);
         expect(dispatchMock).toHaveBeenCalledTimes(2);
         expect(dispatchMock).toHaveBeenCalledWith(postAddressReturnedFunctionMock);
         expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
@@ -82,9 +82,9 @@ describe('testing validateAddressFunction', () => {
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
 
         expect(validateAddressMock).toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code, shipping.business_name, shipping.phone_number, API_RETRY);
-        expect(handleErrorSpy).toHaveBeenCalledTimes(1);
-        expect(setValidSpy).toHaveBeenCalledTimes(1);
-        expect(setValidSpy).toHaveBeenCalledWith('shippingAddress', false);
+        expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
         expect(dispatchMock).toHaveBeenCalledTimes(3);
         expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
         expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
@@ -104,9 +104,9 @@ describe('testing validateAddressFunction', () => {
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
 
         expect(validateAddressMock).toHaveBeenCalledWith(billing.postal_code, billing.province, billing.province_code, billing.country, billing.country_code, billing.business_name, billing.phone_number, API_RETRY);
-        expect(handleErrorSpy).toHaveBeenCalledTimes(1);
-        expect(setValidSpy).toHaveBeenCalledTimes(1);
-        expect(setValidSpy).toHaveBeenCalledWith('billingAddress', false);
+        expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledWith('billingAddress', false);
         expect(dispatchMock).toHaveBeenCalledTimes(3);
         expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
         expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
@@ -146,9 +146,9 @@ describe('testing validateAddressFunction', () => {
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
 
         expect(validateAddressMock).not.toHaveBeenCalledWith(...validationFieldParams);
-        expect(handleErrorSpy).toHaveBeenCalledTimes(1);
-        expect(setValidSpy).toHaveBeenCalledTimes(1);
-        expect(setValidSpy).toHaveBeenCalledWith('billingAddress', false);
+        expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledWith('billingAddress', false);
         expect(dispatchMock).toHaveBeenCalledTimes(9);
         expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
         expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
@@ -164,10 +164,10 @@ describe('testing validateAddressFunction', () => {
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
 
         expect(validateAddressMock).not.toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.country_code);
-        expect(handleErrorSpy).toHaveBeenCalledTimes(0);
-        expect(setValidSpy).toHaveBeenCalledTimes(2);
-        expect(setValidSpy).toHaveBeenCalledWith('shippingAddress', true);
-        expect(setValidSpy).toHaveBeenCalledWith('updatedShippingAddress', true);
+        expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(0);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(2);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', true);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledWith('updatedShippingAddress', true);
         expect(dispatchMock).toHaveBeenCalledTimes(3);
         expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
         expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
@@ -183,9 +183,9 @@ describe('testing validateAddressFunction', () => {
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
 
         expect(validateAddressMock).not.toHaveBeenCalledWith(billing.postal_code, billing.province, billing.country_code);
-        expect(handleErrorSpy).toHaveBeenCalledTimes(0);
-        expect(setValidSpy).toHaveBeenCalledTimes(1);
-        expect(setValidSpy).toHaveBeenCalledWith('billingAddress', true);
+        expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(0);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledWith('billingAddress', true);
         expect(dispatchMock).toHaveBeenCalledTimes(2);
         expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
         expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
@@ -213,8 +213,8 @@ describe('testing validateAddressFunction', () => {
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
 
         expect(validateAddressMock).not.toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.country_code);
-        expect(handleErrorSpy).toHaveBeenCalledTimes(1);
-        expect(setValidSpy).toHaveBeenCalledTimes(1);
+        expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledTimes(8);
         expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
         expect(dispatchMock).toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);

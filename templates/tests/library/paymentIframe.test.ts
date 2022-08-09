@@ -1,13 +1,15 @@
 import {baseReturnObject, getPaymentIframeUrl} from '@bold-commerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
-import {stateMock} from 'src/mocks/stateMock';
-import {getPaymentIframe, postCssStylingPigi} from 'src/library';
-import {displayFatalErrorFromTranslation, handleErrorIfNeeded} from 'src/utils';
+import {actionSetPigiIframeLoader} from 'src/action';
 import * as AppActions from 'src/action/appActionType';
-import * as appAction from 'src/action/appAction';
+import {getPaymentIframe, postCssStylingPigi} from 'src/library';
+import {stateMock} from 'src/mocks/stateMock';
+import {displayFatalErrorFromTranslation, handleErrorIfNeeded} from 'src/utils';
 
 jest.mock('@bold-commerce/checkout-frontend-library/lib/paymentIframe');
+jest.mock('src/action/appAction');
 jest.mock('src/utils');
+const actionSetPigiIframeLoaderFuncMock = mocked(actionSetPigiIframeLoader, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);
 const displayFatalErrorFromTranslationMock = mocked(displayFatalErrorFromTranslation, true);
 const getPaymentIframeUrlMock = mocked(getPaymentIframeUrl, true);
@@ -21,13 +23,11 @@ describe('testing getPaymentIframe function', () => {
         type: AppActions.SET_PIGI_IFRAME_LOADER,
         payload: {pigiIframeLoader: true}
     };
-    let actionSetPigiIframeLoaderSpy: jest.SpyInstance;
 
     beforeEach(() => {
         jest.resetAllMocks();
         getState.mockReturnValue(stateMock);
-        actionSetPigiIframeLoaderSpy = jest.spyOn(appAction, 'actionSetPigiIframeLoader');
-        actionSetPigiIframeLoaderSpy.mockReturnValue(actionSetPigiIframeLoaderMock);
+        actionSetPigiIframeLoaderFuncMock.mockReturnValue(actionSetPigiIframeLoaderMock);
     });
 
     test('Success is FALSE', async () => {
@@ -36,8 +36,8 @@ describe('testing getPaymentIframe function', () => {
         const paymentIframeValue = await getPaymentIframe();
         await paymentIframeValue(dispatch, getState).then((returnedUrlForPigi) => {
 
-            expect(actionSetPigiIframeLoaderSpy).toHaveBeenCalledTimes(1);
-            expect(actionSetPigiIframeLoaderSpy).toHaveBeenCalledWith(true);
+            expect(actionSetPigiIframeLoaderFuncMock).toHaveBeenCalledTimes(1);
+            expect(actionSetPigiIframeLoaderFuncMock).toHaveBeenCalledWith(true);
             expect(dispatch).toHaveBeenCalledTimes(2);
             expect(dispatch).toHaveBeenCalledWith(actionSetPigiIframeLoaderMock);
             expect(dispatch).toHaveBeenCalledWith(postCssStylingPigi);
@@ -58,8 +58,8 @@ describe('testing getPaymentIframe function', () => {
         const paymentIframeValue = await getPaymentIframe();
         await paymentIframeValue(dispatch, getState).then((returnedUrlForPigi) => {
 
-            expect(actionSetPigiIframeLoaderSpy).toHaveBeenCalledTimes(1);
-            expect(actionSetPigiIframeLoaderSpy).toHaveBeenCalledWith(true);
+            expect(actionSetPigiIframeLoaderFuncMock).toHaveBeenCalledTimes(1);
+            expect(actionSetPigiIframeLoaderFuncMock).toHaveBeenCalledWith(true);
             expect(dispatch).toHaveBeenCalledTimes(2);
             expect(dispatch).toHaveBeenCalledWith(actionSetPigiIframeLoaderMock);
             expect(dispatch).toHaveBeenCalledWith(postCssStylingPigi);

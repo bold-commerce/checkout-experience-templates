@@ -1,14 +1,17 @@
+import {mocked} from 'jest-mock';
 import {Dispatch} from 'redux';
-import {IError, IOrderInitialization} from 'src/types';
-import {stateMock} from 'src/mocks';
-import * as setValues from 'src/action/appAction';
-import {setBillingAddressAsValid} from 'src/library';
+import {actionSetAppStateValid} from 'src/action/appAction';
 import {Constants} from 'src/constants';
+import {setBillingAddressAsValid} from 'src/library';
+import {stateMock} from 'src/mocks';
+import {IError, IOrderInitialization} from 'src/types';
+
+jest.mock('src/action/appAction');
+const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true);
 
 describe('testing setBillingAddressAsValid', () => {
     let dispatch: Dispatch;
     let getState: () => IOrderInitialization;
-    let setValidSpy: jest.SpyInstance;
     const billingError:IError = {
         address_type: Constants.BILLING,
         message: 'test error',
@@ -22,18 +25,17 @@ describe('testing setBillingAddressAsValid', () => {
         jest.resetAllMocks();
         dispatch = jest.fn();
         getState = jest.fn().mockReturnValue(stateMock);
-        setValidSpy = jest.spyOn(setValues, 'actionSetAppStateValid');
     });
 
     test('calling set billing as valid with no billing errors', async () => {
         await setBillingAddressAsValid(dispatch, getState);
-        expect(setValidSpy).toHaveBeenCalledTimes(1);
-        expect(setValidSpy).toHaveBeenCalledWith('billingAddress', true);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledWith('billingAddress', true);
     });
 
     test('calling set billing as valid with billing errors', async () => {
         getState().errors = [billingError];
         await setBillingAddressAsValid(dispatch, getState);
-        expect(setValidSpy).toHaveBeenCalledTimes(0);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(0);
     });
 });

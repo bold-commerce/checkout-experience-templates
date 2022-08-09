@@ -1,18 +1,17 @@
 import {IOverlay} from 'src/types';
 import {Dispatch} from 'redux';
+import {SET_OVERLAY_CONTENT, actionSetOverlayContent} from 'src/action';
 import {displayFatalError} from 'src/utils';
-import * as overlayAction from 'src/action/overlayAction';
-import {SET_OVERLAY_CONTENT} from 'src/action';
-import SpyInstance = jest.SpyInstance;
+import {mocked} from 'jest-mock';
+
+jest.mock('src/action/overlayAction');
+const actionSetOverlayContentMock = mocked(actionSetOverlayContent, true);
 
 describe('Test displayFatalError function', () => {
-    let dispatch: Dispatch;
-    let setOverlayContentSpy: SpyInstance;
+    const dispatch: Dispatch = jest.fn();
 
     beforeEach(() => {
-        jest.restoreAllMocks();
-        dispatch = jest.fn();
-        setOverlayContentSpy = jest.spyOn(overlayAction, 'actionSetOverlayContent');
+        jest.resetAllMocks();
     });
 
     test('function called with OverlayPayload populated', () => {
@@ -27,10 +26,10 @@ describe('Test displayFatalError function', () => {
             type: SET_OVERLAY_CONTENT,
             payload: overlayPayload
         };
-        setOverlayContentSpy.mockReturnValueOnce(returnSetOverlayContentAction);
+        actionSetOverlayContentMock.mockReturnValueOnce(returnSetOverlayContentAction);
         displayFatalError(dispatch);
-        expect(setOverlayContentSpy).toHaveBeenCalledTimes(1);
-        expect(setOverlayContentSpy).toHaveBeenCalledWith(overlayPayload);
+        expect(actionSetOverlayContentMock).toHaveBeenCalledTimes(1);
+        expect(actionSetOverlayContentMock).toHaveBeenCalledWith(overlayPayload);
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenCalledWith(returnSetOverlayContentAction);
     });
