@@ -4,7 +4,7 @@ import { IUseIndexPageProps } from 'src/types';
 import { addressMock } from 'src/mocks';
 import { getTerm } from 'src/utils';
 import { mocked } from 'jest-mock';
-import { useGetSelectShippingLine } from 'src/hooks';
+import { useGetOverlayVisible, useGetSelectShippingLine } from 'src/hooks';
 import {useIndexPage} from 'src/themes/buy-now/hooks/useIndexPage';
 import { IBuyNowContainerPageProps, IUseFocusTrap } from 'src/themes/buy-now/types';
 import * as Store from 'src/store';
@@ -15,6 +15,7 @@ import { useFocusTrap } from 'src/themes/buy-now/hooks';
 const store = Store.initializeStore();
 
 jest.mock('src/utils/getTerm');
+jest.mock('src/hooks/useGetOverlayVisible');
 jest.mock('src/hooks/useGetSelectShippingLine');
 jest.mock('src/themes/buy-now/hooks/useCheckShippingAddress');
 jest.mock('src/themes/buy-now/hooks/useFocusTrap');
@@ -24,6 +25,7 @@ const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
 const useCheckShippingAddressMock = mocked(useCheckShippingAddress);
 const useFocusTrapMock = mocked(useFocusTrap, true);
 const useIndexPageMock = mocked(useIndexPage, true);
+const useGetOverlayVisibleMock = mocked(useGetOverlayVisible, true);
 
 describe('testing IndexPage', () => {
     const focusTrapMock: IUseFocusTrap = {
@@ -78,6 +80,7 @@ describe('testing IndexPage', () => {
         getTermMock.mockReturnValue(getTermValue);
         useGetSelectShippingLineMock.mockReturnValue(selectShippingLineValue);
         useCheckShippingAddressMock.mockReturnValue({isValid: true});
+        useGetOverlayVisibleMock.mockReturnValue(false);
     });
 
     test('Rendering visible indexPage properly', () => {

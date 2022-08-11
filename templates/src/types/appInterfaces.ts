@@ -54,8 +54,9 @@ export interface IOverlay{
     icon?: string,
     header?: string,
     subHeader?: string,
-    buttonText?: string
-    content?: string
+    buttonText?: string,
+    content?: string,
+    showCustomContent?: boolean
 }
 
 export interface IIsLoading{
@@ -88,6 +89,7 @@ export interface IOrderInitialization {
     isLoading: IIsLoading,
     isButtonDisable: IIsButtonDisable
     isValid: IIsValid,
+    isSessionInitialized: boolean,
     errors: Array<IError>
     data: IInitializeOrderResponse
 }

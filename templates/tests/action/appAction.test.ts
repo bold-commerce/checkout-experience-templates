@@ -13,6 +13,7 @@ import {
     actionRemoveErrorByTypeAndCode,
     actionSetAppStateValid,
     actionSetCallApiOnEvent,
+    actionSetSessionInitialized,
     actionSetLanguageIso,
     actionSetLoader,
     actionSetLoaderAndDisableButton,
@@ -575,5 +576,17 @@ describe('Testing App Actions', () => {
 
         expect(result).toStrictEqual(actionReturnExpectation);
     });
+
+    test('actionSetSessionInitialized', () => {
+        const data = true;
+        const actionReturnExpectation = {
+            type: AppActions.SET_SESSION_INITIALIZED,
+            payload: {data}
+        };
+
+        const result = actionSetSessionInitialized(data);
+        
+        expect(result).toStrictEqual(actionReturnExpectation);
+    })
 
 });

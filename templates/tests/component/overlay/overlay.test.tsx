@@ -86,4 +86,17 @@ describe('Testing Overlay component', () => {
         expect(element.className.includes('overlay__icon-error-triangle')).toBe(true);
     });
 
+    test('Render the Overlay with custom content', () => {
+        const props = {...overlay};
+        props.showCustomContent = true;
+        useGetOverlayMock.mockReturnValue(props);
+        const {container} = render(<Overlay><div className="customContent"/></Overlay>);
+        expect(container.getElementsByClassName('customContent').length).toBe(1);
+        expect(container.getElementsByClassName('overlay__header').length).toBe(1);
+        expect(container.getElementsByClassName('overlay__subheader').length).toBe(1);
+        expect(container.getElementsByClassName('overlay__content').length).toBe(1);
+        expect(container.getElementsByClassName('overlay__button-container').length).toBe(1);
+        expect(container.getElementsByClassName('overlay__content-span').length).toBe(1);
+    });
+
 });

@@ -39,5 +39,6 @@ export const storeMock: IOrderInitialization = {
     overlay: {
         shown: false,
         inverted: false,
-    }
+    },
+    isSessionInitialized: false
 };

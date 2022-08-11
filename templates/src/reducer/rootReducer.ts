@@ -32,7 +32,8 @@ import {
     currencyReducer,
     isProcessedReducer,
     feesReducer,
-    paymentMethodReducer
+    paymentMethodReducer,
+    sessionInitializedReducer
 } from 'src/reducer';
 import {autocompleteServices, Constants} from 'src/constants';
 import { defaultOrderInitialization } from 'src/constants/orderInitialization';
@@ -125,6 +126,7 @@ const allReducers = combineReducers({
     isLoading: loadingReducer,
     isButtonDisable: buttonDisableReducer,
     isValid: validReducer,
+    isSessionInitialized: sessionInitializedReducer,
     overlay: overlayReducer,
     errors: errorsReducer,
     data: dataReducer

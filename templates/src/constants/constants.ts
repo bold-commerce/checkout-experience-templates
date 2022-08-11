@@ -58,6 +58,7 @@ export class Constants {
     static OUT_OF_STOCK_ROUTE = 'out_of_stock';
     static THANK_YOU_ROUTE = 'thank_you';
     static SESSION_EXPIRED_ROUTE = 'session_expired';
+    static BUY_NOW_ROUTE = 'buy_now';
 }
 
 export const errorTypes: IErrorTypes = {

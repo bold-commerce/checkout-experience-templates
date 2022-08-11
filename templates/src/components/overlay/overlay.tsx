@@ -1,11 +1,11 @@
 import React from 'react';
-import {IOverlay} from 'src/types';
+import {IOverlay, IOverlayProps} from 'src/types';
 import {useGetOverlay} from 'src/hooks';
 import ClassNames from 'classnames';
 import {Button} from '@boldcommerce/stacks-ui';
 import {lockUnlockScroll} from 'src/utils';
 
-export function Overlay(): React.ReactElement {
+export function Overlay(props: IOverlayProps): React.ReactElement {
 
     const overlay: IOverlay = useGetOverlay();
     lockUnlockScroll(overlay.shown);
@@ -29,6 +29,9 @@ export function Overlay(): React.ReactElement {
 
     return(
         <div data-testid='overlay-div' id={overlayId} className={cssClassOverlay}>
+            {
+                overlay.showCustomContent ? props.children : null
+            }
             <div className={'overlay__message'}>
                 <i data-testid='overlay-icon'  className={cssClassIcon}>{overlay.icon}</i>
                 <h1 className={'overlay__header'}>{overlay.header}</h1>

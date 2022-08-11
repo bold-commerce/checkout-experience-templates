@@ -40,6 +40,7 @@ export const stateMock: IOrderInitialization = {
         customerPageButton: false,
         shippingPageButton: true,
     },
+    'isSessionInitialized': false,
     'errors': [{
         message: 'Test message',
         field: errorFields.address_line_1,
