@@ -397,7 +397,7 @@ html, body, .buy-now__app {
     height: 100% !important;
   }
 
-  .buy-now-container .checkout-experience-container {
+  .buy-now__app .checkout-experience-container {
     align-items: center !important;
   }
 }
