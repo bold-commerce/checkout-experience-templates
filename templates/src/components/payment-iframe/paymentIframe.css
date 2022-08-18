@@ -749,3 +749,8 @@
         flex-wrap: wrap;
     }
 }
+
+#iframe-payment-gateway .TogglePanel--alt.PaymentMethod--CreditCard > .TogglePanel__Content > .PaypalButton,
+#iframe-payment-gateway .TogglePanel--alt.PaymentMethod--CreditCard__StoredOption > .TogglePanel__Content > .PaypalButton {
+    width: 100%;
+}
