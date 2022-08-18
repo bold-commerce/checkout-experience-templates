@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@bold-commerce/checkout-frontend-library": "^0.30.0",
-    "@bold-commerce/checkout-express-pay-library": "^0.2.0",
+    "@bold-commerce/checkout-express-pay-library": "^0.3.0",
     "@boldcommerce/stacks-ui": "^1.1.1",
     "@redux-devtools/extension": "^3.2.2",
     "@bugsnag/js": "^7.16.2",
