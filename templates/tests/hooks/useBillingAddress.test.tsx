@@ -82,9 +82,31 @@ describe('Testing hook useBillingAddress', () => {
         expect(actionUpdateBillingTypeInSettingsMock).toBeCalled();
         expect(actionUpdateBillingTypeMock).toBeCalled();
         expect(actionRemoveErrorByAddressTypeMock).toBeCalled();
+        expect(mockDispatch).toHaveBeenCalledTimes(3);
     });
 
-    test('testing the toggle same as shipping event', () => {
+    test('testing the toggle same as shipping event - handleChange', () => {
+        const getTermValue = 'test-value';
+        const event = {target: {value: Constants.SHIPPING_SAME}};
+        useGetAppSettingDataMock.mockReturnValueOnce(Constants.SHIPPING_SAME);
+        useIsUserAuthenticatedMock.mockReturnValueOnce(true);
+        useGetShippingDataMock.mockReturnValueOnce(addressMock);
+        useCallApiAtOnEventsMock.mockReturnValueOnce(true);
+        getTermMock.mockReturnValue(getTermValue);
+        const {result} = renderHook(() => useBillingAddress());
+        const hookResult = result.current;
+        act(() => {
+            hookResult.handleChange(event);
+        });
+
+        expect(actionUpdateBillingTypeInSettingsMock).toBeCalled();
+        expect(actionUpdateBillingTypeMock).toBeCalled();
+        expect(actionRemoveErrorByAddressTypeMock).toBeCalled();
+        expect(mockDispatch).toHaveBeenCalledTimes(4);
+        expect(mockDispatch).toHaveBeenCalledWith(validateBillingAddress);
+    });
+
+    test('testing the toggle same as shipping event - toggleBillingSameAsShipping', () => {
         const getTermValue = 'test-value';
         const event = {target: {value: 'test-value'}};
         useGetAppSettingDataMock.mockReturnValueOnce(Constants.SHIPPING_DIFFERENT);
