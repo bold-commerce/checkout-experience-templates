@@ -16,7 +16,9 @@ export function Footer(props: IFooterProps): React.ReactElement {
                 {props.contactUs && <ContactUs/>}
                 {showBackLink &&
                 <a className={'footer__back-link'} href={'#footerBack'} onClick={props.backLinkOnClick}>
-                    {props.backLinkText}
+                    <span className={'footer_back-link--wrapper'}>
+                        {props.backLinkText}
+                    </span>
                 </a>
                 }
                 <div className={'footer__button'}>
