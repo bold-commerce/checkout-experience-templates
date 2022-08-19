@@ -19,6 +19,10 @@ export function useBillingAddress(): IBillingAddress{
         dispatch(actionUpdateBillingTypeInSettings(billingType));
         dispatch(actionUpdateBillingType(billingType, shippingAddress));
         dispatch(actionRemoveErrorByAddressType(Constants.BILLING));
+
+        if(billingType === Constants.SHIPPING_SAME && callApiAtOnEvents) {
+            dispatch(validateBillingAddress);
+        }
     }, []);
 
     const toggleBillingSameAsShipping = useCallback(() => {
