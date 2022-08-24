@@ -46,13 +46,14 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
     beforeEach(() => {
         jest.resetAllMocks();
         getTermMock.mockReturnValue(getTermValue);
-        useGetAddressDataFieldMock.mockReturnValue(getTermValue);
-        useGetCountryInfoListMock.mockReturnValue(countriesList);
         useCallApiAtOnEventsMock.mockReturnValue(false);
         useGetErrorByFieldMock.mockReturnValue('');
     });
 
     test('rendering the hook properly', () => {
+        useGetAddressDataFieldMock.mockReturnValue(getTermValue);
+        useGetCountryInfoListMock.mockReturnValue(countriesList);
+
         const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
         expect(result.current.label).toStrictEqual(getTermValue);
         expect(result.current.placeholder).toStrictEqual(getTermValue);
@@ -68,10 +69,88 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
         expect(debounceMock).toBeCalledTimes(0);
     });
 
+    test('rendering the hook properly - countryName and countryList are empty', () => {
+        useGetAddressDataFieldMock.mockReturnValueOnce(getTermValue).mockReturnValueOnce('');
+        useGetCountryInfoListMock.mockReturnValue([]);
+
+        const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
+        expect(result.current.label).toStrictEqual(getTermValue);
+        expect(result.current.placeholder).toStrictEqual(getTermValue);
+        expect(result.current.countryOptions).toStrictEqual([]);
+        expect(result.current.id).toStrictEqual(type+'-address__country');
+        expect(result.current.name).toStrictEqual(Constants.ADDRESS_COUNTRY);
+        expect(result.current.value).toStrictEqual(getTermValue);
+        expect(result.current.errorMessage).toStrictEqual(undefined);
+
+        expect(mockDispatch).toBeCalledTimes(0);
+        result.current.handleChange(target);
+        expect(mockDispatch).toBeCalledTimes(4);
+        expect(debounceMock).toBeCalledTimes(0);
+    });
+
+    test('rendering the hook properly - countryName is empty', () => {
+        useGetAddressDataFieldMock.mockReturnValueOnce(getTermValue).mockReturnValueOnce('');
+        useGetCountryInfoListMock.mockReturnValue(countriesList);
+
+        const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
+        expect(result.current.label).toStrictEqual(getTermValue);
+        expect(result.current.placeholder).toStrictEqual(getTermValue);
+        expect(result.current.countryOptions).toStrictEqual(countriesOptions);
+        expect(result.current.id).toStrictEqual(type+'-address__country');
+        expect(result.current.name).toStrictEqual(Constants.ADDRESS_COUNTRY);
+        expect(result.current.value).toStrictEqual(getTermValue);
+        expect(result.current.errorMessage).toStrictEqual(undefined);
+
+        expect(mockDispatch).toBeCalledTimes(0);
+        result.current.handleChange(target);
+        expect(mockDispatch).toBeCalledTimes(4);
+        expect(debounceMock).toBeCalledTimes(0);
+    });
+
+    test('rendering the hook properly - value is empty', () => {
+        useGetAddressDataFieldMock.mockReturnValueOnce('').mockReturnValueOnce(getTermValue);
+        useGetCountryInfoListMock.mockReturnValue(countriesList);
+
+        const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
+        expect(result.current.label).toStrictEqual(getTermValue);
+        expect(result.current.placeholder).toStrictEqual(getTermValue);
+        expect(result.current.countryOptions).toStrictEqual(countriesOptions);
+        expect(result.current.id).toStrictEqual(type+'-address__country');
+        expect(result.current.name).toStrictEqual(Constants.ADDRESS_COUNTRY);
+        expect(result.current.value).toStrictEqual('CA');
+        expect(result.current.errorMessage).toStrictEqual(undefined);
+
+        expect(mockDispatch).toBeCalledTimes(0);
+        result.current.handleChange(target);
+        expect(mockDispatch).toBeCalledTimes(4);
+        expect(debounceMock).toBeCalledTimes(0);
+    });
+
+    test('rendering the hook properly - value AND countryList are empty', () => {
+        useGetAddressDataFieldMock.mockReturnValueOnce('').mockReturnValueOnce(getTermValue);
+        useGetCountryInfoListMock.mockReturnValue([]);
+
+        const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
+        expect(result.current.label).toStrictEqual(getTermValue);
+        expect(result.current.placeholder).toStrictEqual(getTermValue);
+        expect(result.current.countryOptions).toStrictEqual([]);
+        expect(result.current.id).toStrictEqual(type+'-address__country');
+        expect(result.current.name).toStrictEqual(Constants.ADDRESS_COUNTRY);
+        expect(result.current.value).toStrictEqual('');
+        expect(result.current.errorMessage).toStrictEqual(undefined);
+
+        expect(mockDispatch).toBeCalledTimes(0);
+        result.current.handleChange(target);
+        expect(mockDispatch).toBeCalledTimes(4);
+        expect(debounceMock).toBeCalledTimes(0);
+    });
+
     test('rendering the hook with error', () => {
+        useGetAddressDataFieldMock.mockReturnValue(getTermValue);
         useGetErrorByFieldMock
             .mockReturnValueOnce('error')
             .mockReturnValueOnce('error');
+        useGetCountryInfoListMock.mockReturnValue(countriesList);
 
         const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
         expect(result.current.label).toStrictEqual(getTermValue);
@@ -89,7 +168,9 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
     });
 
     test('rendering the hook with callApi', () => {
+        useGetAddressDataFieldMock.mockReturnValue(getTermValue);
         useCallApiAtOnEventsMock.mockReturnValueOnce(true);
+        useGetCountryInfoListMock.mockReturnValue(countriesList);
 
         const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
         expect(result.current.label).toStrictEqual(getTermValue);

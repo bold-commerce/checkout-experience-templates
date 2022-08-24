@@ -16,8 +16,8 @@ export function useGetAddressCountryInputData(type: string, debounceApiCall: () 
     const label = getTerm(AddressLabelMapping[Constants.ADDRESS_COUNTRY],Constants.SHIPPING_INFO);
     const countriesList: Array<ICountryInformation> = useGetCountryInfoList();
     const countryOptions = countriesList.map(country => ({ value: country.iso_code, name: country.name }));
-    const value: string = useGetAddressDataField(type, Constants.ADDRESS_COUNTRY_CODE);
-    const countryName = useGetAddressDataField(type, Constants.ADDRESS_COUNTRY);
+    let value: string = useGetAddressDataField(type, Constants.ADDRESS_COUNTRY_CODE);
+    let countryName = useGetAddressDataField(type, Constants.ADDRESS_COUNTRY);
     const id = `${type}-address__country`;
     const countryError = useGetErrorByField('country', type);
     const countryCodeError = useGetErrorByField('country_code', type);
@@ -26,6 +26,12 @@ export function useGetAddressCountryInputData(type: string, debounceApiCall: () 
         errorMessage = `${countryError} ${countryCodeError}`;
     } else {
         errorMessage = undefined;
+    }
+    if (countryName === '' && countriesList && countriesList.length > 0) {
+        countryName = countriesList[0].name;
+    }
+    if (value === '' && countriesList && countriesList.length > 0) {
+        value = countriesList[0].iso_code;
     }
 
     const handleChange = useCallback(e => {

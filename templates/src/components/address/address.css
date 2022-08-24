@@ -51,7 +51,8 @@
     width: 50%;
 }
 
-.input-field__container.address__hidden{
+.input-field__container.address__hidden,
+.select-field__container.address__hidden{
     display: none;
 }
 

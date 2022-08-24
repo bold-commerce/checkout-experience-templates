@@ -1,11 +1,16 @@
 import {Constants} from 'src/constants';
 import {IAddressPostalCodeAndProvinceDataProps} from 'src/types';
-import {useGetCountryInfoByCountryCode, useGetAddressDataField} from 'src/hooks';
+import {useGetCountryInfoByCountryCode, useGetAddressDataField, useGetCountryInfoList} from 'src/hooks';
 
 
 export function useGetAddressPostalCodeAndProvinceData(type: string): IAddressPostalCodeAndProvinceDataProps{
     let countryCode = useGetAddressDataField(type, Constants.ADDRESS_COUNTRY_CODE);
-    countryCode = (countryCode == '') ? 'CA' : countryCode;
+    const countriesList = useGetCountryInfoList();
+    if (countryCode === '' && countriesList && countriesList.length > 0) {
+        countryCode = countriesList[0].iso_code;
+    } else {
+        countryCode = (countryCode == '') ? 'CA' : countryCode;
+    }
     const countryInfo = useGetCountryInfoByCountryCode(countryCode);
     if(countryInfo){
         return {showProvince: countryInfo.show_province,
