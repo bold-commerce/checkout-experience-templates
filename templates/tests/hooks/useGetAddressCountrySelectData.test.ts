@@ -101,9 +101,8 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
         expect(result.current.value).toStrictEqual(getTermValue);
         expect(result.current.errorMessage).toStrictEqual(undefined);
 
-        expect(mockDispatch).toBeCalledTimes(0);
         result.current.handleChange(target);
-        expect(mockDispatch).toBeCalledTimes(4);
+        expect(mockDispatch).toBeCalledTimes(5);
         expect(debounceMock).toBeCalledTimes(0);
     });
 
@@ -120,9 +119,8 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
         expect(result.current.value).toStrictEqual('CA');
         expect(result.current.errorMessage).toStrictEqual(undefined);
 
-        expect(mockDispatch).toBeCalledTimes(0);
         result.current.handleChange(target);
-        expect(mockDispatch).toBeCalledTimes(4);
+        expect(mockDispatch).toBeCalledTimes(5);
         expect(debounceMock).toBeCalledTimes(0);
     });
 
