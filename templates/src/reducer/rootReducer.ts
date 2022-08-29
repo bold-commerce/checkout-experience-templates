@@ -111,7 +111,7 @@ const initialDataReducer = combineReducers({
     country_info: countryReducer,
     supported_languages: languageReducer,
     general_settings: generalSettingReducer,
-    alternate_payment_methods: paymentMethodReducer
+    alternative_payment_methods: paymentMethodReducer
 });
 
 const dataReducer = combineReducers({
