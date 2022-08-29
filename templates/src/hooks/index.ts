@@ -5,6 +5,7 @@ export * from './useCartSummary';
 export * from './useCallApiAtOnEvents';
 export * from './useCartItem';
 export * from './useDebounceCustomer';
+export * from './useDebounceCustomerField';
 export * from './useDebounceShippingLines';
 export * from './useDebounceValidateAddress';
 export * from './useDispatchAutocompleteData';

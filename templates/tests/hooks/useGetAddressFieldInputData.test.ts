@@ -1,6 +1,6 @@
 import {
     useCallApiAtOnEvents,
-    useDebounceCustomer,
+    useDebounceCustomerField,
     useGetAddressDataField,
     useGetAddressFieldInputData,
     useGetAddressPostalCodeAndProvinceData,
@@ -23,13 +23,13 @@ jest.mock('src/hooks/useCallApiAtOnEvents');
 jest.mock('src/hooks/useGetErrorByField');
 jest.mock('src/hooks/useGetAddressPostalCodeAndProvinceData');
 jest.mock('src/hooks/useGetAddressData');
-jest.mock('src/hooks/useDebounceCustomer');
+jest.mock('src/hooks/useDebounceCustomerField');
 const getTermMock = mocked(getTerm, true);
 const useCallApiAtOnEventsMock = mocked(useCallApiAtOnEvents, true);
 const useGetErrorByFieldMock = mocked(useGetErrorByField, true);
 const useGetAddressPostalCodeAndProvinceDataMock = mocked(useGetAddressPostalCodeAndProvinceData, true);
 const useGetAddressDataFieldMock = mocked(useGetAddressDataField, true);
-const useDebounceCustomerMock = mocked(useDebounceCustomer, true);
+const useDebounceCustomerFieldMock = mocked(useDebounceCustomerField, true);
 
 describe('Testing hook useGetAddressFieldInputData', () => {
     const debounceMock = jest.fn();
@@ -87,7 +87,7 @@ describe('Testing hook useGetAddressFieldInputData', () => {
         expect(result.current.name).toStrictEqual(field);
         expect(result.current.value).toStrictEqual(getTermValue);
         expect(result.current.errorMessage).toStrictEqual('error');
-
+       
         expect(mockDispatch).toBeCalledTimes(0);
         result.current.handleChange(target);
         expect(mockDispatch).toBeCalledTimes(3);
@@ -96,7 +96,7 @@ describe('Testing hook useGetAddressFieldInputData', () => {
 
     test('rendering the hook with callApi', () => {
         useCallApiAtOnEventsMock.mockReturnValueOnce(true);
-        useDebounceCustomerMock.mockReturnValue(function() {} as DebouncedState<() => void >);
+        useDebounceCustomerFieldMock.mockReturnValue(function() {} as DebouncedState<() => void >);
 
         const {result} = renderHook(() => useGetAddressFieldInputData(type, field, debounceMock, placeholder));
         expect(result.current.placeholder).toStrictEqual(getTermValue);
