@@ -320,10 +320,10 @@
   resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-express-pay-library/-/checkout-express-pay-library-0.3.0.tgz#3b0c9d18b02ccf6ff02d85edb570cbf7d84f5c2f"
   integrity sha512-ML3HTeMjEcoNDVGiN/Wxe97QFXbnwHDSr0A4RdjmJglwJ4GM+Lt4nUFraCzNdJoa+cmlqkp85fCPI+I7jTVUGA==
 
-"@bold-commerce/checkout-frontend-library@^0.30.0":
-  version "0.30.0"
-  resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-frontend-library/-/checkout-frontend-library-0.30.0.tgz#17927a3027f0287d60f09b779dc44001ed9524e0"
-  integrity sha512-4qf/RiWtUFkvdl3rxFvNx7gUH/GFZ/srhbRYBOHgv39ByvhcY81Zq8AJjkAt7dAWSpCcVcvz6tGWxt4Aga9asw==
+"@bold-commerce/checkout-frontend-library@^0.30.2":
+  version "0.30.2"
+  resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-frontend-library/-/checkout-frontend-library-0.30.2.tgz#e386b63a7e8235a5632e534bf3355ef6ef1e7169"
+  integrity sha512-uyyR0pxjSghD8lKBSpEZ/Svw1Cl9nvhmoGv8zfoWFTJn5l46FVX5Zgd2iGK1y+yX8c3SIRp5CiwoNBj7IOZFxQ==
 
 "@boldcommerce/stacks-ui@^1.1.1":
   version "1.4.0"

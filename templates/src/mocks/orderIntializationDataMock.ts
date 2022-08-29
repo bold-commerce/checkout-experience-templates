@@ -521,7 +521,7 @@ export const initialDataMock: IInitializeOrderResponse = {
                 'api_key': null
             }
         },
-        'alternate_payment_methods': []
+        'alternative_payment_methods': []
     },
     'application_state': {
         'customer': {

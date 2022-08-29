@@ -5,7 +5,7 @@ import {UPDATE_PAYMENT_METHOD} from 'src/action';
 
 describe('testing paymentMethodReducer Reducer', () => {
 
-    const defaultValues = stateMock.data.initial_data.alternate_payment_methods;
+    const defaultValues = stateMock.data.initial_data.alternative_payment_methods;
     const updatedValues = {...defaultValues, value: 100};
     const dataSet = [
         {name: 'should return the initial state', action: {type: ''}, expectedValue: defaultValues },

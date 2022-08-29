@@ -138,7 +138,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
                     api_key: null,
                 },
             },
-            alternate_payment_methods: []
+            alternative_payment_methods: []
         }
     },
 };
