@@ -15,7 +15,6 @@ export function ThankYouPage(): React.ReactElement {
     const orderProcessed = useGetValidVariable('orderProcessed');
 
     const isGeneric = !orderProcessed || (!firstName && isObjectEmpty(shippingAddress) && isObjectEmpty(billingAddress));
-
     useEffect(() => {
         neuroIdInit(getNeuroIdPageName(NeuroIdConstants.thankYouPage));
 
