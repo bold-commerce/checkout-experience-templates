@@ -166,6 +166,15 @@ export const errorsTerms: Array<IErrorTerm> = [
     },
     {
         type: errorTypes.order,
+        field: errorFields.public_order_id,
+        severity: errorSeverities.critical,
+        subType: errorSubTypes.public_order_id,
+        showType: errorShowType.flash,
+        section: 'generic',
+        term: 'unknown_error'
+    },
+    {
+        type: errorTypes.order,
         field: errorFields.customer,
         severity: errorSeverities.validation,
         subType: errorSubTypes.customer,
