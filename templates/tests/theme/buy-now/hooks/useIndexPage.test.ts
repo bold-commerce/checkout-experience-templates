@@ -73,7 +73,7 @@ describe('testing hook useIndexPage', () => {
         responseType: pigiActionTypes.PIGI_ADD_PAYMENT,
         payload: { key: 'value' }
     }
-    
+
     const rejectedValue: IFetchError = {
         status: 1000,
         statusText: undefined,
@@ -232,7 +232,7 @@ describe('testing hook useIndexPage', () => {
         await updateLineItemQuantity(lineItemKey, quantity);
 
         expect(dispatchMock).toBeCalledTimes(1);
-        expect(updateLineItemQuantityMock).toBeCalledWith(lineItemKey, quantity);      
+        expect(updateLineItemQuantityMock).toBeCalledWith(lineItemKey, quantity);
     });
 
     test('calling onClickCheckout with promise rejected', async () => {

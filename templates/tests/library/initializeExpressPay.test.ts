@@ -1,8 +1,8 @@
 import {
+    deleteAddress,
     displayOrderProcessingScreen,
     getApplicationStateFromLib,
-    initializeExpressPay,
-    processOrder
+    initializeExpressPay
 } from 'src/library';
 import {actionTypes, initialize} from '@bold-commerce/checkout-express-pay-library';
 import {mocked} from 'jest-mock';
@@ -15,10 +15,8 @@ import {Constants} from 'src/constants';
 jest.mock('@bold-commerce/checkout-express-pay-library');
 jest.mock('src/library/applicationState');
 jest.mock('src/library/displayOrderProcessingScreen');
-jest.mock('src/utils/standaloneHooks');
 const initializeExpressPayMock = mocked(initialize, true);
 const getApplicationStateFromLibMock = mocked(getApplicationStateFromLib, true);
-const getHookMock = mocked(getHook, true);
 const displayOrderProcessingScreenMock = mocked(displayOrderProcessingScreen, true);
 
 describe('testing initializeExpressPay', () => {
@@ -27,7 +25,6 @@ describe('testing initializeExpressPay', () => {
 
     beforeEach(() => {
         jest.resetAllMocks();
-        getHookMock.mockReturnValue(historyMock);
     });
 
     test('testing ENABLE_DISABLE_SECTION action', async () => {
@@ -36,11 +33,13 @@ describe('testing initializeExpressPay', () => {
         });
         const expectedAction = {type: SET_EXPRESS_PAYMENT_SECTION_ENABLED, payload: {isExpressPaySectionEnable:true}};
 
-        await initializeExpressPay(dispatchMock);
-        expect(initializeExpressPayMock).toBeCalled();
-        expect(dispatchMock).toHaveBeenCalledTimes(2);
-        expect(dispatchMock).toHaveBeenCalledWith(getApplicationStateFromLibMock);
-        expect(dispatchMock).toHaveBeenCalledWith(expectedAction);
+        const expressPay = await initializeExpressPay(historyMock);
+        expressPay(dispatchMock).then(() => {
+            expect(initializeExpressPayMock).toBeCalled();
+            expect(dispatchMock).toHaveBeenCalledTimes(2);
+            expect(dispatchMock).toHaveBeenCalledWith(getApplicationStateFromLibMock);
+            expect(dispatchMock).toHaveBeenCalledWith(expectedAction);
+        });
     });
 
     test('testing ORDER_COMPLETED action', async () => {
@@ -49,13 +48,15 @@ describe('testing initializeExpressPay', () => {
         });
         const expectedAction = {type: AppActions.SET_VALID, payload: {field:'orderProcessed', value: true}};
 
-        await initializeExpressPay(dispatchMock);
-        expect(initializeExpressPayMock).toBeCalled();
-        expect(dispatchMock).toHaveBeenCalledTimes(2);
-        expect(dispatchMock).toHaveBeenCalledWith(getApplicationStateFromLibMock);
-        expect(dispatchMock).toHaveBeenCalledWith(expectedAction);
-        expect(historyMock.replace).toHaveBeenCalledTimes(1);
-        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
+        const expressPay = await initializeExpressPay(historyMock);
+        expressPay(dispatchMock).then(() => {
+            expect(initializeExpressPayMock).toBeCalled();
+            expect(dispatchMock).toHaveBeenCalledTimes(2);
+            expect(dispatchMock).toHaveBeenCalledWith(getApplicationStateFromLibMock);
+            expect(dispatchMock).toHaveBeenCalledWith(expectedAction);
+            expect(historyMock.replace).toHaveBeenCalledTimes(1);
+            expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
+        });
     });
 
     test('testing ORDER_PROCESSING action', async () => {
@@ -63,11 +64,13 @@ describe('testing initializeExpressPay', () => {
             onAction(actionTypes.ORDER_PROCESSING);
         });
 
-        await initializeExpressPay(dispatchMock);
-        expect(initializeExpressPayMock).toBeCalled();
-        expect(dispatchMock).toHaveBeenCalledTimes(3);
-        expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreenMock);
-        expect(dispatchMock).toHaveBeenCalledWith(getApplicationStateFromLibMock);
+        const expressPay = await initializeExpressPay(historyMock);
+        expressPay(dispatchMock).then(() => {
+            expect(initializeExpressPayMock).toBeCalled();
+            expect(dispatchMock).toHaveBeenCalledTimes(3);
+            expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreenMock);
+            expect(dispatchMock).toHaveBeenCalledWith(getApplicationStateFromLibMock);
+        });
     });
 
     test('testing with default action', async () => {
@@ -75,10 +78,12 @@ describe('testing initializeExpressPay', () => {
             onAction('test');
         });
 
-        await initializeExpressPay(dispatchMock);
-        expect(initializeExpressPayMock).toBeCalled();
-        expect(dispatchMock).toHaveBeenCalledTimes(1);
-        expect(dispatchMock).toHaveBeenCalledWith(getApplicationStateFromLibMock);
+        const expressPay = await initializeExpressPay(historyMock);
+        expressPay(dispatchMock).then(() => {
+            expect(initializeExpressPayMock).toBeCalled();
+            expect(dispatchMock).toHaveBeenCalledTimes(1);
+            expect(dispatchMock).toHaveBeenCalledWith(getApplicationStateFromLibMock);
+        });
     });
 
 });

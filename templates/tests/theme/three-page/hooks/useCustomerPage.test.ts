@@ -38,6 +38,7 @@ describe('Testing hook useCustomerPage', () => {
     const eventMock = {preventDefault: jest.fn()};
     const historyMock = {replace: jest.fn()};
     const pageNameWithPrefix = 'prefix_page_name';
+    const mockExpressEntry = jest.fn();
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -49,6 +50,7 @@ describe('Testing hook useCustomerPage', () => {
         callCustomerPageApiMock.mockReturnValue(mockCallCustomerPageApi);
         checkInventoryMock.mockReturnValue(mockCheckInventory);
         getNeuroIdPageNameMock.mockReturnValue(pageNameWithPrefix);
+        initializeExpressPayMock.mockReturnValue(mockExpressEntry);
         window = Object.create(window);
         Object.defineProperty(window, 'location', {
             value: {
@@ -77,7 +79,7 @@ describe('Testing hook useCustomerPage', () => {
         expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors());
         expect(mockDispatch).toHaveBeenCalledWith(mockCallCustomerPageApi);
         expect(mockDispatch).toHaveBeenCalledWith(mockCheckInventory);
-        expect(mockDispatch).toHaveBeenCalledWith(initializeExpressPayMock);
+        expect(mockDispatch).toHaveBeenCalledWith(mockExpressEntry);
         expect(neuroIdSubmitMock).toHaveBeenCalledTimes(1);
         expect(neuroIdSubmitMock).toHaveBeenCalledWith(pageNameWithPrefix);
 

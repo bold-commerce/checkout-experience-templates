@@ -23,7 +23,7 @@ export function useGetOnePageFooterData(): IFooterProps{
     }, [totals]);
 
     useEffect( () => {
-        dispatch(initializeExpressPay);
+        dispatch(initializeExpressPay(history));
     }, []);
 
     return {backLinkOnClick, backLinkText, nextButtonOnClick, nextButtonText, nextButtonLoading};
