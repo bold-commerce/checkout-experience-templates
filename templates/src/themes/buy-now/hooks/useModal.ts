@@ -7,10 +7,12 @@ import { getOrderInitialization } from 'src/utils/getOrderInitialization';
 import { IUseModal } from '../types';
 import { checkInventoryStage, IInitializeOrderResponse } from '@bold-commerce/checkout-frontend-library';
 import { useGetValidVariable } from 'src/hooks';
+import {useHistory} from 'react-router';
 
 
 export function useModal(): IUseModal {
     const dispatch = useDispatch();
+    const history = useHistory();
     const isValidPigi = useGetValidVariable('pigi');
     const [isOpen, setIsOpen] = useState(false);
     const overlay: IOverlay = {
@@ -33,8 +35,8 @@ export function useModal(): IUseModal {
         dispatch(initializeSession);
         dispatch(actionGetInitialData(window.location.hostname));
         dispatch(setDefaultAddresses);
-        dispatch(checkInventory(checkInventoryStage.initial, false)); 
-        dispatch(initializeExpressPay);
+        dispatch(checkInventory(checkInventoryStage.initial, false));
+        dispatch(initializeExpressPay(history));
     }, [setIsOpen, dispatch]);
 
     const handleCloseEvent = useCallback(() => {

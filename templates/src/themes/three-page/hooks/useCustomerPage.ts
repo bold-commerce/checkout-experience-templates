@@ -38,7 +38,7 @@ export function useCustomerPage(): IUseCustomerPageProp {
 
     useEffect( () => {
         dispatch(checkInventory(checkInventoryStage.initial));
-        dispatch(initializeExpressPay);
+        dispatch(initializeExpressPay(history));
     }, []);
 
     return {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading};

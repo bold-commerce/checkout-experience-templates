@@ -23,6 +23,7 @@ const initializeExpressPayMock = mocked(initializeExpressPay, true);
 
 describe('Testing hook useGetAddressFieldInputData', () => {
     const getTermValue = 'test-value';
+    const mockExpressEntry = jest.fn();
     const eventMock = {preventDefault: jest.fn()};
     const total: ITotals = {
         totalSubtotal: 2999,
@@ -46,6 +47,7 @@ describe('Testing hook useGetAddressFieldInputData', () => {
         window.returnUrl = 'http://test.com';
         getTermMock.mockReturnValue(getTermValue);
         useGetIsLoadingMock.mockReturnValue(false);
+        initializeExpressPayMock.mockReturnValue(mockExpressEntry);
         getTotalsFromStateMock.mockReturnValue(total);
     });
 
@@ -54,7 +56,7 @@ describe('Testing hook useGetAddressFieldInputData', () => {
         expect(result.current.backLinkText).toStrictEqual(getTermValue);
         expect(result.current.nextButtonText).toStrictEqual(getTermValue);
         expect(result.current.nextButtonLoading).toStrictEqual(false);
-        expect(mockDispatch).toHaveBeenCalledWith(initializeExpressPayMock);
+        expect(mockDispatch).toHaveBeenCalledWith(mockExpressEntry);
 
         result.current.nextButtonOnClick();
         result.current.backLinkOnClick && result.current.backLinkOnClick(eventMock);
