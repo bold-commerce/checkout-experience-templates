@@ -3,7 +3,7 @@
     display: flex;
     width: 500px;
     order: 2;
-    padding: 4rem 60px 0 60px;
+    padding: 45px 60px 0 60px;
     flex-direction: column;
     border-left: 1px solid #D9D9D9;
 }
