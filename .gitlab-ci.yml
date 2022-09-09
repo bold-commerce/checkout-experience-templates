@@ -12,8 +12,6 @@ stages:
   - deploy-production
   - post-deploy
 
-
-
 #Pipeline import
 include:
   - project: 'boldops/gitlab-ci-pipelines'
