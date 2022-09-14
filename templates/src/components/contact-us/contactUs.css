@@ -11,7 +11,7 @@
     color: #595959;
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1200px) {
     .contact-us {
         order: 2;
         width: 100%;
