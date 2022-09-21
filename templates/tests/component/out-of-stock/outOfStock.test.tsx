@@ -54,7 +54,7 @@ describe('Testing OutOfStock component', () => {
 
         expect(container.getElementsByClassName('out-of-stock__message').length).toBe(1);
         expect(container.getElementsByClassName('out-of-stock__footer-container').length).toBe(1);
-        expect(container.getElementsByClassName('header').length).toBe(1);
+        expect(container.getElementsByClassName('main-header').length).toBe(1);
         expect(container.getElementsByClassName('generic-message-section').length).toBe(1);
         expect(container.getElementsByClassName('footer').length).toBe(1);
         expect(useGetOutOfStockMock).toHaveBeenCalledTimes(1);

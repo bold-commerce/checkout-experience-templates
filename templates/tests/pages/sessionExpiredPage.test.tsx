@@ -59,8 +59,8 @@ describe('testing SessionExpiredPage', () => {
         expect(container.getElementsByClassName('three-page').length).toBe(1);
         expect(container.getElementsByClassName('no-summary').length).toBe(1);
         expect(container.getElementsByClassName('session-expired').length).toBe(1);
-        expect(container.getElementsByClassName('header-mobile').length).toBe(1);
-        expect(container.getElementsByClassName('header').length).toBe(1);
+        expect(container.getElementsByClassName('main-header-mobile').length).toBe(1);
+        expect(container.getElementsByClassName('main-header').length).toBe(1);
         expect(container.getElementsByClassName('session-expired__message').length).toBe(1);
         expect(container.getElementsByClassName('session-expired__footer-container').length).toBe(1);
     });
