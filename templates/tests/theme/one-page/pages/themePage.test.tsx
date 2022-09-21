@@ -32,7 +32,7 @@ describe('testing ThemePage', () => {
     test('Rendering ThemePage properly', () => {
         const {container} = render(<ThemePage/>);
         expect(container.getElementsByClassName('checkout-experience-container').length).toBe(1);
-        expect(container.getElementsByClassName('header-mobile').length).toBe(1);
+        expect(container.getElementsByClassName('main-header-mobile').length).toBe(1);
         expect(container.getElementsByClassName('summary-section').length).toBe(1);
     });
 });

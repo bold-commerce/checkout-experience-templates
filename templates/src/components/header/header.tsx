@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 export function Header(props: ITitle): React.ReactElement {
     return(
-        <div className={props.isMobile ? classNames(['header-mobile']) : classNames(['header'])}>
+        <div className={props.isMobile ? classNames(['main-header-mobile']) : classNames(['main-header'])}>
             <HeaderLogo />
             <Title/>
             <SupportedLanguages/>
