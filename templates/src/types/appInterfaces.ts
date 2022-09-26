@@ -80,6 +80,7 @@ export interface IIsValid{
     orderProcessed: boolean
     shippingLine: boolean
     pigi: boolean
+    pigiLoaded: boolean
     scaToken: boolean
 }
 

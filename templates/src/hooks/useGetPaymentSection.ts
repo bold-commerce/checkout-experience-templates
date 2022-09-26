@@ -11,6 +11,7 @@ export function useGetPaymentSection(): IUseGetPaymentSection {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(actionSetAppStateValid('pigi', false));
+        dispatch(actionSetAppStateValid('pigiLoaded', false));
     }, []);
     const notValidDisplayText = getTerm('no_payment_methods_invalid_address_updated', Constants.PAYMENT_INFO);
     const fieldSectionText = getTerm('payment_method', Constants.PAYMENT_INFO);
@@ -19,15 +20,18 @@ export function useGetPaymentSection(): IUseGetPaymentSection {
     const isValidShippingLine = useGetValidVariable('shippingLine');
     const [notValidText , setNotValidText] = useState(notValidDisplayText);
     const [isValidPigiLoad, setIsValidPigiLoad ]= useState(true);
+    const isPigiLoaded = useGetValidVariable('pigiLoaded');
     const pigiErrorMsg =  getTerm('payment_gateway_loading_error', Constants.PAYMENT_INFO);
     const pigiSetStateFunction = () => {
         setNotValidText(pigiErrorMsg);
         setIsValidPigiLoad(false);
     };
     const onLoad = () => {
-        setTimeout(async () => {
-            await dispatch(checkLoadPigiErrors(pigiSetStateFunction));
-        }, 1000);
+        if(isPigiLoaded) {
+            setTimeout(async () => {
+                await dispatch(checkLoadPigiErrors(pigiSetStateFunction));
+            }, 1000);
+        }
     };
 
     useEffect(() => {

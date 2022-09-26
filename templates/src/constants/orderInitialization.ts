@@ -31,6 +31,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
         orderProcessed: false,
         shippingLine: false,
         pigi: false,
+        pigiLoaded: false,
         scaToken: false,
     },
     isSessionInitialized: false,

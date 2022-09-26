@@ -60,7 +60,7 @@ describe('testing getPaymentIframe function', () => {
 
             expect(actionSetPigiIframeLoaderFuncMock).toHaveBeenCalledTimes(1);
             expect(actionSetPigiIframeLoaderFuncMock).toHaveBeenCalledWith(true);
-            expect(dispatch).toHaveBeenCalledTimes(2);
+            expect(dispatch).toHaveBeenCalledTimes(3);
             expect(dispatch).toHaveBeenCalledWith(actionSetPigiIframeLoaderMock);
             expect(dispatch).toHaveBeenCalledWith(postCssStylingPigi);
             expect(getPaymentIframeUrlMock).toHaveBeenCalledTimes(1);

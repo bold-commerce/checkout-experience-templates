@@ -32,7 +32,7 @@ describe('Testing hook useGetPaymentSection', () => {
             fieldTextParameter: 'testText2',
             pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
-            getValidCalled: 2,
+            getValidCalled: 3,
             getTermCalled: 3
         },
         {
@@ -44,7 +44,7 @@ describe('Testing hook useGetPaymentSection', () => {
             fieldTextParameter: 'testText2',
             pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
-            getValidCalled: 2,
+            getValidCalled: 3,
             getTermCalled: 3
         },
         {
@@ -56,7 +56,7 @@ describe('Testing hook useGetPaymentSection', () => {
             fieldTextParameter: 'testText2',
             pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
-            getValidCalled: 2,
+            getValidCalled: 3,
             getTermCalled: 3
         },
         {
@@ -68,7 +68,7 @@ describe('Testing hook useGetPaymentSection', () => {
             fieldTextParameter: 'testText2',
             pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
-            getValidCalled: 2,
+            getValidCalled: 3,
             getTermCalled: 3
         },
         {
@@ -80,7 +80,7 @@ describe('Testing hook useGetPaymentSection', () => {
             fieldTextParameter: 'testText2',
             pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
-            getValidCalled: 2,
+            getValidCalled: 3,
             getTermCalled: 3
         },
         {
@@ -92,7 +92,7 @@ describe('Testing hook useGetPaymentSection', () => {
             fieldTextParameter: 'testText2',
             pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
-            getValidCalled: 2,
+            getValidCalled: 3,
             getTermCalled: 3
         },
         {
@@ -104,7 +104,7 @@ describe('Testing hook useGetPaymentSection', () => {
             fieldTextParameter: 'testText2',
             pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
-            getValidCalled: 2,
+            getValidCalled: 3,
             getTermCalled: 3
         },
         {
@@ -116,7 +116,7 @@ describe('Testing hook useGetPaymentSection', () => {
             fieldTextParameter: 'testText2',
             pigiErrorTextParameter: 'testText3',
             getLoaderCalled: 1,
-            getValidCalled: 2,
+            getValidCalled: 3,
             getTermCalled: 3
         },
     ];
@@ -161,14 +161,15 @@ describe('Testing hook useGetPaymentSection', () => {
     test('validating the onLoad function', async () => {
         useGetValidVariableMock.mockReturnValueOnce(true);
         useGetValidVariableMock.mockReturnValueOnce(true);
+        useGetValidVariableMock.mockReturnValueOnce(true);
         useGetLoaderScreenVariableMock.mockReturnValueOnce(false);
         getTermMock.mockReturnValueOnce('Text1').mockReturnValueOnce('Text2').mockReturnValueOnce('Text3');
 
         const {result} = renderHook(() => useGetPaymentSection());
-        expect(mockDispatch).toHaveBeenCalledTimes(1);
+        expect(mockDispatch).toHaveBeenCalledTimes(2);
         act(result.current.onLoad);
         await sleep(1000);
-        expect(mockDispatch).toHaveBeenCalledTimes(2);
+        expect(mockDispatch).toHaveBeenCalledTimes(3);
         expect(checkLoadPigiErrorsMock).toHaveBeenCalledTimes(1);
     });
 });

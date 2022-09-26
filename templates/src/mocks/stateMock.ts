@@ -34,6 +34,7 @@ export const stateMock: IOrderInitialization = {
         orderProcessed: false,
         shippingLine: false,
         pigi: false,
+        pigiLoaded: true,
         scaToken: false,
     },
     'isButtonDisable': {
