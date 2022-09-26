@@ -7,7 +7,7 @@ import {
     IGetPaymentIframeUrl
 } from '@bold-commerce/checkout-frontend-library';
 import {displayFatalErrorFromTranslation, handleErrorIfNeeded} from 'src/utils';
-import {actionSetPigiIframeLoader} from 'src/action';
+import {actionSetAppStateValid, actionSetPigiIframeLoader} from 'src/action';
 import {postCssStylingPigi} from 'src/library';
 
 export function getPaymentIframe() {
@@ -24,6 +24,7 @@ export function getPaymentIframe() {
         } else {
             const {data} = response.response as IApiSuccessResponse;
             const {url} = data as IGetPaymentIframeUrl;
+            dispatch(actionSetAppStateValid('pigiLoaded', true));
             return url;
         }
     };

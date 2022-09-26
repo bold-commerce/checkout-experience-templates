@@ -30,6 +30,7 @@ export const storeMock: IOrderInitialization = {
         orderProcessed: false,
         shippingLine: false,
         pigi: false,
+        pigiLoaded: false,
         scaToken: false,
     },
     isButtonDisable: {
