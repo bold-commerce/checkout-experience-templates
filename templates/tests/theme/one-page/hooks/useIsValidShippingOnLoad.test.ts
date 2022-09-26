@@ -19,7 +19,7 @@ jest.mock("react-redux", () => ({
     useDispatch: () => mockDispatch,
 }));
 
-describe('Testing hook useGetPaymentSection', () => {
+describe('Testing hook useIsValidShippingOnLoad', () => {
 
     const dataArray = [
         {
