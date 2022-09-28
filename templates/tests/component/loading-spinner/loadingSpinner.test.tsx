@@ -6,7 +6,7 @@ describe('Testing LoadSpinner component', () => {
 
     test('Rendering the component correctly with loading true', () => {
         const {container} = render(<LoadSpinner/>);
-        expect(container.getElementsByClassName('lds-spinner').length).toBe(1);
+        expect(container.getElementsByClassName('lds-ring').length).toBe(1);
     });
 
 });

@@ -29,9 +29,10 @@
 
 .shipping_line__items{
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     padding: 10px;
     width: 100%;
+    height: 48px;
 }
 
 .shipping_line__items-border{
