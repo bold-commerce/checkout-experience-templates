@@ -315,10 +315,12 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bold-commerce/checkout-express-pay-library@^0.5.0":
-  version "0.5.0"
-  resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-express-pay-library/-/checkout-express-pay-library-0.5.0.tgz#badbdd604c6f55e5005d55180aa359a2373e662c"
-  integrity sha512-U8Hn5mjzjPmATwp4tTJ2StMRtvt2zeyetUl8eECRspPw9iow9MyZnLrdPWJaL0redPaZgCb4pSZe8c9EIp7u0Q==
+"@bold-commerce/checkout-express-pay-library@^0.6.0":
+  version "0.6.0"
+  resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-express-pay-library/-/checkout-express-pay-library-0.6.0.tgz#2361889b142bcd109afc32b4b60437ee9e9bf63f"
+  integrity sha512-jeis1D9pb0LG+YkvWj12VFimXJyZFcas+BmI7rTtML1NmOzqEVLNvYa9gZxLmCpWUmqU9rJcUehYsOkscYaqUA==
+  dependencies:
+    "@paypal/paypal-js" "^5.1.1"
 
 "@bold-commerce/checkout-frontend-library@^0.30.2":
   version "0.30.2"
@@ -623,6 +625,13 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
+
+"@paypal/paypal-js@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@paypal/paypal-js/-/paypal-js-5.1.1.tgz#81ab1f78dd2001061a2472f561d20df687a1d295"
+  integrity sha512-MMQ8TA048gTB43pzEOMzod8WY8hfzy+ahd7w29LtMvXduqzp7/29WxrTlsy4k6ARG6WGJ/uGqpc4+la4UZEQgw==
+  dependencies:
+    promise-polyfill "^8.2.3"
 
 "@redux-devtools/extension@^3.2.2":
   version "3.2.2"
@@ -4310,6 +4319,11 @@ progress@^2.0.0:
   version "2.0.3"
   resolved "https://registry.npmjs.org/progress/-/progress-2.0.3.tgz"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
+
+promise-polyfill@^8.2.3:
+  version "8.2.3"
+  resolved "https://registry.yarnpkg.com/promise-polyfill/-/promise-polyfill-8.2.3.tgz#2edc7e4b81aff781c88a0d577e5fe9da822107c6"
+  integrity sha512-Og0+jCRQetV84U8wVjMNccfGCnMQ9mGs9Hv78QFe+pSDD3gWTpz0y+1QCuxy5d/vBFuZ3iwP2eycAkvqIMPmWg==
 
 prompts@^2.0.1:
   version "2.4.2"
