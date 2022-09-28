@@ -36,7 +36,7 @@
 .discount-code__button[aria-disabled="true"]:hover {
     cursor: not-allowed;
 }
-  
+
 .discount-code-input .btn-checkout:focus {
     outline: 4px solid #C0E7FE;
 }
@@ -54,7 +54,7 @@
     width: 80px;
     margin: 0;
     order: 2;
-    height: 44px;
+    height: 48px;
 }
 
 .discount-code__list-discounts {
