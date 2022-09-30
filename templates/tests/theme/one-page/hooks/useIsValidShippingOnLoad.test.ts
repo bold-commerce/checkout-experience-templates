@@ -17,7 +17,6 @@ const useGetValidVariableMock = mocked(useGetValidVariable, true);
 
 const mockDispatch = jest.fn();
 
-
 jest.mock("react-redux", () => ({
     useDispatch: () => mockDispatch,
 

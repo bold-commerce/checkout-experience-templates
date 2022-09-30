@@ -9,7 +9,6 @@ import {
 } from 'src//hooks';
 import { Constants } from 'src/constants';
 
-
 export function useIsValidShippingOnLoad(): void {
     const dispatch = useDispatch();
     const shippingAddress = useGetShippingData();
