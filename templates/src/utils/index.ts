@@ -27,6 +27,7 @@ export * from './getValidatedOrderData';
 export * from './googleAutocompleteRetrieveCountriesListLimitation';
 export * from './googleAutocompleteRetrieveOptions';
 export * from './handleErrorIfNeeded';
+export * from './hasEmptyRequiredFields';
 export * from './isAutocompleteDataPopulated';
 export * from './isObjectEmpty';
 export * from './isObjectEqual';

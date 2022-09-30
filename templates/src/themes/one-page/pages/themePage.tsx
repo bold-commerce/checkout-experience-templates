@@ -2,7 +2,7 @@ import {CustomerSection, Header, SummarySection} from 'src/components';
 import React from 'react';
 import {getCheckoutUrl} from 'src/utils';
 import {Constants} from 'src/constants';
-import { useIsValidShippingOnLoad } from '../hooks';
+import { useIsValidShippingOnLoad } from 'src/themes/one-page/hooks';
 
 export function ThemePage(): React.ReactElement {
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));

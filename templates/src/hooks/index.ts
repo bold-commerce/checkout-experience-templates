@@ -53,6 +53,7 @@ export * from './useGetPaymentType';
 export * from './useGetPaymentSection';
 export * from './useGetPigiDisplaySca';
 export * from './useGetPigiUrl';
+export * from './useGetRequiredAddressFields';
 export * from './useGetSavedAddressData';
 export * from './useGetSelectedLanguageIso';
 export * from './useGetSelectShippingLine';
