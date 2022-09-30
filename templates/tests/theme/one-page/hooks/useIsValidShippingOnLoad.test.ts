@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react-hooks';
 import { useIsValidShippingOnLoad } from 'src/themes/one-page/hooks'
 import { hasEmptyRequiredFields } from 'src/utils'
 import {
@@ -8,7 +8,7 @@ import {
 } from 'src//hooks'
 import { emptyAddressMock, stateMock } from 'src/mocks';
 import { mocked } from 'jest-mock';
-import {initialDataMock} from 'src/mocks';
+
 jest.mock('src/hooks');
 
 const useGetRequiredAddressFieldsMock = mocked(useGetRequiredAddressFields, true);
