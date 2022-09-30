@@ -1,7 +1,6 @@
-import { act } from '@testing-library/react';
+import {renderHook} from '@testing-library/react-hooks';
 import { useIsValidShippingOnLoad } from 'src/themes/one-page/hooks'
 import { hasEmptyRequiredFields } from 'src/utils'
-
 import {
     useGetRequiredAddressFields,
     useGetShippingData,
@@ -9,7 +8,7 @@ import {
 } from 'src//hooks'
 import { emptyAddressMock, stateMock } from 'src/mocks';
 import { mocked } from 'jest-mock';
-
+import {initialDataMock} from 'src/mocks';
 jest.mock('src/hooks');
 
 const useGetRequiredAddressFieldsMock = mocked(useGetRequiredAddressFields, true);
@@ -17,8 +16,11 @@ const useGetShippingDataMock = mocked(useGetShippingData, true);
 const useGetValidVariableMock = mocked(useGetValidVariable, true);
 
 const mockDispatch = jest.fn();
+
+
 jest.mock("react-redux", () => ({
     useDispatch: () => mockDispatch,
+
 }));
 
 describe('Testing hook useIsValidShippingOnLoad', () => {
@@ -82,10 +84,8 @@ describe('Testing hook useIsValidShippingOnLoad', () => {
         useGetShippingDataMock.mockReturnValueOnce(shipping_address);
         useGetRequiredAddressFieldsMock.mockReturnValue(required_fields);
 
-        act(() => {
-            useIsValidShippingOnLoad()
-        })
-
+        renderHook(() => useIsValidShippingOnLoad());
+    
         const emptyRequiredFields = hasEmptyRequiredFields(
             required_fields, {...shipping_address})
 

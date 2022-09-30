@@ -19,10 +19,10 @@ export function useIsValidShippingOnLoad(): void {
     const emptyRequiredFields = hasEmptyRequiredFields(
         requiredFields, { ...shippingAddress });
 
-        useEffect(() => {
-            if (!emptyRequiredFields && !isValidShippingAddress) {
-                dispatch(actionSetAppStateValid('shippingAddress', true));
-                dispatch(actionSetAppStateValid('updatedShippingAddress', true));
-            }
-        }, []);
+    useEffect(() => {
+        if (!emptyRequiredFields && !isValidShippingAddress) {
+            dispatch(actionSetAppStateValid('shippingAddress', true));
+            dispatch(actionSetAppStateValid('updatedShippingAddress', true));
+        }
+    }, []);
 }
