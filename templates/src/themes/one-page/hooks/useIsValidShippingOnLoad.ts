@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { hasEmptyRequiredFields } from 'src/utils';
 import { actionSetAppStateValid } from 'src/action';
@@ -8,7 +9,6 @@ import {
 } from 'src//hooks';
 import { Constants } from 'src/constants';
 
-
 export function useIsValidShippingOnLoad(): void {
     const dispatch = useDispatch();
     const shippingAddress = useGetShippingData();
@@ -18,8 +18,10 @@ export function useIsValidShippingOnLoad(): void {
     const emptyRequiredFields = hasEmptyRequiredFields(
         requiredFields, { ...shippingAddress });
 
-    if (!emptyRequiredFields && !isValidShippingAddress) {
-        dispatch(actionSetAppStateValid('shippingAddress', true));
-        dispatch(actionSetAppStateValid('updatedShippingAddress', true));
-    }
+    useEffect(() => {
+        if (!emptyRequiredFields && !isValidShippingAddress) {
+            dispatch(actionSetAppStateValid('shippingAddress', true));
+            dispatch(actionSetAppStateValid('updatedShippingAddress', true));
+        }
+    }, []);
 }
