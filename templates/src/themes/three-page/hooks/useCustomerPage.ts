@@ -37,8 +37,10 @@ export function useCustomerPage(): IUseCustomerPageProp {
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
 
     useEffect( () => {
-        dispatch(checkInventory(checkInventoryStage.initial));
-        dispatch(initializeExpressPay(history));
+        if (!isOrderCompleted) {
+            dispatch(checkInventory(checkInventoryStage.initial));
+            dispatch(initializeExpressPay(history));
+        }
     }, []);
 
     return {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading};
