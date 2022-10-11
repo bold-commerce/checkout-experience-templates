@@ -5,12 +5,14 @@ import {
     useGetSavedAddressData,
     useGetSavedAddressOptions
 } from 'src/hooks';
-import {Constants} from 'src/constants';
+import {Constants, defaultAddressState} from 'src/constants';
 import {renderHook} from '@testing-library/react-hooks';
 import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import { validateBillingAddress, validateShippingAddress } from 'src/library';
+import { actionUpdateAddress } from 'src/action';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -31,10 +33,11 @@ describe('Testing hook useGetSavedAddressData', () => {
     const debounceMock = jest.fn();
     const getTermValue = 'test-value';
     const target ={target: {value: ''}};
-    const address = initialDataMock.application_state.addresses.shipping;
+    const shippingAddress = initialDataMock.application_state.addresses.shipping;
+    const billingAddress = initialDataMock.application_state.addresses.billing;
     const savedAddresses: Array<Partial<IAddress>> = [
-        {id: '1', ...address},
-        {id: '2', ...initialDataMock.application_state.addresses.billing}
+        {id: '1', ...shippingAddress},
+        {id: '2', ...billingAddress}
     ];
 
     beforeEach(() => {
@@ -45,7 +48,15 @@ describe('Testing hook useGetSavedAddressData', () => {
 
     const hookData = [
         {type: Constants.SHIPPING, address: [], expected: []},
-        {type: Constants.SHIPPING, address: [address as IAddress], expected: [{value: `${address.id}__${address.address_line_1 || 'incomplete'}`, name: address.address_line_1}]},
+        {type: Constants.SHIPPING, address: [shippingAddress], expected: [{value: `${shippingAddress.id}__${shippingAddress.address_line_1 || 'incomplete'}`, name: shippingAddress.address_line_1}]},
+        {type: Constants.BILLING, address: [], expected: []},
+        {type: Constants.BILLING, address: [billingAddress], expected: [{value: `${billingAddress.id}__${billingAddress.address_line_1}`, name: billingAddress.address_line_1}]},
+        {type: Constants.BILLING, address: [{ ...billingAddress, address_line_1: '' }], expected: [{value: `${billingAddress.id}__${'incomplete'}`, name: 'Incomplete address #1'}]},
+    ];
+
+    const addressTypes = [
+        { type: Constants.SHIPPING },
+        { type: Constants.BILLING },
     ];
 
     test.each(hookData)(
@@ -68,12 +79,12 @@ describe('Testing hook useGetSavedAddressData', () => {
         }
     );
 
-    test('rendering the hook with api calls', () => {
+    test.each(addressTypes)('rendering the hook with api calls and type $type', ({ type }) => {
         useCallApiAtOnEventsMock.mockReturnValueOnce(true);
         useGetSavedAddressOptionsMock.mockReturnValueOnce(savedAddresses as Array<IAddress>);
         mockDispatch.mockReturnValue(Promise.resolve());
 
-        const {result} = renderHook(() => useGetSavedAddressData(Constants.SHIPPING));
+        const {result} = renderHook(() => useGetSavedAddressData(type));
 
         expect(mockDispatch).toBeCalledTimes(0);
         result.current.handleChange({target: {value: savedAddresses[0].id}});
@@ -125,20 +136,22 @@ describe('Testing hook useGetSavedAddressData', () => {
         },
     ];
 
-    test.each(selectedAddresIdData)(
-        'selectedAddressId is properly set ($name)',
-        ({ currentAddress, expected }) => {
-            useCallApiAtOnEventsMock.mockReturnValueOnce(false);
-            useGetSavedAddressOptionsMock.mockReturnValueOnce(savedAddresses as Array<IAddress>);
-            useGetAddressDataMock.mockReturnValueOnce(currentAddress as IAddress);
+    describe.each(addressTypes)('For $type addresses', ({ type }) => {
+        test.each(selectedAddresIdData)(
+            'selectedAddressId is properly set ($name)',
+            ({ currentAddress, expected }) => {
+                useCallApiAtOnEventsMock.mockReturnValueOnce(false);
+                useGetSavedAddressOptionsMock.mockReturnValueOnce(savedAddresses as Array<IAddress>);
+                useGetAddressDataMock.mockReturnValueOnce(currentAddress as IAddress);
 
-            const { result } = renderHook(() => useGetSavedAddressData(Constants.SHIPPING));
+                const { result } = renderHook(() => useGetSavedAddressData(type));
 
-            expect(result.current.selectedOptionId).toStrictEqual(expected);
-        }
-    );
+                expect(result.current.selectedOptionId).toStrictEqual(expected);
+            }
+        );
+    });
 
-    test('ids are proper', () => {
+    test.each(addressTypes)('ids are proper for $type addresses', ({ type }) => {
         useCallApiAtOnEventsMock.mockReturnValueOnce(false);
         useGetSavedAddressOptionsMock.mockReturnValueOnce([
             {
@@ -148,7 +161,7 @@ describe('Testing hook useGetSavedAddressData', () => {
             savedAddresses[1] as IAddress,
         ]);
 
-        const { result } = renderHook(() => useGetSavedAddressData(Constants.SHIPPING));
+        const { result } = renderHook(() => useGetSavedAddressData(type));
 
         expect(result.current.options).toEqual([
             {
@@ -160,5 +173,27 @@ describe('Testing hook useGetSavedAddressData', () => {
                 value: '2__100 Main Street',
             },
         ]);
+    });
+
+    describe(`Given API calls are enabled, when called with type ${Constants.BILLING}`, () => {
+        beforeEach(() => {
+            useCallApiAtOnEventsMock.mockReturnValueOnce(true);
+            useGetSavedAddressOptionsMock.mockReturnValueOnce(savedAddresses as Array<IAddress>);
+
+            const { result } = renderHook(() => useGetSavedAddressData(Constants.BILLING));
+            result.current.handleChange({ target: { value: savedAddresses[0].id }});
+        });
+
+        test('Emits an update-billing-address action to Redux', () => {
+            expect(mockDispatch).toHaveBeenCalledWith(actionUpdateAddress(Constants.BILLING, defaultAddressState));
+        });
+
+        test('Calls the validateBillingAddress thunk', () => {
+            expect(mockDispatch).toHaveBeenCalledWith(validateBillingAddress);
+        });
+
+        test('Does not call the validateShippingAddress thunk', () => {
+            expect(mockDispatch).not.toHaveBeenCalledWith(validateShippingAddress);
+        });
     });
 });
