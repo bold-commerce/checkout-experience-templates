@@ -43,14 +43,26 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
         const address = savedAddresses.find(o => makeAddressId(o) === value) || defaultAddressState;
 
         if (callApiAtOnEvents) {
-            dispatch(actionSetAppStateValid('shippingAddress', false));
+            if (type === Constants.SHIPPING) {
+                dispatch(actionSetAppStateValid('shippingAddress', false));
+            } else if (type === Constants.BILLING) {
+                dispatch(actionSetAppStateValid('billingAddress', false));
+            }
+
             if (value !== 'new') {
-                dispatch(actionUpdateAddress(Constants.SHIPPING, address));
-                dispatch(validateShippingAddress).then(() => {
-                    if(billingType === Constants.SHIPPING_SAME) {
-                        dispatch(validateBillingAddress);
-                    }
-                });
+                dispatch(actionUpdateAddress(type, address));
+
+                if (type === Constants.SHIPPING) {
+                    dispatch(validateShippingAddress).then(() => {
+                        if(billingType === Constants.SHIPPING_SAME) {
+                            dispatch(validateBillingAddress);
+                        }
+                    });
+                }
+
+                if (type === Constants.BILLING) {
+                    dispatch(validateBillingAddress);
+                }
             }
         }
 
