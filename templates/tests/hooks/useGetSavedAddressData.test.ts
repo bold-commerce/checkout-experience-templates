@@ -36,7 +36,7 @@ describe('Testing hook useGetSavedAddressData', () => {
         {id: '1', ...address},
         {id: '2', ...initialDataMock.application_state.addresses.billing}
     ];
-
+ 
     beforeEach(() => {
         jest.resetAllMocks();
         getTermMock.mockReturnValue(getTermValue);
@@ -44,19 +44,28 @@ describe('Testing hook useGetSavedAddressData', () => {
     });
 
     const hookData = [
-        {type: Constants.SHIPPING, address: [], expected: []},
-        {type: Constants.SHIPPING, address: [address as IAddress], expected: [{value: `${address.id}__${address.address_line_1 || 'incomplete'}`, name: address.address_line_1}]},
+        {type: Constants.SHIPPING, address: [], label: "Select an address", placeholder: "Enter a new address", expected: []},
+        {type: Constants.SHIPPING, address: [address as IAddress], label: "Select an address", placeholder: "Select an address", expected: [{value: `${address.id}__${address.address_line_1 || 'incomplete'}`, name: address.address_line_1}]},
     ];
 
     test.each(hookData)(
         'rendering the hook properly ($type, $address)',
-        ({type, address, expected}) => {
+        ({type, address, label, placeholder, expected}) => {
             useCallApiAtOnEventsMock.mockReturnValueOnce(false);
             useGetSavedAddressOptionsMock.mockReturnValueOnce(address);
-
+            getTermMock
+            .mockReturnValueOnce(label)
+            .mockReturnValueOnce(placeholder)
+          
             const {result} = renderHook(() => useGetSavedAddressData(type));
-            expect(result.current.label).toStrictEqual(getTermValue);
-            expect(result.current.placeholder).toStrictEqual(getTermValue);
+        
+            expect(result.current.label).toStrictEqual("Select an address");
+            if(result.current.savedAddresses.length){
+                expect(result.current.placeholder).toStrictEqual("Select an address");
+            }else{
+                expect(result.current.placeholder).toStrictEqual("Enter a new address");
+            }
+            
             expect(result.current.id).toStrictEqual(type+'-saved-address-select');
             expect(result.current.options).toStrictEqual(expected);
             expect(result.current.selectedOptionId).toStrictEqual(undefined);
@@ -133,7 +142,7 @@ describe('Testing hook useGetSavedAddressData', () => {
             useGetAddressDataMock.mockReturnValueOnce(currentAddress as IAddress);
 
             const { result } = renderHook(() => useGetSavedAddressData(Constants.SHIPPING));
-
+           
             expect(result.current.selectedOptionId).toStrictEqual(expected);
         }
     );
