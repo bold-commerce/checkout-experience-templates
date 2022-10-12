@@ -39,7 +39,7 @@ describe('Testing hook useGetSavedAddressData', () => {
         {id: '1', ...shippingAddress},
         {id: '2', ...billingAddress}
     ];
-
+ 
     beforeEach(() => {
         jest.resetAllMocks();
         getTermMock.mockReturnValue(getTermValue);
@@ -47,11 +47,11 @@ describe('Testing hook useGetSavedAddressData', () => {
     });
 
     const hookData = [
-        {type: Constants.SHIPPING, address: [], expected: []},
-        {type: Constants.SHIPPING, address: [shippingAddress], expected: [{value: `${shippingAddress.id}__${shippingAddress.address_line_1 || 'incomplete'}`, name: shippingAddress.address_line_1}]},
-        {type: Constants.BILLING, address: [], expected: []},
-        {type: Constants.BILLING, address: [billingAddress], expected: [{value: `${billingAddress.id}__${billingAddress.address_line_1}`, name: billingAddress.address_line_1}]},
-        {type: Constants.BILLING, address: [{ ...billingAddress, address_line_1: '' }], expected: [{value: `${billingAddress.id}__${'incomplete'}`, name: 'Incomplete address #1'}]},
+        {type: Constants.SHIPPING, address: [], label: "Select an address", placeholder: "Enter a new address", expected: []},
+        {type: Constants.SHIPPING, address: [shippingAddress], label: "Select an address", placeholder: "Select an address", expected: [{value: `${shippingAddress.id}__${shippingAddress.address_line_1 || 'incomplete'}`, name: shippingAddress.address_line_1}]},
+        {type: Constants.BILLING, address: [], label: "Select an address", placeholder: "Enter a new address", expected: []},
+        {type: Constants.BILLING, address: [billingAddress], label: "Select an address", placeholder: "Select an address", expected: [{value: `${billingAddress.id}__${billingAddress.address_line_1}`, name: billingAddress.address_line_1}]},
+        {type: Constants.BILLING, address: [{ ...billingAddress, address_line_1: '' }], label: "Select an address", placeholder: "Select an address", expected: [{value: `${billingAddress.id}__${'incomplete'}`, name: 'Incomplete address #1'}]},
     ];
 
     const addressTypes = [
@@ -61,13 +61,22 @@ describe('Testing hook useGetSavedAddressData', () => {
 
     test.each(hookData)(
         'rendering the hook properly ($type, $address)',
-        ({type, address, expected}) => {
+        ({type, address, label, placeholder, expected}) => {
             useCallApiAtOnEventsMock.mockReturnValueOnce(false);
             useGetSavedAddressOptionsMock.mockReturnValueOnce(address);
-
+            getTermMock
+            .mockReturnValueOnce(label)
+            .mockReturnValueOnce(placeholder)
+          
             const {result} = renderHook(() => useGetSavedAddressData(type));
-            expect(result.current.label).toStrictEqual(getTermValue);
-            expect(result.current.placeholder).toStrictEqual(getTermValue);
+        
+            expect(result.current.label).toStrictEqual("Select an address");
+            if(result.current.savedAddresses.length){
+                expect(result.current.placeholder).toStrictEqual("Select an address");
+            }else{
+                expect(result.current.placeholder).toStrictEqual("Enter a new address");
+            }
+            
             expect(result.current.id).toStrictEqual(type+'-saved-address-select');
             expect(result.current.options).toStrictEqual(expected);
             expect(result.current.selectedOptionId).toStrictEqual(undefined);

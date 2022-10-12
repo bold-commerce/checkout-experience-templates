@@ -21,11 +21,12 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
     const dispatch = useDispatch();
     const callApiAtOnEvents = useCallApiAtOnEvents();
     const label = getTerm('select_address',Constants.SHIPPING_INFO);
-    const placeholder = getTerm('enter_new_address', Constants.CUSTOMER_INFO);
+    const savedAddresses: Array<IAddress> = useGetSavedAddressOptions();
+    const placeholder = savedAddresses.length ? getTerm('select_address', Constants.SHIPPING_INFO) : getTerm('enter_new_address', Constants.CUSTOMER_INFO);
     const title = type === Constants.SHIPPING ? getTerm('shipping_address', Constants.SHIPPING_INFO) : getTerm('billing_address',Constants.PAYMENT_INFO);
     const id = `${type}-saved-address-select`;
     const billingType = useGetAppSettingData('billingType');
-    const savedAddresses: Array<IAddress> = useGetSavedAddressOptions();
+    
     let count = 1;
     const options = savedAddresses.map(address => ({
         value: makeAddressId(address),
