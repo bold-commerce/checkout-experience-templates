@@ -1,8 +1,9 @@
 {
   "name": "@boldcommerce/checkout-experience-templates",
-  "version": "1.0.1-build.81",
+  "version": "1.0.1-build.82",
   "description": "",
   "main": "index.js",
+  "license": "MIT",
   "scripts": {
     "preconfig": "node createRequiredConfig.js",
     "prerelease": "npm --preid=build version prerelease && node libVersion.js > src/constants/version.ts",
