@@ -12,12 +12,15 @@ import React from 'react';
 import {initialDataMock, storeMock} from 'src/mocks';
 import {ISavedAddressHookProps} from 'src/types';
 import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {isBoldPlatform} from 'src/utils';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
     useSelector: jest.fn().mockImplementation(func => func(storeMock)),
     useDispatch: () => mockDispatch
 }));
+jest.mock('src/utils/isBoldPlatform');
+const getIsBoldPlatformMock = mocked(isBoldPlatform, true);
 
 jest.mock('src/hooks');
 
@@ -58,11 +61,22 @@ describe('Testing CustomerInformation component', () => {
         useGetSavedAddressDataMock.mockReturnValue(savedAddressData);
     });
 
-    test('customer information component - authenticated user', () => {
+    test('customer information component - authenticated user - any platform but custom', () => {
         useIsUserAuthenticatedMock.mockReturnValueOnce(true);
-
+        getIsBoldPlatformMock.mockReturnValue(false);
         const {container} = render(<CustomerInformation/>);
         expect(container.getElementsByClassName('customer-information__authenticated').length).toBe(1);
+        expect(container.getElementsByClassName('customer-information__authenticated-not-you').length).toBe(1);
+        expect(container.getElementsByClassName('customer-information__field-section').length).toBe(1);
+
+    });
+
+    test('customer information component - authenticated user - bold_platform', () => {
+        useIsUserAuthenticatedMock.mockReturnValueOnce(true);
+        getIsBoldPlatformMock.mockReturnValue(true);
+        const {container} = render(<CustomerInformation/>);
+        expect(container.getElementsByClassName('customer-information__authenticated').length).toBe(1);
+        expect(container.getElementsByClassName('customer-information__authenticated-not-you').length).toBe(0);
         expect(container.getElementsByClassName('customer-information__field-section').length).toBe(1);
 
     });

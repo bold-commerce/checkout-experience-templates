@@ -2,13 +2,15 @@ import {render} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 import {useGetSavedAddressOptions, useLogin} from 'src/hooks';
 import {LoggedInCustomer} from 'src/components';
-import {getTerm} from 'src/utils';
+import {getTerm, isBoldPlatform} from 'src/utils';
 import React from 'react';
 import {storeMock} from 'src/mocks';
 
 jest.mock('src/hooks/useLogin');
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useGetAddressData');
+jest.mock('src/utils/isBoldPlatform');
+const getIsBoldPlatformMock = mocked(isBoldPlatform, true);
 const useLoginMock = mocked(useLogin, true);
 const getTermMock = mocked(getTerm, true);
 const useGetSavedAddressOptionsMock = mocked(useGetSavedAddressOptions, true);
@@ -38,6 +40,7 @@ describe('Testing LoggedInCustomer component', () => {
     });
 
     test('Rendering the component correctly', () => {
+        getIsBoldPlatformMock.mockReturnValueOnce(false);
         useLoginMock.mockReturnValueOnce(hooksReturn);
         const {container} = render(<LoggedInCustomer/>);
         expect(container.getElementsByClassName('customer-information').length).toBe(1);
@@ -50,6 +53,7 @@ describe('Testing LoggedInCustomer component', () => {
     });
 
     test('Rendering the component with hidden field', () => {
+        getIsBoldPlatformMock.mockReturnValueOnce(false);
         const tempHooksReturn = {...hooksReturn, acceptMarketingHidden: true};
         useLoginMock.mockReturnValueOnce(tempHooksReturn);
         const {container} = render(<LoggedInCustomer/>);

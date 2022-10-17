@@ -5,10 +5,13 @@ import {render} from '@testing-library/react';
 import {GuestCustomer} from 'src/components';
 import React from 'react';
 import {initialDataMock, storeMock} from 'src/mocks';
+import {isBoldPlatform} from 'src/utils';
 
 jest.mock('src/hooks/useGuestCustomer');
 jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/hooks/useLogin');
+jest.mock('src/utils/isBoldPlatform');
+const getIsBoldPlatformMock = mocked(isBoldPlatform, true);
 const useGuestCustomerMock = mocked(useGuestCustomer, true);
 const useGetCustomerInfoDataMock = mocked(useGetCustomerInfoData, true);
 const useLoginMock = mocked(useLogin, true);
@@ -44,6 +47,7 @@ describe('Testing GuestCustomer component', () => {
     });
 
     test('Rendering the component correctly', () => {
+        getIsBoldPlatformMock.mockReturnValueOnce(false);
         useGuestCustomerMock.mockReturnValueOnce(hooksReturn);
         const {container} = render(<GuestCustomer/>);
         expect(container.getElementsByClassName('customer-information').length).toBe(1);
@@ -53,10 +57,21 @@ describe('Testing GuestCustomer component', () => {
     });
 
     test('Rendering the component with hidden field', () => {
+        getIsBoldPlatformMock.mockReturnValueOnce(false);
         const tempHooksReturn = {...hooksReturn, acceptMarketingHidden: true};
         useGuestCustomerMock.mockReturnValueOnce(tempHooksReturn);
         const {container} = render(<GuestCustomer/>);
         expect(container.getElementsByClassName('hidden').length).toBe(1);
+        expect(container.getElementsByClassName('customer-information__accepts-marketing').length).toBe(1);
+    });
+
+    test('Rendering the component correctly without login link', () => {
+        getIsBoldPlatformMock.mockReturnValueOnce(true);
+        useGuestCustomerMock.mockReturnValueOnce(hooksReturn);
+        const {container} = render(<GuestCustomer/>);
+        expect(container.getElementsByClassName('customer-information').length).toBe(1);
+        expect(container.getElementsByClassName('customer-information__field-section').length).toBe(1);
+        expect(container.getElementsByClassName('customer-information__email').length).toBe(1);
         expect(container.getElementsByClassName('customer-information__accepts-marketing').length).toBe(1);
     });
 
