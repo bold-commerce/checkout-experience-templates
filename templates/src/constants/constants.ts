@@ -152,3 +152,12 @@ export const pigiPaymentTypes: IPigiPaymentTypes = {
 };
 
 export const API_RETRY = 1;
+
+export class PlatformTypeConstants {
+    static BIG_COMMERCE = 'bigcommerce';
+    static BOLD_PLATFORM = 'bold_platform';
+    static COMMERCE_TOOLS = 'commercetools';
+    static GENERAL = 'general';
+    static SHOPIFY = 'shopify';
+    static WOO_COMMERCE = 'woocommerce';
+}
