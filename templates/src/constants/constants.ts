@@ -59,6 +59,7 @@ export class Constants {
     static THANK_YOU_ROUTE = 'thank_you';
     static SESSION_EXPIRED_ROUTE = 'session_expired';
     static BUY_NOW_ROUTE = 'buy_now';
+    static DEFAULT_TITLE = 'default title';
 }
 
 export const errorTypes: IErrorTypes = {

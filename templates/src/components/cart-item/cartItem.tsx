@@ -4,6 +4,7 @@ import { ICartItemProps } from 'src/types';
 import { useGetCurrencyInformation, useCartItem, useGetCartParameters } from 'src/hooks';
 import { SemiControlledNumberInput } from '../semi-controlled-number-input/semiControlledNumberInput';
 import { getLineItemPropertiesForDisplay } from 'src/utils';
+import {Constants} from 'src/constants';
 
 export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLineItemProperties = true}: ICartItemProps): React.ReactElement {
     const { product_data } = line_item;
@@ -27,7 +28,7 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
             <Image src={product_data.image_url} alt={product_data.product_title} className="cart-item__img-container cart-item__img-container--empty" />
             <div className="cart-item__text">
                 <h2 className="cart-item__title">{product_data.product_title}</h2>
-                {(product_data.title && product_data.title !== 'Default Title' ) && (
+                {(product_data.title && product_data.title.toLowerCase() !== Constants.DEFAULT_TITLE ) && (
                     <p className="cart-item__variant-title">{product_data.title}</p>
                 )}
                 {   showLineItemProperties && properties.map((property) => {
@@ -39,12 +40,12 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
                 <div className="cart-item__quantity-container">
                     {onUpdateQuantity ? (
                         <div className="cart-item__quantity-controls">
-                            <button 
+                            <button
                                 id={'quantity-decrease-button'}
-                                className="cart-item__quantity-decrease" 
-                                aria-disabled={quantityDisabled} 
-                                aria-label="decrement quantity" 
-                                onClick={decrementLocalQuantity} 
+                                className="cart-item__quantity-decrease"
+                                aria-disabled={quantityDisabled}
+                                aria-label="decrement quantity"
+                                onClick={decrementLocalQuantity}
                             >
                                 -
                             </button>
@@ -55,11 +56,11 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
                                 aria-disabled={quantityDisabled}
                                 onCommit={commit}
                             />
-                            <button 
+                            <button
                                 id={'quantity-increase-button'}
-                                className="cart-item__quantity-increase" 
-                                aria-disabled={quantityDisabled} 
-                                aria-label="increment quantity" 
+                                className="cart-item__quantity-increase"
+                                aria-disabled={quantityDisabled}
+                                aria-label="increment quantity"
                                 onClick={incrementLocalQuantity}
                             >
                                 +
