@@ -1,4 +1,10 @@
-import {getBreadcrumbs, getTerm, neuroIdSubmitFromBreadcrumb} from 'src/utils';
+import {
+    getBreadcrumbs,
+    getReturnToCartTermAndLink,
+    getTerm,
+    isBoldPlatform,
+    neuroIdSubmitFromBreadcrumb
+} from 'src/utils';
 import {BreadcrumbsStatus} from 'src/constants';
 import {renderHook} from '@testing-library/react-hooks';
 import {Action, Location} from 'history';
@@ -20,14 +26,19 @@ const historyMock = {
 
 jest.mock('src/utils/getTerm');
 jest.mock('src/utils/neuroIdCallsBreadcrumbs');
+jest.mock('src/utils/getReturnToCartTermAndLink');
+jest.mock('src/utils/isBoldPlatform');
 const getTermMock = mocked(getTerm, true);
 const neuroIdSubmitFromBreadcrumbMock = mocked(neuroIdSubmitFromBreadcrumb, true);
+const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
+const isBoldPlatformMock = mocked(isBoldPlatform, true);
 
 describe('Test getBreadcrumbs function', () => {
     const active = 5;
     const getTermValue = 'test-value';
     const preventDefaultMock = jest.fn();
     const eventMock = {preventDefault: preventDefaultMock};
+    const link = 'http://test.com';
 
     beforeEach(() => {
         jest.restoreAllMocks();
@@ -38,16 +49,18 @@ describe('Test getBreadcrumbs function', () => {
                 href: 'http://dummy.com'
             }
         });
-        window.returnUrl = 'http://test.com';
+        window.returnUrl = link;
+        getReturnToCartTermAndLinkMock.mockReturnValue({term:'return_to_cart', link: link});
     });
 
     test('Completed state', () => {
+        isBoldPlatformMock.mockReturnValueOnce(true);
         const {result} = renderHook(() => getBreadcrumbs(historyMock, active));
         const results = result.current;
 
         results[0].onClick(eventMock);
         expect(neuroIdSubmitFromBreadcrumbMock).toHaveBeenCalledTimes(1);
-        expect(window.location.href).toEqual(window.returnUrl);
+        expect(window.location.href).toEqual(link);
         expect(results[0].status).toBe(BreadcrumbsStatus.COMPLETED);
         expect(preventDefaultMock).toHaveBeenCalledTimes(1);
 
@@ -71,5 +84,15 @@ describe('Test getBreadcrumbs function', () => {
         expect(replaceMock).toHaveBeenCalledTimes(3);
         expect(results[0].status).toBe(BreadcrumbsStatus.COMPLETED);
         expect(preventDefaultMock).toHaveBeenCalledTimes(4);
+    });
+
+    test('Completed state without bold platform', () => {
+        isBoldPlatformMock.mockReturnValueOnce(false);
+        const {result} = renderHook(() => getBreadcrumbs(historyMock, active));
+        const results = result.current;
+
+        results[0].onClick(eventMock);
+        expect(window.location.href).toEqual(link);
+        expect(results[0].status).toBe(BreadcrumbsStatus.COMPLETED);
     });
 });

@@ -2,7 +2,7 @@ import {renderHook} from '@testing-library/react-hooks';
 import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
-import {getCheckoutUrl, getTerm, getNeuroIdPageName, neuroIdSubmit} from 'src/utils';
+import {getCheckoutUrl, getTerm, getNeuroIdPageName, neuroIdSubmit, getReturnToCartTermAndLink} from 'src/utils';
 import {callCustomerPageApi, checkInventory, initializeExpressPay} from 'src/library';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {useHistory} from 'react-router';
@@ -18,6 +18,7 @@ jest.mock('src/hooks/useGetIsOrderProcessed');
 jest.mock('src/library/callCustomerPageApi');
 jest.mock('src/library/checkInventory');
 jest.mock('src/library/initializeExpressPay');
+jest.mock('src/utils/getReturnToCartTermAndLink');
 const useDispatchMock = mocked(useDispatch, true);
 const useHistoryMock = mocked(useHistory, true);
 const getTermMock = mocked(getTerm, true);
@@ -29,6 +30,7 @@ const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
 const neuroIdSubmitMock = mocked(neuroIdSubmit, true);
 const getNeuroIdPageNameMock = mocked(getNeuroIdPageName, true);
 const initializeExpressPayMock = mocked(initializeExpressPay, true);
+const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
 
 describe('Testing hook useCustomerPage', () => {
     const mockDispatch = jest.fn();
@@ -58,6 +60,7 @@ describe('Testing hook useCustomerPage', () => {
             }
         });
         window.returnUrl = 'http://test.com';
+        getReturnToCartTermAndLinkMock.mockReturnValue({term:'cart', link: 'http://test.com'});
     });
 
     test('rendering the hook properly', () => {
