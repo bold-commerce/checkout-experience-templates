@@ -14,7 +14,6 @@ import {
 import {addressMock, stateMock} from 'src/mocks';
 import {ThankYouPage} from 'src/pages';
 import * as Store from 'src/store';
-import {neuroIdInit} from 'src/utils';
 import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 jest.mock('src/hooks/useGetCustomerInformation');
@@ -23,8 +22,6 @@ jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useSendEvent');
 jest.mock('src/hooks/useGetValidVariable');
-jest.mock('src/utils/neuroIdCalls');
-mocked(neuroIdInit, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useGetCustomerInfoDataMock = mocked(useGetCustomerInfoData, true);

@@ -1,5 +1,5 @@
-import {getCheckoutUrl, getNeuroIdPageName, getTerm, neuroIdSubmit} from 'src/utils';
-import {Constants, NeuroIdConstants} from 'src/constants';
+import {getCheckoutUrl, getTerm} from 'src/utils';
+import {Constants} from 'src/constants';
 import {useCallback} from 'react';
 import {IUseCustomerPageProp} from 'src/types';
 import {useDispatch} from 'react-redux';
@@ -21,17 +21,14 @@ export function useShippingPage(): IUseCustomerPageProp{
     const backLinkText = getTerm('footer_shipping_cust_info', Constants.SHIPPING_METHOD_INFO);
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
-        neuroIdSubmit(getNeuroIdPageName(NeuroIdConstants.customerPage));
         history.replace(getCheckoutUrl(''));
     } , [history]);
     const nextButtonText = getTerm('footer_shipping_continue', Constants.SHIPPING_METHOD_INFO);
     const active = 2;
     const nextButtonOnClick = useCallback(() => {
-        const pageNameNeuroId = getNeuroIdPageName(NeuroIdConstants.shippingPage);
         sendEvents('Checkout', 'Clicked continue to payment button');
-
         dispatch(actionClearErrors());
-        dispatch(callShippingLinesPageApi(history, pageNameNeuroId));
+        dispatch(callShippingLinesPageApi(history));
     } , []);
 
     return {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading};

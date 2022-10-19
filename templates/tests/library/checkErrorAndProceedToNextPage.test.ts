@@ -3,18 +3,16 @@ import {HistoryLocationState} from 'react-router';
 import {actionSetLoaderAndDisableButton} from 'src/action';
 import {checkErrorAndProceedToNextPage} from 'src/library';
 import {stateMock} from 'src/mocks';
-import {getCheckoutUrl, isOnlyDiscountCodeError, neuroIdSubmit} from 'src/utils';
+import {getCheckoutUrl, isOnlyDiscountCodeError} from 'src/utils';
 import {orderCompleteAnalytics} from 'src/analytics';
 
 jest.mock('src/action');
 jest.mock('src/utils');
 jest.mock('src/analytics');
 jest.mock('src/hooks');
-jest.mock('src/utils/neuroIdCalls');
 const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButton, true);
 const isOnlyDiscountCodeErrorMock = mocked(isOnlyDiscountCodeError, true);
 const orderCompleteAnalyticsMock = mocked(orderCompleteAnalytics, true);
-const neuroIdSubmitMock = mocked(neuroIdSubmit, true);
 
 describe('testing checkErrorAndProceedToNextPage', () => {
     const dispatch = jest.fn();
@@ -23,7 +21,6 @@ describe('testing checkErrorAndProceedToNextPage', () => {
     const historyMock = {replace: jest.fn()} as HistoryLocationState;
     const page = '/testPage';
     const loaderName = 'testLoader';
-    const pageNameNeuroID = 'page_name_neuro_id';
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -48,24 +45,6 @@ describe('testing checkErrorAndProceedToNextPage', () => {
             expect(dispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonThunkMock);
             expect(historyMock.replace).toHaveBeenCalledTimes(1);
             expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl(page));
-        });
-    });
-
-    test('call without errors on state - Neuro ID page name provided', async () => {
-        const noErrorsState = {...stateMock, errors: []};
-        getState.mockReturnValueOnce(noErrorsState);
-
-        const checkErrorAndProceedToNextPageThunk = checkErrorAndProceedToNextPage(page, loaderName, historyMock, false, pageNameNeuroID);
-        await checkErrorAndProceedToNextPageThunk(dispatch, getState).then(() => {
-            expect(getState).toHaveBeenCalledTimes(1);
-            expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
-            expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledWith(loaderName, false);
-            expect(dispatch).toHaveBeenCalledTimes(3);
-            expect(dispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonThunkMock);
-            expect(historyMock.replace).toHaveBeenCalledTimes(1);
-            expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl(page));
-            expect(neuroIdSubmitMock).toHaveBeenCalledTimes(1);
-            expect(neuroIdSubmitMock).toHaveBeenCalledWith(pageNameNeuroID);
         });
     });
 

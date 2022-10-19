@@ -1,5 +1,5 @@
 import {mocked} from 'jest-mock';
-import {callProcessOrder, getNeuroIdPageName} from 'src/utils';
+import {callProcessOrder} from 'src/utils';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import {displayOrderProcessingScreen, processOrder} from 'src/library';
@@ -13,14 +13,12 @@ import {IApiErrorResponse, IFetchError, IPigiResponseType} from '@bold-commerce/
 import {pigiActionTypes} from '@bold-commerce/checkout-frontend-library/lib/variables/constants';
 
 jest.mock('@bold-commerce/checkout-frontend-library/lib/pigi');
-jest.mock('src/utils/neuroIdCalls');
 jest.mock('react-redux');
 jest.mock('react-router');
 jest.mock('src/library');
 
 const useDispatchMock = mocked(useDispatch, true);
 const useHistoryMock = mocked(useHistory, true);
-const getNeuroIdPageNameMock = mocked(getNeuroIdPageName, true);
 const processOrderMock = mocked(processOrder, true);
 const sendRefreshOrderActionAsyncMock = mocked(sendRefreshOrderActionAsync, true);
 const sendAddPaymentActionAsyncMock = mocked(sendAddPaymentActionAsync, true);
@@ -58,7 +56,6 @@ describe('Testing callProcessOrder function', () => {
 
     beforeEach(() => {
         jest.resetAllMocks();
-        getNeuroIdPageNameMock.mockReturnValue(pageNameWithPrefix);
         dispatchMock.mockReturnValue(Promise.resolve());
         useDispatchMock.mockReturnValue(dispatchMock);
         useHistoryMock.mockReturnValue(historyMock);

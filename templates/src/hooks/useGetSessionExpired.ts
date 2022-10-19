@@ -1,14 +1,13 @@
 import {useCallback} from 'react';
 
-import {Constants, NeuroIdConstants} from 'src/constants';
+import {Constants} from 'src/constants';
 import {IUseSessionExpired} from 'src/types';
-import {getErrorTerm, getNeuroIdPageName, getReturnToCartTermAndLink, getTerm, neuroIdSubmit} from 'src/utils';
+import {getErrorTerm, getReturnToCartTermAndLink, getTerm} from 'src/utils';
 
 export function useGetSessionExpired(): IUseSessionExpired {
     const {term, link} = getReturnToCartTermAndLink();
     const returnUrl = useCallback(() =>
     {
-        neuroIdSubmit(getNeuroIdPageName(NeuroIdConstants.sessionExpiredPage));
         window.location.href = link;
     }, [link]);
     const terms = {

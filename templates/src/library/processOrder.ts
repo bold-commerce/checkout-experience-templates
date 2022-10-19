@@ -13,7 +13,7 @@ import {getCheckoutUrl, handleErrorIfNeeded} from 'src/utils';
 import {API_RETRY, Constants, errorFields, errorSubTypes} from 'src/constants';
 import {useRemoveAllFlashErrors} from 'src/hooks';
 
-export function processOrder(history: HistoryLocationState, pageNameNeuroId?: string) {
+export function processOrder(history: HistoryLocationState) {
     return async function processOrderThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         let {errors} = getState();
         useRemoveAllFlashErrors(dispatch, errors);
@@ -29,7 +29,7 @@ export function processOrder(history: HistoryLocationState, pageNameNeuroId?: st
                     await sendHandleScaActionAsync();
                 } else {
                     await dispatch(actionSetAppStateValid('orderProcessed', true));
-                    await dispatch(checkErrorAndProceedToNextPage(Constants.THANK_YOU_ROUTE, 'paymentPageButton', history, true, pageNameNeuroId));
+                    await dispatch(checkErrorAndProceedToNextPage(Constants.THANK_YOU_ROUTE, 'paymentPageButton', history, true));
                     await dispatch(getApplicationStateFromLib);
                     dispatch(actionShowHideOverlayContent(false));
                 }

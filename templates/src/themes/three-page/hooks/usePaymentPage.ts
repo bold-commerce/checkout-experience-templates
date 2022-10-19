@@ -6,13 +6,11 @@ import {
 } from 'src/hooks';
 import {
     getCheckoutUrl,
-    getNeuroIdPageName,
     getTerm,
     getTotalsFromState,
-    neuroIdSubmit,
     callProcessOrder
 } from 'src/utils';
-import {Constants, NeuroIdConstants} from 'src/constants';
+import {Constants} from 'src/constants';
 import {useCallback} from 'react';
 import {useHistory} from 'react-router';
 import {IUsePaymentPage} from 'src/types';
@@ -32,7 +30,6 @@ export function usePaymentPage(): IUsePaymentPage{
 
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
-        neuroIdSubmit(getNeuroIdPageName(NeuroIdConstants.customerPage));
         history.replace(getCheckoutUrl(Constants.SHIPPING_ROUTE));
     } , [history]);
 

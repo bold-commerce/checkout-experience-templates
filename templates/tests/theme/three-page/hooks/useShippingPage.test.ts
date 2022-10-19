@@ -2,7 +2,7 @@ import {renderHook} from '@testing-library/react-hooks';
 import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
-import {getCheckoutUrl, getNeuroIdPageName, getTerm, neuroIdSubmit} from 'src/utils';
+import {getCheckoutUrl, getTerm} from 'src/utils';
 import {useHistory} from 'react-router';
 import {callShippingLinesPageApi} from 'src/library';
 import {useShippingPage} from 'src/themes/three-page/hooks';
@@ -14,7 +14,6 @@ jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/hooks/useGetButtonDisableVariable');
 jest.mock('src/library/callShippingLinesPageApi');
-jest.mock('src/utils/neuroIdCalls');
 jest.mock('src/hooks/useGetIsOrderProcessed');
 const useDispatchMock = mocked(useDispatch, true);
 const useHistoryMock = mocked(useHistory, true);
@@ -23,8 +22,6 @@ const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true);
 const callShippingLinesPageApiMock = mocked(callShippingLinesPageApi, true);
 const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
-const neuroIdSubmitMock = mocked(neuroIdSubmit, true);
-const getNeuroIdPageNameMock = mocked(getNeuroIdPageName, true);
 
 describe('Testing hook useShippingPage', () => {
     const mockDispatch = jest.fn();
@@ -42,7 +39,6 @@ describe('Testing hook useShippingPage', () => {
         useGetIsLoadingMock.mockReturnValue(false);
         useGetButtonDisableVariableMock.mockReturnValue(false);
         callShippingLinesPageApiMock.mockReturnValue(mockCallShippingLinesPageApi);
-        getNeuroIdPageNameMock.mockReturnValue(pageNameWithPrefix);
     });
 
     test('rendering the hook properly', () => {
@@ -63,8 +59,6 @@ describe('Testing hook useShippingPage', () => {
         expect(mockDispatch).toHaveBeenCalledTimes(2);
         expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors());
         expect(mockDispatch).toHaveBeenCalledWith(mockCallShippingLinesPageApi);
-        expect(neuroIdSubmitMock).toHaveBeenCalledTimes(1);
-        expect(neuroIdSubmitMock).toHaveBeenCalledWith(pageNameWithPrefix);
     });
 
     test('rendering the hook with complete order', () => {

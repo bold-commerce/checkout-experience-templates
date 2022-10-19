@@ -43,25 +43,7 @@ describe('testing callShippingLinesPageApi', () => {
             expect(dispatch).toHaveBeenCalledWith(postShippingLines);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('payment', 'shippingPageButton', historyMock, false, undefined);
-        });
-    });
-
-    test('success call to callShippingLinesPageApi - Neuro ID page name provided', async () => {
-        const historyMock = {} as HistoryLocationState;
-        const pageNameNeuroId = 'page_name_neuro_id';
-
-        const callShippingLinesPageApiThunk = callShippingLinesPageApi(historyMock, pageNameNeuroId);
-        await callShippingLinesPageApiThunk(dispatch).then(() => {
-            expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
-            expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledWith('shippingPageButton', true);
-            expect(dispatch).toHaveBeenCalledTimes(4);
-            expect(dispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonThunkMock);
-            expect(dispatch).toHaveBeenCalledWith(validateShippingLine);
-            expect(dispatch).toHaveBeenCalledWith(postShippingLines);
-            expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('payment', 'shippingPageButton', historyMock, false, pageNameNeuroId);
+            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('payment', 'shippingPageButton', historyMock, false);
         });
     });
 });

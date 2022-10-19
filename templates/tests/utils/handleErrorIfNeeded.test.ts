@@ -1,13 +1,12 @@
 import {
     displayFatalErrorFromTranslation,
     getHook,
-    getNeuroIdPageName,
     handleErrorIfNeeded,
-    logError,
     isOnlyFlashError,
-    neuroIdSubmit,
     retrieveErrorFromResponse,
-    setApplicationStateMetaDataFromResponse, setMetadata, displayDefaultFlashError
+    setApplicationStateMetaDataFromResponse,
+    setMetadata,
+    displayDefaultFlashError
 } from 'src/utils';
 import {mocked} from 'jest-mock';
 import {HistoryLocationState} from 'react-router';
@@ -21,7 +20,6 @@ import {
 
 jest.mock('src/utils/displayFatalErrorFromTranslation');
 jest.mock('src/utils/standaloneHooks');
-jest.mock('src/utils/neuroIdCalls');
 jest.mock('src/utils/retrieveErrorFromResponse');
 jest.mock('src/utils/isOnlyFlashError');
 jest.mock('src/utils/bugReporter');
@@ -29,8 +27,6 @@ jest.mock('src/utils/displayDefaultFlashError');
 
 const displayFatalErrorFromTranslationMock = mocked(displayFatalErrorFromTranslation, true);
 const getHooksMock = mocked(getHook, true);
-const getNeuroIdPageNameMock = mocked(getNeuroIdPageName, true);
-const neuroIdSubmitMock = mocked(neuroIdSubmit, true);
 const retrieveErrorFromResponseMock = mocked(retrieveErrorFromResponse, true);
 const isOnlyFlashErrorMock = mocked(isOnlyFlashError, true);
 const setMetadataMock = mocked(setMetadata, true);
@@ -88,8 +84,8 @@ describe('Test function handleErrorIfNeeded', () => {
     ];
 
     const sessionDataSet = [
-        {resResponse: {errors: [{message: 'Expired JWT'}]}, status: httpStatusCode.UNAUTHORIZED, error: 'Session Expired', neuroIdSubmitCalls: 1, retrieveErrorFromResponseCall: 1 },
-        {resResponse: {errors: [{message: 'Missing JWT'}]}, status: httpStatusCode.UNAUTHORIZED , error: 'Session Issues', neuroIdSubmitCalls: 0, retrieveErrorFromResponseCall: 1 },
+        {resResponse: {errors: [{message: 'Expired JWT'}]}, status: httpStatusCode.UNAUTHORIZED, error: 'Session Expired', retrieveErrorFromResponseCall: 1 },
+        {resResponse: {errors: [{message: 'Missing JWT'}]}, status: httpStatusCode.UNAUTHORIZED , error: 'Session Issues', retrieveErrorFromResponseCall: 1 },
     ];
 
     const flashErrorSet = [
@@ -137,15 +133,12 @@ describe('Test function handleErrorIfNeeded', () => {
 
     test.each(sessionDataSet)(
         'handle error status, with Errors: errors',
-        ({resResponse, error, status, neuroIdSubmitCalls, retrieveErrorFromResponseCall}) => {
+        ({resResponse, error, status, retrieveErrorFromResponseCall}) => {
             response.error = {...fetchError, status: status};
             response.response = resResponse as IApiResponse;
-            getNeuroIdPageNameMock.mockReturnValue('some_page_name');
             retrieveErrorFromResponseMock.mockReturnValue(resResponse.errors as Array<IApiErrorResponse>);
 
             expect(() => handleErrorIfNeeded(response, dispatchMock, stateMock)).toThrow(error);
-            expect(getNeuroIdPageNameMock).toHaveBeenCalledTimes(neuroIdSubmitCalls);
-            expect(neuroIdSubmitMock).toHaveBeenCalledTimes(neuroIdSubmitCalls);
             expect(retrieveErrorFromResponseMock).toHaveBeenCalledTimes(retrieveErrorFromResponseCall);
         });
 

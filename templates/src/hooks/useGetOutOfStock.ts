@@ -1,14 +1,13 @@
 import {useCallback} from 'react';
 
-import {Constants, NeuroIdConstants} from 'src/constants';
+import {Constants} from 'src/constants';
 import {IUseOutOfStock} from 'src/types';
-import {getNeuroIdPageName, getReturnToCartTermAndLink, getTerm, neuroIdSubmit} from 'src/utils';
+import {getReturnToCartTermAndLink, getTerm} from 'src/utils';
 
 export function useGetOutOfStock(): IUseOutOfStock {
     const {term, link} = getReturnToCartTermAndLink();
     const returnUrl = useCallback(() =>
     {
-        neuroIdSubmit(getNeuroIdPageName(NeuroIdConstants.outOfStockPage));
         window.location.href = link;
     }, [link]);
 
