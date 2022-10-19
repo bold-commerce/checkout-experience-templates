@@ -1,20 +1,29 @@
 import {IBreadcrumb} from 'src/types';
-import {getTerm, getBreadcrumbStatus, getCheckoutUrl, neuroIdSubmitFromBreadcrumb} from 'src/utils';
+import {
+    getTerm,
+    getBreadcrumbStatus,
+    getCheckoutUrl,
+    neuroIdSubmitFromBreadcrumb,
+    getReturnToCartTermAndLink,
+    isBoldPlatform
+} from 'src/utils';
 import {Constants} from 'src/constants';
 import {BrowserHistory} from 'history';
 
 export function getBreadcrumbs(history: BrowserHistory, active: number): Array<IBreadcrumb> {
     let index = 0;
+    const cartTerm = isBoldPlatform() ? 'store': 'cart';
+    const {link} = getReturnToCartTermAndLink();
 
     const crumbs: Array<IBreadcrumb> = [
         {
             name: 'cart',
-            text: getTerm('cart', Constants.GLOBAL_INFO),
+            text: getTerm(cartTerm, Constants.GLOBAL_INFO),
             status: getBreadcrumbStatus(index++, active),
             onClick: (event) => {
                 event.preventDefault();
                 neuroIdSubmitFromBreadcrumb(active);
-                window.location.href = window.returnUrl;
+                window.location.href = link;
             },
         },
         {

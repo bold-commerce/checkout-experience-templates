@@ -4,9 +4,13 @@ import {mocked} from 'jest-mock';
 import {Constants} from 'src/constants';
 import {useGetSessionExpired} from 'src/hooks';
 import {IUseSessionExpired} from 'src/types';
-import {getErrorTerm, getTerm} from 'src/utils';
+import {getErrorTerm, getReturnToCartTermAndLink, getTerm} from 'src/utils';
 
 jest.mock('src/utils');
+jest.mock('src/utils/getReturnToCartTermAndLink');
+const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
+
+
 const getTermMock = mocked(getTerm, true);
 const getErrorTermMock = mocked(getErrorTerm, true);
 
@@ -33,6 +37,7 @@ describe('Testing hook useGetSessionExpired', () => {
                 href: 'http://dummy.com'
             }
         });
+        getReturnToCartTermAndLinkMock.mockReturnValue({term:'return_to_cart', link: 'test-shop.alias.com'});
     });
 
     test('rendering the hook properly', () => {

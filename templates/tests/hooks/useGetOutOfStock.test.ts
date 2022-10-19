@@ -4,10 +4,11 @@ import {mocked} from 'jest-mock';
 import {Constants} from 'src/constants';
 import {useGetOutOfStock} from 'src/hooks';
 import {IUseOutOfStock} from 'src/types';
-import {getTerm} from 'src/utils';
+import {getReturnToCartTermAndLink, getTerm} from 'src/utils';
 
 jest.mock('src/utils');
 const getTermMock = mocked(getTerm, true);
+const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
 
 describe('Testing hook useGetOutOfStock', () => {
     const shopUrl = 'test-shop.alias.com';
@@ -32,6 +33,7 @@ describe('Testing hook useGetOutOfStock', () => {
                 href: 'http://dummy.com'
             }
         });
+        getReturnToCartTermAndLinkMock.mockReturnValue({term:'return_to_cart', link: 'test-shop.alias.com'});
     });
 
     test('rendering the hook properly', () => {

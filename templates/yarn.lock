@@ -315,10 +315,10 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bold-commerce/checkout-express-pay-library@^0.6.0":
-  version "0.6.0"
-  resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-express-pay-library/-/checkout-express-pay-library-0.6.0.tgz#2361889b142bcd109afc32b4b60437ee9e9bf63f"
-  integrity sha512-jeis1D9pb0LG+YkvWj12VFimXJyZFcas+BmI7rTtML1NmOzqEVLNvYa9gZxLmCpWUmqU9rJcUehYsOkscYaqUA==
+"@bold-commerce/checkout-express-pay-library@^0.7.0":
+  version "0.7.0"
+  resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-express-pay-library/-/checkout-express-pay-library-0.7.0.tgz#f60380e9948fd9af3951fe427cf8564edfddce6e"
+  integrity sha512-2MYtR8Ixp8pIvx3n5Qkz7u2ou4XjvcZHUlL4Lln3ohHn56JjGFBXffk6LqOPT4IfxIW+jUK2GjvA9H3zF0YACg==
   dependencies:
     "@paypal/paypal-js" "^5.1.1"
 

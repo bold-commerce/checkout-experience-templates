@@ -5,7 +5,7 @@ import {callCustomerPageApi, checkInventory, initializeExpressPay} from 'src/lib
 import {useHistory} from 'react-router';
 import {Constants, NeuroIdConstants} from 'src/constants';
 import {IUseCustomerPageProp} from 'src/types';
-import {getCheckoutUrl, getNeuroIdPageName, getTerm, neuroIdSubmit} from 'src/utils';
+import {getCheckoutUrl, getNeuroIdPageName, getReturnToCartTermAndLink, getTerm, neuroIdSubmit} from 'src/utils';
 import {sendEvents} from 'src/analytics';
 import {actionClearErrors} from 'src/action';
 import {checkInventoryStage} from '@bold-commerce/checkout-frontend-library';
@@ -19,11 +19,12 @@ export function useCustomerPage(): IUseCustomerPageProp {
         history.replace(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
     }
     const nextButtonDisable = useGetButtonDisableVariable('customerPageButton');
-    const backLinkText = getTerm('return_to_cart', Constants.CUSTOMER_INFO);
+    const {term, link} = getReturnToCartTermAndLink();
+    const backLinkText = getTerm(term, Constants.CUSTOMER_INFO);
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
         neuroIdSubmit(getNeuroIdPageName(NeuroIdConstants.customerPage));
-        window.location.href = window.returnUrl;
+        window.location.href = link;
     } , [window.returnUrl]);
     const nextButtonText = getTerm('cont_to_shipping', Constants.SHIPPING_INFO);
     const active = 1;

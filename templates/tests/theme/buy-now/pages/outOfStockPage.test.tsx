@@ -7,6 +7,7 @@ import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
 import { IUseFocusTrap, IUseGetCloseBuyNow } from 'src/themes/buy-now/types';
 import {sendPageView, sendEvents} from 'src/analytics/analytics';
 import { useFocusTrap } from 'src/themes/buy-now/hooks/useFocusTrap';
+import {getReturnToCartTermAndLink} from 'src/utils';
 
 const store = {
     data: initialDataMock,
@@ -23,10 +24,12 @@ jest.mock('src/analytics/analytics');
 jest.mock('src/themes/buy-now/hooks/useGetCloseBuyNow');
 jest.mock('src/themes/buy-now/hooks/useGetCloseBuyNow');
 jest.mock('src/themes/buy-now/hooks/useFocusTrap');
+jest.mock('src/utils/getReturnToCartTermAndLink');
 const useGetCloseBuyNowMock = mocked(useGetCloseBuyNow, true);
 const useFocusTrapMock = mocked(useFocusTrap, true);
 const sendPageViewMock = mocked(sendPageView, true);
 const sendEventsMock = mocked(sendEvents, true);
+const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
 
 describe('testing the out of stock page', () => {
     const closeModalMock: IUseGetCloseBuyNow = {
@@ -50,6 +53,7 @@ describe('testing the out of stock page', () => {
         jest.clearAllMocks();
         useGetCloseBuyNowMock.mockReturnValue(closeModalMock);
         useFocusTrapMock.mockReturnValueOnce(focusTrapMock);
+        getReturnToCartTermAndLinkMock.mockReturnValue({term:'return_to_cart', link: 'test-shop.alias.com'});
     });
 
     test('render out of stock page properly', () => {
