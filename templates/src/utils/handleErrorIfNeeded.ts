@@ -5,10 +5,8 @@ import {
     displayFatalErrorFromTranslation,
     getCheckoutUrl,
     getHook,
-    getNeuroIdPageName,
     setApplicationStateMetaDataFromResponse,
     isOnlyFlashError,
-    neuroIdSubmit,
     retrieveErrorFromResponse,
     displayDefaultFlashError,
     setMetadata
@@ -55,9 +53,7 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
                         let message;
                         switch (e.message) {
                             case 'Expired JWT': {
-                                const location = window.location.pathname.split('/');
                                 const history: HistoryLocationState = getHook('history');
-                                neuroIdSubmit(getNeuroIdPageName(location[location.length-1]));
                                 history.replace(getCheckoutUrl(Constants.SESSION_EXPIRED_ROUTE));
                                 dispatch(actionShowHideOverlayContent(false));
                                 message = 'Session Expired';

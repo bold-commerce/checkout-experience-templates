@@ -3,8 +3,6 @@ import {BillingAddress, Breadcrumbs, CustomerInformation, ShippingAddress, Summa
 import {useBeforeUnload, useScrollToElementOnNavigation, useSendEvent} from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
-import {NeuroIdConstants} from 'src/constants';
-import {getNeuroIdPageName, neuroIdInit} from 'src/utils';
 
 export function CustomerPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading} = useCustomerPage();
@@ -22,8 +20,6 @@ export function CustomerPage(): React.ReactElement {
     }
 
     useEffect(() => {
-        neuroIdInit(getNeuroIdPageName(NeuroIdConstants.customerPage));
-
         sendPageView('/customer_information', 1);
         sendEvents('Checkout', 'Landed on customer information page');
     }, []);

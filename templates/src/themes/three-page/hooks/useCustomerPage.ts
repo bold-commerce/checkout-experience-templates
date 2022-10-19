@@ -3,9 +3,9 @@ import {useDispatch} from 'react-redux';
 import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
 import {callCustomerPageApi, checkInventory, initializeExpressPay} from 'src/library';
 import {useHistory} from 'react-router';
-import {Constants, NeuroIdConstants} from 'src/constants';
+import {Constants} from 'src/constants';
 import {IUseCustomerPageProp} from 'src/types';
-import {getCheckoutUrl, getNeuroIdPageName, getReturnToCartTermAndLink, getTerm, neuroIdSubmit} from 'src/utils';
+import {getCheckoutUrl, getReturnToCartTermAndLink, getTerm} from 'src/utils';
 import {sendEvents} from 'src/analytics';
 import {actionClearErrors} from 'src/action';
 import {checkInventoryStage} from '@bold-commerce/checkout-frontend-library';
@@ -23,17 +23,15 @@ export function useCustomerPage(): IUseCustomerPageProp {
     const backLinkText = getTerm(term, Constants.CUSTOMER_INFO);
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
-        neuroIdSubmit(getNeuroIdPageName(NeuroIdConstants.customerPage));
         window.location.href = link;
     } , [window.returnUrl]);
     const nextButtonText = getTerm('cont_to_shipping', Constants.SHIPPING_INFO);
     const active = 1;
     const nextButtonOnClick = useCallback(() => {
-        const pageNameNeuroId = getNeuroIdPageName(NeuroIdConstants.customerPage);
         sendEvents('Checkout', 'Clicked continue to shipping lines button');
 
         dispatch(actionClearErrors());
-        dispatch(callCustomerPageApi(history, pageNameNeuroId));
+        dispatch(callCustomerPageApi(history));
     } , []);
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
 

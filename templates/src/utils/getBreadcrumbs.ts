@@ -3,7 +3,6 @@ import {
     getTerm,
     getBreadcrumbStatus,
     getCheckoutUrl,
-    neuroIdSubmitFromBreadcrumb,
     getReturnToCartTermAndLink,
     isBoldPlatform
 } from 'src/utils';
@@ -22,7 +21,6 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): Array<I
             status: getBreadcrumbStatus(index++, active),
             onClick: (event) => {
                 event.preventDefault();
-                neuroIdSubmitFromBreadcrumb(active);
                 window.location.href = link;
             },
         },
@@ -32,7 +30,6 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): Array<I
             status: getBreadcrumbStatus(index++, active),
             onClick: (event) => {
                 event.preventDefault();
-                neuroIdSubmitFromBreadcrumb(active);
                 history.replace(getCheckoutUrl(''));
             },
         },
@@ -42,7 +39,6 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): Array<I
             status: getBreadcrumbStatus(index++, active),
             onClick: (event) => {
                 event.preventDefault();
-                neuroIdSubmitFromBreadcrumb(active);
                 history.replace(getCheckoutUrl(Constants.SHIPPING_ROUTE));
             },
         },
@@ -52,7 +48,6 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): Array<I
             status: getBreadcrumbStatus(index++, active),
             onClick: (event) => {
                 event.preventDefault();
-                neuroIdSubmitFromBreadcrumb(active);
                 history.replace(getCheckoutUrl(Constants.PAYMENT_ROUTE));
             },
         },

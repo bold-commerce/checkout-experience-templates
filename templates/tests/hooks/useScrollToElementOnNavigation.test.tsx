@@ -6,7 +6,7 @@ import React from 'react';
 import {mocked} from 'jest-mock';
 import {useGetShopUrlFromShopAlias} from 'src/hooks';
 import {createBrowserHistory} from 'history';
-import {neuroIdInit, scrollToElement} from 'src/utils';
+import {scrollToElement} from 'src/utils';
 import {Router} from 'react-router';
 import {initialDataMock} from 'src/mocks';
 
@@ -27,8 +27,6 @@ jest.mock('react-redux', () => ({
 jest.mock('src/themes/three-page/hooks/useCustomerPage');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/utils/scrollToElement');
-jest.mock('src/utils/neuroIdCalls');
-const neuroIdInitMock = mocked(neuroIdInit, true);
 const scrollToElementMock = mocked(scrollToElement, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useCustomerPageMock = mocked(useCustomerPage, true);
@@ -54,6 +52,5 @@ describe('testing useScrollToElementOnNavigation', () => {
         expect(scrollToElementMock).toHaveBeenCalledTimes(0);
         history.push('#test');
         expect(scrollToElementMock).toHaveBeenCalledTimes(1);
-        expect(neuroIdInitMock).toHaveBeenCalledTimes(1);
     });
 });

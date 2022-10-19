@@ -37,8 +37,6 @@ export * from './isOnlyDiscountCodeError';
 export * from './isOnlyFlashError';
 export * from './lockUnlockScroll';
 export * from './navigateDialog';
-export * from './neuroIdCalls';
-export * from './neuroIdCallsBreadcrumbs';
 export * from './renderHtmlEntities';
 export * from './retrieveErrorFromResponse';
 export * from './standaloneHooks';

@@ -7,8 +7,6 @@ import {
 } from 'src/hooks';
 import {usePaymentPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
-import {getNeuroIdPageName, neuroIdInit} from 'src/utils';
-import {NeuroIdConstants} from 'src/constants';
 
 export function PaymentPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable} = usePaymentPage();
@@ -16,8 +14,6 @@ export function PaymentPage(): React.ReactElement {
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
     useEffect(() => {
-        neuroIdInit(getNeuroIdPageName(NeuroIdConstants.paymentPage));
-
         sendPageView('/payment', 3);
         sendEvents('Checkout', 'Landed on payment page');
     }, []);

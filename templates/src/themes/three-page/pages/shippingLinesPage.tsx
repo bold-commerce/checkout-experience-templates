@@ -13,8 +13,6 @@ import {
     useScrollToElementOnNavigation,
 } from 'src/hooks';
 import {useShippingPage} from 'src/themes/three-page/hooks';
-import {getNeuroIdPageName, neuroIdInit} from 'src/utils';
-import {NeuroIdConstants} from 'src/constants';
 
 export function ShippingLinesPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading} = useShippingPage();
@@ -22,8 +20,6 @@ export function ShippingLinesPage(): React.ReactElement {
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
     useEffect(() => {
-        neuroIdInit(getNeuroIdPageName(NeuroIdConstants.shippingPage));
-
         sendPageView('/shipping_lines', 2);
         sendEvents('Checkout', 'Landed on shipping page');
     }, []);

@@ -64,7 +64,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(successReturnObj, dispatch, getState);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('thank_you', 'paymentPageButton', historyMock, true, undefined);
+            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('thank_you', 'paymentPageButton', historyMock, true);
             expect(dispatch).toHaveBeenCalledTimes(5);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(dispatch).toHaveBeenCalledWith(getApplicationStateFromLib);
@@ -93,32 +93,6 @@ describe('testing checkErrorAndProceedToNextPage', () => {
             expect(dispatch).toHaveBeenCalledTimes(2);
             expect(dispatch).toHaveBeenCalledWith(setValidAction);
             expect(dispatch).toHaveBeenCalledWith(setValidAction);
-
-        });
-    });
-
-    test('call without errors on state and success true - Neuro ID page name provided', async () => {
-        const successReturnObj = {...baseReturnObject, success: true, response: {}};
-        processOrderLibMock.mockReturnValueOnce(Promise.resolve(successReturnObj));
-        const noErrorsState = {...stateMock, errors: []};
-        const pageNameNeuroID = 'page_name_neuro_id';
-        getState
-            .mockReturnValueOnce(noErrorsState)
-            .mockReturnValueOnce(noErrorsState);
-
-        const processOrderThunk = processOrder(historyMock, pageNameNeuroID);
-        await processOrderThunk(dispatch, getState).then(() => {
-            expect(getState).toHaveBeenCalledTimes(2);
-            expect(processOrderLibMock).toHaveBeenCalledTimes(1);
-            expect(useRemoveAllFlashErrorsMock).toHaveBeenCalledTimes(1);
-            expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
-            expect(handleErrorIfNeededMock).toHaveBeenCalledWith(successReturnObj, dispatch, getState);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('thank_you', 'paymentPageButton', historyMock, true, pageNameNeuroID);
-            expect(dispatch).toHaveBeenCalledTimes(5);
-            expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
-            expect(dispatch).toHaveBeenCalledWith(getApplicationStateFromLib);
-            expect(dispatch).toHaveBeenCalledWith(showHideAction);
 
         });
     });

@@ -6,7 +6,8 @@ import {
     validateShippingAddress,
     validateEmailAddress,
     checkErrorAndProceedToNextPage,
-    callCustomerPageApi, updateCustomer
+    callCustomerPageApi,
+    updateCustomer
 } from 'src/library';
 import {actionSetLoaderAndDisableButton} from 'src/action';
 
@@ -61,30 +62,7 @@ describe('testing callCustomerPageApi', () => {
             expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('shipping_lines', 'customerPageButton', historyMock, false, undefined);
-        });
-    });
-
-    test('When customer platform_id is null, not logged in - neuroID page name provided', async () => {
-        const historyMock = {} as HistoryLocationState;
-        const newStateMock = {...stateMock};
-        const pageNameNeuroId = 'page_name_neuro_id';
-        newStateMock.data.application_state.customer.platform_id = null;
-        getState.mockReturnValueOnce(newStateMock);
-
-        const callCustomerPageApiThunk = callCustomerPageApi(historyMock, pageNameNeuroId);
-        await callCustomerPageApiThunk(dispatch, getState).then(() => {
-            expect(getState).toHaveBeenCalledTimes(1);
-            expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
-            expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledWith('customerPageButton', true);
-            expect(dispatch).toHaveBeenCalledTimes(6);
-            expect(dispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonThunkMock);
-            expect(dispatch).toHaveBeenCalledWith(validateEmailAddress);
-            expect(dispatch).toHaveBeenCalledWith(validateShippingAddress);
-            expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
-            expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('shipping_lines', 'customerPageButton', historyMock, false, pageNameNeuroId);
+            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('shipping_lines', 'customerPageButton', historyMock, false);
         });
     });
 
@@ -106,7 +84,7 @@ describe('testing callCustomerPageApi', () => {
             expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('shipping_lines', 'customerPageButton', historyMock, false, undefined);
+            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('shipping_lines', 'customerPageButton', historyMock, false);
         });
     });
 
@@ -129,7 +107,7 @@ describe('testing callCustomerPageApi', () => {
             expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
-            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('shipping_lines', 'customerPageButton', historyMock, false, undefined);
+            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('shipping_lines', 'customerPageButton', historyMock, false);
         });
     });
 });

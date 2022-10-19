@@ -2,7 +2,7 @@ import {renderHook} from '@testing-library/react-hooks';
 import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
-import {getCheckoutUrl, getTerm, getNeuroIdPageName, neuroIdSubmit, getReturnToCartTermAndLink} from 'src/utils';
+import {getCheckoutUrl, getTerm, getReturnToCartTermAndLink} from 'src/utils';
 import {callCustomerPageApi, checkInventory, initializeExpressPay} from 'src/library';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {useHistory} from 'react-router';
@@ -11,7 +11,6 @@ import {actionClearErrors} from 'src/action';
 jest.mock('react-redux');
 jest.mock('react-router');
 jest.mock('src/utils/getTerm');
-jest.mock('src/utils/neuroIdCalls');
 jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/hooks/useGetButtonDisableVariable');
 jest.mock('src/hooks/useGetIsOrderProcessed');
@@ -27,8 +26,6 @@ const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true
 const callCustomerPageApiMock = mocked(callCustomerPageApi, true);
 const checkInventoryMock = mocked(checkInventory, true);
 const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
-const neuroIdSubmitMock = mocked(neuroIdSubmit, true);
-const getNeuroIdPageNameMock = mocked(getNeuroIdPageName, true);
 const initializeExpressPayMock = mocked(initializeExpressPay, true);
 const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
 
@@ -51,7 +48,6 @@ describe('Testing hook useCustomerPage', () => {
         useGetButtonDisableVariableMock.mockReturnValue(false);
         callCustomerPageApiMock.mockReturnValue(mockCallCustomerPageApi);
         checkInventoryMock.mockReturnValue(mockCheckInventory);
-        getNeuroIdPageNameMock.mockReturnValue(pageNameWithPrefix);
         initializeExpressPayMock.mockReturnValue(mockExpressEntry);
         window = Object.create(window);
         Object.defineProperty(window, 'location', {
@@ -83,9 +79,6 @@ describe('Testing hook useCustomerPage', () => {
         expect(mockDispatch).toHaveBeenCalledWith(mockCallCustomerPageApi);
         expect(mockDispatch).toHaveBeenCalledWith(mockCheckInventory);
         expect(mockDispatch).toHaveBeenCalledWith(mockExpressEntry);
-        expect(neuroIdSubmitMock).toHaveBeenCalledTimes(1);
-        expect(neuroIdSubmitMock).toHaveBeenCalledWith(pageNameWithPrefix);
-
     });
 
     test('rendering the hook with complete order', () => {

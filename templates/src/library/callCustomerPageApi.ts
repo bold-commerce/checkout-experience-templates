@@ -11,7 +11,7 @@ import {HistoryLocationState} from 'react-router';
 import {actionSetLoaderAndDisableButton} from 'src/action';
 import {Constants} from 'src/constants';
 
-export function callCustomerPageApi(history: HistoryLocationState, pageNameNeuroId?: string) {
+export function callCustomerPageApi(history: HistoryLocationState) {
     return async function callCustomerPageApiThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         const state = getState();
         dispatch(actionSetLoaderAndDisableButton('customerPageButton', true));
@@ -21,7 +21,7 @@ export function callCustomerPageApi(history: HistoryLocationState, pageNameNeuro
         const validateAddresses = async () => {
             dispatch(validateShippingAddress).then(() => {
                 dispatch(validateBillingAddress).then(() => {
-                    dispatch(checkErrorAndProceedToNextPage(Constants.SHIPPING_ROUTE, 'customerPageButton', history, false, pageNameNeuroId));
+                    dispatch(checkErrorAndProceedToNextPage(Constants.SHIPPING_ROUTE, 'customerPageButton', history, false));
                 });
             });
         };

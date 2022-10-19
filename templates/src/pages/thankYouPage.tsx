@@ -3,9 +3,8 @@ import React, {useEffect} from 'react';
 
 import {Header, SummarySection, ThankYou} from 'src/components';
 import {useGetBillingData, useGetCustomerInfoData, useGetShippingData, useGetValidVariable,} from 'src/hooks';
-import {getNeuroIdPageName, isObjectEmpty, neuroIdInit} from 'src/utils';
+import {isObjectEmpty} from 'src/utils';
 import {sendEvents, sendPageView} from 'src/analytics';
-import {NeuroIdConstants} from 'src/constants';
 
 export function ThankYouPage(): React.ReactElement {
     const customerInformation = useGetCustomerInfoData();
@@ -16,8 +15,6 @@ export function ThankYouPage(): React.ReactElement {
 
     const isGeneric = !orderProcessed || (!firstName && isObjectEmpty(shippingAddress) && isObjectEmpty(billingAddress));
     useEffect(() => {
-        neuroIdInit(getNeuroIdPageName(NeuroIdConstants.thankYouPage));
-
         sendPageView('/thank_you', 4);
         sendEvents('Checkout', 'Landed on thank you page');
     }, []);
