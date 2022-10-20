@@ -3,12 +3,13 @@ import {IOverlay, IOverlayProps} from 'src/types';
 import {useGetOverlay} from 'src/hooks';
 import ClassNames from 'classnames';
 import {Button} from '@boldcommerce/stacks-ui';
-import {lockUnlockScroll} from 'src/utils';
+import {getReturnToCartTermAndLink, lockUnlockScroll} from 'src/utils';
 
 export function Overlay(props: IOverlayProps): React.ReactElement {
 
     const overlay: IOverlay = useGetOverlay();
     lockUnlockScroll(overlay.shown);
+    const {link} = getReturnToCartTermAndLink();
 
     const overlayId = overlay.inverted? 'overlay-inverted': 'overlay';
 
@@ -39,7 +40,7 @@ export function Overlay(props: IOverlayProps): React.ReactElement {
                 <div className={'overlay__content'}>
                     <span className={'overlay__content-span'}>{overlay.content}</span>
                 </div>
-                <div data-testid='overlay-button' className={'overlay__button-container'} ><Button className={cssClassButton} href={window.returnUrl} size='large'>{overlay.buttonText}</Button></div>
+                <div data-testid='overlay-button' className={'overlay__button-container'} ><Button className={cssClassButton} href={link} size='large'>{overlay.buttonText}</Button></div>
             </div>
         </div>
     );

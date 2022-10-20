@@ -10,7 +10,8 @@ import {
     displayFatalError,
     getLanguageBlob,
     getTerm,
-    getErrorTerm
+    getErrorTerm,
+    getReturnToCartTermAndLink
 } from 'src/utils';
 import {stateMock} from 'src/mocks/stateMock';
 
@@ -20,12 +21,14 @@ jest.mock('src/utils/findLanguageDataByIsoCode');
 jest.mock('src/utils/getErrorTerm');
 jest.mock('src/utils/getLanguageBlob');
 jest.mock('src/utils/getTerm');
+jest.mock('src/utils/getReturnToCartTermAndLink');
 const actionSetOverlayContentMock = mocked(actionSetOverlayContent, true);
 const displayFatalErrorMock = mocked(displayFatalError, true);
 const findLanguageDataByIsoCodeMock = mocked(findLanguageDataByIsoCode, true);
 const getErrorTermMock = mocked(getErrorTerm, true);
 const getLanguageBlobMock = mocked(getLanguageBlob, true);
 const getTermMock = mocked(getTerm, true);
+const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
 
 describe('Test displayFatalErrorFromTranslation function', () => {
     const orderInitializationMock: IOrderInitialization = stateMock;
@@ -44,6 +47,7 @@ describe('Test displayFatalErrorFromTranslation function', () => {
             languageErrorBlob[Constants.GENERIC_ERROR_INFO]['fatal_err_subHeader'],
             languageBlob[Constants.CUSTOMER_INFO]['return_to_cart']
         ];
+        getReturnToCartTermAndLinkMock.mockReturnValue({term: 'return_to_cart', link: 'https://test.com'});
     });
 
     test('Language object does not exist', () => {
