@@ -3,10 +3,11 @@ import {useCallback} from 'react';
 import {Constants} from 'src/constants';
 import {useGetCustomerInfoData, useGetShopUrlFromShopAlias, useGetValidVariable} from 'src/hooks';
 import {IUseGetThankYou} from 'src/types';
-import {getTerm} from 'src/utils';
+import {getTerm, getShopDomain} from 'src/utils';
 
 export function useGetThankYou(): IUseGetThankYou {
-    const shopURL = useGetShopUrlFromShopAlias(window.shopAlias);
+    const shopDomain = getShopDomain();
+    const shopURL = useGetShopUrlFromShopAlias(shopDomain);
     const returnUrl = useCallback(() => {
         window.location.href = shopURL;
     }, [shopURL]);

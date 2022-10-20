@@ -1,11 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
 import {useGetShopUrlFromShopAlias} from 'src/hooks';
+import {getShopDomain} from 'src/utils';
 
 export function Title(): React.ReactElement {
-    const shopAlias = window.shopAlias;
+    const shopDomain = getShopDomain();
     const shopName = window.shopName;
-    const shopURL = useGetShopUrlFromShopAlias(shopAlias);
+    const shopURL = useGetShopUrlFromShopAlias(shopDomain);
 
     return (
         <div className={'website-title'}>

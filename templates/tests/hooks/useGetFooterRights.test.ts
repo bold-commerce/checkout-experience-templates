@@ -12,9 +12,11 @@ const getTermMock = mocked(getTerm, true);
 describe('Testing hook useGetFooterRights', () => {
     const shopName = 'test-shop';
     const shopAlias = 'test-shop.alias.com';
+    const customDomain = 'test-shop.custom.com'
+
     const mockResponse: IUseFooterRights = {
         shopAlias: shopName,
-        footerRights: 'All rights test'
+        footerRights: 'All rights test',
     };
 
     beforeEach(() => {
@@ -24,28 +26,39 @@ describe('Testing hook useGetFooterRights', () => {
 
     const dataArray = [
         {
-            name: 'rendering the hook with shopName',
+            name: 'rendering the hook with shopName, shopAlias, customDomain',
+            shopName: shopName,
+            shopAlias: shopAlias,
+            customDomain: customDomain,
             expectedResponse: {...mockResponse, shopAlias: shopName},
-            shopName,
-            shopAlias: '',
         },
         {
-            name: 'rendering the hook with no shopName and with shopAlias',
+            name: 'rendering the hook with no shopName and no customDomain and with shopAlias',
+            shopName: '',
+            shopAlias: shopAlias,
+            customDomain: '',
             expectedResponse: {...mockResponse, shopAlias: shopAlias},
-            shopName: '',
-            shopAlias,
         },
         {
-            name: 'rendering the hook without shopName and shopAlias',
-            expectedResponse: {...mockResponse, shopAlias: ''},
+            name: 'rendering the hook without shopName and with customDomain with shopAlias',
+            shopName: '',
+            shopAlias: shopAlias,
+            customDomain: customDomain,
+            expectedResponse: {...mockResponse, shopAlias: customDomain},
+        },
+        {
+            name: 'rendering the hook with no shopName, no shopAlias, no customDomain',
             shopName: '',
             shopAlias: '',
-        }
+            customDomain: '',
+            expectedResponse: {...mockResponse, shopAlias: ''},
+        },
     ];
 
     test.each(dataArray)('$name', (data) => {
         window.shopName = data.shopName;
         window.shopAlias = data.shopAlias;
+        window.customDomain = data.customDomain;
         const {result} = renderHook(() => useGetFooterRights());
 
         expect(getTermMock).toHaveBeenCalledWith('footer_rights', Constants.GLOBAL_INFO, undefined, 'All rights reserved');

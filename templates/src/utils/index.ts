@@ -20,6 +20,7 @@ export * from './getOrderInitialization';
 export * from './getPigiIframe';
 export * from './getPigiStylingRules';
 export * from './getReturnToCartTermAndLink';
+export * from './getShopDomain';
 export * from './getTerm';
 export * from './getTotalLineItems';
 export * from './getTotals';
