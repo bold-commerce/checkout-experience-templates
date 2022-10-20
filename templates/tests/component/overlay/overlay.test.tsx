@@ -3,10 +3,12 @@ import {mocked} from 'jest-mock';
 import {Overlay} from 'src/components';
 import {useGetOverlay} from 'src/hooks';
 import {IOverlay} from 'src/types';
+import {getReturnToCartTermAndLink} from 'src/utils';
 
 jest.mock('src/hooks');
 jest.mock('src/utils');
 const useGetOverlayMock = mocked(useGetOverlay, true);
+const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
 describe('Testing Overlay component', () => {
 
     const overlay: IOverlay ={
@@ -19,6 +21,7 @@ describe('Testing Overlay component', () => {
 
     beforeEach(() => {
         jest.resetAllMocks();
+        getReturnToCartTermAndLinkMock.mockReturnValue({term: 'return_to_cart', link: 'https://test.com'});
     });
 
     test('Render the Overlay properly', () => {
