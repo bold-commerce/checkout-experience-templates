@@ -1,10 +1,11 @@
 import React from 'react';
 import {useGetShopUrlFromShopAlias} from 'src/hooks';
+import {getShopDomain} from 'src/utils';
 
 export function HeaderLogo(): React.ReactElement {
-    const shopAlias = window.shopAlias;
+    const shopDomain = getShopDomain();
     const headerLogoUrl = window.headerLogoUrl;
-    const shopURL = useGetShopUrlFromShopAlias(shopAlias);
+    const shopURL = useGetShopUrlFromShopAlias(shopDomain);
 
     return (
         <>
