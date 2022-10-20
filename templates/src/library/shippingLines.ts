@@ -1,6 +1,6 @@
 import {getShippingLines, IApiReturnObject} from '@bold-commerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
-import {handleErrorIfNeeded} from 'src/utils';
+import {handleErrorIfNeeded, hasEmptyRequiredFields} from 'src/utils';
 import {IOrderInitialization} from 'src/types';
 import {actionSetButtonDisable, actionSetAppStateValid, actionSetLoader, actionSetSelectedShippingLine} from 'src/action';
 import {getShippingFromLib, getSummaryStateFromLib, postShippingLines} from 'src/library';
@@ -21,9 +21,11 @@ export function shippingLines(updatedAddress: boolean) {
 
             dispatch(getShippingFromLib);
             const shippingLines = getState().data.application_state.shipping.available_shipping_lines;
-
+            const selectedLine = getState().data.application_state.shipping.selected_shipping;
+            const emptyRequiredFields = hasEmptyRequiredFields(['id'], {...selectedLine});
+            
             if (updatedAddress && shippingLines && shippingLines.length > 0) {
-                dispatch(actionSetSelectedShippingLine(shippingLines[0]));
+                dispatch(actionSetSelectedShippingLine(!emptyRequiredFields ? selectedLine : shippingLines[0]));
                 dispatch(postShippingLines);
                 dispatch(actionSetAppStateValid('updatedShippingAddress', false));
             }
