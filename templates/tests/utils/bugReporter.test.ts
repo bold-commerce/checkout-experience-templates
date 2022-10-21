@@ -143,6 +143,30 @@ describe('testing BugReporter', () => {
         expect(bugsnagMock.start).toHaveBeenCalledWith(startParamMock);
     });
 
+    test('call init with initializedOrder undefined', () => {
+        window.environment = {type: environmentTypes.local, path: 'checkout-some-path'};
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        window.initializedOrder = undefined;
+        const startParamMock = {
+            ...startParamBaseMock,
+            releaseStage: 'some-path',
+            metadata: {
+                global: {
+                    ...startParamBaseMock.metadata.global,
+                    jwtToken: '',
+                    initialData: [],
+                    environment: window.environment
+                }
+            }
+        };
+
+        init('some-app-type');
+
+        expect(bugsnagMock.start).toHaveBeenCalledTimes(1);
+        expect(bugsnagMock.start).toHaveBeenCalledWith(startParamMock);
+    });
+
     test('call logComponentError', () => {
         const error = new Error('test');
         const errorInfo: ErrorInfo = {componentStack: 'some component stack trace'};
