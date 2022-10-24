@@ -77,4 +77,24 @@ describe('Testing hook useGetFlashErrors', () => {
         expect(result.current).toStrictEqual([]);
         expect(getErrorTerm).toHaveBeenCalledTimes(0);
     });
+
+    test('rendering the hook with a message but empty field', () => {
+        const localErrors: Array<IError> = [{
+            message: 'Test message',
+            field: '',
+            severity: '',
+            sub_type: '',
+            type: '',
+            address_type: ''
+        }];
+
+        useGetErrorsMock.mockReturnValueOnce(localErrors);
+        useAppSelectorMock.mockReturnValueOnce(stateMock.appSetting.languageIso);
+        useGetSupportedLanguageDataMock.mockReturnValueOnce(stateMock.data.initial_data.supported_languages[0]);
+        getLanguageBlobMock.mockReturnValueOnce(null);
+
+        const {result} = renderHook(() => useGetFlashErrors());
+        expect(result.current).toStrictEqual([{message: 'Test message', error: localErrors[0]}]);
+        expect(getErrorTerm).toHaveBeenCalledTimes(0);
+    });
 });

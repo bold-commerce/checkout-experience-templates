@@ -1,8 +1,8 @@
 import {useAppSelector} from 'src/hooks/rootHooks';
 import {useGetErrors, useGetSupportedLanguageData} from 'src/hooks';
-import {getErrorTerm, getLanguageBlob} from 'src/utils';
+import {getErrorTerm, getLanguageBlob, logError} from 'src/utils';
 import {Constants, errorsTerms} from 'src/constants';
-import {IErrorTerm, IUseGetFlashError} from 'src/types';
+import {IErrorTerm, IMetadata, IMetadataList, IUseGetFlashError} from 'src/types';
 import { useMemo } from 'react';
 
 export function useGetFlashErrors(type = 'flash'): Array<IUseGetFlashError> {
@@ -18,13 +18,23 @@ export function useGetFlashErrors(type = 'flash'): Array<IUseGetFlashError> {
                 && e.field === error.field
                 && e.severity === error.severity
                 && e.subType === error.sub_type
-                && e.showType === type
             );
 
-            if(fieldTerms) {
+            if(fieldTerms && fieldTerms.showType === type) {
                 const message = getErrorTerm(fieldTerms.term, fieldTerms.section, blob);
                 const flashError: IUseGetFlashError = {message, error};
                 arr.push(flashError);
+            } else {
+                if(!error.field && error.message && type !== 'discountFlash'){
+                    const flashError: IUseGetFlashError = {message: error.message, error};
+                    arr.push(flashError);
+                } else if (!fieldTerms) {
+                    // bugsnag the error if not found in the translation constant.
+                    const unhandledError = new Error(error.message);
+                    unhandledError.name = 'UnhandledFlashError';
+                    const metadata: IMetadataList = [{section: 'flash_error', values: error as unknown as IMetadata}];
+                    logError(unhandledError, metadata);
+                }
             }
 
             return arr;
