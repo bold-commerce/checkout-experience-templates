@@ -27,8 +27,8 @@ export function init(appType: string): void {
                 global: {
                     platformType: window.platformType,
                     publicOrderId: window.publicOrderId,
-                    jwtToken: window.initializedOrder.data.jwt_token,
-                    initialData: window.initializedOrder.data.initial_data,
+                    jwtToken: (window.initializedOrder && window.initializedOrder.data && window.initializedOrder.data.jwt_token) ? window.initializedOrder.data.jwt_token : '',
+                    initialData: (window.initializedOrder && window.initializedOrder.data && window.initializedOrder.data.initial_data) ? window.initializedOrder.data.initial_data : [],
                     shopAlias: window.shopAlias,
                     shopName: window.shopName,
                     environment: window.environment,
