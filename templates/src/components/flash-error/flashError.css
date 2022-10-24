@@ -33,3 +33,7 @@
     background-size: 22px;
     margin-left: auto;
 }
+
+.flash-error__delete-error:hover {
+    background-color: inherit;
+}
