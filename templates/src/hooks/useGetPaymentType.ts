@@ -19,6 +19,8 @@ export function useGetPaymentType(props: IPayment): string {
 
     switch (paymentType) {
         // Paypal
+        case 'paypalpaypalcommerceplatform':
+            return displayText;
         case 'paypal':
         case 'paypalbraintree':
         case 'paypalpaypal':

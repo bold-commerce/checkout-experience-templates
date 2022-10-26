@@ -96,6 +96,11 @@ describe('Testing function getPaymentType', () => {
             useGetTerm: 'Payment by Plugins v2',
             expected: 'Payment by Plugins v2: Plugins v2',
         },
+        {
+            payment: {...appStatePayment, 'brand': '', 'driver': 'paypal_paypal_commerce_platform', 'lineText': 'lineText', 'tag': 'PayPal'},
+            useGetTerm: 'PayPal',
+            expected: 'lineText',
+        },
     ];
 
     test('rendering the hook properly when driver and type given', () => {
