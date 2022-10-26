@@ -766,6 +766,14 @@
     padding: 15px 0;
 }
 
+#ppcp-acdc-form {
+    display: flex;
+}
+
+#ppcp-acdc-form .InputField {
+    height: 50px;
+}
+
 @media only screen and (max-width: 499px) {
     #iframe-payment-gateway #ppcp-acdc-form {
         flex-direction: column;
