@@ -766,11 +766,11 @@
     padding: 15px 0;
 }
 
-#ppcp-acdc-form {
+#iframe-payment-gateway #ppcp-acdc-form {
     display: flex;
 }
 
-#ppcp-acdc-form .InputField {
+#iframe-payment-gateway #ppcp-acdc-form .InputField {
     height: 50px;
 }
 
