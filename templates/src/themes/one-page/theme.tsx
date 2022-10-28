@@ -14,7 +14,7 @@ import {actionSetDefaultCustomerAcceptMarketing} from 'src/action';
 import {BrowserRouter, Route} from 'react-router-dom';
 import {Switch, useHistory} from 'react-router';
 import {ThemePage} from 'src/themes/one-page/pages';
-import {SessionExpiredPage, ThankYouPage} from 'src/pages';
+import {SessionExpiredPage, OutOfStockPage, ThankYouPage} from 'src/pages';
 import {setHook} from 'src/utils';
 
 setHook('history', useHistory);
@@ -34,6 +34,7 @@ function Theme () : React.ReactElement {
         <div className={'App'}>
             <BrowserRouter>
                 <Switch>
+                    <Route path={`*/${Constants.OUT_OF_STOCK_ROUTE}`} component={OutOfStockPage} />
                     <Route path={`*/${Constants.THANK_YOU_ROUTE}`} component={ThankYouPage} />
                     <Route path={`*/${Constants.SESSION_EXPIRED_ROUTE}`} component={SessionExpiredPage} />
                     <Route path={`*/${Constants.EXPERIENCE_ROUTE}`} component={ThemePage} />
