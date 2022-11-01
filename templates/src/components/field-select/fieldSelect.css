@@ -51,3 +51,16 @@
     box-sizing: border-box;
     height: 48px;
 }
+
+select.stx-select__select-element::-webkit-input-placeholder,
+select.stx-select__select-element:-moz-placeholder,
+select.stx-select__select-element::-moz-placeholder,
+select.stx-select__select-element:-ms-input-placeholder,
+select.stx-select__select-element::-ms-input-placeholder {
+    color: inherit;
+}
+
+select.stx-select__select-element:-moz-placeholder,
+select.stx-select__select-element::-moz-placeholder  {
+    opacity: 1;
+}

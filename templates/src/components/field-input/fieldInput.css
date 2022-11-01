@@ -58,3 +58,16 @@
 .stx-input:hover {
     box-shadow: none;
 }
+
+input.stx-input__input-element::-webkit-input-placeholder,
+input.stx-input__input-element:-moz-placeholder,
+input.stx-input__input-element::-moz-placeholder,
+input.stx-input__input-element:-ms-input-placeholder,
+input.stx-input__input-element::-ms-input-placeholder {
+    color: inherit;
+}
+
+input.stx-input__input-element:-moz-placeholder,
+input.stx-input__input-element::-moz-placeholder {
+    opacity: 1;
+}
