@@ -3,7 +3,7 @@
 }
 
 .payment__no-valid-address{
-    border: 1px solid #D9D9D9;
+    border: 1px solid #949494;
     box-sizing: border-box;
     border-radius: 4px;
     display: flex;
