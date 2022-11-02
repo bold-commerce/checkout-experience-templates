@@ -74,6 +74,11 @@ html.loading {
     margin-left: auto;
 }
 
+select {
+    -webkit-appearance: none;
+    font-size:14px;
+}
+
 .footer--button-container .btn-checkout, .thank-you-contact-button-container .btn-checkout{
     background: #0A75C2;
     border: 1px solid #e6e6e6;

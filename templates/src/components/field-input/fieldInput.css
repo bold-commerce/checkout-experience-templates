@@ -33,6 +33,17 @@
     border-radius: 4px;
     height: 48px;
 }
+.input-field input::placeholder {
+    color: #757575;
+    opacity: 1; /* Firefox */
+    font-size: 14px
+}
+.input-field input::-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #757575;
+}
+.input-field input::-ms-input-placeholder { /* Microsoft Edge */
+    color: #757575;
+}
 .input-field__container .stx-input{
     border: 1px solid #D9D9D9;
     box-sizing: border-box;
