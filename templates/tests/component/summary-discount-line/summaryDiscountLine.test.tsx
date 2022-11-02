@@ -3,9 +3,12 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import {SummaryDiscountLine} from 'src/components';
 import {mocked} from 'jest-mock';
 import {useSummaryDiscountLine} from 'src/hooks';
+import { getTerm } from 'src/utils';
 
 jest.mock('src/hooks/useSummaryDiscountLine');
+jest.mock('src/utils/getTerm');
 const useSummaryDiscountLineMock = mocked(useSummaryDiscountLine, true);
+const getTermMock = mocked(getTerm, true);
 
 describe('Testing SummaryDiscountLine component', () => {
     const props: ISummaryDiscountLineProps= {
@@ -21,6 +24,7 @@ describe('Testing SummaryDiscountLine component', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        getTermMock.mockReturnValueOnce('applied_discount').mockReturnValueOnce('delete_discount');
     });
 
     test('rendering the component', () => {

@@ -9,12 +9,15 @@ import {
     useSummaryDiscountLine
 } from 'src/hooks';
 import {IDiscount} from '@bold-commerce/checkout-frontend-library';
+import {getTerm} from 'src/utils';
 
 const mockDispatch = jest.fn();
 jest.mock('src/hooks/useSummaryDiscountLine');
 jest.mock('src/hooks/useSummaryDiscountCode');
 jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/hooks/useGetFlashErrors');
+jest.mock('src/utils/getTerm');
+const getTermMock = mocked(getTerm, true);
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 const useSummaryDiscountLineMock = mocked(useSummaryDiscountLine, true);
 const useSummaryDiscountCodeMock = mocked(useSummaryDiscountCode, true);
@@ -54,6 +57,7 @@ describe('Testing SummaryDiscountCode Component', () => {
         useSummaryDiscountLineMock.mockReturnValue(hookResultForDiscountLine);
         useGetIsLoadingMock.mockReturnValue(false);
         useGetFlashErrorsMock.mockReturnValue([]);
+        getTermMock.mockReturnValue('applied_discount').mockReturnValue('delete_discount');
     });
 
     test('rendering the component', () => {

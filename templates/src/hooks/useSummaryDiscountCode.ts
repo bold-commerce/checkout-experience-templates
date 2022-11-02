@@ -34,10 +34,14 @@ export function useSummaryDiscountCode(): ISummaryDiscountCode {
         dispatch(actionSetLoaderAndDisableButton('discountButton', true));
 
         if(emailAddress === ''){
-            await dispatch(postDiscounts(discountCodeText));
+            await dispatch(postDiscounts(discountCodeText)).then((focusElement: HTMLElement | null) => {
+                focusElement && focusElement.focus();
+            });
         } else {
             await dispatch(validateEmailAddress).then(async () => {
-                await dispatch(postDiscounts(discountCodeText));
+                await dispatch(postDiscounts(discountCodeText)).then((focusElement: HTMLElement | null) => {
+                    focusElement && focusElement.focus();
+                });
             });
         }
 

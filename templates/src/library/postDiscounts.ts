@@ -18,8 +18,7 @@ import {
 import {API_RETRY, errorFields, errorTypes} from 'src/constants';
 
 export function postDiscounts(code: string) {
-    return async function postDiscountsThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
-
+    return async function postDiscountsThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<HTMLElement | null> {
         const response: IApiReturnObject = await addDiscount(code, API_RETRY);
         handleErrorIfNeeded(response, dispatch, getState);
 
@@ -36,5 +35,8 @@ export function postDiscounts(code: string) {
         }
 
         dispatch(actionSetLoader('discountButton', false));
+        return response.success ?
+            document.getElementById('add-discount-code-button') :
+            document.getElementById('add-discount-code-field-input');
     };
 }
