@@ -16,10 +16,10 @@ import {mocked} from 'jest-mock';
 import {actionRemoveErrorByField, actionRemoveErrorByType, actionSetLoaderAndDisableButton, actionUpdateDiscountCodeText} from 'src/action';
 
 const mockDispatch = jest.fn();
+const mockSetFocus = jest.fn();
 jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch
 }));
-
 jest.mock('src/hooks/useGetLoaderScreenVariable');
 jest.mock('src/hooks/useGetDiscounts');
 jest.mock('src/hooks/useGetErrorByField');
@@ -29,7 +29,6 @@ jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/utils');
 jest.mock('src/action');
 jest.mock('src/library');
-
 const useGetLoaderScreenVariableMock = mocked(useGetLoaderScreenVariable, true);
 const useGetDiscountsMock = mocked(useGetDiscounts, true);
 const useGetErrorByFieldMock = mocked(useGetErrorByField, true);
@@ -82,17 +81,24 @@ describe('Testing hook useSummaryDiscountCode', () => {
         expect(hookResult.discountCodeInputText).toBe(data.getTerm);
     });
 
-    test('testing the add discount event with customer email address',  async () => {
+    test('testing the add discount event with customer email address And postDiscount returning HTMLElement',  async () => {
+        const discountPill = createPill();
+        mockDispatch
+            .mockImplementationOnce(() => Promise.resolve())
+            .mockImplementationOnce(() => Promise.resolve())
+            .mockImplementationOnce(() => Promise.resolve(discountPill));
         useGetCustomerInfoDataByFieldMock.mockReturnValueOnce('abc@gmail.com');
+
         const {result} = renderHook(() => useSummaryDiscountCode());
         const hookResult = result.current;
         const event = {
             currentTarget: document.createElement('button'),
             preventDefault: jest.fn(),
-         } as unknown as React.MouseEvent<HTMLButtonElement, MouseEvent>;
+        } as unknown as React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
         await hookResult.addDiscount(event);
 
+        expect(mockSetFocus).toHaveBeenCalledTimes(1);
         expect(event.preventDefault).not.toBeCalled();
         expect(mockDispatch).toHaveBeenCalledTimes(3);
         expect(actionSetLoaderAndDisableButtonMock).toBeCalled();
@@ -101,17 +107,72 @@ describe('Testing hook useSummaryDiscountCode', () => {
         expect(mockDispatch).toHaveBeenCalledWith(postDiscountThunkMock);
     });
 
-    test('testing the add discount event without customer email address',  async () => {
+    test('testing the add discount event with customer email address And postDiscount returning null',  async () => {
+        mockDispatch
+            .mockImplementationOnce(() => Promise.resolve())
+            .mockImplementationOnce(() => Promise.resolve())
+            .mockImplementationOnce(() => Promise.resolve(null));
+        useGetCustomerInfoDataByFieldMock.mockReturnValueOnce('abc@gmail.com');
+
+        const {result} = renderHook(() => useSummaryDiscountCode());
+        const hookResult = result.current;
+        const event = {
+            currentTarget: document.createElement('button'),
+            preventDefault: jest.fn(),
+        } as unknown as React.MouseEvent<HTMLButtonElement, MouseEvent>;
+
+        await hookResult.addDiscount(event);
+
+        expect(mockSetFocus).toHaveBeenCalledTimes(0);
+        expect(event.preventDefault).not.toBeCalled();
+        expect(mockDispatch).toHaveBeenCalledTimes(3);
+        expect(actionSetLoaderAndDisableButtonMock).toBeCalled();
+        expect(mockDispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonReturn);
+        expect(mockDispatch).toHaveBeenCalledWith(validateEmailAddressMock);
+        expect(mockDispatch).toHaveBeenCalledWith(postDiscountThunkMock);
+    });
+
+    test('testing the add discount event without customer email address And postDiscount returning HTMLElement',  async () => {
+        const DiscountCodeInputField = createInputText();
+        mockDispatch
+            .mockImplementationOnce(() => Promise.resolve())
+            .mockImplementationOnce(() => Promise.resolve(DiscountCodeInputField));
+
         useGetCustomerInfoDataByFieldMock.mockReturnValueOnce('');
         const {result} = renderHook(() => useSummaryDiscountCode());
         const hookResult = result.current;
         const event = {
             currentTarget: document.createElement('button'),
             preventDefault: jest.fn(),
-         } as unknown as React.MouseEvent<HTMLButtonElement, MouseEvent>;
+        } as unknown as React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
         await hookResult.addDiscount(event);
 
+        expect(mockSetFocus).toHaveBeenCalledTimes(1);
+        expect(event.preventDefault).not.toBeCalled();
+        expect(mockDispatch).toHaveBeenCalledTimes(2);
+        expect(actionSetLoaderAndDisableButtonMock).toBeCalled();
+        expect(mockDispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonReturn);
+        expect(mockDispatch).not.toHaveBeenCalledWith(validateEmailAddressMock);
+        expect(mockDispatch).toHaveBeenCalledWith(postDiscountThunkMock);
+    });
+
+    test('testing the add discount event without customer email address And postDiscount returning null',  async () => {
+        mockDispatch
+            .mockImplementationOnce(() => Promise.resolve())
+            .mockImplementationOnce(() => Promise.resolve(null));
+
+        useGetCustomerInfoDataByFieldMock.mockReturnValueOnce('');
+        const {result} = renderHook(() => useSummaryDiscountCode());
+        const hookResult = result.current;
+        const event = {
+            currentTarget: document.createElement('button'),
+            preventDefault: jest.fn(),
+        } as unknown as React.MouseEvent<HTMLButtonElement, MouseEvent>;
+
+        await hookResult.addDiscount(event);
+
+        expect(mockSetFocus).toHaveBeenCalledTimes(0);
         expect(event.preventDefault).not.toBeCalled();
         expect(mockDispatch).toHaveBeenCalledTimes(2);
         expect(actionSetLoaderAndDisableButtonMock).toBeCalled();
@@ -141,10 +202,27 @@ describe('Testing hook useSummaryDiscountCode', () => {
         const event = {
             currentTarget: document.createElement('button'),
             preventDefault: jest.fn(),
-         } as unknown as React.MouseEvent<HTMLButtonElement, MouseEvent>;
+        } as unknown as React.MouseEvent<HTMLButtonElement, MouseEvent>;
         await hookResult.addDiscount(event);
- 
+
         expect(event.preventDefault).toBeCalled();
     });
 
 });
+
+function createPill(): HTMLElement {
+    const discountPill = document.createElement('button');
+    discountPill.className = '.discount-code__delete-discount-code';
+    discountPill.focus = mockSetFocus;
+    return discountPill;
+}
+
+function createInputText(): HTMLElement {
+    const discountInputTextField = document.createElement('input');
+    discountInputTextField.type = 'text';
+    discountInputTextField.value = 'some discount code';
+    discountInputTextField.focus = mockSetFocus;
+    return discountInputTextField;
+
+
+}
