@@ -1,22 +1,25 @@
-import {getCheckoutUrl, getTerm} from 'src/utils';
-import {Constants} from 'src/constants';
-import {useCallback} from 'react';
-import {IUseCustomerPageProp} from 'src/types';
-import {useDispatch} from 'react-redux';
-import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
-import {useHistory} from 'react-router';
-import {callShippingLinesPageApi} from 'src/library';
-import {sendEvents} from 'src/analytics';
 import {actionClearErrors} from 'src/action';
+import {sendEvents} from 'src/analytics';
+import {Constants} from 'src/constants';
+import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
+import {callShippingLinesPageApi} from 'src/library';
+import {IUseCustomerPageProp} from 'src/types';
+import {getCheckoutUrl, getTerm, isShippingLineSelectedValid} from 'src/utils';
+
+import {useCallback} from 'react';
+import {useDispatch} from 'react-redux';
+import {useHistory} from 'react-router';
 
 export function useShippingPage(): IUseCustomerPageProp{
     const dispatch = useDispatch();
     const history = useHistory();
     const isOrderCompleted = useGetIsOrderProcessed();
+    const isSelectedShippingLine = isShippingLineSelectedValid();
     if(isOrderCompleted){
         history.replace(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
     }
-    const nextButtonDisable = useGetButtonDisableVariable('shippingPageButton');
+
+    const nextButtonDisable = useGetButtonDisableVariable('shippingPageButton') && !isSelectedShippingLine;
     const nextButtonLoading = useGetIsLoading();
     const backLinkText = getTerm('footer_shipping_cust_info', Constants.SHIPPING_METHOD_INFO);
     const backLinkOnClick = useCallback((event) => {

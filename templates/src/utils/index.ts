@@ -36,6 +36,7 @@ export * from './isObjectEmpty';
 export * from './isObjectEqual';
 export * from './isOnlyDiscountCodeError';
 export * from './isOnlyFlashError';
+export * from './isShippingLineSelectedValid';
 export * from './lockUnlockScroll';
 export * from './navigateDialog';
 export * from './renderHtmlEntities';
