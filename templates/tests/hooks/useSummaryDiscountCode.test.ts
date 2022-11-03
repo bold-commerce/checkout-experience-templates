@@ -14,6 +14,7 @@ import {stateMock} from 'src/mocks/stateMock';
 import {act} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 import {actionRemoveErrorByField, actionRemoveErrorByType, actionSetLoaderAndDisableButton, actionUpdateDiscountCodeText} from 'src/action';
+import React from 'react';
 
 const mockDispatch = jest.fn();
 const mockSetFocus = jest.fn();
@@ -60,14 +61,15 @@ describe('Testing hook useSummaryDiscountCode', () => {
     beforeEach(() => {
         jest.resetAllMocks();
         mockDispatch.mockImplementation(() => Promise.resolve());
-        getTermMock.mockReturnValueOnce(data.getTerm);
+        getTermMock.mockReturnValue(data.getTerm);
         useGetAppSettingDataMock.mockReturnValue(data.discountText);
-        useGetErrorByFieldMock.mockReturnValueOnce(data.errorByField);
-        useGetLoaderScreenVariableMock.mockReturnValueOnce(data.loaderVariable);
-        useGetDiscountsMock.mockReturnValueOnce(discounts);
+        useGetErrorByFieldMock.mockReturnValue(data.errorByField);
+        useGetLoaderScreenVariableMock.mockReturnValue(data.loaderVariable);
+        useGetDiscountsMock.mockReturnValue(discounts);
         actionSetLoaderAndDisableButtonMock.mockReturnValue(actionSetLoaderAndDisableButtonReturn);
         postDiscountsMock.mockReturnValue(postDiscountThunkMock);
         useGetIsLoadingMock.mockReturnValue(false);
+        useGetCustomerInfoDataByFieldMock.mockReturnValue('');
     });
 
     test('rendering the hook properly', () => {
@@ -82,12 +84,13 @@ describe('Testing hook useSummaryDiscountCode', () => {
     });
 
     test('testing the add discount event with customer email address And postDiscount returning HTMLElement',  async () => {
+        useGetDiscountsMock.mockReturnValueOnce([]);
         const discountPill = createPill();
+        useGetCustomerInfoDataByFieldMock.mockReturnValueOnce('abc@gmail.com');
         mockDispatch
             .mockImplementationOnce(() => Promise.resolve())
             .mockImplementationOnce(() => Promise.resolve())
             .mockImplementationOnce(() => Promise.resolve(discountPill));
-        useGetCustomerInfoDataByFieldMock.mockReturnValueOnce('abc@gmail.com');
 
         const {result} = renderHook(() => useSummaryDiscountCode());
         const hookResult = result.current;
@@ -98,9 +101,10 @@ describe('Testing hook useSummaryDiscountCode', () => {
 
         await hookResult.addDiscount(event);
 
+        expect(useGetCustomerInfoDataByFieldMock).toHaveBeenCalledTimes(1);
+        expect(mockDispatch).toHaveBeenCalledTimes(3);
         expect(mockSetFocus).toHaveBeenCalledTimes(1);
         expect(event.preventDefault).not.toBeCalled();
-        expect(mockDispatch).toHaveBeenCalledTimes(3);
         expect(actionSetLoaderAndDisableButtonMock).toBeCalled();
         expect(mockDispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonReturn);
         expect(mockDispatch).toHaveBeenCalledWith(validateEmailAddressMock);
@@ -108,11 +112,12 @@ describe('Testing hook useSummaryDiscountCode', () => {
     });
 
     test('testing the add discount event with customer email address And postDiscount returning null',  async () => {
+        useGetDiscountsMock.mockReturnValueOnce([]);
+        useGetCustomerInfoDataByFieldMock.mockReturnValueOnce('abc@gmail.com');
         mockDispatch
             .mockImplementationOnce(() => Promise.resolve())
             .mockImplementationOnce(() => Promise.resolve())
             .mockImplementationOnce(() => Promise.resolve(null));
-        useGetCustomerInfoDataByFieldMock.mockReturnValueOnce('abc@gmail.com');
 
         const {result} = renderHook(() => useSummaryDiscountCode());
         const hookResult = result.current;
@@ -123,6 +128,11 @@ describe('Testing hook useSummaryDiscountCode', () => {
 
         await hookResult.addDiscount(event);
 
+        expect(useGetCustomerInfoDataByFieldMock).toHaveBeenCalledTimes(1);
+        expect(mockDispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonReturn);
+        expect(mockDispatch).toHaveBeenCalledWith(validateEmailAddressMock);
+        expect(mockDispatch).toHaveBeenCalledWith(postDiscountThunkMock);
+        expect(mockDispatch).toHaveBeenCalledTimes(3);
         expect(mockSetFocus).toHaveBeenCalledTimes(0);
         expect(event.preventDefault).not.toBeCalled();
         expect(mockDispatch).toHaveBeenCalledTimes(3);
@@ -133,12 +143,12 @@ describe('Testing hook useSummaryDiscountCode', () => {
     });
 
     test('testing the add discount event without customer email address And postDiscount returning HTMLElement',  async () => {
-        const DiscountCodeInputField = createInputText();
+        useGetDiscountsMock.mockReturnValueOnce([]);
+        const discountPill = createPill();
         mockDispatch
             .mockImplementationOnce(() => Promise.resolve())
-            .mockImplementationOnce(() => Promise.resolve(DiscountCodeInputField));
+            .mockImplementationOnce(() => Promise.resolve(discountPill));
 
-        useGetCustomerInfoDataByFieldMock.mockReturnValueOnce('');
         const {result} = renderHook(() => useSummaryDiscountCode());
         const hookResult = result.current;
         const event = {
@@ -148,8 +158,8 @@ describe('Testing hook useSummaryDiscountCode', () => {
 
         await hookResult.addDiscount(event);
 
-        expect(mockSetFocus).toHaveBeenCalledTimes(1);
         expect(event.preventDefault).not.toBeCalled();
+        expect(mockSetFocus).toHaveBeenCalledTimes(1);
         expect(mockDispatch).toHaveBeenCalledTimes(2);
         expect(actionSetLoaderAndDisableButtonMock).toBeCalled();
         expect(mockDispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonReturn);
@@ -162,7 +172,6 @@ describe('Testing hook useSummaryDiscountCode', () => {
             .mockImplementationOnce(() => Promise.resolve())
             .mockImplementationOnce(() => Promise.resolve(null));
 
-        useGetCustomerInfoDataByFieldMock.mockReturnValueOnce('');
         const {result} = renderHook(() => useSummaryDiscountCode());
         const hookResult = result.current;
         const event = {
@@ -208,6 +217,36 @@ describe('Testing hook useSummaryDiscountCode', () => {
         expect(event.preventDefault).toBeCalled();
     });
 
+    test('testing useEffect is changing aria-label and aria-live when success with discounts populated',  async () => {
+        getTermMock.mockReturnValueOnce(data.getTerm).mockReturnValueOnce('discount_code_successfully_applied');
+        useGetDiscountsMock.mockReturnValueOnce(discounts);
+        const discountPill = createPill();
+        mockDispatch
+            .mockImplementationOnce(() => Promise.resolve())
+            .mockImplementationOnce(() => Promise.resolve(discountPill));
+
+        jest.useFakeTimers();
+
+        const {result} = renderHook(() => useSummaryDiscountCode());
+        const hookResult = result.current;
+        const event = {
+            currentTarget: document.createElement('button'),
+            preventDefault: jest.fn(),
+        } as unknown as React.MouseEvent<HTMLButtonElement, MouseEvent>;
+
+        expect(hookResult.ariaLabel).toBe('discount_code_successfully_applied');
+        expect(hookResult.ariaLive).toBe('polite');
+
+        await act(async () => {
+            await hookResult.addDiscount(event);
+            jest.runAllTimers();
+        });
+
+        expect(result.current.ariaLabel).toBe('');
+        expect(result.current.ariaLive).toBe('');
+
+        jest.useRealTimers();
+    });
 });
 
 function createPill(): HTMLElement {

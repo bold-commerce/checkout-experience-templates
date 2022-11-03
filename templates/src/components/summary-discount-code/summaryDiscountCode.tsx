@@ -1,12 +1,13 @@
 import React from 'react';
-import {Button} from '@boldcommerce/stacks-ui';
-import {useSummaryDiscountCode} from 'src/hooks';
-import {FieldInput, SummaryDiscountLine, FlashError} from 'src/components';
-import classNames from 'classnames';
 import {IDiscount} from '@bold-commerce/checkout-frontend-library';
+import {Button} from '@boldcommerce/stacks-ui';
+
+import classNames from 'classnames';
+import {FieldInput, SummaryDiscountLine, FlashError} from 'src/components';
+import {useSummaryDiscountCode} from 'src/hooks';
 
 export function SummaryDiscountCode(): React.ReactElement {
-    const {discounts, discountError, buttonLoading, buttonDisabled, addDiscount, updateNewDiscountCode, discountCodeText, discountCodeInputText} = useSummaryDiscountCode();
+    const {discounts, discountError, buttonLoading, buttonDisabled, addDiscount, updateNewDiscountCode, discountCodeText, discountCodeInputText, ariaLabel, ariaLive} = useSummaryDiscountCode();
 
     return (
         <div className={classNames(['discount-code', 'discount-code--border-bottom'])}>
@@ -23,6 +24,8 @@ export function SummaryDiscountCode(): React.ReactElement {
                     data-testid='apply-discount'
                     loading={buttonLoading}
                     aria-disabled={buttonDisabled}
+                    aria-label={ariaLabel}
+                    aria-live={ariaLive}
                     id={'add-discount-code-button'}
                     className={classNames(['btn-checkout', 'discount-code__button'])}
                     onClick={addDiscount}

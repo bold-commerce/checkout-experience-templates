@@ -312,6 +312,8 @@ export interface ISummaryDiscountCode {
     updateNewDiscountCode: (e) => void;
     discountCodeText: string;
     discountCodeInputText: string;
+    ariaLabel: string;
+    ariaLive: string;
 }
 
 export interface ISummaryDiscountLine{

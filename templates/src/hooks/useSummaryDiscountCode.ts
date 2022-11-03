@@ -1,4 +1,4 @@
-import {useCallback} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {
     useGetLoaderScreenVariable,
     useGetDiscounts,
@@ -12,7 +12,7 @@ import {actionRemoveErrorByField, actionRemoveErrorByType, actionSetLoaderAndDis
 import {postDiscounts, validateEmailAddress} from 'src/library';
 import {ISummaryDiscountCode} from 'src/types';
 import {getTerm} from 'src/utils';
-import {Constants, errorFields, errorTypes} from 'src/constants';
+import {Constants, errorFields, errorTypes, HIDE_MESSAGE} from 'src/constants';
 
 export function useSummaryDiscountCode(): ISummaryDiscountCode {
     const discounts = useGetDiscounts();
@@ -21,9 +21,28 @@ export function useSummaryDiscountCode(): ISummaryDiscountCode {
     const discountError =  useGetErrorByField(errorFields.discounts, '' , errorTypes.discount_code_validation);
     const buttonLoading = useGetLoaderScreenVariable('discountButton');
     const isLoading = useGetIsLoading();
-    const buttonDisabled = discountCodeText === '' || buttonLoading || isLoading;
-    const discountCodeInputText = getTerm('discount_code', Constants.SUMMARY_INFO);
     const dispatch = useDispatch();
+    const discountCodeInputText = getTerm('discount_code', Constants.SUMMARY_INFO);
+    const ariaLabelText = getTerm('discount_code_successfully_applied', Constants.SUMMARY_INFO);
+    const [ariaLabel, setAriaLabel] = useState('');
+    const [ariaLive, setAriaLive] = useState('');
+
+    const buttonDisabled = discountCodeText === '' || buttonLoading || isLoading;
+    useEffect(() => {
+        if (Array.isArray(discounts) && discounts.length > 0) {
+            setAriaLabel(ariaLabelText);
+            setAriaLive(Constants.ARIA_LIVE_POLITE);
+            const clearAriaFields = setTimeout(() => {
+                setAriaLabel('');
+                setAriaLive('');
+            }, HIDE_MESSAGE);
+            return () => {
+                clearTimeout(clearAriaFields);
+                setAriaLabel('');
+                setAriaLive('');
+            };
+        }
+    }, [discounts]);
 
     const addDiscount = useCallback(async (event) => {
         if(buttonDisabled) {
@@ -53,5 +72,5 @@ export function useSummaryDiscountCode(): ISummaryDiscountCode {
         dispatch(actionUpdateDiscountCodeText(event.target.value));
     }, [discountCodeText]);
 
-    return {discounts, discountError, buttonLoading, buttonDisabled, addDiscount, updateNewDiscountCode, discountCodeText, discountCodeInputText};
+    return {discounts, discountError, buttonLoading, buttonDisabled, addDiscount, updateNewDiscountCode, discountCodeText, discountCodeInputText, ariaLabel, ariaLive};
 }
