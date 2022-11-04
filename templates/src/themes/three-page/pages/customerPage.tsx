@@ -1,11 +1,22 @@
 import React, {useEffect} from 'react';
-import {BillingAddress, Breadcrumbs, CustomerInformation, ShippingAddress, SummarySection, Footer, FlashError, Header, ExpressPaymentGateway} from 'src/components';
+import {
+    BillingAddress,
+    Breadcrumbs,
+    CustomerInformation,
+    ShippingAddress,
+    SummarySection,
+    Footer,
+    FlashError,
+    Header,
+    ExpressPaymentGateway,
+    HeaderHelmet
+} from 'src/components';
 import {useBeforeUnload, useScrollToElementOnNavigation, useSendEvent} from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
 
 export function CustomerPage(): React.ReactElement {
-    const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading} = useCustomerPage();
+    const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading, title} = useCustomerPage();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
 
@@ -26,6 +37,7 @@ export function CustomerPage(): React.ReactElement {
 
     return (
         <div className={'checkout-experience-container'}>
+            <HeaderHelmet title={title}/>
             <div className={'three-page'}>
                 <Header isMobile={true}/>
                 <div className='customer-section' >

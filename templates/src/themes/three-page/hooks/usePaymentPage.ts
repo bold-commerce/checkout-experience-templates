@@ -1,5 +1,6 @@
 import {useDispatch} from 'react-redux';
 import {
+    useGetAppSettingData,
     useGetButtonDisableVariable,
     useGetIsLoading,
     useGetIsOrderProcessed,
@@ -25,6 +26,8 @@ export function usePaymentPage(): IUsePaymentPage{
     const backLinkText = getTerm('return_to_shipping', Constants.PAYMENT_INFO);
     const nextButtonText = getTerm('complete_order', Constants.PAYMENT_INFO);
     const nextButtonLoading = useGetIsLoading();
+    const language = useGetAppSettingData('languageIso') as string;
+    const title = getTerm('payment_method_title', Constants.GLOBAL_INFO, undefined , 'Checkout form, payment method');
     const nextButtonDisable = useGetButtonDisableVariable('paymentPageButton');
     const totals = getTotalsFromState();
 
@@ -37,5 +40,5 @@ export function usePaymentPage(): IUsePaymentPage{
         callProcessOrder(dispatch, totals, history);
     },[totals, history]);
 
-    return {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable};
+    return {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable, language, title};
 }

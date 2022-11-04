@@ -1,6 +1,6 @@
 import {useCallback, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
+import {useGetAppSettingData, useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
 import {callCustomerPageApi, checkInventory, initializeExpressPay} from 'src/library';
 import {useHistory} from 'react-router';
 import {Constants} from 'src/constants';
@@ -21,6 +21,8 @@ export function useCustomerPage(): IUseCustomerPageProp {
     const nextButtonDisable = useGetButtonDisableVariable('customerPageButton');
     const {term, link} = getReturnToCartTermAndLink();
     const backLinkText = getTerm(term, Constants.CUSTOMER_INFO);
+    const language = useGetAppSettingData('languageIso') as string;
+    const title = getTerm('customer_info_title', Constants.GLOBAL_INFO, undefined , 'Checkout form, customer information');
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
         window.location.href = link;
@@ -42,5 +44,5 @@ export function useCustomerPage(): IUseCustomerPageProp {
         }
     }, []);
 
-    return {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading};
+    return {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading, language, title};
 }

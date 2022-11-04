@@ -2,6 +2,7 @@ import {render} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 
 import {
+    useGetAppSettingData,
     useGetContactUs,
     useGetFooterRights,
     useGetOutOfStock,
@@ -10,17 +11,23 @@ import {
 } from 'src/hooks';
 import {OutOfStockPage} from 'src/pages';
 import {IUseContactUs, IUseFooterRights, IUseOutOfStock} from 'src/types';
+import {getTerm} from 'src/utils';
+import {HelmetProvider} from 'react-helmet-async';
 
 jest.mock('src/hooks/useGetOutOfStock');
 jest.mock('src/hooks/useGetContactUs');
 jest.mock('src/hooks/useGetFooterRights');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
+jest.mock('src/hooks/useGetAppSettingData');
+jest.mock('src/utils/getTerm');
 const useGetOutOfStockMock = mocked(useGetOutOfStock, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
 const useGetFooterRightsMock = mocked(useGetFooterRights, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
+const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
+const getTermMock = mocked(getTerm, true);
 
 describe('testing OutOfStockPage', () => {
     const terms: Record<string, string> = {
@@ -47,10 +54,15 @@ describe('testing OutOfStockPage', () => {
         useGetFooterRightsMock.mockReturnValue(footerRightsHookReturn);
         useSupportedLanguagesMock.mockReturnValue({languagesOptions: [], value: '', handleChange: jest.fn()});
         useGetShopUrlFromShopAliasMock.mockReturnValue('https://google.com');
+        useGetAppSettingDataMock.mockReturnValue('en');
+        getTermMock.mockReturnValue('test');
     });
 
     test('Rendering OutOfStockPage', () => {
-        const {container} = render(<OutOfStockPage/>);
+
+        const context = {};
+        HelmetProvider.canUseDOM = false;
+        const {container} = render(<HelmetProvider context={context}><OutOfStockPage/></HelmetProvider>);
 
         expect(container.getElementsByClassName('checkout-experience-container').length).toBe(1);
         expect(container.getElementsByClassName('three-page').length).toBe(1);

@@ -1,7 +1,7 @@
 import {actionClearErrors} from 'src/action';
 import {sendEvents} from 'src/analytics';
 import {Constants} from 'src/constants';
-import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
+import {useGetAppSettingData, useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
 import {callShippingLinesPageApi} from 'src/library';
 import {IUseCustomerPageProp} from 'src/types';
 import {getCheckoutUrl, getTerm, isShippingLineSelectedValid} from 'src/utils';
@@ -22,6 +22,8 @@ export function useShippingPage(): IUseCustomerPageProp{
     const nextButtonDisable = useGetButtonDisableVariable('shippingPageButton') && !isSelectedShippingLine;
     const nextButtonLoading = useGetIsLoading();
     const backLinkText = getTerm('footer_shipping_cust_info', Constants.SHIPPING_METHOD_INFO);
+    const language = useGetAppSettingData('languageIso') as string;
+    const title = getTerm('shipping_lines_title', Constants.GLOBAL_INFO, undefined , 'Checkout form, shipping method');
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
         history.replace(getCheckoutUrl(''));
@@ -34,5 +36,5 @@ export function useShippingPage(): IUseCustomerPageProp{
         dispatch(callShippingLinesPageApi(history));
     } , []);
 
-    return {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading};
+    return {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading, language, title};
 }

@@ -6,6 +6,8 @@ import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {useGetShopUrlFromShopAlias, useScrollToElementOnNavigation, useSendEvent} from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
+import {HelmetProvider} from 'react-helmet-async';
+import {OutOfStockPage} from 'src/pages';
 
 const shopURL = 'https://some-shop-url.test.com';
 const store = {
@@ -38,6 +40,7 @@ describe('testing CustomerPage', () => {
         nextButtonOnClick: jest.fn(),
         nextButtonText: 'test-next',
         active: 1,
+        title: 'test title'
     };
 
     beforeEach(() => {
@@ -54,7 +57,9 @@ describe('testing CustomerPage', () => {
     });
 
     test('Rendering customerPage properly', () => {
-        const {container} = render(<CustomerPage/>);
+        const context = {};
+        HelmetProvider.canUseDOM = false;
+        const {container} = render(<HelmetProvider context={context}><CustomerPage/></HelmetProvider>);
         global.dispatchEvent(new Event('load'));
         expect(useSendEventMock).toHaveBeenCalled();
         expect(addEventListenerSpy).toHaveBeenCalled();

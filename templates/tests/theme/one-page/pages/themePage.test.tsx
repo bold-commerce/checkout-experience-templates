@@ -4,6 +4,8 @@ import React from 'react';
 import {ThemePage} from 'src/themes/one-page/pages';
 import {mocked} from 'jest-mock';
 import {useGetShopUrlFromShopAlias} from 'src/hooks';
+import {HelmetProvider} from 'react-helmet-async';
+import {ShippingLinesPage} from 'src/themes/three-page/pages';
 
 const shopURL = 'https://some-shop-url.test.com';
 const store = {
@@ -22,7 +24,7 @@ jest.mock('react-redux', () => ({
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 
 describe('testing ThemePage', () => {
-
+    const context = {};
     beforeEach(() => {
         jest.clearAllMocks();
 
@@ -30,9 +32,19 @@ describe('testing ThemePage', () => {
     });
 
     test('Rendering ThemePage properly', () => {
-        const {container} = render(<ThemePage/>);
+
+        HelmetProvider.canUseDOM = false;
+        const {container} = render(<HelmetProvider context={context}><ThemePage/></HelmetProvider>);
         expect(container.getElementsByClassName('checkout-experience-container').length).toBe(1);
         expect(container.getElementsByClassName('main-header-mobile').length).toBe(1);
         expect(container.getElementsByClassName('summary-section').length).toBe(1);
+        expect(container.getElementsByClassName('CustomerSection')).toBeTruthy();
+    });
+
+    test('Customer Section have shop alias', () => {
+        useGetShopUrlFromShopAliasMock.mockReturnValue(shopURL);
+
+        const { container } = render(<HelmetProvider context={context}><ThemePage/></HelmetProvider>);
+        expect(container.getElementsByClassName('website-title')).toBeTruthy();
     });
 });

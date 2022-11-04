@@ -9,6 +9,7 @@ import {createBrowserHistory} from 'history';
 import {scrollToElement} from 'src/utils';
 import {Router} from 'react-router';
 import {initialDataMock} from 'src/mocks';
+import {HelmetProvider} from 'react-helmet-async';
 
 const history = createBrowserHistory();
 const shopURL = 'https://some-shop-url.test.com';
@@ -47,7 +48,10 @@ describe('testing useScrollToElementOnNavigation', () => {
     });
 
     test('Rendering useScrollToElementOnNavigation properly', () => {
-        render(<Router history={history}><CustomerPage/></Router>);
+        const context = {};
+        HelmetProvider.canUseDOM = false;
+        const component = (<HelmetProvider context={context}><CustomerPage/></HelmetProvider>);
+        render(<Router history={history}>{component}</Router>);
 
         expect(scrollToElementMock).toHaveBeenCalledTimes(0);
         history.push('#test');

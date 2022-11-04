@@ -7,6 +7,7 @@ import {
     useGetGeneralSettingCheckoutFields
 } from 'src/hooks';
 import 'public/app.css';
+import 'src/themes/one-page/onePage.css';
 import {Overlay, StandaloneHooks} from 'src/components';
 import {Constants, debounceConstants} from 'src/constants';
 import {useDispatch} from 'react-redux';
