@@ -8,26 +8,41 @@ import {Constants} from 'src/constants';
 export function SummaryLineExpandable(props: ISummaryLineExpandable): React.ReactElement {
     const {expand, classes, toggle, fieldNames, formattedPrice} = useSummaryLineExpandable(props);
 
+    const hasChildLines = props.content && Array.isArray(props.content) && props.content.length > 0;
+
+    const childLineDetails = hasChildLines && props.content.map((item, index) => {
+        let itemAmount = item[fieldNames.amount];
+        if(props.eventToggleName === Constants.PAYMENTS_TOGGLE) { // TODO: Remove condition after FF CE-539-Add-PaymentLine-Model is Enabled by default
+            itemAmount = item[fieldNames.amount] && item['value'] ? item['value'] : item[fieldNames.amount];
+        }
+        const key = `summary-line-expanded-${props.eventToggleName}-${index}`;
+        return {item, itemAmount, key};
+    }) || [];
+
+    const titleId = `summary-line-${props.eventToggleName}-title`;
+
     return (
         <div className={classes.container}>
             <div className={classes.title.container}>
-                <button className={classes.title.arrow} onClick={toggle}/>
-                <span className={classes.title.text}>{props.title}</span>
-                {!expand && <Price className={classes.list.price} moneyFormatString={formattedPrice} amount={props.total} textAlign={'right'}/>}
+                <button
+                    className={classes.title.arrow}
+                    onClick={toggle}
+                    aria-expanded={expand}
+                    aria-describedby={titleId}
+                    aria-controls={childLineDetails.map(line => line.key).join()}
+                />
+                <span className={classes.title.text} id={titleId}>{props.title}</span>
+                {!expand && <Price className={classes.list.price} moneyFormatString={formattedPrice} amount={props.total} textAlign={'right'} />}
             </div>
             {
-                expand && props.content && Array.isArray(props.content) && props.content.length > 0 && props.content.map((item, index) => {
-                    let itemAmount = item[fieldNames.amount];
-                    if(props.eventToggleName === Constants.PAYMENTS_TOGGLE) { // TODO: Remove condition after FF CE-539-Add-PaymentLine-Model is Enabled by default
-                        itemAmount = item[fieldNames.amount] && item['value'] ? item['value'] : item[fieldNames.amount];
-                    }
+                expand && childLineDetails.map(({item, key, itemAmount}) => {
                     return (
                         <SummaryLineExpanded
-                            key={`summary-line-expanded-${props.eventToggleName}-${index}`}
+                            key={key}
                             eventToggleName={props.eventToggleName}
                             amount={itemAmount}
                             content={item}
-                            id={`${index}`}
+                            id={key}
                             classes={classes}
                             hasDeleteButton={props.hasDeleteButton}
                             itemId={fieldNames.id ? item[fieldNames.id] : ''}
@@ -36,7 +51,7 @@ export function SummaryLineExpandable(props: ISummaryLineExpandable): React.Reac
                 })
             }
             {
-                expand && props.content && Array.isArray(props.content) && props.content.length <= 0 && <div className={'summary-line--no-line'}>No {props.title} found</div>
+                expand && !hasChildLines && <div className={'summary-line--no-line'}>No {props.title} found</div>
             }
         </div>
 
