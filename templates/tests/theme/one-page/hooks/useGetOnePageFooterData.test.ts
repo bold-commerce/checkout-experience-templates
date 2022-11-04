@@ -1,4 +1,4 @@
-import {useGetIsLoading} from 'src/hooks';
+import {useGetAppSettingData, useGetIsLoading} from 'src/hooks';
 import {renderHook} from '@testing-library/react-hooks';
 import {mocked} from 'jest-mock';
 import {callProcessOrder, getReturnToCartTermAndLink, getTerm, getTotalsFromState} from 'src/utils';
@@ -16,7 +16,7 @@ jest.mock('src/utils/callProcessOrder');
 jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/library/initializeExpressPay');
 jest.mock('src/utils/getReturnToCartTermAndLink');
-
+jest.mock('src/hooks/useGetAppSettingData');
 
 const getTermMock = mocked(getTerm, true);
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
@@ -24,6 +24,7 @@ const getTotalsFromStateMock = mocked(getTotalsFromState, true);
 const callProcessOrderMock = mocked(callProcessOrder, true);
 const initializeExpressPayMock = mocked(initializeExpressPay, true);
 const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
+const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 
 
 describe('Testing hook useGetAddressFieldInputData', () => {
@@ -55,6 +56,7 @@ describe('Testing hook useGetAddressFieldInputData', () => {
         initializeExpressPayMock.mockReturnValue(mockExpressEntry);
         getTotalsFromStateMock.mockReturnValue(total);
         getReturnToCartTermAndLinkMock.mockReturnValue({term:'return_to_cart', link: 'http://test.com'});
+        useGetAppSettingDataMock.mockReturnValue('en');
     });
 
     test('rendering the hook properly', () => {

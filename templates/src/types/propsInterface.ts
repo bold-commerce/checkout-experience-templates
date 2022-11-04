@@ -257,6 +257,8 @@ export interface IFooterProps {
     nextButtonLoading?: boolean;
     nextButtonDisable?: boolean;
     contactUs?: boolean;
+    language?: string;
+    title?: string;
 }
 
 export interface IContactUsProps {
@@ -533,4 +535,8 @@ export interface IOverlayProps {
 export interface IPaymentProps {
     showTitle?: boolean;
     loadIframeImmediately?: boolean;
+}
+
+export interface IHeaderHelmet{
+    title?: string;
 }

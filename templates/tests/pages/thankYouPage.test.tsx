@@ -9,12 +9,15 @@ import {
     useGetShippingData,
     useGetShopUrlFromShopAlias,
     useSupportedLanguages,
-    useGetValidVariable
+    useGetValidVariable,
+    useGetAppSettingData
 } from 'src/hooks';
 import {addressMock, stateMock} from 'src/mocks';
 import {ThankYouPage} from 'src/pages';
 import * as Store from 'src/store';
 import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {getTerm} from 'src/utils';
+import {HelmetProvider} from 'react-helmet-async';
 
 jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/hooks/useGetAddressData');
@@ -22,17 +25,25 @@ jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useSendEvent');
 jest.mock('src/hooks/useGetValidVariable');
+jest.mock('src/hooks/useGetAppSettingData');
+jest.mock('src/utils/getTerm');
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useGetCustomerInfoDataMock = mocked(useGetCustomerInfoData, true);
 const useGetShippingDataMock = mocked(useGetShippingData, true);
 const useGetBillingDataMock = mocked(useGetBillingData, true);
 const useGetValidVariableMock = mocked(useGetValidVariable, true);
+const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
+const getTermMock = mocked(getTerm, true);
 
 const store = Store.initializeStore();
+const context = {};
+HelmetProvider.canUseDOM = false;
 const component =
     <Provider store={store}>
-        <ThankYouPage/>
+        <HelmetProvider context={context}>
+            <ThankYouPage/>
+        </HelmetProvider>
     </Provider>;
 
 describe('testing ThankYouPage', () => {
@@ -42,6 +53,8 @@ describe('testing ThankYouPage', () => {
         useSupportedLanguagesMock.mockReturnValue({languagesOptions: [], value: '', handleChange: jest.fn()});
         useGetShopUrlFromShopAliasMock.mockReturnValue('https://google.com');
         useGetValidVariableMock.mockReturnValue(true);
+        useGetAppSettingDataMock.mockReturnValue('en');
+        getTermMock.mockReturnValue('test');
     });
 
     test('Rendering ThankYouPage component', () => {

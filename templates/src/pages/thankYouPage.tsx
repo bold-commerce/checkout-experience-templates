@@ -1,10 +1,16 @@
 import ClassNames from 'classnames';
 import React, {useEffect} from 'react';
 
-import {Header, SummarySection, ThankYou} from 'src/components';
-import {useGetBillingData, useGetCustomerInfoData, useGetShippingData, useGetValidVariable,} from 'src/hooks';
-import {isObjectEmpty} from 'src/utils';
+import {Header, HeaderHelmet, SummarySection, ThankYou} from 'src/components';
+import {
+    useGetBillingData,
+    useGetCustomerInfoData,
+    useGetShippingData,
+    useGetValidVariable,
+} from 'src/hooks';
+import {getTerm, isObjectEmpty} from 'src/utils';
 import {sendEvents, sendPageView} from 'src/analytics';
+import {Constants} from 'src/constants';
 
 export function ThankYouPage(): React.ReactElement {
     const customerInformation = useGetCustomerInfoData();
@@ -12,6 +18,7 @@ export function ThankYouPage(): React.ReactElement {
     const shippingAddress = useGetShippingData();
     const billingAddress = useGetBillingData();
     const orderProcessed = useGetValidVariable('orderProcessed');
+    const title = getTerm('thank_you_title', Constants.GLOBAL_INFO, undefined , 'Order confirmation');
 
     const isGeneric = !orderProcessed || (!firstName && isObjectEmpty(shippingAddress) && isObjectEmpty(billingAddress));
     useEffect(() => {
@@ -24,12 +31,15 @@ export function ThankYouPage(): React.ReactElement {
     });
 
     return (
-        <div className={'checkout-experience-container'}>
-            <div className={isGeneric ? getClasses('no-summary') : getClasses()}>
-                <Header isMobile={true} />
-                <ThankYou/>
-                { isGeneric ? null : <SummarySection orderCompleted={true}/>}
+        <>
+            <HeaderHelmet title={title}/>
+            <div className={'checkout-experience-container'}>
+                <div className={isGeneric ? getClasses('no-summary') : getClasses()}>
+                    <Header isMobile={true} />
+                    <ThankYou/>
+                    { isGeneric ? null : <SummarySection orderCompleted={true}/>}
+                </div>
             </div>
-        </div>
+        </>
     );
 }

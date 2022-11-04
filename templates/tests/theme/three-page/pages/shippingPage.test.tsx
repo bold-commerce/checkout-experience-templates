@@ -1,11 +1,12 @@
 import {render} from '@testing-library/react';
-import {ShippingLinesPage} from 'src/themes/three-page/pages';
+import {PaymentPage, ShippingLinesPage} from 'src/themes/three-page/pages';
 import {IUseCustomerPageProp} from 'src/types';
 import React from 'react';
 import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {useGetShopUrlFromShopAlias, useScrollToElementOnNavigation} from 'src/hooks';
 import {useShippingPage} from 'src/themes/three-page/hooks';
+import {HelmetProvider} from 'react-helmet-async';
 
 const shopURL = 'https://some-shop-url.test.com';
 const store = {
@@ -46,7 +47,9 @@ describe('testing ShippingPage', () => {
     });
 
     test('Rendering shippingPage properly', () => {
-        const {container} = render(<ShippingLinesPage/>);
+        const context = {};
+        HelmetProvider.canUseDOM = false;
+        const {container} = render(<HelmetProvider context={context}><ShippingLinesPage/></HelmetProvider>);
         expect(container.getElementsByClassName('three-page').length).toBe(1);
         expect(container.getElementsByClassName('customer-section').length).toBe(1);
         expect(container.getElementsByClassName('website-title').length).toBe(2);

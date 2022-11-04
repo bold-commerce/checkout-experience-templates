@@ -2,10 +2,11 @@ import {IUsePaymentPage} from 'src/types';
 import {render} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 import {useGetShopUrlFromShopAlias, useScrollToElementOnNavigation} from 'src/hooks';
-import {PaymentPage} from 'src/themes/three-page/pages';
+import {CustomerPage, PaymentPage} from 'src/themes/three-page/pages';
 import React from 'react';
 import {initialDataMock} from 'src/mocks';
 import {usePaymentPage} from 'src/themes/three-page/hooks';
+import {HelmetProvider} from 'react-helmet-async';
 
 const shopURL = 'https://some-shop-url.test.com';
 const store = {
@@ -45,7 +46,9 @@ describe('testing PaymentPage', () => {
     });
 
     test('Rendering PaymentPage properly', () => {
-        const {container} = render(<PaymentPage/>);
+        const context = {};
+        HelmetProvider.canUseDOM = false;
+        const {container} = render(<HelmetProvider context={context}><PaymentPage/></HelmetProvider>);
         expect(container.getElementsByClassName('three-page').length).toBe(1);
         expect(container.getElementsByClassName('customer-section').length).toBe(1);
         expect(container.getElementsByClassName('website-title').length).toBe(2);

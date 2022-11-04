@@ -62,9 +62,10 @@ describe('Testing hook usePaymentPage', () => {
 
         expect(useHistoryMock).toHaveBeenCalledTimes(1);
         expect(useDispatchMock).toHaveBeenCalledTimes(1);
-        expect(getTermMock).toHaveBeenCalledTimes(2);
+        expect(getTermMock).toHaveBeenCalledTimes(3);
         expect(getTermMock).toHaveBeenCalledWith('return_to_shipping', Constants.PAYMENT_INFO);
         expect(getTermMock).toHaveBeenCalledWith('complete_order', Constants.PAYMENT_INFO);
+        expect(getTermMock).toHaveBeenCalledWith('payment_method_title', Constants.GLOBAL_INFO, undefined, 'Checkout form, payment method');
         expect(useGetIsLoadingMock).toHaveBeenCalledTimes(1);
         expect(historyMock.replace).toHaveBeenCalledTimes(0);
         expect(result.current.backLinkText).toBe(backLinkTextExpectation);

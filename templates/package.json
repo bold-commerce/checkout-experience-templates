@@ -1,6 +1,6 @@
 {
   "name": "@boldcommerce/checkout-experience-templates",
-  "version": "1.0.1-build.102",
+  "version": "1.0.1-build.108",
   "description": "",
   "main": "index.js",
   "license": "MIT",
@@ -43,11 +43,11 @@
     "webpack-dev-server": "^4.9.2"
   },
   "dependencies": {
+    "@bold-commerce/checkout-express-pay-library": "^0.8.0",
     "@bold-commerce/checkout-frontend-library": "^0.30.2",
-    "@bold-commerce/checkout-express-pay-library": "^0.7.0",
     "@boldcommerce/stacks-ui": "^1.1.1",
-    "@redux-devtools/extension": "^3.2.2",
     "@bugsnag/js": "^7.16.2",
+    "@redux-devtools/extension": "^3.2.2",
     "@reduxjs/toolkit": "^1.5.1",
     "@types/google.maps": "^3.45.6",
     "@types/node": "^15.3.0",
@@ -60,6 +60,7 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-helmet-async": "^1.3.0",
     "react-redux": "^7.2.4",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",

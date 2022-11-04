@@ -3,6 +3,7 @@ import {
     Breadcrumbs,
     FlashError,
     Footer, Header,
+    HeaderHelmet,
     ShippingLines,
     SummarySection,
 } from 'src/components';
@@ -15,7 +16,7 @@ import {
 import {useShippingPage} from 'src/themes/three-page/hooks';
 
 export function ShippingLinesPage(): React.ReactElement {
-    const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading} = useShippingPage();
+    const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading, title} = useShippingPage();
     useOnLoadValidateCustomer();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
@@ -26,6 +27,7 @@ export function ShippingLinesPage(): React.ReactElement {
 
     return (
         <div className={'checkout-experience-container'}>
+            <HeaderHelmet title={title}/>
             <div className={'three-page'}>
                 <Header isMobile={true} />
                 <div className='customer-section' >
