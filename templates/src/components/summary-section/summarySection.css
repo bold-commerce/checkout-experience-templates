@@ -67,12 +67,18 @@
     display: none;
 }
 
-.summary__cart-icon{
+.summary__cart-icon,
+.summary__cart-icon:hover,
+.summary__cart-icon:active,
+.summary__cart-icon:focus {
     position: absolute;
     left: -32px;
-    top: 21px;
+    top: 19px;
     width:32px;
-    height: 16px;
+    height: 18px;
+    border: 0;
+    background-color: inherit;
+    box-shadow: none;
 }
 
 .summary__cart--expand {
@@ -113,6 +119,7 @@
 
     .summary__cart--expand {
         display: flex;
+        margin: auto;
     }
 
     .block__summary-cart--collapse {
