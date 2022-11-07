@@ -16,9 +16,9 @@ export function SummarySection (props: ISummarySection) : React.ReactElement {
     return (
         <div className={'summary-section'}>
             <div className={'summary'} data-testid={'CartSummary'}>
-                <div className={'summary__cart-icon'} onClick={toggleSummary}>
+                <button className={'summary__cart-icon'} onClick={toggleSummary}>
                     <span data-testid={'summary__cart--expand'} className={classes} >&nbsp;</span>
-                </div>
+                </button>
                 <div className={'summary__cart-title'} onClick={toggleSummary}>
                     <span className={'cart-summary__title-content'}>Summary</span>
                     <Price amount={totals} className={'summary__cart-price'} />
