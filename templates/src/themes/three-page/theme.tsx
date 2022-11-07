@@ -10,6 +10,7 @@ import {Switch} from 'react-router';
 import {ThankYouPage, OutOfStockPage, SessionExpiredPage} from 'src/pages';
 import {CustomerPage, PaymentPage, ShippingLinesPage} from 'src/themes/three-page/pages';
 import 'public/app.css';
+import 'src/themes/three-page/three-page.css';
 import {Overlay, StandaloneHooks} from 'src/components';
 import {actionSetDefaultCustomerAcceptMarketing} from 'src/action';
 import {useDispatch} from 'react-redux';
