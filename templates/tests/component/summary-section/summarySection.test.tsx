@@ -53,7 +53,9 @@ describe('Testing CartSummary component', () => {
         buttonDisabled: false,
         discountCodeInputText: 'test-value',
         addDiscount: jest.fn(),
-        updateNewDiscountCode: jest.fn()
+        updateNewDiscountCode: jest.fn(),
+        ariaLabel: '',
+        ariaLive: ''
     };
 
     const hookResultForDiscountLine: ISummaryDiscountLine= {

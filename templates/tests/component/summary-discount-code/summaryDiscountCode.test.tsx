@@ -1,4 +1,4 @@
-import {fireEvent, render} from '@testing-library/react';
+import {fireEvent, render, waitFor} from '@testing-library/react';
 import {SummaryDiscountCode} from 'src/components';
 import {ISummaryDiscountLine} from 'src/types';
 import {mocked} from 'jest-mock';
@@ -10,6 +10,7 @@ import {
 } from 'src/hooks';
 import {IDiscount} from '@bold-commerce/checkout-frontend-library';
 import {getTerm} from 'src/utils';
+import React from 'react';
 
 const mockDispatch = jest.fn();
 jest.mock('src/hooks/useSummaryDiscountLine');
@@ -43,7 +44,9 @@ describe('Testing SummaryDiscountCode Component', () => {
         buttonDisabled: false,
         discountCodeInputText: 'test-value',
         addDiscount: jest.fn(),
-        updateNewDiscountCode: jest.fn()
+        updateNewDiscountCode: jest.fn(),
+        ariaLabel: '',
+        ariaLive: ''
     };
 
     const hookResultForDiscountLine: ISummaryDiscountLine= {
@@ -57,10 +60,10 @@ describe('Testing SummaryDiscountCode Component', () => {
         useSummaryDiscountLineMock.mockReturnValue(hookResultForDiscountLine);
         useGetIsLoadingMock.mockReturnValue(false);
         useGetFlashErrorsMock.mockReturnValue([]);
-        getTermMock.mockReturnValue('applied_discount').mockReturnValue('delete_discount');
     });
 
     test('rendering the component', () => {
+        getTermMock.mockImplementation((term) => term);
         const {container, getByTestId} = render(<SummaryDiscountCode />);
         expect(container.getElementsByClassName('discount-code').length).toBe(1);
         expect(container.getElementsByClassName('discount-code-input').length).toBe(1);
@@ -73,7 +76,8 @@ describe('Testing SummaryDiscountCode Component', () => {
     });
 
     test('rendering the component with null value', () => {
-        useSummaryDiscountCodeMock.mockReturnValueOnce({...hooksData, buttonDisabled: true, discountCodeText: ''});
+        getTermMock.mockImplementation((term) => term);
+        useSummaryDiscountCodeMock.mockReturnValue({...hooksData, buttonDisabled: true, discountCodeText: ''});
         const {container, getByTestId} = render(<SummaryDiscountCode />);
         expect(container.getElementsByClassName('discount-code').length).toBe(1);
         expect(container.getElementsByClassName('discount-code-input').length).toBe(1);

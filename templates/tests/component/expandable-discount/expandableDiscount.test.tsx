@@ -9,6 +9,7 @@ import {
 } from 'src/hooks';
 import { ExpandableDiscount } from 'src/components';
 import { ISummaryDiscountLine } from 'src/types';
+import {getTerm} from 'src/utils';
 
 const mockDispatch = jest.fn();
 
@@ -17,7 +18,8 @@ jest.mock('src/hooks/useSummaryDiscountLine');
 jest.mock('src/hooks/useSummaryDiscountCode');
 jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/hooks/useGetFlashErrors');
-
+jest.mock('src/utils/getTerm');
+const getTermMock = mocked(getTerm, true);
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 const useExpandableDiscountMock = mocked(useExpandableDiscount, true);
 const useSummaryDiscountLineMock = mocked(useSummaryDiscountLine, true);
@@ -42,7 +44,9 @@ describe('Testing ExpandableDiscount Component', () => {
         buttonDisabled: false,
         discountCodeInputText: 'test-value',
         addDiscount: jest.fn(),
-        updateNewDiscountCode: jest.fn()
+        updateNewDiscountCode: jest.fn(),
+        ariaLabel: '',
+        ariaLive: ''
     };
 
     const hookResultForDiscountLine: ISummaryDiscountLine= {
@@ -57,6 +61,7 @@ describe('Testing ExpandableDiscount Component', () => {
         useSummaryDiscountLineMock.mockReturnValueOnce(hookResultForDiscountLine);
         useGetIsLoadingMock.mockReturnValue(false);
         useGetFlashErrorsMock.mockReturnValue([]);
+        getTermMock.mockReturnValueOnce('discount_code_successfully_applied');
     });
 
     test('rendering the component', () => {

@@ -60,6 +60,7 @@ export class Constants {
     static SESSION_EXPIRED_ROUTE = 'session_expired';
     static BUY_NOW_ROUTE = 'buy_now';
     static DEFAULT_TITLE = 'default title';
+    static ARIA_LIVE_POLITE = 'polite';
 }
 
 export const errorTypes: IErrorTypes = {
@@ -152,6 +153,7 @@ export const pigiPaymentTypes: IPigiPaymentTypes = {
 };
 
 export const API_RETRY = 1;
+export const HIDE_MESSAGE = 5000;
 
 export class PlatformTypeConstants {
     static BIG_COMMERCE = 'bigcommerce';
