@@ -218,7 +218,10 @@ describe('Testing hook useSummaryDiscountCode', () => {
     });
 
     test('testing useEffect is changing aria-label and aria-live when success with discounts populated',  async () => {
-        getTermMock.mockReturnValueOnce(data.getTerm).mockReturnValueOnce('discount_code_successfully_applied');
+        getTermMock
+            .mockReturnValueOnce(data.getTerm)
+            .mockReturnValueOnce('apply_discount_code_button')
+            .mockReturnValueOnce('discount_code_successfully_applied');
         useGetDiscountsMock.mockReturnValueOnce(discounts);
         const discountPill = createPill();
         mockDispatch
@@ -235,15 +238,15 @@ describe('Testing hook useSummaryDiscountCode', () => {
         } as unknown as React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
         expect(hookResult.ariaLabel).toBe('discount_code_successfully_applied');
-        expect(hookResult.ariaLive).toBe('polite');
+        expect(hookResult.ariaLive).toBe('assertive');
 
         await act(async () => {
             await hookResult.addDiscount(event);
             jest.runAllTimers();
         });
 
-        expect(result.current.ariaLabel).toBe('');
-        expect(result.current.ariaLive).toBe('');
+        expect(result.current.ariaLabel).toBe('apply_discount_code_button');
+        expect(result.current.ariaLive).toBe('polite');
 
         jest.useRealTimers();
     });
