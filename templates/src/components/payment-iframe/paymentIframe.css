@@ -550,6 +550,12 @@
     padding: 0 10px;
 }
 
+@media only screen and (max-width: 499px) {
+    #iframe-payment-gateway .Field--GiftCardCVV, .Field--CreditCardExpiration {
+        padding: 10px 0;
+    }
+}
+
 #iframe-payment-gateway .Action--GiftCardValidate {
     flex: none;
 }
