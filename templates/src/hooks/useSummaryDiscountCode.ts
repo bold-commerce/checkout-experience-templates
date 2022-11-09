@@ -23,23 +23,24 @@ export function useSummaryDiscountCode(): ISummaryDiscountCode {
     const isLoading = useGetIsLoading();
     const dispatch = useDispatch();
     const discountCodeInputText = getTerm('discount_code', Constants.SUMMARY_INFO);
+    const applyDiscountCodeButtonTest = getTerm('apply_discount_code_button', Constants.SUMMARY_INFO);
     const ariaLabelText = getTerm('discount_code_successfully_applied', Constants.SUMMARY_INFO);
-    const [ariaLabel, setAriaLabel] = useState('');
-    const [ariaLive, setAriaLive] = useState('');
+    const [ariaLabel, setAriaLabel] = useState(applyDiscountCodeButtonTest);
+    const [ariaLive, setAriaLive] = useState(Constants.ARIA_LIVE_POLITE);
 
     const buttonDisabled = discountCodeText === '' || buttonLoading || isLoading;
     useEffect(() => {
         if (Array.isArray(discounts) && discounts.length > 0) {
             setAriaLabel(ariaLabelText);
-            setAriaLive(Constants.ARIA_LIVE_POLITE);
+            setAriaLive(Constants.ARIA_LIVE_ASSERTIVE);
             const clearAriaFields = setTimeout(() => {
-                setAriaLabel('');
-                setAriaLive('');
+                setAriaLabel(applyDiscountCodeButtonTest);
+                setAriaLive(Constants.ARIA_LIVE_POLITE);
             }, HIDE_MESSAGE);
             return () => {
                 clearTimeout(clearAriaFields);
-                setAriaLabel('');
-                setAriaLive('');
+                setAriaLabel(applyDiscountCodeButtonTest);
+                setAriaLive(Constants.ARIA_LIVE_POLITE);
             };
         }
     }, [discounts]);

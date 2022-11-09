@@ -61,6 +61,7 @@ export class Constants {
     static BUY_NOW_ROUTE = 'buy_now';
     static DEFAULT_TITLE = 'default title';
     static ARIA_LIVE_POLITE = 'polite';
+    static ARIA_LIVE_ASSERTIVE = 'assertive';
 }
 
 export const errorTypes: IErrorTypes = {
