@@ -36,7 +36,7 @@ export function FieldSelect(props: IFieldSelectProps): React.ReactElement {
                 value={props.value}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
-                ariaLive="assertive"
+                ariaLive="polite"
                 messageType={props.errorMessage ? 'alert' : ''}
                 messageText={props.errorMessage ? props.errorMessage : ''}
                 disabled={isLoading}
