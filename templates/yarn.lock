@@ -329,9 +329,9 @@
   integrity sha512-uyyR0pxjSghD8lKBSpEZ/Svw1Cl9nvhmoGv8zfoWFTJn5l46FVX5Zgd2iGK1y+yX8c3SIRp5CiwoNBj7IOZFxQ==
 
 "@boldcommerce/stacks-ui@^1.1.1":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@boldcommerce/stacks-ui/-/stacks-ui-1.4.0.tgz#ec128443e3f94b5da88172e3573f75a2aad156af"
-  integrity sha512-IN/3/zF4+CNBxc7+7jC+f2xP+ko4yQMEBr4jo/Y8gEDtUQ/2kp6RpEpCPnYyzeYu4kK27Xw42x4joM7WpvLAHg==
+  version "1.4.1"
+  resolved "https://npm.boldapps.net/@boldcommerce%2fstacks-ui/-/stacks-ui-1.4.1.tgz#6a7ebe1084f6f20d0014b284ce62bec509a488fb"
+  integrity sha512-oogXkjwJEldBjl6qoj+aDHz56Fc9xFmDu/wRJkrSOxJvK3fa3R9rzVG3IVzEyd5p0j3h2PlAUD1OW0z7rFyd+g==
   dependencies:
     prop-types-extra "^1.1.1"
 
@@ -3580,7 +3580,7 @@ jest@^27.4.7:
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
-  resolved "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz"
+  resolved "https://npm.boldapps.net/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
 js-yaml@^3.13.1:
@@ -4348,7 +4348,7 @@ prompts@^2.0.1:
 
 prop-types-extra@^1.1.1:
   version "1.1.1"
-  resolved "https://registry.npmjs.org/prop-types-extra/-/prop-types-extra-1.1.1.tgz"
+  resolved "https://npm.boldapps.net/prop-types-extra/-/prop-types-extra-1.1.1.tgz#58c3b74cbfbb95d304625975aa2f0848329a010b"
   integrity sha512-59+AHNnHYCdiC+vMwY52WmvP5dM3QLeoumYuEyceQDi9aEhtwN9zIQ2ZNo25sMyXnbh32h+P1ezDsUpUH3JAew==
   dependencies:
     react-is "^16.3.2"
@@ -5508,7 +5508,7 @@ walker@^1.0.7:
 
 warning@^4.0.0:
   version "4.0.3"
-  resolved "https://registry.npmjs.org/warning/-/warning-4.0.3.tgz"
+  resolved "https://npm.boldapps.net/warning/-/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
   integrity sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==
   dependencies:
     loose-envify "^1.0.0"

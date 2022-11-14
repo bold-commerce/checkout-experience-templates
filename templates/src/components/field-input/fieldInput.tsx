@@ -15,7 +15,7 @@ export function FieldInput(props: IFieldInputProps): React.ReactElement {
     return (
         <div className={cssClass} data-testid='input-field__container'>
             <InputField
-                ariaLive="assertive"
+                ariaLive="polite"
                 type={props.type}
                 data-testid='input-field'
                 className={'input-field'}
