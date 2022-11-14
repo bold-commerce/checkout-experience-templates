@@ -79,6 +79,7 @@
     border: 0;
     background-color: inherit;
     box-shadow: none;
+    display: none;
 }
 
 .summary__cart--expand {
@@ -132,6 +133,13 @@
     }
 
     .summary__cart-price {
+        display: block;
+    }
+
+    .summary__cart-icon,
+    .summary__cart-icon:hover,
+    .summary__cart-icon:active,
+    .summary__cart-icon:focus {
         display: block;
     }
 }
