@@ -1,7 +1,7 @@
 import React from 'react';
 import {IAddressFieldInputProps} from 'src/types';
 import {FieldInput} from 'src/components';
-import {useGetAddressFieldInputData} from 'src/hooks/useGetAddressFieldInputData';
+import {useGetAddressFieldInputData} from 'src/hooks';
 
 export function AddressFieldInput(props: IAddressFieldInputProps): React.ReactElement {
 
