@@ -27,13 +27,15 @@ export function useGetAddressCountryInputData(type: string, debounceApiCall: () 
     } else {
         errorMessage = undefined;
     }
-    if (countryName === '' && countriesList && countriesList.length > 0) {
-        countryName = countriesList[0].name;
-        dispatch(actionUpdateAddressField(Constants.ADDRESS_COUNTRY, countryName, type ));
-    }
-    if (value === '' && countriesList && countriesList.length > 0) {
-        value = countriesList[0].iso_code;
-        dispatch(actionUpdateAddressField(Constants.ADDRESS_COUNTRY_CODE, value, type ));
+    if (!callApiAtOnEvents) {
+        if (countryName === '' && countriesList && countriesList.length > 0) {
+            countryName = countriesList[0].name;
+            dispatch(actionUpdateAddressField(Constants.ADDRESS_COUNTRY, countryName, type));
+        }
+        if (value === '' && countriesList && countriesList.length > 0) {
+            value = countriesList[0].iso_code;
+            dispatch(actionUpdateAddressField(Constants.ADDRESS_COUNTRY_CODE, value, type));
+        }
     }
 
     const handleChange = useCallback(e => {
