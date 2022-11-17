@@ -4,7 +4,7 @@ import {IFrontEndEvent, IUseCustomerPageProp} from 'src/types';
 import React from 'react';
 import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
-import {useGetShopUrlFromShopAlias, useScrollToElementOnNavigation, useSendEvent} from 'src/hooks';
+import {useGetShopUrlFromShopAlias, useScreenBreakpoints, useScrollToElementOnNavigation, useSendEvent} from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {HelmetProvider} from 'react-helmet-async';
 import {OutOfStockPage} from 'src/pages';
@@ -15,6 +15,11 @@ const store = {
     appSetting: {autocompleteService: 'test'},
     errors: [],
     isLoading: []
+};
+const mockScreenBreakpoints = {
+    isMobile: false,
+    isTablet: true,
+    isDesktop: false
 };
 const mockDispatch = jest.fn();
 
@@ -27,7 +32,9 @@ jest.mock('src/themes/three-page/hooks/useCustomerPage');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useScrollToElementOnNavigation');
 jest.mock('src/hooks/useSendEvent');
+jest.mock('src/hooks/useScreenBreakpoints');
 mocked(useScrollToElementOnNavigation, true);
+const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useCustomerPageMock = mocked(useCustomerPage, true);
 const useSendEventMock = mocked(useSendEvent, true);
@@ -47,6 +54,7 @@ describe('testing CustomerPage', () => {
         jest.clearAllMocks();
         useCustomerPageMock.mockReturnValue(props);
         useGetShopUrlFromShopAliasMock.mockReturnValue(shopURL);
+        useScreenBreakpointsMock.mockReturnValue(mockScreenBreakpoints);
         addEventListenerSpy = jest.spyOn(global, 'addEventListener');
 
         window.publicOrderId = 'pubOrderIDMultiEvent';
@@ -57,6 +65,19 @@ describe('testing CustomerPage', () => {
     });
 
     test('Rendering customerPage properly', () => {
+        const context = {};
+        HelmetProvider.canUseDOM = false;
+        const {container} = render(<HelmetProvider context={context}><CustomerPage/></HelmetProvider>);
+        global.dispatchEvent(new Event('load'));
+        expect(useSendEventMock).toHaveBeenCalled();
+        expect(addEventListenerSpy).toHaveBeenCalled();
+        expect(container.getElementsByClassName('three-page').length).toBe(1);
+        expect(container.getElementsByClassName('customer-section').length).toBe(1);
+        expect(container.getElementsByClassName('website-title').length).toBe(2);
+    });
+
+    test('Rendering customerPage properly when page innerWidth <= 767px', () => {
+        useScreenBreakpointsMock.mockReturnValue({...mockScreenBreakpoints, isMobile: true});
         const context = {};
         HelmetProvider.canUseDOM = false;
         const {container} = render(<HelmetProvider context={context}><CustomerPage/></HelmetProvider>);

@@ -76,6 +76,7 @@ export * from './useLogin';
 export * from './useOnLoadValidateCustomer';
 export * from './useOnLoadValidateCustomerAndShipping';
 export * from './useRemoveAllFlashErrors';
+export * from './useScreenBreakpoints';
 export * from './useScreenWidth';
 export * from './useScrollToElementOnNavigation';
 export * from './useSendEvent';

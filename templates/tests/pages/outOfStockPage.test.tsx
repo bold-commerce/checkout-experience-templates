@@ -7,6 +7,7 @@ import {
     useGetFooterRights,
     useGetOutOfStock,
     useGetShopUrlFromShopAlias,
+    useScreenBreakpoints,
     useSupportedLanguages
 } from 'src/hooks';
 import {OutOfStockPage} from 'src/pages';
@@ -21,6 +22,8 @@ jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/utils/getTerm');
+jest.mock('src/hooks/useScreenBreakpoints');
+const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetOutOfStockMock = mocked(useGetOutOfStock, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
 const useGetFooterRightsMock = mocked(useGetFooterRights, true);
@@ -47,8 +50,14 @@ describe('testing OutOfStockPage', () => {
         shopAlias: 'shop.test',
         footerRights: 'All rights reserved',
     };
+    const mockScreenBreakpoints = {
+        isMobile: false,
+        isTablet: true,
+        isDesktop: false
+    };
 
     beforeEach(() => {
+        useScreenBreakpointsMock.mockReturnValue(mockScreenBreakpoints);
         useGetOutOfStockMock.mockReturnValue(hookReturn);
         useGetContactUsMock.mockReturnValue(contactUsHookReturn);
         useGetFooterRightsMock.mockReturnValue(footerRightsHookReturn);

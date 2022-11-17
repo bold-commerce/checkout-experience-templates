@@ -11,11 +11,12 @@ import {
     ExpressPaymentGateway,
     HeaderHelmet
 } from 'src/components';
-import {useBeforeUnload, useScrollToElementOnNavigation, useSendEvent} from 'src/hooks';
+import {useBeforeUnload, useScreenBreakpoints, useScrollToElementOnNavigation, useSendEvent} from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
 
 export function CustomerPage(): React.ReactElement {
+    const {isMobile} = useScreenBreakpoints();
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading, title} = useCustomerPage();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
@@ -35,11 +36,13 @@ export function CustomerPage(): React.ReactElement {
         sendEvents('Checkout', 'Landed on customer information page');
     }, []);
 
+
     return (
         <div className={'checkout-experience-container'}>
             <HeaderHelmet title={title}/>
             <div className={'three-page'}>
                 <Header isMobile={true}/>
+                {isMobile && <SummarySection orderCompleted={false}/>}
                 <div className='customer-section' >
                     <Header isMobile={false}/>
                     <Breadcrumbs active={active}/>
@@ -57,7 +60,7 @@ export function CustomerPage(): React.ReactElement {
                         nextButtonLoading={nextButtonLoading}
                     />
                 </div>
-                <SummarySection orderCompleted={false}/>
+                {!isMobile && <SummarySection orderCompleted={false}/>}
             </div>
         </div>
     );

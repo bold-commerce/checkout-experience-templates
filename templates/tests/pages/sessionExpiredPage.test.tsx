@@ -7,7 +7,7 @@ import {
     useGetContactUs,
     useGetFooterRights,
     useGetSessionExpired,
-    useGetShopUrlFromShopAlias,
+    useGetShopUrlFromShopAlias, useScreenWidth,
     useSupportedLanguages
 } from 'src/hooks';
 import {IUseContactUs, IUseFooterRights, IUseSessionExpired} from 'src/types';
@@ -21,6 +21,8 @@ jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/utils/getTerm');
+jest.mock('src/hooks/useScreenWidth');
+const useScreenWidthMock = mocked(useScreenWidth, true);
 const useGetSessionExpiredMock = mocked(useGetSessionExpired, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
 const useGetFooterRightsMock = mocked(useGetFooterRights, true);
@@ -49,6 +51,7 @@ describe('testing SessionExpiredPage', () => {
     };
 
     beforeEach(() => {
+        useScreenWidthMock.mockReturnValue(1024);
         useGetSessionExpiredMock.mockReturnValue(hookReturn);
         useGetContactUsMock.mockReturnValue(contactUsHookReturn);
         useGetFooterRightsMock.mockReturnValue(footerRightsHookReturn);
