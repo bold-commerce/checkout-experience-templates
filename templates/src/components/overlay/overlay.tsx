@@ -35,10 +35,10 @@ export function Overlay(props: IOverlayProps): React.ReactElement {
             }
             <div className={'overlay__message'}>
                 <i data-testid='overlay-icon'  className={cssClassIcon}>{overlay.icon}</i>
-                <h1 className={'overlay__header'}>{overlay.header}</h1>
+                <h1 className={'overlay__header'} aria-live={overlay.shown ? 'polite' : 'off'}>{overlay.header}</h1>
                 <h2 className={'overlay__subheader'}>{overlay.subHeader}</h2>
                 <div className={'overlay__content'}>
-                    <span className={'overlay__content-span'}>{overlay.content}</span>
+                    <span className={'overlay__content-span'} aria-live={overlay.shown ? 'polite' : 'off'}>{overlay.content}</span>
                 </div>
                 <div data-testid='overlay-button' className={'overlay__button-container'} ><Button className={cssClassButton} href={link} size='large'>{overlay.buttonText}</Button></div>
             </div>

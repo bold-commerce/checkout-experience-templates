@@ -1,7 +1,7 @@
 import ClassNames from 'classnames';
 import React, {useEffect} from 'react';
 
-import {Header, HeaderHelmet, SummarySection, ThankYou} from 'src/components';
+import {Header, HeaderHelmet, ScreenReaderAnnouncement, SummarySection, ThankYou} from 'src/components';
 import {
     useGetBillingData,
     useGetCustomerInfoData,
@@ -33,6 +33,7 @@ export function ThankYouPage(): React.ReactElement {
     return (
         <>
             <HeaderHelmet title={title}/>
+            <ScreenReaderAnnouncement content={title} />
             <div className={'checkout-experience-container'}>
                 <div className={isGeneric ? getClasses('no-summary') : getClasses()}>
                     <Header isMobile={true} />

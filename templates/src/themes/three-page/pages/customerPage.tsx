@@ -9,7 +9,8 @@ import {
     FlashError,
     Header,
     ExpressPaymentGateway,
-    HeaderHelmet
+    HeaderHelmet,
+    ScreenReaderAnnouncement
 } from 'src/components';
 import {useBeforeUnload, useScreenBreakpoints, useScrollToElementOnNavigation, useSendEvent} from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
@@ -40,6 +41,7 @@ export function CustomerPage(): React.ReactElement {
     return (
         <div className={'checkout-experience-container'}>
             <HeaderHelmet title={title}/>
+            <ScreenReaderAnnouncement content={title || ''} />
             <div className={'three-page'}>
                 <Header isMobile={true}/>
                 {isMobile && <SummarySection orderCompleted={false}/>}

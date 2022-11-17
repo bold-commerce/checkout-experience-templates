@@ -43,8 +43,7 @@ describe('Testing Overlay component', () => {
     });
 
     test('check the overlay ID on basis of inverted = true', () => {
-        const props = {...overlay};
-        props.inverted = true;
+        const props = {...overlay, inverted: true};
         useGetOverlayMock.mockReturnValueOnce(props);
         render(<Overlay />);
         const element = screen.getByTestId('overlay-div');
@@ -52,8 +51,7 @@ describe('Testing Overlay component', () => {
     });
 
     test('Should not render if the shown parameter is false', () => {
-        const props = {...overlay};
-        props.shown = false;
+        const props = {...overlay, shown: false};
         useGetOverlayMock.mockReturnValueOnce(props);
         render(<Overlay />);
         const element = screen.getByTestId('overlay-div');
@@ -61,8 +59,7 @@ describe('Testing Overlay component', () => {
     });
 
     test('Should not render the button if the inverted is true', () => {
-        const props = {...overlay};
-        props.inverted = true;
+        const props = {...overlay, inverted: true};
         useGetOverlayMock.mockReturnValueOnce(props);
         render(<Overlay />);
         const element = screen.getByTestId('overlay-button');
@@ -70,8 +67,7 @@ describe('Testing Overlay component', () => {
     });
 
     test('check the icon when inverted = true', () => {
-        const props = {...overlay};
-        props.inverted = true;
+        const props = {...overlay, inverted: true};
         useGetOverlayMock.mockReturnValueOnce(props);
         render(<Overlay />);
         const element = screen.getByTestId('overlay-icon');
@@ -80,8 +76,7 @@ describe('Testing Overlay component', () => {
     });
 
     test('check the icon when inverted = false', () => {
-        const props = {...overlay};
-        props.inverted = false;
+        const props = {...overlay, inverted: false};
         useGetOverlayMock.mockReturnValueOnce(props);
         render(<Overlay />);
         const element = screen.getByTestId('overlay-icon');
@@ -90,8 +85,7 @@ describe('Testing Overlay component', () => {
     });
 
     test('Render the Overlay with custom content', () => {
-        const props = {...overlay};
-        props.showCustomContent = true;
+        const props = {...overlay, showCustomContent: true};
         useGetOverlayMock.mockReturnValue(props);
         const {container} = render(<Overlay><div className="customContent"/></Overlay>);
         expect(container.getElementsByClassName('customContent').length).toBe(1);
@@ -102,4 +96,25 @@ describe('Testing Overlay component', () => {
         expect(container.getElementsByClassName('overlay__content-span').length).toBe(1);
     });
 
+    test.each([
+        ['overlay__header'],
+        ['overlay__content-span'],
+    ])('When overlay is shown, aria-live for %s is "polite"', (elementClassName) => {
+        const props = {...overlay, showCustomContent: true};
+        useGetOverlayMock.mockReturnValue(props);
+        const {container} = render(<Overlay><div className="customContent"/></Overlay>);
+        expect(container.getElementsByClassName(elementClassName)[0]?.getAttribute('aria-live'))
+            .toBe('polite');
+    });
+
+    test.each([
+        ['overlay__header'],
+        ['overlay__content-span'],
+    ])('When overlay is not shown, aria-live for %s is "off"', (elementClassName) => {
+        const props = {...overlay, shown: false, showCustomContent: true};
+        useGetOverlayMock.mockReturnValue(props);
+        const {container} = render(<Overlay><div className="customContent"/></Overlay>);
+        expect(container.getElementsByClassName(elementClassName)[0]?.getAttribute('aria-live'))
+            .toBe('off');
+    });
 });

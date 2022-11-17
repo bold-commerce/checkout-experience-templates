@@ -4,6 +4,7 @@ import {
     FlashError,
     Footer, Header,
     HeaderHelmet,
+    ScreenReaderAnnouncement,
     ShippingLines,
     SummarySection,
 } from 'src/components';
@@ -28,6 +29,7 @@ export function ShippingLinesPage(): React.ReactElement {
     return (
         <div className={'checkout-experience-container'}>
             <HeaderHelmet title={title}/>
+            <ScreenReaderAnnouncement content={title || ''} />
             <div className={'three-page'}>
                 <Header isMobile={true} />
                 <div className='customer-section' >
