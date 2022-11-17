@@ -1,7 +1,7 @@
 import ClassNames from 'classnames';
 import React, {useEffect} from 'react';
 
-import {Header, HeaderHelmet, OutOfStock} from 'src/components';
+import {Header, HeaderHelmet, OutOfStock, ScreenReaderAnnouncement} from 'src/components';
 import {sendEvents, sendPageView} from 'src/analytics';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
@@ -15,6 +15,7 @@ export function OutOfStockPage(): React.ReactElement {
     return (
         <div className={'checkout-experience-container'}>
             <HeaderHelmet title={title}/>
+            <ScreenReaderAnnouncement content={title} />
             <div className={ClassNames(['three-page', 'no-summary'])}>
                 <Header isMobile={true} />
                 <OutOfStock/>

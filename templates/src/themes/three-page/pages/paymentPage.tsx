@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Breadcrumbs, Footer, Payment, SummarySection, FlashError, Header, HeaderHelmet} from 'src/components';
+import {Breadcrumbs, Footer, Payment, SummarySection, FlashError, Header, HeaderHelmet, ScreenReaderAnnouncement} from 'src/components';
 import {
     useBeforeUnload,
     useOnLoadValidateCustomerAndShipping,
@@ -21,6 +21,7 @@ export function PaymentPage(): React.ReactElement {
     return (
         <div className={'checkout-experience-container'}>
             <HeaderHelmet title={title}/>
+            <ScreenReaderAnnouncement content={title || ''} />
             <div className={'three-page'}>
                 <Header isMobile={true} />
                 <div className='customer-section' >

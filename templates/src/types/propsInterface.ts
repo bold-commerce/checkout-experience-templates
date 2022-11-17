@@ -16,6 +16,7 @@ import {
     IProvince,
     IFees
 } from '@bold-commerce/checkout-frontend-library';
+import { Constants } from 'src/constants';
 
 export interface IAddressProps {
     title: string;
@@ -547,4 +548,9 @@ export interface IPaymentProps {
 
 export interface IHeaderHelmet{
     title?: string;
+}
+
+export interface IScreenReaderAnnouncementProps {
+    content: string
+    assertiveness?: typeof Constants.ARIA_LIVE_ASSERTIVE | typeof Constants.ARIA_LIVE_POLITE
 }
