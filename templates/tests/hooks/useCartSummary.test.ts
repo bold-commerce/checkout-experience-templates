@@ -1,22 +1,28 @@
 import {stateMock} from 'src/mocks';
 import {renderHook} from '@testing-library/react-hooks';
-import {useScreenWidth, useGetLineItems, useCartSummary} from 'src/hooks';
+import {useScreenBreakpoints, useGetLineItems, useCartSummary} from 'src/hooks';
 import {getTotalLineItems} from 'src/utils';
 import {mocked} from 'jest-mock';
 import {act} from '@testing-library/react';
+import {IUseScreenBreakpoints} from 'src/types';
 
-jest.mock('src/hooks/useScreenWidth');
+jest.mock('src/hooks/useScreenBreakpoints');
 jest.mock('src/hooks/useGetLineItems');
 jest.mock('src/utils/getTotalLineItems');
-const useScreenWidthMock = mocked(useScreenWidth, true);
+const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetLineItemsMock = mocked(useGetLineItems, true);
 const getTotalLineItemsMock = mocked(getTotalLineItems, true);
+const mockUseScreenBreakpoints: IUseScreenBreakpoints = {
+    isMobile: true,
+    isTablet: false,
+    isDesktop: false
+};
 
 describe('Testing hook useCartSummary', () => {
 
     test('rendering the hook properly with wide screen', () => {
 
-        useScreenWidthMock.mockReturnValueOnce(900);
+        useScreenBreakpointsMock.mockReturnValueOnce({...mockUseScreenBreakpoints, isMobile: false, isTablet: true});
         useGetLineItemsMock.mockReturnValueOnce(stateMock.data.application_state.line_items);
         getTotalLineItemsMock.mockReturnValueOnce(200);
         const {result} = renderHook(() => useCartSummary());
@@ -31,7 +37,7 @@ describe('Testing hook useCartSummary', () => {
 
     test('rendering the hook properly with small screen', () => {
 
-        useScreenWidthMock.mockReturnValueOnce(500);
+        useScreenBreakpointsMock.mockReturnValueOnce(mockUseScreenBreakpoints);
         useGetLineItemsMock.mockReturnValueOnce(stateMock.data.application_state.line_items);
         getTotalLineItemsMock.mockReturnValueOnce(200);
         const {result} = renderHook(() => useCartSummary());
@@ -46,7 +52,7 @@ describe('Testing hook useCartSummary', () => {
 
     test('calling action callback', () => {
 
-        useScreenWidthMock.mockReturnValueOnce(500);
+        useScreenBreakpointsMock.mockReturnValue(mockUseScreenBreakpoints);
         useGetLineItemsMock.mockReturnValueOnce(stateMock.data.application_state.line_items);
         getTotalLineItemsMock.mockReturnValueOnce(200);
         const {result, rerender}  = renderHook(() => useCartSummary());

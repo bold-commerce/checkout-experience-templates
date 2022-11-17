@@ -10,7 +10,8 @@ import {
     useGetShopUrlFromShopAlias,
     useSupportedLanguages,
     useGetValidVariable,
-    useGetAppSettingData
+    useGetAppSettingData,
+    useScreenBreakpoints
 } from 'src/hooks';
 import {addressMock, stateMock} from 'src/mocks';
 import {ThankYouPage} from 'src/pages';
@@ -27,6 +28,8 @@ jest.mock('src/hooks/useSendEvent');
 jest.mock('src/hooks/useGetValidVariable');
 jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/utils/getTerm');
+jest.mock('src/hooks/useScreenBreakpoints');
+const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useGetCustomerInfoDataMock = mocked(useGetCustomerInfoData, true);
@@ -38,6 +41,11 @@ const getTermMock = mocked(getTerm, true);
 
 const store = Store.initializeStore();
 const context = {};
+const mockScreenBreakpoints = {
+    isMobile: false,
+    isTablet: true,
+    isDesktop: false
+};
 HelmetProvider.canUseDOM = false;
 const component =
     <Provider store={store}>
@@ -50,6 +58,7 @@ describe('testing ThankYouPage', () => {
 
     beforeEach(() => {
         jest.resetAllMocks();
+        useScreenBreakpointsMock.mockReturnValue(mockScreenBreakpoints);
         useSupportedLanguagesMock.mockReturnValue({languagesOptions: [], value: '', handleChange: jest.fn()});
         useGetShopUrlFromShopAliasMock.mockReturnValue('https://google.com');
         useGetValidVariableMock.mockReturnValue(true);

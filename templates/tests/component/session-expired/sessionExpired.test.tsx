@@ -7,15 +7,18 @@ import {
     useGetFooterRights,
     useGetSessionExpired,
     useGetShopUrlFromShopAlias,
+    useScreenBreakpoints,
     useSupportedLanguages
 } from 'src/hooks';
-import {IUseContactUs, IUseFooterRights, IUseSessionExpired} from 'src/types';
+import {IUseContactUs, IUseFooterRights, IUseScreenBreakpoints, IUseSessionExpired} from 'src/types';
 
 jest.mock('src/hooks/useGetSessionExpired');
 jest.mock('src/hooks/useGetContactUs');
 jest.mock('src/hooks/useGetFooterRights');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
+jest.mock('src/hooks/useScreenBreakpoints');
+const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetSessionExpiredMock = mocked(useGetSessionExpired, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
 const useGetFooterRightsMock = mocked(useGetFooterRights, true);
@@ -40,8 +43,14 @@ describe('testing SessionExpired component', () => {
         shopAlias: 'shop.test',
         footerRights: 'All rights reserved',
     };
+    const mockScreenBreakpoints: IUseScreenBreakpoints = {
+        isMobile: false,
+        isTablet: true,
+        isDesktop: false
+    };
 
     beforeEach(() => {
+        useScreenBreakpointsMock.mockReturnValue(mockScreenBreakpoints);
         useGetSessionExpiredMock.mockReturnValue(hookReturn);
         useGetContactUsMock.mockReturnValue(contactUsHookReturn);
         useGetFooterRightsMock.mockReturnValue(footerRightsHookReturn);

@@ -10,10 +10,11 @@ import {
     useGetShopUrlFromShopAlias,
     useGetThankYou,
     useSupportedLanguages,
-    useSendEvent
+    useSendEvent,
+    useScreenBreakpoints
 } from 'src/hooks';
 import {addressMock, initialDataMock} from 'src/mocks';
-import {IUseContactUs, IUseFooterRights, IUseGetOrderRecap, IUseGetThankYou} from 'src/types';
+import {IUseContactUs, IUseFooterRights, IUseGetOrderRecap, IUseGetThankYou, IUseScreenBreakpoints} from 'src/types';
 
 jest.mock('src/hooks/useGetThankYou');
 jest.mock('src/hooks/useGetDisplayPaymentMethods');
@@ -23,6 +24,8 @@ jest.mock('src/hooks/useGetOrderRecap');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useSendEvent');
+jest.mock('src/hooks/useScreenBreakpoints');
+const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetThankYouMock = mocked(useGetThankYou, true);
 const useGetDisplayPaymentMethodsMock = mocked(useGetDisplayPaymentMethods, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
@@ -69,9 +72,15 @@ describe('testing ThankYou component', () => {
         },
         isGeneric: false
     };
+    const mockScreenBreakpoints: IUseScreenBreakpoints = {
+        isMobile: false,
+        isTablet: true,
+        isDesktop: false
+    };
 
     beforeEach(() => {
         jest.clearAllMocks();
+        useScreenBreakpointsMock.mockReturnValue(mockScreenBreakpoints);
         useGetThankYouMock.mockReturnValue(propMock);
         useGetContactUsMock.mockReturnValue(contactUsHookReturn);
         useGetFooterRightsMock.mockReturnValue(footerRightsHookReturn);

@@ -372,6 +372,12 @@ export interface IUseGetThankYou {
     isGeneric: boolean;
 }
 
+export interface IUseScreenBreakpoints {
+    isMobile: boolean;
+    isTablet: boolean;
+    isDesktop: boolean;
+}
+
 export interface IUseGetCartItem {
     quantity: number;
     incrementQuantity: (e) => void;

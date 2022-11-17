@@ -7,15 +7,18 @@ import {
     useGetFooterRights,
     useGetOutOfStock,
     useGetShopUrlFromShopAlias,
+    useScreenBreakpoints,
     useSupportedLanguages
 } from 'src/hooks';
-import {IUseContactUs, IUseFooterRights, IUseOutOfStock} from 'src/types';
+import {IUseContactUs, IUseFooterRights, IUseOutOfStock, IUseScreenBreakpoints} from 'src/types';
 
 jest.mock('src/hooks/useGetOutOfStock');
 jest.mock('src/hooks/useGetContactUs');
 jest.mock('src/hooks/useGetFooterRights');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
+jest.mock('src/hooks/useScreenBreakpoints');
+const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetOutOfStockMock = mocked(useGetOutOfStock, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
 const useGetFooterRightsMock = mocked(useGetFooterRights, true);
@@ -40,8 +43,14 @@ describe('Testing OutOfStock component', () => {
         returnUrl: jest.fn(),
         terms: terms,
     };
+    const mockScreenBreakpoints: IUseScreenBreakpoints = {
+        isMobile: false,
+        isTablet: true,
+        isDesktop: false
+    };
 
     beforeEach(() => {
+        useScreenBreakpointsMock.mockReturnValue(mockScreenBreakpoints);
         useGetOutOfStockMock.mockReturnValue(hookReturn);
         useGetContactUsMock.mockReturnValue(contactUsHookReturn);
         useGetFooterRightsMock.mockReturnValue(footerRightsHookReturn);

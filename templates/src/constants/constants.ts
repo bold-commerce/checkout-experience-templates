@@ -164,3 +164,7 @@ export class PlatformTypeConstants {
     static SHOPIFY = 'shopify';
     static WOO_COMMERCE = 'woocommerce';
 }
+
+export const MOBILE_SCREEN_WIDTH = 768;
+export const TABLET_SCREEN_WIDTH = 1200;
+
