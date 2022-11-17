@@ -49,5 +49,6 @@
 @import '../src/components/text-with-center-line/textWithCenterLine.css';
 @import '../src/components/thank-you/thankYou.css';
 @import '../src/components/title/title.css';
+@import '../src/components/screen-reader-announcement/screenReaderAnnouncement.css';
 
 @import '~@bold-commerce/checkout-express-pay-library/lib/style.css';
