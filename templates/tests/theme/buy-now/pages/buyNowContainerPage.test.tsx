@@ -1,19 +1,19 @@
-import {render} from '@testing-library/react';
-import {mocked} from 'jest-mock';
-import {BuyNowContainerPage} from 'src/themes/buy-now/pages';
-import {useBuyNowContainerPage} from 'src/themes/buy-now/hooks';
+import { render } from '@testing-library/react';
+import { mocked } from 'jest-mock';
+import { BuyNowContainerPage } from 'src/themes/buy-now/pages';
+import { useBuyNowContainerPage } from 'src/themes/buy-now/hooks';
 import React from 'react';
-import {IUseBuyNowContainerPage} from 'src/themes/buy-now/types';
-import {useGetFlashErrors} from 'src/hooks';
-import {IError} from 'src/types';
+import { IUseBuyNowContainerPage } from 'src/themes/buy-now/types';
+import { useGetFlashErrors } from 'src/hooks';
+import { IError } from 'src/types';
 
 jest.mock('src/hooks/useGetFlashErrors');
 jest.mock('src/themes/buy-now/hooks/useBuyNowContainerPage');
 jest.mock('src/themes/buy-now/pages', () => ({
     ...jest.requireActual('src/themes/buy-now/pages'),
-    IndexPage: () => <div className="mockIndex"/>,
-    ShippingPage: () => <div className="mockShipping"/>,
-    SummaryPage: () => <div className="mockSummary"/>
+    IndexPage: () => <div className="mockIndex" />,
+    ShippingPage: () => <div className="mockShipping" />,
+    SummaryPage: () => <div className="mockSummary" />
 }));
 jest.mock('react', () => {
     const originReact = jest.requireActual('react');
@@ -48,7 +48,7 @@ describe('testing BuyNowContainerPage', () => {
 
     test('Rendering buyNowContainerPage properly', () => {
         useGetFlashErrorsMock.mockReturnValueOnce([]);
-        const {container} = render(<BuyNowContainerPage/>);
+        const { container } = render(<BuyNowContainerPage />);
 
         expect(container.getElementsByClassName('checkout-experience-container').length).toBe(1);
         expect(container.getElementsByClassName('buy-now-container').length).toBe(1);
@@ -58,8 +58,8 @@ describe('testing BuyNowContainerPage', () => {
     });
 
     test('Render buyNowContainerPage with flash errors', () => {
-        useGetFlashErrorsMock.mockReturnValueOnce([{message: 'error', error: error}, {message: 'error-2', error: error}]);
-        render(<BuyNowContainerPage/>);
+        useGetFlashErrorsMock.mockReturnValueOnce([{ message: 'error', error: error }, { message: 'error-2', error: error }]);
+        render(<BuyNowContainerPage />);
 
         expect(props.navigateTo).toHaveBeenCalledTimes(1);
     });

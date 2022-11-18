@@ -1,6 +1,6 @@
 import { CSSProperties, Dispatch, RefObject, SetStateAction } from 'react';
 import { Options as FocusTrapOptions } from 'focus-trap';
-export interface IUseModal{
+export interface IUseModal {
     isOpen: boolean;
 }
 
@@ -22,14 +22,14 @@ export interface IModalProps {
 }
 
 export interface IUseBuyNowContainerPage {
-    openSection: string, 
-    navigateTo: (page) => void, 
-    containerStyle: CSSProperties, 
+    openSection: string,
+    navigateTo: (page) => void,
+    containerStyle: CSSProperties,
 }
 
 export interface IUseBuyNowContainerPageProps {
-    indexRef: RefObject<HTMLElement>, 
-    shippingRef: RefObject<HTMLElement>, 
+    indexRef: RefObject<HTMLElement>,
+    shippingRef: RefObject<HTMLElement>,
     summaryRef: RefObject<HTMLElement>
 }
 
@@ -41,7 +41,8 @@ export interface IBuyNowContainerPageProps {
 export interface IUseGetCloseBuyNow {
     closeBuyNow: () => void;
     websiteName: string;
-    terms: Record<string, string>; 
+    terms: Record<string, string>;
+    loginUrl: (event) => void;
 }
 
 export interface IUseCheckShippingAddress {

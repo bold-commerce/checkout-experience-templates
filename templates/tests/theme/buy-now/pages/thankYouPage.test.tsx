@@ -5,13 +5,13 @@ import { initialDataMock } from 'src/mocks';
 import { mocked } from 'jest-mock';
 import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
 import { IUseFocusTrap, IUseGetCloseBuyNow } from 'src/themes/buy-now/types';
-import {sendPageView, sendEvents} from 'src/analytics/analytics';
+import { sendPageView, sendEvents } from 'src/analytics/analytics';
 import { useFocusTrap } from 'src/themes/buy-now/hooks/useFocusTrap';
 
 const store = {
     data: initialDataMock,
-    appSetting: {autocompleteService: 'test'},
-    isValid: {orderProcessed: true}
+    appSetting: { autocompleteService: 'test' },
+    isValid: { orderProcessed: true }
 };
 
 jest.mock('react-redux', () => ({
@@ -31,7 +31,8 @@ describe('testing the thank you page', () => {
     const closeModalMock: IUseGetCloseBuyNow = {
         closeBuyNow: jest.fn(),
         websiteName: 'websiteName',
-        terms: {}
+        terms: {},
+        loginUrl: jest.fn(),
     };
     const focusTrapMock: IUseFocusTrap = {
         activeElement: 'thank_you',
@@ -68,7 +69,7 @@ describe('testing the thank you page', () => {
     });
 
     test('test the continue shopping button', () => {
-        render(<ThankYouPage/>);
+        render(<ThankYouPage />);
         const button = screen.getByTestId('continue-shopping');
         fireEvent.click(button);
         expect(closeModalMock.closeBuyNow).toHaveBeenCalled();

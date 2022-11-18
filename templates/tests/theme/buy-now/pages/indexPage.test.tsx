@@ -5,7 +5,7 @@ import { addressMock } from 'src/mocks';
 import { getTerm } from 'src/utils';
 import { mocked } from 'jest-mock';
 import { useGetOverlayVisible, useGetSelectShippingLine } from 'src/hooks';
-import {useIndexPage} from 'src/themes/buy-now/hooks/useIndexPage';
+import { useIndexPage } from 'src/themes/buy-now/hooks/useIndexPage';
 import { IBuyNowContainerPageProps, IUseFocusTrap } from 'src/themes/buy-now/types';
 import * as Store from 'src/store';
 import { Provider } from 'react-redux';
@@ -57,7 +57,6 @@ describe('testing IndexPage', () => {
     };
 
     const propsFromHook: IUseIndexPageProps = {
-        loginUrl: jest.fn(),
         loginText: 'login',
         orderTotal: 8888,
         lineItems: [],
@@ -79,14 +78,14 @@ describe('testing IndexPage', () => {
         useIndexPageMock.mockReturnValue(propsFromHook);
         getTermMock.mockReturnValue(getTermValue);
         useGetSelectShippingLineMock.mockReturnValue(selectShippingLineValue);
-        useCheckShippingAddressMock.mockReturnValue({isValid: true});
+        useCheckShippingAddressMock.mockReturnValue({ isValid: true });
         useGetOverlayVisibleMock.mockReturnValue(false);
     });
 
     test('Rendering visible indexPage properly', () => {
-        const {container} = render(
+        const { container } = render(
             <Provider store={store}>
-                <IndexPage {...visibleProps}/>
+                <IndexPage {...visibleProps} />
             </Provider>
         );
 
@@ -101,9 +100,9 @@ describe('testing IndexPage', () => {
     });
 
     test('Rendering hidden indexPage properly', () => {
-        const {container} = render(
+        const { container } = render(
             <Provider store={store}>
-                <IndexPage {...hiddenProps}/>
+                <IndexPage {...hiddenProps} />
             </Provider>
         );
 
@@ -118,7 +117,7 @@ describe('testing IndexPage', () => {
     });
 
     test('Rendering with shipping error', () => {
-        useCheckShippingAddressMock.mockReturnValue({isValid: false});
+        useCheckShippingAddressMock.mockReturnValue({ isValid: false });
 
         const { container, getByText } = render(
             <Provider store={store}>
@@ -139,7 +138,7 @@ describe('testing IndexPage', () => {
     test('firing click event to summary page', () => {
         render(
             <Provider store={store}>
-                <IndexPage {...visibleProps}/>
+                <IndexPage {...visibleProps} />
             </Provider>
         );
 
@@ -153,7 +152,7 @@ describe('testing IndexPage', () => {
     test('firing click event to shipping page', () => {
         render(
             <Provider store={store}>
-                <IndexPage {...visibleProps}/>
+                <IndexPage {...visibleProps} />
             </Provider>
         );
 

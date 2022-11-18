@@ -3,8 +3,8 @@ import { act } from 'react-dom/test-utils';
 import { useBuyNowContainerPage } from 'src/themes/buy-now/hooks';
 import { RefObject } from 'react';
 import { IUseBuyNowContainerPageProps } from 'src/themes/buy-now/types';
-import {mocked} from 'jest-mock';
-import {useDispatch} from 'react-redux';
+import { mocked } from 'jest-mock';
+import { useDispatch } from 'react-redux';
 import { useGetIsOrderProcessing } from 'src/hooks';
 
 jest.mock('react-redux');
@@ -36,15 +36,15 @@ describe('testing hook useBuyNowContainerPage', () => {
         mockResizeObserver.mockClear();
         document.body.style.removeProperty('--buy-now-height');
     });
-    
+
     test('render the hook properly', () => {
-        const testIndexRef = {current: {clientHeight: 100}};
+        const testIndexRef = { current: { clientHeight: 100 } };
         const props: IUseBuyNowContainerPageProps = {
             indexRef: testIndexRef as RefObject<HTMLElement>,
-            shippingRef: {current: null},
-            summaryRef: {current: null},
+            shippingRef: { current: null },
+            summaryRef: { current: null },
         };
-        
+
         const { result } = renderHook(() => useBuyNowContainerPage(props));
         const { openSection, containerStyle } = result.current;
 
@@ -54,11 +54,11 @@ describe('testing hook useBuyNowContainerPage', () => {
 
     test('calling navigateTo', () => {
         const props: IUseBuyNowContainerPageProps = {
-            indexRef: {current: {clientHeight: 100}} as RefObject<HTMLElement>,
-            shippingRef: {current: {clientHeight: 100}} as RefObject<HTMLElement>,
-            summaryRef: {current: {clientHeight: 100}} as RefObject<HTMLElement>,
+            indexRef: { current: { clientHeight: 100 } } as RefObject<HTMLElement>,
+            shippingRef: { current: { clientHeight: 100 } } as RefObject<HTMLElement>,
+            summaryRef: { current: { clientHeight: 100 } } as RefObject<HTMLElement>,
         };
-        
+
         const { result } = renderHook(() => useBuyNowContainerPage(props));
         const { openSection: firstOpenSection } = result.current;
 
@@ -79,19 +79,19 @@ describe('testing hook useBuyNowContainerPage', () => {
     });
 
     test('testing ResizeObserver', () => {
-        const testIndexRef = {current: {clientHeight: 100, parentElement: {}}};
+        const testIndexRef = { current: { clientHeight: 100, parentElement: {} } };
         const props: IUseBuyNowContainerPageProps = {
             indexRef: testIndexRef as RefObject<HTMLElement>,
-            shippingRef: {current: null},
-            summaryRef: {current: null},
+            shippingRef: { current: null },
+            summaryRef: { current: null },
         };
-        
+
         const { result } = renderHook(() => useBuyNowContainerPage(props));
         const { containerStyle: firstContainerStyle } = result.current;
         expect(document.body.style.getPropertyValue('--buy-now-height')).toBe('0px');
 
         testIndexRef.current.clientHeight = 200;
-        testIndexRef.current.parentElement = {clientHeight: 1000};
+        testIndexRef.current.parentElement = { clientHeight: 1000 };
         act(triggerResize);
         const { containerStyle: secondContainerStyle } = result.current;
 

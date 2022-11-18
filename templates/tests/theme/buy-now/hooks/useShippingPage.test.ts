@@ -16,7 +16,8 @@ describe('Testing useShippingPage hook', () => {
     const closeModalMock: IUseGetCloseBuyNow = {
         closeBuyNow: jest.fn(),
         websiteName: 'websiteName',
-        terms: {}
+        terms: {},
+        loginUrl: jest.fn()
     };
     const getTermValue = 'test term';
 

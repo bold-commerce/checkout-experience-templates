@@ -470,7 +470,6 @@ export interface INavigationHeadingProps {
 }
 
 export interface IUseIndexPageProps {
-    loginUrl: (event) => void;
     loginText: string;
     orderTotal: number;
     lineItems: Array<ILineItem>;

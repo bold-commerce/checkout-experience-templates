@@ -7,12 +7,12 @@ import { useGetCloseBuyNow, useFocusTrap } from 'src/themes/buy-now/hooks';
 import { IUseSessionExpired } from 'src/types';
 import { useGetSessionExpired } from 'src/hooks';
 import { initialDataMock } from 'src/mocks';
-import {sendEvents, sendPageView} from 'src/analytics/analytics';
+import { sendEvents, sendPageView } from 'src/analytics/analytics';
 
 const store = {
     data: initialDataMock,
-    appSetting: {autocompleteService: 'test'},
-    isValid: {orderProcessed: true}
+    appSetting: { autocompleteService: 'test' },
+    isValid: { orderProcessed: true }
 };
 
 jest.mock('react-redux', () => ({
@@ -53,7 +53,8 @@ describe('testing SessionExpiredPage', () => {
         terms: {
             closeModal: 'Close Modal',
             closeModalDescription: 'Close this modal and try again'
-        }
+        },
+        loginUrl: jest.fn()
     };
     const focusTrapMock: IUseFocusTrap = {
         activeElement: 'thank_you',
@@ -72,14 +73,14 @@ describe('testing SessionExpiredPage', () => {
             sessionExpiredHeader: 'Session expired'
         },
         returnUrl: jest.fn()
-    }
+    };
 
     beforeEach(() => {
         headerMock.mockReturnValueOnce(<div className="header">Header</div>);
         genericMessageSectionMock.mockReturnValueOnce(<div className="message">Message</div>);
         useGetCloseBuyNowMock.mockReturnValueOnce(closeModalMock);
         useFocusTrapMock.mockReturnValueOnce(focusTrapMock);
-        useGetSessionExpiredMock.mockReturnValueOnce(sessionExpiredHookMock)
+        useGetSessionExpiredMock.mockReturnValueOnce(sessionExpiredHookMock);
     });
 
     afterEach(() => {
@@ -94,7 +95,7 @@ describe('testing SessionExpiredPage', () => {
         const emptyRef = {};
 
         const { container } = render(
-            <SessionExpiredPage/>
+            <SessionExpiredPage />
         );
 
         expect(container.getElementsByClassName('checkout-experience-container')).toHaveLength(1);
@@ -116,7 +117,7 @@ describe('testing SessionExpiredPage', () => {
 
     test('test the return to product button', () => {
         render(
-            <SessionExpiredPage/>
+            <SessionExpiredPage />
         );
         const button = screen.getByTestId('close-modal');
         fireEvent.click(button);
