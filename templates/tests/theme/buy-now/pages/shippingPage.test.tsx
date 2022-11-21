@@ -1,7 +1,7 @@
-import {fireEvent, render, screen} from '@testing-library/react';
-import {ShippingPage} from 'src/themes/buy-now/pages';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { ShippingPage } from 'src/themes/buy-now/pages';
 import * as Store from 'src/store';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import React from 'react';
 import { IBuyNowContainerPageProps, IUseFocusTrap, IUseShippingPage } from 'src/themes/buy-now/types';
 import { useFocusTrap, useShippingPage } from 'src/themes/buy-now/hooks';
@@ -34,7 +34,7 @@ describe('testing ShippingPage', () => {
     const hiddenProps: IBuyNowContainerPageProps = {
         show: false,
         navigateTo: jest.fn()
-    }
+    };
 
     const useShippingPageValue: (valid: boolean) => IUseShippingPage = (valid) => {
         return {
@@ -43,20 +43,20 @@ describe('testing ShippingPage', () => {
             stopBack: !(valid),
             setStopBack: jest.fn(),
             isValidAddress: valid
-        }
-    }
+        };
+    };
 
     beforeEach(() => {
         jest.resetAllMocks();
         useFocusTrapMock.mockReturnValueOnce(focusTrapMock);
-    })
+    });
 
-    test('Rendering hidden shippingPage properly', () => { 
+    test('Rendering hidden shippingPage properly', () => {
         useShippingPageMock.mockReturnValue(useShippingPageValue(true));
-            
-        const {container} = render(
+
+        const { container } = render(
             <Provider store={store}>
-                <ShippingPage {...hiddenProps}/>
+                <ShippingPage {...hiddenProps} />
             </Provider>
         );
         expect(container.getElementsByClassName('buy-now').length).toBe(1);
@@ -69,9 +69,9 @@ describe('testing ShippingPage', () => {
     test('Rendering visible shippingPage properly', () => {
         useShippingPageMock.mockReturnValue(useShippingPageValue(true));
 
-        const {container} = render(
+        const { container } = render(
             <Provider store={store}>
-                <ShippingPage {...visibleProps}/>
+                <ShippingPage {...visibleProps} />
             </Provider>
         );
         expect(container.getElementsByClassName('buy-now').length).toBe(1);
@@ -85,10 +85,10 @@ describe('testing ShippingPage', () => {
 
         const { container } = render(
             <Provider store={store}>
-                <ShippingPage {...visibleProps}/>
+                <ShippingPage {...visibleProps} />
             </Provider>
         );
-        
+
         expect(visibleProps.navigateTo).toHaveBeenCalledTimes(0);
         const link = screen.getByTestId('navigation');
         fireEvent.click(link);
@@ -103,10 +103,10 @@ describe('testing ShippingPage', () => {
 
         const { container } = render(
             <Provider store={store}>
-                <ShippingPage {...visibleProps}/>
+                <ShippingPage {...visibleProps} />
             </Provider>
         );
-        
+
         const link = screen.getByTestId('navigation');
         fireEvent.click(link);
 

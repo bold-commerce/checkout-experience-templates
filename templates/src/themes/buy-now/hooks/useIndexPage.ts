@@ -1,6 +1,6 @@
-import { useGetAppSettingData, useGetErrors, useGetLineItems, useGetOrderTotal, useGetShippingData, useGetValidVariable, useLogin, useGetButtonDisableVariable } from 'src/hooks';
+import { useGetAppSettingData, useGetErrors, useGetLineItems, useGetOrderTotal, useGetShippingData, useGetValidVariable, useGetButtonDisableVariable, useGetCustomerInfoDataByField } from 'src/hooks';
 import { IUseIndexPageProps } from 'src/types';
-import { Constants} from 'src/constants';
+import { Constants } from 'src/constants';
 import { useCallback, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -15,7 +15,7 @@ export function useIndexPage(): IUseIndexPageProps {
     const history = useHistory();
     const errors = useGetErrors();
     const lineItems = useGetLineItems();
-    const { email, loginUrl } = useLogin();
+    const email = useGetCustomerInfoDataByField('email_address');
     const orderTotal = useGetOrderTotal();
     const address = useGetShippingData();
     const quantityDisabled = useGetButtonDisableVariable('updateLineItemQuantity');
@@ -26,18 +26,18 @@ export function useIndexPage(): IUseIndexPageProps {
     isValidBillingAddressRef.current = isValidBillingAddress;
 
     const loginText = getTerm('not_you', Constants.CUSTOMER_INFO);
-    const summaryHeadingText =  getTerm('summary', Constants.SUMMARY_INFO);
+    const summaryHeadingText = getTerm('summary', Constants.SUMMARY_INFO);
     const shippingHeadingText = getTerm('shipping', Constants.SUMMARY_INFO);
     const paymentHeadingText = getTerm('payments', Constants.SUMMARY_INFO);
     const shippingIssueText = getTerm('shipping_address_issue', Constants.CUSTOM);
     const shippingIssueLinkText = getTerm('shipping_address_issue_link', Constants.CUSTOM);
 
     const checkoutOnClick = useCallback(async () => {
-        if(customBilling === Constants.SHIPPING_DIFFERENT) {
-            await dispatch(validateBillingAddress); 
+        if (customBilling === Constants.SHIPPING_DIFFERENT) {
+            await dispatch(validateBillingAddress);
         }
         //isValidBillingAddress could get updated in above dispatch call, need to use ref to fetch updated state.
-        if(!isValidBillingAddressRef.current){ return; }
+        if (!isValidBillingAddressRef.current) { return; }
 
         sendEvents('Checkout', 'Clicked complete order button');
         if (errors.length === 0) {
@@ -48,7 +48,7 @@ export function useIndexPage(): IUseIndexPageProps {
                 sendRefreshOrderActionAsync().then(
                     sendAddPaymentActionAsync,
                     (e) => {
-                        const error = retrieveErrorFromResponse(<IApiReturnObject>{error: e}) as IApiErrorResponse;
+                        const error = retrieveErrorFromResponse(<IApiReturnObject>{ error: e }) as IApiErrorResponse;
                         if (error && isOnlyFlashError([error])) {
                             dispatch(actionAddError(error));
                         }
@@ -75,7 +75,6 @@ export function useIndexPage(): IUseIndexPageProps {
         quantityDisabled,
         shippingIssueText,
         shippingIssueLinkText,
-        loginUrl,
         checkoutOnClick,
         updateLineItemQuantity: updateLineItemQty,
     };

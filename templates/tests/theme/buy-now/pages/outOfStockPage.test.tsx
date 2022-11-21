@@ -5,14 +5,14 @@ import { initialDataMock } from 'src/mocks';
 import { mocked } from 'jest-mock';
 import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
 import { IUseFocusTrap, IUseGetCloseBuyNow } from 'src/themes/buy-now/types';
-import {sendPageView, sendEvents} from 'src/analytics/analytics';
+import { sendPageView, sendEvents } from 'src/analytics/analytics';
 import { useFocusTrap } from 'src/themes/buy-now/hooks/useFocusTrap';
-import {getReturnToCartTermAndLink} from 'src/utils';
+import { getReturnToCartTermAndLink } from 'src/utils';
 
 const store = {
     data: initialDataMock,
-    appSetting: {autocompleteService: 'test'},
-    isValid: {orderProcessed: true}
+    appSetting: { autocompleteService: 'test' },
+    isValid: { orderProcessed: true }
 };
 
 jest.mock('react-redux', () => ({
@@ -35,7 +35,8 @@ describe('testing the out of stock page', () => {
     const closeModalMock: IUseGetCloseBuyNow = {
         closeBuyNow: jest.fn(),
         websiteName: 'websiteName',
-        terms: {}
+        terms: {},
+        loginUrl: jest.fn()
     };
     const focusTrapMock: IUseFocusTrap = {
         activeElement: 'thank_you',
@@ -53,7 +54,7 @@ describe('testing the out of stock page', () => {
         jest.clearAllMocks();
         useGetCloseBuyNowMock.mockReturnValue(closeModalMock);
         useFocusTrapMock.mockReturnValueOnce(focusTrapMock);
-        getReturnToCartTermAndLinkMock.mockReturnValue({term:'return_to_cart', link: 'test-shop.alias.com'});
+        getReturnToCartTermAndLinkMock.mockReturnValue({ term: 'return_to_cart', link: 'test-shop.alias.com' });
     });
 
     test('render out of stock page properly', () => {
@@ -70,7 +71,7 @@ describe('testing the out of stock page', () => {
     });
 
     test('test the return to product button', () => {
-        render(<OutOfStockPage/>);
+        render(<OutOfStockPage />);
         const button = screen.getByTestId('return-to-product');
         fireEvent.click(button);
         expect(closeModalMock.closeBuyNow).toHaveBeenCalled();

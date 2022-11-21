@@ -21,21 +21,20 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
         paymentHeadingText,
         shippingIssueLinkText,
         shippingIssueText,
-        loginUrl,
         checkoutOnClick,
         updateLineItemQuantity,
     } = useIndexPage();
     const { isValid: isShippingAddressValid } = useCheckShippingAddress();
-    const { closeBuyNow, websiteName } = useGetCloseBuyNow();
+    const { closeBuyNow, websiteName, loginUrl } = useGetCloseBuyNow();
     const { formattedPrice } = useGetCurrencyInformation();
-    const subTotal = <Price amount={orderTotal} moneyFormatString={formattedPrice}/>;
+    const subTotal = <Price amount={orderTotal} moneyFormatString={formattedPrice} />;
     const checkout = getTerm('complete_order', Constants.PAYMENT_INFO);
     const overlayVisible = useGetOverlayVisible();
     const customerSection = <>
         <p>{email}</p>
         <a onClick={loginUrl}>{loginText}</a>
     </>;
-    const {focusTrapOptions} = useFocusTrap();
+    const { focusTrapOptions } = useFocusTrap();
 
     return (
         <FocusTrap active={props.show && !overlayVisible} focusTrapOptions={focusTrapOptions}>
@@ -46,11 +45,11 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
                     <CartItems line_items={lineItems} onUpdateQuantity={updateLineItemQuantity} quantityDisabled={quantityDisabled} />
                 </div>
                 <CondensedSection {...{ className: 'buy-now__summary buy-now__section', navigationHeadingProps: { text: summaryHeadingText, secondary: subTotal, navigation: () => props.navigateTo('/summary') } }} />
-                <CondensedSection {...{ className: 'buy-now__customer buy-now__section'}}>
+                <CondensedSection {...{ className: 'buy-now__customer buy-now__section' }}>
                     {customerSection}
                 </CondensedSection>
                 <CondensedSection {...{ className: 'buy-now__shipping buy-now__section', navigationHeadingProps: { text: shippingHeadingText, navigation: () => props.navigateTo('/shipping') } }} >
-                    <CondensedShipping address={ address } showMethod />
+                    <CondensedShipping address={address} showMethod />
                     {!isShippingAddressValid && (
                         <div className="flash-error">
                             <div className="flash-error__container">
@@ -66,7 +65,7 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
                     )}
                 </CondensedSection>
                 <CondensedSection {...{ className: 'buy-now__payment buy-now__section', navigationHeadingProps: { text: paymentHeadingText, className: 'payment-heading' } }} >
-                    <Payment showTitle={false} loadIframeImmediately={true}/>
+                    <Payment showTitle={false} loadIframeImmediately={true} />
                     <ExpandableDiscount />
                     <BillingAddressCheckbox />
                 </CondensedSection>

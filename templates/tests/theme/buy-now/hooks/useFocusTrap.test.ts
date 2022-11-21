@@ -26,16 +26,16 @@ describe('testing hook useFocusTrap', () => {
                 checkCanReturnFocus: expect.anything(),
                 escapeDeactivates: false
             }
-        }
+        };
         const { result } = renderHook(() => useFocusTrap());
-        
+
         expect(result.current).toStrictEqual(expectedResult);
     });
 
     test('check modal can focus trap', () => {
         const containers = [];
         const { result } = renderHook(() => useFocusTrap());
-        
+
         const canCheckFocusTrap = result.current.focusTrapOptions.checkCanFocusTrap?.(containers);
         jest.advanceTimersByTime(200);
 
@@ -46,7 +46,7 @@ describe('testing hook useFocusTrap', () => {
     test('check modal can return focus', () => {
         const trigger = document.createElement('div');
         const { result } = renderHook(() => useFocusTrap());
-        
+
         const canCheckFocusTrap = result.current.focusTrapOptions.checkCanReturnFocus?.(trigger);
         jest.advanceTimersByTime(200);
 

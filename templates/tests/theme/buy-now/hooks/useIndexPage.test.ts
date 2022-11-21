@@ -1,8 +1,8 @@
 import { addressMock, stateMock } from 'src/mocks';
 import { mocked } from 'jest-mock';
 import { getTerm } from 'src/utils';
-import { useGetLineItems, useGetOrderTotal, useGetShippingData, useLogin, useGetErrors, useGetValidVariable, useGetAppSettingData } from 'src/hooks';
-import {useIndexPage} from 'src/themes/buy-now/hooks';
+import { useGetLineItems, useGetOrderTotal, useGetShippingData, useLogin, useGetErrors, useGetValidVariable, useGetAppSettingData, useGetCustomerInfoDataByField } from 'src/hooks';
+import { useIndexPage } from 'src/themes/buy-now/hooks';
 import { renderHook } from '@testing-library/react-hooks';
 import { displayOrderProcessingScreen, processOrder, updateLineItemQuantity, validateBillingAddress } from 'src/library';
 import { useDispatch } from 'react-redux';
@@ -22,6 +22,7 @@ jest.mock('src/hooks/useGetAddressData');
 jest.mock('src/hooks/useGetErrors');
 jest.mock('src/hooks/useGetValidVariable');
 jest.mock('src/hooks/useGetAppSettingData');
+jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/library/displayOrderProcessingScreen');
 jest.mock('src/library/processOrder');
 jest.mock('src/library/updateLineItemQuantity');
@@ -40,6 +41,7 @@ const processOrderMock = mocked(processOrder, true);
 const updateLineItemQuantityMock = mocked(updateLineItemQuantity, true);
 const sendRefreshOrderActionAsyncMock = mocked(sendRefreshOrderActionAsync, true);
 const sendAddPaymentActionAsyncMock = mocked(sendAddPaymentActionAsync, true);
+const useGetCustomerInfoDataByFieldMock = mocked(useGetCustomerInfoDataByField, true);
 
 describe('testing hook useIndexPage', () => {
     const getTermValue = 'test term';
@@ -67,12 +69,12 @@ describe('testing hook useIndexPage', () => {
     const resolvedRefreshValue: IPigiResponseType = {
         responseType: pigiActionTypes.PIGI_REFRESH_ORDER,
         payload: { key: 'value' }
-    }
+    };
 
     const resolvedPaymentValue: IPigiResponseType = {
         responseType: pigiActionTypes.PIGI_ADD_PAYMENT,
         payload: { key: 'value' }
-    }
+    };
 
     const rejectedValue: IFetchError = {
         status: 1000,
@@ -81,7 +83,7 @@ describe('testing hook useIndexPage', () => {
         metaData: undefined,
         name: 'FetchError',
         message: errorMock.message
-    }
+    };
 
     const convertedFetchError: IApiErrorResponse = {
         message: '',
@@ -89,7 +91,7 @@ describe('testing hook useIndexPage', () => {
         field: '',
         severity: 'critical',
         sub_type: ''
-    }
+    };
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -100,6 +102,7 @@ describe('testing hook useIndexPage', () => {
         useDispatchMock.mockReturnValue(dispatchMock);
         processOrderMock.mockReturnValue(processOrderThunkMock);
         useGetAppSettingDataMock.mockReturnValue(Constants.SHIPPING_SAME);
+        useGetCustomerInfoDataByFieldMock.mockReturnValue(emailValue);
         sendRefreshOrderActionAsyncMock.mockResolvedValue(resolvedRefreshValue);
         sendAddPaymentActionAsyncMock.mockResolvedValue(resolvedPaymentValue);
     });
@@ -109,7 +112,7 @@ describe('testing hook useIndexPage', () => {
         useGetErrorsMock.mockReturnValue([]);
         useGetValidVariableMock.mockReturnValue(true);
 
-        const {result} = renderHook(() => useIndexPage());
+        const { result } = renderHook(() => useIndexPage());
         const hookResult = result.current;
         expect(hookResult.loginText).toBe(getTermValue);
         expect(hookResult.orderTotal).toBe(9999);
@@ -134,7 +137,7 @@ describe('testing hook useIndexPage', () => {
         useGetAppSettingDataMock.mockReturnValue(Constants.SHIPPING_DIFFERENT);
         useGetValidVariableMock.mockReturnValue(true);
 
-        const {result} = renderHook(() => useIndexPage());
+        const { result } = renderHook(() => useIndexPage());
         const hookResult = result.current;
         expect(hookResult.loginText).toBe(getTermValue);
         expect(hookResult.orderTotal).toBe(9999);
@@ -160,7 +163,7 @@ describe('testing hook useIndexPage', () => {
         useGetAppSettingDataMock.mockReturnValue(Constants.SHIPPING_DIFFERENT);
         useGetValidVariableMock.mockReturnValue(true);
 
-        const {result} = renderHook(() => useIndexPage());
+        const { result } = renderHook(() => useIndexPage());
         const hookResult = result.current;
         expect(hookResult.loginText).toBe(getTermValue);
         expect(hookResult.orderTotal).toBe(9999);
@@ -182,7 +185,7 @@ describe('testing hook useIndexPage', () => {
     test('test the hook with invalid billing address', async () => {
         useGetValidVariableMock.mockReturnValue(false);
 
-        const {result} = renderHook(() => useIndexPage());
+        const { result } = renderHook(() => useIndexPage());
         const hookResult = result.current;
 
         await hookResult.checkoutOnClick();
@@ -197,7 +200,7 @@ describe('testing hook useIndexPage', () => {
         useGetErrorsMock.mockReturnValue([errorMock]);
         useGetValidVariableMock.mockReturnValue(true);
 
-        const {result} = renderHook(() => useIndexPage());
+        const { result } = renderHook(() => useIndexPage());
         const hookResult = result.current;
 
         await hookResult.checkoutOnClick();
@@ -213,7 +216,7 @@ describe('testing hook useIndexPage', () => {
         useGetErrorsMock.mockReturnValue([]);
         useGetValidVariableMock.mockReturnValue(true);
 
-        const {result} = renderHook(() => useIndexPage());
+        const { result } = renderHook(() => useIndexPage());
         const hookResult = result.current;
 
         await hookResult.checkoutOnClick();
@@ -241,7 +244,7 @@ describe('testing hook useIndexPage', () => {
         useGetValidVariableMock.mockReturnValue(true);
         sendRefreshOrderActionAsyncMock.mockRejectedValueOnce(rejectedValue);
 
-        const {result} = renderHook(() => useIndexPage());
+        const { result } = renderHook(() => useIndexPage());
         const hookResult = result.current;
 
         await hookResult.checkoutOnClick();
