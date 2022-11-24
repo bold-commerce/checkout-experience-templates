@@ -17,4 +17,9 @@
 
 .taxes-amount__delete:hover {
     cursor: pointer;
+    background-color: inherit;
+}
+
+.taxes-amount__delete:focus {
+    background-color: inherit;
 }
