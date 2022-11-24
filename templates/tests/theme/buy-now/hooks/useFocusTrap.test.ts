@@ -24,7 +24,8 @@ describe('testing hook useFocusTrap', () => {
             focusTrapOptions: {
                 checkCanFocusTrap: expect.anything(),
                 checkCanReturnFocus: expect.anything(),
-                escapeDeactivates: false
+                escapeDeactivates: false,
+                clickOutsideDeactivates: true
             }
         };
         const { result } = renderHook(() => useFocusTrap());

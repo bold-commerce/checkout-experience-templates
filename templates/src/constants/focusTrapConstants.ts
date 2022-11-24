@@ -5,5 +5,6 @@ const checkFocusDelay = (): Promise<void> => {
 export const focusTrapOptions = {
     checkCanFocusTrap: checkFocusDelay,
     checkCanReturnFocus: checkFocusDelay,
-    escapeDeactivates: false
+    escapeDeactivates: false,
+    clickOutsideDeactivates: true
 };
