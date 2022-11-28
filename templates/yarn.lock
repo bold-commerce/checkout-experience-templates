@@ -315,18 +315,19 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bold-commerce/checkout-express-pay-library@^0.8.0":
-  version "0.8.0"
-  resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-express-pay-library/-/checkout-express-pay-library-0.8.0.tgz#5e1993bff4bfa5bec10b16c5c271b0d60e18671f"
-  integrity sha512-t8Rwa6a4s0AlWTu0uT5tFdqwkq3pUCeNllq2BamTpEoRWY0ZkbiaJFsVI2AkUqYZBSeQyNJq2TbJvg5eR8zT6g==
+"@bold-commerce/checkout-express-pay-library@^0.9.0":
+  version "0.9.0"
+  resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-express-pay-library/-/checkout-express-pay-library-0.9.0.tgz#99468762f12c28b9074c548982d2fc728fdb6242"
+  integrity sha512-Ml/g1jIJmceihNTiIyAvh1l8xgLxKVKyaKPS4g479ns0totUgJniDgHIxZaPSnNh/56jVilPjwoyQkzxOPiRqg==
   dependencies:
     "@paypal/paypal-js" "^5.1.1"
     "@types/applepayjs" "^3.0.4"
+    "@types/googlepay" "^0.6.4"
 
-"@bold-commerce/checkout-frontend-library@^0.30.2":
-  version "0.30.2"
-  resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-frontend-library/-/checkout-frontend-library-0.30.2.tgz#e386b63a7e8235a5632e534bf3355ef6ef1e7169"
-  integrity sha512-uyyR0pxjSghD8lKBSpEZ/Svw1Cl9nvhmoGv8zfoWFTJn5l46FVX5Zgd2iGK1y+yX8c3SIRp5CiwoNBj7IOZFxQ==
+"@bold-commerce/checkout-frontend-library@^0.31.2":
+  version "0.31.2"
+  resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-frontend-library/-/checkout-frontend-library-0.31.2.tgz#8f8db8e55c69e5fb51f98b07772d508c11802b8f"
+  integrity sha512-IogiTq0IQ4QOesuplYB/NHFXf7VFOHhDqx6IpPydgDTK+mxsfY5GFO9oLM4uWshHUyxKjY0dhpq4Zg5lwWvp2Q==
 
 "@boldcommerce/stacks-ui@^1.1.1":
   version "1.4.1"
@@ -641,16 +642,6 @@
   dependencies:
     "@babel/runtime" "^7.17.0"
 
-"@reduxjs/toolkit@^1.5.1":
-  version "1.5.1"
-  resolved "https://registry.npmjs.org/@reduxjs/toolkit/-/toolkit-1.5.1.tgz"
-  integrity sha512-PngZKuwVZsd+mimnmhiOQzoD0FiMjqVks6ituO1//Ft5UEX5Ca9of13NEjo//pU22Jk7z/mdXVsmDfgsig1osA==
-  dependencies:
-    immer "^8.0.1"
-    redux "^4.0.0"
-    redux-thunk "^2.3.0"
-    reselect "^4.0.0"
-
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
   resolved "https://registry.npmjs.org/@sinonjs/commons/-/commons-1.8.3.tgz"
@@ -820,6 +811,11 @@
   version "3.45.6"
   resolved "https://registry.npmjs.org/@types/google.maps/-/google.maps-3.45.6.tgz"
   integrity sha512-BzGzxs8UXFxeP8uN/0nRgGbsbpYQxSCKsv/7S8OitU7wwhfFcqQSm5aAcL1nbwueMiJ/VVmIZKPq69s0kX5W+Q==
+
+"@types/googlepay@^0.6.4":
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/@types/googlepay/-/googlepay-0.6.4.tgz#e0b06ae1f12496c4fa43e52d35e76411dbbee135"
+  integrity sha512-PTt/UCllzl8z5HmhymPpSj6uENZvVKZvCBYdDVmbBVJnLStitxtWrterAOQZkKGlqVdzxNXYeif5hOAMNMS5mw==
 
 "@types/graceful-fs@^4.1.2":
   version "4.1.5"
@@ -2912,11 +2908,6 @@ ignore@^5.1.4:
   resolved "https://registry.npmjs.org/ignore/-/ignore-5.1.8.tgz"
   integrity sha512-BMpfD7PpiETpBl/A6S498BaIJ6Y/ABT93ETbby2fP00v4EbvPBXWEoaR1UBPKs3iR53pJY7EtZk5KACI57i1Uw==
 
-immer@^8.0.1:
-  version "8.0.4"
-  resolved "https://registry.npmjs.org/immer/-/immer-8.0.4.tgz"
-  integrity sha512-jMfL18P+/6P6epANRvRk6q8t+3gGhqsJ9EuJ25AXE+9bNTYtssvzeYbEd0mXRYWCmmXSIbnlpz6vd6iJlmGGGQ==
-
 import-fresh@^3.0.0, import-fresh@^3.2.1:
   version "3.3.0"
   resolved "https://registry.npmjs.org/import-fresh/-/import-fresh-3.3.0.tgz"
@@ -4363,6 +4354,15 @@ prop-types@^15.6.2, prop-types@^15.7.2:
     object-assign "^4.1.1"
     react-is "^16.8.1"
 
+prop-types@^15.8.1:
+  version "15.8.1"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
+  integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
+  dependencies:
+    loose-envify "^1.4.0"
+    object-assign "^4.1.1"
+    react-is "^16.13.1"
+
 proxy-addr@~2.0.7:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/proxy-addr/-/proxy-addr-2.0.7.tgz#f19fe69ceab311eeb94b42e70e8c2070f9ba1025"
@@ -4637,11 +4637,6 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==
-
-reselect@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/reselect/-/reselect-4.0.0.tgz"
-  integrity sha512-qUgANli03jjAyGlnbYVAV5vvnOmJnODyABz51RdBN7M4WaVu8mecZWgyQNkG8Yqe3KRGRt0l4K4B3XVEULC4CA==
 
 resolve-cwd@^3.0.0:
   version "3.0.0"
