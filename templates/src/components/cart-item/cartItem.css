@@ -124,21 +124,33 @@ li {
 .cart-item__quantity-decrease:hover {
     cursor: pointer;
     outline: 4px solid #E2E2E2;
+    background-color: inherit;
+    border: inherit;
   }
   
 .cart-item__quantity-increase:focus,
 .cart-item__quantity-decrease:focus {
     outline: 4px solid #C0E7FE;
+    background-color: inherit;
+    border: inherit;
 }
 
-.cart-item__quantity-increase {
+.cart-item__quantity-increase,
+.cart-item__quantity-increase:focus, 
+.cart-item__quantity-increase:hover {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
 }
 
-.cart-item__quantity-decrease {
+.cart-item__quantity-decrease,
+.cart-item__quantity-decrease:focus,
+.cart-item__quantity-decrease:hover {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 
 .cart-item__quantity-increase[aria-disabled="true"],

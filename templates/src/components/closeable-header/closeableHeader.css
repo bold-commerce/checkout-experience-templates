@@ -55,8 +55,14 @@
 .closeable-header__button:hover {
     cursor: pointer;
     outline: 4px solid #E2E2E2;
+    border:inherit;
+    background-color: inherit;
+    border-radius: 6px;
 }
 
 .closeable-header__button:focus {
     outline: 4px solid #C0E7FE;
+    border:inherit;
+    background-color: inherit;
+    border-radius: 6px;
 }

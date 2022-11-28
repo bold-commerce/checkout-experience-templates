@@ -151,10 +151,12 @@ html, body, .buy-now__app {
   cursor: pointer;
   outline: 4px solid #E2E2E2;
   background-color: #2283C8;
+  border:1px inset #E6E6E6;;
 }
 
 .buy-now__checkout-button:focus {
   outline: 4px solid #C0E7FE;
+  border:1px inset #E6E6E6;;
 }
 
 .buy-now__checkout-button:active {
