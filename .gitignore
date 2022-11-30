@@ -1,0 +1,12 @@
+.idea
+.DS_Store
+
+node_modules
+build
+
+/coverage/
+junit.xml
+package-lock.json
+yarn-error.log
+secrets.json
+config.json
