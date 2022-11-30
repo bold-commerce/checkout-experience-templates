@@ -1,0 +1,71 @@
+.discount-code {
+    display: flex;
+    order: 2;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.discount-code--border-bottom {
+    padding-bottom: 8px;
+    padding-top: 16px;
+    border-bottom: 1px solid #D9D9D9;
+}
+
+.discount-code-input {
+    display: flex;
+    width: 100%;
+}
+
+.discount-code-input .btn-checkout{
+    background: #0A75C2;
+    border: 1px solid #e6e6e6;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px #e6e6e6;
+    border-radius: 4px;
+    color: white;
+    text-transform: none;
+    font-size: 14px;
+}
+
+.discount-code-input .btn-checkout:hover:not(.discount-code__button) {
+    cursor: pointer;
+    outline: 4px solid #E2E2E2;
+    background-color: #2283C8;
+}
+
+.discount-code__button[aria-disabled="true"]:hover {
+    cursor: not-allowed;
+}
+
+.discount-code-input .btn-checkout:focus {
+    outline: 4px solid #C0E7FE;
+}
+
+.discount-code__input-field {
+    flex-grow: 1;
+    margin: 0 8px 8px 0;
+    order: 1;
+    height: auto;
+    overflow: hidden;
+    overflow-wrap: break-word;
+}
+
+.discount-code__button {
+    width: 80px;
+    margin: 0;
+    order: 2;
+    height: 48px;
+}
+
+.discount-code__list-discounts {
+    width: 100%;
+    order: 3;
+}
+
+.discount-code-input .btn-checkout.stx-button--is-disabled:not(.stx-button--is-loading), .discount-code__button[aria-disabled="true"] {
+    background: #fff;
+    border-color: #595959;
+    color: #595959;
+    opacity: 1;
+    box-shadow: 0 1px 2px #e6e6e6;
+}

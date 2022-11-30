@@ -1,0 +1,104 @@
+.footer {
+    width: 100%;
+    display: flex;
+    margin: 16px 0;
+    flex-direction: column;
+    order: 100;
+}
+
+.footer__button-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 32px;
+    align-items: center;
+}
+
+.footer__back-link {
+    order: 1;
+    margin-right: auto;
+}
+
+.footer_back-link--wrapper {
+    margin: auto;
+}
+
+a.footer__back-link:focus {
+    outline: none;
+    border: none;
+}
+
+a.footer__back-link:focus > .footer_back-link--wrapper {
+    border: 2px solid #2283C8;
+    border-radius: 1px;
+}
+
+.footer__button {
+    order: 2;
+    text-align: center;
+    font-size: 14px;
+}
+
+.footer__button .footer__continue-button {
+    text-align: center;
+    font-size: 14px;
+    background: #0A75C2;
+    border: 4px solid #ffffff;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px #ffffff;
+    border-radius: 8px;
+    color: white;
+    text-transform: none;
+    margin: 3px 3px 3px 0;
+    height: 52px;
+}
+
+.footer__button .stx-button:active {
+    background: #0F67A8;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin: 3px 3px 3px 0;
+    height: 48px;
+}
+
+.footer__button .stx-button:hover {
+    z-index: auto;
+    background: #2283C8;
+    border: 4px solid #E2E2E2;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    height: 52px;
+}
+
+.footer__button .stx-button:focus {
+    background: #0A75C2;
+    border: 4px solid #C0E7FE;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    height: 52px;
+}
+
+@media only screen and (max-width: 1200px) {
+    .footer__button-container {
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .footer__back-link {
+        order: 2;
+        padding: 0;
+        margin: 32px 0;
+    }
+
+    .footer__button {
+        order: 1;
+        width: 100%;
+        flex-grow: 1;
+
+    }
+
+    .footer__button .footer__continue-button {
+        width: 100%;
+    }
+}

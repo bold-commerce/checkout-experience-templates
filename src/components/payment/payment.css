@@ -1,0 +1,44 @@
+.payment{
+    padding: 16px 0px;
+}
+
+.payment__no-valid-address{
+    border: 1px solid #949494;
+    box-sizing: border-box;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.payment__no-valid-address-label{
+    padding: 16px;
+    color: #595959;
+}
+
+.payment__block{
+    box-sizing: border-box;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.payment__iframe--hidden{
+    display: none;
+}
+
+.payment__iframe.payment__iframe--display-sca {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 5;
+}
+
+.payment__iframe{
+    border-radius: inherit;
+    background: transparent;
+}

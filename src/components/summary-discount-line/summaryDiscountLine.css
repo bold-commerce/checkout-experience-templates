@@ -1,0 +1,96 @@
+.discount-code__discount-line {
+    width: 100%;
+    order: 1;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    height: 28px;
+    margin-bottom: 8px;
+}
+
+.discount-code__discount-code {
+    order: 1;
+    flex-grow: 1;
+    display: flex;
+    height: 100%;
+}
+
+.discount-code__discount-code-block{
+    background: #0A75C2;
+    border: 1px solid #e6e6e6;
+    box-sizing: border-box;
+    border-radius: 14px;
+    display: flex;
+    padding-right: 4px;
+    align-items: center;
+}
+
+.discount-code__disabled{
+    background: #FFFFFF;
+}
+
+.discount-code__discount-code-value {
+    padding: 4px 8px 4px 12px;
+    width: fit-content;
+    order: 1;
+    color: #ffffff;
+}
+
+.discount-code__disabled .discount-code__discount-code-value {
+    color: #595959;
+}
+
+.discount-code__delete-discount-code {
+    width: 22px;
+    height: 28px;
+    padding: 0;
+    background-color: transparent;
+    background-image: url('https://static.boldcommerce.com/images/checkout/experience/white_cross_delete.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    order: 2;
+    cursor: pointer;
+    border: none;
+}
+
+.discount-code__delete-discount-code-img {
+    margin: auto;
+    height: 14px;
+    width: 14px;
+}
+
+.discount-code__discount-code-price {
+    width: 80px;
+    order: 2;
+}
+
+.discount_code--price {
+    width: 80px;
+    text-align: right;
+    font-weight: normal;
+}
+
+.discount_code--price .stx-price__amount {
+    font-size: 1rem;
+    line-height: 30px;
+    height: 30px;
+    font-weight: normal;
+}
+
+.discount-code__spinner-div{
+    order: 2;
+    padding-right: 5px;
+}
+
+.discount-code__spinner{
+    display: inline-block;
+    position:relative;
+    top: 2px;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 3px solid transparent;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: bv-spin 0.4s linear infinite;
+    vertical-align: middle;
+}

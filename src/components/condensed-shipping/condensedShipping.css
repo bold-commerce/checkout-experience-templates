@@ -1,0 +1,18 @@
+.condensed-shipping__method .stx-price {
+    display: inline-block;
+}
+  
+.condensed-shipping {
+    color: #595959;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.condensed-shipping__method,    
+.condensed-shipping__method .stx-price__amount {
+    color: #1A1A1A;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;  
+}

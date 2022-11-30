@@ -1,0 +1,39 @@
+.flash-error {
+    width: 100%;
+    padding-bottom: 5px;
+}
+
+.flash-error__container {
+    background: #FFEBF0;
+    border-radius: 4px;
+    padding: 16px;
+    margin: 3px;
+    border-left: 4px solid #E41244;
+    display: flex;
+}
+
+.flash-error--hidden{
+    display: none;
+}
+
+.flash-error__text {
+    padding-right: 10px;
+}
+
+.flash-error__delete-error{
+    width: 22px;
+    padding: 0;
+    background-color: transparent;
+    background-image: url(https://static.boldcommerce.com/images/checkout/experience/cross_delete.svg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    order: 2;
+    cursor: pointer;
+    border: none;
+    background-size: 22px;
+    margin-left: auto;
+}
+
+.flash-error__delete-error:hover {
+    background-color: inherit;
+}

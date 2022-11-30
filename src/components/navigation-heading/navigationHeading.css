@@ -1,0 +1,38 @@
+.nav-heading {
+    color: #1A1A1A;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.nav-heading__title {
+    line-height: 20px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.nav-heading__title a {
+    color: #0A75C2;
+}
+
+.nav-heading h3 {
+    text-transform: unset;
+    letter-spacing: unset;
+    margin: 0;
+}
+
+.buy-now__index .nav-heading__navigation::after {
+    position: relative;
+    border-style: solid;
+    border-width: 2px 2px 0 0;
+    content: '';
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    transform: rotate(45deg);
+    margin: 0 5px;
+}

@@ -1,0 +1,66 @@
+.select-field__container{
+    position: relative;
+    width: 100%;
+}
+.select-field__label{
+    position: absolute;
+    top: 4px;
+    padding-left: 10px;
+    color: #757575;
+    font-size: 11px;
+    z-index: 5;
+}
+.select-field--has-value .select-field__label{
+    font-size: 11px;
+    top: 3px;
+}
+.select-field select{
+    padding-top: 18px;
+}
+.select-field{
+    margin-bottom: 12px;
+}
+.stx-select--alert select{
+    color: #FF1A2D;
+}
+.stx-select:hover {
+    box-shadow: inset 0px 1px 1px #e6e6e6;
+}
+.select-field__container .stx-select{
+    border: 1px solid #949494;
+    box-sizing: border-box;
+    box-shadow: inset 0px 1px 1px #e6e6e6;
+    border-radius: 4px;
+}
+.select-field__container .stx-select::placeholder {
+    color: #757575;
+    opacity: 1; /* Firefox */
+    font-size: 14px
+}
+.select-field__container .stx-select::-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #757575;
+}
+.select-field__container .stx-select::-ms-input-placeholder { /* Microsoft Edge */
+    color: #757575;
+}
+
+.select-field--has-focus .stx-select {
+    box-shadow: inset 0px 0px 0px 2px #0A75C2 !important;
+}
+.select-field select{
+    box-sizing: border-box;
+    height: 48px;
+}
+
+select.stx-select__select-element::-webkit-input-placeholder,
+select.stx-select__select-element:-moz-placeholder,
+select.stx-select__select-element::-moz-placeholder,
+select.stx-select__select-element:-ms-input-placeholder,
+select.stx-select__select-element::-ms-input-placeholder {
+    color: inherit;
+}
+
+select.stx-select__select-element:-moz-placeholder,
+select.stx-select__select-element::-moz-placeholder  {
+    opacity: 1;
+}

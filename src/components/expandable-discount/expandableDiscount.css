@@ -1,0 +1,44 @@
+.expandable-discount .discount-code--border-bottom {
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.expandable-discount .discount-code__button {
+    width: 120px;
+}
+
+.expandable-discount__toggle {
+    padding-left: 20px;
+    display: block;
+    position: relative;
+    color: #0A75C2;
+    height: 22px;
+    line-height: 22px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.expandable-discount__toggle:before {
+    content: '';
+    height: 11px;
+    width: 1px;
+    background: #0A75C2;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(5px, 50%) rotate(90deg);
+}
+
+.expandable-discount__toggle:after {
+    content: '';
+    height: 11px;
+    width: 1px;
+    background: #0A75C2;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(5px, 50%);
+}

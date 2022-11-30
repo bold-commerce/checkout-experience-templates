@@ -1,0 +1,68 @@
+.closeable-header {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 7fr 1fr;
+    min-height: 36px;
+    border: none;
+    padding: 0;
+    margin-bottom: 16px;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700;
+}
+
+.closeable-header__title {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700;
+    margin-bottom: 0;
+    text-transform: unset;
+    letter-spacing: unset;
+    text-align: start;
+}
+
+.closeable-header__button {
+    display: block;
+    width: 16px;
+    height: 16px;
+    border: transparent 1px solid;
+    border-radius: 6px;
+    padding: 0;
+    margin: 6px 4px 0 0;
+    justify-self: end;
+    align-self: baseline;
+    background:
+        linear-gradient(
+            45deg,
+            transparent  0%,
+            transparent 43%,
+            #000 45%,
+            #000 55%,
+            transparent 57%,
+            transparent 100%
+        ),
+        linear-gradient(
+            135deg,
+            transparent 0%,
+            transparent 43%,
+            #000 45%,
+            #000 55%,
+            transparent 57%,
+            transparent 100%
+        );
+}
+
+.closeable-header__button:hover {
+    cursor: pointer;
+    outline: 4px solid #E2E2E2;
+    border:inherit;
+    background-color: inherit;
+    border-radius: 6px;
+}
+
+.closeable-header__button:focus {
+    outline: 4px solid #C0E7FE;
+    border:inherit;
+    background-color: inherit;
+    border-radius: 6px;
+}

@@ -1,0 +1,54 @@
+.stx-checkbox__input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    outline: 0;
+    box-shadow: #949494 0px 0px 0px 1px inset;
+    transition: all .2s ease-in-out, outline 0;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background: transparent;
+    vertical-align: middle;
+    padding: initial;
+    margin: 0 15px 0 0;
+    appearance: none;
+}
+
+.stx-checkbox__input:checked {
+    box-shadow: #0A75C2 0px 0px 0px 10px inset;
+    border-color: transparent;
+}
+
+.stx-checkbox__input:hover {
+    cursor: pointer;
+    outline: 4px solid #E2E2E2;
+    background-color: #2283C8;
+}
+
+.stx-checkbox__input:focus {
+    outline: 4px solid #C0E7FE;
+}
+
+.stx-checkbox__input::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 0;
+    left: 0;
+    background-image: url('https://static.boldcommerce.com/images/checkout/experience/checkbox_white.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: all .2s .1s ease-in-out;
+    transform: scale(0);
+}
+
+.stx-checkbox__input:checked::after {
+    transform: scale(1);
+}
+
+.stx-checkbox-field__field .stx-checkbox-field__label {
+    margin-left: 5px;
+}

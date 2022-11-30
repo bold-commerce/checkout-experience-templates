@@ -1,0 +1,30 @@
+.Breadcrumb {
+    display: flex;
+    flex-direction: row;
+    left: 6.64%;
+    right: 57.97%;
+    top: 6.56%;
+    bottom: 92.27%;
+    padding: 10px 0px;
+    flex-wrap: wrap;
+}
+
+.Breadcrumb__Item{
+    font-family: Helvetica Neue;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: #878787;
+}
+
+.Breadcrumb__Item--active{
+    font-weight: 600;
+    color: #000000;
+}
+
+.Breadcrumb_Item_Divider {
+    background: transparent url(https://static.boldcommerce.com/images/checkout/experience/chevron_right_grey.svg) no-repeat center center;
+    margin-right: 6px;
+    padding: 4px;
+}

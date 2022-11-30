@@ -1,0 +1,33 @@
+.supported-language__container .select-field select {
+    padding-top: 6px;
+}
+.supported-language__container{
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.supported-language__container .select-field {
+    margin-bottom: 0;
+}
+
+.supported-language__container .select-field__container{
+    width: 100px;
+    float: right;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+@media only screen and (max-width: 767px) {
+    .supported-language__container{
+        display: flex;
+        grid-column: 1 / 3;
+        padding: 8px 32px;
+        overflow-wrap: anywhere;
+        width: 100%;
+        grid-row-start: 1;
+    }
+    .supported-language__container .select-field__container {
+        width: 100%;
+    }
+}

@@ -1,0 +1,8 @@
+.cart-items {
+    width: 100%;
+    padding-left: 0px;
+    margin: 0px;
+    order: 2;
+    flex-direction: column;
+    border-bottom: 1px solid #D9D9D9;
+}

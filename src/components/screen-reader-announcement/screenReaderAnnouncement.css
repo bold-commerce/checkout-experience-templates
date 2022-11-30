@@ -1,0 +1,8 @@
+.screen-reader-announcement {
+    overflow: hidden;
+    display: block;
+    width: 0;
+    height: 0;
+    z-index: -1;
+    position: absolute;
+}

@@ -1,0 +1,25 @@
+.taxes-amount__line {
+    display: flex;
+    order: 2;
+    padding-left: 24px;
+}
+
+.taxes-amount__delete {
+    width: 16px;
+    height: 20px;
+    background-image: url('https://static.boldcommerce.com/images/checkout/experience/cross_delete.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: 1px solid transparent;
+    margin: auto auto auto 8px;
+}
+
+.taxes-amount__delete:hover {
+    cursor: pointer;
+    background-color: inherit;
+}
+
+.taxes-amount__delete:focus {
+    background-color: inherit;
+}

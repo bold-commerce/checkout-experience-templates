@@ -1,0 +1,27 @@
+.main-header{
+    grid-auto-rows: minmax(50px, auto);
+}
+
+.main-header, .main-header-mobile{
+    background: #FFFFFF;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+}
+
+.main-header-mobile{
+    display: none;
+}
+
+@media only screen and (max-width: 767px) {
+    .main-header, .main-header-mobile{
+        grid-template-columns: auto;
+        grid-gap: 0;
+    }
+    .main-header{
+        display: none;
+    }
+    .main-header-mobile{
+        display: grid;
+    }
+}
