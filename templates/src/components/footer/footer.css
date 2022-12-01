@@ -23,16 +23,6 @@
     margin: auto;
 }
 
-a.footer__back-link:focus {
-    outline: none;
-    border: none;
-}
-
-a.footer__back-link:focus > .footer_back-link--wrapper {
-    border: 2px solid #2283C8;
-    border-radius: 1px;
-}
-
 .footer__button {
     order: 2;
     text-align: center;

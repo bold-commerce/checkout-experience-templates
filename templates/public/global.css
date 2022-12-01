@@ -177,4 +177,5 @@ button.taxes-amount__arrow:focus,
 button.taxes-amount__arrow:hover,
 button.taxes-amount__arrow:active {
     background-color: inherit;
+    outline: none;
 }

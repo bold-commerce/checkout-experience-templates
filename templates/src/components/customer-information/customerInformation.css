@@ -1,13 +1,15 @@
 .customer-information {
     padding: 16px 0px;
 }
-.accepts-marketing{
+
+.accepts-marketing {
     display: flex;
     align-items: center;
     background: #1a1a1a;
     line-height: 20px;
 }
-.customer-information__accepts-marketing{
+
+.customer-information__accepts-marketing {
     line-height: 20px;
 }
 
@@ -15,4 +17,24 @@
     .customer-information {
         width: auto;
     }
+}
+
+.customer-information__accepts-marketing .stx-checkbox__input:focus {
+    outline: none;
+    box-shadow: 0px 0px 0px 2px #0A75C2 inset;
+}
+
+.customer-information__accepts-marketing .stx-checkbox__input:focus-visible {
+    outline-offset: 1px;
+    outline: 2px solid #005FCC;
+}
+
+.customer-information__accepts-marketing .stx-checkbox__input:hover,
+.customer-information__accepts-marketing .stx-checkbox__input:active {
+    outline: none;
+    outline-offset: 0px;
+}
+
+.customer-information__accepts-marketing .stx-checkbox--is-checked .stx-checkbox__input {
+    box-shadow: 0px 0px 0px 10px #0A75C2 inset;
 }
