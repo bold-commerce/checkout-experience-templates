@@ -189,6 +189,11 @@ export interface ICartItemProps {
     showLineItemProperties?: boolean;
 }
 
+export interface IBulletsProps {
+    brand: string;
+    lineText: string;
+}
+
 export interface ISemiControlledNumberInputProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
     value: number;
     onCommit: (value: number) => void;

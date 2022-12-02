@@ -2,6 +2,7 @@ import {getTerm, getCardDisplayFormat, getGiftCardDisplayFormat} from 'src/utils
 import {mocked} from 'jest-mock';
 import {useGetPaymentType} from 'src/hooks';
 import {IPayment} from '@bold-commerce/checkout-frontend-library';
+import {Constants} from 'src/constants';
 
 
 jest.mock('src/utils/getTerm');
@@ -36,22 +37,22 @@ describe('Testing function getPaymentType', () => {
         {
             payment: {...appStatePayment, 'brand': 'Branded card', 'driver': 'Flexiti', 'lineText': '1111', 'tag': 'Credit'},
             getCardDisplayFormatResult: '•••• •••• •••• 1111',
-            expected: 'Branded card: •••• •••• •••• 1111',
+            expected: Constants.OTHER_PAYMENT_TYPE,
         },
         {
             payment: {...appStatePayment, 'brand': 'Branded card', 'driver': 'Branded_card', 'lineText': '1112', 'tag': 'Credit'},
             getCardDisplayFormatResult: '•••• •••• •••• 1112',
-            expected: 'Branded card: •••• •••• •••• 1112',
+            expected: Constants.OTHER_PAYMENT_TYPE,
         },
         {
             payment: {...appStatePayment, 'brand': 'Visa', 'driver': 'stripe', 'lineText': '4242', 'tag': 'Credit'},
             getCardDisplayFormatResult: '•••• •••• •••• 4242',
-            expected: 'Visa: •••• •••• •••• 4242',
+            expected: Constants.OTHER_PAYMENT_TYPE,
         },
         {
             payment: {...appStatePayment, 'brand': undefined, 'driver': 'stripe', 'lineText': '4242', 'tag': 'Credit'},
             getCardDisplayFormatResult: '',
-            expected: '',
+            expected: Constants.OTHER_PAYMENT_TYPE,
         },
     ];
 
@@ -113,7 +114,7 @@ describe('Testing function getPaymentType', () => {
         getCardDisplayFormatMock.mockReturnValueOnce('');
         const result = useGetPaymentType({...appStatePayment, brand: 'Visa', tag: 'Credit', driver: 'stripe'});
 
-        expect(result).toStrictEqual('Visa: ');
+        expect(result).toStrictEqual(Constants.OTHER_PAYMENT_TYPE);
     });
 
     test('rendering the hook properly - Payment by Gift Card', () => {

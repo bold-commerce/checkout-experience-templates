@@ -7,8 +7,17 @@ export class CreditBrandedCardsBrand {
         'amex',
         'apple pay - american express',
     ];
-    static OTHER_CARDS = [
+    static VISA_CARDS = [
         'apple pay - visa',
+        'visa',
+        'visa debit',
+        'visaprepaidanonymous',
+    ];
+    static MASTERCARD_CARDS = [
+        'master',
+        'mastercard',
+    ];
+    static OTHER_CARDS = [
         'dankort',
         'diners',
         'diners club',
@@ -20,13 +29,8 @@ export class CreditBrandedCardsBrand {
         'jcb',
         'kieranpay',
         'maestro',
-        'master',
-        'mastercard',
         'mcprepaidanonymous',
         'moneris',
         'unionpay',
-        'visa',
-        'visa debit',
-        'visaprepaidanonymous',
     ];
 }

@@ -179,3 +179,12 @@ button.taxes-amount__arrow:active {
     background-color: inherit;
     outline: none;
 }
+
+.a11y-screen-reader-only {
+    position:absolute;
+    left:-10000px;
+    top:auto;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+}
