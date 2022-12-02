@@ -1,9 +1,10 @@
 import {getTerm} from 'src/utils';
-import {getCardDisplayFormat, getGiftCardDisplayFormat} from 'src/utils';
+import {getGiftCardDisplayFormat} from 'src/utils';
 import {IPayment} from '@bold-commerce/checkout-frontend-library';
+import {Constants} from 'src/constants';
 
 export function useGetPaymentType(props: IPayment): string {
-    const {driver, lineText, brand, display_string: displayString, type} = props; // TODO: remove driver and lineText and change displayString to displayText after FF CE-539-Add-PaymentLine-Model is Enabled by default
+    const {driver, lineText, display_string: displayString, type} = props; // TODO: remove driver and lineText and change displayString to displayText after FF CE-539-Add-PaymentLine-Model is Enabled by default
     if (driver && type) { // TODO: change condition to (!type) after FF CE-539-Add-PaymentLine-Model is Enabled by default
         return '';
     }
@@ -38,6 +39,6 @@ export function useGetPaymentType(props: IPayment): string {
             return `${getTerm('plugin', 'payment_method')}: ${displayText}`;
         // Other - Branded Cards - Credit cards
         default:
-            return brand ? `${brand}: ${getCardDisplayFormat(brand, displayText)}` : getCardDisplayFormat('', displayText);
+            return Constants.OTHER_PAYMENT_TYPE;
     }
 }

@@ -62,6 +62,7 @@ export class Constants {
     static readonly DEFAULT_TITLE = 'default title';
     static readonly ARIA_LIVE_POLITE = 'polite';
     static readonly ARIA_LIVE_ASSERTIVE = 'assertive';
+    static readonly OTHER_PAYMENT_TYPE = 'OTHER_PAYMENT_TYPE';
 }
 
 export const errorTypes: IErrorTypes = {

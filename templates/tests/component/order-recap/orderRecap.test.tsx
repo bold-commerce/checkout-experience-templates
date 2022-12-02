@@ -5,9 +5,12 @@ import {OrderRecap} from 'src/components';
 import {useGetDisplayPaymentMethods, useGetOrderRecap} from 'src/hooks';
 import {addressMock, initialDataMock} from 'src/mocks';
 import {IUseGetOrderRecap} from 'src/types';
+import {getTerm} from "src/utils";
 
 jest.mock('src/hooks/useGetOrderRecap');
 jest.mock('src/hooks/useGetDisplayPaymentMethods');
+jest.mock('src/utils/getTerm');
+const getTermMock = mocked(getTerm, true);
 const useGetOrderRecapMock = mocked(useGetOrderRecap, true);
 const useGetDisplayPaymentMethodsMock = mocked(useGetDisplayPaymentMethods, true);
 
@@ -35,6 +38,7 @@ describe('testing OrderRecap component', () => {
         jest.clearAllMocks();
         useGetOrderRecapMock.mockReturnValue(hookReturn);
         useGetDisplayPaymentMethodsMock.mockReturnValue(paymentMethodHookReturn);
+        getTermMock.mockReturnValue('some_text');
     });
 
     const dataArray = [
