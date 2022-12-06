@@ -8,6 +8,7 @@ import FocusTrap from 'focus-trap-react';
 
 function ShippingPage(props : IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivElement>): React.ReactElement {
     const { closeBuyNow, flashText, stopBack, setStopBack, isValidAddress } = useShippingPage();
+    const placeholder = getTerm('enter_new_address', Constants.CUSTOMER_INFO);
 
     const backOnClick = useCallback(() => { 
         return isValidAddress ? props.navigateTo('/') : setStopBack(true);
@@ -34,7 +35,7 @@ function ShippingPage(props : IBuyNowContainerPageProps, ref: ForwardedRef<HTMLD
                     showSavedAddresses
                     savedAddressesSelectProps={{
                         autoSelect: true,
-                        placeholderValue: 'new',
+                        placeholderValue: placeholder,
                     }}
                 />
                 <ShippingLines showNoRatesAsAlert />
