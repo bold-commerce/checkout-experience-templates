@@ -31,7 +31,7 @@ export function FieldInput(props: IFieldInputProps): React.ReactElement {
                 autoFocus={props.autoFocus}
                 disabled={isLoading}
             />
-            <span data-testid='input-field__label' className={ClassNames(['input-field__label', { 'field--alert': props.errorMessage }])}>{props.placeholder}</span>
+            <label htmlFor={props.id} data-testid='input-field__label' className={ClassNames(['input-field__label', { 'field--alert': props.errorMessage }])}>{props.placeholder}</label>
         </div>
     );
 }

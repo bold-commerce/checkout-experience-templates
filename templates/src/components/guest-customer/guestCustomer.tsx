@@ -27,6 +27,7 @@ export function GuestCustomer(): React.ReactElement {
                     handleChange={handleChange}
                     errorMessage={emailError}
                     value={email}
+                    id={'customer-information__email'}
                 />
                 <CheckboxField
                     label={getTerm('accepts_marketing', Constants.CUSTOMER_INFO)}
