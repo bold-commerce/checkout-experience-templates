@@ -37,22 +37,22 @@ describe('Testing function getPaymentType', () => {
         {
             payment: {...appStatePayment, 'brand': 'Branded card', 'driver': 'Flexiti', 'lineText': '1111', 'tag': 'Credit'},
             getCardDisplayFormatResult: '•••• •••• •••• 1111',
-            expected: Constants.OTHER_PAYMENT_TYPE,
+            expected: '1111',
         },
         {
             payment: {...appStatePayment, 'brand': 'Branded card', 'driver': 'Branded_card', 'lineText': '1112', 'tag': 'Credit'},
             getCardDisplayFormatResult: '•••• •••• •••• 1112',
-            expected: Constants.OTHER_PAYMENT_TYPE,
+            expected: '1112',
         },
         {
             payment: {...appStatePayment, 'brand': 'Visa', 'driver': 'stripe', 'lineText': '4242', 'tag': 'Credit'},
             getCardDisplayFormatResult: '•••• •••• •••• 4242',
-            expected: Constants.OTHER_PAYMENT_TYPE,
+            expected: '4242',
         },
         {
-            payment: {...appStatePayment, 'brand': undefined, 'driver': 'stripe', 'lineText': '4242', 'tag': 'Credit'},
+            payment: {...appStatePayment, 'brand': undefined, 'driver': 'stripe', 'lineText': '4444', 'tag': 'Credit'},
             getCardDisplayFormatResult: '',
-            expected: Constants.OTHER_PAYMENT_TYPE,
+            expected: '4444',
         },
     ];
 
@@ -114,7 +114,7 @@ describe('Testing function getPaymentType', () => {
         getCardDisplayFormatMock.mockReturnValueOnce('');
         const result = useGetPaymentType({...appStatePayment, brand: 'Visa', tag: 'Credit', driver: 'stripe'});
 
-        expect(result).toStrictEqual(Constants.OTHER_PAYMENT_TYPE);
+        expect(result).toStrictEqual(appStatePayment.display_string);
     });
 
     test('rendering the hook properly - Payment by Gift Card', () => {

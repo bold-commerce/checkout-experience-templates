@@ -4,7 +4,6 @@ import {stateMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {useGetPaymentType} from 'src/hooks';
 import {IPayment} from '@bold-commerce/checkout-frontend-library';
-import {Constants} from 'src/constants';
 import {getTerm} from 'src/utils';
 
 jest.mock('src/hooks/useGetPaymentType');
@@ -39,7 +38,7 @@ describe('Testing DisplayPaymentMethod component', () => {
     });
 
     test('rendering the component successfully with no Brand', () => {
-        const textContent = Constants.OTHER_PAYMENT_TYPE;
+        const textContent = '1111';
         getPaymentTypeMock.mockReturnValueOnce(textContent);
         delete props['brand'];
         const {container} = render(<DisplayPaymentMethod {...props}/>);
@@ -49,42 +48,43 @@ describe('Testing DisplayPaymentMethod component', () => {
     });
 
     test('rendering the component successfully with no lineText and empty display_string', () => {
-        const textContent = Constants.OTHER_PAYMENT_TYPE;
+        const textContent = '';
         getPaymentTypeMock.mockReturnValueOnce(textContent);
         delete props['lineText'];
         props['display_string'] = '';
         const {container} = render(<DisplayPaymentMethod {...props}/>);
         expect(container.getElementsByClassName('display-payment-methods-content').length).toBe(1);
-        expect(container.getElementsByClassName('card-type__brand-name').length).toBe(1);
+        expect(container.getElementsByClassName('card-type__brand-name').length).toBe(0);
         expect(container.getElementsByClassName('card-type__last-four-digits').length).toBe(0);
     });
 
     test('rendering the component successfully with empty lineText and empty display_string', () => {
-        const textContent = Constants.OTHER_PAYMENT_TYPE;
+        const textContent = '';
         getPaymentTypeMock.mockReturnValueOnce(textContent);
         props['lineText'] = '';
         props['display_string'] = '';
         const {container} = render(<DisplayPaymentMethod {...props}/>);
         expect(container.getElementsByClassName('display-payment-methods-content').length).toBe(1);
-        expect(container.getElementsByClassName('card-type__brand-name').length).toBe(1);
+        expect(container.getElementsByClassName('card-type__brand-name').length).toBe(0);
         expect(container.getElementsByClassName('card-type__last-four-digits').length).toBe(0);
     });
 
     test('rendering the component successfully with empty display_string', () => {
-        const textContent = Constants.OTHER_PAYMENT_TYPE;
+        const textContent = '4444';
         getPaymentTypeMock.mockReturnValueOnce(textContent);
         props['display_string'] = '';
+        console.log(props);
         const {container} = render(<DisplayPaymentMethod {...props}/>);
         expect(container.getElementsByClassName('display-payment-methods-content').length).toBe(1);
         expect(container.getElementsByClassName('card-type__brand-name').length).toBe(1);
-        expect(container.getElementsByClassName('card-type__last-four-digits').length).toBe(0);
+        expect(container.getElementsByClassName('card-type__last-four-digits').length).toBe(1);
     });
 
     test('rendering the component successfully with empty brand', () => {
-        const textContent = Constants.OTHER_PAYMENT_TYPE;
+        const textContent = '5555';
         getPaymentTypeMock.mockReturnValueOnce(textContent);
         props.brand = '';
-        props.display_string = '1111';
+        props.display_string = '6666';
         const {container} = render(<DisplayPaymentMethod {...props}/>);
         expect(container.getElementsByClassName('display-payment-methods-content').length).toBe(1);
         expect(container.getElementsByClassName('card-type__brand-name').length).toBe(0);
