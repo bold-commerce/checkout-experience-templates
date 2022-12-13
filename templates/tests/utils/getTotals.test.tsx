@@ -14,11 +14,7 @@ describe('testing getTotals', () => {
             mockTaxes: initialDataMock.application_state.taxes,
             mockFees: initialDataMock.application_state.fees,
             mockDiscounts: initialDataMock.application_state.discounts,
-            mockShipping: {
-                id: 'shipping_id_1',
-                description: 'USPS ground carrier',
-                amount: 1999
-            },
+            mockOrderTotal: 22099,
             mockTotals: {
                 totalSubtotal: 20100,
                 totalOrder: 22099,
@@ -37,11 +33,7 @@ describe('testing getTotals', () => {
             mockTaxes: initialDataMock.application_state.taxes,
             mockFees: initialDataMock.application_state.fees,
             mockDiscounts: initialDataMock.application_state.discounts,
-            mockShipping: {
-                id: 'shipping_id_1',
-                description: 'USPS ground carrier',
-                amount: 1999
-            },
+            mockOrderTotal: 1999,
             mockTotals: {
                 totalSubtotal: 0,
                 totalOrder: 1999,
@@ -60,11 +52,7 @@ describe('testing getTotals', () => {
             mockTaxes: initialDataMock.application_state.taxes,
             mockFees: initialDataMock.application_state.fees,
             mockDiscounts: initialDataMock.application_state.discounts,
-            mockShipping: {
-                id: 'shipping_id_1',
-                description: 'USPS ground carrier',
-                amount: 1999
-            },
+            mockOrderTotal: 22099,
             mockTotals: {
                 totalSubtotal: 20100,
                 totalOrder: 22099,
@@ -83,11 +71,7 @@ describe('testing getTotals', () => {
             mockTaxes: [],
             mockFees: initialDataMock.application_state.fees,
             mockDiscounts: initialDataMock.application_state.discounts,
-            mockShipping: {
-                id: 'shipping_id_1',
-                description: 'USPS ground carrier',
-                amount: 1999
-            },
+            mockOrderTotal: 22089,
             mockTotals: {
                 totalSubtotal: 20100,
                 totalOrder: 22089,
@@ -106,11 +90,7 @@ describe('testing getTotals', () => {
             mockTaxes: initialDataMock.application_state.taxes,
             mockFees: initialDataMock.application_state.fees,
             mockDiscounts: [],
-            mockShipping: {
-                id: 'shipping_id_1',
-                description: 'USPS ground carrier',
-                amount: 1999
-            },
+            mockOrderTotal: 22109,
             mockTotals: {
                 totalSubtotal: 20100,
                 totalOrder: 22109,
@@ -129,11 +109,7 @@ describe('testing getTotals', () => {
             mockTaxes: initialDataMock.application_state.taxes,
             mockFees: [feesMock],
             mockDiscounts: [],
-            mockShipping: {
-                id: 'shipping_id_1',
-                description: 'USPS ground carrier',
-                amount: 1999
-            },
+            mockOrderTotal: 23309,
             mockTotals: {
                 totalSubtotal: 20100,
                 totalOrder: 23309,
@@ -152,11 +128,7 @@ describe('testing getTotals', () => {
             mockTaxes: initialDataMock.application_state.taxes,
             mockFees: undefined,
             mockDiscounts: [],
-            mockShipping: {
-                id: 'shipping_id_1',
-                description: 'USPS ground carrier',
-                amount: 1999
-            },
+            mockOrderTotal: 22109,
             mockTotals: {
                 totalSubtotal: 20100,
                 totalOrder: 22109,
@@ -172,8 +144,8 @@ describe('testing getTotals', () => {
 
     test.each(dataProvider)(
         '$name',
-        ({name, mockLineItems, mockPayments, mockTaxes, mockFees, mockDiscounts, mockShipping, mockTotals}) => {
-            const totals = getTotals(mockLineItems, mockPayments, mockTaxes, mockFees, mockDiscounts, mockShipping);
+        ({mockLineItems, mockPayments, mockTaxes, mockFees, mockDiscounts, mockOrderTotal, mockTotals}) => {
+            const totals = getTotals(mockLineItems, mockPayments, mockTaxes, mockFees, mockDiscounts, mockOrderTotal);
             expect(totals).toStrictEqual(mockTotals);
         });
 });

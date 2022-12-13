@@ -30,7 +30,8 @@ export function checkErrorAndProceedToNextPage(
                 const lineItems = appState.line_items;
                 const currency = appState.currency.iso_code;
                 const fees = appState.fees as Array<IFees>;
-                const totals = getTotals(lineItems, payments, taxes, fees, discounts, shipping);
+                const orderTotal = appState.order_total;
+                const totals = getTotals(lineItems, payments, taxes, fees, discounts, orderTotal);
                 orderCompleteAnalytics(lineItems, currency, totals, shipping);
             }
         }

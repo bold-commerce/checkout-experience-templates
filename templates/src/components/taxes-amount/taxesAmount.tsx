@@ -3,7 +3,7 @@ import {Constants} from 'src/constants';
 import {getTotals, getTerm} from 'src/utils';
 import {SummaryLineExpandable, SummaryLineNonExpandable} from 'src/components';
 import {REMOVE_DISCOUNT, REMOVE_PAYMENT} from 'src/action/appActionType';
-import {useGetDiscounts, useGetLineItems, useGetPayments, useGetSelectShippingLine, useGetTaxes, useGetFees} from 'src/hooks';
+import {useGetDiscounts, useGetLineItems, useGetPayments, useGetSelectShippingLine, useGetTaxes, useGetFees, useGetOrderTotal} from 'src/hooks';
 import {ITaxesAmount} from 'src/types';
 
 export function TaxesAmount(props: ITaxesAmount): React.ReactElement {
@@ -13,7 +13,8 @@ export function TaxesAmount(props: ITaxesAmount): React.ReactElement {
     const taxes = useGetTaxes();
     const shipping = useGetSelectShippingLine();
     const lineItems = useGetLineItems();
-    const totals = getTotals(lineItems, payments, taxes, fees, discounts, shipping);
+    const orderTotal = useGetOrderTotal();
+    const totals = getTotals(lineItems, payments, taxes, fees, discounts, orderTotal);
 
     const discountSection = <SummaryLineExpandable
         hasList
