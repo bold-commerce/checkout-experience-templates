@@ -2,8 +2,8 @@ import {
     useGetDiscounts,
     useGetFees,
     useGetLineItems,
+    useGetOrderTotal,
     useGetPayments,
-    useGetSelectShippingLine,
     useGetTaxes
 } from 'src/hooks';
 import {getTotals} from 'src/utils';
@@ -14,7 +14,7 @@ export function getTotalsFromState(): ITotals {
     const payments = useGetPayments();
     const taxes = useGetTaxes();
     const fees = useGetFees();
-    const shipping = useGetSelectShippingLine();
     const lineItems = useGetLineItems();
-    return getTotals(lineItems, payments, taxes, fees, discounts, shipping);
+    const orderTotal = useGetOrderTotal();
+    return getTotals(lineItems, payments, taxes, fees, discounts, orderTotal);
 }
