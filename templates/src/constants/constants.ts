@@ -169,3 +169,4 @@ export class PlatformTypeConstants {
 export const MOBILE_SCREEN_WIDTH = 768;
 export const TABLET_SCREEN_WIDTH = 1200;
 
+export const PLUGIN_BACKEND_DISCOUNT_SOURCE = 'cart';
