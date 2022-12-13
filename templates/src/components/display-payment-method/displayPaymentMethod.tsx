@@ -1,19 +1,20 @@
 import React from 'react';
 import {useGetPaymentType} from 'src/hooks';
 import {IPayment} from '@bold-commerce/checkout-frontend-library';
-import {Constants} from 'src/constants';
 import {Bullets} from 'src/components';
 
 export function DisplayPaymentMethod(props: IPayment): React.ReactElement {
     const displayText = useGetPaymentType(props);
+    const regexLast4Digits = /^[0-9]{4}$/;
+    const isLast4Digits = regexLast4Digits.test(displayText);
 
     return (
         <div className={'display-payment-methods-content'}>
-            {displayText !== Constants.OTHER_PAYMENT_TYPE && displayText}
-            {displayText === Constants.OTHER_PAYMENT_TYPE &&
+            {!isLast4Digits && displayText}
+            {isLast4Digits &&
                 <Bullets
                     brand={props.brand ?? ''}
-                    lineText={props.display_string !== '' ? props.display_string : (props.lineText ?? '')}
+                    lineText={displayText}
                 />
             }
         </div>
