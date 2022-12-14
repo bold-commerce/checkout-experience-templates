@@ -324,10 +324,10 @@
     "@types/applepayjs" "^3.0.4"
     "@types/googlepay" "^0.6.4"
 
-"@bold-commerce/checkout-frontend-library@^0.31.2":
-  version "0.31.2"
-  resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-frontend-library/-/checkout-frontend-library-0.31.2.tgz#8f8db8e55c69e5fb51f98b07772d508c11802b8f"
-  integrity sha512-IogiTq0IQ4QOesuplYB/NHFXf7VFOHhDqx6IpPydgDTK+mxsfY5GFO9oLM4uWshHUyxKjY0dhpq4Zg5lwWvp2Q==
+"@bold-commerce/checkout-frontend-library@^0.32.0":
+  version "0.32.0"
+  resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-frontend-library/-/checkout-frontend-library-0.32.0.tgz#631dd9ea1971dcb771b54e2e38866bed51872c4d"
+  integrity sha512-cPKLmsb0XLppn8GGjpPK3aZKmceCkF+R60lfG7w6f2egzqTWwDD88ZqeUZoECCJUASBNqgGzcmNNJivScuzr+A==
 
 "@boldcommerce/stacks-ui@^1.1.1":
   version "1.4.1"

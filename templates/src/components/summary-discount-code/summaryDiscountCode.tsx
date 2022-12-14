@@ -41,6 +41,7 @@ export function SummaryDiscountCode(): React.ReactElement {
                                 key={`discount-line-${discount.code}`}
                                 code={discount.code}
                                 amount={discount.value}
+                                source={discount.source ?? ''}
                             />
                         );
                     })
