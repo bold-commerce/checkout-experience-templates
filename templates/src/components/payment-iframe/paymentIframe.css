@@ -834,7 +834,7 @@
     line-height: 24px;
 }
 
-#iframe-payment-gateway .footer__button {
+.footer__button {
     z-index: 1;
 }
 
