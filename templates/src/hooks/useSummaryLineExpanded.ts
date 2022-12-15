@@ -4,8 +4,8 @@ import {useGetCurrencyInformation, useGetIsLoading, useGetLoaderScreenVariable, 
 import {useCallback} from 'react';
 import {deleteDiscounts} from 'src/library';
 import {ISummaryLineExpanded, IUseSummaryLineExpanded} from 'src/types';
-import {Constants} from 'src/constants';
-import {getFieldNamesSummary} from 'src/utils';
+import {Constants, CreditBrandedCardsBrand} from 'src/constants';
+import {getFieldNamesSummary, getTerm} from 'src/utils';
 import {IPayment} from '@bold-commerce/checkout-frontend-library';
 import {deletePayment} from 'src/library/deletePayment';
 import {deleteGiftCardPayment} from 'src/library/deleteGiftCardPayment';
@@ -33,16 +33,17 @@ export function useSummaryLineExpanded(props: ISummaryLineExpanded): IUseSummary
         dispatch(actionSetLoaderAndDisableButton('paymentClose' , true));
         dispatch(deleteGiftCardPayment(itemId));
     }, []);
-    let content = props.content[fieldNames.content];
+    let content = props.content[fieldNames.content] ?? '';
     let closeLoading = false;
     let deleteDataTestId = '';
     let deleteElement;
     let isGiftCard = false;
 
     if(props.eventToggleName === Constants.PAYMENTS_TOGGLE){
-        const {driver, type} = props.content as IPayment;
+        const {driver, type, brand} = props.content as IPayment;
+        const endingWithString = getTerm('ending_with', Constants.PAYMENT_INFO);
         isGiftCard = `${type}${driver}`.toLowerCase().replace(/\s|_/g, '').includes('giftcard');
-        content = paymentMethodText;
+        content = CreditBrandedCardsBrand.ALL_CARDS.includes(brand?.toLowerCase() ?? '') ? `${content} ${endingWithString} ${paymentMethodText}` : paymentMethodText;
     }
 
     if(eventDeleteName){
