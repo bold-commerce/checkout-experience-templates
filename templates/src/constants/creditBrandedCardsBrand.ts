@@ -33,4 +33,5 @@ export class CreditBrandedCardsBrand {
         'moneris',
         'unionpay',
     ];
+    static ALL_CARDS = CreditBrandedCardsBrand.OTHER_CARDS.concat(CreditBrandedCardsBrand.AMEX_CARDS, CreditBrandedCardsBrand.VISA_CARDS, CreditBrandedCardsBrand.MASTERCARD_CARDS);
 }

@@ -14,6 +14,7 @@ import {mocked} from 'jest-mock';
 import {stateMock} from 'src/mocks';
 import {Constants} from 'src/constants';
 import {IPayment} from '@bold-commerce/checkout-frontend-library';
+import {getTerm} from 'src/utils';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -27,6 +28,7 @@ jest.mock('src/hooks/useGetLoaderScreenVariable');
 jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/hooks/useGetCurrencyInformation');
 jest.mock('src/hooks/useGetPaymentType');
+jest.mock('src/utils/getTerm');
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 const useGetLoaderScreenVariableMock = mocked(useGetLoaderScreenVariable, true);
@@ -35,6 +37,7 @@ const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButt
 const deleteDiscountsMock = mocked(deleteDiscounts, true);
 const deletePaymentMock = mocked(deletePayment, true);
 const deleteGiftCardPaymentMock = mocked(deleteGiftCardPayment, true);
+const getTermMock = mocked(getTerm, true);
 
 describe('Testing hook useSummaryLineExpanded', () => {
     const paymentMethodText = 'Some Payment Method Text';
@@ -94,6 +97,7 @@ describe('Testing hook useSummaryLineExpanded', () => {
         currencySymbol: '$',
         formattedPrice: '${{amount}}'
     };
+    const someText = 'some text';
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -101,6 +105,7 @@ describe('Testing hook useSummaryLineExpanded', () => {
         useGetIsLoadingMock.mockReturnValue(false);
         useGetCurrencyInformationMock.mockReturnValue(currencyData);
         useGetPaymentTypeMock.mockReturnValue(paymentMethodText);
+        getTermMock.mockReturnValue(someText);
     });
 
     test('rendering the hook properly', () => {
@@ -117,11 +122,12 @@ describe('Testing hook useSummaryLineExpanded', () => {
     test('rendering the hook properly for payment', () => {
         const {result} = renderHook(() => useSummaryLineExpanded(paymentProps));
         const hookResult = result.current;
+        const payment = paymentProps.content as IPayment;
         expect(hookResult.itemId).toBe(props.itemId);
         expect(hookResult.textAlign).toBe(props.textAlign);
         expect(hookResult.closeLoading).toBe(false);
         expect(hookResult.formattedPrice).toBe(currencyData.formattedPrice);
-        expect(hookResult.content).toBe(paymentMethodText);
+        expect(hookResult.content).toBe(`${payment.brand} ${someText} ${paymentMethodText}`);
     });
 
     test('rendering the hook properly for payment with no payment method name', () => {
