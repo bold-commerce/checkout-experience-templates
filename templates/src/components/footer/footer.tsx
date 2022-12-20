@@ -23,6 +23,7 @@ export function Footer(props: IFooterProps): React.ReactElement {
                 }
                 <div className={'footer__button'}>
                     <Button
+                        data-testid={'footer-return-to-store-button'}
                         size={'large'}
                         loading={props.nextButtonLoading}
                         disabled={props.nextButtonDisable}
