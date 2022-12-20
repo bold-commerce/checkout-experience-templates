@@ -3,7 +3,7 @@ import { baseReturnObject, getShippingLines } from '@bold-commerce/checkout-fron
 import { stateMock } from 'src/mocks';
 import { actionSetLoader, actionSetButtonDisable, actionSetSelectedShippingLine, actionSetAppStateValid } from 'src/action/appAction';
 import { mocked } from 'jest-mock';
-import { getShippingFromLib, getSummaryStateFromLib, postShippingLines } from 'src/library';
+import {generateTaxes, getShippingFromLib, getSummaryStateFromLib, postShippingLines} from 'src/library';
 import { useSendEvent } from 'src/hooks';
 
 jest.mock('@bold-commerce/checkout-frontend-library/lib/shipping');
@@ -11,6 +11,7 @@ jest.mock('src/action/appAction');
 jest.mock('src/hooks/useSendEvent');
 jest.mock('src/library/applicationState');
 jest.mock('src/utils/handleErrorIfNeeded');
+jest.mock('src/library/generateTaxes');
 const actionSetLoaderMock = mocked(actionSetLoader, true);
 const actionSetButtonDisableMock = mocked(actionSetButtonDisable, true);
 const shippingLinesMock = mocked(getShippingLines, true);
@@ -18,7 +19,8 @@ const getSummaryStateFromLibMock = mocked(getSummaryStateFromLib, true);
 const getShippingFromLibMock = mocked(getShippingFromLib, true);
 const postShippingLinesMock = mocked(postShippingLines, true);
 const useSendEventMock = mocked(useSendEvent, true);
-const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true)
+const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true);
+const generateTaxesMock = mocked(generateTaxes, true);
 describe('testing shippingLines', () => {
     const getState = jest.fn();
     const mockDispatch = jest.fn();
@@ -26,7 +28,7 @@ describe('testing shippingLines', () => {
 
     const shippingData = [
         {
-            type: "Has no available shipping lines and no selected shipping",
+            type: 'Has no available shipping lines and no selected shipping',
             available_shipping_lines: [],
             selected_shipping: {
                 id: '',
@@ -35,7 +37,7 @@ describe('testing shippingLines', () => {
             }
         },
         {
-            type: "Has available shipping lines and no selected shipping",
+            type: 'Has available shipping lines and no selected shipping',
             available_shipping_lines: [{
                 id: 'shipping_id_1',
                 description: 'USPS ground carrier',
@@ -53,7 +55,7 @@ describe('testing shippingLines', () => {
             }
         },
         {
-            type: "Has available shipping lines and selected shipping",
+            type: 'Has available shipping lines and selected shipping',
             available_shipping_lines: [{
                 id: 'shipping_id_1',
                 description: 'USPS ground carrier',
@@ -90,6 +92,7 @@ describe('testing shippingLines', () => {
         expect(shippingLinesMock).toHaveBeenCalledTimes(1);
         expect(getState).not.toHaveBeenCalled();
         expect(useSendEventMock).not.toHaveBeenCalled();
+        expect(mockDispatch).not.toHaveBeenCalledWith(generateTaxesMock);
 
     });
 
@@ -105,6 +108,7 @@ describe('testing shippingLines', () => {
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', true);
         expect(getState).not.toHaveBeenCalled();
         expect(mockDispatch).not.toHaveBeenCalledWith(getSummaryStateFromLibMock);
+        expect(mockDispatch).not.toHaveBeenCalledWith(generateTaxesMock);
     });
 
 
@@ -121,6 +125,7 @@ describe('testing shippingLines', () => {
         expect(mockDispatch).toHaveBeenCalledWith(getShippingFromLibMock);
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
         expect(mockDispatch).toHaveBeenCalledWith(getSummaryStateFromLibMock);
+        expect(mockDispatch).toHaveBeenCalledWith(generateTaxesMock);
     });
 
 
@@ -144,6 +149,7 @@ describe('testing shippingLines', () => {
         expect(mockDispatch).toHaveBeenCalledWith(getShippingFromLibMock);
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
         expect(mockDispatch).toHaveBeenCalledWith(getSummaryStateFromLibMock);
+        expect(generateTaxesMock).not.toHaveBeenCalled();
 
         expect(actionSetButtonDisableMock).toHaveBeenCalledWith('shippingPageButton', false);
     });
@@ -170,6 +176,7 @@ describe('testing shippingLines', () => {
         expect(mockDispatch).toHaveBeenCalledWith(getShippingFromLibMock);
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
         expect(mockDispatch).toHaveBeenCalledWith(getSummaryStateFromLibMock);
+        expect(mockDispatch).toHaveBeenCalledWith(generateTaxesMock);
 
         expect(actionSetButtonDisableMock).toHaveBeenCalledWith('shippingPageButton', false);
 
@@ -198,6 +205,7 @@ describe('testing shippingLines', () => {
         expect(useSendEventMock).toHaveBeenCalled();
         expect(mockDispatch).toHaveBeenCalledWith(getShippingFromLibMock);
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
+        expect(mockDispatch).toHaveBeenCalledWith(generateTaxesMock);
 
         expect(mockDispatch).toHaveBeenCalledWith(getSummaryStateFromLibMock);
 
@@ -224,6 +232,7 @@ describe('testing shippingLines', () => {
         expect(shippingLinesMock).toHaveBeenCalledTimes(1);
         expect(getState).toHaveBeenCalled();
         expect(useSendEventMock).toHaveBeenCalled();
+        expect(mockDispatch).toHaveBeenCalledWith(generateTaxesMock);
         expect(mockDispatch).toHaveBeenCalledWith(getShippingFromLibMock);
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
     });
