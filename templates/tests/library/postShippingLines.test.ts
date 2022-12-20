@@ -1,7 +1,7 @@
 import {baseReturnObject, changeShippingLine, getShipping, IShipping, IShippingLine} from '@bold-commerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {stateMock} from 'src/mocks';
-import {getSummaryStateFromLib, postShippingLines} from 'src/library';
+import {generateTaxes, getSummaryStateFromLib, postShippingLines} from 'src/library';
 import {handleErrorIfNeeded} from 'src/utils';
 import {actionSetLoaderAndDisableButton} from 'src/action';
 
@@ -10,11 +10,13 @@ jest.mock('@bold-commerce/checkout-frontend-library/lib/shipping');
 jest.mock('src/utils/handleErrorIfNeeded');
 jest.mock('src/library/applicationState');
 jest.mock('src/action');
+jest.mock('src/library/generateTaxes');
 const setShippingLinesMock = mocked(changeShippingLine, true);
 const getShippingMock = mocked(getShipping, true);
 const getSummaryStateFromLibMock = mocked(getSummaryStateFromLib, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);
 const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButton, true);
+const generateTaxesMock = mocked(generateTaxes, true);
 
 describe('testing postShippingLines', () => {
 
@@ -55,7 +57,7 @@ describe('testing postShippingLines', () => {
         });
         expect(setShippingLinesMock).toHaveBeenCalledTimes(0);
         expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(0);
-
+        expect(dispatch).not.toHaveBeenCalledWith(generateTaxesMock);
     });
 
     test('calling post shipping lines endpoint with getState returning a different data structure', async () => {
@@ -65,6 +67,7 @@ describe('testing postShippingLines', () => {
             expect(error).toStrictEqual(expectedError);
         });
         expect(setShippingLinesMock).toHaveBeenCalledTimes(0);
+        expect(dispatch).not.toHaveBeenCalledWith(generateTaxesMock);
         expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(0);
     });
 
@@ -88,6 +91,7 @@ describe('testing postShippingLines', () => {
             expect(setShippingLinesMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(dispatch).toHaveBeenCalledWith(getSummaryStateFromLibMock);
+            expect(dispatch).toHaveBeenCalledWith(generateTaxesMock);
             expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
         });
     });
@@ -100,6 +104,7 @@ describe('testing postShippingLines', () => {
             expect(setShippingLinesMock).toHaveBeenCalledTimes(0);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(0);
             expect(dispatch).not.toHaveBeenCalledWith(getSummaryStateFromLibMock);
+            expect(dispatch).not.toHaveBeenCalledWith(generateTaxesMock);
             expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
         });
     });

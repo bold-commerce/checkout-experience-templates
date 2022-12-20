@@ -3,7 +3,7 @@ import {Dispatch} from 'redux';
 import {handleErrorIfNeeded, hasEmptyRequiredFields} from 'src/utils';
 import {IOrderInitialization} from 'src/types';
 import {actionSetButtonDisable, actionSetAppStateValid, actionSetLoader, actionSetSelectedShippingLine} from 'src/action';
-import {getShippingFromLib, getSummaryStateFromLib, postShippingLines} from 'src/library';
+import {generateTaxes, getShippingFromLib, getSummaryStateFromLib, postShippingLines} from 'src/library';
 import {useSendEvent} from 'src/hooks';
 import {API_RETRY} from 'src/constants';
 
@@ -18,6 +18,7 @@ export function shippingLines(updatedAddress: boolean) {
             // Beginning of sending event to back-end
             useSendEvent('CheckoutExperienceShippingLinesDisplayed');
             // of sending event to back-end
+            await dispatch(generateTaxes);
 
             dispatch(getShippingFromLib);
             const shippingLines = getState().data.application_state.shipping.available_shipping_lines;
