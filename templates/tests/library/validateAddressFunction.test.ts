@@ -44,7 +44,7 @@ describe('testing validateAddressFunction', () => {
         const validateCustomerAddressThunk = validateAddressFunction(Constants.SHIPPING, shipping, defaultAddressState);
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
 
-        expect(validateAddressMock).toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code, shipping.business_name, shipping.phone_number, API_RETRY);
+        expect(validateAddressMock).toHaveBeenCalledWith(shipping.first_name, shipping.last_name, shipping.address_line_1, shipping.address_line_2, shipping.city, shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code, shipping.business_name, shipping.phone_number, API_RETRY);
         expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
         expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(0);
         expect(dispatchMock).toHaveBeenCalledTimes(2);
@@ -61,7 +61,7 @@ describe('testing validateAddressFunction', () => {
         const validateCustomerAddressThunk = validateAddressFunction(Constants.BILLING, billing, defaultAddressState);
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
 
-        expect(validateAddressMock).toHaveBeenCalledWith(billing.postal_code, billing.province,  billing.province_code, billing.country, billing.country_code, billing.business_name, billing.phone_number, API_RETRY);
+        expect(validateAddressMock).toHaveBeenCalledWith(billing.first_name, billing.last_name, billing.address_line_1, billing.address_line_2, billing.city,billing.postal_code, billing.province,  billing.province_code, billing.country, billing.country_code, billing.business_name, billing.phone_number, API_RETRY);
         expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
         expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(0);
         expect(dispatchMock).toHaveBeenCalledTimes(2);
@@ -81,7 +81,7 @@ describe('testing validateAddressFunction', () => {
         const validateCustomerAddressThunk = validateAddressFunction(Constants.SHIPPING, shipping, defaultAddressState);
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
 
-        expect(validateAddressMock).toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code, shipping.business_name, shipping.phone_number, API_RETRY);
+        expect(validateAddressMock).toHaveBeenCalledWith(shipping.first_name, shipping.last_name, shipping.address_line_1, shipping.address_line_2, shipping.city,shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code, shipping.business_name, shipping.phone_number, API_RETRY);
         expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
         expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
         expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
@@ -103,7 +103,7 @@ describe('testing validateAddressFunction', () => {
         const validateCustomerAddressThunk = validateAddressFunction(Constants.BILLING, billing, defaultAddressState);
         await validateCustomerAddressThunk(dispatchMock, getStateMock);
 
-        expect(validateAddressMock).toHaveBeenCalledWith(billing.postal_code, billing.province, billing.province_code, billing.country, billing.country_code, billing.business_name, billing.phone_number, API_RETRY);
+        expect(validateAddressMock).toHaveBeenCalledWith(billing.first_name, billing.last_name, billing.address_line_1, billing.address_line_2, billing.city,billing.postal_code, billing.province, billing.province_code, billing.country, billing.country_code, billing.business_name, billing.phone_number, API_RETRY);
         expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
         expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
         expect(actionSetAppStateValidMock).toHaveBeenCalledWith('billingAddress', false);
