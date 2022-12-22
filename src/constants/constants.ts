@@ -62,6 +62,7 @@ export class Constants {
     static readonly DEFAULT_TITLE = 'default title';
     static readonly ARIA_LIVE_POLITE = 'polite';
     static readonly ARIA_LIVE_ASSERTIVE = 'assertive';
+    static readonly OTHER_PAYMENT_TYPE = 'OTHER_PAYMENT_TYPE';
 }
 
 export const errorTypes: IErrorTypes = {
@@ -168,3 +169,4 @@ export class PlatformTypeConstants {
 export const MOBILE_SCREEN_WIDTH = 768;
 export const TABLET_SCREEN_WIDTH = 1200;
 
+export const PLUGIN_BACKEND_DISCOUNT_SOURCE = 'cart';

@@ -32,7 +32,7 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
     const overlayVisible = useGetOverlayVisible();
     const customerSection = <>
         <p>{email}</p>
-        <a onClick={loginUrl}>{loginText}</a>
+        <a onClick={loginUrl} href="#login">{loginText}</a>
     </>;
     const { focusTrapOptions } = useFocusTrap();
 

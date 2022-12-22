@@ -2,7 +2,7 @@ import {Dispatch} from 'redux';
 import {changeShippingLine, IShipping, IApiReturnObject, getShipping} from '@bold-commerce/checkout-frontend-library';
 import {IOrderInitialization} from 'src/types';
 import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
-import {getSummaryStateFromLib} from 'src/library';
+import {generateTaxes, getSummaryStateFromLib} from 'src/library';
 import {actionSetLoaderAndDisableButton} from 'src/action';
 import {API_RETRY} from 'src/constants';
 
@@ -14,6 +14,7 @@ export async function postShippingLines(dispatch: Dispatch, getState: () => IOrd
     if(!isObjectEquals(previousShipping.selected_shipping, currentShipping) && typeof currentShipping.id === 'string') {
         const response: IApiReturnObject = await changeShippingLine(currentShipping.id, API_RETRY);
         handleErrorIfNeeded(response, dispatch, getState);
+        await dispatch(generateTaxes);
         await dispatch(getSummaryStateFromLib);
     }
 

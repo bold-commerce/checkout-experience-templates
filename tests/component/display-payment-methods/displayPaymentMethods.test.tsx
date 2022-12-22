@@ -4,8 +4,11 @@ import {useGetDisplayPaymentMethods} from 'src/hooks';
 import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {IPayment} from '@bold-commerce/checkout-frontend-library';
+import {getTerm} from 'src/utils';
 
 jest.mock('src/hooks/useGetDisplayPaymentMethods');
+jest.mock('src/utils/getTerm');
+const getTermMock = mocked(getTerm, true);
 const useGetDisplayPaymentMethodsMock = mocked(useGetDisplayPaymentMethods, true);
 
 describe('testing Display Payment Methods component', () => {
@@ -16,6 +19,7 @@ describe('testing Display Payment Methods component', () => {
 
     beforeEach(() => {
         useGetDisplayPaymentMethodsMock.mockReturnValue(hookReturnMock);
+        getTermMock.mockReturnValue('some_text');
     });
 
     test('Rendering component - no payment methods', () => {

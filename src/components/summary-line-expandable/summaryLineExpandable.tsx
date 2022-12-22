@@ -3,7 +3,7 @@ import {Price} from '@boldcommerce/stacks-ui';
 import {ISummaryLineExpandable} from 'src/types';
 import {SummaryLineExpanded} from 'src/components';
 import {useSummaryLineExpandable} from 'src/hooks';
-import {Constants} from 'src/constants';
+import {Constants, PLUGIN_BACKEND_DISCOUNT_SOURCE} from 'src/constants';
 
 export function SummaryLineExpandable(props: ISummaryLineExpandable): React.ReactElement {
     const {expand, classes, toggle, fieldNames, formattedPrice} = useSummaryLineExpandable(props);
@@ -16,7 +16,9 @@ export function SummaryLineExpandable(props: ISummaryLineExpandable): React.Reac
             itemAmount = item[fieldNames.amount] && item['value'] ? item['value'] : item[fieldNames.amount];
         }
         const key = `summary-line-expanded-${props.eventToggleName}-${index}`;
-        return {item, itemAmount, key};
+        const displayDeleteButton = 'source' in item ? item.source !== PLUGIN_BACKEND_DISCOUNT_SOURCE && props.hasDeleteButton : props.hasDeleteButton;
+
+        return {item, itemAmount, key, displayDeleteButton};
     }) || [];
 
     const titleId = `summary-line-${props.eventToggleName}-title`;
@@ -35,7 +37,7 @@ export function SummaryLineExpandable(props: ISummaryLineExpandable): React.Reac
                 {!expand && <Price className={classes.list.price} moneyFormatString={formattedPrice} amount={props.total} textAlign={'right'} />}
             </div>
             {
-                expand && childLineDetails.map(({item, key, itemAmount}) => {
+                expand && childLineDetails.map(({item, key, itemAmount, displayDeleteButton}) => {
                     return (
                         <SummaryLineExpanded
                             key={key}
@@ -44,7 +46,7 @@ export function SummaryLineExpandable(props: ISummaryLineExpandable): React.Reac
                             content={item}
                             id={key}
                             classes={classes}
-                            hasDeleteButton={props.hasDeleteButton}
+                            hasDeleteButton={displayDeleteButton}
                             itemId={fieldNames.id ? item[fieldNames.id] : ''}
                             eventDeleteName={props.eventDeleteName}
                         />);

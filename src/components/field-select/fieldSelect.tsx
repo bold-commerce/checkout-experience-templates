@@ -50,7 +50,7 @@ export function FieldSelect(props: IFieldSelectProps): React.ReactElement {
                     <option data-testid="input-select__options" key={item.value} value={item.value}>{item.name}</option>
                 )}
             </SelectField>
-            <span data-testid="input-select__label" className={ClassNames('select-field__label', {'field--alert': props.errorMessage})}>{props.label}</span>
+            <label htmlFor={props.id} data-testid="input-select__label" className={ClassNames('select-field__label', {'field--alert': props.errorMessage})}>{props.label}</label>
         </div>
     );
 }

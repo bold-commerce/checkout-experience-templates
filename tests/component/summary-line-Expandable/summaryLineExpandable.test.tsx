@@ -95,6 +95,33 @@ describe('Testing SummaryLineExpandable component', () => {
         expect(container.getElementsByClassName(classesListSummary.list.li).length).toBe(content.length);
     });
 
+    test('rendering the component properly with line item containing source but empty string', () => {
+        useSummaryLineExpandableMock.mockReturnValueOnce(hookProps);
+        const localProps = {...props, content: content};
+        localProps.content[0].source = '';
+
+        const { container } = render(<SummaryLineExpandable {...localProps}/>);
+        expect(container.getElementsByClassName(classesListSummary.list.li).length).toBe(content.length);
+    });
+
+    test('rendering the component properly with line item containing source and not empty string', () => {
+        useSummaryLineExpandableMock.mockReturnValueOnce(hookProps);
+        const localProps = {...props, content: content};
+        localProps.content[0].source = 'some_source';
+
+        const { container } = render(<SummaryLineExpandable {...localProps}/>);
+        expect(container.getElementsByClassName(classesListSummary.list.li).length).toBe(content.length);
+    });
+
+    test('rendering the component properly with line item containing source and "cart" string', () => {
+        useSummaryLineExpandableMock.mockReturnValueOnce(hookProps);
+        const localProps = {...props, content: content};
+        localProps.content[0].source = 'cart';
+
+        const { container } = render(<SummaryLineExpandable {...localProps}/>);
+        expect(container.getElementsByClassName(classesListSummary.list.li).length).toBe(content.length);
+    });
+
     test('rendering the component properly with line item - item id empty', () => {
         const localHooks = {...hookProps, fieldNames: {...hookProps.fieldNames, id: ''}};
         useSummaryLineExpandableMock.mockReturnValueOnce(localHooks);
@@ -144,5 +171,4 @@ describe('Testing SummaryLineExpandable component', () => {
         const { container } = render(<SummaryLineExpandable {...localProps}/>);
         expect(container.getElementsByClassName(classesListSummary.list.li).length).toBe(content.length);
     });
-
 });

@@ -784,3 +784,78 @@
         align-items: center;
     }
 }
+
+/* PPCP 3DS Flow Overlay
+--------------------------------------------------------------*/
+#iframe-payment-gateway #overlay {
+    transition: all 0.5s ease-out;
+    position: fixed;
+    background-color: rgba(0,0,0,.85);
+    color: #fff;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+    text-align: center;
+    display:table;
+    opacity: 1;
+    left:0;
+    top:0;
+    bottom:0;
+    right:0;
+}
+
+#iframe-payment-gateway .message {
+    vertical-align: middle;
+    display:table-cell;
+}
+
+#iframe-payment-gateway #overlay i {
+    color: #FFF;
+    font-size: 60px;
+    margin-top: 10px;
+}
+
+
+#iframe-payment-gateway #overlay h1 {
+    color: #FFF;
+    margin-top: 10px;
+}
+
+#iframe-payment-gateway #overlay h3 {
+    color: #FFF;
+    font-size: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#iframe-payment-gateway #overlay div {
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 24px;
+}
+
+.footer__button {
+    z-index: 1;
+}
+
+#iframe-payment-gateway #overlay.inverted  {
+    background-color: #FFF;
+}
+
+#iframe-payment-gateway #overlay.inverted i,
+#iframe-payment-gateway #overlay.inverted h1,
+#iframe-payment-gateway #overlay.inverted h3 {
+    color: #C5C5C5;
+}
+
+#iframe-payment-gateway #overlay.hidden {
+    opacity: 0.01;
+    z-index: -1000;
+}
+
+@media only screen and (max-width: 499px) {
+    #iframe-payment-gateway #ppcp-acdc-form {
+        flex-direction: column;
+        align-items: center;
+    }
+}

@@ -11,12 +11,13 @@ const useSummaryDiscountLineMock = mocked(useSummaryDiscountLine, true);
 const getTermMock = mocked(getTerm, true);
 
 describe('Testing SummaryDiscountLine component', () => {
-    const props: ISummaryDiscountLineProps= {
+    const props: ISummaryDiscountLineProps = {
         code: 'TEST',
-        amount: 5
+        amount: 5,
+        source: '',
     };
 
-    const hookResult: ISummaryDiscountLine= {
+    const hookResult: ISummaryDiscountLine = {
         discountCloseLoading: false,
         deleteElementFromState: jest.fn(),
         isLoading: false,
@@ -56,6 +57,26 @@ describe('Testing SummaryDiscountLine component', () => {
         useSummaryDiscountLineMock.mockReturnValueOnce(localProps);
 
         const {container} = render(<SummaryDiscountLine {...props} />);
+        expect(container.getElementsByClassName('discount-code__spinner-div').length).toBe(0);
+        expect(container.getElementsByClassName('discount-code__spinner').length).toBe(0);
+        expect(container.getElementsByClassName('discount-code__delete-discount-code').length).toBe(0);
+    });
+
+    test('rendering the component with source not empty string', () => {
+        useSummaryDiscountLineMock.mockReturnValueOnce(hookResult);
+
+        const sourceProps = {...props, source: 'some_source'};
+        const {container} = render(<SummaryDiscountLine {...sourceProps} />);
+        expect(container.getElementsByClassName('discount-code__spinner-div').length).toBe(0);
+        expect(container.getElementsByClassName('discount-code__spinner').length).toBe(0);
+        expect(container.getElementsByClassName('discount-code__delete-discount-code').length).toBe(1);
+    });
+
+    test('rendering the component with source = "cart"', () => {
+        useSummaryDiscountLineMock.mockReturnValueOnce(hookResult);
+
+        const sourceProps = {...props, source: 'cart'};
+        const {container} = render(<SummaryDiscountLine {...sourceProps} />);
         expect(container.getElementsByClassName('discount-code__spinner-div').length).toBe(0);
         expect(container.getElementsByClassName('discount-code__spinner').length).toBe(0);
         expect(container.getElementsByClassName('discount-code__delete-discount-code').length).toBe(0);

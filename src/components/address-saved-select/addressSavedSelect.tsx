@@ -8,7 +8,7 @@ export function AddressSavedSelect(props: IAddressSavedSelectProps): React.React
 
     return (
         <FieldSelect
-            placeholder={placeholder}
+            placeholder={props.placeholderValue ?? placeholder}
             placeholderValue={props.placeholderValue}
             className={props.className}
             options={options}

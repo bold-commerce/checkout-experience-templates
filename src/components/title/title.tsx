@@ -9,7 +9,7 @@ export function Title(): React.ReactElement {
     const shopURL = useGetShopUrlFromShopAlias(shopDomain);
 
     return (
-        <div className={'website-title'}>
+        <h1 className={'website-title'}>
             <div className={'website-title-clickable'}>
                 <div className={'website-title-clickable__site-name'}>
                     <a href={shopURL} className={classNames(['website-title-clickable__black-text'])}>
@@ -17,6 +17,6 @@ export function Title(): React.ReactElement {
                     </a>
                 </div>
             </div>
-        </div>
+        </h1>
     );
 }

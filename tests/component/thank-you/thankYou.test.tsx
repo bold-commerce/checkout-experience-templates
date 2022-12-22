@@ -15,6 +15,7 @@ import {
 } from 'src/hooks';
 import {addressMock, initialDataMock} from 'src/mocks';
 import {IUseContactUs, IUseFooterRights, IUseGetOrderRecap, IUseGetThankYou, IUseScreenBreakpoints} from 'src/types';
+import {getTerm} from "src/utils";
 
 jest.mock('src/hooks/useGetThankYou');
 jest.mock('src/hooks/useGetDisplayPaymentMethods');
@@ -25,6 +26,8 @@ jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useSendEvent');
 jest.mock('src/hooks/useScreenBreakpoints');
+jest.mock('src/utils/getTerm');
+const getTermMock = mocked(getTerm, true);
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetThankYouMock = mocked(useGetThankYou, true);
 const useGetDisplayPaymentMethodsMock = mocked(useGetDisplayPaymentMethods, true);
@@ -88,6 +91,7 @@ describe('testing ThankYou component', () => {
         useGetDisplayPaymentMethodsMock.mockReturnValue(paymentMethodHookReturn);
         useSupportedLanguagesMock.mockReturnValue({languagesOptions: [], value: '', handleChange: jest.fn()});
         useGetShopUrlFromShopAliasMock.mockReturnValue('https://google.com');
+        getTermMock.mockReturnValue('some_text');
     });
 
     test('Rendering ThankYou component', () => {

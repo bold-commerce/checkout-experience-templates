@@ -1,4 +1,4 @@
-import {fireEvent, render, waitFor} from '@testing-library/react';
+import {fireEvent, render} from '@testing-library/react';
 import {SummaryDiscountCode} from 'src/components';
 import {ISummaryDiscountLine} from 'src/types';
 import {mocked} from 'jest-mock';
@@ -63,6 +63,40 @@ describe('Testing SummaryDiscountCode Component', () => {
     });
 
     test('rendering the component', () => {
+        getTermMock.mockImplementation((term) => term);
+        const {container, getByTestId} = render(<SummaryDiscountCode />);
+        expect(container.getElementsByClassName('discount-code').length).toBe(1);
+        expect(container.getElementsByClassName('discount-code-input').length).toBe(1);
+        expect(container.getElementsByClassName('discount-code__input-field').length).toBe(1);
+        expect(container.getElementsByClassName('discount-code__button').length).toBe(1);
+        const applyDiscount = getByTestId('apply-discount');
+        expect(applyDiscount?.getAttribute('aria-disabled')).toEqual('false');
+        expect(container.getElementsByClassName('discount-code__list-discounts').length).toBe(1);
+        expect(container.getElementsByClassName('discount-code__discount-line').length).toBe(discounts.length);
+    });
+
+    test('rendering the component with source else than cart', () => {
+        const hooksDataWithSource = {...hooksData};
+        hooksDataWithSource.discounts[0].source = 'some_source';
+        useSummaryDiscountCodeMock.mockReturnValue(hooksDataWithSource);
+
+        getTermMock.mockImplementation((term) => term);
+        const {container, getByTestId} = render(<SummaryDiscountCode />);
+        expect(container.getElementsByClassName('discount-code').length).toBe(1);
+        expect(container.getElementsByClassName('discount-code-input').length).toBe(1);
+        expect(container.getElementsByClassName('discount-code__input-field').length).toBe(1);
+        expect(container.getElementsByClassName('discount-code__button').length).toBe(1);
+        const applyDiscount = getByTestId('apply-discount');
+        expect(applyDiscount?.getAttribute('aria-disabled')).toEqual('false');
+        expect(container.getElementsByClassName('discount-code__list-discounts').length).toBe(1);
+        expect(container.getElementsByClassName('discount-code__discount-line').length).toBe(discounts.length);
+    });
+
+    test('rendering the component with source = cart', () => {
+        const hooksDataWithSource = {...hooksData};
+        hooksDataWithSource.discounts[0].source = 'cart';
+        useSummaryDiscountCodeMock.mockReturnValue(hooksDataWithSource);
+
         getTermMock.mockImplementation((term) => term);
         const {container, getByTestId} = render(<SummaryDiscountCode />);
         expect(container.getElementsByClassName('discount-code').length).toBe(1);

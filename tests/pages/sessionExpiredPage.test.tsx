@@ -11,7 +11,7 @@ import {
     useSupportedLanguages
 } from 'src/hooks';
 import {IUseContactUs, IUseFooterRights, IUseSessionExpired} from 'src/types';
-import {getTerm} from 'src/utils';
+import {getErrorTerm, getTerm} from 'src/utils';
 import {HelmetProvider} from 'react-helmet-async';
 
 jest.mock('src/hooks/useGetSessionExpired');
@@ -21,6 +21,7 @@ jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/utils/getTerm');
+jest.mock('src/utils/getErrorTerm');
 jest.mock('src/hooks/useScreenWidth');
 const useScreenWidthMock = mocked(useScreenWidth, true);
 const useGetSessionExpiredMock = mocked(useGetSessionExpired, true);
@@ -30,6 +31,7 @@ const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 const getTermMock = mocked(getTerm, true);
+const getErrorTermMock = mocked(getErrorTerm, true);
 
 describe('testing SessionExpiredPage', () => {
     const terms: Record<string, string> = {
@@ -59,6 +61,7 @@ describe('testing SessionExpiredPage', () => {
         useGetShopUrlFromShopAliasMock.mockReturnValue('https://google.com');
         useGetAppSettingDataMock.mockReturnValue('en');
         getTermMock.mockReturnValue('test');
+        getErrorTermMock.mockReturnValue('error');
     });
 
     test('Rendering SessionExpiredPage', () => {

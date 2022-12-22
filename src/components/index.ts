@@ -8,6 +8,7 @@ export * from './address-saved-select/addressSavedSelect';
 export * from './address/address';
 export * from './billing-address-checkbox/billingAddressCheckbox';
 export * from './billing-address/billingAddress';
+export * from './bullets/bullets';
 export * from './breadcrumbs/breadcrumbs';
 export * from './cart-item/cartItem';
 export * from './cart-items/cartItems';

@@ -138,4 +138,18 @@ describe('Testing AddressSavedSelect component', () => {
         const option = container.querySelector<HTMLOptionElement>('option[value="option1"]');
         expect(option?.selected).toBeTruthy();
     });
+
+    test('Render with placeholder override', () => {
+        useGetSavedAddressDataMock.mockReturnValueOnce(hookResult);
+
+        const addressSavedSelectProps = {
+            ...props,
+            placeholderValue: 'custom-placeholder',
+        };
+
+        const { container } = render(<AddressSavedSelect {...addressSavedSelectProps}/>);
+
+        const option = container.querySelector<HTMLOptionElement>('option[value="custom-placeholder"');
+        expect(option?.innerHTML).toBe('custom-placeholder');
+    });
 });

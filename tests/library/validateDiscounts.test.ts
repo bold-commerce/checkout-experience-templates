@@ -4,7 +4,7 @@ import {stateMock} from 'src/mocks';
 import {baseReturnObject, IDiscount} from '@bold-commerce/checkout-frontend-library';
 import {actionAddError} from 'src/action';
 import {IError} from 'src/types';
-import {errorFields, errorSeverities, errorSubTypes, errorTypes} from 'src/constants';
+import {errorFields, errorSeverities, errorSubTypes, errorTypes, PLUGIN_BACKEND_DISCOUNT_SOURCE} from 'src/constants';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -59,6 +59,24 @@ describe('testing validateDiscounts', () => {
         expect(deleteDiscountsMock).toHaveBeenCalledTimes(1);
         expect(validateDiscountMock).toHaveBeenCalledTimes(1);
         expect(postDiscountsMock).toHaveBeenCalledTimes(1);
+        expect(mockDispatch).not.toHaveBeenCalledWith(actionAddErrorMock);
+    });
+
+    test('tests calling validate Discounts with all cart level discounts', async  () => {
+        const cartDiscount = {...discount, source: PLUGIN_BACKEND_DISCOUNT_SOURCE}
+        returnObject.success = true;
+        mockDispatch
+            .mockReturnValueOnce(Promise.resolve())
+            .mockReturnValueOnce(Promise.resolve(returnObject))
+            .mockReturnValueOnce(Promise.resolve());
+        const state = {...stateMock};
+        state.data.application_state.discounts = [cartDiscount];
+        getState.mockReturnValueOnce(state);
+
+        await validateDiscounts(mockDispatch, getState);
+        expect(deleteDiscountsMock).toHaveBeenCalledTimes(0);
+        expect(validateDiscountMock).toHaveBeenCalledTimes(0);
+        expect(postDiscountsMock).toHaveBeenCalledTimes(0);
         expect(mockDispatch).not.toHaveBeenCalledWith(actionAddErrorMock);
     });
 

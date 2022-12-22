@@ -97,7 +97,8 @@ export interface IOrderInitialization {
 
 export interface ISummaryDiscountLineProps {
     code: string,
-    amount: number
+    amount: number,
+    source: string,
 }
 
 export interface ILoqateSettingsOptions {

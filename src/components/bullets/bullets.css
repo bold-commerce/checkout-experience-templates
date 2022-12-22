@@ -1,0 +1,11 @@
+.card-type {
+    width: 100%;
+}
+
+.card-type__bullets {
+    font-weight: bold;
+}
+
+.card-type__ending-with-string {
+    display: none;
+}

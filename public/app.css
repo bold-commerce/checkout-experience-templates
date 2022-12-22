@@ -3,6 +3,7 @@
 @import '../src/components/address-saved-field-radio-list/addressSavedFieldRadioList.css';
 @import "../src/components/billing-address/billingAddress.css";
 @import '../src/components/billing-address-checkbox/billingAddressCheckbox.css';
+@import '../src/components/bullets/bullets.css';
 @import '../src/components/breadcrumbs/breadcrumbs.css';
 @import '../src/components/cart-items/cartItems.css';
 @import '../src/components/cart-item/cartItem.css';
