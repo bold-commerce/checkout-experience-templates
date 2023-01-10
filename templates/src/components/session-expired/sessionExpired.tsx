@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 
-import {Footer, GenericMessageSection, Header} from 'src/components';
+import {Footer, FormControls, GenericMessageSection, Header} from 'src/components';
 import {getErrorTerm, getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
 
@@ -16,17 +16,20 @@ export function SessionExpired(): React.ReactElement {
     return (
         <div className={'session-expired'}>
             <Header isMobile={false}/>
-            <GenericMessageSection
-                className={'session-expired__message'}
-                messageTitle={sessionExpiredHeader}
-                messageText={sessionExpiredBody}
-            />
-            <Footer
-                className={'session-expired__footer-container'}
-                contactUs={true}
-                nextButtonText={returnToStore}
-                nextButtonOnClick={returnUrl}
-            />
+            <main aria-label={sessionExpiredHeader}>
+                <GenericMessageSection
+                    className={'session-expired__message'}
+                    messageTitle={sessionExpiredHeader}
+                    messageText={sessionExpiredBody}
+                />
+                <FormControls
+                    className={'session-expired__footer-container'}
+                    contactUs={true}
+                    nextButtonText={returnToStore}
+                    nextButtonOnClick={returnUrl}
+                />
+            </main>
+            <Footer />
         </div>
     );
 }

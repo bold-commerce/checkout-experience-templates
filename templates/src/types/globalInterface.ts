@@ -36,6 +36,11 @@ export interface IInitialState {
     isExpressPaySectionEnable: boolean
 }
 
+export interface IBreadcrumbs {
+    sectionLabel: string
+    crumbs: Array<IBreadcrumb>
+}
+
 export interface IBreadcrumb {
     name: string,
     text: string,

@@ -23,8 +23,8 @@
 @import "../src/components/field-section/fieldSection.css";
 @import '../src/components/field-select/fieldSelect.css';
 @import '../src/components/flash-error/flashError.css';
+@import '../src/components/form-controls/formControls.css';
 @import '../src/components/footer/footer.css';
-@import '../src/components/footer-rights/footerRights.css';
 @import '../src/components/generic-message-section/genericMessageSection.css';
 @import "../src/components/guest-customer/guestCustomer.css";
 @import '../src/components/header/header.css';

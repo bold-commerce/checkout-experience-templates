@@ -5,7 +5,7 @@ import {ThankYou} from 'src/components';
 import {
     useGetContactUs,
     useGetDisplayPaymentMethods,
-    useGetFooterRights,
+    useGetFooter,
     useGetOrderRecap,
     useGetShopUrlFromShopAlias,
     useGetThankYou,
@@ -14,13 +14,13 @@ import {
     useScreenBreakpoints
 } from 'src/hooks';
 import {addressMock, initialDataMock} from 'src/mocks';
-import {IUseContactUs, IUseFooterRights, IUseGetOrderRecap, IUseGetThankYou, IUseScreenBreakpoints} from 'src/types';
-import {getTerm} from "src/utils";
+import {IUseContactUs, IUseFooter, IUseGetOrderRecap, IUseGetThankYou, IUseScreenBreakpoints} from 'src/types';
+import {getTerm} from 'src/utils';
 
 jest.mock('src/hooks/useGetThankYou');
 jest.mock('src/hooks/useGetDisplayPaymentMethods');
 jest.mock('src/hooks/useGetContactUs');
-jest.mock('src/hooks/useGetFooterRights');
+jest.mock('src/hooks/useGetFooter');
 jest.mock('src/hooks/useGetOrderRecap');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
@@ -32,7 +32,7 @@ const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetThankYouMock = mocked(useGetThankYou, true);
 const useGetDisplayPaymentMethodsMock = mocked(useGetDisplayPaymentMethods, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
-const useGetFooterRightsMock = mocked(useGetFooterRights, true);
+const useGetFooterMock = mocked(useGetFooter, true);
 const useGetOrderRecapMock = mocked(useGetOrderRecap, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
@@ -60,7 +60,7 @@ describe('testing ThankYou component', () => {
         needHelp: 'Need help?',
         contactUs: 'Contact us',
     };
-    const footerRightsHookReturn: IUseFooterRights = {
+    const footerRightsHookReturn: IUseFooter = {
         shopAlias: 'shop.test',
         footerRights: 'All rights reserved',
     };
@@ -86,7 +86,7 @@ describe('testing ThankYou component', () => {
         useScreenBreakpointsMock.mockReturnValue(mockScreenBreakpoints);
         useGetThankYouMock.mockReturnValue(propMock);
         useGetContactUsMock.mockReturnValue(contactUsHookReturn);
-        useGetFooterRightsMock.mockReturnValue(footerRightsHookReturn);
+        useGetFooterMock.mockReturnValue(footerRightsHookReturn);
         useGetOrderRecapMock.mockReturnValue(orderRecapHookReturn);
         useGetDisplayPaymentMethodsMock.mockReturnValue(paymentMethodHookReturn);
         useSupportedLanguagesMock.mockReturnValue({languagesOptions: [], value: '', handleChange: jest.fn()});

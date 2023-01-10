@@ -8,11 +8,11 @@ export function Header(props: ITitle): React.ReactElement {
     const {isMobile} = useScreenBreakpoints();
 
     return(
-        <div className={props.isMobile ? classNames(['main-header-mobile']) : classNames(['main-header'])}>
+        <header className={props.isMobile ? classNames(['main-header-mobile']) : classNames(['main-header'])}>
             {isMobile && <SupportedLanguages/>}
             <HeaderLogo />
             <Title/>
             {!isMobile && <SupportedLanguages/>}
-        </div>
+        </header>
     );
 }

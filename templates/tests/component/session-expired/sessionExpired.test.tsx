@@ -4,16 +4,16 @@ import {mocked} from 'jest-mock';
 import {SessionExpired} from 'src/components';
 import {
     useGetContactUs,
-    useGetFooterRights,
+    useGetFooter,
     useGetShopUrlFromShopAlias,
     useScreenBreakpoints,
     useSupportedLanguages
 } from 'src/hooks';
-import {IUseContactUs, IUseFooterRights, IUseScreenBreakpoints, IUseSessionExpired} from 'src/types';
+import {IUseContactUs, IUseFooter, IUseScreenBreakpoints, IUseSessionExpired} from 'src/types';
 import {getErrorTerm, getTerm} from 'src/utils';
 
 jest.mock('src/hooks/useGetContactUs');
-jest.mock('src/hooks/useGetFooterRights');
+jest.mock('src/hooks/useGetFooter');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useScreenBreakpoints');
@@ -23,7 +23,7 @@ const getTermMock = mocked(getTerm, true);
 const getErrorTermMock = mocked(getErrorTerm, true);
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
-const useGetFooterRightsMock = mocked(useGetFooterRights, true);
+const useGetFooterMock = mocked(useGetFooter, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 
@@ -32,7 +32,7 @@ describe('testing SessionExpired component', () => {
         needHelp: 'Need help?',
         contactUs: 'Contact us',
     };
-    const footerRightsHookReturn: IUseFooterRights = {
+    const footerRightsHookReturn: IUseFooter = {
         shopAlias: 'shop.test',
         footerRights: 'All rights reserved',
     };
@@ -46,7 +46,7 @@ describe('testing SessionExpired component', () => {
     beforeEach(() => {
         useScreenBreakpointsMock.mockReturnValue(mockScreenBreakpoints);
         useGetContactUsMock.mockReturnValue(contactUsHookReturn);
-        useGetFooterRightsMock.mockReturnValue(footerRightsHookReturn);
+        useGetFooterMock.mockReturnValue(footerRightsHookReturn);
         useSupportedLanguagesMock.mockReturnValue({languagesOptions: [], value: '', handleChange: jest.fn()});
         useGetShopUrlFromShopAliasMock.mockReturnValue('https://google.com');
         getTermMock.mockReturnValue('some_text');
