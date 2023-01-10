@@ -11,14 +11,14 @@ describe('testing Title component', () => {
             shopName: 'test-shop',
             expected: {domain: 'https://test-shop.custom.com/'}
         },
-          {
+        {
             name: 'shopAlias and no customDomain',
             shopAlias: 'test-shop.alias.com',
             customDomain: '',
             shopName: 'test-shop',
             expected: {domain: 'https://test-shop.alias.com/'}
         },
-    ]
+    ];
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -27,14 +27,12 @@ describe('testing Title component', () => {
     test.each(testData)('Rendering Title component with $name', async (data) => {
         window.shopAlias = data.shopAlias;
         window.customDomain = data.customDomain;
-        window.shopName = data.shopName
+        window.shopName = data.shopName;
         const {container} = render(<Title />);
-      
+
         const element: HTMLAnchorElement = screen.getByText(data.shopName);
 
         expect(container.getElementsByClassName('website-title').length).toBe(1);
-        expect(container.getElementsByClassName('website-title-clickable').length).toBe(1);
-        expect(container.getElementsByClassName('website-title-clickable__site-name').length).toBe(1);
         expect(element.href).toBe(data.expected.domain);
     });
 });

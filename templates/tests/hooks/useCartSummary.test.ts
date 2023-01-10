@@ -1,7 +1,7 @@
 import {stateMock} from 'src/mocks';
 import {renderHook} from '@testing-library/react-hooks';
 import {useScreenBreakpoints, useGetLineItems, useCartSummary} from 'src/hooks';
-import {getTotalLineItems} from 'src/utils';
+import {getTerm, getTotalLineItems} from 'src/utils';
 import {mocked} from 'jest-mock';
 import {act} from '@testing-library/react';
 import {IUseScreenBreakpoints} from 'src/types';
@@ -9,9 +9,11 @@ import {IUseScreenBreakpoints} from 'src/types';
 jest.mock('src/hooks/useScreenBreakpoints');
 jest.mock('src/hooks/useGetLineItems');
 jest.mock('src/utils/getTotalLineItems');
+jest.mock('src/utils/getTerm');
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetLineItemsMock = mocked(useGetLineItems, true);
 const getTotalLineItemsMock = mocked(getTotalLineItems, true);
+const getTermMock = mocked(getTerm, true);
 const mockUseScreenBreakpoints: IUseScreenBreakpoints = {
     isMobile: true,
     isTablet: false,
@@ -25,6 +27,7 @@ describe('Testing hook useCartSummary', () => {
         useScreenBreakpointsMock.mockReturnValueOnce({...mockUseScreenBreakpoints, isMobile: false, isTablet: true});
         useGetLineItemsMock.mockReturnValueOnce(stateMock.data.application_state.line_items);
         getTotalLineItemsMock.mockReturnValueOnce(200);
+        getTermMock.mockImplementation(i18nKey => i18nKey);
         const {result} = renderHook(() => useCartSummary());
         const hookResult = result.current;
 
@@ -40,6 +43,7 @@ describe('Testing hook useCartSummary', () => {
         useScreenBreakpointsMock.mockReturnValueOnce(mockUseScreenBreakpoints);
         useGetLineItemsMock.mockReturnValueOnce(stateMock.data.application_state.line_items);
         getTotalLineItemsMock.mockReturnValueOnce(200);
+        getTermMock.mockImplementation(i18nKey => i18nKey);
         const {result} = renderHook(() => useCartSummary());
         const hookResult = result.current;
 
@@ -55,6 +59,7 @@ describe('Testing hook useCartSummary', () => {
         useScreenBreakpointsMock.mockReturnValue(mockUseScreenBreakpoints);
         useGetLineItemsMock.mockReturnValueOnce(stateMock.data.application_state.line_items);
         getTotalLineItemsMock.mockReturnValueOnce(200);
+        getTermMock.mockImplementation(i18nKey => i18nKey);
         const {result, rerender}  = renderHook(() => useCartSummary());
 
         expect(result.current.expandSummary).toBe(false);

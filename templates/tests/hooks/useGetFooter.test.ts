@@ -2,19 +2,19 @@ import {renderHook} from '@testing-library/react-hooks';
 import {mocked} from 'jest-mock';
 
 import {Constants} from 'src/constants';
-import {useGetFooterRights} from 'src/hooks';
-import {IUseFooterRights} from 'src/types';
+import {useGetFooter} from 'src/hooks';
+import {IUseFooter} from 'src/types';
 import {getTerm} from 'src/utils';
 
 jest.mock('src/utils');
 const getTermMock = mocked(getTerm, true);
 
-describe('Testing hook useGetFooterRights', () => {
+describe('Testing hook useGetFooter', () => {
     const shopName = 'test-shop';
     const shopAlias = 'test-shop.alias.com';
-    const customDomain = 'test-shop.custom.com'
+    const customDomain = 'test-shop.custom.com';
 
-    const mockResponse: IUseFooterRights = {
+    const mockResponse: IUseFooter = {
         shopAlias: shopName,
         footerRights: 'All rights test',
     };
@@ -59,7 +59,7 @@ describe('Testing hook useGetFooterRights', () => {
         window.shopName = data.shopName;
         window.shopAlias = data.shopAlias;
         window.customDomain = data.customDomain;
-        const {result} = renderHook(() => useGetFooterRights());
+        const {result} = renderHook(() => useGetFooter());
 
         expect(getTermMock).toHaveBeenCalledWith('footer_rights', Constants.GLOBAL_INFO, undefined, 'All rights reserved');
         expect(result.current).toStrictEqual(data.expectedResponse);

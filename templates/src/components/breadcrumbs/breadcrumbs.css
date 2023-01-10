@@ -1,12 +1,16 @@
 .Breadcrumb {
-    display: flex;
-    flex-direction: row;
     left: 6.64%;
     right: 57.97%;
     top: 6.56%;
     bottom: 92.27%;
+}
+
+.Breadcrumb__List {
+    display: flex;
+    flex-direction: row;
     padding: 10px 0px;
     flex-wrap: wrap;
+    margin: 0;
 }
 
 .Breadcrumb__Item{

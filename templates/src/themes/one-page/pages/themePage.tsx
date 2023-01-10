@@ -2,13 +2,13 @@ import {
     BillingAddress,
     CustomerInformation,
     ExpressPaymentGateway,
-    FlashError, Footer,
+    FlashError, Footer, FormControls,
     Header,
     HeaderHelmet, Payment, ShippingAddress, ShippingLines,
     SummarySection
 } from 'src/components';
 import React, { useEffect } from 'react';
-import {getCheckoutUrl} from 'src/utils';
+import {getCheckoutUrl, getTerm, withPreventDefault} from 'src/utils';
 import {Constants} from 'src/constants';
 import {useGetOnePageFooterData, useIsValidShippingOnLoad} from 'src/themes/one-page/hooks';
 import {checkInventoryStage} from '@bold-commerce/checkout-frontend-library';
@@ -18,7 +18,8 @@ import { checkInventory } from 'src/library';
 export function ThemePage(): React.ReactElement {
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
     useIsValidShippingOnLoad();
-    const footerProps = useGetOnePageFooterData();
+    const {nextButtonOnClick, ...footerProps} = useGetOnePageFooterData();
+    const mainAriaLabel = getTerm('checkout_form', Constants.GLOBAL_INFO);
     const dispatch = useDispatch();
     useEffect(() => { dispatch(checkInventory(checkInventoryStage.initial)); }, []);
 
@@ -28,14 +29,19 @@ export function ThemePage(): React.ReactElement {
             <HeaderHelmet title={footerProps.title}/>
             <div className={'customer-section'}>
                 <Header isMobile={false}/>
-                <FlashError/>
-                <ExpressPaymentGateway/>
-                <CustomerInformation/>
-                <ShippingAddress/>
-                <BillingAddress/>
-                <ShippingLines/>
-                <Payment/>
-                <Footer {...footerProps}/>
+                <main aria-label={mainAriaLabel}>
+                    <form onSubmit={withPreventDefault(nextButtonOnClick)}>
+                        <FlashError/>
+                        <ExpressPaymentGateway/>
+                        <CustomerInformation/>
+                        <ShippingAddress/>
+                        <BillingAddress/>
+                        <ShippingLines/>
+                        <Payment/>
+                        <FormControls {...footerProps}/>
+                    </form>
+                </main>
+                <Footer />
             </div>
             <SummarySection orderCompleted={false}/>
         </div>

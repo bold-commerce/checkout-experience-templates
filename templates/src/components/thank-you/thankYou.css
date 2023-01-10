@@ -9,6 +9,11 @@
     background-color: #FFFFFF;
 }
 
+.thank-you main {
+    display: flex;
+    flex-direction: column;
+}
+
 .thank-you__container {
     margin: 16px 0;
     width: auto;

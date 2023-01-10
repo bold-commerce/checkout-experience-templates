@@ -48,4 +48,5 @@ export * from './shouldHideRoProperty';
 export * from './updatePigiHeight';
 export * from './validateAddressFields';
 export * from './validateApplicationStateData';
+export * from './withPreventDefault';
 export * from './compareAddresses';

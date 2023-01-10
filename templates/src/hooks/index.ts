@@ -35,7 +35,7 @@ export * from './useGetErrors';
 export * from './useGetFees';
 export * from './useGetErrorByField';
 export * from './useGetFlashErrors';
-export * from './useGetFooterRights';
+export * from './useGetFooter';
 export * from './useGetGeneralSettingCheckoutFields';
 export * from './useGetIsOrderProcessed';
 export * from './useGetIsOrderProcessing';

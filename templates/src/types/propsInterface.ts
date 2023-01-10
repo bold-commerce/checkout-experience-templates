@@ -254,12 +254,12 @@ export interface IBreadcrumbsProps {
     active: number;
 }
 
-export interface IFooterProps {
+export interface IFormControlsProps {
     className?: string;
     backLinkOnClick?: (event) => void;
     backLinkText?: string;
     nextButtonText: string;
-    nextButtonOnClick: () => void;
+    nextButtonOnClick?: () => void;
     nextButtonLoading?: boolean;
     nextButtonDisable?: boolean;
     contactUs?: boolean;
@@ -359,8 +359,9 @@ export interface ILoadingSectionProps{
     isLoading: boolean
 }
 
-export interface IUseCustomerPageProp extends IFooterProps{
+export interface IUseCustomerPageProp extends IFormControlsProps {
     active: number
+    nextButtonOnClick: () => void;
 }
 
 export interface IUseCartSummary {
@@ -369,6 +370,7 @@ export interface IUseCartSummary {
     showSummary: boolean;
     toggleSummary: () => void;
     lineItems: Array<ILineItem>
+    summaryAriaLabel: string
 }
 
 export interface IUseGetThankYou {
@@ -431,7 +433,7 @@ export interface IUseContactUs {
     contactUs: string;
 }
 
-export interface IUseFooterRights {
+export interface IUseFooter {
     shopAlias: string;
     footerRights: string;
 }
@@ -442,7 +444,7 @@ export interface IUseGetDisplayPaymentMethods {
 }
 
 
-export type IUsePaymentPage = IFooterProps;
+export type IUsePaymentPage = IFormControlsProps & Required<Pick<IFormControlsProps, 'nextButtonOnClick'>>;
 
 export interface ITitle {
     isMobile: boolean;

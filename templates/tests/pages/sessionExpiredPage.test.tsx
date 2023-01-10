@@ -5,18 +5,18 @@ import {SessionExpiredPage} from 'src/pages';
 import {
     useGetAppSettingData,
     useGetContactUs,
-    useGetFooterRights,
+    useGetFooter,
     useGetSessionExpired,
     useGetShopUrlFromShopAlias, useScreenWidth,
     useSupportedLanguages
 } from 'src/hooks';
-import {IUseContactUs, IUseFooterRights, IUseSessionExpired} from 'src/types';
+import {IUseContactUs, IUseFooter, IUseSessionExpired} from 'src/types';
 import {getErrorTerm, getTerm} from 'src/utils';
 import {HelmetProvider} from 'react-helmet-async';
 
 jest.mock('src/hooks/useGetSessionExpired');
 jest.mock('src/hooks/useGetContactUs');
-jest.mock('src/hooks/useGetFooterRights');
+jest.mock('src/hooks/useGetFooter');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useGetAppSettingData');
@@ -26,7 +26,7 @@ jest.mock('src/hooks/useScreenWidth');
 const useScreenWidthMock = mocked(useScreenWidth, true);
 const useGetSessionExpiredMock = mocked(useGetSessionExpired, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
-const useGetFooterRightsMock = mocked(useGetFooterRights, true);
+const useGetFooterMock = mocked(useGetFooter, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
@@ -47,7 +47,7 @@ describe('testing SessionExpiredPage', () => {
         needHelp: 'Need help?',
         contactUs: 'Contact us',
     };
-    const footerRightsHookReturn: IUseFooterRights = {
+    const footerRightsHookReturn: IUseFooter = {
         shopAlias: 'shop.test',
         footerRights: 'All rights reserved',
     };
@@ -56,7 +56,7 @@ describe('testing SessionExpiredPage', () => {
         useScreenWidthMock.mockReturnValue(1024);
         useGetSessionExpiredMock.mockReturnValue(hookReturn);
         useGetContactUsMock.mockReturnValue(contactUsHookReturn);
-        useGetFooterRightsMock.mockReturnValue(footerRightsHookReturn);
+        useGetFooterMock.mockReturnValue(footerRightsHookReturn);
         useSupportedLanguagesMock.mockReturnValue({languagesOptions: [], value: '', handleChange: jest.fn()});
         useGetShopUrlFromShopAliasMock.mockReturnValue('https://google.com');
         useGetAppSettingDataMock.mockReturnValue('en');
