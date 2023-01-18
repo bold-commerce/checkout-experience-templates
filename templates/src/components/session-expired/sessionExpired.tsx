@@ -3,6 +3,7 @@ import React, {useCallback} from 'react';
 import {Footer, FormControls, GenericMessageSection, Header} from 'src/components';
 import {getErrorTerm, getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
+import {useGetShopUrlFromShopAlias} from 'src/hooks';
 
 export function SessionExpired(): React.ReactElement {
     const returnToStore = getTerm('return_to_store', Constants.CUSTOMER_INFO, undefined, 'Return to store');
@@ -10,7 +11,7 @@ export function SessionExpired(): React.ReactElement {
     const sessionExpiredBody = getErrorTerm('return_to_store_and_checkout', Constants.GENERIC_ERROR_INFO, undefined, 'Return to your store and check out again');
     const returnUrl = useCallback(() =>
     {
-        window.location.href = window.returnUrl;
+        window.location.href = useGetShopUrlFromShopAlias(window.shopAlias);
     }, []);
 
     return (
