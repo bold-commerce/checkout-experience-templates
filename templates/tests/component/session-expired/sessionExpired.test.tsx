@@ -41,14 +41,15 @@ describe('testing SessionExpired component', () => {
         isTablet: true,
         isDesktop: false
     };
-    const shopUrl = 'test-shop.alias.com';
+    const shopUrlWithAlias = 'test-shop.alias.com';
+    const shopUrl = 'test-shop.com';
 
     beforeEach(() => {
         useScreenBreakpointsMock.mockReturnValue(mockScreenBreakpoints);
         useGetContactUsMock.mockReturnValue(contactUsHookReturn);
         useGetFooterMock.mockReturnValue(footerRightsHookReturn);
         useSupportedLanguagesMock.mockReturnValue({languagesOptions: [], value: '', handleChange: jest.fn()});
-        useGetShopUrlFromShopAliasMock.mockReturnValue('https://google.com');
+        useGetShopUrlFromShopAliasMock.mockReturnValue(shopUrl);
         getTermMock.mockReturnValue('some_text');
         getErrorTermMock.mockReturnValue('some_error_text');
         window = Object.create(window);
@@ -57,7 +58,7 @@ describe('testing SessionExpired component', () => {
                 href: 'http://dummy.com'
             }
         });
-        window.returnUrl = shopUrl;
+        window.returnUrl = shopUrlWithAlias;
     });
 
     test('Rendering SessionExpired component', () => {
