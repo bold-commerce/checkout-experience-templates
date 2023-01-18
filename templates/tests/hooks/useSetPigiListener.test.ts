@@ -6,6 +6,8 @@ import {Constants} from 'src/constants';
 import {useSetPigiListener} from 'src/hooks';
 import {
     handlePigiAddPayment,
+    handlePigiDisplayFullPage,
+    handlePigiDisplayFullPageDone,
     handlePigiHeight,
     handlePigiInitialized,
     handlePigiPaymentAdded,
@@ -25,6 +27,8 @@ const handlePigiHeightMock = mocked(handlePigiHeight, true);
 const handlePigiInitializedMock = mocked(handlePigiInitialized, true);
 const handlePigiPaymentAddedMock = mocked(handlePigiPaymentAdded, true);
 const handlePigiRefreshOrderMock = mocked(handlePigiRefreshOrder, true);
+const handlePigiDisplayFullPageMock = mocked(handlePigiDisplayFullPage, true);
+const handlePigiDisplayFullPageDoneMock = mocked(handlePigiDisplayFullPageDone, true);
 const handlePigiScaMock = mocked(handlePigiSca, true);
 const setPigiListenerInLibraryMock = mocked(setPigiListenerInLibrary, true);
 const removePigiListenerInLibraryMock = mocked(removePigiListenerInLibrary, true);
@@ -173,6 +177,55 @@ describe('Testing hook useSetPigiListener', () => {
         expect(handlePigiHeightMock).toHaveBeenCalledTimes(1);
         expect(handlePigiHeightMock).toHaveBeenCalledWith(payload);
         expect(handlePigiRefreshOrderMock).toHaveBeenCalledTimes(1);
+        expect(dispatchMock).toHaveBeenCalledTimes(3);
+    });
+
+    test('Trigger PIGI_DISPLAY_IN_FULL_PAGE event', async () => {
+        const eventInit = {data: {responseType: 'PIGI_DISPLAY_IN_FULL_PAGE', payload}};
+        const event = new MessageEvent('', eventInit);
+        let handleEvent;
+
+        setPigiListenerInLibraryMock.mockImplementationOnce((frameId: string, callbackEvent: (evt: Event) => void) => {
+            handleEvent = callbackEvent;
+            callbackEvent(event);
+            return jest.fn();
+        });
+
+        const renderHookResult = renderHook(() => useSetPigiListener());
+
+        expect(useDispatchMock).toHaveBeenCalledTimes(1);
+        renderHookResult.rerender();
+        expect(useDispatchMock).toHaveBeenCalledTimes(2);
+        expect(setPigiListenerInLibraryMock).toHaveBeenCalledTimes(1);
+        expect(setPigiListenerInLibraryMock).toHaveBeenCalledWith(Constants.PIGI_IFRAME, handleEvent);
+        expect(handlePigiHeightMock).toHaveBeenCalledTimes(1);
+        expect(handlePigiHeightMock).toHaveBeenCalledWith(payload);
+        expect(handlePigiDisplayFullPageMock).toHaveBeenCalledTimes(1);
+        expect(dispatchMock).toHaveBeenCalledTimes(3);
+    });
+
+    test('Trigger PIGI_DISPLAY_IN_FULL_PAGE_DONE event', async () => {
+        const eventInit = {data: {responseType: 'PIGI_DISPLAY_IN_FULL_PAGE_DONE', payload}};
+        const event = new MessageEvent('', eventInit);
+        let handleEvent;
+
+        setPigiListenerInLibraryMock.mockImplementationOnce((frameId: string, callbackEvent: (evt: Event) => void) => {
+            handleEvent = callbackEvent;
+            callbackEvent(event);
+            return jest.fn();
+        });
+
+        const renderHookResult = renderHook(() => useSetPigiListener());
+
+        expect(useDispatchMock).toHaveBeenCalledTimes(1);
+        renderHookResult.rerender();
+        expect(useDispatchMock).toHaveBeenCalledTimes(2);
+        expect(setPigiListenerInLibraryMock).toHaveBeenCalledTimes(1);
+        expect(setPigiListenerInLibraryMock).toHaveBeenCalledWith(Constants.PIGI_IFRAME, handleEvent);
+        expect(handlePigiHeightMock).toHaveBeenCalledTimes(1);
+        expect(handlePigiHeightMock).toHaveBeenCalledWith(payload);
+        expect(handlePigiDisplayFullPageDoneMock).toHaveBeenCalledTimes(1);
+        expect(handlePigiDisplayFullPageDoneMock).toHaveBeenCalledWith(payload);
         expect(dispatchMock).toHaveBeenCalledTimes(3);
     });
 
