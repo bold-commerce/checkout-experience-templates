@@ -1,18 +1,18 @@
 import {render, screen} from '@testing-library/react';
 import {SupportedLanguages,} from 'src/components';
 import {mocked} from 'jest-mock';
-import {useGetIsLoading, useSupportedLanguages} from 'src/hooks';
+import {useGetIsLoadingExceptSections, useSupportedLanguages} from 'src/hooks';
 
 jest.mock('src/hooks/useSupportedLanguages');
-jest.mock('src/hooks/useGetIsLoading');
-const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+jest.mock('src/hooks/useGetIsLoadingExceptSections');
+const useGetIsLoadingExceptSectionsMock = mocked(useGetIsLoadingExceptSections, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 
 describe('testing Supported languages component', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-        useGetIsLoadingMock.mockReturnValue(false);
+        useGetIsLoadingExceptSectionsMock.mockReturnValue(false);
     });
 
     test('Rendering component with only one language ', () => {

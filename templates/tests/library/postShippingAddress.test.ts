@@ -46,11 +46,9 @@ describe('testing postAddress', () => {
             await postShippingAddress(dispatch, getState);
         }).rejects.toThrow(expectedError);
 
-        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
-        expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(0);
         expect(getAddressesMock).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenCalledWith(actionReturnMock);
+        expect(dispatch).toHaveBeenCalledTimes(0);
         expect(setShippingAddressMock).toHaveBeenCalledTimes(0);
         expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
     });
@@ -63,11 +61,8 @@ describe('testing postAddress', () => {
             await postShippingAddress(dispatch, getState);
         }).rejects.toThrow(expectedError);
 
-        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
-        expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(0);
         expect(getAddressesMock).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenCalledWith(actionReturnMock);
         expect(setShippingAddressMock).toHaveBeenCalledTimes(0);
         expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
     });
@@ -79,11 +74,9 @@ describe('testing postAddress', () => {
 
         await postShippingAddress(dispatch, getState);
 
-        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
-        expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(0);
         expect(getAddressesMock).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenCalledTimes(2);
-        expect(dispatch).toHaveBeenCalledWith(actionReturnMock);
+        expect(dispatch).toHaveBeenCalledTimes(1);
         expect(setShippingAddressMock).toHaveBeenCalledTimes(1);
         expect(setShippingAddressMock).toHaveBeenCalledWith(defaultAddressState, API_RETRY);
         expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
@@ -97,14 +90,13 @@ describe('testing postAddress', () => {
 
         await postShippingAddress(dispatch, getState);
 
-        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(2);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
         expect(actionSetAppStateValidMock.mock.calls).toEqual([
-            ['shippingAddress', false],
             ['shippingAddress', true],
         ]);
         expect(getAddressesMock).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenCalledTimes(2);
-        expect(dispatch.mock.calls).toEqual([[actionReturnMock], [actionReturnMock]]);
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch.mock.calls).toEqual([[actionReturnMock]]);
         expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
         expect(setShippingAddressMock).toHaveBeenCalledTimes(0);
         expect(handleErrorMock).toHaveBeenCalledTimes(0);

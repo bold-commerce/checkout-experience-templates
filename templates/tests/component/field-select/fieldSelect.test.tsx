@@ -3,10 +3,10 @@ import {render, fireEvent, screen} from '@testing-library/react';
 import {FieldSelect} from 'src/components';
 import {IFieldSelectProps, ISelectList} from 'src/types';
 import {mocked} from 'jest-mock';
-import {useGetIsLoading} from 'src/hooks';
+import {useGetIsLoadingExceptSections} from 'src/hooks';
 
-jest.mock('src/hooks/useGetIsLoading');
-const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+jest.mock('src/hooks/useGetIsLoadingExceptSections');
+const useGetIsLoadingExceptSectionsMock = mocked(useGetIsLoadingExceptSections, true);
 
 describe('Testing FieldSelect component', () => {
     const options: Array<ISelectList>= [
@@ -27,7 +27,7 @@ describe('Testing FieldSelect component', () => {
     };
 
     beforeEach(() => {
-        useGetIsLoadingMock.mockReturnValue(false);
+        useGetIsLoadingExceptSectionsMock.mockReturnValue(false);
     });
 
     test('Render the FieldInput properly with correct data', () => {
@@ -90,7 +90,7 @@ describe('Testing FieldSelect component', () => {
 
     test('Test blur with handleBlur being undefined in props', () => {
         const localProps = {...props, handleBlur: undefined};
-        
+
         const { getByTestId } = render(<FieldSelect {...localProps}/>);
 
         const element = getByTestId('input-select');

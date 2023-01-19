@@ -37,7 +37,7 @@ export function ThemePage(): React.ReactElement {
                         <ShippingAddress/>
                         <BillingAddress/>
                         <ShippingLines/>
-                        <Payment/>
+                        <Payment loadIframeImmediately={true} />
                         <FormControls {...footerProps}/>
                     </form>
                 </main>

@@ -2,10 +2,10 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {SelectField} from '@boldcommerce/stacks-ui/lib';
 import ClassNames from 'classnames';
 import {IFieldSelectProps} from 'src/types';
-import {useGetIsLoading} from 'src/hooks';
+import {useGetIsLoadingExceptSections} from 'src/hooks';
 
 export function FieldSelect(props: IFieldSelectProps): React.ReactElement {
-    const isLoading = useGetIsLoading();
+    const isLoading = useGetIsLoadingExceptSections();
     const [isFocus, setIsFocus] = useState(false);
 
     const handleFocus = useCallback(evt => {

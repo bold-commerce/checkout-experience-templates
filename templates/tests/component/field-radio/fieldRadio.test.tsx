@@ -3,10 +3,10 @@ import {FieldRadio} from 'src/components';
 import React from 'react';
 import {IFieldRadioProps} from 'src/types';
 import {mocked} from 'jest-mock';
-import {useGetIsLoading} from 'src/hooks';
+import {useGetIsLoadingExceptSections} from 'src/hooks';
 
-jest.mock('src/hooks/useGetIsLoading');
-const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+jest.mock('src/hooks/useGetIsLoadingExceptSections');
+const useGetIsLoadingExceptSectionsMock = mocked(useGetIsLoadingExceptSections, true);
 
 describe('Testing FieldRadio component', () => {
     const props: IFieldRadioProps = {
@@ -18,7 +18,7 @@ describe('Testing FieldRadio component', () => {
     };
 
     beforeEach(() => {
-        useGetIsLoadingMock.mockReturnValue(false);
+        useGetIsLoadingExceptSectionsMock.mockReturnValue(false);
     });
 
     test('Render the FieldRadio with proper data', () => {

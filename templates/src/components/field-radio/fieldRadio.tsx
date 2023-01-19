@@ -1,10 +1,10 @@
 import React from 'react';
 import {RadioField} from '@boldcommerce/stacks-ui/lib/';
 import {IFieldRadioProps} from 'src/types';
-import {useGetIsLoading} from 'src/hooks';
+import {useGetIsLoadingExceptSections} from 'src/hooks';
 
 export function FieldRadio(props: IFieldRadioProps): React.ReactElement {
-    const isLoading = useGetIsLoading();
+    const isLoading = useGetIsLoadingExceptSections();
     return (
         <RadioField
             data-testid='field-radio'
