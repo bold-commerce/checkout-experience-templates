@@ -3,10 +3,10 @@ import {render, fireEvent, screen} from '@testing-library/react';
 import {FieldInput} from 'src/components';
 import {IFieldInputProps} from 'src/types';
 import {mocked} from 'jest-mock';
-import {useGetIsLoading} from 'src/hooks';
+import {useGetIsLoadingExceptSections} from 'src/hooks';
 
-jest.mock('src/hooks/useGetIsLoading');
-const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+jest.mock('src/hooks/useGetIsLoadingExceptSections');
+const useGetIsLoadingExceptSectionsMock = mocked(useGetIsLoadingExceptSections, true);
 
 describe('Testing FieldInput component', () => {
     let props;
@@ -22,7 +22,7 @@ describe('Testing FieldInput component', () => {
             handleChange: jest.fn(),
             handleBlur: jest.fn()
         };
-        useGetIsLoadingMock.mockReturnValue(false);
+        useGetIsLoadingExceptSectionsMock.mockReturnValue(false);
     });
 
     test('Render the FieldInput properly with correct data', () => {

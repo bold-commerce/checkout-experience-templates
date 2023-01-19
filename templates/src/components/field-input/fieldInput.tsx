@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import { InputField } from '@boldcommerce/stacks-ui/lib';
 import ClassNames from 'classnames';
-import {useGetIsLoading} from 'src/hooks';
+import {useGetIsLoadingExceptSections} from 'src/hooks';
 import { IFieldInputProps } from 'src/types';
 
 export function FieldInput(props: IFieldInputProps): React.ReactElement {
-    const isLoading = useGetIsLoading();
+    const isLoading = useGetIsLoadingExceptSections();
     const cssClass = useMemo(() => ClassNames([
         'input-field__container',
         props.className,

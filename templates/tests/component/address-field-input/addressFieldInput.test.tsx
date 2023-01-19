@@ -2,12 +2,12 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 import {AddressFieldInput} from 'src/components';
 import {Constants} from 'src/constants';
-import {useGetIsLoading, useGetAddressFieldInputData} from 'src/hooks';
+import {useGetAddressFieldInputData, useGetIsLoadingExceptSections} from 'src/hooks';
 import {IAddressHookProps, IAddressFieldInputProps} from 'src/types';
 
-jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/hooks/useGetIsLoadingExceptSections');
 jest.mock('src/hooks/useGetAddressFieldInputData');
-const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+const useGetIsLoadingExceptSectionsMock = mocked(useGetIsLoadingExceptSections, true);
 const useGetAddressFieldInputDataMock = mocked(useGetAddressFieldInputData, true);
 
 describe('Testing addressFieldInput component', () => {
@@ -29,7 +29,7 @@ describe('Testing addressFieldInput component', () => {
     };
 
     beforeEach(() => {
-        useGetIsLoadingMock.mockReturnValue(false);
+        useGetIsLoadingExceptSectionsMock.mockReturnValue(false);
     });
 
     test('Render the AddressFieldInput properly', () => {

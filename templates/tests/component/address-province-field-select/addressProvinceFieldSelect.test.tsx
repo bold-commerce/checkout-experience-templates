@@ -2,15 +2,15 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 import {AddressProvinceSelect} from 'src/components';
 import {Constants} from 'src/constants';
-import {useGetIsLoading, useGetAddressProvinceInputData} from 'src/hooks';
+import {useGetAddressProvinceInputData, useGetIsLoadingExceptSections} from 'src/hooks';
 import {
     IAddressFieldSelectProps,
     IAddressProvinceHookProps, ISelectList
 } from 'src/types';
 
-jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/hooks/useGetIsLoadingExceptSections');
 jest.mock('src/hooks/useGetAddressProvinceSelectData');
-const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+const useGetIsLoadingExceptSectionsMock = mocked(useGetIsLoadingExceptSections, true);
 const useGetAddressProvinceInputDataMock = mocked(useGetAddressProvinceInputData, true);
 
 describe('Testing AddressProvinceSelect component', () => {
@@ -43,7 +43,7 @@ describe('Testing AddressProvinceSelect component', () => {
     });
 
     beforeEach(() => {
-        useGetIsLoadingMock.mockReturnValue(false);
+        useGetIsLoadingExceptSectionsMock.mockReturnValue(false);
     });
 
     test('Render the AddressProvinceSelect properly', () => {

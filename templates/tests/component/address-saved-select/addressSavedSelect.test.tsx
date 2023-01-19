@@ -3,13 +3,13 @@ import {fireEvent, render} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 import {AddressSavedSelect} from 'src/components';
 import {Constants} from 'src/constants';
-import {useGetIsLoading, useGetSavedAddressData} from 'src/hooks';
+import {useGetIsLoadingExceptSections, useGetSavedAddressData} from 'src/hooks';
 import {initialDataMock} from 'src/mocks';
 import {IAddressFieldSelectProps, IAddressSavedSelectProps, ISavedAddressHookProps, ISelectList} from 'src/types';
 
-jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/hooks/useGetIsLoadingExceptSections');
 jest.mock('src/hooks/useGetSavedAddressData');
-const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+const useGetIsLoadingExceptSectionsMock = mocked(useGetIsLoadingExceptSections, true);
 const useGetSavedAddressDataMock = mocked(useGetSavedAddressData, true);
 
 type RenderTestData = {
@@ -97,7 +97,7 @@ describe('Testing AddressSavedSelect component', () => {
     });
 
     beforeEach(() => {
-        useGetIsLoadingMock.mockReturnValue(false);
+        useGetIsLoadingExceptSectionsMock.mockReturnValue(false);
     });
 
 

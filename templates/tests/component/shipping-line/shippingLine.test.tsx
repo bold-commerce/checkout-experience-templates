@@ -2,13 +2,13 @@ import {IShippingLine} from '@bold-commerce/checkout-frontend-library';
 import {render} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 import {ShippingLine} from 'src/components';
-import {useGetIsLoading, useGetShippingLinesData} from 'src/hooks';
+import {useGetIsLoadingExceptSections, useGetShippingLinesData} from 'src/hooks';
 import { IShippingLineProps, IShippingLinesHookProps} from 'src/types';
 import resetAllMocks = jest.resetAllMocks;
 
-jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/hooks/useGetIsLoadingExceptSections');
 jest.mock('src/hooks/useGetShippingLinesData');
-const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+const useGetIsLoadingExceptSectionsMock = mocked(useGetIsLoadingExceptSections, true);
 const useGetShippingLinesDataMock = mocked(useGetShippingLinesData, true);
 
 type Data = {
@@ -168,7 +168,7 @@ describe('Testing shipping line component', () => {
 
     beforeEach(() => {
         resetAllMocks();
-        useGetIsLoadingMock.mockReturnValue(false);
+        useGetIsLoadingExceptSectionsMock.mockReturnValue(false);
         jest.resetAllMocks();
     });
 
