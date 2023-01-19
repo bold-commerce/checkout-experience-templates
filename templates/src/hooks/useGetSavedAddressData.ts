@@ -13,8 +13,8 @@ import { useGetAddressData } from './useGetAddressData';
 /**
  * Makes an address into an ID used by <input /> values
  */
-const makeAddressId = (address: IAddress) => {
-    return `${address.id}__${address.address_line_1 || 'incomplete'}`;
+export const makeAddressId = (address: IAddress, index: number): string => {
+    return `${index}__${address.address_line_1.toLowerCase().replace(/\s/g, '') || 'incomplete'}`;
 };
 
 export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
@@ -28,20 +28,20 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
     const billingType = useGetAppSettingData('billingType');
 
     let count = 1;
-    const options = savedAddresses.map(address => ({
-        value: makeAddressId(address),
+    const options = savedAddresses.map((address , index) => ({
+        value: makeAddressId(address, index),
         name: address.address_line_1 || `Incomplete address #${count++}`,
     }));
     const currentAddress = useGetAddressData(type);
     const selectedOptionId = useMemo(() => {
         if (!currentAddress) { return undefined; }
         const address = savedAddresses.find(address => compareAddresses(address, currentAddress));
-        return !address ? undefined : makeAddressId(address);
+        return !address ? undefined : makeAddressId(address, savedAddresses.indexOf(address));
     }, [savedAddresses, currentAddress]);
 
     const handleChange = useCallback(e => {
         const value = e.target.value;
-        const address = savedAddresses.find(o => makeAddressId(o) === value) || defaultAddressState;
+        const address = savedAddresses.find((o , index) => makeAddressId(o, index) === value) || defaultAddressState;
 
         if (callApiAtOnEvents) {
             if (type === Constants.SHIPPING) {

@@ -1,4 +1,5 @@
 import {
+    makeAddressId,
     useCallApiAtOnEvents,
     useGetAddressData,
     useGetAppSettingData,
@@ -39,7 +40,7 @@ describe('Testing hook useGetSavedAddressData', () => {
         {id: '1', ...shippingAddress},
         {id: '2', ...billingAddress}
     ];
- 
+
     beforeEach(() => {
         jest.resetAllMocks();
         getTermMock.mockReturnValue(getTermValue);
@@ -47,11 +48,11 @@ describe('Testing hook useGetSavedAddressData', () => {
     });
 
     const hookData = [
-        {type: Constants.SHIPPING, address: [], label: "Select an address", placeholder: "Enter a new address", expected: []},
-        {type: Constants.SHIPPING, address: [shippingAddress], label: "Select an address", placeholder: "Select an address", expected: [{value: `${shippingAddress.id}__${shippingAddress.address_line_1 || 'incomplete'}`, name: shippingAddress.address_line_1}]},
-        {type: Constants.BILLING, address: [], label: "Select an address", placeholder: "Enter a new address", expected: []},
-        {type: Constants.BILLING, address: [billingAddress], label: "Select an address", placeholder: "Select an address", expected: [{value: `${billingAddress.id}__${billingAddress.address_line_1}`, name: billingAddress.address_line_1}]},
-        {type: Constants.BILLING, address: [{ ...billingAddress, address_line_1: '' }], label: "Select an address", placeholder: "Select an address", expected: [{value: `${billingAddress.id}__${'incomplete'}`, name: 'Incomplete address #1'}]},
+        {type: Constants.SHIPPING, address: [], label: 'Select an address', placeholder: 'Enter a new address', expected: []},
+        {type: Constants.SHIPPING, address: [shippingAddress], label: 'Select an address', placeholder: 'Select an address', expected: [{value: `0__${shippingAddress.address_line_1.toLowerCase().replace(/\s/g, '') || 'incomplete'}`, name: shippingAddress.address_line_1}]},
+        {type: Constants.BILLING, address: [], label: 'Select an address', placeholder: 'Enter a new address', expected: []},
+        {type: Constants.BILLING, address: [billingAddress], label: 'Select an address', placeholder: 'Select an address', expected: [{value: `0__${billingAddress.address_line_1.toLowerCase().replace(/\s/g, '')}`, name: billingAddress.address_line_1}]},
+        {type: Constants.BILLING, address: [{ ...billingAddress, address_line_1: '' }], label: 'Select an address', placeholder: 'Select an address', expected: [{value: `0__${'incomplete'}`, name: 'Incomplete address #1'}]},
     ];
 
     const addressTypes = [
@@ -65,18 +66,18 @@ describe('Testing hook useGetSavedAddressData', () => {
             useCallApiAtOnEventsMock.mockReturnValueOnce(false);
             useGetSavedAddressOptionsMock.mockReturnValueOnce(address);
             getTermMock
-            .mockReturnValueOnce(label)
-            .mockReturnValueOnce(placeholder)
-          
+                .mockReturnValueOnce(label)
+                .mockReturnValueOnce(placeholder);
+
             const {result} = renderHook(() => useGetSavedAddressData(type));
-        
-            expect(result.current.label).toStrictEqual("Select an address");
+
+            expect(result.current.label).toStrictEqual('Select an address');
             if(result.current.savedAddresses.length){
-                expect(result.current.placeholder).toStrictEqual("Select an address");
+                expect(result.current.placeholder).toStrictEqual('Select an address');
             }else{
-                expect(result.current.placeholder).toStrictEqual("Enter a new address");
+                expect(result.current.placeholder).toStrictEqual('Enter a new address');
             }
-            
+
             expect(result.current.id).toStrictEqual(type+'-saved-address-select');
             expect(result.current.options).toStrictEqual(expected);
             expect(result.current.selectedOptionId).toStrictEqual(undefined);
@@ -109,7 +110,7 @@ describe('Testing hook useGetSavedAddressData', () => {
         {
             name: 'Address equal to savedAddresses[0]',
             currentAddress: savedAddresses[0],
-            expected: `${savedAddresses[0].id}__${savedAddresses[0].address_line_1 || 'incomplete'}`,
+            expected: `0__${savedAddresses[0].address_line_1?.toLowerCase().replace(/\s/g, '') || 'incomplete'}`,
         },
         {
             name: 'Address equal to savedAddresses[0] with case differences',
@@ -117,7 +118,7 @@ describe('Testing hook useGetSavedAddressData', () => {
                 ...savedAddresses[0],
                 address_line_1: savedAddresses[0]?.address_line_1?.toUpperCase() + ' ',
             },
-            expected: `${savedAddresses[0].id}__${savedAddresses[0].address_line_1 || 'incomplete'}`,
+            expected: `0__${savedAddresses[0].address_line_1?.toLowerCase().replace(/\s/g, '') || 'incomplete'}`,
         },
         {
             name: 'Address not found in savedAddresses',
@@ -133,7 +134,7 @@ describe('Testing hook useGetSavedAddressData', () => {
                 ...savedAddresses[0],
                 country: 'Incorrect',
             },
-            expected: `${savedAddresses[0].id}__${savedAddresses[0].address_line_1 || 'incomplete'}`,
+            expected: `0__${savedAddresses[0].address_line_1?.toLowerCase().replace(/\s/g, '') || 'incomplete'}`,
         },
         {
             name: 'Address equal to savedAddresses[0] even when province name are different',
@@ -141,7 +142,7 @@ describe('Testing hook useGetSavedAddressData', () => {
                 ...savedAddresses[0],
                 province: 'Incorrect',
             },
-            expected: `${savedAddresses[0].id}__${savedAddresses[0].address_line_1 || 'incomplete'}`,
+            expected: `0__${savedAddresses[0].address_line_1?.toLowerCase().replace(/\s/g, '') || 'incomplete'}`,
         },
     ];
 
@@ -175,11 +176,11 @@ describe('Testing hook useGetSavedAddressData', () => {
         expect(result.current.options).toEqual([
             {
                 name: 'Incomplete address #1',
-                value: 'null__incomplete',
+                value: '0__incomplete',
             },
             {
                 name: '100 Main Street',
-                value: '2__100 Main Street',
+                value: '1__100mainstreet',
             },
         ]);
     });
@@ -204,5 +205,13 @@ describe('Testing hook useGetSavedAddressData', () => {
         test('Does not call the validateShippingAddress thunk', () => {
             expect(mockDispatch).not.toHaveBeenCalledWith(validateShippingAddress);
         });
+    });
+
+    test('Testing makeAddressId function with identical address ', () => {
+        const address1 = {...shippingAddress};
+        const address2 = {...shippingAddress};
+        const addresses = [address1, address2];
+        const ids = addresses.map((address, index) => makeAddressId(address, index));
+        expect(ids[0]).not.toStrictEqual(ids[1]);
     });
 });
