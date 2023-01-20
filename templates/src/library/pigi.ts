@@ -82,6 +82,26 @@ export function handlePigiSca(payload: IPigiResponsesPayload, history: History) 
     };
 }
 
+export function handlePigiDisplayFullPage() {
+    return async function handlePigiDisplayFullPageThunk(dispatch: Dispatch): Promise<void> {
+        window.scrollTo(0, 0);
+        updatePigiHeight('100%');
+        dispatch(actionSetPigiDisplaySca(true));
+        dispatch(actionShowHideOverlayContent(false));
+    };
+}
+
+export function handlePigiDisplayFullPageDone(payload: IPigiResponsesPayload) {
+    return async function handlePigiDisplayFullPageDoneThunk(dispatch: Dispatch): Promise<void> {
+        dispatch(actionShowHideOverlayContent(true));
+        dispatch(getUpdatedApplicationState).then(() => {
+            dispatch(actionSetPigiDisplaySca(false));
+            updatePigiHeight(`${payload.height}px`);
+            dispatch(actionShowHideOverlayContent(false));
+        });
+    };
+}
+
 export function handlePigiRefreshOrder() {
     return async function handlePigiRefreshOrderThunk(dispatch: Dispatch): Promise<void> {
         dispatch(getUpdatedApplicationState);

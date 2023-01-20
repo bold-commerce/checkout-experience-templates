@@ -5,6 +5,8 @@ import {useHistory} from 'react-router';
 import {Constants} from 'src/constants';
 import {
     handlePigiAddPayment,
+    handlePigiDisplayFullPage,
+    handlePigiDisplayFullPageDone,
     handlePigiHeight,
     handlePigiInitialized,
     handlePigiPaymentAdded,
@@ -43,6 +45,12 @@ export function useSetPigiListener(): void {
                 break;
             case pigiActionTypes.PIGI_REFRESH_ORDER:
                 dispatch(handlePigiRefreshOrder());
+                break;
+            case pigiActionTypes.PIGI_DISPLAY_IN_FULL_PAGE:
+                dispatch(handlePigiDisplayFullPage());
+                break;
+            case pigiActionTypes.PIGI_DISPLAY_IN_FULL_PAGE_DONE:
+                dispatch(handlePigiDisplayFullPageDone(payload));
                 break;
         }
     };

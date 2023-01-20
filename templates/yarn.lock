@@ -330,6 +330,11 @@
   resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-frontend-library/-/checkout-frontend-library-0.33.0.tgz#44bc39b9c1ee9ed7d31bccff52c157f39f152c10"
   integrity sha512-hBHniELSmb1cDTYZaDVmC17PdhkDvq4AgJ7fF2LHsuLRLwUE2FjxqnS8ifhcfzeii9J4jn9ihcn0xum2D9DK0g==
 
+"@bold-commerce/checkout-frontend-library@^0.34.1":
+  version "0.34.1"
+  resolved "https://npm.boldapps.net/@bold-commerce%2fcheckout-frontend-library/-/checkout-frontend-library-0.34.1.tgz#3cb463153356c8bba55fe4c51540f2d7c166685c"
+  integrity sha512-tv68ZYcjAKCTxgJXvWlw6HY+GMygTEyU2JfRYkh7z5pi1219gyvV1SBYkS/UxhlzLG73yUWE15ia54lXzx6uWQ==
+
 "@boldcommerce/stacks-ui@^1.1.1":
   version "1.4.1"
   resolved "https://npm.boldapps.net/@boldcommerce%2fstacks-ui/-/stacks-ui-1.4.1.tgz#6a7ebe1084f6f20d0014b284ce62bec509a488fb"
