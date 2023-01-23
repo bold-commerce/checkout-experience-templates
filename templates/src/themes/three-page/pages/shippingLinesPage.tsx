@@ -21,7 +21,7 @@ import {Constants} from 'src/constants';
 
 export function ShippingLinesPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading, title} = useShippingPage();
-    const mainAriaLabel = getTerm('checkout_form', Constants.GLOBAL_INFO);
+    const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
     useOnLoadValidateCustomer();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');

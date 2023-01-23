@@ -19,7 +19,7 @@ export function ThemePage(): React.ReactElement {
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
     useIsValidShippingOnLoad();
     const {nextButtonOnClick, ...footerProps} = useGetOnePageFooterData();
-    const mainAriaLabel = getTerm('checkout_form', Constants.GLOBAL_INFO);
+    const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
     const dispatch = useDispatch();
     useEffect(() => { dispatch(checkInventory(checkInventoryStage.initial)); }, []);
 

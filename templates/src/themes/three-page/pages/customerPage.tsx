@@ -22,7 +22,7 @@ import {Constants} from 'src/constants';
 export function CustomerPage(): React.ReactElement {
     const {isMobile} = useScreenBreakpoints();
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading, title} = useCustomerPage();
-    const mainAriaLabel = getTerm('checkout_form', Constants.GLOBAL_INFO);
+    const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
 

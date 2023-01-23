@@ -12,7 +12,7 @@ import {Constants} from 'src/constants';
 
 export function PaymentPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable, title} = usePaymentPage();
-    const mainAriaLabel = getTerm('checkout_form', Constants.GLOBAL_INFO);
+    const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
     useOnLoadValidateCustomerAndShipping();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
