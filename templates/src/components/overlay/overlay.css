@@ -33,6 +33,7 @@
 .overlay__header{
     color: #FFF;
     margin-top: 30px;
+    font-size: 2em;
 }
 
 .overlay__subheader{
@@ -52,6 +53,7 @@
 
 .overlay__content-span{
     white-space: pre-line;
+    display: inline;
 }
 
 #overlay-inverted  {
@@ -73,11 +75,11 @@
 #overlay-inverted .overlay__icon,
 #overlay-inverted .overlay__header,
 #overlay-inverted .overlay__subheader{
-    color: #BDBDBD;
+    color: #595959;
 }
 
 #overlay-inverted .overlay__content{
-    color: #00000099;
+    color: #595959;
 }
 
 .overlay__loader {
