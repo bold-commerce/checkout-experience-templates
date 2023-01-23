@@ -14,7 +14,7 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): IBreadc
     const cartTerm = isBoldPlatform() ? 'store': 'cart';
     const {link} = getReturnToCartTermAndLink();
 
-    const sectionLabel = getTerm('checkout_steps', Constants.GLOBAL_INFO);
+    const sectionLabel = getTerm('checkout_steps', Constants.GLOBAL_INFO, undefined , 'Checkout steps');
 
     const crumbs: Array<IBreadcrumb> = [
         {

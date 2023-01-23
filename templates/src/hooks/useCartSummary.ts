@@ -9,7 +9,7 @@ export function useCartSummary(): IUseCartSummary{
     const [expandSummary, setExpandSummary] = useState(!isMobile);
     const showSummary = !isMobile || expandSummary;
     const toggleSummary = useCallback(() => setExpandSummary(!expandSummary), [expandSummary]);
-    const summaryAriaLabel = getTerm('order_summary', Constants.SUMMARY_INFO);
+    const summaryAriaLabel = getTerm('order_summary', Constants.SUMMARY_INFO, undefined, 'Order summary');
 
     const lineItems = useGetLineItems();
     const totals = getTotalLineItems(lineItems);
