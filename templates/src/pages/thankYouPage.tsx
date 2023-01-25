@@ -23,7 +23,7 @@ export function ThankYouPage(): React.ReactElement {
     const isGeneric = !orderProcessed || (!firstName && isObjectEmpty(shippingAddress) && isObjectEmpty(billingAddress));
     useEffect(() => {
         sendPageView('/thank_you', 4);
-        sendEvents('Checkout', 'Landed on thank you page');
+        sendEvents('Landed on thank you page', {'category': 'Checkout'});
     }, []);
 
     const getClasses = ((classes?: Array<string> | string): string => {

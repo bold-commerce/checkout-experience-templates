@@ -18,7 +18,7 @@ export function PaymentPage(): React.ReactElement {
     useScrollToElementOnNavigation('customer-section');
     useEffect(() => {
         sendPageView('/payment', 3);
-        sendEvents('Checkout', 'Landed on payment page');
+        sendEvents('Landed on payment page', {'category': 'Checkout'});
     }, []);
 
     return (

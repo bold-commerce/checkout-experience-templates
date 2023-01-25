@@ -27,7 +27,7 @@ export function ShippingLinesPage(): React.ReactElement {
     useScrollToElementOnNavigation('customer-section');
     useEffect(() => {
         sendPageView('/shipping_lines', 2);
-        sendEvents('Checkout', 'Landed on shipping page');
+        sendEvents('Landed on shipping page', {'category': 'Checkout'});
     }, []);
 
     return (

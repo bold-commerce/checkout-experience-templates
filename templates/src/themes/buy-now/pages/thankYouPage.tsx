@@ -13,7 +13,7 @@ export function ThankYouPage(): React.ReactElement{
 
     useEffect(() => {
         sendPageView('/thank-you');
-        sendEvents('Checkout', 'Landed on buy now /thank-you page');  
+        sendEvents('Landed on buy now /thank-you page', {'category': 'Checkout'});
     }, []);
 
     return (

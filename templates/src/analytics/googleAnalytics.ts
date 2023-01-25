@@ -1,9 +1,9 @@
 import {isObjectEmpty} from 'src/utils';
 import {ITotals} from 'src/types';
-import {ILineItem, IShippingLine} from '@bold-commerce/checkout-frontend-library';
+import {IDiscount, ILineItem, IShippingLine} from '@bold-commerce/checkout-frontend-library';
 
 export function isGoogleAnalyticsEnabled(): boolean {
-    return typeof window['ga'] === 'function'&& !!window['google_analytics_tracking_id'] && typeof window['google_analytics_tracking_id'] === 'string';
+    return typeof window['gtag'] === 'function'&& !!window['google_analytics_tracking_id'] && typeof window['google_analytics_tracking_id'] === 'string';
 }
 
 export function sendPageViewForGoogleAnalytics(page: string, step?: number) : void {
@@ -11,25 +11,28 @@ export function sendPageViewForGoogleAnalytics(page: string, step?: number) : vo
         return;
     }
 
-    if (!isObjectEmpty({step})) {
-        window['ga']('require', 'ec');
-        window['ga']('ec:setAction', 'checkout', { step });
+    const parameters = { page_location: page };
+    if (step) {
+        parameters['page_title'] = step;
     }
-    window['ga']('set', 'page', page);
-    window['ga']('send', 'pageview');
+    window['gtag']('event', 'page_view', parameters);
 }
 
-export function sendEventForGoogleAnalytics(event: string, category: string) : void {
-
+export function sendEventForGoogleAnalytics(event: string, parameters?: Record<string, unknown>) : void {
     if(!isGoogleAnalyticsEnabled()){
         return;
     }
-    window['ga']('send', 'event', category, event);
+
+    if (parameters?.value){
+        parameters.value = formatCurrency(<number>parameters.value);
+    }
+    if (parameters?.items){
+        parameters.items = formatItems(<Array<ILineItem>>parameters.items);
+    }
+    window['gtag']('event', event, parameters ?? {});
 }
 
-
-export function orderCompleteForGoogleAnalytics(lineItems: Array<ILineItem>, currency: string, totals: ITotals, shipping: IShippingLine): void {
-
+export function orderCompleteForGoogleAnalytics(lineItems: Array<ILineItem>, currency: string, totals: ITotals, shipping: IShippingLine, id: string, discounts: Array<IDiscount>): void {
     if(!isGoogleAnalyticsEnabled()){
         return;
     }
@@ -41,30 +44,30 @@ export function orderCompleteForGoogleAnalytics(lineItems: Array<ILineItem>, cur
         document.head.appendChild(googleScript);
     }
     else {
-        window['ga']('require', 'ec');
-        window['ga']('set', 'currencyCode', currency);
-
-        lineItems.forEach(item => {
-            window['ga']('ec:addProduct', {
-                id: item.product_data.sku,
-                name: item.product_data.product_title,
-                variant: item.product_data.title,
-                price: formatCurrency(item.product_data.price),
-                quantity: item.product_data.quantity,
-            });
-        });
-
-        window['ga']('ec:setAction', 'purchase', {
-            revenue: formatCurrency(totals.totalOrder),
+        window['gtag']('event', 'purchase', {
+            currency,
+            transaction_id: id,
+            value: formatCurrency(totals.totalOrder),
             shipping: formatCurrency(shipping.amount),
             tax: formatCurrency(totals.totalTaxes),
+            coupon: discounts.map(d => d.code).join(' '),
+            items: formatItems(lineItems)
         });
 
-        window['ga']('send', 'event', 'Checkout', 'Successful Checkout');
+        window['gtag']('event', 'Successful Checkout', {'category': 'Checkout'});
     }
 }
 
-
 function formatCurrency(amount: number): string{
     return (amount / 100).toFixed(2);
+}
+
+function formatItems(lineItems: Array<ILineItem>) {
+    return lineItems.map(item => ({
+        item_id: item.product_data.sku,
+        item_name: item.product_data.product_title,
+        item_variant: item.product_data.title,
+        price: formatCurrency(item.product_data.price),
+        quantity: item.product_data.quantity,
+    }));
 }

@@ -12,7 +12,7 @@ export function SessionExpiredPage(): React.ReactElement {
     
     useEffect(() => {
         sendPageView('/session-expired');
-        sendEvents('Checkout', 'Landed on buy now /session-expired page');  
+        sendEvents('Landed on buy now /session-expired page', {'category': 'Checkout'});
     }, []);
     
     return (

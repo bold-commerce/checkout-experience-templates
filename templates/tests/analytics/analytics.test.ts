@@ -50,7 +50,7 @@ describe('testing Analytics functions', () => {
     });
 
     test('testing sendEvents function', () => {
-        sendEvents('initiate', '');
+        sendEvents('initiate');
         expect(sendFacebookEventMock).toHaveBeenCalledTimes(1);
         expect(sendEventForGoogleAnalyticsMock).toHaveBeenCalledTimes(1);
     });
@@ -62,7 +62,7 @@ describe('testing Analytics functions', () => {
     });
 
     test('testing orderCompleteAnalytics function', () => {
-        orderCompleteAnalytics(appState.line_items, 'USD', totals, selectedShippingLine);
+        orderCompleteAnalytics(appState.line_items, 'USD', totals, selectedShippingLine, '1', []);
         expect(orderCompleteForGoogleAnalyticsMock).toHaveBeenCalledTimes(1);
         expect(orderCompletedForFacebookPixelMock).toHaveBeenCalledTimes(1);
     });

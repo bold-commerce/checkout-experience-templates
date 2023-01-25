@@ -15,7 +15,7 @@ import {ITotals} from 'src/types';
 import {HistoryLocationState} from 'react-router';
 
 export function callProcessOrder(dispatch: Dispatch, totals: ITotals, history: HistoryLocationState ): void {
-    sendEvents('Checkout', 'Clicked continue to complete order button');
+    sendEvents('Clicked continue to complete order button', {'category': 'Checkout'});
 
     dispatch(actionClearErrors());
     sendClearErrorMessageAction();

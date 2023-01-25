@@ -2,8 +2,11 @@ import {useDispatch} from 'react-redux';
 import {
     useGetAppSettingData,
     useGetButtonDisableVariable,
+    useGetCurrencyInformation,
     useGetIsLoading,
     useGetIsOrderProcessed,
+    useGetLineItems,
+    useGetSelectShippingLine,
 } from 'src/hooks';
 import {
     getCheckoutUrl,
@@ -12,9 +15,10 @@ import {
     callProcessOrder
 } from 'src/utils';
 import {Constants} from 'src/constants';
-import {useCallback} from 'react';
+import {useCallback, useEffect} from 'react';
 import {useHistory} from 'react-router';
 import {IUsePaymentPage} from 'src/types';
+import { sendEvents } from 'src/analytics';
 
 export function usePaymentPage(): IUsePaymentPage{
     const history = useHistory();
@@ -30,6 +34,9 @@ export function usePaymentPage(): IUsePaymentPage{
     const title = getTerm('payment_method_title', Constants.GLOBAL_INFO, undefined , 'Checkout form, payment method');
     const nextButtonDisable = useGetButtonDisableVariable('paymentPageButton');
     const totals = getTotalsFromState();
+    const { currency } = useGetCurrencyInformation();
+    const items = useGetLineItems();
+    const {description: shipping_tier, amount: value} = useGetSelectShippingLine();
 
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
@@ -39,6 +46,10 @@ export function usePaymentPage(): IUsePaymentPage{
     const nextButtonOnClick = useCallback( () => {
         callProcessOrder(dispatch, totals, history);
     },[totals, history]);
+
+    useEffect(() => {
+        sendEvents('add_shipping_info', {currency, value, shipping_tier, items});
+    }, []);
 
     return {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable, language, title};
 }

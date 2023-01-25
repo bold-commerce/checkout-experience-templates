@@ -39,7 +39,7 @@ export function useIndexPage(): IUseIndexPageProps {
         //isValidBillingAddress could get updated in above dispatch call, need to use ref to fetch updated state.
         if (!isValidBillingAddressRef.current) { return; }
 
-        sendEvents('Checkout', 'Clicked complete order button');
+        sendEvents('Clicked complete order button', {'category': 'Checkout'});
         if (errors.length === 0) {
             dispatch(displayOrderProcessingScreen);
             if (orderTotal <= 0) {
