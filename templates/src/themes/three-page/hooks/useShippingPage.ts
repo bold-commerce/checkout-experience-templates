@@ -31,7 +31,7 @@ export function useShippingPage(): IUseCustomerPageProp{
     const nextButtonText = getTerm('footer_shipping_continue', Constants.SHIPPING_METHOD_INFO);
     const active = 2;
     const nextButtonOnClick = useCallback(() => {
-        sendEvents('Checkout', 'Clicked continue to payment button');
+        sendEvents('Clicked continue to payment button', {'category': 'Checkout'});
         dispatch(actionClearErrors());
         dispatch(callShippingLinesPageApi(history));
     } , []);

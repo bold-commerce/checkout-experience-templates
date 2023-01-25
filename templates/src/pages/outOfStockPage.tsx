@@ -10,7 +10,7 @@ export function OutOfStockPage(): React.ReactElement {
     const title = getTerm('out_of_stock_title', Constants.GLOBAL_INFO, undefined , 'Out of stock');
     useEffect(() => {
         sendPageView('/out_of_stock');
-        sendEvents('Checkout', 'Landed on out of stock page');
+        sendEvents('Landed on out of stock page', {'category': 'Checkout'});
     },[]);
     return (
         <div className={'checkout-experience-container'}>

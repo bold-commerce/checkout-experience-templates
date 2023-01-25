@@ -3,7 +3,7 @@ import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import {mocked} from 'jest-mock';
 import {Constants} from 'src/constants';
-import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed,} from 'src/hooks';
+import {useGetButtonDisableVariable, useGetCurrencyInformation, useGetIsLoading, useGetIsOrderProcessed, useGetSelectShippingLine,} from 'src/hooks';
 import {usePaymentPage} from 'src/themes/three-page/hooks';
 import {callProcessOrder, getCheckoutUrl, getTerm, getTotalsFromState} from 'src/utils';
 import {ITotals} from 'src/types';
@@ -18,6 +18,8 @@ jest.mock('src/library');
 jest.mock('src/hooks/useGetIsOrderProcessed');
 jest.mock('src/utils/callProcessOrder');
 jest.mock('src/utils/getTotalsFromState');
+jest.mock('src/hooks/useGetCurrencyInformation');
+jest.mock('src/hooks/useGetSelectShippingLine');
 
 const useDispatchMock = mocked(useDispatch, true);
 const useHistoryMock = mocked(useHistory, true);
@@ -27,7 +29,8 @@ const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true
 const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
 const callProcessOrderMock = mocked(callProcessOrder, true);
 const getTotalsFromStateMock = mocked(getTotalsFromState, true);
-
+const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
+const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
 
 describe('Testing hook usePaymentPage', () => {
     const dispatchMock = jest.fn();
@@ -40,7 +43,8 @@ describe('Testing hook usePaymentPage', () => {
     const nextDisableVariableMock = false;
     const eventMock = {preventDefault: jest.fn()};
     const total: ITotals = {totalSubtotal: 2999, totalFees:0, totalTaxes:0, totalAdditionalFees:0, totalOrder:0, totalPaid:0, totalDiscounts:0, totalAmountDue:2999};
-
+    const currencyInformationMock = {iso_code: 'CAD', currency:'', currencySymbol:'', formattedPrice:''};
+    const selectedShippingLineMock = {description: 'test shipping line', amount: 1999, id: '1'};
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -51,6 +55,8 @@ describe('Testing hook usePaymentPage', () => {
         useGetIsLoadingMock.mockReturnValue(nextButtonLoadingMock);
         useGetButtonDisableVariableMock.mockReturnValueOnce(nextDisableVariableMock);
         getTotalsFromStateMock.mockReturnValue(total);
+        useGetCurrencyInformationMock.mockReturnValue(currencyInformationMock);
+        useGetSelectShippingLineMock.mockReturnValue(selectedShippingLineMock);
     });
 
     test('Render with empty errors array', async () => {

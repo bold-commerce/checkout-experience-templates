@@ -16,6 +16,7 @@ import {
     actionUpdateDiscountCodeText
 } from 'src/action';
 import {API_RETRY, errorFields, errorTypes} from 'src/constants';
+import { sendEvents } from 'src/analytics';
 
 export function postDiscounts(code: string) {
     return async function postDiscountsThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<HTMLElement | null> {
@@ -31,6 +32,7 @@ export function postDiscounts(code: string) {
                 dispatch(actionUpdateDiscountCodeText(''));
                 dispatch(actionRemoveErrorByField(errorFields.discounts));
                 dispatch(actionRemoveErrorByTypeAndCode(errorTypes.discount_code_validation, '02'));
+                sendEvents('select_promotion', {'promotion_id': discount.code, 'promotion_name': discount.text});
             }
         }
 

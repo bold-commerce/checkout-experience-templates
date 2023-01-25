@@ -22,7 +22,7 @@ export function checkErrorAndProceedToNextPage(
         if (errors.length <= 0 || isOnlyDiscountCodeError(errors)) {
             history.replace(getCheckoutUrl(page));
             if(callOrderCompleteAnalytics){
-                const appState = getState().data.application_state;
+                const { public_order_id: id, application_state: appState} = getState().data;
                 const discounts = appState.discounts;
                 const payments = appState.payments;
                 const taxes = appState.taxes;
@@ -32,7 +32,7 @@ export function checkErrorAndProceedToNextPage(
                 const fees = appState.fees as Array<IFees>;
                 const orderTotal = appState.order_total;
                 const totals = getTotals(lineItems, payments, taxes, fees, discounts, orderTotal);
-                orderCompleteAnalytics(lineItems, currency, totals, shipping);
+                orderCompleteAnalytics(lineItems, currency, totals, shipping, id, discounts);
             }
         }
     };

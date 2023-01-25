@@ -1,3 +1,4 @@
+import { IDiscount } from '@bold-commerce/checkout-frontend-library';
 import {
     isGoogleAnalyticsEnabled,
     orderCompleteForGoogleAnalytics,
@@ -23,24 +24,29 @@ describe('testing Google Analytics implementation', () => {
         totalAdditionalFees: 0,
         totalPaid: 0,
         totalFees: 0,
-        totalTaxes: 0.10,
+        totalTaxes: 10,
         totalDiscounts: 0
     };
 
-    let gaSpy;
+    const discounts: Array<IDiscount> = [
+        { code: 'test_code', text: 'code text', value: 100, valid: true, },
+        { code: 'code_test', text: 'code text', value: 200, valid: true, }
+    ];
+
+    let gtagSpy;
 
     beforeEach(() => {
-        window['ga'] = jest.fn();
-        gaSpy = jest.spyOn((window as any), 'ga');
+        window['gtag'] = jest.fn();
+        gtagSpy = jest.spyOn((window as any), 'gtag');
     });
 
 
     test('testing isGoogleAnalyticsEnabled function', ()=> {
 
-        window['ga'] = undefined;
+        window['gtag'] = undefined;
         let result = isGoogleAnalyticsEnabled();
         expect(result).toBe(false);
-        window['ga'] = jest.fn();
+        window['gtag'] = jest.fn();
 
         window['google_analytics_tracking_id'] = undefined;
         result = isGoogleAnalyticsEnabled();
@@ -53,9 +59,9 @@ describe('testing Google Analytics implementation', () => {
 
     test('testing sendPageViewForGoogleAnalytics function without ga defined', ()=> {
         const page = 'test';
-        window['ga'] = undefined;
+        window['gtag'] = undefined;
         sendPageViewForGoogleAnalytics(page);
-        expect(gaSpy).toHaveBeenCalledTimes(0);
+        expect(gtagSpy).toHaveBeenCalledTimes(0);
     });
 
     test('testing sendPageViewForGoogleAnalytics function', ()=> {
@@ -64,52 +70,79 @@ describe('testing Google Analytics implementation', () => {
 
         sendPageViewForGoogleAnalytics(page);
 
-        expect(gaSpy).not.toHaveBeenCalledWith('require', 'ec');
-        expect(gaSpy).not.toHaveBeenCalledWith('ec:setAction', 'checkout', step);
-        expect(gaSpy).toHaveBeenCalledWith('set', 'page', page);
-        expect(gaSpy).toHaveBeenCalledWith('send', 'pageview');
+        expect(gtagSpy).toHaveBeenCalledWith('event', 'page_view', { 'page_location': page });
 
         sendPageViewForGoogleAnalytics(page, step);
 
-        expect(gaSpy).toHaveBeenCalledWith('require', 'ec');
-        expect(gaSpy).toHaveBeenCalledWith('ec:setAction', 'checkout', {step});
-
+        expect(gtagSpy).toHaveBeenCalledWith('event', 'page_view', { 'page_location': page, 'page_title': step });
     });
 
     test('testing sendEventForGoogleAnalytics function without ga defined', ()=> {
         const event = 'test';
-        const category = 'test-category';
+        const parameters = {'category': 'test-category'};
 
-        window['ga'] = undefined;
-        sendEventForGoogleAnalytics(event, category);
-        expect(gaSpy).toHaveBeenCalledTimes(0);
+        window['gtag'] = undefined;
+        sendEventForGoogleAnalytics(event, parameters);
+        expect(gtagSpy).toHaveBeenCalledTimes(0);
     });
 
-    test('testing sendEventForGoogleAnalytics function', ()=> {
+    test('testing sendEventForGoogleAnalytics without parameters function', ()=> {
+        const event = 'custom';
+
+        sendEventForGoogleAnalytics(event);
+
+        expect(gtagSpy).toHaveBeenCalledWith('event', event, {});
+    });
+
+    test('testing sendEventForGoogleAnalytics with parameters function', ()=> {
         const event = 'test';
-        const category = 'test-category';
+        const rawParameters = {id: '1', value:'1999', items:[{
+            product_data: {
+                sku: 'abc123',
+                product_title: 'title',
+                title: 'variant',
+                price: '2023',
+                quantity: 2
+            }
+        }]};
+        const formattedParameters = {id: '1', value: '19.99', items: [{  
+            item_id: 'abc123',
+            item_name: 'title',
+            item_variant: 'variant',
+            price: '20.23',
+            quantity: 2
+        }]};
 
-        sendEventForGoogleAnalytics(event, category);
+        sendEventForGoogleAnalytics(event, rawParameters);
 
-        expect(gaSpy).toHaveBeenCalledWith('send', 'event', category, event);
+        expect(gtagSpy).toHaveBeenCalledWith('event', event, formattedParameters);
 
     });
 
     test('testing orderCompleteForGoogleAnalytics function without ga defined', ()=> {
-        window['ga'] = undefined;
-        orderCompleteForGoogleAnalytics(appState.line_items, 'USD', totals ,selectedShippingLine );
-        expect(gaSpy).toHaveBeenCalledTimes(0);
+        window['gtag'] = undefined;
+        orderCompleteForGoogleAnalytics(appState.line_items, 'USD', totals ,selectedShippingLine, '1', []);
+        expect(gtagSpy).toHaveBeenCalledTimes(0);
     });
 
     test('testing orderCompleteForGoogleAnalytics function without custom script', ()=> {
-        orderCompleteForGoogleAnalytics(appState.line_items, 'USD', totals ,selectedShippingLine );
-        expect(gaSpy).toHaveBeenCalledWith('require', 'ec');
-        expect(gaSpy).toHaveBeenCalledWith('ec:addProduct',
-            {'id': 'CLC', 'name': '[Sample] Canvas Laundry Cart', 'price': '200.00', 'quantity': 1, 'variant': 'Default Title'}
-        );
-        expect(gaSpy).toHaveBeenCalledWith('set', 'currencyCode', 'USD');
-
-        expect(gaSpy).toHaveBeenCalledWith('send', 'event', 'Checkout', 'Successful Checkout');
+        orderCompleteForGoogleAnalytics(appState.line_items, 'USD', totals ,selectedShippingLine, '1', discounts);
+        expect(gtagSpy).toHaveBeenCalledWith('event', 'purchase', {
+            'currency': 'USD',
+            'transaction_id': '1',
+            'value': '220.99',
+            'shipping': '19.99',
+            'tax': '0.10',
+            'coupon': 'test_code code_test',
+            'items': [{
+                'item_id': 'CLC',
+                'item_name': '[Sample] Canvas Laundry Cart',
+                'item_variant': 'Default Title',
+                'price': '200.00',
+                'quantity': 1,
+            }]
+        });
+        expect(gtagSpy).toHaveBeenCalledWith('event', 'Successful Checkout', {'category': 'Checkout'});
     });
 
     test('testing orderCompleteForGoogleAnalytics function with custom script', ()=> {
@@ -117,8 +150,8 @@ describe('testing Google Analytics implementation', () => {
         window['google_analytics_is_customized'] = 1;
         window['google_analytics_order_complete_script'] = script;
 
-        orderCompleteForGoogleAnalytics(appState.line_items, 'USD', totals ,selectedShippingLine );
-        expect(gaSpy).toHaveBeenCalledTimes(0);
+        orderCompleteForGoogleAnalytics(appState.line_items, 'USD', totals, selectedShippingLine, '1', []);
+        expect(gtagSpy).toHaveBeenCalledTimes(0);
         expect(document.head.childNodes.length).toBe(1);
         expect(document.head.children[0].innerHTML).toContain(script);
     });

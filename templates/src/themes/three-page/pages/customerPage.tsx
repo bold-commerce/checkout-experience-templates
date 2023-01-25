@@ -38,7 +38,7 @@ export function CustomerPage(): React.ReactElement {
 
     useEffect(() => {
         sendPageView('/customer_information', 1);
-        sendEvents('Checkout', 'Landed on customer information page');
+        sendEvents('Landed on customer information page', {'category': 'Checkout'});
     }, []);
 
 
