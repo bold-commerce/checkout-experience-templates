@@ -12,14 +12,20 @@ export const initialDataMock: IInitializeOrderResponse = {
                 'show_postal_code': true,
                 'provinces': [
                     {
+                        'iso_code': 'BC',
+                        'name': 'British Columbia',
+                        'valid_for_shipping': true,
+                        'valid_for_billing': false
+                    },
+                    {
                         'iso_code': 'AB',
                         'name': 'Alberta',
                         'valid_for_shipping': true,
                         'valid_for_billing': false
                     },
                     {
-                        'iso_code': 'BC',
-                        'name': 'British Columbia',
+                        'iso_code': 'AB',
+                        'name': 'Alberta',
                         'valid_for_shipping': true,
                         'valid_for_billing': false
                     },

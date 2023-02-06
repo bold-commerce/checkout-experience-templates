@@ -13,6 +13,8 @@ export function useGetAddressPostalCodeAndProvinceData(type: string): IAddressPo
     }
     const countryInfo = useGetCountryInfoByCountryCode(countryCode);
     if(countryInfo){
+        const compareFn = (a, b) => a.name < b.name ? -1 : (a.name > b.name ? 1 : 0);
+        countryInfo.provinces.sort(compareFn);
         return {showProvince: countryInfo.show_province,
             showPostalCode: countryInfo.show_postal_code,
             provinceLabel: countryInfo.province_label,
