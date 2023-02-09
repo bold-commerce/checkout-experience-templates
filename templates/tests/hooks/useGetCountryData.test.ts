@@ -26,7 +26,7 @@ describe('Testing useGetCountryData', () => {
         const countryCode = 'CA';
 
         const {result} = renderHook(() => useGetCountryInfoByCountryCode(countryCode));
-        expect(result.current).toStrictEqual(store.data.initial_data.country_info[0]);
+        expect(result.current).toStrictEqual(store.data.initial_data.country_info[1]);
         expect(useAppSelector).toHaveBeenCalledTimes(1);
     });
 });
