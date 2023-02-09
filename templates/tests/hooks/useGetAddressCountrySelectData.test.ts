@@ -31,8 +31,9 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
     const debounceMock = jest.fn();
     const type = 'test';
     const getTermValue = 'test-value';
+    const countriesListSorted = initialDataMock.initial_data.country_info.sort();
     const countriesList = initialDataMock.initial_data.country_info;
-    const countriesOptions = countriesList.map(country => ({ value: country.iso_code, name: country.name }));
+    const countriesOptions = countriesList.map(country => ({ value: country.iso_code, name: country.name })).sort();
     const target ={
         target: {
             value: '',
@@ -52,7 +53,7 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
 
     test('rendering the hook properly', () => {
         useGetAddressDataFieldMock.mockReturnValue(getTermValue);
-        useGetCountryInfoListMock.mockReturnValue(countriesList);
+        useGetCountryInfoListMock.mockReturnValue(countriesListSorted);
 
         const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
         expect(result.current.label).toStrictEqual(getTermValue);
@@ -116,7 +117,7 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
         expect(result.current.countryOptions).toStrictEqual(countriesOptions);
         expect(result.current.id).toStrictEqual(type+'-address__country');
         expect(result.current.name).toStrictEqual(Constants.ADDRESS_COUNTRY);
-        expect(result.current.value).toStrictEqual('CA');
+        expect(result.current.value).toStrictEqual('US');
         expect(result.current.errorMessage).toStrictEqual(undefined);
 
         result.current.handleChange(target);

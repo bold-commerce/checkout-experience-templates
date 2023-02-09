@@ -5,101 +5,6 @@ export const initialDataMock: IInitializeOrderResponse = {
         'shop_name': 'local-dev-store.mybigcommerce.com',
         'country_info': [
             {
-                'iso_code': 'CA',
-                'name': 'Canada',
-                'show_province': true,
-                'province_label': 'province',
-                'show_postal_code': true,
-                'provinces': [
-                    {
-                        'iso_code': 'BC',
-                        'name': 'British Columbia',
-                        'valid_for_shipping': true,
-                        'valid_for_billing': false
-                    },
-                    {
-                        'iso_code': 'AB',
-                        'name': 'Alberta',
-                        'valid_for_shipping': true,
-                        'valid_for_billing': false
-                    },
-                    {
-                        'iso_code': 'AB',
-                        'name': 'Alberta',
-                        'valid_for_shipping': true,
-                        'valid_for_billing': false
-                    },
-                    {
-                        'iso_code': 'MB',
-                        'name': 'Manitoba',
-                        'valid_for_shipping': true,
-                        'valid_for_billing': false
-                    },
-                    {
-                        'iso_code': 'NB',
-                        'name': 'New Brunswick',
-                        'valid_for_shipping': true,
-                        'valid_for_billing': false
-                    },
-                    {
-                        'iso_code': 'NL',
-                        'name': 'Newfoundland and Labrador',
-                        'valid_for_shipping': true,
-                        'valid_for_billing': false
-                    },
-                    {
-                        'iso_code': 'NT',
-                        'name': 'Northwest Territories',
-                        'valid_for_shipping': true,
-                        'valid_for_billing': false
-                    },
-                    {
-                        'iso_code': 'NS',
-                        'name': 'Nova Scotia',
-                        'valid_for_shipping': true,
-                        'valid_for_billing': false
-                    },
-                    {
-                        'iso_code': 'NU',
-                        'name': 'Nunavut',
-                        'valid_for_shipping': true,
-                        'valid_for_billing': false
-                    },
-                    {
-                        'iso_code': 'ON',
-                        'name': 'Ontario',
-                        'valid_for_shipping': true,
-                        'valid_for_billing': false
-                    },
-                    {
-                        'iso_code': 'PE',
-                        'name': 'Prince Edward Island',
-                        'valid_for_shipping': true,
-                        'valid_for_billing': false
-                    },
-                    {
-                        'iso_code': 'QC',
-                        'name': 'Quebec',
-                        'valid_for_shipping': true,
-                        'valid_for_billing': false
-                    },
-                    {
-                        'iso_code': 'SK',
-                        'name': 'Saskatchewan',
-                        'valid_for_shipping': true,
-                        'valid_for_billing': false
-                    },
-                    {
-                        'iso_code': 'YT',
-                        'name': 'Yukon Territory',
-                        'valid_for_shipping': true,
-                        'valid_for_billing': false
-                    }
-                ],
-                'valid_for_shipping': true,
-                'valid_for_billing': false
-            },
-            {
                 'iso_code': 'US',
                 'name': 'United States',
                 'show_province': true,
@@ -481,7 +386,102 @@ export const initialDataMock: IInitializeOrderResponse = {
                 ],
                 'valid_for_shipping': true,
                 'valid_for_billing': false
-            }
+            },
+            {
+                'iso_code': 'CA',
+                'name': 'Canada',
+                'show_province': true,
+                'province_label': 'province',
+                'show_postal_code': true,
+                'provinces': [
+                    {
+                        'iso_code': 'BC',
+                        'name': 'British Columbia',
+                        'valid_for_shipping': true,
+                        'valid_for_billing': false
+                    },
+                    {
+                        'iso_code': 'AB',
+                        'name': 'Alberta',
+                        'valid_for_shipping': true,
+                        'valid_for_billing': false
+                    },
+                    {
+                        'iso_code': 'AB',
+                        'name': 'Alberta',
+                        'valid_for_shipping': true,
+                        'valid_for_billing': false
+                    },
+                    {
+                        'iso_code': 'MB',
+                        'name': 'Manitoba',
+                        'valid_for_shipping': true,
+                        'valid_for_billing': false
+                    },
+                    {
+                        'iso_code': 'NB',
+                        'name': 'New Brunswick',
+                        'valid_for_shipping': true,
+                        'valid_for_billing': false
+                    },
+                    {
+                        'iso_code': 'NL',
+                        'name': 'Newfoundland and Labrador',
+                        'valid_for_shipping': true,
+                        'valid_for_billing': false
+                    },
+                    {
+                        'iso_code': 'NT',
+                        'name': 'Northwest Territories',
+                        'valid_for_shipping': true,
+                        'valid_for_billing': false
+                    },
+                    {
+                        'iso_code': 'NS',
+                        'name': 'Nova Scotia',
+                        'valid_for_shipping': true,
+                        'valid_for_billing': false
+                    },
+                    {
+                        'iso_code': 'NU',
+                        'name': 'Nunavut',
+                        'valid_for_shipping': true,
+                        'valid_for_billing': false
+                    },
+                    {
+                        'iso_code': 'ON',
+                        'name': 'Ontario',
+                        'valid_for_shipping': true,
+                        'valid_for_billing': false
+                    },
+                    {
+                        'iso_code': 'PE',
+                        'name': 'Prince Edward Island',
+                        'valid_for_shipping': true,
+                        'valid_for_billing': false
+                    },
+                    {
+                        'iso_code': 'QC',
+                        'name': 'Quebec',
+                        'valid_for_shipping': true,
+                        'valid_for_billing': false
+                    },
+                    {
+                        'iso_code': 'SK',
+                        'name': 'Saskatchewan',
+                        'valid_for_shipping': true,
+                        'valid_for_billing': false
+                    },
+                    {
+                        'iso_code': 'YT',
+                        'name': 'Yukon Territory',
+                        'valid_for_shipping': true,
+                        'valid_for_billing': false
+                    }
+                ],
+                'valid_for_shipping': true,
+                'valid_for_billing': false
+            },
         ],
         'supported_languages': [
             {
