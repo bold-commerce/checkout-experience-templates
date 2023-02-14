@@ -13,5 +13,5 @@ git pull
 
 echo Rsync copy GITLAB to GITHUB folder of checkout-frontend-library
 echo Rsync Excluding list: ~/repo/checkout-experience-templates/scripts/.rsyncignore
-cd ~/repo/github/
+cd ~/repo/checkout-experience-templates/scripts/
 rsync -av --exclude-from=./.rsyncignore ~/repo/checkout-frontend-library/ ~/repo/github/checkout-frontend-library/
