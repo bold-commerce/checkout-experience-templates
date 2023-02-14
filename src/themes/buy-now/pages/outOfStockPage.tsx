@@ -13,7 +13,7 @@ export function OutOfStockPage(): React.ReactElement {
 
     useEffect(() => {
         sendPageView('/out-of-stock');
-        sendEvents('Checkout', 'Landed on buy now /out-of-stock page');  
+        sendEvents('Landed on buy now /out-of-stock page', {'category': 'Checkout'});
     }, []);
 
     return (

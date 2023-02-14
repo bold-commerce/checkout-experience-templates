@@ -10,7 +10,7 @@ export function SessionExpiredPage(): React.ReactElement {
     const title = getTerm('session_expiry_title', Constants.GLOBAL_INFO, undefined , 'Session expired');
     useEffect(() => {
         sendPageView('/session_expired');
-        sendEvents('Checkout', 'Landed on session expiry page');
+        sendEvents('Landed on session expiry page', {'category': 'Checkout'});
     }, []);
     return (
         <div className={'checkout-experience-container'}>

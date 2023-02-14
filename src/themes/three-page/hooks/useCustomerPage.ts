@@ -1,6 +1,6 @@
 import {useCallback, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {useGetAppSettingData, useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
+import {useGetAppSettingData, useGetButtonDisableVariable, useGetCurrencyInformation, useGetIsLoading, useGetIsOrderProcessed, useGetLineItems, useGetOrderTotal} from 'src/hooks';
 import {callCustomerPageApi, checkInventory, initializeExpressPay} from 'src/library';
 import {useHistory} from 'react-router';
 import {Constants} from 'src/constants';
@@ -30,15 +30,19 @@ export function useCustomerPage(): IUseCustomerPageProp {
     const nextButtonText = getTerm('cont_to_shipping', Constants.SHIPPING_INFO);
     const active = 1;
     const nextButtonOnClick = useCallback(() => {
-        sendEvents('Checkout', 'Clicked continue to shipping lines button');
+        sendEvents('Clicked continue to shipping lines button', {'category': 'Checkout'});
 
         dispatch(actionClearErrors());
         dispatch(callCustomerPageApi(history));
     } , []);
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
+    const items = useGetLineItems();
+    const value = useGetOrderTotal();
+    const { currency } = useGetCurrencyInformation();
 
     useEffect( () => {
         if (!isOrderCompleted) {
+            sendEvents('begin_checkout', {currency, value, items});
             dispatch(checkInventory(checkInventoryStage.initial));
             dispatch(initializeExpressPay(history));
         }

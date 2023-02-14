@@ -31,8 +31,9 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
     const debounceMock = jest.fn();
     const type = 'test';
     const getTermValue = 'test-value';
+    const countriesListSorted = initialDataMock.initial_data.country_info.sort((a, b) => a.name < b.name ? -1 : 1);
     const countriesList = initialDataMock.initial_data.country_info;
-    const countriesOptions = countriesList.map(country => ({ value: country.iso_code, name: country.name }));
+    const countriesOptions = countriesList.map(country => ({ value: country.iso_code, name: country.name })).sort((a, b) => a.name < b.name ? -1 : 1);
     const target ={
         target: {
             value: '',
@@ -52,7 +53,7 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
 
     test('rendering the hook properly', () => {
         useGetAddressDataFieldMock.mockReturnValue(getTermValue);
-        useGetCountryInfoListMock.mockReturnValue(countriesList);
+        useGetCountryInfoListMock.mockReturnValue(countriesListSorted);
 
         const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
         expect(result.current.label).toStrictEqual(getTermValue);
@@ -184,5 +185,39 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
         expect(mockDispatch).toBeCalledTimes(4);
         expect(debounceMock).toBeCalledTimes(1);
     });
+
+    test('sorts countries', () => {
+        const requiredButIrrelevantCountryDetailed = {
+            ...initialDataMock.initial_data.country_info[0],
+            provinces: [],
+        };
+
+        useGetAddressDataFieldMock.mockReturnValue(getTermValue);
+        useGetCountryInfoListMock.mockReturnValue([
+            {
+                ...requiredButIrrelevantCountryDetailed,
+                'iso_code': 'US',
+                'name': 'United States',
+            },
+            {
+                ...requiredButIrrelevantCountryDetailed,
+                'iso_code': 'CA',
+                'name': 'Canada',
+
+            },
+            {
+                ...requiredButIrrelevantCountryDetailed,
+                'iso_code': 'ZW',
+                'name': 'Zimbabwe',
+            },
+        ]);
+
+        const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
+        const resultCountryNamesList = result.current.countryOptions.map(country => country.name);
+
+        expect(resultCountryNamesList)
+            .toEqual(['Canada', 'United States', 'Zimbabwe']);
+    });
+
 
 });

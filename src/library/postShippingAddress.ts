@@ -12,7 +12,6 @@ import {setShippingAddressAsValid} from 'src/library';
 import {compareAddresses, handleErrorIfNeeded} from 'src/utils';
 
 export async function postShippingAddress(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
-    dispatch(actionSetAppStateValid('shippingAddress', false));
     const previousShipping: IAddress = getShippingAddress();
     const {data: {application_state: {addresses: {shipping}}}} = getState();
 

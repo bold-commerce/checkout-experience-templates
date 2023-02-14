@@ -1,4 +1,4 @@
-import {IFooterProps} from 'src/types';
+import {IFormControlsProps} from 'src/types';
 import {getTerm, getTotalsFromState, callProcessOrder, getReturnToCartTermAndLink} from 'src/utils';
 import {Constants} from 'src/constants';
 import {useGetAppSettingData, useGetIsLoading} from 'src/hooks';
@@ -7,7 +7,9 @@ import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import {initializeExpressPay} from 'src/library';
 
-export function useGetOnePageFooterData(): IFooterProps{
+export type IUseGetOnePageFooterDataProps = IFormControlsProps & Required<Pick<IFormControlsProps, 'nextButtonOnClick'>>
+
+export function useGetOnePageFooterData(): IUseGetOnePageFooterDataProps {
     const dispatch = useDispatch();
     const history = useHistory();
     const totals = getTotalsFromState();

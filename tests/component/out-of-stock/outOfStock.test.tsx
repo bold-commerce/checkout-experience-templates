@@ -4,33 +4,36 @@ import {mocked} from 'jest-mock';
 import {OutOfStock} from 'src/components';
 import {
     useGetContactUs,
-    useGetFooterRights,
+    useGetFooter,
     useGetOutOfStock,
     useGetShopUrlFromShopAlias,
     useScreenBreakpoints,
     useSupportedLanguages
 } from 'src/hooks';
-import {IUseContactUs, IUseFooterRights, IUseOutOfStock, IUseScreenBreakpoints} from 'src/types';
+import {IUseContactUs, IUseFooter, IUseOutOfStock, IUseScreenBreakpoints} from 'src/types';
+import {getTerm} from 'src/utils';
 
 jest.mock('src/hooks/useGetOutOfStock');
 jest.mock('src/hooks/useGetContactUs');
-jest.mock('src/hooks/useGetFooterRights');
+jest.mock('src/hooks/useGetFooter');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useScreenBreakpoints');
+jest.mock('src/utils/getTerm');
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetOutOfStockMock = mocked(useGetOutOfStock, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
-const useGetFooterRightsMock = mocked(useGetFooterRights, true);
+const useGetFooterMock = mocked(useGetFooter, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
+const getTermMock = mocked(getTerm, true);
 
 describe('Testing OutOfStock component', () => {
     const contactUsHookReturn: IUseContactUs = {
         needHelp: 'Need help?',
         contactUs: 'Contact us',
     };
-    const footerRightsHookReturn: IUseFooterRights = {
+    const footerRightsHookReturn: IUseFooter = {
         shopAlias: 'shop.test',
         footerRights: 'All rights reserved',
     };
@@ -53,9 +56,10 @@ describe('Testing OutOfStock component', () => {
         useScreenBreakpointsMock.mockReturnValue(mockScreenBreakpoints);
         useGetOutOfStockMock.mockReturnValue(hookReturn);
         useGetContactUsMock.mockReturnValue(contactUsHookReturn);
-        useGetFooterRightsMock.mockReturnValue(footerRightsHookReturn);
+        useGetFooterMock.mockReturnValue(footerRightsHookReturn);
         useSupportedLanguagesMock.mockReturnValue({languagesOptions: [], value: '', handleChange: jest.fn()});
         useGetShopUrlFromShopAliasMock.mockReturnValue('https://google.com');
+        getTermMock.mockImplementation(term => term);
     });
 
     test('Render the component properly', () => {
@@ -65,7 +69,7 @@ describe('Testing OutOfStock component', () => {
         expect(container.getElementsByClassName('out-of-stock__footer-container').length).toBe(1);
         expect(container.getElementsByClassName('main-header').length).toBe(1);
         expect(container.getElementsByClassName('generic-message-section').length).toBe(1);
-        expect(container.getElementsByClassName('footer').length).toBe(1);
+        expect(container.getElementsByClassName('form-controls').length).toBe(1);
         expect(useGetOutOfStockMock).toHaveBeenCalledTimes(1);
     });
 

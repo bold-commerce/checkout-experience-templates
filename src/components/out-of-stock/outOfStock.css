@@ -9,6 +9,11 @@
     background-color: #FFFFFF;
 }
 
+.out-of-stock main {
+    display: flex;
+    flex-direction: column;
+}
+
 @media only screen and (max-width: 1200px) and (min-width: 768px) {
     .out-of-stock {
         width: 468px;

@@ -20,6 +20,8 @@ import {
     setPigiListenerInLibrary,
     removePigiListenerInLibrary,
     updatePigiLanguage,
+    handlePigiDisplayFullPage,
+    handlePigiDisplayFullPageDone,
 } from 'src/library';
 import {stateMock} from 'src/mocks';
 import {IPigiResponsesPayload} from 'src/types';
@@ -250,6 +252,44 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
             expect(actionShowHideOverlayContentMock).toHaveBeenCalledTimes(0);
             expect(actionSetPigiDisplayScaMock).toHaveBeenCalledTimes(0);
             expect(dispatchMock).toHaveBeenCalledTimes(0);
+        });
+    });
+
+    test('handlePigiDisplayFullPage', async () => {
+
+        const handlePigiDisplayFullPageThunk = await handlePigiDisplayFullPage();
+        await handlePigiDisplayFullPageThunk(dispatchMock).then(() => {
+            expect(window.scrollTo).toHaveBeenCalledTimes(1);
+            expect(window.scrollTo).toHaveBeenCalledWith(0, 0);
+            expect(updatePigiHeightMock).toHaveBeenCalledTimes(1);
+            expect(updatePigiHeightMock).toHaveBeenCalledWith('100%');
+            expect(dispatchMock).toHaveBeenCalledTimes(2);
+            expect(dispatchMock).toHaveBeenCalledWith(actionMock);
+            expect(actionSetPigiDisplayScaMock).toHaveBeenCalledTimes(1);
+            expect(actionSetPigiDisplayScaMock).toHaveBeenCalledWith(true);
+            expect(actionShowHideOverlayContentMock).toHaveBeenCalledTimes(1);
+            expect(actionShowHideOverlayContentMock).toHaveBeenCalledWith(false);
+        });
+    });
+
+    test('handlePigiDisplayFullPageDone called', async () => { // TODO
+        const payloadMock: IPigiResponsesPayload = {height: 100, success: true};
+        getUpdatedApplicationStateMock.mockResolvedValue();
+
+        const handlePigiDisplayFullPageDoneThunk = await handlePigiDisplayFullPageDone(payloadMock);
+        await handlePigiDisplayFullPageDoneThunk(dispatchMock).then(() => {
+            expect(actionShowHideOverlayContentMock).toHaveBeenCalledTimes(2);
+            expect(actionShowHideOverlayContentMock).toHaveBeenCalledWith(true);
+            expect(dispatchMock).toHaveBeenCalledTimes(4);
+            expect(dispatchMock).toHaveBeenCalledWith(actionMock);
+            expect(dispatchMock).toHaveBeenCalledWith(getUpdatedApplicationStateMock);
+            expect(dispatchMock).toHaveBeenCalledWith(actionMock);
+            expect(dispatchMock).toHaveBeenCalledWith(actionMock);
+            expect(actionSetPigiDisplayScaMock).toHaveBeenCalledTimes(1);
+            expect(actionSetPigiDisplayScaMock).toHaveBeenCalledWith(false);
+            expect(updatePigiHeightMock).toHaveBeenCalledTimes(1);
+            expect(updatePigiHeightMock).toHaveBeenCalledWith('100px');
+            expect(actionShowHideOverlayContentMock).toHaveBeenCalledWith(false);
         });
     });
 

@@ -53,7 +53,7 @@ describe('Test getBreadcrumbs function', () => {
     test('Completed state', () => {
         isBoldPlatformMock.mockReturnValueOnce(true);
         const {result} = renderHook(() => getBreadcrumbs(historyMock, active));
-        const results = result.current;
+        const { crumbs: results } = result.current;
 
         results[0].onClick(eventMock);
         expect(window.location.href).toEqual(window.returnUrl);
@@ -82,7 +82,7 @@ describe('Test getBreadcrumbs function', () => {
     test('Completed state without bold platform', () => {
         isBoldPlatformMock.mockReturnValueOnce(false);
         const {result} = renderHook(() => getBreadcrumbs(historyMock, active));
-        const results = result.current;
+        const { crumbs: results } = result.current;
 
         results[0].onClick(eventMock);
         expect(window.location.href).toEqual(link);

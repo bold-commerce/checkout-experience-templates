@@ -29,7 +29,7 @@ export function useBuyNowContainerPage(props : IUseBuyNowContainerPageProps) : I
 
     useEffect(() => {
         sendPageView(openSection);
-        sendEvents('Checkout', `Landed on buy now ${openSection} page`);
+        sendEvents(`Landed on buy now ${openSection} page`, {'category': 'Checkout'});
     }, [openSection]);
 
     useLayoutEffect(() => {

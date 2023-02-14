@@ -1,10 +1,10 @@
 import React from 'react';
 import {CheckboxField} from '@boldcommerce/stacks-ui';
 import {IFieldCheckboxProps } from 'src/types';
-import {useGetIsLoading} from 'src/hooks';
+import {useGetIsLoadingExceptSections} from 'src/hooks';
 
 export function FieldCheckbox(props: IFieldCheckboxProps): React.ReactElement {
-    const isLoading = useGetIsLoading();
+    const isLoading = useGetIsLoadingExceptSections();
     return (
         <CheckboxField
             data-testid='field-checkbox'

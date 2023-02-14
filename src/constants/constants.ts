@@ -141,6 +141,7 @@ export class autocompleteServices {
 export class debounceConstants {
     static debouncedGuestCustomerFunction: () => void;
     static DEFAULT_DEBOUNCE_TIME = 3000;
+    static DEBOUNCE_UI_UPDATE_TIME = 300;
 }
 
 export const pigiHandleScaSteps: IPigiHandleScaSteps = {

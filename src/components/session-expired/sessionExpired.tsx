@@ -1,8 +1,9 @@
 import React, {useCallback} from 'react';
 
-import {Footer, GenericMessageSection, Header} from 'src/components';
+import {Footer, FormControls, GenericMessageSection, Header} from 'src/components';
 import {getErrorTerm, getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
+import {useGetShopUrlFromShopAlias} from 'src/hooks';
 
 export function SessionExpired(): React.ReactElement {
     const returnToStore = getTerm('return_to_store', Constants.CUSTOMER_INFO, undefined, 'Return to store');
@@ -10,23 +11,26 @@ export function SessionExpired(): React.ReactElement {
     const sessionExpiredBody = getErrorTerm('return_to_store_and_checkout', Constants.GENERIC_ERROR_INFO, undefined, 'Return to your store and check out again');
     const returnUrl = useCallback(() =>
     {
-        window.location.href = window.returnUrl;
+        window.location.href = useGetShopUrlFromShopAlias(window.shopAlias);
     }, []);
 
     return (
         <div className={'session-expired'}>
             <Header isMobile={false}/>
-            <GenericMessageSection
-                className={'session-expired__message'}
-                messageTitle={sessionExpiredHeader}
-                messageText={sessionExpiredBody}
-            />
-            <Footer
-                className={'session-expired__footer-container'}
-                contactUs={true}
-                nextButtonText={returnToStore}
-                nextButtonOnClick={returnUrl}
-            />
+            <main aria-label={sessionExpiredHeader}>
+                <GenericMessageSection
+                    className={'session-expired__message'}
+                    messageTitle={sessionExpiredHeader}
+                    messageText={sessionExpiredBody}
+                />
+                <FormControls
+                    className={'session-expired__footer-container'}
+                    contactUs={true}
+                    nextButtonText={returnToStore}
+                    nextButtonOnClick={returnUrl}
+                />
+            </main>
+            <Footer />
         </div>
     );
 }

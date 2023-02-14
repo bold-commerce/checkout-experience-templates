@@ -5,20 +5,24 @@ import {
     CustomerInformation,
     ShippingAddress,
     SummarySection,
-    Footer,
+    FormControls,
     FlashError,
     Header,
     ExpressPaymentGateway,
     HeaderHelmet,
-    ScreenReaderAnnouncement
+    ScreenReaderAnnouncement,
+    Footer
 } from 'src/components';
 import {useBeforeUnload, useScreenBreakpoints, useScrollToElementOnNavigation, useSendEvent} from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
+import {getTerm, withPreventDefault} from 'src/utils';
+import {Constants} from 'src/constants';
 
 export function CustomerPage(): React.ReactElement {
     const {isMobile} = useScreenBreakpoints();
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading, title} = useCustomerPage();
+    const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
 
@@ -34,7 +38,7 @@ export function CustomerPage(): React.ReactElement {
 
     useEffect(() => {
         sendPageView('/customer_information', 1);
-        sendEvents('Checkout', 'Landed on customer information page');
+        sendEvents('Landed on customer information page', {'category': 'Checkout'});
     }, []);
 
 
@@ -47,20 +51,24 @@ export function CustomerPage(): React.ReactElement {
                 {isMobile && <SummarySection orderCompleted={false}/>}
                 <div className='customer-section' >
                     <Header isMobile={false}/>
-                    <Breadcrumbs active={active}/>
-                    <FlashError/>
-                    <ExpressPaymentGateway/>
-                    <CustomerInformation/>
-                    <ShippingAddress/>
-                    <BillingAddress/>
-                    <Footer
-                        backLinkOnClick={backLinkOnClick}
-                        backLinkText={backLinkText}
-                        nextButtonText={nextButtonText}
-                        nextButtonOnClick={nextButtonOnClick}
-                        nextButtonDisable={nextButtonDisable}
-                        nextButtonLoading={nextButtonLoading}
-                    />
+                    <main aria-label={mainAriaLabel}>
+                        <Breadcrumbs active={active}/>
+                        <form onSubmit={withPreventDefault(nextButtonOnClick)}>
+                            <FlashError/>
+                            <ExpressPaymentGateway/>
+                            <CustomerInformation/>
+                            <ShippingAddress/>
+                            <BillingAddress/>
+                            <FormControls
+                                backLinkOnClick={backLinkOnClick}
+                                backLinkText={backLinkText}
+                                nextButtonText={nextButtonText}
+                                nextButtonDisable={nextButtonDisable}
+                                nextButtonLoading={nextButtonLoading}
+                            />
+                        </form>
+                    </main>
+                    <Footer />
                 </div>
                 {!isMobile && <SummarySection orderCompleted={false}/>}
             </div>

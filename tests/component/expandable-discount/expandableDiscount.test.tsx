@@ -3,7 +3,7 @@ import {mocked} from 'jest-mock';
 import {
     useExpandableDiscount,
     useGetFlashErrors,
-    useGetIsLoading,
+    useGetIsLoadingExceptSections,
     useSummaryDiscountCode,
     useSummaryDiscountLine
 } from 'src/hooks';
@@ -16,11 +16,11 @@ const mockDispatch = jest.fn();
 jest.mock('src/hooks/useExpandableDiscount');
 jest.mock('src/hooks/useSummaryDiscountLine');
 jest.mock('src/hooks/useSummaryDiscountCode');
-jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/hooks/useGetIsLoadingExceptSections');
 jest.mock('src/hooks/useGetFlashErrors');
 jest.mock('src/utils/getTerm');
 const getTermMock = mocked(getTerm, true);
-const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+const useGetIsLoadingExceptSectionsMock = mocked(useGetIsLoadingExceptSections, true);
 const useExpandableDiscountMock = mocked(useExpandableDiscount, true);
 const useSummaryDiscountLineMock = mocked(useSummaryDiscountLine, true);
 const useSummaryDiscountCodeMock = mocked(useSummaryDiscountCode, true);
@@ -59,7 +59,7 @@ describe('Testing ExpandableDiscount Component', () => {
         jest.resetAllMocks();
         useSummaryDiscountCodeMock.mockReturnValueOnce(hookResultForDiscountCode);
         useSummaryDiscountLineMock.mockReturnValueOnce(hookResultForDiscountLine);
-        useGetIsLoadingMock.mockReturnValue(false);
+        useGetIsLoadingExceptSectionsMock.mockReturnValue(false);
         useGetFlashErrorsMock.mockReturnValue([]);
         getTermMock.mockReturnValueOnce('discount_code_successfully_applied');
     });

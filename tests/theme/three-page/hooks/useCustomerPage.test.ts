@@ -1,5 +1,5 @@
 import {renderHook} from '@testing-library/react-hooks';
-import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
+import {useGetButtonDisableVariable, useGetCurrencyInformation, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
 import {getCheckoutUrl, getTerm, getReturnToCartTermAndLink} from 'src/utils';
@@ -18,6 +18,8 @@ jest.mock('src/library/callCustomerPageApi');
 jest.mock('src/library/checkInventory');
 jest.mock('src/library/initializeExpressPay');
 jest.mock('src/utils/getReturnToCartTermAndLink');
+jest.mock('src/hooks/useGetCurrencyInformation');
+
 const useDispatchMock = mocked(useDispatch, true);
 const useHistoryMock = mocked(useHistory, true);
 const getTermMock = mocked(getTerm, true);
@@ -28,6 +30,7 @@ const checkInventoryMock = mocked(checkInventory, true);
 const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
 const initializeExpressPayMock = mocked(initializeExpressPay, true);
 const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
+const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 
 describe('Testing hook useCustomerPage', () => {
     const mockDispatch = jest.fn();
@@ -36,7 +39,7 @@ describe('Testing hook useCustomerPage', () => {
     const getTermValue = 'test-value';
     const eventMock = {preventDefault: jest.fn()};
     const historyMock = {replace: jest.fn()};
-    const pageNameWithPrefix = 'prefix_page_name';
+    const currencyInformationMock = {iso_code: 'CAD', currency:'', currencySymbol:'', formattedPrice:''};
     const mockExpressEntry = jest.fn();
 
     beforeEach(() => {
@@ -49,6 +52,7 @@ describe('Testing hook useCustomerPage', () => {
         callCustomerPageApiMock.mockReturnValue(mockCallCustomerPageApi);
         checkInventoryMock.mockReturnValue(mockCheckInventory);
         initializeExpressPayMock.mockReturnValue(mockExpressEntry);
+        useGetCurrencyInformationMock.mockReturnValue(currencyInformationMock);
         window = Object.create(window);
         Object.defineProperty(window, 'location', {
             value: {

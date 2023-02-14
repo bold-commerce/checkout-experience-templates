@@ -33,7 +33,8 @@ describe('Testing CartSummary component', () => {
         totals: 300,
         showSummary: true,
         toggleSummary: jest.fn(),
-        lineItems: []
+        lineItems: [],
+        summaryAriaLabel: 'order summary',
     };
 
     const discounts : Array<IDiscount> = [

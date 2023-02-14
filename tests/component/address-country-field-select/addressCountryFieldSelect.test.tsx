@@ -2,12 +2,12 @@ import {fireEvent, render} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 import {AddressCountrySelect} from 'src/components';
 import {Constants} from 'src/constants';
-import {useGetIsLoading, useGetAddressCountryInputData} from 'src/hooks';
+import {useGetIsLoadingExceptSections, useGetAddressCountryInputData} from 'src/hooks';
 import {IAddressCountryHookProps, IAddressFieldSelectProps, ISelectList} from 'src/types';
 
-jest.mock('src/hooks/useGetIsLoading');
+jest.mock('src/hooks/useGetIsLoadingExceptSections');
 jest.mock('src/hooks/useGetAddressCountrySelectData');
-const useGetIsLoadingMock = mocked(useGetIsLoading, true);
+const useGetIsLoadingExceptSectionsMock = mocked(useGetIsLoadingExceptSections, true);
 const useGetAddressCountryInputDataMock = mocked(useGetAddressCountryInputData, true);
 
 describe('Testing AddressCountrySelect component', () => {
@@ -35,7 +35,7 @@ describe('Testing AddressCountrySelect component', () => {
     };
 
     beforeEach(() => {
-        useGetIsLoadingMock.mockReturnValue(false);
+        useGetIsLoadingExceptSectionsMock.mockReturnValue(false);
     });
 
     afterEach(() => {

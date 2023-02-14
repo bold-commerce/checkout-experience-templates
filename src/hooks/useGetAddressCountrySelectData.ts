@@ -16,6 +16,7 @@ export function useGetAddressCountryInputData(type: string, debounceApiCall: () 
     const label = getTerm(AddressLabelMapping[Constants.ADDRESS_COUNTRY],Constants.SHIPPING_INFO);
     const countriesList: Array<ICountryInformation> = useGetCountryInfoList();
     const countryOptions = countriesList.map(country => ({ value: country.iso_code, name: country.name }));
+    countryOptions.sort((a, b) => a.name < b.name ? -1 : 1);
     let value: string = useGetAddressDataField(type, Constants.ADDRESS_COUNTRY_CODE);
     let countryName = useGetAddressDataField(type, Constants.ADDRESS_COUNTRY);
     const id = `${type}-address__country`;

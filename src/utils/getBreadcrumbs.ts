@@ -1,4 +1,4 @@
-import {IBreadcrumb} from 'src/types';
+import {IBreadcrumb, IBreadcrumbs} from 'src/types';
 import {
     getTerm,
     getBreadcrumbStatus,
@@ -9,10 +9,12 @@ import {
 import {Constants} from 'src/constants';
 import {BrowserHistory} from 'history';
 
-export function getBreadcrumbs(history: BrowserHistory, active: number): Array<IBreadcrumb> {
+export function getBreadcrumbs(history: BrowserHistory, active: number): IBreadcrumbs {
     let index = 0;
     const cartTerm = isBoldPlatform() ? 'store': 'cart';
     const {link} = getReturnToCartTermAndLink();
+
+    const sectionLabel = getTerm('checkout_steps', Constants.GLOBAL_INFO, undefined , 'Checkout steps');
 
     const crumbs: Array<IBreadcrumb> = [
         {
@@ -53,5 +55,5 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): Array<I
         },
     ];
 
-    return crumbs;
+    return { crumbs, sectionLabel };
 }
