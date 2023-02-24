@@ -20,6 +20,7 @@ export function OutOfStock(): React.ReactElement {
                     contactUs={true}
                     nextButtonText={terms.returnToCart}
                     nextButtonOnClick={returnUrl}
+                    nextButtonTestDataId={'out-of-stock-back-button'}
                 />
             </main>
             <Footer />

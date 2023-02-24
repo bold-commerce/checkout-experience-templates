@@ -12,19 +12,20 @@ export function FormControls(props: IFormControlsProps): React.ReactElement {
     const cssClass  = classNames(['form-controls', props.className]);
     const cssClassButton  = classNames(['form-controls__button', 'form-controls__continue-button', 'btn-checkout']);
     const sectionAriaLabel = getTerm('form_controls', Constants.GLOBAL_INFO);
+    const nextButtonTestDataId = props.nextButtonTestDataId ?? 'footer-return-to-store-button';
 
     return (
         <section className={cssClass} aria-label={sectionAriaLabel}>
             {props.contactUs && <ContactUs/>}
             {showBackLink &&
-            <a className={'form-controls__back-link'} href={'#footerBack'} onClick={props.backLinkOnClick}>
+            <a data-testid={'back-link'} className={'form-controls__back-link'} href={'#footerBack'} onClick={props.backLinkOnClick}>
                 <span className={'form-controls__back-link--wrapper'}>
                     {props.backLinkText}
                 </span>
             </a>
             }
             <Button
-                data-testid={'footer-return-to-store-button'}
+                data-testid={nextButtonTestDataId}
                 size={'large'}
                 type='submit'
                 loading={props.nextButtonLoading}
