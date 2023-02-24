@@ -31,6 +31,7 @@ export function ThankYou(): React.ReactElement {
                     contactUs={true}
                     nextButtonText={terms.keepShopping}
                     nextButtonOnClick={returnUrl}
+                    nextButtonTestDataId={'thank-you-return-to-store-button'}
                 />
             </main>
             <Footer />

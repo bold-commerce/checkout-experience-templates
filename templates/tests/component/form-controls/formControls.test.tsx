@@ -54,7 +54,7 @@ describe('Testing FormControls component', () => {
     });
 
     test('Rendering the component without backLink and contactUs true', () => {
-        const newProps = {...props, backLinkText: '', backLinkOnClick: undefined, contactUs: true};
+        const newProps = {...props, backLinkText: '', backLinkOnClick: undefined, contactUs: true , nextButtonTestDataId: 'test-id'};
         const {container} = render(<FormControls {...newProps}/>);
 
         expect(container.getElementsByClassName('test-class').length).toBe(1);

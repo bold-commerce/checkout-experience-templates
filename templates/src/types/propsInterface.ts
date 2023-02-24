@@ -262,6 +262,7 @@ export interface IFormControlsProps {
     nextButtonOnClick?: () => void;
     nextButtonLoading?: boolean;
     nextButtonDisable?: boolean;
+    nextButtonTestDataId?: string;
     contactUs?: boolean;
     language?: string;
     title?: string;

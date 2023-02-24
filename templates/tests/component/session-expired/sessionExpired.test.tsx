@@ -74,7 +74,7 @@ describe('testing SessionExpired component', () => {
         expect(container.getElementsByClassName('session-expired__footer-container').length).toBe(1);
         expect(window.location.href).toBe('http://dummy.com');
 
-        const element = screen.getByTestId('footer-return-to-store-button') as HTMLButtonElement;
+        const element = screen.getByTestId('session-expired-back-button') as HTMLButtonElement;
         fireEvent.click(element);
         expect(window.location.href).toBe(shopUrl);
     });
