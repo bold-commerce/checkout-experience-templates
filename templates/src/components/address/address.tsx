@@ -28,7 +28,7 @@ export function Address(props: IAddressProps): React.ReactElement {
     useInitiateGenericAutocomplete();
 
     return (
-        <div className="address">
+        <div className="address" data-testid={`${type}-address`}>
             <FieldSection title={title} className={'address__FieldSection'} showTitle={showTitle}>
                 {showSavedAddresses && (
                     <AddressSavedSelect
