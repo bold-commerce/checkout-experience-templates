@@ -7,6 +7,7 @@ import {Constants, PLUGIN_BACKEND_DISCOUNT_SOURCE} from 'src/constants';
 
 export function SummaryLineExpandable(props: ISummaryLineExpandable): React.ReactElement {
     const {expand, classes, toggle, fieldNames, formattedPrice} = useSummaryLineExpandable(props);
+    const lowerCleanEventName = props.eventToggleName.replace('_TOGGLE', '').toLowerCase();
 
     const hasChildLines = props.content && Array.isArray(props.content) && props.content.length > 0;
 
@@ -24,7 +25,7 @@ export function SummaryLineExpandable(props: ISummaryLineExpandable): React.Reac
     const titleId = `summary-line-${props.eventToggleName}-title`;
 
     return (
-        <div className={classes.container}>
+        <div className={classes.container} data-testid={`summary-line__${lowerCleanEventName}-container`}>
             <div className={classes.title.container}>
                 <button
                     className={classes.title.arrow}
@@ -32,9 +33,20 @@ export function SummaryLineExpandable(props: ISummaryLineExpandable): React.Reac
                     aria-expanded={expand}
                     aria-describedby={titleId}
                     aria-controls={childLineDetails.map(line => line.key).join()}
+                    data-testid={`summary-line-expandable__${lowerCleanEventName}-arrow`}
                 />
-                <span className={classes.title.text} id={titleId}>{props.title}</span>
-                {!expand && <Price className={classes.list.price} moneyFormatString={formattedPrice} amount={props.total} textAlign={'right'} />}
+                <span
+                    className={classes.title.text}
+                    id={titleId}
+                    data-testid={`summary-line__${lowerCleanEventName}-title`}
+                >{props.title}</span>
+                {!expand && <Price
+                    className={classes.list.price}
+                    moneyFormatString={formattedPrice}
+                    amount={props.total}
+                    textAlign={'right'}
+                    data-testid={`summary-line__${lowerCleanEventName}-price`}
+                />}
             </div>
             {
                 expand && childLineDetails.map(({item, key, itemAmount, displayDeleteButton}) => {
@@ -53,7 +65,7 @@ export function SummaryLineExpandable(props: ISummaryLineExpandable): React.Reac
                 })
             }
             {
-                expand && !hasChildLines && <div className={'summary-line--no-line'}>No {props.title} found</div>
+                expand && !hasChildLines && <div className={'summary-line--no-line'} data-testid={'summary-line__no-line'}>No {props.title} found</div>
             }
         </div>
 

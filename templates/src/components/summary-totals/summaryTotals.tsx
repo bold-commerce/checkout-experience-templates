@@ -4,9 +4,9 @@ import {getTotals, getTerm} from 'src/utils';
 import {SummaryLineExpandable, SummaryLineNonExpandable} from 'src/components';
 import {REMOVE_DISCOUNT, REMOVE_PAYMENT} from 'src/action/appActionType';
 import {useGetDiscounts, useGetLineItems, useGetPayments, useGetSelectShippingLine, useGetTaxes, useGetFees, useGetOrderTotal} from 'src/hooks';
-import {ITaxesAmount} from 'src/types';
+import {ISummaryTotals} from 'src/types';
 
-export function TaxesAmount(props: ITaxesAmount): React.ReactElement {
+export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
     const discounts = useGetDiscounts();
     const fees = useGetFees();
     const payments = useGetPayments();
@@ -54,7 +54,7 @@ export function TaxesAmount(props: ITaxesAmount): React.ReactElement {
     />;
 
     return (
-        <div className={'taxes-amount'}>
+        <div className={'taxes-amount'} data-testid={'summary-totals__lines'}>
             <SummaryLineNonExpandable
                 eventName={Constants.SUBTOTAL_EVENT}
                 name={getTerm('subtotal',Constants.SUMMARY_INFO)}
