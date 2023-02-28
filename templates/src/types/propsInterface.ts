@@ -179,7 +179,7 @@ export interface ISummarySection {
     orderCompleted: boolean;
 }
 
-export type ITaxesAmount = ISummarySection;
+export type ISummaryTotals = ISummarySection;
 
 export interface ICartItemsProps {
     line_items: Array<ILineItem>;
@@ -286,6 +286,7 @@ export interface IOrderRecapProps {
 
 export interface IOrderRecapDisplayItemProps {
     className?: string;
+    testDataId: string;
     title: string;
     children: React.ReactNode;
 }

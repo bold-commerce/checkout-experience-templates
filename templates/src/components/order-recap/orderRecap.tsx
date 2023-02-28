@@ -20,12 +20,28 @@ export function OrderRecap(props: IOrderRecapProps): React.ReactElement {
     return (
         <div className={cssClass}>
             {!noOrderData &&
-                <div className={'order-recap__container'}>
-                    <div className={'order-recap__title'}>{terms.customerInfo}</div>
-                    <RecapDisplayItem className={getClass('shipping-address')} title={terms.shippingAddress} children={<DisplayAddress {...shippingAddress} />}/>
-                    <RecapDisplayItem className={getClass('billing-address')} title={terms.billingAddress} children={<DisplayAddress {...billingAddress} />} />
-                    <RecapDisplayItem className={getClass('shipping-method')} title={terms.shippingMethod} children={shippingDescription} />
-                    <RecapDisplayItem className={getClass('payments-method')} title={terms.paymentMethod} children={<DisplayPaymentMethods />} />
+                <div className={'order-recap__container'} data-testid={'order-recap__container'}>
+                    <div className={'order-recap__title'} data-testid={'order-recap__title'}>{terms.customerInfo}</div>
+                    <RecapDisplayItem
+                        testDataId={'shipping-address'}
+                        className={getClass('shipping-address')}
+                        title={terms.shippingAddress}
+                        children={<DisplayAddress {...shippingAddress} testDataId={'shipping'}/>}/>
+                    <RecapDisplayItem
+                        testDataId={'billing-address'}
+                        className={getClass('billing-address')}
+                        title={terms.billingAddress}
+                        children={<DisplayAddress {...billingAddress} testDataId={'billing'}/>} />
+                    <RecapDisplayItem
+                        testDataId={'shipping-method'}
+                        className={getClass('shipping-method')}
+                        title={terms.shippingMethod}
+                        children={shippingDescription} />
+                    <RecapDisplayItem
+                        testDataId={'payments-method'}
+                        className={getClass('payments-method')}
+                        title={terms.paymentMethod}
+                        children={<DisplayPaymentMethods />} />
                 </div>
             }
         </div>
