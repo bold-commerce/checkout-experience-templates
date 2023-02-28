@@ -17,6 +17,7 @@ export function AddressProvinceSelect(props: IAddressFieldSelectProps): React.Re
         handleBlur,
         errorMessage,
         provinceName,
+        dataTestId
     } = useGetAddressProvinceInputData(props.type, props.debounceApiCall);
     const cssClass = ClassNames(props.className, {'address__hidden': !showProvince});
 
@@ -37,6 +38,7 @@ export function AddressProvinceSelect(props: IAddressFieldSelectProps): React.Re
             options={optionsWithTemp}
             label={label}
             isPlaceholderDisabled={true}
+            dataTestId={dataTestId}
             name={name}
             value={value}
             errorMessage={errorMessage}

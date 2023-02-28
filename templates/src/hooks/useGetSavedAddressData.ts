@@ -25,6 +25,7 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
     const placeholder = savedAddresses.length ? getTerm('select_address', Constants.SHIPPING_INFO) : getTerm('enter_new_address', Constants.CUSTOMER_INFO);
     const title = type === Constants.SHIPPING ? getTerm('shipping_address', Constants.SHIPPING_INFO) : getTerm('billing_address',Constants.PAYMENT_INFO);
     const id = `${type}-saved-address-select`;
+    const dataTestId = `${type}-saved-address-select`;
     const billingType = useGetAppSettingData('billingType');
 
     let count = 1;
@@ -71,6 +72,6 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
         dispatch(CustomerActions.actionPopulateSavedAddressField(type, address));
     }, [savedAddresses]);
 
-    return {id, title, label, placeholder, options, savedAddresses, selectedOptionId , handleChange};
+    return {id, title, label, placeholder, options, savedAddresses, selectedOptionId , handleChange, dataTestId};
 
 }

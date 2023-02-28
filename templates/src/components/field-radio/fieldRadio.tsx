@@ -5,9 +5,10 @@ import {useGetIsLoadingExceptSections} from 'src/hooks';
 
 export function FieldRadio(props: IFieldRadioProps): React.ReactElement {
     const isLoading = useGetIsLoadingExceptSections();
+    const dataTestId = props.dataTestId ?? 'field-radio';
     return (
         <RadioField
-            data-testid='field-radio'
+            data-testid={dataTestId}
             label={props.label}
             className={props.className}
             checked={props.checked}

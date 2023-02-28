@@ -25,11 +25,13 @@ export function FieldSelect(props: IFieldSelectProps): React.ReactElement {
         {'select-field--has-focus': isFocus},
     ]), [props.className, props.value, isFocus]);
 
+    const dataTestId = props.dataTestId ?? 'input-select';
+
     return (
         <div className={cssClass} data-testid="input-select__container">
             <SelectField
                 className="select-field"
-                data-testid="input-select"
+                data-testid={dataTestId}
                 id={props.id}
                 name={props.name}
                 onChange={props.handleChange}

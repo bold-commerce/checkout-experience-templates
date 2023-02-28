@@ -32,6 +32,7 @@ export function LoggedInCustomer(): React.ReactElement {
                     className={acceptMarketingCss}
                     checked={acceptMarketingChecked}
                     onChange={handleCheckboxChange}
+                    data-testid={'accept-marketing-checkbox'}
                 />
                 <div className={'address__saved'}>
                     <AddressSavedSelect type={Constants.SHIPPING} className={'address__saved-select'}/>

@@ -27,6 +27,7 @@ export function GuestCustomer(): React.ReactElement {
                     handleChange={handleChange}
                     errorMessage={emailError}
                     value={email}
+                    dataTestId={'email-address-input-field'}
                     id={'customer-information__email'}
                 />
                 <CheckboxField
@@ -34,6 +35,7 @@ export function GuestCustomer(): React.ReactElement {
                     className={acceptMarketingCss}
                     checked={acceptMarketingChecked}
                     onChange={handleCheckboxChange}
+                    data-testid={'accept-marketing-checkbox'}
                 />
             </FieldSection>
         </div>
