@@ -21,6 +21,7 @@ export function useGetAddressProvinceInputData(type: string, debounceApiCall: ()
     const {province, showProvince, provinceLabel} = useGetAddressPostalCodeAndProvinceData(type);
     const provinceOptions = province.map(p => ({value: p.iso_code, name: p.name}));
     const id = `${type}-address__province`;
+    const dataTestId = `${type}-address-province`;
     const placeholder = getTerm(AddressLabelMapping[`${provinceLabel}_placeholder`],Constants.SHIPPING_INFO);
     const label = getTerm(AddressLabelMapping[provinceLabel],Constants.SHIPPING_INFO);
     const errorMessage = useGetErrorByField('province', type);
@@ -42,5 +43,5 @@ export function useGetAddressProvinceInputData(type: string, debounceApiCall: ()
 
     }, [errorMessage, callApiAtOnEvents, type]);
 
-    return {placeholder, label, id, name , value, showProvince, provinceOptions, handleChange, errorMessage, provinceName};
+    return {placeholder, label, id, name , value, showProvince, provinceOptions, handleChange, errorMessage, provinceName, dataTestId};
 }

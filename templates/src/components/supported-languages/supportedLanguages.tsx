@@ -12,7 +12,7 @@ export function SupportedLanguages(): React.ReactElement {
                 (languagesOptions && languagesOptions.length > 1) ?
                     <FieldSelect
                         className={'supported-languages-select-field'}
-                        data-testid='input-select'
+                        data-testid='supported-language-input-select'
                         id={'supported-languages'}
                         placeholder={''}
                         isPlaceholderDisabled={true}

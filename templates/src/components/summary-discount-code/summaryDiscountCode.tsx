@@ -17,6 +17,7 @@ export function SummaryDiscountCode(): React.ReactElement {
                     name={'discount-code'}
                     value={discountCodeText}
                     handleChange={updateNewDiscountCode}
+                    dataTestId={'discount-code-input-field'}
                     id={'add-discount-code-field-input'}
                     errorMessage={discountError}/>
                 <Button

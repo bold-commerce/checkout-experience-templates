@@ -4,7 +4,7 @@ import { FieldSelect } from 'src/components';
 import { useGetAddressCountryInputData } from 'src/hooks';
 
 export function AddressCountrySelect(props: IAddressFieldSelectProps): React.ReactElement {
-    const { placeholder, label, id, name, value, countryOptions, handleChange, handleBlur, errorMessage, countryName } = useGetAddressCountryInputData(props.type, props.debounceApiCall);
+    const { placeholder, label, id, name, value, countryOptions, handleChange, handleBlur, errorMessage, countryName, dataTestId } = useGetAddressCountryInputData(props.type, props.debounceApiCall);
 
     // Creating temp country if the value is not in the options. As soon as the country
     // is changed to a country that is in the options the temp option will disappear.
@@ -22,6 +22,7 @@ export function AddressCountrySelect(props: IAddressFieldSelectProps): React.Rea
             options={optionsWithTemp}
             label={label}
             name={name}
+            dataTestId={dataTestId}
             isPlaceholderDisabled={true}
             value={value}
             handleChange={handleChange}

@@ -14,6 +14,7 @@ describe('Testing FieldCheckbox component', () => {
         value: '0',
         checked: false,
         name: 'test-name',
+        dataTestId: 'field-checkbox',
         handleChange: jest.fn()
     };
 

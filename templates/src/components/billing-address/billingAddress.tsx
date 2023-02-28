@@ -16,6 +16,7 @@ export function BillingAddress(): React.ReactElement {
                 <div className={'shipping-same'}>
                     <FieldRadio
                         label={billingSame}
+                        dataTestId={'billing-address-same'}
                         name={'radio-group'}
                         value={Constants.SHIPPING_SAME}
                         checked={customBilling === Constants.SHIPPING_SAME}
@@ -26,6 +27,7 @@ export function BillingAddress(): React.ReactElement {
                     <FieldRadio
                         label={billingDifferent}
                         name={'radio-group'}
+                        dataTestId={'billing-address-different'}
                         value={Constants.SHIPPING_DIFFERENT}
                         checked={customBilling === Constants.SHIPPING_DIFFERENT}
                         handleChange={handleChange}

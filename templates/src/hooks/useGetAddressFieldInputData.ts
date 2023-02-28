@@ -33,6 +33,7 @@ export function useGetAddressFieldInputData(
 
     const value: string = useGetAddressDataField(type, fieldId);
     const id = `${type}-address__${fieldId}`;
+    const dataTestId = `${type}-address-${fieldId}`;
 
     const handleChange = useCallback(
         (e) => {
@@ -62,5 +63,5 @@ export function useGetAddressFieldInputData(
         [type, errorMessage, fieldId]
     );
 
-    return { placeholder, id, name, value, errorMessage, handleChange };
+    return { placeholder, id, name, value, errorMessage, handleChange, dataTestId };
 }
