@@ -745,8 +745,8 @@
         width: 100%;
         padding-right: 0;
         padding-left: 0;
-        padding-top: 10px;
-        padding-bottom: inherit;
+        padding-top: 0px;
+        padding-bottom: 10px;
     }
 
     #iframe-payment-gateway .CreditCardInfoGroup {
