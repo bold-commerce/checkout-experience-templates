@@ -78,7 +78,7 @@ describe('Testing ExpandableDiscount Component', () => {
         const {container, getByTestId} = render(<ExpandableDiscount />);
 
         expect(container.getElementsByClassName('expandable-discount__toggle').length).toBe(0);
-        expect(getByTestId('input-field')).toBeTruthy();
+        expect(getByTestId('discount-code-input-field')).toBeTruthy();
         expect(getByTestId('apply-discount')).toBeTruthy();
     });
 

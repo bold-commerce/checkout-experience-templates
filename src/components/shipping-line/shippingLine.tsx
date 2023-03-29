@@ -24,6 +24,7 @@ export function ShippingLine(props: IShippingLineProps): React.ReactElement {
                                     label={line.description}
                                     name="radio-shipping-group"
                                     value={line.id}
+                                    dataTestId={`shipping-lines-${line.id}`}
                                     checked={selectedLine?.id === line.id}
                                     handleChange={handleChange}
                                 />

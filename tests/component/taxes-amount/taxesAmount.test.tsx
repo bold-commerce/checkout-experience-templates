@@ -12,7 +12,7 @@ import {
     useSummaryLineExpanded
 } from 'src/hooks';
 import {
-    ITaxesAmount,
+    ISummaryTotals,
     ITotals,
     IUseGetCurrencyInformation,
     IUseSummaryLineExpandable,
@@ -20,7 +20,7 @@ import {
 } from 'src/types';
 import {classesListSummary, stateMock} from 'src/mocks';
 import {render, screen} from '@testing-library/react';
-import {TaxesAmount} from 'src/components';
+import {SummaryTotals} from 'src/components';
 import {feesMock} from '@bold-commerce/checkout-frontend-library/lib/variables/mocks';
 
 jest.mock('src/hooks');
@@ -40,7 +40,7 @@ const useGetFeesMock = mocked(useGetFees, true);
 
 describe('Testing TaxesAmount component', () => {
 
-    const props: ITaxesAmount= {
+    const props: ISummaryTotals= {
         orderCompleted: false
     };
     const appState = stateMock.data.application_state;
@@ -112,7 +112,7 @@ describe('Testing TaxesAmount component', () => {
         useGetPaymentsMock.mockReturnValueOnce(appState.payments);
         useGetFeesMock.mockReturnValueOnce([feesMock]);
 
-        const { container } = render(<TaxesAmount {...props}/>);
+        const { container } = render(<SummaryTotals {...props}/>);
         expect(container.getElementsByClassName('taxes-amount').length).toBe(1);
         expect(screen.getAllByText(getTermResponse[0]).length).toBe(1);
         expect(screen.getAllByText(getTermResponse[1]).length).toBe(1);
@@ -138,7 +138,7 @@ describe('Testing TaxesAmount component', () => {
         useGetPaymentsMock.mockReturnValueOnce([]);
         useGetFeesMock.mockReturnValueOnce([]);
 
-        const { container } = render(<TaxesAmount {...props}/>);
+        const { container } = render(<SummaryTotals {...props}/>);
         expect(container.getElementsByClassName('taxes-amount').length).toBe(1);
         expect(screen.queryByText(getTermResponse[0])).toEqual(null);
         expect(screen.queryByText(getTermResponse[1])).toEqual(null);

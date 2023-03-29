@@ -48,7 +48,7 @@ describe('Testing BillingAddressCheckbox component', () => {
         expect(container.getElementsByClassName('billing-address__FieldSection').length).toBe(1);
         expect(container.getElementsByClassName('new-billing-address').length).toBe(0);
 
-        const sameCheckbox: Partial<HTMLInputElement> = screen.getByTestId('field-checkbox');
+        const sameCheckbox: Partial<HTMLInputElement> = screen.getByTestId('billing-address-checkbox');
         expect(sameCheckbox.checked).toEqual(true);
     });
 
@@ -62,7 +62,7 @@ describe('Testing BillingAddressCheckbox component', () => {
         expect(container.getElementsByClassName('billing-address__FieldSection').length).toBe(1);
         expect(container.getElementsByClassName('new-billing-address').length).toBe(1);
 
-        const sameCheckbox: Partial<HTMLInputElement> = screen.getByTestId('field-checkbox');
+        const sameCheckbox: Partial<HTMLInputElement> = screen.getByTestId('billing-address-checkbox');
         expect(sameCheckbox.checked).toEqual(false);
     });
 
@@ -71,7 +71,7 @@ describe('Testing BillingAddressCheckbox component', () => {
         useBillingAddressMock.mockReturnValueOnce(hookResult);
         render(<BillingAddressCheckbox/>);
 
-        const sameCheckbox: Partial<HTMLInputElement> = screen.getByTestId('field-checkbox');
+        const sameCheckbox: Partial<HTMLInputElement> = screen.getByTestId('billing-address-checkbox');
         fireEvent.click(sameCheckbox as Element);
         expect(hookResult.toggleBillingSameAsShipping).toBeCalled();
     });

@@ -45,8 +45,8 @@
 @import '../src/components/summary-discount-line/summaryDiscountLine.css';
 @import '../src/components/summary-line-expanded/summaryLineExpanded.css';
 @import '../src/components/summary-section/summarySection.css';
+@import '../src/components/summary-totals/summaryTotals.css';
 @import '../src/components/supported-languages/supportedLanguages.css';
-@import '../src/components/taxes-amount/taxesAmount.css';
 @import '../src/components/text-with-center-line/textWithCenterLine.css';
 @import '../src/components/thank-you/thankYou.css';
 @import '../src/components/title/title.css';

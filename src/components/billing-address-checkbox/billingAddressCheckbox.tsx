@@ -7,8 +7,8 @@ export function BillingAddressCheckbox(): React.ReactElement {
     const {customBilling, billingTitle, billingSame, toggleBillingSameAsShipping} = useBillingAddress();
 
     const addressComponent = (<div className={'new-billing-address'}>
-        <Address 
-            type={Constants.BILLING} 
+        <Address
+            type={Constants.BILLING}
             showSavedAddresses={false}
             title={billingTitle}
             showTitle={false} />
@@ -21,6 +21,7 @@ export function BillingAddressCheckbox(): React.ReactElement {
                     <FieldCheckbox
                         label={billingSame}
                         value={Constants.SHIPPING_SAME}
+                        dataTestId={'billing-address-checkbox'}
                         checked={customBilling === Constants.SHIPPING_SAME}
                         handleChange={toggleBillingSameAsShipping}
                     />

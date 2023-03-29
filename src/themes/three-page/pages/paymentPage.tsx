@@ -40,6 +40,7 @@ export function PaymentPage(): React.ReactElement {
                                 nextButtonLoading={nextButtonLoading}
                                 nextButtonDisable={nextButtonDisable}
                                 nextButtonText={nextButtonText}
+                                nextButtonTestDataId={'footer-complete-order-button'}
                             />
                         </form>
                     </main>

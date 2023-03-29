@@ -20,6 +20,7 @@ export function useGetAddressCountryInputData(type: string, debounceApiCall: () 
     let value: string = useGetAddressDataField(type, Constants.ADDRESS_COUNTRY_CODE);
     let countryName = useGetAddressDataField(type, Constants.ADDRESS_COUNTRY);
     const id = `${type}-address__country`;
+    const dataTestId = `${type}-address-country`;
     const countryError = useGetErrorByField('country', type);
     const countryCodeError = useGetErrorByField('country_code', type);
     let errorMessage: string | undefined;
@@ -57,5 +58,5 @@ export function useGetAddressCountryInputData(type: string, debounceApiCall: () 
         }
     }, [errorMessage, callApiAtOnEvents, type]);
 
-    return {placeholder, label, id, name, value, countryOptions, countryName, handleChange, errorMessage};
+    return {placeholder, label, id, name, value, countryOptions, countryName, handleChange, errorMessage, dataTestId};
 }

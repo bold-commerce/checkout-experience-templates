@@ -49,6 +49,7 @@ export function ShippingLinesPage(): React.ReactElement {
                                 nextButtonText={nextButtonText}
                                 nextButtonDisable={nextButtonDisable}
                                 nextButtonLoading={nextButtonLoading}
+                                nextButtonTestDataId={'footer-continue-to-payment-button'}
                             />
                         </form>
                     </main>

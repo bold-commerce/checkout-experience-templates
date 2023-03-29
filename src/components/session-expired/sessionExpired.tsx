@@ -28,6 +28,7 @@ export function SessionExpired(): React.ReactElement {
                     contactUs={true}
                     nextButtonText={returnToStore}
                     nextButtonOnClick={returnUrl}
+                    nextButtonTestDataId={'session-expired-back-button'}
                 />
             </main>
             <Footer />

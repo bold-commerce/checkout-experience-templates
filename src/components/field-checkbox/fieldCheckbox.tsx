@@ -7,7 +7,7 @@ export function FieldCheckbox(props: IFieldCheckboxProps): React.ReactElement {
     const isLoading = useGetIsLoadingExceptSections();
     return (
         <CheckboxField
-            data-testid='field-checkbox'
+            data-testid={props.dataTestId}
             label={props.label}
             className={props.className}
             checked={props.checked}

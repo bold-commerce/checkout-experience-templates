@@ -11,13 +11,14 @@ export function FieldInput(props: IFieldInputProps): React.ReactElement {
         props.className,
         { 'input-field--has-value': props.value && props.value.length > 0 },
     ]), [props.className, props.value]);
+    const dataTestId = props.dataTestId ?? 'input-field';
 
     return (
         <div className={cssClass} data-testid='input-field__container'>
             <InputField
                 ariaLive="polite"
                 type={props.type}
-                data-testid='input-field'
+                data-testid={dataTestId}
                 className={'input-field'}
                 label={props.label}
                 id={props.id}

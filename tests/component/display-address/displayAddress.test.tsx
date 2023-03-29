@@ -20,14 +20,17 @@ describe('Testing DisplayAddress component', () => {
     };
 
     test('rendering the component successfully', () => {
-        const {container} = render(<DisplayAddress {...props}/>);
+        const {container} = render(<DisplayAddress {...props} testDataId={'test'}/>);
         expect(container.getElementsByClassName('display-address-container').length).toBe(1);
         expect(container.getElementsByClassName('display-address-row').length).toBe(5);
 
-        expect(screen.getAllByText(`${props.first_name} ${props.last_name}`).length).toBe(1);
+        expect(screen.getAllByText(`${props.first_name}`).length).toBe(1);
+        expect(screen.getAllByText(`${props.last_name}`).length).toBe(1);
         expect(screen.getAllByText(props.business_name).length).toBe(1);
         expect(screen.getAllByText(props.address_line_1).length).toBe(1);
-        expect(screen.getAllByText(`${props.city} ${props.province_code} ${props.postal_code}`).length).toBe(1);
+        expect(screen.getAllByText(`${props.city}`).length).toBe(1);
+        expect(screen.getAllByText(`${props.province_code}`).length).toBe(1);
+        expect(screen.getAllByText(`${props.postal_code}`).length).toBe(1);
         expect(screen.getAllByText(props.country).length).toBe(1);
 
     });

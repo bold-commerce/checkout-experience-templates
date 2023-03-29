@@ -65,6 +65,7 @@ export function CustomerPage(): React.ReactElement {
                                 nextButtonText={nextButtonText}
                                 nextButtonDisable={nextButtonDisable}
                                 nextButtonLoading={nextButtonLoading}
+                                nextButtonTestDataId={'footer-continue-to-shipping-button'}
                             />
                         </form>
                     </main>

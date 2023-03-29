@@ -19,6 +19,7 @@ export function useGetOnePageFooterData(): IUseGetOnePageFooterDataProps {
     const nextButtonText = getTerm('complete_order', Constants.PAYMENT_INFO);
     const nextButtonLoading = useGetIsLoading();
     const title = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
+    const nextButtonTestDataId = 'footer-complete-order-button';
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
         window.location.href = link;
@@ -31,5 +32,5 @@ export function useGetOnePageFooterData(): IUseGetOnePageFooterDataProps {
         dispatch(initializeExpressPay(history));
     }, []);
 
-    return {backLinkOnClick, backLinkText, nextButtonOnClick, nextButtonText, nextButtonLoading, language, title};
+    return {backLinkOnClick, backLinkText, nextButtonOnClick, nextButtonText, nextButtonLoading, language, title, nextButtonTestDataId};
 }

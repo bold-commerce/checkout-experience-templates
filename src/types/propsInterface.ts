@@ -49,6 +49,7 @@ export interface IFieldInputProps {
     autoFocus?: boolean;
     id?: string;
     name?: string;
+    dataTestId?: string;
     errorMessage?: string | null;
     handleChange?: (e) => void;
     handleBlur?: (e) => void;
@@ -61,6 +62,7 @@ export interface IFieldCheckboxProps {
     checked? : boolean;
     className?: string;
     name?: string;
+    dataTestId?: string;
     errorMessage?: string | null;
     handleClick?: (e) => void;
     handleChange?: (e) => void;
@@ -76,6 +78,7 @@ export interface IFieldSelectProps {
     label?: string;
     id?: string;
     name?: string;
+    dataTestId?: string
     isPlaceholderDisabled?: boolean;
     options: Array<ISelectList>;
     errorMessage?: string | null;
@@ -112,6 +115,7 @@ export interface ISavedAddressFieldRadioListProps{
 export interface ISavedAddressFieldRadioProps{
     address: IAddress;
     checked?: boolean;
+    dataTestId?: string;
     handleChange?: (e) => void;
 }
 
@@ -119,6 +123,7 @@ export interface INewAddressFieldRadioProps{
     type: string,
     label: string,
     checked?: boolean,
+    dataTestId?: string,
     handleChange?: (e) => void;
 }
 
@@ -129,6 +134,7 @@ export interface IFieldRadioProps{
     className?: string;
     id?: string;
     name?: string;
+    dataTestId?: string;
     errorMessage?: string | null;
     handleClick?: (e) => void;
     handleChange?: (e) => void;
@@ -173,7 +179,7 @@ export interface ISummarySection {
     orderCompleted: boolean;
 }
 
-export type ITaxesAmount = ISummarySection;
+export type ISummaryTotals = ISummarySection;
 
 export interface ICartItemsProps {
     line_items: Array<ILineItem>;
@@ -204,6 +210,7 @@ export interface IAddressHookProps{
     id: string;
     name: string;
     value: string;
+    dataTestId?: string;
     errorMessage?: string;
     handleChange: (e) => void;
     handleBlur?: () => void;
@@ -244,6 +251,7 @@ export interface ISavedAddressHookProps{
     title: string;
     label: string;
     placeholder: string;
+    dataTestId?: string;
     options: Array<ISelectList>;
     savedAddresses: Array<IAddress>;
     selectedOptionId: string | undefined;
@@ -262,6 +270,7 @@ export interface IFormControlsProps {
     nextButtonOnClick?: () => void;
     nextButtonLoading?: boolean;
     nextButtonDisable?: boolean;
+    nextButtonTestDataId?: string;
     contactUs?: boolean;
     language?: string;
     title?: string;
@@ -277,6 +286,7 @@ export interface IOrderRecapProps {
 
 export interface IOrderRecapDisplayItemProps {
     className?: string;
+    testDataId: string;
     title: string;
     children: React.ReactNode;
 }

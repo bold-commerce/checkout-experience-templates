@@ -17,6 +17,7 @@ export function AddressSavedFieldRadioList(props: ISavedAddressFieldRadioListPro
                             <AddressSavedFieldRadio
                                 key={`address_${address.id}`}
                                 address={address}
+                                dataTestId={`address_${address.id}`}
                                 checked={address.id === selectedAddress.id}
                                 handleChange={handleChange}/>
                         );
@@ -25,6 +26,7 @@ export function AddressSavedFieldRadioList(props: ISavedAddressFieldRadioListPro
                 <AddressNewFieldRadio
                     key={'address_new'}
                     type={props.type}
+                    dataTestId={'address-new'}
                     label={placeholder}
                     checked={!selectedAddress.id}
                     handleChange={handleChange}/>
