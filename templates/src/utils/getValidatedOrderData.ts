@@ -24,7 +24,8 @@ export function getValidatedOrderData(orderData: IInitializeOrderResponse): IIni
             supported_languages: languages,
             country_info: countryInfo,
             general_settings: settings,
-            alternative_payment_methods: orderData.initial_data.alternative_payment_methods
+            alternative_payment_methods: orderData.initial_data.alternative_payment_methods,
+            external_payment_gateways: orderData.initial_data.external_payment_gateways,
         }
     };
 }

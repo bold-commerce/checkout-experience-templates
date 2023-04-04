@@ -49,6 +49,7 @@
     transform: scale(1);
 }
 
-.stx-checkbox-field__field .stx-checkbox-field__label {
+.stx-checkbox-field__field .stx-checkbox-field__label,
+.stx-field__help-text {
     margin-left: 5px;
 }

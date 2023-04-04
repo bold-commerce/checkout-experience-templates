@@ -65,6 +65,7 @@ export * from './summary-line-non-expandable/summaryLineNonExpandable';
 export * from './summary-section/summarySection';
 export * from './summary-totals/summaryTotals';
 export * from './supported-languages/supportedLanguages';
+export * from './tax-exemption/taxExemption';
 export * from './text-with-center-line/textWithCenterLine';
 export * from './thank-you/thankYou';
 export * from './title/title';
