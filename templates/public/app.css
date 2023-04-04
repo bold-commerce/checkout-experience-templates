@@ -37,6 +37,7 @@
 @import '../src/components/overlay/overlay.css';
 @import '../src/components/payment/payment.css';
 @import '../src/components/payment-iframe/paymentIframe.css';
+@import '../src/components/tax-exemption/taxExemption.css';
 @import '../src/components/recap-display-item/recapDisplayItem.css';
 @import '../src/components/session-expired/sessionExpired.css';
 @import '../src/components/shipping-address/shippingAddress.css';

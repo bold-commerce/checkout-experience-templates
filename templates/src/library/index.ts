@@ -13,6 +13,7 @@ export * from './deleteShippingAddress';
 export * from './displayOrderProcessingScreen';
 export * from './generateTaxes';
 export * from './initializeExpressPay';
+export * from './patchOrderMetaData';
 export * from './paymentIframe';
 export * from './pigi';
 export * from './postAddress';

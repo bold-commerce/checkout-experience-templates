@@ -90,6 +90,12 @@ select {
     margin: 0;
 }
 
+.tax-exempt__message .stx-message--with-info {
+    border-color: #0A75C2;
+    background: #F2F6FF;
+    border-radius: 5px;
+}
+
 @media only screen and (min-width: 1200px) {
     .checkout-experience-container, .three-page {
         flex-wrap: wrap;

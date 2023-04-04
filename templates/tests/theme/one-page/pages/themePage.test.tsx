@@ -5,7 +5,6 @@ import {ThemePage} from 'src/themes/one-page/pages';
 import {mocked} from 'jest-mock';
 import {useGetShopUrlFromShopAlias} from 'src/hooks';
 import {HelmetProvider} from 'react-helmet-async';
-import {ShippingLinesPage} from 'src/themes/three-page/pages';
 
 const shopURL = 'https://some-shop-url.test.com';
 const store = {

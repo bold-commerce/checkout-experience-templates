@@ -59,6 +59,7 @@ export interface IFieldInputProps {
 export interface IFieldCheckboxProps {
     value: string;
     label?: string;
+    helpText?: string;
     checked? : boolean;
     className?: string;
     name?: string;
@@ -317,6 +318,17 @@ export interface IBillingAddress {
     billingTitle: string;
     billingDifferent: string;
     addressProps: IAddressProps
+}
+
+export interface ITaxExemption {
+    sectionEnabled: boolean;
+    checked: boolean;
+    value: string;
+    sectionTitle: string;
+    label: string;
+    helpText: string;
+    messageText: string;
+    handleChange: (e) => void;
 }
 
 export interface ISummaryDiscountCode {

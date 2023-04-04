@@ -1,4 +1,4 @@
-import {IAddress, IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
+import {IAddress, IExternalPaymentMethod, IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
 
 export const initialDataMock: IInitializeOrderResponse = {
     'initial_data': {
@@ -520,14 +520,16 @@ export const initialDataMock: IInitializeOrderResponse = {
             'checkout_process': {
                 'company_name_option': 'required',
                 'phone_number_required': false,
-                'accepts_marketing_checkbox_option': 'checked'
+                'accepts_marketing_checkbox_option': 'checked',
+                'tax_exempt_checkbox_enabled': false,
             },
             'address_autocomplete': {
                 'provider': null,
                 'api_key': null
             }
         },
-        'alternative_payment_methods': []
+        'alternative_payment_methods': [],
+        'external_payment_gateways': <IExternalPaymentMethod>[],
     },
     'application_state': {
         'customer': {

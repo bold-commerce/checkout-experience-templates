@@ -9,6 +9,7 @@ export function FieldCheckbox(props: IFieldCheckboxProps): React.ReactElement {
         <CheckboxField
             data-testid={props.dataTestId}
             label={props.label}
+            helpText={props.helpText}
             className={props.className}
             checked={props.checked}
             name={props.name}

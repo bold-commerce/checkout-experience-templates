@@ -4,8 +4,12 @@ import {
     ExpressPaymentGateway,
     FlashError, Footer, FormControls,
     Header,
-    HeaderHelmet, Payment, ShippingAddress, ShippingLines,
-    SummarySection
+    HeaderHelmet,
+    Payment,
+    ShippingAddress,
+    ShippingLines,
+    SummarySection,
+    TaxExemption
 } from 'src/components';
 import React, { useEffect } from 'react';
 import {getCheckoutUrl, getTerm, withPreventDefault} from 'src/utils';
@@ -38,6 +42,7 @@ export function ThemePage(): React.ReactElement {
                         <BillingAddress/>
                         <ShippingLines/>
                         <Payment loadIframeImmediately={true} />
+                        <TaxExemption />
                         <FormControls {...footerProps}/>
                     </form>
                 </main>
