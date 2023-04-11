@@ -37,6 +37,7 @@ export * from './isObjectEqual';
 export * from './isOnlyDiscountCodeError';
 export * from './isOnlyFlashError';
 export * from './isShippingLineSelectedValid';
+export * from './isShopifyPlatform';
 export * from './lockUnlockScroll';
 export * from './navigateDialog';
 export * from './renderHtmlEntities';

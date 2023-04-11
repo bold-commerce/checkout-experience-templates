@@ -1,7 +1,7 @@
 import React from 'react';
 import {FieldSection, AddressSavedSelect} from 'src/components';
 import {CheckboxField} from '@boldcommerce/stacks-ui/lib/';
-import {getTerm, isBoldPlatform} from 'src/utils';
+import {getTerm, isShopifyPlatform} from 'src/utils';
 import {Constants} from 'src/constants';
 import {useLogin} from 'src/hooks';
 import ClassNames from 'classnames';
@@ -22,7 +22,7 @@ export function LoggedInCustomer(): React.ReactElement {
                 <div className={'customer-information__authenticated'}>
                     <span className='customer-information__authenticated-email'>{email}</span>
                     {
-                        !isBoldPlatform() && <a className='customer-information__authenticated-not-you' href='#login' onClick={loginUrl}>
+                        isShopifyPlatform() && <a className='customer-information__authenticated-not-you' href='#login' onClick={loginUrl}>
                             {getTerm('not_you', Constants.CUSTOMER_INFO)}
                         </a>
                     }
