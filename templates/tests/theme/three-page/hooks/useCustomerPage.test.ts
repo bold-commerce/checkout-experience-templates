@@ -15,7 +15,6 @@ jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/hooks/useGetButtonDisableVariable');
 jest.mock('src/hooks/useGetIsOrderProcessed');
 jest.mock('src/library/callCustomerPageApi');
-jest.mock('src/library/checkInventory');
 jest.mock('src/library/initializeExpressPay');
 jest.mock('src/utils/getReturnToCartTermAndLink');
 jest.mock('src/hooks/useGetCurrencyInformation');
@@ -26,7 +25,6 @@ const getTermMock = mocked(getTerm, true);
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true);
 const callCustomerPageApiMock = mocked(callCustomerPageApi, true);
-const checkInventoryMock = mocked(checkInventory, true);
 const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
 const initializeExpressPayMock = mocked(initializeExpressPay, true);
 const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
@@ -50,7 +48,6 @@ describe('Testing hook useCustomerPage', () => {
         useGetIsLoadingMock.mockReturnValue(false);
         useGetButtonDisableVariableMock.mockReturnValue(false);
         callCustomerPageApiMock.mockReturnValue(mockCallCustomerPageApi);
-        checkInventoryMock.mockReturnValue(mockCheckInventory);
         initializeExpressPayMock.mockReturnValue(mockExpressEntry);
         useGetCurrencyInformationMock.mockReturnValue(currencyInformationMock);
         window = Object.create(window);
@@ -78,10 +75,9 @@ describe('Testing hook useCustomerPage', () => {
 
         expect(window.location.href).toEqual(window.returnUrl);
         result.current.nextButtonOnClick();
-        expect(mockDispatch).toHaveBeenCalledTimes(4);
+        expect(mockDispatch).toHaveBeenCalledTimes(3);
         expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors());
         expect(mockDispatch).toHaveBeenCalledWith(mockCallCustomerPageApi);
-        expect(mockDispatch).toHaveBeenCalledWith(mockCheckInventory);
         expect(mockDispatch).toHaveBeenCalledWith(mockExpressEntry);
     });
 
