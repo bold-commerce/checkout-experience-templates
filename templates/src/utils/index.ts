@@ -11,6 +11,7 @@ export * from './getBreadcrumbStatus';
 export * from './getCardDisplayFormat';
 export * from './getCheckoutUrl';
 export * from './getClassNameByEventName';
+export * from './getDefaultBillingType';
 export * from './getErrorTerm';
 export * from './getFieldNamesSummary';
 export * from './getGiftCardDisplayFormat';

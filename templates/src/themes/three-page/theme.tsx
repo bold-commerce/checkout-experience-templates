@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
     useGetGeneralSettingCheckoutFields,
     useSetApiCallOnEvent,
@@ -12,12 +12,15 @@ import {CustomerPage, PaymentPage, ShippingLinesPage} from 'src/themes/three-pag
 import 'public/app.css';
 import 'src/themes/three-page/three-page.css';
 import {Overlay, StandaloneHooks} from 'src/components';
-import {actionSetDefaultCustomerAcceptMarketing} from 'src/action';
+import {actionSetDefaultCustomerAcceptMarketing, actionUpdateBillingTypeInSettings} from 'src/action';
 import {useDispatch} from 'react-redux';
 import {setHook} from 'src/utils';
 import {useHistory} from  'react-router-dom';
 import {initiateCheckout} from 'src/analytics';
 import {Constants} from 'src/constants';
+import {getDefaultBillingType} from 'src/utils';
+import {checkInventory} from 'src/library';
+import {checkInventoryStage} from '@bold-commerce/checkout-frontend-library';
 
 setHook('history', useHistory);
 
@@ -26,9 +29,15 @@ function Theme(): React.ReactElement {
     useSetDefaultLanguageIso();
     useWindowDimensions();
     useSetApiCallOnEvent(false);
+    const billingType = getDefaultBillingType();
     const acceptMarketingSetting = useGetGeneralSettingCheckoutFields('accepts_marketing_checkbox_option') as string;
     dispatch(actionSetDefaultCustomerAcceptMarketing(acceptMarketingSetting));
     initiateCheckout();
+
+    useEffect(() => {
+        dispatch(actionUpdateBillingTypeInSettings(billingType));
+        dispatch(checkInventory(checkInventoryStage.initial));
+    }, []);
 
     return (
         <div className={'App'}>

@@ -11,12 +11,12 @@ import 'src/themes/one-page/onePage.css';
 import {Overlay, StandaloneHooks} from 'src/components';
 import {Constants, debounceConstants} from 'src/constants';
 import {useDispatch} from 'react-redux';
-import {actionSetDefaultCustomerAcceptMarketing} from 'src/action';
+import {actionSetDefaultCustomerAcceptMarketing, actionUpdateBillingTypeInSettings} from 'src/action';
 import {BrowserRouter, Route} from 'react-router-dom';
 import {Switch, useHistory} from 'react-router';
 import {ThemePage} from 'src/themes/one-page/pages';
 import {SessionExpiredPage, OutOfStockPage, ThankYouPage} from 'src/pages';
-import {setHook} from 'src/utils';
+import {getDefaultBillingType, setHook} from 'src/utils';
 
 setHook('history', useHistory);
 
@@ -27,8 +27,10 @@ function Theme () : React.ReactElement {
     useSetApiCallOnEvent(true);
     debounceConstants.debouncedGuestCustomerFunction = useDebounceCustomer();
     const acceptMarketingSetting = useGetGeneralSettingCheckoutFields('accepts_marketing_checkbox_option') as string;
+    const billingType = getDefaultBillingType();
     useEffect(() => {
         dispatch(actionSetDefaultCustomerAcceptMarketing(acceptMarketingSetting));
+        dispatch(actionUpdateBillingTypeInSettings(billingType));
     },[]);
 
     return (
