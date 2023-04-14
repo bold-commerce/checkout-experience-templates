@@ -1,6 +1,6 @@
 import {AnyAction} from 'redux';
 import {UPDATE_ORDER_TOTAL} from 'src/action';
-import { defaultOrderInitialization } from 'src/constants/orderInitialization';
+import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 
 const {data: {application_state}} = defaultOrderInitialization;
 

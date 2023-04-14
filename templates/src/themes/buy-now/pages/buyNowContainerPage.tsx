@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
-import { useGetFlashErrors } from 'src/hooks';
-import { useBuyNowContainerPage } from 'src/themes/buy-now/hooks';
-import { IndexPage, ShippingPage, SummaryPage } from 'src/themes/buy-now/pages';
+import {useEffect, useRef} from 'react';
+import {useGetFlashErrors} from 'src/hooks';
+import {useBuyNowContainerPage} from 'src/themes/buy-now/hooks';
+import {IndexPage, ShippingPage, SummaryPage} from 'src/themes/buy-now/pages';
 
 export function BuyNowContainerPage() : React.ReactElement{
     const indexRef = useRef<HTMLDivElement>(null);

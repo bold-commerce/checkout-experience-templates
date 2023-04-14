@@ -1,14 +1,14 @@
-import { useGetAppSettingData, useGetErrors, useGetLineItems, useGetOrderTotal, useGetShippingData, useGetValidVariable, useGetButtonDisableVariable, useGetCustomerInfoDataByField } from 'src/hooks';
-import { IUseIndexPageProps } from 'src/types';
-import { Constants } from 'src/constants';
-import { useCallback, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
-import { displayOrderProcessingScreen, processOrder, validateBillingAddress, updateLineItemQuantity } from 'src/library';
-import { IApiErrorResponse, IApiReturnObject, sendAddPaymentActionAsync, sendRefreshOrderActionAsync } from '@bold-commerce/checkout-frontend-library';
-import { getTerm, isOnlyFlashError, retrieveErrorFromResponse } from 'src/utils';
-import { sendEvents } from 'src/analytics';
-import { actionAddError, actionShowHideOverlayContent } from 'src/action';
+import {useGetAppSettingData, useGetErrors, useGetLineItems, useGetOrderTotal, useGetShippingData, useGetValidVariable, useGetButtonDisableVariable, useGetCustomerInfoDataByField} from 'src/hooks';
+import {IUseIndexPageProps} from 'src/types';
+import {Constants} from 'src/constants';
+import {useCallback, useRef} from 'react';
+import {useDispatch} from 'react-redux';
+import {useHistory} from 'react-router';
+import {displayOrderProcessingScreen, processOrder, validateBillingAddress, updateLineItemQuantity} from 'src/library';
+import {IApiErrorResponse, IApiReturnObject, sendAddPaymentActionAsync, sendRefreshOrderActionAsync} from '@bold-commerce/checkout-frontend-library';
+import {getTerm, isOnlyFlashError, retrieveErrorFromResponse} from 'src/utils';
+import {sendEvents} from 'src/analytics';
+import {actionAddError, actionShowHideOverlayContent} from 'src/action';
 
 export function useIndexPage(): IUseIndexPageProps {
     const dispatch = useDispatch();
@@ -37,7 +37,9 @@ export function useIndexPage(): IUseIndexPageProps {
             await dispatch(validateBillingAddress);
         }
         //isValidBillingAddress could get updated in above dispatch call, need to use ref to fetch updated state.
-        if (!isValidBillingAddressRef.current) { return; }
+        if (!isValidBillingAddressRef.current) {
+            return; 
+        }
 
         sendEvents('Clicked complete order button', {'category': 'Checkout'});
         if (errors.length === 0) {
@@ -48,7 +50,7 @@ export function useIndexPage(): IUseIndexPageProps {
                 sendRefreshOrderActionAsync().then(
                     sendAddPaymentActionAsync,
                     (e) => {
-                        const error = retrieveErrorFromResponse(<IApiReturnObject>{ error: e }) as IApiErrorResponse;
+                        const error = retrieveErrorFromResponse(<IApiReturnObject>{error: e}) as IApiErrorResponse;
                         if (error && isOnlyFlashError([error])) {
                             dispatch(actionAddError(error));
                         }

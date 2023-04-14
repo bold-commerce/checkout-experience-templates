@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import { sendEvents, sendPageView } from 'src/analytics';
-import { CloseableHeader, GenericMessageSection, OrderRecap, ContactUs } from 'src/components';
-import { useGetThankYou } from 'src/hooks';
-import { useFocusTrap, useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
+import React, {useEffect} from 'react';
+import {sendEvents, sendPageView} from 'src/analytics';
+import {CloseableHeader, GenericMessageSection, OrderRecap, ContactUs} from 'src/components';
+import {useGetThankYou} from 'src/hooks';
+import {useFocusTrap, useGetCloseBuyNow} from 'src/themes/buy-now/hooks';
 import FocusTrap from 'focus-trap-react';
 
 export function ThankYouPage(): React.ReactElement{
-    const { thankYouTitle, terms} = useGetThankYou();
+    const {thankYouTitle, terms} = useGetThankYou();
     const {closeBuyNow, websiteName} = useGetCloseBuyNow();
     const {activeElement, focusTrapOptions} = useFocusTrap();
 

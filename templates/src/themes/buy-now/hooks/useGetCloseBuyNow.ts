@@ -1,8 +1,8 @@
-import { useCallback, useEffect } from 'react';
-import { Constants } from 'src/constants';
-import { useAppSelector } from 'src/hooks';
-import { getTerm } from 'src/utils';
-import { IUseGetCloseBuyNow } from '../types';
+import {useCallback, useEffect} from 'react';
+import {Constants} from 'src/constants';
+import {useAppSelector} from 'src/hooks';
+import {getTerm} from 'src/utils';
+import {IUseGetCloseBuyNow} from '../types';
 
 export function useGetCloseBuyNow(): IUseGetCloseBuyNow {
     const websiteName = window.shopName;
@@ -17,10 +17,14 @@ export function useGetCloseBuyNow(): IUseGetCloseBuyNow {
 
     useEffect(() => {
         const closeOnEscape = (e) => {
-            if (e.keyCode === 27) { document.dispatchEvent(new CustomEvent('buyNow:close')); }
+            if (e.keyCode === 27) {
+                document.dispatchEvent(new CustomEvent('buyNow:close')); 
+            }
         };
         window.addEventListener('keydown', closeOnEscape);
-        return () => { window.removeEventListener('keydown', closeOnEscape); };
+        return () => {
+            window.removeEventListener('keydown', closeOnEscape); 
+        };
     }, []);
 
     const loginUrl = useCallback((event) => {
@@ -28,5 +32,5 @@ export function useGetCloseBuyNow(): IUseGetCloseBuyNow {
         window.parent.location.href = `${window.loginUrl}${publicOrderId}`;
     }, [window.loginUrl, publicOrderId]);
 
-    return { closeBuyNow, websiteName, terms, loginUrl };
+    return {closeBuyNow, websiteName, terms, loginUrl};
 }

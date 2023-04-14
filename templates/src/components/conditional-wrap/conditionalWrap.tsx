@@ -1,4 +1,4 @@
-import { IConditionalWrapProps } from 'src/types';
+import {IConditionalWrapProps} from 'src/types';
 
 export function ConditionalWrap({
     condition,

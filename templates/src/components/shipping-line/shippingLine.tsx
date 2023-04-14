@@ -1,12 +1,12 @@
 import React from 'react';
-import { FieldRadio, LockedSection, ConditionalWrap } from 'src/components';
-import { useGetShippingLinesData } from 'src/hooks';
-import { Price } from '@boldcommerce/stacks-ui';
-import { IShippingLineProps } from 'src/types';
+import {FieldRadio, LockedSection, ConditionalWrap} from 'src/components';
+import {useGetShippingLinesData} from 'src/hooks';
+import {Price} from '@boldcommerce/stacks-ui';
+import {IShippingLineProps} from 'src/types';
 import ClassNames from 'classnames';
 
 export function ShippingLine(props: IShippingLineProps): React.ReactElement {
-    const { shippingLines, selectedLine, handleChange, shippingLinesLength, noShippingAreaText, formattedPrice } = useGetShippingLinesData();
+    const {shippingLines, selectedLine, handleChange, shippingLinesLength, noShippingAreaText, formattedPrice} = useGetShippingLinesData();
 
     return (
         <>
@@ -15,7 +15,7 @@ export function ShippingLine(props: IShippingLineProps): React.ReactElement {
                     {shippingLines.map((line, index) => {
                         const css = ClassNames([
                             'shipping_line__items',
-                            { 'shipping_line__items-border': index > 0 },
+                            {'shipping_line__items-border': index > 0},
                         ]);
                         return (
                             <div className={css} key={line.id}>
@@ -31,7 +31,8 @@ export function ShippingLine(props: IShippingLineProps): React.ReactElement {
                                 <Price className="shipping_line__items-amount" amount={line.amount}
                                     moneyFormatString={formattedPrice}/>
                             </div>
-                        );}
+                        );
+                    }
                     )}
                 </ConditionalWrap>
             ) : (

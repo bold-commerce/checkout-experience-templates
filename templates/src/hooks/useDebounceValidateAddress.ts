@@ -2,7 +2,7 @@ import {useDebouncedCallback} from 'use-debounce';
 import {validateBillingAddress, validateShippingAddress} from 'src/library';
 import {useDispatch} from 'react-redux';
 import {Constants, debounceConstants} from 'src/constants';
-import { useGetAppSettingData } from './useGetAppSettingData';
+import {useGetAppSettingData} from './useGetAppSettingData';
 import {actionSetAppStateValid, actionSetLoader} from 'src/action';
 import {useCallback} from 'react';
 

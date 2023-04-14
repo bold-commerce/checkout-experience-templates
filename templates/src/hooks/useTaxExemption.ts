@@ -1,9 +1,9 @@
-import { useGetGeneralSettingCheckoutFields, useGetNoteAttributes } from 'src/hooks';
-import { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { ITaxExemption } from 'src/types';
-import { ICartParameters, IPatchOrderMetaDataRequest } from '@bold-commerce/checkout-frontend-library';
-import { patchOrderMetaData } from 'src/library';
+import {useGetGeneralSettingCheckoutFields, useGetNoteAttributes} from 'src/hooks';
+import {useCallback, useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {ITaxExemption} from 'src/types';
+import {ICartParameters, IPatchOrderMetaDataRequest} from '@bold-commerce/checkout-frontend-library';
+import {patchOrderMetaData} from 'src/library';
 
 const TAX_EXEMPT_ATTR_KEY = '_tax_exempt_checkbox_selected';
 

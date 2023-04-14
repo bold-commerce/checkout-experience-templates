@@ -42,9 +42,7 @@ export function actionSetDefaultCustomerAcceptMarketing(acceptMarketing: string)
 export function actionUpdateAddressField (field:string, value:string, type: string ): AnyAction{
     if(type === Constants.SHIPPING){
         return actionUpdateShippingAddressField(field, value);
-    }
-    else
-    {
+    } else {
         return actionUpdateBillingAddressField(field, value);
     }
 }
@@ -69,9 +67,7 @@ export function actionUpdateBillingType(type: string, data?: Partial<IAddress>):
             type: CustomerActions.UPDATE_BILLING_TYPE_SAME,
             payload: {data}
         };
-    }
-    else
-    {
+    } else {
         return {
             type: CustomerActions.CLEAR_BILLING_INFO,
         };
@@ -91,9 +87,7 @@ export function actionPopulateSavedAddressField(type: string, data: IAddress): A
             type: CustomerActions.UPDATE_SHIPPING_SAVED_ADDRESS_FIELD,
             payload: {data}
         };
-    }
-    else
-    {
+    } else {
         return {
             type: CustomerActions.UPDATE_BILLING_SAVED_ADDRESS_FIELD,
             payload: {data}

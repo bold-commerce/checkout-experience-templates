@@ -20,6 +20,6 @@ export function useGetAddressPostalCodeAndProvinceData(type: string): IAddressPo
             provinceLabel: countryInfo.province_label,
             province: countryInfo.provinces};
     } else {
-        return {province: [], provinceLabel:'', showProvince:false, showPostalCode:false };
+        return {province: [], provinceLabel:'', showProvince:false, showPostalCode:false};
     }
 }

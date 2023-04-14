@@ -1,15 +1,15 @@
-import React, { useMemo } from 'react';
-import { InputField } from '@boldcommerce/stacks-ui/lib';
+import React, {useMemo} from 'react';
+import {InputField} from '@boldcommerce/stacks-ui/lib';
 import ClassNames from 'classnames';
 import {useGetIsLoadingExceptSections} from 'src/hooks';
-import { IFieldInputProps } from 'src/types';
+import {IFieldInputProps} from 'src/types';
 
 export function FieldInput(props: IFieldInputProps): React.ReactElement {
     const isLoading = useGetIsLoadingExceptSections();
     const cssClass = useMemo(() => ClassNames([
         'input-field__container',
         props.className,
-        { 'input-field--has-value': props.value && props.value.length > 0 },
+        {'input-field--has-value': props.value && props.value.length > 0},
     ]), [props.className, props.value]);
     const dataTestId = props.dataTestId ?? 'input-field';
 
@@ -32,7 +32,7 @@ export function FieldInput(props: IFieldInputProps): React.ReactElement {
                 autoFocus={props.autoFocus}
                 disabled={isLoading}
             />
-            <label htmlFor={props.id} data-testid='input-field__label' className={ClassNames(['input-field__label', { 'field--alert': props.errorMessage }])}>{props.placeholder}</label>
+            <label htmlFor={props.id} data-testid='input-field__label' className={ClassNames(['input-field__label', {'field--alert': props.errorMessage}])}>{props.placeholder}</label>
         </div>
     );
 }

@@ -1,13 +1,13 @@
-import React, { ForwardedRef, useCallback } from 'react';
-import { ShippingLines, NavigationHeading, CloseableHeader, Address } from 'src/components';
-import { Constants } from 'src/constants';
-import { IBuyNowContainerPageProps } from 'src/themes/buy-now/types';
-import { useFocusTrap, useShippingPage } from 'src/themes/buy-now/hooks';
-import { getTerm } from 'src/utils';
+import React, {ForwardedRef, useCallback} from 'react';
+import {ShippingLines, NavigationHeading, CloseableHeader, Address} from 'src/components';
+import {Constants} from 'src/constants';
+import {IBuyNowContainerPageProps} from 'src/themes/buy-now/types';
+import {useFocusTrap, useShippingPage} from 'src/themes/buy-now/hooks';
+import {getTerm} from 'src/utils';
 import FocusTrap from 'focus-trap-react';
 
 function ShippingPage(props : IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivElement>): React.ReactElement {
-    const { closeBuyNow, flashText, stopBack, setStopBack, isValidAddress } = useShippingPage();
+    const {closeBuyNow, flashText, stopBack, setStopBack, isValidAddress} = useShippingPage();
     const placeholder = getTerm('enter_new_address', Constants.CUSTOMER_INFO);
 
     const backOnClick = useCallback(() => { 

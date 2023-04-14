@@ -1,7 +1,7 @@
 import {AnyAction} from 'redux';
 import * as AppActionsType from 'src/action/appActionType';
 import {IError} from 'src/types';
-import { defaultOrderInitialization } from 'src/constants/orderInitialization';
+import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 
 const {errors} = defaultOrderInitialization;
 

@@ -1,6 +1,6 @@
-import { useCallback, useLayoutEffect, useState } from 'react';
-import { IUseGetCartItem } from 'src/types';
-import { useDebouncedCallback } from 'use-debounce';
+import {useCallback, useLayoutEffect, useState} from 'react';
+import {IUseGetCartItem} from 'src/types';
+import {useDebouncedCallback} from 'use-debounce';
 import {ILineItem} from '@bold-commerce/checkout-frontend-library';
 
 interface onUpdateQuantityFn {
@@ -23,7 +23,9 @@ export function useCartItem(
      */
     const commit = useCallback((newQuantity: number) => {
         debounceUpdateQuantity.cancel();
-        if (productData.quantity === newQuantity) { return; }
+        if (productData.quantity === newQuantity) {
+            return; 
+        }
         (onUpdateQuantity as onUpdateQuantityFn)(productData.line_item_key, newQuantity);
     }, [productData.line_item_key, onUpdateQuantity, productData.quantity]);
 

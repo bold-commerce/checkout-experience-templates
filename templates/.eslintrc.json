@@ -21,6 +21,8 @@
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single", {"avoidEscape": true}],
     "semi": ["error", "always"],
-    "semi-spacing": ["error", {"before": false, "after": true}]
+    "semi-spacing": ["error", {"before": false, "after": true}],
+    "brace-style": ["error", "1tbs"],
+    "object-curly-spacing": ["error", "never"]
   }
 }

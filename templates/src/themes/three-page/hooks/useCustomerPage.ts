@@ -37,7 +37,7 @@ export function useCustomerPage(): IUseCustomerPageProp {
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
     const items = useGetLineItems();
     const value = useGetOrderTotal();
-    const { currency } = useGetCurrencyInformation();
+    const {currency} = useGetCurrencyInformation();
 
     useEffect( () => {
         if (!isOrderCompleted) {

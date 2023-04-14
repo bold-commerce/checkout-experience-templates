@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
-import { Constants, errorTypes } from 'src/constants';
-import { useGetErrors } from 'src/hooks';
-import { IUseCheckShippingAddress } from 'src/themes/buy-now/types';
+import {useMemo} from 'react';
+import {Constants, errorTypes} from 'src/constants';
+import {useGetErrors} from 'src/hooks';
+import {IUseCheckShippingAddress} from 'src/themes/buy-now/types';
 
 export const useCheckShippingAddress = (): IUseCheckShippingAddress => {
     const errors = useGetErrors();

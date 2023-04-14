@@ -1,6 +1,6 @@
 import {AnyAction} from 'redux';
 import {UPDATE_LINE_ITEMS} from 'src/action';
-import { defaultOrderInitialization } from 'src/constants/orderInitialization';
+import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 import {ILineItem} from '@bold-commerce/checkout-frontend-library';
 
 const {data: {application_state}} = defaultOrderInitialization;

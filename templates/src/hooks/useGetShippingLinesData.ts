@@ -11,7 +11,7 @@ import {useGetValidVariable} from './useGetValidVariable';
 
 export function useGetShippingLinesData(): IShippingLinesHookProps {
     const dispatch = useDispatch();
-    const { formattedPrice } = useGetCurrencyInformation();
+    const {formattedPrice} = useGetCurrencyInformation();
     const shippingAddressValid = useGetValidVariable('shippingAddress');
     const shippingLines: Array<IShippingLine> = useGetAvailableShippingLines();
     const selectedLine: IShippingLine = useGetSelectShippingLine();

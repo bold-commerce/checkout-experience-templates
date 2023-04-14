@@ -5,7 +5,7 @@ import {actionRemoveErrorByAddressType, actionSetAppStateValid, actionUpdateBill
 import {IAddressProps, IBillingAddress} from 'src/types';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
-import { validateBillingAddress } from 'src/library';
+import {validateBillingAddress} from 'src/library';
 
 export function useBillingAddress(): IBillingAddress{
     const dispatch = useDispatch();

@@ -1,4 +1,4 @@
-import { isObjectEmpty} from 'src/utils';
+import {isObjectEmpty} from 'src/utils';
 
 /* 
     return true if the object is null or undefined

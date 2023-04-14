@@ -8,8 +8,8 @@ import {
 } from '@bold-commerce/checkout-frontend-library';
 import {compareAddresses, handleErrorIfNeeded} from 'src/utils';
 import {API_RETRY, Constants, defaultAddressState} from 'src/constants';
-import { actionSetAppStateValid } from 'src/action';
-import { setBillingAddressAsValid } from 'src/library';
+import {actionSetAppStateValid} from 'src/action';
+import {setBillingAddressAsValid} from 'src/library';
 
 export async function postBillingAddress(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
     dispatch(actionSetAppStateValid('billingAddress', false));

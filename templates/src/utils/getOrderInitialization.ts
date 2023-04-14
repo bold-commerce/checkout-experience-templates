@@ -1,6 +1,6 @@
 import {IOrderInitialization} from 'src/types';
 import {getValidatedOrderData} from 'src/utils';
-import { defaultOrderInitialization } from 'src/constants/orderInitialization';
+import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 import {IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
 
 export function getOrderInitialization(orderData: IInitializeOrderResponse): IOrderInitialization {
