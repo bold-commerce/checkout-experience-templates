@@ -7,7 +7,6 @@ import {AddressLabelMapping, Constants, defaultAddressState} from 'src/constants
 import {getTerm} from 'src/utils';
 import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
 
-
 export function useGetAddressCountryInputData(type: string, debounceApiCall: () => void): IAddressCountryHookProps {
     const dispatch = useDispatch();
     const callApiAtOnEvents: boolean = useCallApiAtOnEvents();
@@ -29,12 +28,12 @@ export function useGetAddressCountryInputData(type: string, debounceApiCall: () 
     } else {
         errorMessage = undefined;
     }
-    if (!callApiAtOnEvents) {
-        if (countryName === '' && countriesList && countriesList.length > 0) {
+    if (countriesList && countriesList.length === 1) {
+        if (countryName === '') {
             countryName = countriesList[0].name;
             dispatch(actionUpdateAddressField(Constants.ADDRESS_COUNTRY, countryName, type));
         }
-        if (value === '' && countriesList && countriesList.length > 0) {
+        if (value === '') {
             value = countriesList[0].iso_code;
             dispatch(actionUpdateAddressField(Constants.ADDRESS_COUNTRY_CODE, value, type));
         }
