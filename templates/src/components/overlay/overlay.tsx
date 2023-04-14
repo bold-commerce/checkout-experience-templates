@@ -14,7 +14,7 @@ export function Overlay(props: IOverlayProps): React.ReactElement {
     const overlayId = overlay.inverted? 'overlay-inverted': 'overlay';
 
     const cssClassOverlay = ClassNames([
-        {'overlay-hidden': !overlay.shown },
+        {'overlay-hidden': !overlay.shown},
     ]);
 
     const cssClassButton = ClassNames([

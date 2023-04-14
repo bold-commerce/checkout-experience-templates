@@ -1,13 +1,13 @@
 import FocusTrap from 'focus-trap-react';
-import React, { useEffect } from 'react';
-import { sendEvents, sendPageView } from 'src/analytics';
-import { CloseableHeader, GenericMessageSection } from 'src/components';
-import { useGetSessionExpired } from 'src/hooks';
-import { useFocusTrap, useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
+import React, {useEffect} from 'react';
+import {sendEvents, sendPageView} from 'src/analytics';
+import {CloseableHeader, GenericMessageSection} from 'src/components';
+import {useGetSessionExpired} from 'src/hooks';
+import {useFocusTrap, useGetCloseBuyNow} from 'src/themes/buy-now/hooks';
 
 export function SessionExpiredPage(): React.ReactElement {
     const {closeBuyNow, websiteName, terms: modalTerms} = useGetCloseBuyNow();
-    const { terms: sessionTerms } = useGetSessionExpired();
+    const {terms: sessionTerms} = useGetSessionExpired();
     const {activeElement, focusTrapOptions} = useFocusTrap();
     
     useEffect(() => {

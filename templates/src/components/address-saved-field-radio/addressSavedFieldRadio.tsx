@@ -1,6 +1,6 @@
 import React from 'react';
-import { FieldRadio, CondensedShipping } from 'src/components';
-import { ISavedAddressFieldRadioProps } from 'src/types';
+import {FieldRadio, CondensedShipping} from 'src/components';
+import {ISavedAddressFieldRadioProps} from 'src/types';
 
 export function AddressSavedFieldRadio(props: ISavedAddressFieldRadioProps): React.ReactElement {
     const label = <CondensedShipping address={props.address} showPhone />;

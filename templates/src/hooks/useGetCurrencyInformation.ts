@@ -1,6 +1,6 @@
 import {IUseGetCurrencyInformation} from 'src/types';
 import {useAppSelector} from 'src/hooks/rootHooks';
-import { renderHtmlEntities } from 'src/utils';
+import {renderHtmlEntities} from 'src/utils';
 import {ICurrency} from '@bold-commerce/checkout-frontend-library';
 
 export function useGetCurrencyInformation(showCurrency = false): IUseGetCurrencyInformation {

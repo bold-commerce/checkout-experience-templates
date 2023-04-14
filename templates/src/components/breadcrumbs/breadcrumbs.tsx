@@ -9,7 +9,7 @@ export function Breadcrumbs(props: IBreadcrumbsProps): React.ReactElement {
     const history = useHistory();
     let breadcrumbIndex = 1;
 
-    const { crumbs, sectionLabel } = getBreadcrumbs(history, active);
+    const {crumbs, sectionLabel} = getBreadcrumbs(history, active);
 
     //TODO: implement digital checkout for non-physical items later
 

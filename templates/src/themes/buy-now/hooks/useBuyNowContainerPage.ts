@@ -1,6 +1,6 @@
-import { CSSProperties, RefObject, useCallback, useEffect, useLayoutEffect, useState } from 'react';
-import { sendEvents, sendPageView } from 'src/analytics';
-import { IUseBuyNowContainerPage, IUseBuyNowContainerPageProps } from 'src/themes/buy-now/types';
+import {CSSProperties, RefObject, useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import {sendEvents, sendPageView} from 'src/analytics';
+import {IUseBuyNowContainerPage, IUseBuyNowContainerPageProps} from 'src/themes/buy-now/types';
 
 export function useBuyNowContainerPage(props : IUseBuyNowContainerPageProps) : IUseBuyNowContainerPage {
     const [ openSection, setOpenSection ] = useState('/');

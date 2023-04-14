@@ -1,13 +1,13 @@
-import React, { ForwardedRef } from 'react';
-import { CloseableHeader, NavigationHeading, SummaryTotals} from 'src/components';
-import { Constants } from 'src/constants';
-import { IBuyNowContainerPageProps } from 'src/themes/buy-now/types';
-import { getTerm } from 'src/utils';
-import { useFocusTrap, useGetCloseBuyNow, useIndexPage } from 'src/themes/buy-now/hooks';
+import React, {ForwardedRef} from 'react';
+import {CloseableHeader, NavigationHeading, SummaryTotals} from 'src/components';
+import {Constants} from 'src/constants';
+import {IBuyNowContainerPageProps} from 'src/themes/buy-now/types';
+import {getTerm} from 'src/utils';
+import {useFocusTrap, useGetCloseBuyNow, useIndexPage} from 'src/themes/buy-now/hooks';
 import FocusTrap from 'focus-trap-react';
 
 function SummaryPage(props : IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivElement>): React.ReactElement {
-    const { checkoutOnClick } = useIndexPage();
+    const {checkoutOnClick} = useIndexPage();
     const {closeBuyNow} = useGetCloseBuyNow();
     const {focusTrapOptions} = useFocusTrap();
     return (

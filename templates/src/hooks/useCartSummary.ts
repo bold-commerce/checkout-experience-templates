@@ -2,7 +2,7 @@ import {useCallback, useState} from 'react';
 import {useGetLineItems, useScreenBreakpoints} from 'src/hooks';
 import {getTerm, getTotalLineItems} from 'src/utils';
 import {IUseCartSummary} from 'src/types';
-import { Constants } from 'src/constants';
+import {Constants} from 'src/constants';
 
 export function useCartSummary(): IUseCartSummary{
     const {isMobile} = useScreenBreakpoints();

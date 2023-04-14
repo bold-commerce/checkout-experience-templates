@@ -16,7 +16,7 @@ import {
     IProvince,
     IFees
 } from '@bold-commerce/checkout-frontend-library';
-import { Constants } from 'src/constants';
+import {Constants} from 'src/constants';
 
 export interface IAddressProps {
     title: string;

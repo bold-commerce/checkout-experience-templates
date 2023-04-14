@@ -25,8 +25,7 @@ export function useGetAddressData(type: string): IAddress {
 export function useGetAddressDataField(type: string, fieldId: string): string{
     if(type === Constants.SHIPPING) {
         return useGetShippingDataField(fieldId);
-    }
-    else {
+    } else {
         return useGetBillingDataField(fieldId);
     }
 }

@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { actionClearValidStates, actionGetInitialData, actionSetSessionInitialized, actionSetOverlayContent, actionShowHideOverlayContent, actionUpdateAppData } from 'src/action';
-import { checkInventory, initializeSession, setDefaultAddresses, initializeExpressPay } from 'src/library';
-import { IOrderInitialization, IOverlay } from 'src/types';
-import { getOrderInitialization } from 'src/utils/getOrderInitialization';
-import { IUseModal } from '../types';
-import { checkInventoryStage, IInitializeOrderResponse } from '@bold-commerce/checkout-frontend-library';
-import { useGetValidVariable } from 'src/hooks';
+import {useCallback, useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {actionClearValidStates, actionGetInitialData, actionSetSessionInitialized, actionSetOverlayContent, actionShowHideOverlayContent, actionUpdateAppData} from 'src/action';
+import {checkInventory, initializeSession, setDefaultAddresses, initializeExpressPay} from 'src/library';
+import {IOrderInitialization, IOverlay} from 'src/types';
+import {getOrderInitialization} from 'src/utils/getOrderInitialization';
+import {IUseModal} from '../types';
+import {checkInventoryStage, IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
+import {useGetValidVariable} from 'src/hooks';
 import {useHistory} from 'react-router';
 
 
@@ -43,14 +43,13 @@ export function useModal(): IUseModal {
         dispatch(actionClearValidStates());
         dispatch(actionSetSessionInitialized(false));
         setIsOpen(false);
-        window.parent.postMessage({ type: 'buyNow:close' }, '*');
+        window.parent.postMessage({type: 'buyNow:close'}, '*');
     }, [setIsOpen, dispatch]);
 
     const handlePostMessage = useCallback((e) => {
         if(e.data.type === 'buyNow:open'){
             handleOpenEvent();
-        }
-        else if(e.data.type === 'buyNow:initialized'){
+        } else if(e.data.type === 'buyNow:initialized'){
             handleInitializeEvent(e.data.detail);
         }
     }, []);

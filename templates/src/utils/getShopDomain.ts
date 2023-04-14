@@ -1,4 +1,4 @@
-import { isObjectEmpty } from 'src/utils';
+import {isObjectEmpty} from 'src/utils';
 
 export function getShopDomain(): string {
     const shopDomain = !isObjectEmpty(window.customDomain) ?

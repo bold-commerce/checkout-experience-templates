@@ -1,4 +1,4 @@
-import { shouldHideRoProperty } from 'src/utils';
+import {shouldHideRoProperty} from 'src/utils';
 
 export function getLineItemPropertiesForDisplay(properties: Record<string, string>, cartParameters: Record<string, string>): Array<string>{
     return Object.keys(properties)

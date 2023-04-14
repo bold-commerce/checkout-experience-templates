@@ -5,7 +5,7 @@ import * as Store from '../../store';
 import Theme from './theme';
 import * as BugReporter from 'src/utils/bugReporter';
 import {ErrorBoundary, ErrorFallback} from 'src/components';
-import { HelmetProvider } from 'react-helmet-async';
+import {HelmetProvider} from 'react-helmet-async';
 
 BugReporter.init('one-page');
 const store = Store.initializeStore(window.initializedOrder.data);

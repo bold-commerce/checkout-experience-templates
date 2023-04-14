@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
-import { IAddressFieldSelectProps } from 'src/types';
-import { FieldSelect } from 'src/components';
-import { useGetAddressCountryInputData } from 'src/hooks';
+import React, {useMemo} from 'react';
+import {IAddressFieldSelectProps} from 'src/types';
+import {FieldSelect} from 'src/components';
+import {useGetAddressCountryInputData} from 'src/hooks';
 
 export function AddressCountrySelect(props: IAddressFieldSelectProps): React.ReactElement {
-    const { placeholder, label, id, name, value, countryOptions, handleChange, handleBlur, errorMessage, countryName, dataTestId } = useGetAddressCountryInputData(props.type, props.debounceApiCall);
+    const {placeholder, label, id, name, value, countryOptions, handleChange, handleBlur, errorMessage, countryName, dataTestId} = useGetAddressCountryInputData(props.type, props.debounceApiCall);
 
     // Creating temp country if the value is not in the options. As soon as the country
     // is changed to a country that is in the options the temp option will disappear.

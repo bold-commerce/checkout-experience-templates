@@ -1,9 +1,9 @@
 import React from 'react';
 import {FieldSection, PaymentIframe, LockedSection, LoadingSection} from 'src/components';
 import {useGetIsSessionInitialized, useGetPaymentSection} from 'src/hooks';
-import { IPaymentProps } from 'src/types';
+import {IPaymentProps} from 'src/types';
 
-export function Payment({ showTitle = true, loadIframeImmediately = false} : IPaymentProps): React.ReactElement {
+export function Payment({showTitle = true, loadIframeImmediately = false} : IPaymentProps): React.ReactElement {
     const {loading, isValidAddress, isValidShippingLine, notValidText, fieldSectionText, onLoad, isValidPigiLoad} = useGetPaymentSection();
     const isSessionInitialized = useGetIsSessionInitialized();
 

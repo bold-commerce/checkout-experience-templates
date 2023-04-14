@@ -6,8 +6,7 @@ import {getReturnToCartTermAndLink, getTerm} from 'src/utils';
 
 export function useGetOutOfStock(): IUseOutOfStock {
     const {term, link} = getReturnToCartTermAndLink();
-    const returnUrl = useCallback(() =>
-    {
+    const returnUrl = useCallback(() => {
         window.location.href = link;
     }, [link]);
 

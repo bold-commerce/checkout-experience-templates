@@ -5,11 +5,11 @@ import {IErrorBoundaryProps, IErrorBoundaryState} from 'src/types';
 export class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryState> {
     constructor(props: {fallbackComponent?: React.FunctionComponent<IErrorBoundaryState>}) {
         super(props);
-        this.state = { error: null, errorInfo: null };
+        this.state = {error: null, errorInfo: null};
     }
 
     static getDerivedStateFromError(error: Error): {error: Error} {
-        return { error };
+        return {error};
     }
 
     componentDidCatch(error: Error, errorInfo: ErrorInfo): void {

@@ -1,9 +1,9 @@
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
-import { Constants, defaultAddressState } from 'src/constants';
-import { actionUpdateAddress, actionUpdateBillingType, actionUpdateBillingTypeInSettings } from 'src/action';
-import { validateBillingAddress, validateShippingAddress } from '.';
-import { isObjectEquals } from 'src/utils';
+import {Constants, defaultAddressState} from 'src/constants';
+import {actionUpdateAddress, actionUpdateBillingType, actionUpdateBillingTypeInSettings} from 'src/action';
+import {validateBillingAddress, validateShippingAddress} from '.';
+import {isObjectEquals} from 'src/utils';
 
 export async function setDefaultAddresses(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
     const shippingAddress = getState().data.application_state.addresses.shipping;

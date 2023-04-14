@@ -1,6 +1,6 @@
 import {AnyAction} from 'redux';
 import {UPDATE_AVAILABLE_SHIPPING_LINES} from 'src/action';
-import { defaultOrderInitialization } from 'src/constants/orderInitialization';
+import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 import {IShippingLine} from '@bold-commerce/checkout-frontend-library';
 
 const {data:{application_state}} = defaultOrderInitialization;

@@ -1,5 +1,5 @@
 import {IAddressAutoComplete, ICheckoutProcess} from 'src/types';
-import { defaultOrderInitialization } from 'src/constants/orderInitialization';
+import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 
 const {data: {initial_data}} = defaultOrderInitialization;
 

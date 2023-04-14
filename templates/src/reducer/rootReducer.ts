@@ -37,7 +37,7 @@ import {
     externalPaymentGatewaysReducer,
 } from 'src/reducer';
 import {autocompleteServices, Constants} from 'src/constants';
-import { defaultOrderInitialization } from 'src/constants/orderInitialization';
+import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 
 export const initialState: IInitialState = {
     screenWidth: window.innerWidth,

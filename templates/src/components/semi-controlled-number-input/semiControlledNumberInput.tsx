@@ -1,6 +1,6 @@
-import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
-import { ISemiControlledNumberInputProps } from 'src/types';
-import { useDebouncedCallback } from 'use-debounce';
+import React, {useCallback, useLayoutEffect, useRef, useState} from 'react';
+import {ISemiControlledNumberInputProps} from 'src/types';
+import {useDebouncedCallback} from 'use-debounce';
 
 export function SemiControlledNumberInput(props: ISemiControlledNumberInputProps): React.ReactElement {
     const {
@@ -40,7 +40,9 @@ export function SemiControlledNumberInput(props: ISemiControlledNumberInputProps
         // happen when the user changes the value and remains on the same input for a while causing the debounce
         // to fire which will then disable the button and call onBlur.
         /* istanbul ignore next */
-        if (ref.current?.disabled) { return; }
+        if (ref.current?.disabled) {
+            return; 
+        }
 
         const value = parseInt(e.target.value, 10);
         commit(value, e.target);

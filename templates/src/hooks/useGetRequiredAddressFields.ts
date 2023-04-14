@@ -5,7 +5,7 @@ import {
 
 
 export function useGetRequiredAddressFields(type:string): string[] {
-    const { showPostalCode, showProvince } = useGetAddressPostalCodeAndProvinceData(type);
+    const {showPostalCode, showProvince} = useGetAddressPostalCodeAndProvinceData(type);
     const showCompanyName = useGetGeneralSettingCheckoutFields('company_name_option'); 
     const showPhoneNumber = useGetGeneralSettingCheckoutFields('phone_number_required');
     const addressFields = [

@@ -23,8 +23,7 @@ export function displayFatalErrorFromTranslation(state: IOrderInitialization, di
         const returnToCart:string = getTerm(term, Constants.CUSTOMER_INFO, languageBlob);
         const overlay: IOverlay = {shown: true, inverted: false, header: headerError, content: contentError, buttonText: returnToCart};
         dispatch(actionSetOverlayContent(overlay));
-    }
-    else{
+    } else{
         displayFatalError(dispatch);
     }
 }

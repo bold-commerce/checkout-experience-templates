@@ -2,7 +2,7 @@ import {IApiReturnObject, IApiSuccessResponse, IPatchOrderMetaDataRequest, IPatc
 import {handleErrorIfNeeded} from 'src/utils';
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
-import { actionOrderMetaData } from 'src/action';
+import {actionOrderMetaData} from 'src/action';
 
 export function patchOrderMetaData(payload: IPatchOrderMetaDataRequest) {
     return async function addTaxExemptionNoteAttributeThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {

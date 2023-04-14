@@ -1,7 +1,7 @@
 import {IIsValid} from 'src/types';
 import {SET_VALID, CLEAR_VALID_STATES} from 'src/action/appActionType';
 import {AnyAction} from 'redux';
-import { defaultOrderInitialization } from 'src/constants/orderInitialization';
+import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 
 const {isValid} = defaultOrderInitialization;
 

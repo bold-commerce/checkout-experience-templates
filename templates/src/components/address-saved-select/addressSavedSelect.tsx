@@ -1,10 +1,10 @@
 import React from 'react';
 import {IAddressSavedSelectProps as IAddressSavedSelectProps} from 'src/types';
-import { FieldSelect} from 'src/components';
+import {FieldSelect} from 'src/components';
 import {useGetSavedAddressData} from 'src/hooks';
 
 export function AddressSavedSelect(props: IAddressSavedSelectProps): React.ReactElement {
-    const { id, label, options, selectedOptionId, placeholder, handleChange, dataTestId } = useGetSavedAddressData(props.type);
+    const {id, label, options, selectedOptionId, placeholder, handleChange, dataTestId} = useGetSavedAddressData(props.type);
 
     return (
         <FieldSelect
