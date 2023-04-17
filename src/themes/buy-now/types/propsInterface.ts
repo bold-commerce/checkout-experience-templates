@@ -1,5 +1,5 @@
-import { CSSProperties, Dispatch, RefObject, SetStateAction } from 'react';
-import { Options as FocusTrapOptions } from 'focus-trap';
+import {CSSProperties, Dispatch, RefObject, SetStateAction} from 'react';
+import {Options as FocusTrapOptions} from 'focus-trap';
 export interface IUseModal {
     isOpen: boolean;
 }

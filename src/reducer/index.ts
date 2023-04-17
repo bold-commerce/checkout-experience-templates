@@ -19,6 +19,7 @@ export * from './orderTotalReducer';
 export * from './overlayReducer';
 export * from './paymentMethodReducer';
 export * from './paymentsReducer';
+export * from './externalPaymentGatewaysReducer';
 export * from './selectShippingLineReducer';
 export * from './shippingLineItemReducer';
 export * from './taxesReducer';

@@ -1,0 +1,233 @@
+.taxes-amount__container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    margin: 8px 0;
+}
+
+
+.taxes-amount {
+    display: flex;
+    width: 100%;
+    order: 2;
+    height: auto;
+    flex-direction: column;
+    margin: 16px 0;
+}
+
+.taxes-amount--border-bottom {
+    border-bottom: 1px solid #D9D9D9;
+    padding-bottom: 8px;
+}
+
+.taxes-amount--border-top {
+    border-top: 1px solid #D9D9D9;
+    padding-top: 8px;
+}
+
+.taxes-amount__label {
+    padding-left: 24px;
+    order: 1;
+    display: flex;
+    overflow: hidden auto;
+    word-break: break-word;
+    flex-grow: 1;
+    color: #595959;
+}
+
+.taxes-amount__container--flex-row {
+    flex-direction: row;
+}
+
+.taxes-amount__label--full-width {
+    width: 100%;
+}
+
+.taxes-amount__label--no-padding {
+    padding-left: 0;
+}
+
+.taxes-amount__label--content-with-arrow {
+    flex-grow: 1;
+    order: 2;
+}
+
+.taxes-amount__subtotal {
+    order: 1;
+}
+
+.taxes-amount__arrow:hover {
+    cursor: pointer;
+}
+
+.taxes-amount__arrow {
+    order: 1;
+    width: 24px;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+
+.taxes-amount__arrow--right {
+    background-image: url('https://static.boldcommerce.com/images/checkout/experience/arrow_right.svg');
+    background-size: 5px 9px;
+}
+
+.taxes-amount__arrow--down {
+    background-image: url('https://static.boldcommerce.com/images/checkout/experience/arrow_down.svg');
+    background-size: 9px 5px;
+}
+
+.taxes-amount__price {
+    order: 2;
+    width: 100px;
+    text-align: right;
+    font-weight: normal;
+}
+
+.taxes-amount__price .stx-price__amount{
+    color: #595959;
+    font-weight: normal;
+}
+
+.taxes-amount--black-color .stx-price__amount,
+.taxes-amount--black-color {
+    color: #000000;
+}
+
+.taxes-amount__price .stx-price__amount {
+    font-size: 1rem;
+    line-height: 1rem;
+    margin: 3px 0;
+}
+
+.taxes-amount__list {
+    width: 100%;
+    padding-left: 24px;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.taxes-amount__shipping,
+.taxes-amount__taxes,
+.taxes-amount__payments,
+.taxes-amount__fees,
+.taxes-amount__discounts {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+}
+
+.taxes-amount__shipping-label,
+.taxes-amount__subtotal-label,
+.taxes-amount__total-label,
+.taxes-amount__amount-due-label,
+.taxes-amount__taxes-label,
+.taxes-amount__fees-label,
+.taxes-amount__payments-label,
+.taxes-amount__discounts-label {
+    order: 1;
+}
+
+.taxes-amount__shipping-list,
+.taxes-amount__taxes-list,
+.taxes-amount__payments-list,
+.taxes-amount__fees-list,
+.taxes-amount__discounts-list {
+    order: 2;
+    width: 100%;
+    padding-left: 24px;
+}
+
+.taxes-amount__discounts {
+    order: 3;
+}
+
+.taxes-amount__taxes {
+    order: 4;
+}
+
+.taxes-amount__total {
+    font-size: 18px;
+    order: 5;
+}
+
+.taxes-amount__total .taxes-amount__price .stx-price__amount {
+    line-height: 20px;
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0 0 6px 0;
+}
+
+.taxes-amount__amount-due .taxes-amount__price .stx-price__amount {
+    line-height: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 6px 0;
+}
+
+.taxes-amount__payments {
+    order: 6;
+    margin-top: 0;
+}
+
+.taxes-amount__amount-due {
+    font-size: 18px;
+    font-weight: bold;
+    order: 7;
+}
+
+.taxes-amount__total .taxes-amount__price{
+    width: 230px;
+}
+
+@media only screen and (max-width: 767px) {
+    .taxes-amount__amount-due {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .taxes-amount__price {
+        width: auto;
+    }
+
+    .taxes-amount__label--content-with-arrow {
+        flex-grow: 1;
+    }
+    .taxes-amount__label--full-width {
+        width: 100%;
+    }
+
+    .taxes-amount__list-payments {
+        margin-top: 8px;
+    }
+}
+
+.summary-line--no-line {
+    width: 100%;
+    padding-left: 24px;
+    order: 2;
+    color: #595959;
+}
+
+.taxes-amount__loading{
+   padding-left: 5px;
+}
+
+
+.taxes-amount__loading-span{
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 3px solid transparent;
+    border-top-color: #b9b9b9;
+    border-radius: 50%;
+    animation: bv-spin 0.4s linear infinite;
+    vertical-align: middle;
+}

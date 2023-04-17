@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef} from 'react';
 import {useGetFlashErrors} from 'src/hooks';
 import {actionRemoveError} from 'src/action';
 import {IFlashErrorProps} from 'src/types';
@@ -11,7 +11,9 @@ export function FlashError({type = 'flash'}: IFlashErrorProps): React.ReactEleme
 
     // Scrolls the rootRef into view when there are >= 1 flash errors
     useEffect(() => {
-        if (!rootRef.current || !errors.length) { return; }
+        if (!rootRef.current || !errors.length) {
+            return; 
+        }
 
         rootRef.current.scrollIntoView({
             behavior: 'smooth',
@@ -25,7 +27,9 @@ export function FlashError({type = 'flash'}: IFlashErrorProps): React.ReactEleme
             {errors.map((item, index) =>
                 <div key={`${item}-${index}`} className="flash-error__container">
                     <span aria-live="assertive" className="flash-error__text">{item.message}</span>
-                    <button data-testid='delete-flash-error' className={'flash-error__delete-error'} onClick={() => {dispatch(actionRemoveError(item.error));}} aria-label="Delete Error"/>
+                    <button data-testid='delete-flash-error' className={'flash-error__delete-error'} onClick={() => {
+                        dispatch(actionRemoveError(item.error));
+                    }} aria-label="Delete Error"/>
                 </div>
             )}
         </div>

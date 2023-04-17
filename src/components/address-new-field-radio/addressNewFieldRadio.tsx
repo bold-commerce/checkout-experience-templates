@@ -1,6 +1,6 @@
 import React from 'react';
-import { Address, FieldRadio } from 'src/components';
-import { INewAddressFieldRadioProps } from 'src/types';
+import {Address, FieldRadio} from 'src/components';
+import {INewAddressFieldRadioProps} from 'src/types';
 
 export function AddressNewFieldRadio(props: INewAddressFieldRadioProps): React.ReactElement {
     return (

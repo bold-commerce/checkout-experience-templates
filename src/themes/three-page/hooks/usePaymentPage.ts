@@ -18,7 +18,7 @@ import {Constants} from 'src/constants';
 import {useCallback, useEffect} from 'react';
 import {useHistory} from 'react-router';
 import {IUsePaymentPage} from 'src/types';
-import { sendEvents } from 'src/analytics';
+import {sendEvents} from 'src/analytics';
 
 export function usePaymentPage(): IUsePaymentPage{
     const history = useHistory();
@@ -34,7 +34,7 @@ export function usePaymentPage(): IUsePaymentPage{
     const title = getTerm('payment_method_title', Constants.GLOBAL_INFO, undefined , 'Checkout form, payment method');
     const nextButtonDisable = useGetButtonDisableVariable('paymentPageButton');
     const totals = getTotalsFromState();
-    const { currency } = useGetCurrencyInformation();
+    const {currency} = useGetCurrencyInformation();
     const items = useGetLineItems();
     const {description: shipping_tier, amount: value} = useGetSelectShippingLine();
 

@@ -3,7 +3,7 @@ import {useGetErrors, useGetSupportedLanguageData} from 'src/hooks';
 import {getErrorTerm, getLanguageBlob, logError} from 'src/utils';
 import {Constants, errorsTerms} from 'src/constants';
 import {IErrorTerm, IMetadata, IMetadataList, IUseGetFlashError} from 'src/types';
-import { useMemo } from 'react';
+import {useMemo} from 'react';
 
 export function useGetFlashErrors(type = 'flash'): Array<IUseGetFlashError> {
     const errors = useGetErrors();
@@ -11,7 +11,9 @@ export function useGetFlashErrors(type = 'flash'): Array<IUseGetFlashError> {
     const language = useGetSupportedLanguageData(languageIso);
     const blob = getLanguageBlob(language, Constants.LANGUAGE_BLOB_ERROR_TYPE) as Array<Array<string>>;
     return useMemo(() => {
-        if (!errors?.length) { return []; }
+        if (!errors?.length) {
+            return []; 
+        }
         return errors.reduce<IUseGetFlashError[]>((arr, error) => {
             const fieldTerms: IErrorTerm | undefined = errorsTerms.find(
                 e => e.type === error.type

@@ -5,13 +5,13 @@ import {render} from '@testing-library/react';
 import {GuestCustomer} from 'src/components';
 import React from 'react';
 import {initialDataMock, storeMock} from 'src/mocks';
-import {isBoldPlatform} from 'src/utils';
+import {isShopifyPlatform} from 'src/utils';
 
 jest.mock('src/hooks/useGuestCustomer');
 jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/hooks/useLogin');
-jest.mock('src/utils/isBoldPlatform');
-const getIsBoldPlatformMock = mocked(isBoldPlatform, true);
+jest.mock('src/utils/isShopifyPlatform');
+const isShopifyPlatformMock = mocked(isShopifyPlatform, true);
 const useGuestCustomerMock = mocked(useGuestCustomer, true);
 const useGetCustomerInfoDataMock = mocked(useGetCustomerInfoData, true);
 const useLoginMock = mocked(useLogin, true);
@@ -47,7 +47,7 @@ describe('Testing GuestCustomer component', () => {
     });
 
     test('Rendering the component correctly', () => {
-        getIsBoldPlatformMock.mockReturnValueOnce(false);
+        isShopifyPlatformMock.mockReturnValueOnce(true);
         useGuestCustomerMock.mockReturnValueOnce(hooksReturn);
         const {container} = render(<GuestCustomer/>);
         expect(container.getElementsByClassName('customer-information').length).toBe(1);
@@ -57,7 +57,7 @@ describe('Testing GuestCustomer component', () => {
     });
 
     test('Rendering the component with hidden field', () => {
-        getIsBoldPlatformMock.mockReturnValueOnce(false);
+        isShopifyPlatformMock.mockReturnValueOnce(true);
         const tempHooksReturn = {...hooksReturn, acceptMarketingHidden: true};
         useGuestCustomerMock.mockReturnValueOnce(tempHooksReturn);
         const {container} = render(<GuestCustomer/>);
@@ -66,7 +66,7 @@ describe('Testing GuestCustomer component', () => {
     });
 
     test('Rendering the component correctly without login link', () => {
-        getIsBoldPlatformMock.mockReturnValueOnce(true);
+        isShopifyPlatformMock.mockReturnValueOnce(false);
         useGuestCustomerMock.mockReturnValueOnce(hooksReturn);
         const {container} = render(<GuestCustomer/>);
         expect(container.getElementsByClassName('customer-information').length).toBe(1);

@@ -4,16 +4,20 @@ import {
     ExpressPaymentGateway,
     FlashError, Footer, FormControls,
     Header,
-    HeaderHelmet, Payment, ShippingAddress, ShippingLines,
-    SummarySection
+    HeaderHelmet,
+    Payment,
+    ShippingAddress,
+    ShippingLines,
+    SummarySection,
+    TaxExemption
 } from 'src/components';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {getCheckoutUrl, getTerm, withPreventDefault} from 'src/utils';
 import {Constants} from 'src/constants';
 import {useGetOnePageFooterData, useIsValidShippingOnLoad} from 'src/themes/one-page/hooks';
 import {checkInventoryStage} from '@bold-commerce/checkout-frontend-library';
-import { useDispatch } from 'react-redux';
-import { checkInventory } from 'src/library';
+import {useDispatch} from 'react-redux';
+import {checkInventory} from 'src/library';
 
 export function ThemePage(): React.ReactElement {
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
@@ -21,7 +25,9 @@ export function ThemePage(): React.ReactElement {
     const {nextButtonOnClick, ...footerProps} = useGetOnePageFooterData();
     const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
     const dispatch = useDispatch();
-    useEffect(() => { dispatch(checkInventory(checkInventoryStage.initial)); }, []);
+    useEffect(() => {
+        dispatch(checkInventory(checkInventoryStage.initial)); 
+    }, []);
 
     return (
         <div className={'checkout-experience-container'}>
@@ -38,6 +44,7 @@ export function ThemePage(): React.ReactElement {
                         <BillingAddress/>
                         <ShippingLines/>
                         <Payment loadIframeImmediately={true} />
+                        <TaxExemption />
                         <FormControls {...footerProps}/>
                     </form>
                 </main>

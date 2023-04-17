@@ -8,7 +8,7 @@ import * as CustomerActions from 'src/action/customerAction';
 import {validateBillingAddress, validateShippingAddress} from 'src/library';
 import {actionSetAppStateValid, actionSetLoader, actionUpdateAddress} from 'src/action';
 import {IAddress} from '@bold-commerce/checkout-frontend-library';
-import { useGetAddressData } from './useGetAddressData';
+import {useGetAddressData} from './useGetAddressData';
 
 /**
  * Makes an address into an ID used by <input /> values
@@ -35,7 +35,9 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
     }));
     const currentAddress = useGetAddressData(type);
     const selectedOptionId = useMemo(() => {
-        if (!currentAddress) { return undefined; }
+        if (!currentAddress) {
+            return undefined; 
+        }
         const address = savedAddresses.find(address => compareAddresses(address, currentAddress));
         return !address ? undefined : makeAddressId(address, savedAddresses.indexOf(address));
     }, [savedAddresses, currentAddress]);

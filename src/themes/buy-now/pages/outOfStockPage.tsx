@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 
-import {useGetOutOfStock, } from 'src/hooks';
+import {useGetOutOfStock,} from 'src/hooks';
 import {CloseableHeader, GenericMessageSection} from 'src/components';
-import { useFocusTrap, useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
-import { sendEvents, sendPageView } from 'src/analytics';
+import {useFocusTrap, useGetCloseBuyNow} from 'src/themes/buy-now/hooks';
+import {sendEvents, sendPageView} from 'src/analytics';
 import FocusTrap from 'focus-trap-react';
 
 export function OutOfStockPage(): React.ReactElement {

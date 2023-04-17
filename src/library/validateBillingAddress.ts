@@ -6,7 +6,7 @@ import {
 import {Constants} from 'src/constants';
 import {postAddress, validateAddressFunction} from 'src/library';
 import {actionRemoveErrorByAddressType, actionUpdateBillingAsShipping} from 'src/action';
-import { setBillingAddressAsValid } from './setBillingAddressAsValid';
+import {setBillingAddressAsValid} from './setBillingAddressAsValid';
 
 export async function validateBillingAddress(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
     const currentState = getState();

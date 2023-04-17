@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Breadcrumbs, FormControls, Payment, SummarySection, FlashError, Header, HeaderHelmet, ScreenReaderAnnouncement, Footer} from 'src/components';
+import {Breadcrumbs, FormControls, Payment, SummarySection, FlashError, Header, HeaderHelmet, ScreenReaderAnnouncement, Footer, TaxExemption} from 'src/components';
 import {
     useBeforeUnload,
     useOnLoadValidateCustomerAndShipping,
@@ -34,6 +34,7 @@ export function PaymentPage(): React.ReactElement {
                         <form onSubmit={withPreventDefault(nextButtonOnClick)}>
                             <FlashError/>
                             <Payment/>
+                            <TaxExemption />
                             <FormControls
                                 backLinkOnClick={backLinkOnClick}
                                 backLinkText={backLinkText}

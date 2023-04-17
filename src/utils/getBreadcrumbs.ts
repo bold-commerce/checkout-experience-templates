@@ -55,5 +55,5 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): IBreadc
         },
     ];
 
-    return { crumbs, sectionLabel };
+    return {crumbs, sectionLabel};
 }

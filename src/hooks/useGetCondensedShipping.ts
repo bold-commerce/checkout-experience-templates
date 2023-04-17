@@ -1,5 +1,5 @@
-import { isObjectEmpty } from 'src/utils';
-import { ICondensedShipping } from 'src/types';
+import {isObjectEmpty} from 'src/utils';
+import {ICondensedShipping} from 'src/types';
 import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 export function useGetCondensedShipping (address: IAddress): ICondensedShipping {
@@ -14,5 +14,5 @@ export function useGetCondensedShipping (address: IAddress): ICondensedShipping 
     ];
     const addressLine = shippingInfo.filter(x => !(isObjectEmpty(x))).join(', ');
 
-    return { name, addressLine, phone: address.phone_number };
+    return {name, addressLine, phone: address.phone_number};
 }

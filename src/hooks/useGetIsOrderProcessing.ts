@@ -1,7 +1,7 @@
-import { useAppSelector } from 'src/hooks/rootHooks';
-import { Constants } from 'src/constants';
-import { shallowEqual } from 'react-redux';
-import { getTerm } from 'src/utils';
+import {useAppSelector} from 'src/hooks/rootHooks';
+import {Constants} from 'src/constants';
+import {shallowEqual} from 'react-redux';
+import {getTerm} from 'src/utils';
 
 export function useGetIsOrderProcessing(): boolean {
     const overlay = useAppSelector((state) => state.overlay, shallowEqual);

@@ -1,14 +1,13 @@
 import {useCallback, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useGetAppSettingData, useGetButtonDisableVariable, useGetCurrencyInformation, useGetIsLoading, useGetIsOrderProcessed, useGetLineItems, useGetOrderTotal} from 'src/hooks';
-import {callCustomerPageApi, checkInventory, initializeExpressPay} from 'src/library';
+import {callCustomerPageApi, initializeExpressPay} from 'src/library';
 import {useHistory} from 'react-router';
 import {Constants} from 'src/constants';
 import {IUseCustomerPageProp} from 'src/types';
 import {getCheckoutUrl, getReturnToCartTermAndLink, getTerm} from 'src/utils';
 import {sendEvents} from 'src/analytics';
 import {actionClearErrors} from 'src/action';
-import {checkInventoryStage} from '@bold-commerce/checkout-frontend-library';
 
 export function useCustomerPage(): IUseCustomerPageProp {
     const dispatch = useDispatch();
@@ -38,12 +37,11 @@ export function useCustomerPage(): IUseCustomerPageProp {
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
     const items = useGetLineItems();
     const value = useGetOrderTotal();
-    const { currency } = useGetCurrencyInformation();
+    const {currency} = useGetCurrencyInformation();
 
     useEffect( () => {
         if (!isOrderCompleted) {
             sendEvents('begin_checkout', {currency, value, items});
-            dispatch(checkInventory(checkInventoryStage.initial));
             dispatch(initializeExpressPay(history));
         }
     }, []);

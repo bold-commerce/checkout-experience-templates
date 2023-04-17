@@ -132,14 +132,16 @@ export const defaultOrderInitialization: IOrderInitialization = {
                 checkout_process: {
                     company_name_option: '',
                     phone_number_required: false,
-                    accepts_marketing_checkbox_option: ''
+                    accepts_marketing_checkbox_option: '',
+                    tax_exempt_checkbox_enabled: false,
                 },
                 address_autocomplete: {
                     provider: null,
                     api_key: null,
                 },
             },
-            alternative_payment_methods: []
+            alternative_payment_methods: [],
+            external_payment_gateways: [],
         }
     },
 };

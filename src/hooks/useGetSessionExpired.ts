@@ -6,8 +6,7 @@ import {getErrorTerm, getReturnToCartTermAndLink, getTerm} from 'src/utils';
 
 export function useGetSessionExpired(): IUseSessionExpired {
     const {link} = getReturnToCartTermAndLink();
-    const returnUrl = useCallback(() =>
-    {
+    const returnUrl = useCallback(() => {
         window.location.href = link;
     }, [link]);
     const terms = {

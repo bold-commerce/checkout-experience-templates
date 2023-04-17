@@ -1,9 +1,9 @@
 import React from 'react';
 import ClassNames from 'classnames';
-import { ICloseableHeaderProps } from 'src/types';
+import {ICloseableHeaderProps} from 'src/types';
 
 export function CloseableHeader(props: ICloseableHeaderProps): React.ReactElement {
-    const { className, title, onClose } = props;
+    const {className, title, onClose} = props;
 
     return (
         <header className={ClassNames(className, 'closeable-header')}>

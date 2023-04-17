@@ -1,14 +1,14 @@
 import React from 'react';
-import { Price, Image} from '@boldcommerce/stacks-ui';
-import { ICartItemProps } from 'src/types';
-import { useGetCurrencyInformation, useCartItem, useGetCartParameters } from 'src/hooks';
-import { SemiControlledNumberInput } from '../semi-controlled-number-input/semiControlledNumberInput';
-import { getLineItemPropertiesForDisplay } from 'src/utils';
+import {Price, Image} from '@boldcommerce/stacks-ui';
+import {ICartItemProps} from 'src/types';
+import {useGetCurrencyInformation, useCartItem, useGetCartParameters} from 'src/hooks';
+import {SemiControlledNumberInput} from '../semi-controlled-number-input/semiControlledNumberInput';
+import {getLineItemPropertiesForDisplay} from 'src/utils';
 import {Constants} from 'src/constants';
 
 export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLineItemProperties = true}: ICartItemProps): React.ReactElement {
-    const { product_data } = line_item;
-    const { formattedPrice } = useGetCurrencyInformation();
+    const {product_data} = line_item;
+    const {formattedPrice} = useGetCurrencyInformation();
     const {
         decrementQuantity: decrementLocalQuantity,
         incrementQuantity: incrementLocalQuantity,

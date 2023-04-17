@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React, {useMemo} from 'react';
 import {IAddressFieldSelectProps} from 'src/types';
-import { FieldSelect} from 'src/components';
+import {FieldSelect} from 'src/components';
 import {useGetAddressProvinceInputData} from 'src/hooks';
 import ClassNames from 'classnames';
 

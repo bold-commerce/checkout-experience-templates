@@ -3,7 +3,7 @@ import {Provider} from 'react-redux';
 import React from 'react';
 import * as Store from 'src/store';
 import Theme from 'src/themes/buy-now/theme';
-import { Modal } from 'src/themes/buy-now/components/Modal';
+import {Modal} from 'src/themes/buy-now/components/Modal';
 import * as BugReporter from 'src/utils/bugReporter';
 import {ErrorBoundary, ErrorFallback} from 'src/components';
 

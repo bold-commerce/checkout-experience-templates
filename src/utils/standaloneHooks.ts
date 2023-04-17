@@ -2,7 +2,7 @@ const hooks: Record<string, {name: string, hook: () => unknown}> = {};
 const hooksResult: Record<string, unknown> = {};
 
 export function setHook(name: string, hook: () => unknown): void {
-    hooks[name] = { name, hook };
+    hooks[name] = {name, hook};
 }
 
 export function getHook(name: string): unknown {

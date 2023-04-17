@@ -1,19 +1,19 @@
-import { useCallback } from 'react';
+import {useCallback} from 'react';
 import {
     actionRemoveErrorByField,
     actionUpdateAddressField,
     actionUpdateCustomerField,
 } from 'src/action';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {
     useCallApiAtOnEvents,
     useGetAddressDataField,
     useGetErrorByField,
     useDebounceCustomerField,
 } from 'src/hooks';
-import { IAddressHookProps } from 'src/types';
-import { AddressLabelMapping, Constants } from 'src/constants';
-import { getTerm } from 'src/utils';
+import {IAddressHookProps} from 'src/types';
+import {AddressLabelMapping, Constants} from 'src/constants';
+import {getTerm} from 'src/utils';
 
 export function useGetAddressFieldInputData(
     type: string,
@@ -63,5 +63,5 @@ export function useGetAddressFieldInputData(
         [type, errorMessage, fieldId]
     );
 
-    return { placeholder, id, name, value, errorMessage, handleChange, dataTestId };
+    return {placeholder, id, name, value, errorMessage, handleChange, dataTestId};
 }

@@ -8,8 +8,7 @@ export function lockUnlockScroll(lock: boolean): void {
                 classNames.push('loading');
             }
             html.className = classNames.join(' ');
-        }
-        else {
+        } else {
             if (classNames.indexOf('loading') !== -1) {
                 classNames.splice(classNames.indexOf('loading'), 1);
             }

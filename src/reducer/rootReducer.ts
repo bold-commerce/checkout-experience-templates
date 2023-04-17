@@ -33,10 +33,11 @@ import {
     isProcessedReducer,
     feesReducer,
     paymentMethodReducer,
-    sessionInitializedReducer
+    sessionInitializedReducer,
+    externalPaymentGatewaysReducer,
 } from 'src/reducer';
 import {autocompleteServices, Constants} from 'src/constants';
-import { defaultOrderInitialization } from 'src/constants/orderInitialization';
+import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 
 export const initialState: IInitialState = {
     screenWidth: window.innerWidth,
@@ -111,7 +112,8 @@ const initialDataReducer = combineReducers({
     country_info: countryReducer,
     supported_languages: languageReducer,
     general_settings: generalSettingReducer,
-    alternative_payment_methods: paymentMethodReducer
+    alternative_payment_methods: paymentMethodReducer,
+    external_payment_gateways: externalPaymentGatewaysReducer,
 });
 
 const dataReducer = combineReducers({

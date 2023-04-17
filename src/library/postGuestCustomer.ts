@@ -23,9 +23,7 @@ export async function postGuestCustomer(dispatch: Dispatch, getState: () => IOrd
         if (response.success) {
             await dispatch(getCustomerFromLib);
         }
-    }
-    else
-    {
+    } else {
         await dispatch(updateCustomer);
     }
 }

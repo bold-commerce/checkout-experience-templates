@@ -16,7 +16,7 @@ import {
     actionUpdateDiscountCodeText
 } from 'src/action';
 import {API_RETRY, errorFields, errorTypes} from 'src/constants';
-import { sendEvents } from 'src/analytics';
+import {sendEvents} from 'src/analytics';
 
 export function postDiscounts(code: string) {
     return async function postDiscountsThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<HTMLElement | null> {

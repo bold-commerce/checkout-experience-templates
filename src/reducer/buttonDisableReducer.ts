@@ -1,7 +1,7 @@
 import {IIsButtonDisable} from 'src/types';
 import {SET_BUTTON_DISABLE} from 'src/action/appActionType';
 import {AnyAction} from 'redux';
-import { defaultOrderInitialization } from 'src/constants/orderInitialization';
+import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 
 const {isButtonDisable} = defaultOrderInitialization;
 

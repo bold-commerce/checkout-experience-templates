@@ -1,4 +1,4 @@
-import { IAddress } from '@bold-commerce/checkout-frontend-library';
+import {IAddress} from '@bold-commerce/checkout-frontend-library';
 
 type OptionalPartial<T> = undefined | null | Partial<T>;
 
@@ -462,7 +462,9 @@ export const compareAddresses = (address1: OptionalPartial<IAddress>, address2: 
 
     for (const field of fields) {
         // Ignoring ID field
-        if (field.toLowerCase() === 'id') { continue; }
+        if (field.toLowerCase() === 'id') {
+            continue; 
+        }
 
         // If one of the values is not a string or undefined then we fallback to strict equal
         let value1 = address1[field] as unknown;
@@ -471,7 +473,9 @@ export const compareAddresses = (address1: OptionalPartial<IAddress>, address2: 
             (typeof value1 !== 'undefined' && typeof value1 !== 'string') ||
             (typeof value2 !== 'undefined' && typeof value2 !== 'string')
         ) {
-            if (value1 === value2) { continue; }
+            if (value1 === value2) {
+                continue; 
+            }
             return false;
         }
         
@@ -479,10 +483,14 @@ export const compareAddresses = (address1: OptionalPartial<IAddress>, address2: 
         value2 = value2?.trim()?.toLowerCase();
 
         // Checking type and value are exact
-        if (value1 === value2) { continue; }
+        if (value1 === value2) {
+            continue; 
+        }
 
         // Checking they are both falsey
-        if (!value1 && !value2) { continue; }
+        if (!value1 && !value2) {
+            continue; 
+        }
 
         // Only doing additional checks if both values are strings
         if (typeof value1 === 'string' && typeof value2 === 'string') {
@@ -491,10 +499,14 @@ export const compareAddresses = (address1: OptionalPartial<IAddress>, address2: 
             if (['address_line_1', 'address_line_2'].includes(field)) {
 
                 // Checking if the values are the same when dots are removed from the end of words of the field
-                if (value1.replace(/\.(?: |$)/g, '') === value2.replace(/\.(?: |$)/g, '')) { continue; }
+                if (value1.replace(/\.(?: |$)/g, '') === value2.replace(/\.(?: |$)/g, '')) {
+                    continue; 
+                }
 
                 // Checking if the values are the same when the abbreviations are replaced with full words
-                if (convert(value1) === convert(value2)) { continue; }
+                if (convert(value1) === convert(value2)) {
+                    continue; 
+                }
             }
 
             // Only doing additional checks if the field is province
@@ -503,7 +515,9 @@ export const compareAddresses = (address1: OptionalPartial<IAddress>, address2: 
                 const pc2 = address2.province_code?.trim()?.toLowerCase();
 
                 // Checking if the province codes are the same and both are truthy
-                if (pc1 === pc2 && pc1 && pc1) { continue; }
+                if (pc1 === pc2 && pc1 && pc1) {
+                    continue; 
+                }
             }
 
             // Only doing additional checks if the field is country
@@ -512,7 +526,9 @@ export const compareAddresses = (address1: OptionalPartial<IAddress>, address2: 
                 const cc2 = address2.country_code?.trim()?.toLowerCase();
 
                 // Checking if the country codes are the same and both are truthy
-                if (cc1 === cc2 && cc1 && cc2) { continue; }
+                if (cc1 === cc2 && cc1 && cc2) {
+                    continue; 
+                }
             }
         }
         

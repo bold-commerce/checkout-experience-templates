@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, {useCallback} from 'react';
 import {
     useGetOverlayVisible,
     useGetIsOrderProcessing,
@@ -13,11 +13,11 @@ import 'src/themes/buy-now/buyNow.css';
 import {CloseableHeader, Overlay, StandaloneHooks} from 'src/components';
 import {setHook} from 'src/utils';
 import {useHistory} from  'react-router-dom';
-import { BuyNowContainerPage, OutOfStockPage, SessionExpiredPage, ThankYouPage } from 'src/themes/buy-now/pages';
-import { useGetCloseBuyNow } from 'src/themes/buy-now/hooks';
-import { initiateCheckout } from 'src/analytics';
+import {BuyNowContainerPage, OutOfStockPage, SessionExpiredPage, ThankYouPage} from 'src/themes/buy-now/pages';
+import {useGetCloseBuyNow} from 'src/themes/buy-now/hooks';
+import {initiateCheckout} from 'src/analytics';
 import FocusTrap from 'focus-trap-react';
-import { focusTrapOptions } from 'src/constants';
+import {focusTrapOptions} from 'src/constants';
 
 setHook('history', useHistory);
 

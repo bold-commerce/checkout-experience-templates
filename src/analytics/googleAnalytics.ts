@@ -11,7 +11,7 @@ export function sendPageViewForGoogleAnalytics(page: string, step?: number) : vo
         return;
     }
 
-    const parameters = { page_location: page };
+    const parameters = {page_location: page};
     if (step) {
         parameters['page_title'] = step;
     }
@@ -42,8 +42,7 @@ export function orderCompleteForGoogleAnalytics(lineItems: Array<ILineItem>, cur
         googleScript.type = 'text/javascript';
         googleScript.innerHTML = window['google_analytics_order_complete_script'];
         document.head.appendChild(googleScript);
-    }
-    else {
+    } else {
         window['gtag']('event', 'purchase', {
             currency,
             transaction_id: id,
