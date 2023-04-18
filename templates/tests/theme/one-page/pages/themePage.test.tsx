@@ -12,7 +12,11 @@ const store = {
     appSetting: {autocompleteService: 'test'},
     errors: [],
     isLoading: [],
-    isValid: {shippingAddress: false}
+    isValid: {shippingAddress: false},
+    externalPaymentGateways: {
+        isValid: new Set(),
+        isLoading: new Set(),
+    },
 };
 const mockDispatch = jest.fn();
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');

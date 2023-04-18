@@ -4,6 +4,7 @@ export * from './callShippingLinesPageApi';
 export * from './checkErrorAndProceedToNextPage';
 export * from './checkInventory';
 export * from './checkLoadPigiErrors';
+export * from './checkLoadExternalPaymentGatewayErrors';
 export * from './deleteAddress';
 export * from './deleteBillingAddress';
 export * from './deleteDiscounts';

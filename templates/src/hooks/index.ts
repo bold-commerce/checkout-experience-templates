@@ -69,6 +69,8 @@ export * from './useGetTaxes';
 export * from './useGetThankYou';
 export * from './useGetTimestamp';
 export * from './useGetValidVariable';
+export * from './useGetExternalPaymentGatewaySection';
+export * from './useGetExternalPaymentGateways';
 export * from './useGuestCustomer';
 export * from './useInitiateGenericAutocomplete';
 export * from './useInitiateGoogleAutocomplete';

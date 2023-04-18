@@ -23,6 +23,8 @@ export * from './display-payment-method/displayPaymentMethod';
 export * from './display-payment-methods/displayPaymentMethods';
 export * from './error-boundary/errorBoundary';
 export * from './error-fallback/errorFallback';
+export * from './external-payment-gateway/external-payment-gateway';
+export * from './external-payment-gateway-iframe/externalPaymentGatewayIframe';
 export * from './expandable-discount/expandableDiscount';
 export * from './express-payment-gateway/expressPaymentGateway';
 export * from './field-checkbox/fieldCheckbox';

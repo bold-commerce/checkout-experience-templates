@@ -21,14 +21,14 @@ export interface IPaymentsSummaryClasses {
     }
 }
 
-export interface ICheckoutProcess{
+export interface ICheckoutProcess {
     company_name_option: string,
     phone_number_required: boolean,
     accepts_marketing_checkbox_option: string,
     tax_exempt_checkbox_enabled?: boolean
 }
 
-export interface IAddressAutoComplete{
+export interface IAddressAutoComplete {
     provider: string | null,
     api_key: string | null,
 }
@@ -60,7 +60,7 @@ export interface IOverlay{
     showCustomContent?: boolean
 }
 
-export interface IIsLoading{
+export interface IIsLoading {
     pigiIframe: boolean
     customerPageButton: boolean
     shippingPageButton: boolean
@@ -74,7 +74,7 @@ export interface IIsButtonDisable {
     shippingPageButton: boolean
 }
 
-export interface IIsValid{
+export interface IIsValid {
     shippingAddress: boolean
     updatedShippingAddress: boolean
     billingAddress: boolean
@@ -85,13 +85,19 @@ export interface IIsValid{
     scaToken: boolean
 }
 
+export interface IExternalPaymentGateways {
+    isValid: Set<string>
+    isLoading: Set<string>
+}
+
 export interface IOrderInitialization {
-    appSetting: IInitialState,
-    overlay: IOverlay,
-    isLoading: IIsLoading,
+    appSetting: IInitialState
+    overlay: IOverlay
+    isLoading: IIsLoading
     isButtonDisable: IIsButtonDisable
-    isValid: IIsValid,
-    isSessionInitialized: boolean,
+    isValid: IIsValid
+    isSessionInitialized: boolean
+    externalPaymentGateways: IExternalPaymentGateways
     errors: Array<IError>
     data: IInitializeOrderResponse
 }

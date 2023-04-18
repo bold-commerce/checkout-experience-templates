@@ -17,7 +17,12 @@ const store = {
     data: initialDataMock,
     appSetting: {autocompleteService: 'test'},
     errors: [],
-    isLoading: []
+    externalPaymentGateways: {
+        isValid: new Set(),
+        isLoading: new Set(),
+    },
+    isLoading: {},
+    isValid: {shippingAddress: false},
 };
 const mockDispatch = jest.fn();
 
