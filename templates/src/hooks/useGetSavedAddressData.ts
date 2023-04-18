@@ -5,10 +5,11 @@ import {useGetSavedAddressOptions, useCallApiAtOnEvents, useGetAppSettingData} f
 import {useCallback, useMemo} from 'react';
 import {ISavedAddressHookProps} from 'src/types';
 import * as CustomerActions from 'src/action/customerAction';
-import {validateBillingAddress, validateShippingAddress} from 'src/library';
+import {updateCustomer, validateBillingAddress, validateShippingAddress} from 'src/library';
 import {actionSetAppStateValid, actionSetLoader, actionUpdateAddress} from 'src/action';
 import {IAddress} from '@bold-commerce/checkout-frontend-library';
 import {useGetAddressData} from './useGetAddressData';
+import {actionUpdateCustomerField} from 'src/action/customerAction';
 
 /**
  * Makes an address into an ID used by <input /> values
@@ -36,7 +37,7 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
     const currentAddress = useGetAddressData(type);
     const selectedOptionId = useMemo(() => {
         if (!currentAddress) {
-            return undefined; 
+            return undefined;
         }
         const address = savedAddresses.find(address => compareAddresses(address, currentAddress));
         return !address ? undefined : makeAddressId(address, savedAddresses.indexOf(address));
@@ -55,13 +56,17 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
 
             if (value !== 'new') {
                 dispatch(actionUpdateAddress(type, address));
+                dispatch(actionUpdateCustomerField(Constants.ADDRESS_FIRST_NAME, address.first_name));
+                dispatch(actionUpdateCustomerField(Constants.ADDRESS_LAST_NAME, address.last_name));
                 dispatch(actionSetAppStateValid('shippingAddress', true));
                 dispatch(actionSetLoader('shippingLines', true));
                 if (type === Constants.SHIPPING) {
-                    dispatch(validateShippingAddress).then(() => {
-                        if(billingType === Constants.SHIPPING_SAME) {
-                            dispatch(validateBillingAddress);
-                        }
+                    dispatch(updateCustomer).then(() => {
+                        dispatch(validateShippingAddress).then(() => {
+                            if(billingType === Constants.SHIPPING_SAME) {
+                                dispatch(validateBillingAddress);
+                            }
+                        });
                     });
                 }
 
