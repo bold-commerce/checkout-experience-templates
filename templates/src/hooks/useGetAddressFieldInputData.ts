@@ -9,10 +9,9 @@ import {
     useCallApiAtOnEvents,
     useGetAddressDataField,
     useGetErrorByField,
-    useDebounceCustomerField,
 } from 'src/hooks';
 import {IAddressHookProps} from 'src/types';
-import {AddressLabelMapping, Constants} from 'src/constants';
+import {AddressLabelMapping, Constants, debounceConstants} from 'src/constants';
 import {getTerm} from 'src/utils';
 
 export function useGetAddressFieldInputData(
@@ -23,7 +22,7 @@ export function useGetAddressFieldInputData(
 ): IAddressHookProps {
     const dispatch = useDispatch();
     const callApiAtOnEvents: boolean = useCallApiAtOnEvents();
-    const debounceApiCallGuestCustomerField = useDebounceCustomerField();
+    const debounceApiCallGuestCustomerField = debounceConstants.debouncedGuestCustomerFunction;
     const name = fieldId;
     const placeholder = getTerm(
         AddressLabelMapping[placeholderId],
