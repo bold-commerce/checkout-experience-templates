@@ -1,4 +1,4 @@
-import {IAddress, IExternalPaymentMethod, IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
+import {IAddress, IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
 
 export const initialDataMock: IInitializeOrderResponse = {
     'initial_data': {
@@ -407,12 +407,6 @@ export const initialDataMock: IInitializeOrderResponse = {
                         'valid_for_billing': false
                     },
                     {
-                        'iso_code': 'AB',
-                        'name': 'Alberta',
-                        'valid_for_shipping': true,
-                        'valid_for_billing': false
-                    },
-                    {
                         'iso_code': 'MB',
                         'name': 'Manitoba',
                         'valid_for_shipping': true,
@@ -529,7 +523,21 @@ export const initialDataMock: IInitializeOrderResponse = {
             }
         },
         'alternative_payment_methods': [],
-        'external_payment_gateways': <IExternalPaymentMethod>[],
+        'external_payment_gateways': [{
+            'is_test': true,
+            'iframe_url': 'testURL',
+            'target_div': 'payment',
+            'base_url': 'testURL',
+            'public_id': 'publicID',
+            'location': 'payment_method_below'
+        }, {
+            'is_test': true,
+            'iframe_url': 'testURL',
+            'target_div': 'payment',
+            'base_url': 'testURL',
+            'public_id': 'publicID',
+            'location': 'customer_info_above'
+        }],
     },
     'application_state': {
         'customer': {

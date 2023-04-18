@@ -7,14 +7,18 @@ import {mocked} from 'jest-mock';
 import {useGetShopUrlFromShopAlias, useScreenBreakpoints, useScrollToElementOnNavigation, useSendEvent} from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {HelmetProvider} from 'react-helmet-async';
-import {OutOfStockPage} from 'src/pages';
 
 const shopURL = 'https://some-shop-url.test.com';
 const store = {
     data: initialDataMock,
     appSetting: {autocompleteService: 'test'},
     errors: [],
-    isLoading: []
+    externalPaymentGateways: {
+        isValid: new Set(),
+        isLoading: new Set(),
+    },
+    isLoading: {},
+    isValid: {shippingAddress: false},
 };
 const mockScreenBreakpoints = {
     isMobile: false,

@@ -62,4 +62,18 @@ describe('Testing hook useGetAddressPostalCodeAndProvinceData', () => {
         expect(result.current.province).toStrictEqual(countryList[0].provinces);
     });
 
+    test('Sorting duplicate', () => {
+        const countryCode = 'CA';
+        const countryList = initialDataMock.initial_data.country_info;
+        const countryInfo: ICountryInformation = {...countryList[0], provinces: [countryList[0].provinces[0], ...countryList[0].provinces]};
+
+        useGetAddressDataFieldMock.mockReturnValueOnce(countryCode);
+        useGetCountryInfoByCountryCodeMock.mockReturnValueOnce(countryInfo);
+
+        const {result} = renderHook(() => useGetAddressPostalCodeAndProvinceData(countryCode));
+        expect(result.current.showProvince).toStrictEqual(true);
+        expect(result.current.showPostalCode).toStrictEqual(true);
+        expect(result.current.provinceLabel).toStrictEqual(countryInfo.province_label);
+        expect(result.current.province).toStrictEqual(countryInfo.provinces);
+    });
 });

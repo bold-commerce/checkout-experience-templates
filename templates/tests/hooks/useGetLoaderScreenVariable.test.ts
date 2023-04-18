@@ -1,8 +1,8 @@
-import {useAppSelector, useGetLoaderScreenVariable} from 'src/hooks';
+import {useAppSelector, useGetExternalPaymentGatewayLoading, useGetLoaderScreenVariable} from 'src/hooks';
 import {renderHook} from '@testing-library/react-hooks';
 
 const store = {
-    isLoading: {test: false}
+    isLoading: {test: false, externalPaymentGateways: new Set()}
 };
 
 jest.mock('src/hooks/rootHooks');
@@ -19,3 +19,5 @@ describe('Testing useGetLineItems', () => {
         expect(useAppSelector).toHaveBeenCalledTimes(1);
     });
 });
+
+

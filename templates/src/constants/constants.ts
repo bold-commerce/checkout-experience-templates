@@ -63,6 +63,9 @@ export class Constants {
     static readonly ARIA_LIVE_POLITE = 'polite';
     static readonly ARIA_LIVE_ASSERTIVE = 'assertive';
     static readonly OTHER_PAYMENT_TYPE = 'OTHER_PAYMENT_TYPE';
+    static readonly PAYMENT_METHOD_BELOW = 'payment_method_below';
+    static readonly CUSTOMER_INFO_BELOW = 'customer_info_below';
+    static readonly CUSTOMER_INFO_ABOVE = 'customer_info_above';
 }
 
 export const errorTypes: IErrorTypes = {

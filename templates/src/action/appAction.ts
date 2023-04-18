@@ -4,6 +4,7 @@ import {IError, IOrderInitialization} from 'src/types';
 import {autocompleteServices} from 'src/constants';
 import {
     IDiscount,
+    IExternalPaymentGateway,
     IFees,
     ILineItem,
     IOrderMetaData,
@@ -90,10 +91,24 @@ export function actionSetAppStateValid(field: string, value: boolean): AnyAction
     };
 }
 
+export function actionSetExternalGatewayReady(gateway: IExternalPaymentGateway, value: boolean): AnyAction {
+    return {
+        type: AppActions.SET_EXTERNAL_PAYMENT_GATEWAY_VALID,
+        payload: {value, gateway}
+    };
+}
+
 export function actionSetPigiIframeLoader(pigiIframeLoader: boolean): AnyAction {
     return {
         type: AppActions.SET_PIGI_IFRAME_LOADER,
         payload: {pigiIframeLoader}
+    };
+}
+
+export function actionSetExternalPaymentGatewayLoading(gateway: IExternalPaymentGateway, value: boolean): AnyAction {
+    return {
+        type: AppActions.SET_EXTERNAL_PAYMENT_GATEWAY_LOADING,
+        payload: {value, gateway}
     };
 }
 

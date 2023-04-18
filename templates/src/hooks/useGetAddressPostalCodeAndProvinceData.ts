@@ -12,7 +12,7 @@ export function useGetAddressPostalCodeAndProvinceData(type: string): IAddressPo
         countryCode = (countryCode == '') ? 'CA' : countryCode;
     }
     const countryInfo = useGetCountryInfoByCountryCode(countryCode);
-    if(countryInfo){
+    if (countryInfo) {
         const compareFn = (a, b) => a.name < b.name ? -1 : (a.name > b.name ? 1 : 0);
         countryInfo.provinces.sort(compareFn);
         return {showProvince: countryInfo.show_province,
