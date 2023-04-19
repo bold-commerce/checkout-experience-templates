@@ -33,10 +33,10 @@ function Theme(): React.ReactElement {
     const billingType = getDefaultBillingType();
     debounceConstants.debouncedGuestCustomerFunction = useDebounceCustomer();
     const acceptMarketingSetting = useGetGeneralSettingCheckoutFields('accepts_marketing_checkbox_option') as string;
-    dispatch(actionSetDefaultCustomerAcceptMarketing(acceptMarketingSetting));
     initiateCheckout();
 
     useEffect(() => {
+        dispatch(actionSetDefaultCustomerAcceptMarketing(acceptMarketingSetting));
         dispatch(actionUpdateBillingTypeInSettings(billingType));
         dispatch(checkInventory(checkInventoryStage.initial));
     }, []);
