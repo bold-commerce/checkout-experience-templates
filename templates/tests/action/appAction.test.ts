@@ -578,7 +578,7 @@ describe('Testing App Actions', () => {
 
         const actionReturnExpectation = {
             type: AppActions.UPDATE_APP_DATA,
-            payload: { data }
+            payload: {data}
         };
 
         const result = actionUpdateAppData(data);
@@ -619,6 +619,6 @@ describe('Testing App Actions', () => {
         const result = actionSetSessionInitialized(data);
         
         expect(result).toStrictEqual(actionReturnExpectation);
-    })
+    });
 
 });

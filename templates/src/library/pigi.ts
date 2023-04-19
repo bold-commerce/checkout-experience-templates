@@ -19,7 +19,7 @@ export function setPigiListenerInLibrary(frameId: string, callbackEvent: (evt: E
     };
 }
 
-export function removePigiListenerInLibrary(){
+export function removePigiListenerInLibrary() {
     return async function setPigiListenerThunk(): Promise<void> {
         await removePigiListener();
     };

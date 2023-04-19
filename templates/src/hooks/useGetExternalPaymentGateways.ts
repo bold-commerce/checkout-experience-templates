@@ -11,5 +11,5 @@ export function useGetExternalPaymentGatewayLoading(gateway: IExternalPaymentGat
 }
 
 export function useGetExternalPaymentGatewayReady(gateway: IExternalPaymentGateway): boolean {
-    return useAppSelector((state) => state.isValid.externalPaymentGateways.has(gateway.public_id));
+    return useAppSelector((state) => state.externalPaymentGateways.isValid.has(gateway.public_id));
 }

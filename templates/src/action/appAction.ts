@@ -4,13 +4,13 @@ import {IError, IOrderInitialization} from 'src/types';
 import {autocompleteServices} from 'src/constants';
 import {
     IDiscount,
-    IExternalPaymentGateway,
     IFees,
     ILineItem,
     IOrderMetaData,
     IPayment,
     IShippingLine,
-    ITax
+    ITax,
+    IExternalPaymentGateway
 } from '@bold-commerce/checkout-frontend-library';
 
 export function actionGetInitialData(url:string): AnyAction {

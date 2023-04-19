@@ -136,6 +136,13 @@ export interface IPigiResponsesPayload {
     paymentType?: string,
 }
 
+export interface IExternalPaymentGatewayMessagePayload {
+    success: boolean,
+    height: number,
+    step?: 'DISPLAYED' | 'COMPLETED' | 'FAILED',
+    paymentType?: string,
+}
+
 export interface IPigiHandleScaSteps {
     DISPLAYED: string;
     COMPLETED: string;
@@ -150,6 +157,11 @@ export interface IPigiPaymentTypes {
 export interface IPigiResponseData {
     responseType: string,
     payload: IPigiResponsesPayload,
+}
+
+export interface IExternalPaymentGatewayMessageFromIframe {
+    type: string,
+    payload: IExternalPaymentGatewayMessagePayload,
 }
 
 export interface IEventType {
