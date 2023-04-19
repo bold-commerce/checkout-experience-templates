@@ -4,7 +4,7 @@ import {
     useGetCountryInfoByCountryCode,
     useGetCountryInfoList
 } from 'src/hooks';
-import {countriesListMock, initialDataMock} from 'src/mocks';
+import {initialDataMock} from 'src/mocks';
 import {renderHook} from '@testing-library/react-hooks';
 import {mocked} from 'jest-mock';
 import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
@@ -48,11 +48,11 @@ describe('Testing hook useGetAddressPostalCodeAndProvinceData', () => {
         expect(result.current.province).toStrictEqual([]);
     });
 
-    test('rendering the hook no country found and country list populated', () => {
+    test('rendering the hook no country found and country list with 1 country', () => {
         const countryCode = '';
         const countryList = initialDataMock.initial_data.country_info;
         useGetAddressDataFieldMock.mockReturnValueOnce(countryCode);
-        useGetCountryInfoListMock.mockReturnValueOnce(countryList);
+        useGetCountryInfoListMock.mockReturnValueOnce([countryList[0]]);
         useGetCountryInfoByCountryCodeMock.mockReturnValueOnce(countryList[0]);
 
         const {result} = renderHook(() => useGetAddressPostalCodeAndProvinceData(countryCode));
