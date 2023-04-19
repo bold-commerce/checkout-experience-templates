@@ -1,6 +1,5 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {
-    useDebounceCustomer,
     useCallApiAtOnEvents,
     useGetCustomerInfoDataByField,
     useGetCustomerMarketingField,
@@ -8,18 +7,16 @@ import {
     useLogin
 } from 'src/hooks';
 import {mocked} from 'jest-mock';
-import {DebouncedState} from 'use-debounce/lib/useDebouncedCallback';
+import {debounceConstants} from 'src/constants';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch
 }));
-jest.mock('src/hooks/useDebounceCustomer');
 jest.mock('src/hooks/useCallApiAtOnEvents');
 jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/hooks/useGetGeneralSettingCheckoutFields');
-const useDebounceCustomerMock = mocked(useDebounceCustomer, true);
 const useCallApiAtOnEventsMock = mocked(useCallApiAtOnEvents, true);
 const useGetCustomerInfoDataByFieldMock = mocked(useGetCustomerInfoDataByField, true);
 const useGetCustomerMarketingFieldMock = mocked(useGetCustomerMarketingField, true);
@@ -28,7 +25,7 @@ const useGetGeneralSettingCheckoutFieldsMock = mocked(useGetGeneralSettingChecko
 describe('Testing hook useLogin', () => {
 
     const debounceMock = jest.fn();
-    const debounceGuestCustomerMock = function() {} as DebouncedState<() => void>
+    debounceConstants.debouncedGuestCustomerFunction = jest.fn();
     const email = 'test@email.com';
     const marketing = true;
     const eventMock = {preventDefault: jest.fn()};
@@ -38,7 +35,6 @@ describe('Testing hook useLogin', () => {
         window = Object.create(window);
         useGetCustomerInfoDataByFieldMock.mockReturnValue(email);
         useGetCustomerMarketingFieldMock.mockReturnValue(marketing);
-        useDebounceCustomerMock.mockReturnValue(debounceGuestCustomerMock);
         Object.defineProperty(window, 'location', {
             value: {
                 href: 'http://dummy.com'
