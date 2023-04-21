@@ -89,7 +89,8 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
             case httpStatusCode.TOO_MANY_REQUEST:
             case httpStatusCode.SERVICE_UNAVAILABLE:
             case httpStatusCode.GATEWAY_TIMEOUT:
-            case httpStatusCode.ORDER_LOCKED: {
+            case httpStatusCode.ORDER_LOCKED:
+            case httpStatusCode.ORDER_TIMEOUT_LOCK:{
                 displayDefaultFlashError(dispatch);
                 break;
             }
