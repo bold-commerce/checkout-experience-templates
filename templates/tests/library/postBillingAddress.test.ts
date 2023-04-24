@@ -35,7 +35,7 @@ describe('testing postBillingAddress', () => {
 
     test('calling post billing address endpoint with getState returning undefined', async () => {
         getState.mockReturnValueOnce(undefined);
-        const expectedError = new TypeError("Cannot destructure property `data` of 'undefined' or 'null'.");
+        const expectedError = new TypeError("Cannot read property 'data' of undefined");
 
         await expect(async () => {
             await postBillingAddress(dispatch, getState);
@@ -49,7 +49,7 @@ describe('testing postBillingAddress', () => {
 
     test('calling post billing address endpoint with getState returning a different data structure', async () => {
         getState.mockReturnValueOnce(fakeInvalidData);
-        const expectedError = new TypeError("Cannot destructure property `application_state` of 'undefined' or 'null'.");
+        const expectedError = new TypeError("Cannot read property 'application_state' of undefined");
 
         await expect(async () => {
             await postBillingAddress(dispatch, getState);
