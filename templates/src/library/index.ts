@@ -17,6 +17,7 @@ export * from './initializeExpressPay';
 export * from './patchOrderMetaData';
 export * from './paymentIframe';
 export * from './pigi';
+export * from './externalPaymentGateway';
 export * from './postAddress';
 export * from './postBillingAddress';
 export * from './postCssStylingPigi';

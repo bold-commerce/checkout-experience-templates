@@ -71,6 +71,7 @@ export * from './useGetTimestamp';
 export * from './useGetValidVariable';
 export * from './useGetExternalPaymentGatewaySection';
 export * from './useGetExternalPaymentGateways';
+export * from './useSetExternalPaymentGatewayListener';
 export * from './useGuestCustomer';
 export * from './useInitiateGenericAutocomplete';
 export * from './useInitiateGoogleAutocomplete';

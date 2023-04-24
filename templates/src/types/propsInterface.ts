@@ -2,7 +2,8 @@ import React from 'react';
 import {IError, IErrorShowType, IFieldNamesSummary, IPaymentsSummaryClasses, ISelectList} from 'src/types';
 import {
     IAddress,
-    IDiscount, IExternalPaymentGateway,
+    IDiscount,
+    IExternalPaymentGateway,
     IFees,
     ILineItem,
     IPayment,

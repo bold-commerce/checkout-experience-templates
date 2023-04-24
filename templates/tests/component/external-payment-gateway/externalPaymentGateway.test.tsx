@@ -19,9 +19,9 @@ describe('Testing External Payment Gateway Component', () => {
         ExternalPaymentGatewayIframeMock.mockImplementation(() => <div />);
     });
 
-    test('rendering the component with button enabled', () => {
+    test('rendering the component with iframe valid', () => {
         useGetExternalPaymentGatewaySectionMock.mockReturnValue({
-            loading: true,
+            loading: false,
             isValidAddress: true,
             isValidShippingLine: true,
             notValidText: '',
@@ -49,10 +49,11 @@ describe('Testing External Payment Gateway Component', () => {
         expect(container.getElementsByClassName('payment').length).toBe(1);
         expect(container.getElementsByClassName('hidden').length).toBe(0);
     });
-    test('rendering the component with button disabled', () => {
+
+    test('rendering the component with iframe disabled', () => {
         useGetIsSessionInitializedMock.mockReturnValue(false);
         useGetExternalPaymentGatewaySectionMock.mockReturnValue({
-            loading: true,
+            loading: false,
             isValidAddress: true,
             isValidShippingLine: true,
             notValidText: '',
