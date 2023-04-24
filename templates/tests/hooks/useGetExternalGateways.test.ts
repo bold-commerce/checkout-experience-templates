@@ -56,7 +56,7 @@ describe('Testing hook useGetExternalGateways', () => {
 describe('Testing useGetExternalPaymentGatewayLoading', () => {
     test('test hook properly', () => {
         const gateway = {
-            base_url: '', iframe_url: '', is_test: false, location: '', public_id: '', target_div: ''
+            base_url: '', iframe_url: '', is_test: false, location: '', public_id: '', target_div: '', currency: ''
         };
 
         const {result} = renderHook(() => useGetExternalPaymentGatewayLoading(gateway));

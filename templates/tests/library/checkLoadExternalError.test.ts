@@ -12,7 +12,8 @@ describe('testing checkLoadExternalErrors', () => {
         'target_div': 'payment',
         'base_url': 'testURL',
         'public_id': 'publicID',
-        'location': 'payment_method_below'
+        'location': 'payment_method_below',
+        'currency': 'USD'
     };
 
     beforeEach(() => {
@@ -41,7 +42,8 @@ describe('testing checkLoadExternalErrors', () => {
             'target_div': 'payment',
             'base_url': 'testURL',
             'public_id': 'publicID',
-            'location': 'payment_method_below'
+            'location': 'payment_method_below',
+            'currency': 'USD'
         };
         getStateMock.mockReturnValue(state);
         const setEPigiListenerThunk = await checkLoadExternalPaymentGatewayErrors(gateway, ePigiSetStateFunction);
