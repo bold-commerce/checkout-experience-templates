@@ -207,7 +207,7 @@ export const errorsTerms: Array<IErrorTerm> = [
         subType: '',
         showType: errorShowType.flash,
         section: 'generic',
-        term: 'unknown_error'
+        term: 'unknown_error_try_again'
     },
     {
         type: errorTypes.order,
