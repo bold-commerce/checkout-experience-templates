@@ -14,7 +14,8 @@ const store = {
                     'target_div': 'payment',
                     'base_url': 'testURL',
                     'public_id': 'publicID',
-                    'location': 'payment_method_below'
+                    'location': 'payment_method_below',
+                    'currency': 'USD'
                 },
                 {
                     'is_test': true,
@@ -22,7 +23,8 @@ const store = {
                     'target_div': 'payment',
                     'base_url': 'testURL2',
                     'public_id': 'publicID2',
-                    'location': 'customer_info_below'
+                    'location': 'customer_info_below',
+                    'currency': 'USD'
                 }
             ],
         },

@@ -1,3 +1,4 @@
+export * from './addPayment';
 export * from './applicationState';
 export * from './callCustomerPageApi';
 export * from './callShippingLinesPageApi';

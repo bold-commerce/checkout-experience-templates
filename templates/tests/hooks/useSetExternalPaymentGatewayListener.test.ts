@@ -3,6 +3,7 @@ import {useDispatch} from 'react-redux';
 import {mocked} from 'jest-mock';
 import {useSetExternalPaymentGatewayListener} from 'src/hooks';
 import {
+    handleExternalPaymentGatewayAddPayment,
     handleExternalPaymentGatewayInitialized,
     setExternalPaymentGatewayListenerInLibrary,
 } from 'src/library';
@@ -14,6 +15,7 @@ jest.mock('src/library');
 const useDispatchMock = mocked(useDispatch, true);
 const handleExternalPaymentGatewayInitializedMock = mocked(handleExternalPaymentGatewayInitialized, true);
 const setExternalPaymentGatewayListenerInLibraryMock = mocked(setExternalPaymentGatewayListenerInLibrary, true);
+const handleExternalPaymentGatewayAddPaymentMock = mocked(handleExternalPaymentGatewayAddPayment, true);
 
 describe('Testing useSetExternalPaymentGatewayListener hook ', () => {
     const dispatchMock = jest.fn();
@@ -25,7 +27,8 @@ describe('Testing useSetExternalPaymentGatewayListener hook ', () => {
         'target_div': 'payment',
         'base_url': 'testURL',
         'public_id': 'publicID',
-        'location': 'payment_method_below'
+        'location': 'payment_method_below',
+        'currency': 'USD'
     };
 
     beforeEach(() => {
@@ -74,5 +77,27 @@ describe('Testing useSetExternalPaymentGatewayListener hook ', () => {
         expect(setExternalPaymentGatewayListenerInLibraryMock).toHaveBeenCalledTimes(1);
         expect(setExternalPaymentGatewayListenerInLibraryMock).toHaveBeenCalledWith(gateway, handleEvent);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
+    });
+
+    test('Trigger EXTERNAL_PAYMENT_GATEWAY_ADD_PAYMENT event', async () => {
+        const eventInit = {data: {type: 'EXTERNAL_PAYMENT_GATEWAY_ADD_PAYMENT', payload}};
+        const event = new MessageEvent('', eventInit);
+        let handleEvent;
+
+        setExternalPaymentGatewayListenerInLibraryMock.mockImplementationOnce((gateway: IExternalPaymentGateway, callbackEvent: (evt: Event) => void) => {
+            handleEvent = callbackEvent;
+            callbackEvent(event);
+            return jest.fn();
+        });
+
+        const renderHookResult = renderHook(() => useSetExternalPaymentGatewayListener(gateway));
+
+        expect(useDispatchMock).toHaveBeenCalledTimes(1);
+        renderHookResult.rerender();
+        expect(useDispatchMock).toHaveBeenCalledTimes(2);
+        expect(setExternalPaymentGatewayListenerInLibraryMock).toHaveBeenCalledTimes(1);
+        expect(setExternalPaymentGatewayListenerInLibraryMock).toHaveBeenCalledWith(gateway, handleEvent);
+        expect(handleExternalPaymentGatewayAddPaymentMock).toHaveBeenCalledTimes(1);
+        expect(dispatchMock).toHaveBeenCalledTimes(2);
     });
 });
