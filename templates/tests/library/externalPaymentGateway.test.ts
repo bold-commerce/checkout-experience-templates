@@ -1,23 +1,28 @@
 import {
     handleExternalPaymentGatewayAddPayment,
-    handleExternalPaymentGatewayInitialized, handleExternalPaymentGatewayUpdateHeight,
+    handleExternalPaymentGatewayInitialized,
+    handleExternalPaymentGatewayRefreshOrder,
+    handleExternalPaymentGatewayUpdateHeight,
     removeExternalPaymentGatewayListenerInLibrary,
-    setExternalPaymentGatewayListenerInLibrary
+    setExternalPaymentGatewayListenerInLibrary,
 } from 'src/library';
 import {stateMock} from 'src/mocks';
 import {
     setExternalPaymentGatewayListener,
     removeExternalPaymentGatewayListener,
-    sendExternalPaymentGatewayUpdateStateAction, IExternalPaymentGateway
+    sendExternalPaymentGatewayUpdateStateAction,
+    sendExternalPaymentGatewaySetConfigAction,
 } from '@bold-commerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
-import {IExternalPaymentGatewayAddPayment} from "src/types";
 
 jest.mock('@bold-commerce/checkout-frontend-library/lib/externalPaymentGateway/setExternalPaymentGatewayListener');
 jest.mock('@bold-commerce/checkout-frontend-library/lib/externalPaymentGateway/actionsToIframe/sendExternalPaymentGatewayUpdateStateAction');
+jest.mock('@bold-commerce/checkout-frontend-library/lib/externalPaymentGateway/actionsToIframe/sendExternalPaymentGatewaySetConfigAction');
+
 const setExternalPaymentGatewayListenerMock = mocked(setExternalPaymentGatewayListener, true);
 const removeExternalPaymentGatewayListenerMock = mocked(removeExternalPaymentGatewayListener, true);
 const sendExternalPaymentGatewayUpdateStateActionMock = mocked(sendExternalPaymentGatewayUpdateStateAction, true);
+const sendExternalPaymentGatewaySetConfigActionMock = mocked(sendExternalPaymentGatewaySetConfigAction, true);
 
 describe('testing setExternalPaymentGatewayListenerInLibrary', () => {
     const gateway = {
@@ -82,6 +87,7 @@ describe('testing handleExternalPaymentGatewayInitialized', () => {
 
         expect(getState).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenCalledTimes(3);
+        expect(sendExternalPaymentGatewaySetConfigActionMock).toHaveBeenCalled();
         expect(sendExternalPaymentGatewayUpdateStateActionMock).toHaveBeenCalled();
     });
 });
@@ -155,5 +161,21 @@ describe('testing handleExternalPaymentGatewayUpdateHeight', () => {
 
     test('call sendExternalPaymentGatewayUpdateHeightAction', async () => {
         await handleExternalPaymentGatewayUpdateHeight(gateway, payload)();
+    });
+});
+
+describe('testing handleExternalPaymentGatewayRefreshOrder', () => {
+    const dispatch = jest.fn();
+
+    beforeEach(() => {
+        jest.resetAllMocks();
+        dispatch.mockReturnValue(Promise.resolve());
+        setExternalPaymentGatewayListenerMock.mockReturnValue();
+    });
+
+    test('call sendExternalPaymentGatewayUpdateStateAction', async () => {
+        await handleExternalPaymentGatewayRefreshOrder()(dispatch);
+
+        expect(dispatch).toHaveBeenCalledTimes(1);
     });
 });

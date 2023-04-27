@@ -66,3 +66,10 @@ export function handleExternalPaymentGatewayUpdateHeight(paymentGateway: IExtern
         updateExternalPaymentGatewayHeight(`${payload.height}px`, paymentGateway.public_id);
     };
 }
+
+export function handleExternalPaymentGatewayRefreshOrder() {
+    return async function handleExternalPaymentGatewayRefreshThunk(dispatch: Dispatch): Promise<void> {
+        useSendEvent('CheckoutExperienceExternalPaymentGatewayRefreshOrder');
+        dispatch(getUpdatedApplicationState);
+    };
+}
