@@ -161,7 +161,7 @@ export interface IPigiResponseData {
 
 export interface IExternalPaymentGatewayMessageFromIframe {
     type: string,
-    payload: IExternalPaymentGatewayMessagePayload | IExternalPaymentGatewayAddPayment,
+    payload: IExternalPaymentGatewayMessagePayload | IExternalPaymentGatewayAddPayment | IExternalPaymentGatewayUpdateHeight,
 }
 
 export interface IEventType {
@@ -209,5 +209,12 @@ export interface IExternalPaymentGatewayAddPayment {
     type: string,
     gateway_public_id: string,
     external_id: string,
+}
+
+export interface IExternalPaymentGatewayUpdateHeight {
+    success: boolean,
+    height: number,
+    step?: 'DISPLAYED' | 'COMPLETED' | 'FAILED',
+    paymentType?: string,
 }
 // END TODO - CE-579

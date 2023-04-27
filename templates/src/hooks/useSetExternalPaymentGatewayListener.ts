@@ -8,10 +8,15 @@ import {useDispatch} from 'react-redux';
 import {
     handleExternalPaymentGatewayAddPayment,
     handleExternalPaymentGatewayInitialized,
+    handleExternalPaymentGatewayUpdateHeight,
     removeExternalPaymentGatewayListenerInLibrary,
     setExternalPaymentGatewayListenerInLibrary,
 } from 'src/library';
-import {IExternalPaymentGatewayMessageFromIframe, IExternalPaymentGatewayAddPayment} from 'src/types';
+import {
+    IExternalPaymentGatewayMessageFromIframe,
+    IExternalPaymentGatewayAddPayment,
+    IExternalPaymentGatewayUpdateHeight
+} from 'src/types';
 
 export function useSetExternalPaymentGatewayListener(paymentGateway: IExternalPaymentGateway): void {
     const dispatch = useDispatch();
@@ -26,6 +31,9 @@ export function useSetExternalPaymentGatewayListener(paymentGateway: IExternalPa
                     break;
                 case externalPaymentGatewayToParentActionTypes.EXTERNAL_PAYMENT_GATEWAY_ADD_PAYMENT:
                     dispatch(handleExternalPaymentGatewayAddPayment(paymentGateway, payload as IExternalPaymentGatewayAddPayment));
+                    break;
+                case externalPaymentGatewayToParentActionTypes.EXTERNAL_PAYMENT_GATEWAY_UPDATE_HEIGHT:
+                    dispatch(handleExternalPaymentGatewayUpdateHeight(paymentGateway, payload as IExternalPaymentGatewayUpdateHeight));
                     break;
                 default:
                     break;

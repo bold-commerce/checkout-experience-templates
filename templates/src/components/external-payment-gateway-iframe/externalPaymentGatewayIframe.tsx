@@ -16,7 +16,7 @@ export function ExternalPaymentGatewayIframe(props: IExternalPaymentGatewayIfram
     ]);
 
     return (
-        <iframe id={props.externalPaymentGateway.target_div}
+        <iframe id={props.externalPaymentGateway.public_id}
             src={props.externalPaymentGateway.iframe_url}
             className={cssClassIframe}
             width="100%"
