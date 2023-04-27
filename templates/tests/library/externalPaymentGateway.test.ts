@@ -1,6 +1,6 @@
 import {
     handleExternalPaymentGatewayAddPayment,
-    handleExternalPaymentGatewayInitialized,
+    handleExternalPaymentGatewayInitialized, handleExternalPaymentGatewayUpdateHeight,
     removeExternalPaymentGatewayListenerInLibrary,
     setExternalPaymentGatewayListenerInLibrary
 } from 'src/library';
@@ -123,5 +123,37 @@ describe('testing handleExternalPaymentGatewayAddPayment', () => {
 
         expect(getState).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenCalledTimes(2);
+    });
+});
+
+describe('testing handleExternalPaymentGatewayUpdateHeight', () => {
+    const dispatch = jest.fn();
+    const getState = jest.fn();
+    const gateway = {
+        'is_test': true,
+        'iframe_url': 'testURL',
+        'target_div': 'payment',
+        'base_url': 'testURL',
+        'public_id': 'publicID',
+        'location': 'payment_method_below',
+        'currency': 'USD',
+    };
+    const payload = {
+        'success': true,
+        'height': 100,
+        'step': undefined,
+        'paymentType': 'test_payment_type',
+    };
+
+
+    beforeEach(() => {
+        jest.resetAllMocks();
+        dispatch.mockReturnValue(Promise.resolve());
+        getState.mockReturnValue(stateMock);
+        setExternalPaymentGatewayListenerMock.mockReturnValue();
+    });
+
+    test('call sendExternalPaymentGatewayUpdateHeightAction', async () => {
+        await handleExternalPaymentGatewayUpdateHeight(gateway, payload)();
     });
 });

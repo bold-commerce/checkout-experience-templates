@@ -11,9 +11,14 @@ import {
     actionSetButtonDisable,
     actionSetExternalPaymentGatewayLoading,
 } from 'src/action';
-import {IOrderInitialization, IExternalPaymentGatewayAddPayment} from 'src/types';
+import {
+    IOrderInitialization,
+    IExternalPaymentGatewayAddPayment,
+    IExternalPaymentGatewayUpdateHeight
+} from 'src/types';
 import {useSendEvent} from 'src/hooks';
 import {addPayment, getUpdatedApplicationState} from 'src/library';
+import {updateExternalPaymentGatewayHeight} from 'src/utils/updateExternalPaymentGatewayHeight';
 
 export function setExternalPaymentGatewayListenerInLibrary(paymentGateway: IExternalPaymentGateway, callbackEvent: (evt: Event) => void) {
     return async function setExternalPaymentGatewayListenerThunk(): Promise<void> {
@@ -52,5 +57,12 @@ export function handleExternalPaymentGatewayAddPayment(paymentGateway: IExternal
         };
         await dispatch(addPayment(paymentPayload));
         dispatch(getUpdatedApplicationState);
+    };
+}
+
+export function handleExternalPaymentGatewayUpdateHeight(paymentGateway: IExternalPaymentGateway, payload: IExternalPaymentGatewayUpdateHeight) {
+    return async function handleExternalPaymentGatewayUpdateHeightThunk(): Promise<void> {
+        useSendEvent('CheckoutExperienceExternalPaymentGatewayUpdateHeight');
+        updateExternalPaymentGatewayHeight(`${payload.height}px`, paymentGateway.public_id);
     };
 }
