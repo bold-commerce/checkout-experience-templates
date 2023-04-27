@@ -2,7 +2,7 @@ import {IUsePaymentPage} from 'src/types';
 import {render} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 import {useGetShopUrlFromShopAlias, useScrollToElementOnNavigation} from 'src/hooks';
-import {CustomerPage, PaymentPage} from 'src/themes/three-page/pages';
+import {PaymentPage} from 'src/themes/three-page/pages';
 import React from 'react';
 import {initialDataMock} from 'src/mocks';
 import {usePaymentPage} from 'src/themes/three-page/hooks';
@@ -13,8 +13,12 @@ const store = {
     data: initialDataMock,
     appSetting: {autocompleteService: 'test'},
     errors: [],
-    isLoading: [],
-    isValid: true
+    isLoading: {},
+    externalPaymentGateways: {
+        isLoading: new Set(),
+        isValid: new Set(),
+    },
+    isValid: {shippingAddress: false},
 };
 const mockDispatch = jest.fn();
 

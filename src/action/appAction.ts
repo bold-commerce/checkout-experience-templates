@@ -9,7 +9,8 @@ import {
     IOrderMetaData,
     IPayment,
     IShippingLine,
-    ITax
+    ITax,
+    IExternalPaymentGateway
 } from '@bold-commerce/checkout-frontend-library';
 
 export function actionGetInitialData(url:string): AnyAction {
@@ -90,10 +91,24 @@ export function actionSetAppStateValid(field: string, value: boolean): AnyAction
     };
 }
 
+export function actionSetExternalGatewayReady(gateway: IExternalPaymentGateway, value: boolean): AnyAction {
+    return {
+        type: AppActions.SET_EXTERNAL_PAYMENT_GATEWAY_VALID,
+        payload: {value, gateway}
+    };
+}
+
 export function actionSetPigiIframeLoader(pigiIframeLoader: boolean): AnyAction {
     return {
         type: AppActions.SET_PIGI_IFRAME_LOADER,
         payload: {pigiIframeLoader}
+    };
+}
+
+export function actionSetExternalPaymentGatewayLoading(gateway: IExternalPaymentGateway, value: boolean): AnyAction {
+    return {
+        type: AppActions.SET_EXTERNAL_PAYMENT_GATEWAY_LOADING,
+        payload: {value, gateway}
     };
 }
 

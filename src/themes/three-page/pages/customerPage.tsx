@@ -11,9 +11,10 @@ import {
     ExpressPaymentGateway,
     HeaderHelmet,
     ScreenReaderAnnouncement,
-    Footer
+    Footer,
+    ExternalPaymentGateway
 } from 'src/components';
-import {useBeforeUnload, useScreenBreakpoints, useScrollToElementOnNavigation, useSendEvent} from 'src/hooks';
+import {useBeforeUnload, useScreenBreakpoints, useScrollToElementOnNavigation, useSendEvent, useGetExternalPaymentGateways} from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
 import {getTerm, withPreventDefault} from 'src/utils';
@@ -23,6 +24,7 @@ export function CustomerPage(): React.ReactElement {
     const {isMobile} = useScreenBreakpoints();
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading, title} = useCustomerPage();
     const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
+    const externalPaymentGateways = useGetExternalPaymentGateways(Constants.CUSTOMER_INFO_ABOVE);
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
 
@@ -53,6 +55,15 @@ export function CustomerPage(): React.ReactElement {
                     <Header isMobile={false}/>
                     <main aria-label={mainAriaLabel}>
                         <Breadcrumbs active={active}/>
+                        {externalPaymentGateways.map((externalGateway) =>
+                            <ExternalPaymentGateway
+                                externalPaymentGateway={externalGateway}
+                                loadIframeImmediately={false}
+                                showTitle={false}
+                                key={externalGateway.public_id}
+                                position={Constants.CUSTOMER_INFO_ABOVE}
+                            />
+                        )}
                         <form onSubmit={withPreventDefault(nextButtonOnClick)}>
                             <FlashError/>
                             <ExpressPaymentGateway/>

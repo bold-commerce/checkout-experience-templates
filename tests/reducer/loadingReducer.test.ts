@@ -1,6 +1,6 @@
 import {stateMock} from 'src/mocks';
 import {loadingReducer} from 'src/reducer';
-import {SET_LOADER, SET_PIGI_IFRAME_LOADER} from 'src/action';
+import {SET_EXTERNAL_PAYMENT_GATEWAY_LOADING, SET_LOADER, SET_PIGI_IFRAME_LOADER} from 'src/action';
 
 
 describe('testing loadingReducer Reducer', () => {
@@ -26,5 +26,4 @@ describe('testing loadingReducer Reducer', () => {
 
         expect(state.pigiIframe).toEqual(true);
     });
-
 });

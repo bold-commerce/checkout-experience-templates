@@ -24,5 +24,4 @@ describe('Testing hook useGetValidVariable', () => {
         expect(result.current).toStrictEqual(true);
         expect(useAppSelector).toHaveBeenCalledTimes(1);
     });
-
 });

@@ -5,10 +5,10 @@ import {
     useGetCustomerInfoDataByField,
     useGetCustomerMarketingField,
     useCallApiAtOnEvents,
-    useDebounceCustomer,
     useGetGeneralSettingCheckoutFields
 } from 'src/hooks';
 import {actionUpdateCustomerAcceptMarketing} from 'src/action';
+import {debounceConstants} from 'src/constants';
 
 export function useLogin(): IUseLogin{
     const loginUrl = useCallback((event) => {
@@ -16,7 +16,7 @@ export function useLogin(): IUseLogin{
         window.location.href = window.loginUrl;
     }, [window.loginUrl]);
     const dispatch = useDispatch();
-    const debounceApiCall = useDebounceCustomer();
+    const debounceApiCall = debounceConstants.debouncedGuestCustomerFunction;
     const callApiAtOnEvents: boolean = useCallApiAtOnEvents();
     const email = useGetCustomerInfoDataByField('email_address');
     const acceptMarketingChecked = useGetCustomerMarketingField();

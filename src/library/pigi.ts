@@ -19,7 +19,7 @@ export function setPigiListenerInLibrary(frameId: string, callbackEvent: (evt: E
     };
 }
 
-export function removePigiListenerInLibrary(){
+export function removePigiListenerInLibrary() {
     return async function setPigiListenerThunk(): Promise<void> {
         await removePigiListener();
     };
@@ -38,7 +38,7 @@ export function handlePigiInitialized() {
 
 export function handlePigiAddPayment(payload: IPigiResponsesPayload, history: History) {
     return async function handlePigiAddPaymentThunk(dispatch: Dispatch): Promise<void> {
-        dispatch(getUpdatedApplicationState);
+        await dispatch(getUpdatedApplicationState);
         if(payload.success && payload.paymentType !== pigiPaymentTypes.GIFT_CARD) {
             if(payload.paymentType === pigiPaymentTypes.PAYPAL){
                 dispatch(displayOrderProcessingScreen);

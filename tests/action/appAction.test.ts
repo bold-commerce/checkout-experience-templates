@@ -33,13 +33,15 @@ import {
     actionUpdateSelectedShippingLine,
     actionUpdateShippingLinesDiscount,
     actionUpdateShippingLinesTaxes,
-    actionUpdateTaxes
+    actionUpdateTaxes,
+    actionSetExternalPaymentGatewayLoading,
+    actionSetExternalGatewayReady,
 } from 'src/action';
 import * as AppActions from 'src/action/appActionType';
 import {autocompleteServices} from 'src/constants';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {IError, IOrderInitialization} from 'src/types';
-import {ILineItem, IShippingLine} from '@bold-commerce/checkout-frontend-library';
+import {ILineItem, IShippingLine, IExternalPaymentGateway} from '@bold-commerce/checkout-frontend-library';
 import {feesMock} from '@bold-commerce/checkout-frontend-library/lib/variables/mocks';
 
 describe('Testing App Actions', () => {
@@ -154,6 +156,36 @@ describe('Testing App Actions', () => {
         };
 
         const result = actionSetPigiIframeLoader(pigiIframeLoader);
+
+        expect(result).toStrictEqual(actionReturnExpectation);
+    });
+
+    test('actionSetExternalGatewayLoading', () => {
+        const loading = true;
+        const gateway: IExternalPaymentGateway = {
+            base_url: '', iframe_url: '', is_test: false, location: '', public_id: '', target_div: ''
+        };
+        const actionReturnExpectation = {
+            type: AppActions.SET_EXTERNAL_PAYMENT_GATEWAY_LOADING,
+            payload: {gateway, value: true}
+        };
+
+        const result = actionSetExternalPaymentGatewayLoading(gateway, loading);
+
+        expect(result).toStrictEqual(actionReturnExpectation);
+    });
+
+    test('actionSetAppExternalGatewayStateValid', () => {
+        const loading = true;
+        const gateway: IExternalPaymentGateway = {
+            base_url: '', iframe_url: '', is_test: false, location: '', public_id: '', target_div: ''
+        };
+        const actionReturnExpectation = {
+            type: AppActions.SET_EXTERNAL_PAYMENT_GATEWAY_VALID,
+            payload: {gateway, value: true}
+        };
+
+        const result = actionSetExternalGatewayReady(gateway, loading);
 
         expect(result).toStrictEqual(actionReturnExpectation);
     });
@@ -546,7 +578,7 @@ describe('Testing App Actions', () => {
 
         const actionReturnExpectation = {
             type: AppActions.UPDATE_APP_DATA,
-            payload: { data }
+            payload: {data}
         };
 
         const result = actionUpdateAppData(data);
@@ -587,6 +619,6 @@ describe('Testing App Actions', () => {
         const result = actionSetSessionInitialized(data);
         
         expect(result).toStrictEqual(actionReturnExpectation);
-    })
+    });
 
 });

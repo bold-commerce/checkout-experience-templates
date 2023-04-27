@@ -73,7 +73,6 @@ describe('Testing DisplayPaymentMethod component', () => {
         const textContent = '4444';
         getPaymentTypeMock.mockReturnValueOnce(textContent);
         props['display_string'] = '';
-        console.log(props);
         const {container} = render(<DisplayPaymentMethod {...props}/>);
         expect(container.getElementsByClassName('display-payment-methods-content').length).toBe(1);
         expect(container.getElementsByClassName('card-type__brand-name').length).toBe(1);

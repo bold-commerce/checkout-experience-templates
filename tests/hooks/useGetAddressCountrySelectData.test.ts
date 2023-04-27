@@ -49,13 +49,15 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
         getTermMock.mockReturnValue(getTermValue);
         useCallApiAtOnEventsMock.mockReturnValue(false);
         useGetErrorByFieldMock.mockReturnValue('');
+        useGetAddressDataFieldMock.mockReturnValue(getTermValue);
+        useGetCountryInfoListMock.mockReturnValue(countriesList);
     });
 
     test('rendering the hook properly', () => {
-        useGetAddressDataFieldMock.mockReturnValue(getTermValue);
-        useGetCountryInfoListMock.mockReturnValue(countriesListSorted);
+        useGetCountryInfoListMock.mockReturnValueOnce(countriesListSorted);
 
         const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
+
         expect(result.current.label).toStrictEqual(getTermValue);
         expect(result.current.placeholder).toStrictEqual(getTermValue);
         expect(result.current.countryOptions).toStrictEqual(countriesOptions);
@@ -72,7 +74,7 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
 
     test('rendering the hook properly - countryName and countryList are empty', () => {
         useGetAddressDataFieldMock.mockReturnValueOnce(getTermValue).mockReturnValueOnce('');
-        useGetCountryInfoListMock.mockReturnValue([]);
+        useGetCountryInfoListMock.mockReturnValueOnce([]);
 
         const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
         expect(result.current.label).toStrictEqual(getTermValue);
@@ -89,14 +91,14 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
         expect(debounceMock).toBeCalledTimes(0);
     });
 
-    test('rendering the hook properly - countryName is empty', () => {
+    test('rendering the hook properly - countryName is empty and countryList has 1 country', () => {
         useGetAddressDataFieldMock.mockReturnValueOnce(getTermValue).mockReturnValueOnce('');
-        useGetCountryInfoListMock.mockReturnValue(countriesList);
+        useGetCountryInfoListMock.mockReturnValue([countriesList[0]]);
 
         const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
         expect(result.current.label).toStrictEqual(getTermValue);
         expect(result.current.placeholder).toStrictEqual(getTermValue);
-        expect(result.current.countryOptions).toStrictEqual(countriesOptions);
+        expect(result.current.countryOptions).toStrictEqual([countriesOptions[0]]);
         expect(result.current.id).toStrictEqual(type+'-address__country');
         expect(result.current.name).toStrictEqual(Constants.ADDRESS_COUNTRY);
         expect(result.current.value).toStrictEqual(getTermValue);
@@ -107,14 +109,14 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
         expect(debounceMock).toBeCalledTimes(0);
     });
 
-    test('rendering the hook properly - value is empty', () => {
+    test('rendering the hook properly - value is empty and countryList has 1 country', () => {
         useGetAddressDataFieldMock.mockReturnValueOnce('').mockReturnValueOnce(getTermValue);
-        useGetCountryInfoListMock.mockReturnValue(countriesList);
+        useGetCountryInfoListMock.mockReturnValue([countriesList[0]]);
 
         const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
         expect(result.current.label).toStrictEqual(getTermValue);
         expect(result.current.placeholder).toStrictEqual(getTermValue);
-        expect(result.current.countryOptions).toStrictEqual(countriesOptions);
+        expect(result.current.countryOptions).toStrictEqual([countriesOptions[0]]);
         expect(result.current.id).toStrictEqual(type+'-address__country');
         expect(result.current.name).toStrictEqual(Constants.ADDRESS_COUNTRY);
         expect(result.current.value).toStrictEqual('CA');
@@ -127,7 +129,7 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
 
     test('rendering the hook properly - value AND countryList are empty', () => {
         useGetAddressDataFieldMock.mockReturnValueOnce('').mockReturnValueOnce(getTermValue);
-        useGetCountryInfoListMock.mockReturnValue([]);
+        useGetCountryInfoListMock.mockReturnValueOnce([]);
 
         const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
         expect(result.current.label).toStrictEqual(getTermValue);
@@ -145,11 +147,9 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
     });
 
     test('rendering the hook with error', () => {
-        useGetAddressDataFieldMock.mockReturnValue(getTermValue);
         useGetErrorByFieldMock
             .mockReturnValueOnce('error')
             .mockReturnValueOnce('error');
-        useGetCountryInfoListMock.mockReturnValue(countriesList);
 
         const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
         expect(result.current.label).toStrictEqual(getTermValue);
@@ -169,7 +169,6 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
     test('rendering the hook with callApi', () => {
         useGetAddressDataFieldMock.mockReturnValue(getTermValue);
         useCallApiAtOnEventsMock.mockReturnValueOnce(true);
-        useGetCountryInfoListMock.mockReturnValue(countriesList);
 
         const {result} = renderHook(() => useGetAddressCountryInputData(type, debounceMock));
         expect(result.current.label).toStrictEqual(getTermValue);

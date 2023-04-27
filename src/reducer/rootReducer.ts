@@ -8,6 +8,8 @@ import {
     customerReducer,
     discountsReducer,
     errorsReducer,
+    externalPaymentGatewaysReducer,
+    externalPaymentGatewayInitialDataReducer,
     jwtTokenReducer,
     languageReducer,
     lineItemsReducer,
@@ -34,7 +36,6 @@ import {
     feesReducer,
     paymentMethodReducer,
     sessionInitializedReducer,
-    externalPaymentGatewaysReducer,
 } from 'src/reducer';
 import {autocompleteServices, Constants} from 'src/constants';
 import {defaultOrderInitialization} from 'src/constants/orderInitialization';
@@ -113,7 +114,7 @@ const initialDataReducer = combineReducers({
     supported_languages: languageReducer,
     general_settings: generalSettingReducer,
     alternative_payment_methods: paymentMethodReducer,
-    external_payment_gateways: externalPaymentGatewaysReducer,
+    external_payment_gateways: externalPaymentGatewayInitialDataReducer,
 });
 
 const dataReducer = combineReducers({
@@ -126,6 +127,7 @@ const dataReducer = combineReducers({
 const allReducers = combineReducers({
     appSetting: reducer,
     isLoading: loadingReducer,
+    externalPaymentGateways: externalPaymentGatewaysReducer,
     isButtonDisable: buttonDisableReducer,
     isValid: validReducer,
     isSessionInitialized: sessionInitializedReducer,

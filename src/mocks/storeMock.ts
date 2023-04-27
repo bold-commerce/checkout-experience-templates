@@ -23,6 +23,10 @@ export const storeMock: IOrderInitialization = {
         discountClose: false,
         shippingLines: false,
     },
+    externalPaymentGateways: {
+        isLoading: new Set(),
+        isValid: new Set(),
+    },
     isValid: {
         shippingAddress: false,
         updatedShippingAddress: false,

@@ -20,6 +20,10 @@ export const defaultOrderInitialization: IOrderInitialization = {
         discountClose: false,
         shippingLines: false,
     },
+    externalPaymentGateways: {
+        isLoading: new Set(),
+        isValid: new Set(),
+    },
     isButtonDisable: {
         customerPageButton: false,
         shippingPageButton: true,

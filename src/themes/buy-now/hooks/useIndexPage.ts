@@ -5,10 +5,9 @@ import {useCallback, useRef} from 'react';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import {displayOrderProcessingScreen, processOrder, validateBillingAddress, updateLineItemQuantity} from 'src/library';
-import {IApiErrorResponse, IApiReturnObject, sendAddPaymentActionAsync, sendRefreshOrderActionAsync} from '@bold-commerce/checkout-frontend-library';
-import {getTerm, isOnlyFlashError, retrieveErrorFromResponse} from 'src/utils';
+import {sendAddPaymentActionAsync} from '@bold-commerce/checkout-frontend-library';
+import {getTerm,} from 'src/utils';
 import {sendEvents} from 'src/analytics';
-import {actionAddError, actionShowHideOverlayContent} from 'src/action';
 
 export function useIndexPage(): IUseIndexPageProps {
     const dispatch = useDispatch();
@@ -38,7 +37,7 @@ export function useIndexPage(): IUseIndexPageProps {
         }
         //isValidBillingAddress could get updated in above dispatch call, need to use ref to fetch updated state.
         if (!isValidBillingAddressRef.current) {
-            return; 
+            return;
         }
 
         sendEvents('Clicked complete order button', {'category': 'Checkout'});
@@ -47,16 +46,7 @@ export function useIndexPage(): IUseIndexPageProps {
             if (orderTotal <= 0) {
                 dispatch(processOrder(history));
             } else {
-                sendRefreshOrderActionAsync().then(
-                    sendAddPaymentActionAsync,
-                    (e) => {
-                        const error = retrieveErrorFromResponse(<IApiReturnObject>{error: e}) as IApiErrorResponse;
-                        if (error && isOnlyFlashError([error])) {
-                            dispatch(actionAddError(error));
-                        }
-                        dispatch(actionShowHideOverlayContent(false));
-                    }
-                );
+                sendAddPaymentActionAsync();
             }
         }
     }, [orderTotal, history, isValidBillingAddress, errors]);

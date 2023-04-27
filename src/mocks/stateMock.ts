@@ -19,6 +19,10 @@ export const stateMock: IOrderInitialization = {
         'pigiDisplaySca': false,
         'isExpressPaySectionEnable': false
     },
+    externalPaymentGateways: {
+        isLoading: new Set(),
+        isValid: new Set(),
+    },
     'isLoading': {
         pigiIframe: false,
         customerPageButton: false,

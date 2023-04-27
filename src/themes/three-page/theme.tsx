@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {
+    useDebounceCustomer,
     useGetGeneralSettingCheckoutFields,
     useSetApiCallOnEvent,
     useSetDefaultLanguageIso,
@@ -17,7 +18,7 @@ import {useDispatch} from 'react-redux';
 import {setHook} from 'src/utils';
 import {useHistory} from  'react-router-dom';
 import {initiateCheckout} from 'src/analytics';
-import {Constants} from 'src/constants';
+import {Constants, debounceConstants} from 'src/constants';
 import {getDefaultBillingType} from 'src/utils';
 import {checkInventory} from 'src/library';
 import {checkInventoryStage} from '@bold-commerce/checkout-frontend-library';
@@ -30,11 +31,12 @@ function Theme(): React.ReactElement {
     useWindowDimensions();
     useSetApiCallOnEvent(false);
     const billingType = getDefaultBillingType();
+    debounceConstants.debouncedGuestCustomerFunction = useDebounceCustomer();
     const acceptMarketingSetting = useGetGeneralSettingCheckoutFields('accepts_marketing_checkbox_option') as string;
-    dispatch(actionSetDefaultCustomerAcceptMarketing(acceptMarketingSetting));
     initiateCheckout();
 
     useEffect(() => {
+        dispatch(actionSetDefaultCustomerAcceptMarketing(acceptMarketingSetting));
         dispatch(actionUpdateBillingTypeInSettings(billingType));
         dispatch(checkInventory(checkInventoryStage.initial));
     }, []);

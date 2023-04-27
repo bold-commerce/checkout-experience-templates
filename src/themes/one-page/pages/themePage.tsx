@@ -1,7 +1,7 @@
 import {
     BillingAddress,
     CustomerInformation,
-    ExpressPaymentGateway,
+    ExpressPaymentGateway, ExternalPaymentGateway,
     FlashError, Footer, FormControls,
     Header,
     HeaderHelmet,
@@ -18,12 +18,15 @@ import {useGetOnePageFooterData, useIsValidShippingOnLoad} from 'src/themes/one-
 import {checkInventoryStage} from '@bold-commerce/checkout-frontend-library';
 import {useDispatch} from 'react-redux';
 import {checkInventory} from 'src/library';
+import {useGetExternalPaymentGateways} from 'src/hooks';
 
 export function ThemePage(): React.ReactElement {
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
     useIsValidShippingOnLoad();
     const {nextButtonOnClick, ...footerProps} = useGetOnePageFooterData();
     const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
+    const infoExternalPaymentGateways = useGetExternalPaymentGateways(Constants.CUSTOMER_INFO_ABOVE);
+    const paymentExternalPaymentGateways = useGetExternalPaymentGateways(Constants.PAYMENT_METHOD_BELOW);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(checkInventory(checkInventoryStage.initial)); 
@@ -39,11 +42,29 @@ export function ThemePage(): React.ReactElement {
                     <form onSubmit={withPreventDefault(nextButtonOnClick)}>
                         <FlashError/>
                         <ExpressPaymentGateway/>
+                        {infoExternalPaymentGateways.map((externalGateway) =>
+                            <ExternalPaymentGateway
+                                externalPaymentGateway={externalGateway}
+                                loadIframeImmediately={false}
+                                showTitle={false}
+                                key={externalGateway.public_id}
+                                position={Constants.CUSTOMER_INFO_ABOVE}
+                            />
+                        )}
                         <CustomerInformation/>
                         <ShippingAddress/>
                         <BillingAddress/>
                         <ShippingLines/>
                         <Payment loadIframeImmediately={true} />
+                        {paymentExternalPaymentGateways.map((externalGateway) =>
+                            <ExternalPaymentGateway
+                                externalPaymentGateway={externalGateway}
+                                loadIframeImmediately={false}
+                                showTitle={false}
+                                key={externalGateway.public_id}
+                                position={Constants.PAYMENT_METHOD_BELOW}
+                            />
+                        )}
                         <TaxExemption />
                         <FormControls {...footerProps}/>
                     </form>

@@ -1,20 +1,15 @@
 import React from 'react';
-import {
-    IFieldNamesSummary,
-    ISelectList,
-    IPaymentsSummaryClasses,
-    IError,
-    IErrorShowType
-} from 'src/types';
+import {IError, IErrorShowType, IFieldNamesSummary, IPaymentsSummaryClasses, ISelectList} from 'src/types';
 import {
     IAddress,
     IDiscount,
+    IExternalPaymentGateway,
+    IFees,
     ILineItem,
     IPayment,
-    IShippingLine,
-    ITax,
     IProvince,
-    IFees
+    IShippingLine,
+    ITax
 } from '@bold-commerce/checkout-frontend-library';
 import {Constants} from 'src/constants';
 
@@ -247,6 +242,13 @@ export interface IShippingLinesHookProps{
     shippingAddressValid: boolean;
 }
 
+export interface IExternalPaymentGatewayProps {
+    externalPaymentGateway: IExternalPaymentGateway,
+    loadIframeImmediately: boolean,
+    showTitle: false,
+    position: string,
+}
+
 export interface ISavedAddressHookProps{
     id: string;
     title: string;
@@ -432,6 +434,16 @@ export interface IUseGetPaymentSection {
     onLoad: () => void;
 }
 
+export interface IUseGetExternalPaymentGatewaySection {
+    loading: boolean;
+    isValidAddress: boolean;
+    isValidShippingLine: boolean;
+    notValidText: string;
+    fieldSectionText: string;
+    isValidExternalLoad: boolean;
+    onLoad: () => void;
+}
+
 export interface IUseGetOrderRecap {
     noOrderData: boolean;
     shippingAddress: IAddress;
@@ -581,4 +593,9 @@ export interface IHeaderHelmet{
 export interface IScreenReaderAnnouncementProps {
     content: string
     assertiveness?: typeof Constants.ARIA_LIVE_ASSERTIVE | typeof Constants.ARIA_LIVE_POLITE
+}
+
+export interface IExternalPaymentGatewayIframeProps {
+    onLoad: () => void;
+    externalPaymentGateway: IExternalPaymentGateway;
 }

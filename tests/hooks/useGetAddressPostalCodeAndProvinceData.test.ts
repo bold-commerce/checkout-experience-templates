@@ -4,7 +4,7 @@ import {
     useGetCountryInfoByCountryCode,
     useGetCountryInfoList
 } from 'src/hooks';
-import {countriesListMock, initialDataMock} from 'src/mocks';
+import {initialDataMock} from 'src/mocks';
 import {renderHook} from '@testing-library/react-hooks';
 import {mocked} from 'jest-mock';
 import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
@@ -48,11 +48,11 @@ describe('Testing hook useGetAddressPostalCodeAndProvinceData', () => {
         expect(result.current.province).toStrictEqual([]);
     });
 
-    test('rendering the hook no country found and country list populated', () => {
+    test('rendering the hook no country found and country list with 1 country', () => {
         const countryCode = '';
         const countryList = initialDataMock.initial_data.country_info;
         useGetAddressDataFieldMock.mockReturnValueOnce(countryCode);
-        useGetCountryInfoListMock.mockReturnValueOnce(countryList);
+        useGetCountryInfoListMock.mockReturnValueOnce([countryList[0]]);
         useGetCountryInfoByCountryCodeMock.mockReturnValueOnce(countryList[0]);
 
         const {result} = renderHook(() => useGetAddressPostalCodeAndProvinceData(countryCode));
@@ -62,4 +62,18 @@ describe('Testing hook useGetAddressPostalCodeAndProvinceData', () => {
         expect(result.current.province).toStrictEqual(countryList[0].provinces);
     });
 
+    test('Sorting duplicate', () => {
+        const countryCode = 'CA';
+        const countryList = initialDataMock.initial_data.country_info;
+        const countryInfo: ICountryInformation = {...countryList[0], provinces: [countryList[0].provinces[0], ...countryList[0].provinces]};
+
+        useGetAddressDataFieldMock.mockReturnValueOnce(countryCode);
+        useGetCountryInfoByCountryCodeMock.mockReturnValueOnce(countryInfo);
+
+        const {result} = renderHook(() => useGetAddressPostalCodeAndProvinceData(countryCode));
+        expect(result.current.showProvince).toStrictEqual(true);
+        expect(result.current.showPostalCode).toStrictEqual(true);
+        expect(result.current.provinceLabel).toStrictEqual(countryInfo.province_label);
+        expect(result.current.province).toStrictEqual(countryInfo.provinces);
+    });
 });

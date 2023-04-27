@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
-import {Breadcrumbs, FormControls, Payment, SummarySection, FlashError, Header, HeaderHelmet, ScreenReaderAnnouncement, Footer, TaxExemption} from 'src/components';
+import {Breadcrumbs, FormControls, Payment, SummarySection, FlashError, Header, HeaderHelmet, ScreenReaderAnnouncement, Footer, TaxExemption, ExternalPaymentGateway} from 'src/components';
 import {
     useBeforeUnload,
     useOnLoadValidateCustomerAndShipping,
-    useScrollToElementOnNavigation
+    useScrollToElementOnNavigation,
+    useGetExternalPaymentGateways
 } from 'src/hooks';
 import {usePaymentPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
@@ -12,7 +13,9 @@ import {Constants} from 'src/constants';
 
 export function PaymentPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable, title} = usePaymentPage();
-    const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
+    const externalPaymentGateways = useGetExternalPaymentGateways(Constants.PAYMENT_METHOD_BELOW);
+
+    const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined, 'Checkout form');
     useOnLoadValidateCustomerAndShipping();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
@@ -24,16 +27,25 @@ export function PaymentPage(): React.ReactElement {
     return (
         <div className={'checkout-experience-container'}>
             <HeaderHelmet title={title}/>
-            <ScreenReaderAnnouncement content={title || ''} />
+            <ScreenReaderAnnouncement content={title || ''}/>
             <div className={'three-page'}>
-                <Header isMobile={true} />
-                <div className='customer-section' >
-                    <Header isMobile={false} />
+                <Header isMobile={true}/>
+                <div className='customer-section'>
+                    <Header isMobile={false}/>
                     <main aria-label={mainAriaLabel}>
                         <Breadcrumbs active={3}/>
                         <form onSubmit={withPreventDefault(nextButtonOnClick)}>
                             <FlashError/>
                             <Payment/>
+                            {externalPaymentGateways.map((externalGateway) =>
+                                <ExternalPaymentGateway
+                                    position={Constants.PAYMENT_METHOD_BELOW}
+                                    externalPaymentGateway={externalGateway}
+                                    loadIframeImmediately={false}
+                                    showTitle={false}
+                                    key={externalGateway.public_id}
+                                />
+                            )}
                             <TaxExemption />
                             <FormControls
                                 backLinkOnClick={backLinkOnClick}
@@ -45,7 +57,7 @@ export function PaymentPage(): React.ReactElement {
                             />
                         </form>
                     </main>
-                    <Footer />
+                    <Footer/>
                 </div>
                 <SummarySection orderCompleted={false}/>
             </div>
