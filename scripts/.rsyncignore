@@ -7,6 +7,7 @@
 .yarnrc
 .rsyncignore
 .vscode
+.env
 build
 coverage
 lib
@@ -18,3 +19,4 @@ package-lock.json
 secrets.json
 yarn-error.log
 *.lock
+vendor
