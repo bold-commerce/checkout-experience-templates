@@ -14,7 +14,9 @@ export function useDebouncedValidateAddress(type: string): () => void{
     const debouncedUI = useDebouncedCallback(() => {
         if(callApiAtOnEvents){
             dispatch(actionSetAppStateValid('shippingAddress', true));
-            dispatch(actionSetLoader('shippingLines', true));
+            if (type === Constants.SHIPPING) {
+                dispatch(actionSetLoader('shippingLines', true));
+            }
         }
     }, debounceConstants.DEBOUNCE_UI_UPDATE_TIME);
 
