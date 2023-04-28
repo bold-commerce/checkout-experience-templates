@@ -45,7 +45,7 @@ export function ThemePage(): React.ReactElement {
                         {infoExternalPaymentGateways.map((externalGateway) =>
                             <ExternalPaymentGateway
                                 externalPaymentGateway={externalGateway}
-                                loadIframeImmediately={false}
+                                loadIframeImmediately={true}
                                 showTitle={false}
                                 key={externalGateway.public_id}
                                 position={Constants.CUSTOMER_INFO_ABOVE}
