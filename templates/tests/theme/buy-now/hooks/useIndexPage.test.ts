@@ -6,10 +6,11 @@ import { useIndexPage } from 'src/themes/buy-now/hooks';
 import { renderHook } from '@testing-library/react-hooks';
 import { displayOrderProcessingScreen, processOrder, updateLineItemQuantity, validateBillingAddress } from 'src/library';
 import { useDispatch } from 'react-redux';
-import { sendAddPaymentActionAsync } from '@bold-commerce/checkout-frontend-library/lib/pigi';
+import { sendRefreshOrderActionAsync, sendAddPaymentActionAsync } from '@bold-commerce/checkout-frontend-library/lib/pigi';
 import { Constants } from 'src/constants';
-import { IPigiResponseType } from '@bold-commerce/checkout-frontend-library';
+import { IApiErrorResponse, IFetchError, IPigiResponseType } from '@bold-commerce/checkout-frontend-library';
 import { pigiActionTypes } from '@bold-commerce/checkout-frontend-library/lib/variables/constants';
+import { actionShowHideOverlayContent, actionAddError } from 'src/action';
 
 jest.mock('react-redux');
 jest.mock('react-router');
@@ -38,6 +39,7 @@ const useGetValidVariableMock = mocked(useGetValidVariable, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 const processOrderMock = mocked(processOrder, true);
 const updateLineItemQuantityMock = mocked(updateLineItemQuantity, true);
+const sendRefreshOrderActionAsyncMock = mocked(sendRefreshOrderActionAsync, true);
 const sendAddPaymentActionAsyncMock = mocked(sendAddPaymentActionAsync, true);
 const useGetCustomerInfoDataByFieldMock = mocked(useGetCustomerInfoDataByField, true);
 
@@ -64,9 +66,31 @@ describe('testing hook useIndexPage', () => {
         message: 'Test error message!'
     };
 
+    const resolvedRefreshValue: IPigiResponseType = {
+        responseType: pigiActionTypes.PIGI_REFRESH_ORDER,
+        payload: { key: 'value' }
+    };
+
     const resolvedPaymentValue: IPigiResponseType = {
         responseType: pigiActionTypes.PIGI_ADD_PAYMENT,
         payload: { key: 'value' }
+    };
+
+    const rejectedValue: IFetchError = {
+        status: 1000,
+        statusText: undefined,
+        body: undefined,
+        metaData: undefined,
+        name: 'FetchError',
+        message: errorMock.message
+    };
+
+    const convertedFetchError: IApiErrorResponse = {
+        message: '',
+        type: 'api',
+        field: '',
+        severity: 'critical',
+        sub_type: ''
     };
 
     beforeEach(() => {
@@ -79,6 +103,7 @@ describe('testing hook useIndexPage', () => {
         processOrderMock.mockReturnValue(processOrderThunkMock);
         useGetAppSettingDataMock.mockReturnValue(Constants.SHIPPING_SAME);
         useGetCustomerInfoDataByFieldMock.mockReturnValue(emailValue);
+        sendRefreshOrderActionAsyncMock.mockResolvedValue(resolvedRefreshValue);
         sendAddPaymentActionAsyncMock.mockResolvedValue(resolvedPaymentValue);
     });
 
@@ -100,6 +125,7 @@ describe('testing hook useIndexPage', () => {
 
         await hookResult.checkoutOnClick();
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
@@ -125,6 +151,7 @@ describe('testing hook useIndexPage', () => {
         await hookResult.checkoutOnClick();
         expect(dispatchMock).toHaveBeenCalledWith(validateBillingAddress);
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
@@ -150,6 +177,7 @@ describe('testing hook useIndexPage', () => {
         await hookResult.checkoutOnClick();
         expect(dispatchMock).toHaveBeenCalledWith(validateBillingAddress);
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
@@ -162,6 +190,7 @@ describe('testing hook useIndexPage', () => {
 
         await hookResult.checkoutOnClick();
         expect(dispatchMock).not.toHaveBeenCalledWith(displayOrderProcessingScreen);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
@@ -176,6 +205,7 @@ describe('testing hook useIndexPage', () => {
 
         await hookResult.checkoutOnClick();
         expect(dispatchMock).not.toHaveBeenCalledWith(displayOrderProcessingScreen);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
@@ -191,6 +221,7 @@ describe('testing hook useIndexPage', () => {
 
         await hookResult.checkoutOnClick();
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(processOrderMock).toHaveBeenCalledTimes(1);
     });
@@ -207,4 +238,21 @@ describe('testing hook useIndexPage', () => {
         expect(updateLineItemQuantityMock).toBeCalledWith(lineItemKey, quantity);
     });
 
+    test('calling onClickCheckout with promise rejected', async () => {
+        useGetOrderTotalMock.mockReturnValue(9999);
+        useGetErrorsMock.mockReturnValue([]);
+        useGetValidVariableMock.mockReturnValue(true);
+        sendRefreshOrderActionAsyncMock.mockRejectedValueOnce(rejectedValue);
+
+        const { result } = renderHook(() => useIndexPage());
+        const hookResult = result.current;
+
+        await hookResult.checkoutOnClick();
+        expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
+        expect(dispatchMock).toHaveBeenCalledWith(actionShowHideOverlayContent(false));
+        expect(dispatchMock).toHaveBeenCalledWith(actionAddError(convertedFetchError));
+        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
+        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
+        expect(processOrderMock).toHaveBeenCalledTimes(0);
+    });
 });
