@@ -114,7 +114,7 @@ export function handlePigiHeight(payload: IPigiResponsesPayload) {
         if (pigiDisplaySca) {
             updatePigiHeight('100%');
         } else {
-            updatePigiHeight(`${payload.height}px`);
+            updatePigiHeight(`${Math.ceil(payload.height)}px`);
         }
     };
 }
