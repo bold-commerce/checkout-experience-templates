@@ -312,6 +312,17 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
         });
     });
 
+    test('when handlePigiHeight is called with pigiDisplaySca false and the height is floating point, it rounds height up', async () => {
+        const payloadMock: IPigiResponsesPayload = {height: 123.01, success: true, step: 'DISPLAYED'};
+
+        const handlePigiHeightThunk = await handlePigiHeight(payloadMock);
+        await handlePigiHeightThunk(dispatchMock, getStateMock).then(() => {
+            expect(updatePigiHeightMock).toHaveBeenCalledTimes(1);
+            expect(updatePigiHeightMock).toHaveBeenCalledWith('124px');
+            expect(dispatchMock).toHaveBeenCalledTimes(0);
+        });
+    });
+
     test('handlePigiHeight called with pigiDisplaySca true', async () => {
         const payloadMock: IPigiResponsesPayload = {height: 123, success: true, step: 'DISPLAYED'};
         const newStateMock = {...stateMock};
