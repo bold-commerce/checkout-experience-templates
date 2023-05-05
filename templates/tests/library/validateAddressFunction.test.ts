@@ -1,4 +1,4 @@
-import {baseReturnObject, validateAddress} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, validateAddress} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {actionSetAppStateValid} from 'src/action/appAction';
 import {API_RETRY, Constants, defaultAddressState} from 'src/constants';
@@ -6,7 +6,7 @@ import {deleteAddress, postAddress, validateAddressFunction} from 'src/library';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {handleErrorIfNeeded} from 'src/utils/handleErrorIfNeeded';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/address');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/address');
 jest.mock('src/action/appAction');
 jest.mock('src/library/deleteAddress');
 jest.mock('src/library/postAddress');

@@ -21,7 +21,7 @@ import {initiateCheckout} from 'src/analytics';
 import {Constants, debounceConstants} from 'src/constants';
 import {getDefaultBillingType} from 'src/utils';
 import {checkInventory} from 'src/library';
-import {checkInventoryStage} from '@bold-commerce/checkout-frontend-library';
+import {checkInventoryStage} from '@boldcommerce/checkout-frontend-library';
 
 setHook('history', useHistory);
 

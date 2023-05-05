@@ -1,4 +1,4 @@
-import {IApiErrorResponse, IApiErrorsResponse, IApiReturnObject} from '@bold-commerce/checkout-frontend-library';
+import {IApiErrorResponse, IApiErrorsResponse, IApiReturnObject} from '@boldcommerce/checkout-frontend-library';
 import {errorSeverities, errorTypes} from 'src/constants';
 import {INewApiErrorWarningResponse} from 'src/types';
 

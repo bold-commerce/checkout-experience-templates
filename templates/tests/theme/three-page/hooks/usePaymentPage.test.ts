@@ -8,7 +8,7 @@ import {usePaymentPage} from 'src/themes/three-page/hooks';
 import {callProcessOrder, getCheckoutUrl, getTerm, getTotalsFromState} from 'src/utils';
 import {ITotals} from 'src/types';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/pigi');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 jest.mock('react-redux');
 jest.mock('react-router');
 jest.mock('src/hooks/useGetIsLoading');

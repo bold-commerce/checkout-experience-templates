@@ -1,7 +1,7 @@
 import {mocked} from 'jest-mock';
 import {deleteDiscounts, postDiscounts, validateDiscount, validateDiscounts} from 'src/library';
 import {stateMock} from 'src/mocks';
-import {baseReturnObject, IDiscount} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, IDiscount} from '@boldcommerce/checkout-frontend-library';
 import {actionAddError} from 'src/action';
 import {IError} from 'src/types';
 import {errorFields, errorSeverities, errorSubTypes, errorTypes, PLUGIN_BACKEND_DISCOUNT_SOURCE} from 'src/constants';

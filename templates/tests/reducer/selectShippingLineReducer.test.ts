@@ -1,7 +1,7 @@
 import {stateMock} from 'src/mocks';
 import {selectShippingLineReducer} from 'src/reducer';
 import {SET_SELECTED_SHIPPING_LINE, UPDATE_SELECTED_SHIPPING_LINE} from 'src/action';
-import {IShippingLine} from '@bold-commerce/checkout-frontend-library';
+import {IShippingLine} from '@boldcommerce/checkout-frontend-library';
 
 
 describe('testing selectShippingLineReducer Reducer', () => {

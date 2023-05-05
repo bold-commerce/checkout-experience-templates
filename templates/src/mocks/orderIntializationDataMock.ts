@@ -1,4 +1,4 @@
-import {IAddress, IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
+import {IAddress, IInitializeOrderResponse} from '@boldcommerce/checkout-frontend-library';
 
 export const initialDataMock: IInitializeOrderResponse = {
     'initial_data': {

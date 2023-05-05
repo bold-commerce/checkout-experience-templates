@@ -1,4 +1,4 @@
-import {apiErrors, httpStatusCode, IApiErrorResponse, IApiReturnObject} from '@bold-commerce/checkout-frontend-library';
+import {apiErrors, httpStatusCode, IApiErrorResponse, IApiReturnObject} from '@boldcommerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
 import {IError, IOrderInitialization} from 'src/types';
 import {

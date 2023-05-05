@@ -15,7 +15,7 @@ import {
     useInitiateGenericAutocomplete
 } from 'src/hooks';
 import {initialDataMock, storeMock} from 'src/mocks';
-import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {IAddress} from '@boldcommerce/checkout-frontend-library';
 import {getTerm} from 'src/utils';
 
 

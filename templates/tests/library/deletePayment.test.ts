@@ -1,5 +1,5 @@
 import {mocked} from 'jest-mock';
-import {baseReturnObject, deletePayment} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, deletePayment} from '@boldcommerce/checkout-frontend-library';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {deletePayment as deletePaymentTemplate, getSummaryStateFromLib} from 'src/library';
 import {handleErrorIfNeeded} from 'src/utils';
@@ -8,7 +8,7 @@ import {actionDeleteElement, actionSetLoaderAndDisableButton, REMOVE_PAYMENT} fr
 jest.mock('src/utils');
 jest.mock('src/action');
 jest.mock('src/library/applicationState');
-jest.mock('@bold-commerce/checkout-frontend-library/lib/payment');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/payment');
 const deletePaymentMock = mocked(deletePayment, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);
 const actionDeleteElementMock = mocked(actionDeleteElement, true);

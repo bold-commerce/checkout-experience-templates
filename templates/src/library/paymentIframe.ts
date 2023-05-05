@@ -5,7 +5,7 @@ import {
     getPaymentIframeUrl,
     IApiSuccessResponse,
     IGetPaymentIframeUrl
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {displayFatalErrorFromTranslation, handleErrorIfNeeded} from 'src/utils';
 import {actionSetAppStateValid, actionSetPigiIframeLoader} from 'src/action';
 import {postCssStylingPigi} from 'src/library';

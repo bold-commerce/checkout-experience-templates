@@ -1,6 +1,6 @@
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
-import {deleteDiscount, IApiReturnObject} from '@bold-commerce/checkout-frontend-library';
+import {deleteDiscount, IApiReturnObject} from '@boldcommerce/checkout-frontend-library';
 import {handleErrorIfNeeded} from 'src/utils';
 import {getSummaryStateFromLib} from 'src/library';
 import {actionRemoveDiscount, actionSetLoaderAndDisableButton} from 'src/action';

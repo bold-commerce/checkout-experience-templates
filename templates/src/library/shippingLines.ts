@@ -1,4 +1,4 @@
-import {getShippingLines, IApiReturnObject} from '@bold-commerce/checkout-frontend-library';
+import {getShippingLines, IApiReturnObject} from '@boldcommerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
 import {handleErrorIfNeeded, hasEmptyRequiredFields} from 'src/utils';
 import {IOrderInitialization} from 'src/types';

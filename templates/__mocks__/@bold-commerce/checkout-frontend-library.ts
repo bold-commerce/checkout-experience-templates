@@ -1,2 +1,2 @@
-const library = jest.createMockFromModule('@bold-commerce/checkout-frontend-library');
+const library = jest.createMockFromModule('@boldcommerce/checkout-frontend-library');
 module.exports = library;

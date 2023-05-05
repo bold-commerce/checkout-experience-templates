@@ -8,7 +8,7 @@ import {
     IPayment,
     IShippingLine,
     ITax
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 
 export function validateApplicationStateData(appData: IApplicationState): IApplicationState {
     const customer: ICustomer = appData.customer;

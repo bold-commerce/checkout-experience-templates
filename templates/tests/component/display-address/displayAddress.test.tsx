@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import {DisplayAddress} from 'src/components';
-import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {IAddress} from '@boldcommerce/checkout-frontend-library';
 
 
 describe('Testing DisplayAddress component', () => {

@@ -1,6 +1,6 @@
 import {IOrderInitialization} from 'src/types';
 import {Dispatch} from 'redux';
-import {IApiReturnObject, updateLineItemQuantity as updateLineItemQuantityAPI} from '@bold-commerce/checkout-frontend-library';
+import {IApiReturnObject, updateLineItemQuantity as updateLineItemQuantityAPI} from '@boldcommerce/checkout-frontend-library';
 import {actionSetLoaderAndDisableButton} from 'src/action';
 import {handleErrorIfNeeded} from 'src/utils';
 import {getApplicationStateFromLib} from 'src/library';

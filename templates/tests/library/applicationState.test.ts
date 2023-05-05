@@ -14,8 +14,8 @@ import {
     IAddress,
     IShippingLine,
     getFees
-} from '@bold-commerce/checkout-frontend-library';
-import {feesMock} from '@bold-commerce/checkout-frontend-library/lib/variables/mocks';
+} from '@boldcommerce/checkout-frontend-library';
+import {feesMock} from '@boldcommerce/checkout-frontend-library/lib/variables/mocks';
 import {mocked} from 'jest-mock';
 import {
     actionUpdateAddress,
@@ -57,8 +57,8 @@ import {
 import {initialDataMock} from 'src/mocks';
 import {handleErrorIfNeeded} from 'src/utils';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
-jest.mock('@bold-commerce/checkout-frontend-library/lib/order');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/state');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/order');
 jest.mock('src/action');
 jest.mock('src/utils');
 const actionUpdateAddressMock = mocked(actionUpdateAddress, true);

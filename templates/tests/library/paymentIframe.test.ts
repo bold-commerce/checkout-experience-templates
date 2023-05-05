@@ -1,4 +1,4 @@
-import {baseReturnObject, getPaymentIframeUrl} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, getPaymentIframeUrl} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {actionSetPigiIframeLoader} from 'src/action';
 import * as AppActions from 'src/action/appActionType';
@@ -6,7 +6,7 @@ import {getPaymentIframe, postCssStylingPigi} from 'src/library';
 import {stateMock} from 'src/mocks/stateMock';
 import {displayFatalErrorFromTranslation, handleErrorIfNeeded} from 'src/utils';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/paymentIframe');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/paymentIframe');
 jest.mock('src/action/appAction');
 jest.mock('src/utils');
 const actionSetPigiIframeLoaderFuncMock = mocked(actionSetPigiIframeLoader, true);

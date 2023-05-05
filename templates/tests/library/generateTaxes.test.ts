@@ -1,10 +1,10 @@
-import {baseReturnObject, setTaxes} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, setTaxes} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {generateTaxes, getSummaryStateFromLib} from 'src/library';
 import {initialDataMock} from 'src/mocks';
 import {handleErrorIfNeeded} from 'src/utils';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/taxes');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/taxes');
 jest.mock('src/utils');
 const setTaxesMock = mocked(setTaxes, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);

@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux';
-import {changeShippingLine, IShipping, IApiReturnObject, getShipping} from '@bold-commerce/checkout-frontend-library';
+import {changeShippingLine, IShipping, IApiReturnObject, getShipping} from '@boldcommerce/checkout-frontend-library';
 import {IOrderInitialization} from 'src/types';
 import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
 import {generateTaxes, getSummaryStateFromLib} from 'src/library';

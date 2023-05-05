@@ -11,7 +11,7 @@ import {
     IShippingLine,
     ITax,
     IExternalPaymentGateway
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 
 export function actionGetInitialData(url:string): AnyAction {
     return {

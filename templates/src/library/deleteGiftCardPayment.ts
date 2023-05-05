@@ -1,6 +1,6 @@
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
-import {deleteGiftCardPayment as deleteGiftCardPaymentLib, IApiReturnObject, IPayment} from '@bold-commerce/checkout-frontend-library';
+import {deleteGiftCardPayment as deleteGiftCardPaymentLib, IApiReturnObject, IPayment} from '@boldcommerce/checkout-frontend-library';
 import {handleErrorIfNeeded} from 'src/utils';
 import {getSummaryStateFromLib} from 'src/library';
 import {actionDeleteElement, actionSetLoaderAndDisableButton, REMOVE_PAYMENT} from 'src/action';

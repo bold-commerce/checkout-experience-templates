@@ -5,7 +5,7 @@ import {useCallback, useRef} from 'react';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import {displayOrderProcessingScreen, processOrder, validateBillingAddress, updateLineItemQuantity} from 'src/library';
-import {IApiErrorResponse, IApiReturnObject, sendAddPaymentActionAsync, sendRefreshOrderActionAsync} from '@bold-commerce/checkout-frontend-library';
+import {IApiErrorResponse, IApiReturnObject, sendAddPaymentActionAsync, sendRefreshOrderActionAsync} from '@boldcommerce/checkout-frontend-library';
 import {getTerm, isOnlyFlashError, retrieveErrorFromResponse} from 'src/utils';
 import {sendEvents} from 'src/analytics';
 import {actionAddError, actionShowHideOverlayContent} from 'src/action';

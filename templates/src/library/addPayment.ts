@@ -3,7 +3,7 @@ import {
     IApiReturnObject,
     addPayment as addPaymentLib,
     IAddPaymentRequest
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {handleErrorIfNeeded} from 'src/utils';
 import {IOrderInitialization} from 'src/types';
 import {API_RETRY} from 'src/constants';

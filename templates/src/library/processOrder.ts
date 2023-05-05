@@ -5,7 +5,7 @@ import {
     IApiReturnObject,
     processOrder as processOrderLib,
     sendHandleScaActionAsync,
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {checkErrorAndProceedToNextPage, getApplicationStateFromLib} from 'src/library';
 import {HistoryLocationState} from 'react-router';
 import {actionSetAppStateValid, actionShowHideOverlayContent} from 'src/action';

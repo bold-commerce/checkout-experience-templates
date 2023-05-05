@@ -1,4 +1,4 @@
-import {ILineItem} from '@bold-commerce/checkout-frontend-library';
+import {ILineItem} from '@boldcommerce/checkout-frontend-library';
 
 export function getTotalLineItems(line_items: Array<ILineItem>): number  {
     let totalLineItems = 0;

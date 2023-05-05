@@ -7,7 +7,7 @@ import {
 import {initialDataMock} from 'src/mocks';
 import {renderHook} from '@testing-library/react-hooks';
 import {mocked} from 'jest-mock';
-import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
+import {ICountryInformation} from '@boldcommerce/checkout-frontend-library';
 
 jest.mock('src/hooks/useGetCountryData');
 jest.mock('src/hooks/useGetAddressData');

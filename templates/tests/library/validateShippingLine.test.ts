@@ -3,7 +3,7 @@ import {validateShippingLine} from 'src/library';
 import {stateMock} from 'src/mocks/stateMock';
 import {actionAddError, actionRemoveErrorByType, actionSetAppStateValid} from 'src/action';
 import {errorTypes} from 'src/constants';
-import {IShippingLine} from "@bold-commerce/checkout-frontend-library";
+import {IShippingLine} from "@boldcommerce/checkout-frontend-library";
 
 jest.mock('src/action');
 const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true);

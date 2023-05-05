@@ -3,7 +3,7 @@ import {
     getBillingAddress,
     setBillingAddress,
     updateBillingAddress,
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {actionSetAppStateValid} from 'src/action';
 import {defaultAddressState} from 'src/constants';
@@ -12,8 +12,8 @@ import { addressMock } from 'src/mocks';
 import {stateMock} from 'src/mocks/stateMock';
 import {handleErrorIfNeeded} from 'src/utils';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/address');
-jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/address');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/state');
 jest.mock('src/action/appAction');
 jest.mock('src/utils/handleErrorIfNeeded');
 const setBillingAddressMock = mocked(setBillingAddress, true);

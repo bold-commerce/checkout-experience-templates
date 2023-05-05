@@ -7,7 +7,7 @@ import {isAutocompleteDataPopulated, scriptsAreLoaded} from 'src/utils';
 import {useEffect, useState} from 'react';
 import {LoqateConstants} from 'src/constants';
 import {useDispatchAutocompleteData, useGetAutocompleteAPIKey} from 'src/hooks';
-import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
+import {ICountryInformation} from '@boldcommerce/checkout-frontend-library';
 
 export function useInitiateLoqate(scriptIsLoaded = false): {scriptIsLoaded: boolean} {
     //Needs to be passed as parameter coming from endpoint - no hard coded values

@@ -5,7 +5,7 @@ import {checkInventory, initializeSession, setDefaultAddresses, initializeExpres
 import {IOrderInitialization, IOverlay} from 'src/types';
 import {getOrderInitialization} from 'src/utils/getOrderInitialization';
 import {IUseModal} from '../types';
-import {checkInventoryStage, IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
+import {checkInventoryStage, IInitializeOrderResponse} from '@boldcommerce/checkout-frontend-library';
 import {useGetValidVariable} from 'src/hooks';
 import {useHistory} from 'react-router';
 

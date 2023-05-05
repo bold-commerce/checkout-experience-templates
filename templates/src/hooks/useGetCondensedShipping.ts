@@ -1,6 +1,6 @@
 import {isObjectEmpty} from 'src/utils';
 import {ICondensedShipping} from 'src/types';
-import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {IAddress} from '@boldcommerce/checkout-frontend-library';
 
 export function useGetCondensedShipping (address: IAddress): ICondensedShipping {
     const name = `${address.first_name} ${address.last_name}`;

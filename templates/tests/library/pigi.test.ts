@@ -1,4 +1,4 @@
-import {setPigiListener, removePigiListener, sendUpdateLanguageAction} from '@bold-commerce/checkout-frontend-library';
+import {setPigiListener, removePigiListener, sendUpdateLanguageAction} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {
     actionSetAppStateValid,
@@ -28,7 +28,7 @@ import {IPigiResponsesPayload} from 'src/types';
 import {updatePigiHeight} from 'src/utils';
 import {useSendEvent} from 'src/hooks';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/pigi');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 jest.mock('src/action');
 jest.mock('src/library/processOrder');
 jest.mock('src/library/applicationState');

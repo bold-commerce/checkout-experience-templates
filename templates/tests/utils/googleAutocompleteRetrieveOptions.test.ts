@@ -1,4 +1,4 @@
-import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
+import {ICountryInformation} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {Constants} from 'src/constants';
 import {countriesListMock} from 'src/mocks';

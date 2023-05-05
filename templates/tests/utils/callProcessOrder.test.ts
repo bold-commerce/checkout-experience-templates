@@ -8,11 +8,11 @@ import {actionAddError, actionClearErrors} from 'src/action';
 import {
     sendAddPaymentActionAsync,
     sendRefreshOrderActionAsync
-} from '@bold-commerce/checkout-frontend-library/lib/pigi';
-import {IApiErrorResponse, IFetchError, IPigiResponseType} from '@bold-commerce/checkout-frontend-library';
-import {pigiActionTypes} from '@bold-commerce/checkout-frontend-library/lib/variables/constants';
+} from '@boldcommerce/checkout-frontend-library/lib/pigi';
+import {IApiErrorResponse, IFetchError, IPigiResponseType} from '@boldcommerce/checkout-frontend-library';
+import {pigiActionTypes} from '@boldcommerce/checkout-frontend-library/lib/variables/constants';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/pigi');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 jest.mock('react-redux');
 jest.mock('react-router');
 jest.mock('src/library');

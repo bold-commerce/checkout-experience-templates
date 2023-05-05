@@ -9,7 +9,7 @@ import {
     handleExternalPaymentGatewayUpdateHeight,
     setExternalPaymentGatewayListenerInLibrary,
 } from 'src/library';
-import {IExternalPaymentGateway} from '@bold-commerce/checkout-frontend-library';
+import {IExternalPaymentGateway} from '@boldcommerce/checkout-frontend-library';
 
 jest.mock('react-redux');
 jest.mock('react-router');

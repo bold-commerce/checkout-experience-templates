@@ -4,7 +4,7 @@ import {
     IAddress,
     IApiReturnObject,
     validateAddress,
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {handleErrorIfNeeded, isObjectEquals, validateAddressFields} from 'src/utils';
 import {API_RETRY, Constants, defaultAddressState} from 'src/constants';
 import {deleteAddress, postAddress} from 'src/library';

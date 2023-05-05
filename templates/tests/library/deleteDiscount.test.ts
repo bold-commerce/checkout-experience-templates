@@ -1,11 +1,11 @@
-import {baseReturnObject, deleteDiscount} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, deleteDiscount} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {actionRemoveDiscount, actionSetLoaderAndDisableButton} from 'src/action';
 import {deleteDiscounts, getSummaryStateFromLib} from 'src/library';
 import {initialDataMock} from 'src/mocks';
 import {handleErrorIfNeeded} from 'src/utils';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/discounts');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/discounts');
 jest.mock('src/action');
 jest.mock('src/utils');
 const addDiscountMock = mocked(deleteDiscount, true);

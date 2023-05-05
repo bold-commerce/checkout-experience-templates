@@ -16,7 +16,7 @@ import {
     IApiErrorResponse,
     IApiResponse,
     IFetchError
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 
 jest.mock('src/utils/displayFatalErrorFromTranslation');
 jest.mock('src/utils/standaloneHooks');

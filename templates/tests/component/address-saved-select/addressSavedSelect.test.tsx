@@ -1,4 +1,4 @@
-import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {IAddress} from '@boldcommerce/checkout-frontend-library';
 import {fireEvent, render} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 import {AddressSavedSelect} from 'src/components';

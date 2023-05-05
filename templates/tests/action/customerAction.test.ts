@@ -9,7 +9,7 @@ import {
 import * as CustomerActions from 'src/action/customerActionType';
 import {initialDataMock} from 'src/mocks';
 import {Constants} from 'src/constants';
-import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {IAddress} from '@boldcommerce/checkout-frontend-library';
 
 describe('Testing Customer Actions', () => {
 

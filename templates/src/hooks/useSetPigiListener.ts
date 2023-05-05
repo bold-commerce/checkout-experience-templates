@@ -1,4 +1,4 @@
-import {pigiActionTypes} from '@bold-commerce/checkout-frontend-library';
+import {pigiActionTypes} from '@boldcommerce/checkout-frontend-library';
 import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';

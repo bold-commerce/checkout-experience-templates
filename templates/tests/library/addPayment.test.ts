@@ -1,10 +1,10 @@
-import {baseReturnObject, addPayment as addPaymentLib} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, addPayment as addPaymentLib} from '@boldcommerce/checkout-frontend-library';
 import {stateMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {addPayment} from 'src/library';
 import {handleErrorIfNeeded} from 'src/utils';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/payment');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/payment');
 jest.mock('src/utils');
 const addPaymentLibMock = mocked(addPaymentLib, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);

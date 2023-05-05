@@ -8,7 +8,7 @@ import {
     UPDATE_SHIPPING_SAVED_ADDRESS_FIELD
 } from 'src/action';
 import {defaultAddressState} from 'src/constants';
-import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {IAddress} from '@boldcommerce/checkout-frontend-library';
 
 describe('testing shipping Reducer', () => {
 

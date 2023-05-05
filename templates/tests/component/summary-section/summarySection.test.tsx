@@ -5,7 +5,7 @@ import {useCartSummary, useGetFlashErrors, useSummaryDiscountCode, useSummaryDis
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 import {initialDataMock} from 'src/mocks';
-import {IDiscount} from '@bold-commerce/checkout-frontend-library';
+import {IDiscount} from '@boldcommerce/checkout-frontend-library';
 
 const store = {
     data: initialDataMock

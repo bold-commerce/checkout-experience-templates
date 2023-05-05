@@ -1,5 +1,5 @@
 import {Constants} from 'src/constants';
-import {ICssRule, ICssStylingPaymentIframeRequest, IMediaRule} from '@bold-commerce/checkout-frontend-library';
+import {ICssRule, ICssStylingPaymentIframeRequest, IMediaRule} from '@boldcommerce/checkout-frontend-library';
 
 const pigiIframeId = `#${Constants.PIGI_IFRAME}`;
 

@@ -1,6 +1,6 @@
 import {isObjectEmpty} from 'src/utils';
 import {ITotals} from 'src/types';
-import {IDiscount, ILineItem, IShippingLine} from '@bold-commerce/checkout-frontend-library';
+import {IDiscount, ILineItem, IShippingLine} from '@boldcommerce/checkout-frontend-library';
 
 export function isGoogleAnalyticsEnabled(): boolean {
     return typeof window['gtag'] === 'function'&& !!window['google_analytics_tracking_id'] && typeof window['google_analytics_tracking_id'] === 'string';

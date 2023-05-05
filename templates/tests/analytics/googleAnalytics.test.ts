@@ -1,4 +1,4 @@
-import { IDiscount } from '@bold-commerce/checkout-frontend-library';
+import { IDiscount } from '@boldcommerce/checkout-frontend-library';
 import {
     isGoogleAnalyticsEnabled,
     orderCompleteForGoogleAnalytics,

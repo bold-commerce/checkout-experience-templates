@@ -1,10 +1,10 @@
-import {getBillingAddress, IAddress} from '@bold-commerce/checkout-frontend-library';
+import {getBillingAddress, IAddress} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {actionUpdateBillingAsShipping, actionRemoveErrorByAddressType} from 'src/action';
 import {Constants, defaultAddressState} from 'src/constants';
 import {setBillingAddressAsValid, validateBillingAddress, validateAddressFunction, postAddress} from 'src/library';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/state');
 jest.mock('src/action/appAction');
 jest.mock('src/action/customerAction');
 jest.mock('src/library/validateAddressFunction');

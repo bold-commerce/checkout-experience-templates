@@ -53,4 +53,4 @@
 @import '../src/components/title/title.css';
 @import '../src/components/screen-reader-announcement/screenReaderAnnouncement.css';
 
-@import '~@bold-commerce/checkout-express-pay-library/lib/style.css';
+@import '~@boldcommerce/checkout-express-pay-library/lib/style.css';

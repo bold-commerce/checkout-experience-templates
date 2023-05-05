@@ -1,7 +1,7 @@
 import {IUseGetCurrencyInformation} from 'src/types';
 import {useAppSelector} from 'src/hooks/rootHooks';
 import {renderHtmlEntities} from 'src/utils';
-import {ICurrency} from '@bold-commerce/checkout-frontend-library';
+import {ICurrency} from '@boldcommerce/checkout-frontend-library';
 
 export function useGetCurrencyInformation(showCurrency = false): IUseGetCurrencyInformation {
     const currencyData: ICurrency = useAppSelector((state) => state.data.application_state.currency);
