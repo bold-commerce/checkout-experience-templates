@@ -1,8 +1,5 @@
 import {useAppSelector} from 'src/hooks/rootHooks';
-import {RootState} from 'src/index';
 
 export function useGetAutocompleteService(): string {
-    // Once settings received from endpoint, update this hook
-
-    return useAppSelector((state: RootState) => state.appSetting.autocompleteService);
+    return useAppSelector((state) =>  state.data.initial_data.general_settings.address_autocomplete.provider);
 }

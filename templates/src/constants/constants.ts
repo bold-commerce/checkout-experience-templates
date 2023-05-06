@@ -136,7 +136,7 @@ export class BreadcrumbsStatus {
 }
 
 export class autocompleteServices {
-    static GOOGLE_AUTOCOMPLETE = 'googleAutocomplete';
+    static GOOGLE_AUTOCOMPLETE = 'google';
     static LOQATE = 'loqate';
 
 }
