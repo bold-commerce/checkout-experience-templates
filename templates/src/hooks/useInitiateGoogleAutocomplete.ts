@@ -11,7 +11,7 @@ import Autocomplete = google.maps.places.Autocomplete;
 import PlaceResult = google.maps.places.PlaceResult;
 import {GoogleAutocompleteConstants} from 'src/constants';
 import {useDispatchAutocompleteData, useGetAutocompleteAPIKey} from 'src/hooks';
-import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
+import {ICountryInformation} from '@boldcommerce/checkout-frontend-library';
 
 export function useInitiateGoogleAutocomplete(): void {
     let autocomplete: Autocomplete;

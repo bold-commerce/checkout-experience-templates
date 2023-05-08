@@ -6,10 +6,10 @@ import { useIndexPage } from 'src/themes/buy-now/hooks';
 import { renderHook } from '@testing-library/react-hooks';
 import { displayOrderProcessingScreen, processOrder, updateLineItemQuantity, validateBillingAddress } from 'src/library';
 import { useDispatch } from 'react-redux';
-import { sendRefreshOrderActionAsync, sendAddPaymentActionAsync } from '@bold-commerce/checkout-frontend-library/lib/pigi';
+import { sendRefreshOrderActionAsync, sendAddPaymentActionAsync } from '@boldcommerce/checkout-frontend-library/lib/pigi';
 import { Constants } from 'src/constants';
-import { IApiErrorResponse, IFetchError, IPigiResponseType } from '@bold-commerce/checkout-frontend-library';
-import { pigiActionTypes } from '@bold-commerce/checkout-frontend-library/lib/variables/constants';
+import { IApiErrorResponse, IFetchError, IPigiResponseType } from '@boldcommerce/checkout-frontend-library';
+import { pigiActionTypes } from '@boldcommerce/checkout-frontend-library/lib/variables/constants';
 import { actionShowHideOverlayContent, actionAddError } from 'src/action';
 
 jest.mock('react-redux');
@@ -26,7 +26,7 @@ jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/library/displayOrderProcessingScreen');
 jest.mock('src/library/processOrder');
 jest.mock('src/library/updateLineItemQuantity');
-jest.mock('@bold-commerce/checkout-frontend-library/lib/pigi');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 
 const useDispatchMock = mocked(useDispatch, true);
 const getTermMock = mocked(getTerm, true);

@@ -1,5 +1,5 @@
 import {IFrontEndEvent, IInitializeOrderData} from 'src/types/appInterfaces';
-import {IEnvironment} from '@bold-commerce/checkout-frontend-library';
+import {IEnvironment} from '@boldcommerce/checkout-frontend-library';
 
 declare global {
     interface Window {

@@ -1,14 +1,14 @@
 import {
     baseReturnObject, ICartParameters, IPatchOrderMetaDataRequest, IPatchOrderMetaDataResponse,
     patchOrderMetaData as patchOrderMetaDataLib
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {stateMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {handleErrorIfNeeded} from 'src/utils';
 import {patchOrderMetaData} from 'src/library/patchOrderMetaData';
 import {actionOrderMetaData} from 'src/action';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/orderMetaData');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/orderMetaData');
 jest.mock('src/utils');
 const patchOrderMetaDataLibMock = mocked(patchOrderMetaDataLib, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);

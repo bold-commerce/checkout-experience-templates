@@ -2,7 +2,7 @@ import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
 import {
     getBillingAddress,
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {Constants} from 'src/constants';
 import {postAddress, validateAddressFunction} from 'src/library';
 import {actionRemoveErrorByAddressType, actionUpdateBillingAsShipping} from 'src/action';

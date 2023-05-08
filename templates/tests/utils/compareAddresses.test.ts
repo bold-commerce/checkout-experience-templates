@@ -1,4 +1,4 @@
-import { IAddress } from '@bold-commerce/checkout-frontend-library';
+import { IAddress } from '@boldcommerce/checkout-frontend-library';
 import { compareAddresses } from 'src/utils';
 
 type Data = {

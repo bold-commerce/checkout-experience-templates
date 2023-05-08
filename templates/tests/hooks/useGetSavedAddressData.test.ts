@@ -11,7 +11,7 @@ import {renderHook} from '@testing-library/react-hooks';
 import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
-import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {IAddress} from '@boldcommerce/checkout-frontend-library';
 import { validateBillingAddress, validateShippingAddress } from 'src/library';
 import { actionUpdateAddress } from 'src/action';
 

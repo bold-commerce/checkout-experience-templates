@@ -1,4 +1,4 @@
-import {ISupportedLanguage} from '@bold-commerce/checkout-frontend-library';
+import {ISupportedLanguage} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {Dispatch} from 'redux';
 import {SET_OVERLAY_CONTENT, actionSetOverlayContent} from 'src/action';

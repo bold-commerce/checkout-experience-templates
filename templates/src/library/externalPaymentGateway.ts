@@ -4,7 +4,7 @@ import {
     IExternalPaymentGateway,
     sendExternalPaymentGatewayUpdateStateAction,
     IAddPaymentRequest, sendExternalPaymentGatewaySetConfigAction,
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
 import {
     actionSetExternalGatewayReady,

@@ -1,6 +1,6 @@
 import {IInitialState} from 'src/types/globalInterface';
 import {IError} from 'src/types/translationInterfaces';
-import {IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
+import {IInitializeOrderResponse} from '@boldcommerce/checkout-frontend-library';
 
 export interface IPaymentsSummaryClasses {
     container: string,

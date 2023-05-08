@@ -1,4 +1,4 @@
-import {IApiReturnObject, IApiSuccessResponse, IPatchOrderMetaDataRequest, IPatchOrderMetaDataResponse, patchOrderMetaData as patchOrderMetaDataLib} from '@bold-commerce/checkout-frontend-library';
+import {IApiReturnObject, IApiSuccessResponse, IPatchOrderMetaDataRequest, IPatchOrderMetaDataResponse, patchOrderMetaData as patchOrderMetaDataLib} from '@boldcommerce/checkout-frontend-library';
 import {handleErrorIfNeeded} from 'src/utils';
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';

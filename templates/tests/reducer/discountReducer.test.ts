@@ -1,7 +1,7 @@
 import {discountsReducer} from 'src/reducer';
 import {stateMock} from 'src/mocks';
 import {ADD_DISCOUNT, REMOVE_DISCOUNT, UPDATE_DISCOUNTS} from 'src/action';
-import {IDiscount} from '@bold-commerce/checkout-frontend-library';
+import {IDiscount} from '@boldcommerce/checkout-frontend-library';
 
 
 describe('testing discountsReducer Reducer', () => {

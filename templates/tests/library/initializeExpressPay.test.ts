@@ -3,7 +3,7 @@ import {
     getApplicationStateFromLib,
     initializeExpressPay
 } from 'src/library';
-import {actionTypes, initialize} from '@bold-commerce/checkout-express-pay-library';
+import {actionTypes, initialize} from '@boldcommerce/checkout-express-pay-library';
 import {mocked} from 'jest-mock';
 import {SET_EXPRESS_PAYMENT_SECTION_ENABLED} from 'src/action';
 import * as AppActions from 'src/action/appActionType';
@@ -12,7 +12,7 @@ import {HistoryLocationState} from 'react-router';
 import {Constants} from 'src/constants';
 import {stateMock} from 'src/mocks';
 
-jest.mock('@bold-commerce/checkout-express-pay-library');
+jest.mock('@boldcommerce/checkout-express-pay-library');
 jest.mock('src/library/applicationState');
 jest.mock('src/library/displayOrderProcessingScreen');
 jest.mock('src/utils/getErrorTerm');

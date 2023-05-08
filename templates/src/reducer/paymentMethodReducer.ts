@@ -1,4 +1,4 @@
-import {IAlternativePaymentMethod} from '@bold-commerce/checkout-frontend-library';
+import {IAlternativePaymentMethod} from '@boldcommerce/checkout-frontend-library';
 import {AnyAction} from 'redux';
 import {UPDATE_PAYMENT_METHOD} from 'src/action';
 import {defaultOrderInitialization} from 'src/constants/orderInitialization';

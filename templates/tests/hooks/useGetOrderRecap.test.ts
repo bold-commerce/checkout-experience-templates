@@ -11,7 +11,7 @@ import {
 } from 'src/hooks';
 import {emptyAddressMock, initialDataMock} from 'src/mocks';
 import {getTerm} from 'src/utils';
-import {IAddress, IShippingLine} from '@bold-commerce/checkout-frontend-library';
+import {IAddress, IShippingLine} from '@boldcommerce/checkout-frontend-library';
 
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useGetCustomerInformation');

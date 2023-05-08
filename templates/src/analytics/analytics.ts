@@ -9,7 +9,7 @@ import {
     orderCompleteForCustomAnalytics
 } from 'src/analytics';
 import {ITotals} from 'src/types';
-import {IDiscount, ILineItem, IShippingLine} from '@bold-commerce/checkout-frontend-library';
+import {IDiscount, ILineItem, IShippingLine} from '@boldcommerce/checkout-frontend-library';
 
 
 export function initiateCheckout(): void {

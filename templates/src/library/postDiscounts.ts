@@ -5,7 +5,7 @@ import {
     IAddDiscountResponse,
     IApiReturnObject,
     IApiSuccessResponse
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {handleErrorIfNeeded} from 'src/utils';
 import {getSummaryStateFromLib} from 'src/library';
 import {

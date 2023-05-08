@@ -1,6 +1,6 @@
 import {isObjectEmpty} from 'src/utils';
 import {ITotals} from 'src/types';
-import {ILineItem} from '@bold-commerce/checkout-frontend-library';
+import {ILineItem} from '@boldcommerce/checkout-frontend-library';
 
 export function isFacebookPixelInstalled(): boolean {
     return typeof window['fbq'] === 'function' && typeof window['facebook_analytics_tracking_id'] === 'string' && !!window['facebook_analytics_tracking_id'] && window['facebook_analytics_tracking_id'].trim() !== '';

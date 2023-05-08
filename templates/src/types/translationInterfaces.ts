@@ -1,4 +1,4 @@
-import {IApiErrorResponse} from '@bold-commerce/checkout-frontend-library';
+import {IApiErrorResponse} from '@boldcommerce/checkout-frontend-library';
 
 export interface IErrorTypes {
     api: string;

@@ -11,7 +11,7 @@ import {CustomerInformation} from 'src/components';
 import React from 'react';
 import {initialDataMock, storeMock} from 'src/mocks';
 import {ISavedAddressHookProps} from 'src/types';
-import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {IAddress} from '@boldcommerce/checkout-frontend-library';
 import {isShopifyPlatform} from 'src/utils';
 
 const mockDispatch = jest.fn();

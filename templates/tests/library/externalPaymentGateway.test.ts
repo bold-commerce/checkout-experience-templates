@@ -12,12 +12,12 @@ import {
     removeExternalPaymentGatewayListener,
     sendExternalPaymentGatewayUpdateStateAction,
     sendExternalPaymentGatewaySetConfigAction,
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/externalPaymentGateway/setExternalPaymentGatewayListener');
-jest.mock('@bold-commerce/checkout-frontend-library/lib/externalPaymentGateway/actionsToIframe/sendExternalPaymentGatewayUpdateStateAction');
-jest.mock('@bold-commerce/checkout-frontend-library/lib/externalPaymentGateway/actionsToIframe/sendExternalPaymentGatewaySetConfigAction');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/externalPaymentGateway/setExternalPaymentGatewayListener');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/externalPaymentGateway/actionsToIframe/sendExternalPaymentGatewayUpdateStateAction');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/externalPaymentGateway/actionsToIframe/sendExternalPaymentGatewaySetConfigAction');
 
 const setExternalPaymentGatewayListenerMock = mocked(setExternalPaymentGatewayListener, true);
 const removeExternalPaymentGatewayListenerMock = mocked(removeExternalPaymentGatewayListener, true);

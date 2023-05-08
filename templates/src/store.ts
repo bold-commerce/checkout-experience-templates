@@ -6,7 +6,7 @@ import {composeWithDevTools} from '@redux-devtools/extension';
 import {initializeSession} from 'src/library';
 import {getOrderInitialization} from 'src/utils';
 import {defaultOrderInitialization} from './constants/orderInitialization';
-import {IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
+import {IInitializeOrderResponse} from '@boldcommerce/checkout-frontend-library';
 
 export function initializeStore(orderData?: IInitializeOrderResponse): Store {
 

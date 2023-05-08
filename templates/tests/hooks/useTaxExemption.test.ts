@@ -6,7 +6,7 @@ import {patchOrderMetaData} from 'src/library';
 import {renderHook} from '@testing-library/react-hooks';
 import {useTaxExemption} from 'src/hooks/useTaxExemption';
 import {act} from '@testing-library/react';
-import {ICartParameters, IPatchOrderMetaDataRequest} from '@bold-commerce/checkout-frontend-library';
+import {ICartParameters, IPatchOrderMetaDataRequest} from '@boldcommerce/checkout-frontend-library';
 
 
 const store = {

@@ -10,7 +10,7 @@ import {
 import {stateMock} from 'src/mocks';
 import {getTotals, getTotalsFromState} from 'src/utils';
 import {ITotals} from 'src/types';
-import {IFees} from '@bold-commerce/checkout-frontend-library';
+import {IFees} from '@boldcommerce/checkout-frontend-library';
 
 
 jest.mock('src/hooks');

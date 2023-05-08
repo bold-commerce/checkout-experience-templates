@@ -1,5 +1,5 @@
 import {Constants} from 'src/constants';
-import {ISupportedLanguage} from '@bold-commerce/checkout-frontend-library';
+import {ISupportedLanguage} from '@boldcommerce/checkout-frontend-library';
 
 export function getLanguageBlob(language: ISupportedLanguage | null, typeBlob?: string): string[][] | null {
     if (typeof language?.language_blob !== 'string') {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useGetPaymentType} from 'src/hooks';
-import {IPayment} from '@bold-commerce/checkout-frontend-library';
+import {IPayment} from '@boldcommerce/checkout-frontend-library';
 import {Bullets} from 'src/components';
 
 export function DisplayPaymentMethod(props: IPayment): React.ReactElement {

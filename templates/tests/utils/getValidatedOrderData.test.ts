@@ -1,7 +1,7 @@
 import {mocked} from 'jest-mock';
 import {initialDataMock} from 'src/mocks';
 import {getValidatedOrderData, validateApplicationStateData} from 'src/utils';
-import {IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
+import {IInitializeOrderResponse} from '@boldcommerce/checkout-frontend-library';
 
 jest.mock('src/utils/validateApplicationStateData');
 const validateApplicationStateDataMock = mocked(validateApplicationStateData, true);

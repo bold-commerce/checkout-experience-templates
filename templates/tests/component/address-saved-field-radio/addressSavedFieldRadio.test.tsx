@@ -3,7 +3,7 @@ import {AddressSavedFieldRadio} from 'src/components';
 import React from 'react';
 import {ISavedAddressFieldRadioProps} from 'src/types';
 import { initialDataMock } from 'src/mocks';
-import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {IAddress} from '@boldcommerce/checkout-frontend-library';
 
 const mockDispatch = jest.fn();
 const store = {

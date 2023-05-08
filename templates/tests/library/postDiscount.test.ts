@@ -1,12 +1,12 @@
 import {mocked} from 'jest-mock';
-import {baseReturnObject, addDiscount, IAddDiscountResponse, IApiSuccessResponse} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, addDiscount, IAddDiscountResponse, IApiSuccessResponse} from '@boldcommerce/checkout-frontend-library';
 import {initialDataMock} from 'src/mocks';
 import {getSummaryStateFromLib, postDiscounts} from 'src/library';
 import {stateMock} from 'src/mocks/stateMock';
-import {IApplicationState} from '@bold-commerce/checkout-frontend-library/lib/types/apiInterfaces';
+import {IApplicationState} from '@boldcommerce/checkout-frontend-library/lib/types/apiInterfaces';
 import {handleErrorIfNeeded} from 'src/utils';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/discounts');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/discounts');
 jest.mock('src/library/applicationState');
 jest.mock('src/utils');
 const addDiscountMock = mocked(addDiscount, true);

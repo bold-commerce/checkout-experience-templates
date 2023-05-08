@@ -1,5 +1,5 @@
 import React from 'react';
-import {IDiscount} from '@bold-commerce/checkout-frontend-library';
+import {IDiscount} from '@boldcommerce/checkout-frontend-library';
 import {Button} from '@boldcommerce/stacks-ui';
 
 import classNames from 'classnames';

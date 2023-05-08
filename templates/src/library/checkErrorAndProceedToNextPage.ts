@@ -5,7 +5,7 @@ import {HistoryLocationState} from 'react-router';
 import {getCheckoutUrl, getTotals, isOnlyDiscountCodeError} from 'src/utils';
 import {errorFields, errorTypes} from 'src/constants';
 import {orderCompleteAnalytics} from 'src/analytics';
-import {IFees, IShippingLine} from '@bold-commerce/checkout-frontend-library';
+import {IFees, IShippingLine} from '@boldcommerce/checkout-frontend-library';
 
 export function checkErrorAndProceedToNextPage(
     page: string,

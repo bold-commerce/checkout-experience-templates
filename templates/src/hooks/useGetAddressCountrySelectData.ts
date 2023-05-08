@@ -5,7 +5,7 @@ import {actionUpdateAddressField, actionRemoveErrorByField} from 'src/action';
 import {IAddressCountryHookProps} from 'src/types';
 import {AddressLabelMapping, Constants, defaultAddressState} from 'src/constants';
 import {getTerm} from 'src/utils';
-import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
+import {ICountryInformation} from '@boldcommerce/checkout-frontend-library';
 
 export function useGetAddressCountryInputData(type: string, debounceApiCall: () => void): IAddressCountryHookProps {
     const dispatch = useDispatch();

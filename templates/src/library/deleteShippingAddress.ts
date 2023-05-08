@@ -1,6 +1,6 @@
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
-import {deleteShippingAddress as deleteAddress, IApiReturnObject} from '@bold-commerce/checkout-frontend-library';
+import {deleteShippingAddress as deleteAddress, IApiReturnObject} from '@boldcommerce/checkout-frontend-library';
 import {handleErrorIfNeeded} from 'src/utils';
 import {getApplicationStateFromLib} from 'src/library';
 import {API_RETRY} from 'src/constants';

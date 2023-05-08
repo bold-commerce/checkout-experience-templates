@@ -10,7 +10,7 @@ import {useDispatch} from 'react-redux';
 import {useCallback, useEffect, useState} from 'react';
 import {actionSetExternalGatewayReady, actionSetExternalPaymentGatewayLoading} from 'src/action';
 import {checkLoadExternalPaymentGatewayErrors} from 'src/library';
-import {IExternalPaymentGateway} from '@bold-commerce/checkout-frontend-library';
+import {IExternalPaymentGateway} from '@boldcommerce/checkout-frontend-library';
 
 export function useGetExternalPaymentGatewaySection(gateway: IExternalPaymentGateway): IUseGetExternalPaymentGatewaySection {
     const dispatch = useDispatch();

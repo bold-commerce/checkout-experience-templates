@@ -2,7 +2,7 @@ import {IOrderInitialization} from 'src/types';
 import {Constants, errorSeverities, errorSubTypes, errorTypes} from 'src/constants';
 import {actionAddError} from 'src/action';
 import {Dispatch} from 'redux';
-import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {IAddress} from '@boldcommerce/checkout-frontend-library';
 
 export function validateAddressFields(validationFields: Partial<IAddress>, type: string, dispatch: Dispatch, getState: () => IOrderInitialization): boolean {
     const allowedCountries = getState().data.initial_data.country_info;

@@ -41,8 +41,8 @@ import * as AppActions from 'src/action/appActionType';
 import {autocompleteServices} from 'src/constants';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {IError, IOrderInitialization} from 'src/types';
-import {ILineItem, IShippingLine, IExternalPaymentGateway} from '@bold-commerce/checkout-frontend-library';
-import {feesMock} from '@bold-commerce/checkout-frontend-library/lib/variables/mocks';
+import {ILineItem, IShippingLine, IExternalPaymentGateway} from '@boldcommerce/checkout-frontend-library';
+import {feesMock} from '@boldcommerce/checkout-frontend-library/lib/variables/mocks';
 
 describe('Testing App Actions', () => {
 

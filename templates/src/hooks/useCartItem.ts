@@ -1,7 +1,7 @@
 import {useCallback, useLayoutEffect, useState} from 'react';
 import {IUseGetCartItem} from 'src/types';
 import {useDebouncedCallback} from 'use-debounce';
-import {ILineItem} from '@bold-commerce/checkout-frontend-library';
+import {ILineItem} from '@boldcommerce/checkout-frontend-library';
 
 interface onUpdateQuantityFn {
     (lineItemKey: string, quantity: number): Promise<void>;

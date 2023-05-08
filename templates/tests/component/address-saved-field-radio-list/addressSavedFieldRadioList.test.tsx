@@ -6,7 +6,7 @@ import { useGetSavedAddressData, useGetShippingData } from 'src/hooks';
 import { mocked } from 'jest-mock';
 import { Constants } from 'src/constants';
 import { getTerm } from 'src/utils';
-import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {IAddress} from '@boldcommerce/checkout-frontend-library';
 
 jest.mock('src/hooks/useGetSavedAddressData');
 jest.mock('src/hooks/useGetAddressData');

@@ -1,4 +1,4 @@
-import {IExternalPaymentGateways as IExternalPaymentGatewaysInitialData} from '@bold-commerce/checkout-frontend-library';
+import {IExternalPaymentGateways as IExternalPaymentGatewaysInitialData} from '@boldcommerce/checkout-frontend-library';
 import {AnyAction} from 'redux';
 import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 import {SET_EXTERNAL_PAYMENT_GATEWAY_LOADING, SET_EXTERNAL_PAYMENT_GATEWAY_VALID} from 'src/action';

@@ -3,7 +3,7 @@ import {
     cssStylingPaymentIframe,
     IApiReturnObject,
     ICssStylingPaymentIframeRequest, ICssStylingPaymentIframeResponse, IMediaRule, sendUpdateMediaMatchAction
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {getPigiIframe, getPigiStylingRules, handleErrorIfNeeded} from 'src/utils';
 import {IOrderInitialization} from 'src/types';
 

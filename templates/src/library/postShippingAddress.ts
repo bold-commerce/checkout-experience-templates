@@ -5,7 +5,7 @@ import {
     IApiReturnObject,
     getShippingAddress,
     IAddress,
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {actionSetAppStateValid} from 'src/action';
 import {API_RETRY, Constants, defaultAddressState} from 'src/constants';
 import {setShippingAddressAsValid} from 'src/library';
