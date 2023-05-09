@@ -8,7 +8,7 @@ import {
 } from '@boldcommerce/checkout-frontend-library';
 import {actionSetAppStateValid} from 'src/action';
 import {API_RETRY, Constants, defaultAddressState} from 'src/constants';
-import {setShippingAddressAsValid} from 'src/library';
+import {setShippingAddressAsValid, updateExternalPaymentGatewayShippingAddress} from 'src/library';
 import {compareAddresses, handleErrorIfNeeded} from 'src/utils';
 
 export async function postShippingAddress(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
@@ -31,4 +31,8 @@ export async function postShippingAddress(dispatch: Dispatch, getState: () => IO
     const response: IApiReturnObject = await setShippingAddress(_shipping, API_RETRY);
     handleErrorIfNeeded(response, dispatch, getState, Constants.SHIPPING);
     dispatch(setShippingAddressAsValid);
+
+    if (response.success) {
+        dispatch(updateExternalPaymentGatewayShippingAddress(shipping));
+    }
 }

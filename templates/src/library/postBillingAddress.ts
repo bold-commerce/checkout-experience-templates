@@ -9,7 +9,10 @@ import {
 import {compareAddresses, handleErrorIfNeeded} from 'src/utils';
 import {API_RETRY, Constants, defaultAddressState} from 'src/constants';
 import {actionSetAppStateValid} from 'src/action';
-import {setBillingAddressAsValid} from 'src/library';
+import {
+    setBillingAddressAsValid,
+    updateExternalPaymentGatewayBillingAddress
+} from 'src/library';
 
 export async function postBillingAddress(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
     dispatch(actionSetAppStateValid('billingAddress', false));
@@ -32,4 +35,8 @@ export async function postBillingAddress(dispatch: Dispatch, getState: () => IOr
     const response: IApiReturnObject = await setBillingAddress(_billing, API_RETRY);
     handleErrorIfNeeded(response, dispatch, getState, Constants.BILLING);
     dispatch(setBillingAddressAsValid);
+
+    if (response.success) {
+        dispatch(updateExternalPaymentGatewayBillingAddress(billing));
+    }
 }

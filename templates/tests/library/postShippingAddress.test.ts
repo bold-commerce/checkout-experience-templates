@@ -76,7 +76,7 @@ describe('testing postAddress', () => {
 
         expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(0);
         expect(getAddressesMock).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledTimes(2);
         expect(setShippingAddressMock).toHaveBeenCalledTimes(1);
         expect(setShippingAddressMock).toHaveBeenCalledWith(defaultAddressState, API_RETRY);
         expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
