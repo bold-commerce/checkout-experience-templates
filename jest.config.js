@@ -1,4 +1,7 @@
 module.exports = {
+    'globals': {
+        VERSION: 'jest-version'
+    },
     'roots': [
         'tests'
     ],

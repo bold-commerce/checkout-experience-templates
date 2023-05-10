@@ -1,1 +1,2 @@
-export const LIB_VERSION = '1.0.1-build.190';
+declare const VERSION : string | undefined;
+export const LIB_VERSION = VERSION;
