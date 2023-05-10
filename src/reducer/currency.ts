@@ -1,5 +1,5 @@
 import {defaultOrderInitialization} from 'src/constants/orderInitialization';
-import {ICurrency} from '@bold-commerce/checkout-frontend-library';
+import {ICurrency} from '@boldcommerce/checkout-frontend-library';
 
 const {data:{application_state: {currency}}} = defaultOrderInitialization;
 

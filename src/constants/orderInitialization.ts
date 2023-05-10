@@ -40,8 +40,8 @@ export const defaultOrderInitialization: IOrderInitialization = {
     },
     isSessionInitialized: false,
     overlay: {
-        inverted: false,
-        shown: false,
+        inverted: true,
+        shown: true,
         icon: '',
         header: '',
         subHeader: '',

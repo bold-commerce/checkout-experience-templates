@@ -1,10 +1,10 @@
-import {baseReturnObject, validateDiscount as validateDiscountLib} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, validateDiscount as validateDiscountLib} from '@boldcommerce/checkout-frontend-library';
 import {stateMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {validateDiscount} from 'src/library';
 import {handleErrorIfNeeded} from 'src/utils';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/discounts');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/discounts');
 jest.mock('src/utils');
 const validateDiscountLibMock = mocked(validateDiscountLib, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);

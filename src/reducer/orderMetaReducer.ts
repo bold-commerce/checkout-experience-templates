@@ -1,7 +1,7 @@
 import {AnyAction} from 'redux';
 import * as AppActionsType from 'src/action/appActionType';
 import {defaultOrderInitialization} from 'src/constants/orderInitialization';
-import {IOrderMetaData} from '@bold-commerce/checkout-frontend-library';
+import {IOrderMetaData} from '@boldcommerce/checkout-frontend-library';
 
 const {data:{application_state}} = defaultOrderInitialization;
 

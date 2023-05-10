@@ -1,7 +1,7 @@
 import {getTerm, getCardDisplayFormat, getGiftCardDisplayFormat} from 'src/utils';
 import {mocked} from 'jest-mock';
 import {useGetPaymentType} from 'src/hooks';
-import {IPayment} from '@bold-commerce/checkout-frontend-library';
+import {IPayment} from '@boldcommerce/checkout-frontend-library';
 import {Constants} from 'src/constants';
 
 

@@ -1,5 +1,5 @@
 import {retrieveErrorFromResponse} from 'src/utils';
-import {IApiErrorResponse, IApiReturnObject} from '@bold-commerce/checkout-frontend-library';
+import {IApiErrorResponse, IApiReturnObject} from '@boldcommerce/checkout-frontend-library';
 import {INewApiErrorWarningResponse} from 'src/types';
 
 describe('Test function retrieveErrorFromResponse', () => {

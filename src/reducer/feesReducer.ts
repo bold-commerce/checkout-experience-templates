@@ -1,5 +1,5 @@
 import {defaultOrderInitialization} from 'src/constants/orderInitialization';
-import {IFees} from '@bold-commerce/checkout-frontend-library';
+import {IFees} from '@boldcommerce/checkout-frontend-library';
 import {AnyAction} from 'redux';
 import {UPDATE_FEES} from 'src/action';
 

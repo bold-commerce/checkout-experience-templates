@@ -1,6 +1,6 @@
 import {mocked} from 'jest-mock';
 import {useGetSelectShippingLine, useGetAvailableShippingLines} from 'src/hooks';
-import {IShippingLine} from '@bold-commerce/checkout-frontend-library';
+import {IShippingLine} from '@boldcommerce/checkout-frontend-library';
 import {isShippingLineSelectedValid} from 'src/utils';
 
 jest.mock('src/hooks/useGetSelectShippingLine');

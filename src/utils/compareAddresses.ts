@@ -1,4 +1,4 @@
-import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {IAddress} from '@boldcommerce/checkout-frontend-library';
 
 type OptionalPartial<T> = undefined | null | Partial<T>;
 

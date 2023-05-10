@@ -4,7 +4,7 @@ import {
     ICssStylingPaymentIframeResponse,
     IMediaRule,
     IStyleSheet
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 
 export const cssRuleApiMock1: ICssRule = {
     cssText: 'html {font-size: 14px;}',

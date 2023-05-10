@@ -2,7 +2,7 @@ import {actionUpdateAddress, actionUpdateBillingType, actionUpdateBillingTypeInS
 import { Constants, defaultAddressState } from 'src/constants';
 import { validateShippingAddress, setDefaultAddresses, validateBillingAddress} from 'src/library';
 import { initialDataMock, stateMock } from 'src/mocks';
-import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {IAddress} from '@boldcommerce/checkout-frontend-library';
 
 describe('Testing hook useSetDefaultAddress', () => {
     const dispatch = jest.fn();

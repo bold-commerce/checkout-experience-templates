@@ -1,4 +1,4 @@
-import {baseReturnObject, addGuestCustomer, getCustomer, ICustomer} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, addGuestCustomer, getCustomer, ICustomer} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {Dispatch} from 'redux';
 import {API_RETRY} from 'src/constants';
@@ -7,8 +7,8 @@ import {initialDataMock, stateMock} from 'src/mocks';
 import {IOrderInitialization} from 'src/types';
 import {handleErrorIfNeeded} from 'src/utils/handleErrorIfNeeded';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/customer');
-jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/customer');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/state');
 jest.mock('src/library/applicationState');
 jest.mock('src/library/updateCustomer');
 jest.mock('src/utils/handleErrorIfNeeded');

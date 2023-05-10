@@ -1,9 +1,9 @@
 import {mocked} from 'jest-mock';
 import {validateShippingAddress, validateAddressFunction} from 'src/library';
-import {getShippingAddress, IAddress} from '@bold-commerce/checkout-frontend-library';
+import {getShippingAddress, IAddress} from '@boldcommerce/checkout-frontend-library';
 import {defaultAddressState} from 'src/constants';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/state');
 jest.mock('src/library/validateAddressFunction');
 const getShippingAddressMock = mocked(getShippingAddress, true);
 const validateAddressFunctionMock = mocked(validateAddressFunction, true);

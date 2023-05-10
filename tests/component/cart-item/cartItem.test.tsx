@@ -4,7 +4,7 @@ import {CartItem, SemiControlledNumberInput} from 'src/components';
 import { mocked } from 'jest-mock';
 import { getLineItemPropertiesForDisplay } from 'src/utils';
 import {useGetCurrencyInformation} from 'src/hooks';
-import {ILineItem} from '@bold-commerce/checkout-frontend-library';
+import {ILineItem} from '@boldcommerce/checkout-frontend-library';
 
 const store = {
     data: initialDataMock

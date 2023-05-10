@@ -2,7 +2,7 @@
 // TODO: Remove above comment and implement tests on CE-272
 
 import {useEffect, useState} from 'react';
-import {AddressFieldIds, autocompleteServices} from 'src/constants';
+import {AddressFieldIds} from 'src/constants';
 import {googleAutocompleteRetrieveOptions, isAutocompleteDataPopulated, scriptsAreLoaded} from 'src/utils';
 import {IAutocompleteData} from 'src/types';
 import {useGetCountryInfoList} from 'src/hooks/useGetCountryData';
@@ -11,11 +11,14 @@ import Autocomplete = google.maps.places.Autocomplete;
 import PlaceResult = google.maps.places.PlaceResult;
 import {GoogleAutocompleteConstants} from 'src/constants';
 import {useDispatchAutocompleteData, useGetAutocompleteAPIKey} from 'src/hooks';
-import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
+import {ICountryInformation} from '@boldcommerce/checkout-frontend-library';
 
 export function useInitiateGoogleAutocomplete(): void {
     let autocomplete: Autocomplete;
+    const apiKey = useGetAutocompleteAPIKey();
     const getCountryInfoList: Array<ICountryInformation> = useGetCountryInfoList();
+    const dispatchAutocompleteData = useDispatchAutocompleteData();
+
     const [addressData, setAddressData] = useState({
         address1: '',
         city: '',
@@ -45,7 +48,7 @@ export function useInitiateGoogleAutocomplete(): void {
         }
 
         if (addressData && isAutocompleteDataPopulated(addressData)) {
-            useDispatchAutocompleteData(addressData);
+            dispatchAutocompleteData(addressData);
         }
     }, [addressData]);
 
@@ -94,15 +97,14 @@ export function useInitiateGoogleAutocomplete(): void {
         setAddressData(tempAddressData);
     };
 
-    // Script initialisation - need to retrieve apiKey from an endpoint but not defined yet
+    // Script initialisation
     if (!scriptsAreLoaded([GoogleAutocompleteConstants.googleAutocompleteScriptId])) {
-        const apiKey = useGetAutocompleteAPIKey(autocompleteServices.GOOGLE_AUTOCOMPLETE);
         const srcWithKey = GoogleAutocompleteConstants.srcWithKey.replace('API_KEY', apiKey);
 
         const script = document.createElement('script');
         script.src = srcWithKey;
         script.async = true;
         script.id = GoogleAutocompleteConstants.googleAutocompleteScriptId;
-        //document.body.appendChild(script);
+        document.head.appendChild(script);
     }
 }

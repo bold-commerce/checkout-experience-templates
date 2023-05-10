@@ -5,7 +5,7 @@ import {
     IApiReturnObject,
     setBillingAddress,
     IAddress,
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {compareAddresses, handleErrorIfNeeded} from 'src/utils';
 import {API_RETRY, Constants, defaultAddressState} from 'src/constants';
 import {actionSetAppStateValid} from 'src/action';

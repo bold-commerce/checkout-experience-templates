@@ -1,6 +1,6 @@
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
-import {IPayment} from '@bold-commerce/checkout-frontend-library';
+import {IPayment} from '@boldcommerce/checkout-frontend-library';
 
 export function formatPaymentLine(line: IPayment): string {
 

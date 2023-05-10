@@ -15,7 +15,7 @@ import React, {useEffect} from 'react';
 import {getCheckoutUrl, getTerm, withPreventDefault} from 'src/utils';
 import {Constants} from 'src/constants';
 import {useGetOnePageFooterData, useIsValidShippingOnLoad} from 'src/themes/one-page/hooks';
-import {checkInventoryStage} from '@bold-commerce/checkout-frontend-library';
+import {checkInventoryStage} from '@boldcommerce/checkout-frontend-library';
 import {useDispatch} from 'react-redux';
 import {checkInventory} from 'src/library';
 import {useGetExternalPaymentGateways} from 'src/hooks';
@@ -45,7 +45,7 @@ export function ThemePage(): React.ReactElement {
                         {infoExternalPaymentGateways.map((externalGateway) =>
                             <ExternalPaymentGateway
                                 externalPaymentGateway={externalGateway}
-                                loadIframeImmediately={false}
+                                loadIframeImmediately={true}
                                 showTitle={false}
                                 key={externalGateway.public_id}
                                 position={Constants.CUSTOMER_INFO_ABOVE}

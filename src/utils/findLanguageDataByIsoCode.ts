@@ -1,4 +1,4 @@
-import {ISupportedLanguage} from '@bold-commerce/checkout-frontend-library';
+import {ISupportedLanguage} from '@boldcommerce/checkout-frontend-library';
 import {logError} from 'src/utils/bugReporter';
 
 export function findLanguageDataByIsoCode(supportedLanguages: Array<ISupportedLanguage>, language_iso: string): ISupportedLanguage | null{

@@ -1,6 +1,6 @@
 import {Dispatch} from 'redux';
 import {actionAddError, actionSetAppStateValid, actionSetExpressPaymentSectionEnabled} from 'src/action';
-import {initialize, actionTypes} from '@bold-commerce/checkout-express-pay-library';
+import {initialize, actionTypes} from '@boldcommerce/checkout-express-pay-library';
 import {findLanguageDataByIsoCode, getCheckoutUrl, getErrorTerm, getLanguageBlob} from 'src/utils';
 import {Constants} from 'src/constants';
 import {HistoryLocationState} from 'react-router';

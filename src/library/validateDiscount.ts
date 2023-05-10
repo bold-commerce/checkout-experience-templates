@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux';
-import {IApiReturnObject, validateDiscount as validateDiscountLib} from '@bold-commerce/checkout-frontend-library';
+import {IApiReturnObject, validateDiscount as validateDiscountLib} from '@boldcommerce/checkout-frontend-library';
 import {handleErrorIfNeeded} from 'src/utils';
 import {IOrderInitialization} from 'src/types';
 import {API_RETRY} from 'src/constants';

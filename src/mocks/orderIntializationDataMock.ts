@@ -1,4 +1,4 @@
-import {IAddress, IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
+import {IAddress, IInitializeOrderResponse} from '@boldcommerce/checkout-frontend-library';
 
 export const initialDataMock: IInitializeOrderResponse = {
     'initial_data': {
@@ -529,14 +529,16 @@ export const initialDataMock: IInitializeOrderResponse = {
             'target_div': 'payment',
             'base_url': 'testURL',
             'public_id': 'publicID',
-            'location': 'payment_method_below'
+            'location': 'payment_method_below',
+            'currency': 'USD'
         }, {
             'is_test': true,
             'iframe_url': 'testURL',
             'target_div': 'payment',
             'base_url': 'testURL',
             'public_id': 'publicID',
-            'location': 'customer_info_above'
+            'location': 'customer_info_above',
+            'currency': 'USD'
         }],
     },
     'application_state': {

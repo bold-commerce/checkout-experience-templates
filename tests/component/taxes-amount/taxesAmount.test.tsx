@@ -21,7 +21,7 @@ import {
 import {classesListSummary, stateMock} from 'src/mocks';
 import {render, screen} from '@testing-library/react';
 import {SummaryTotals} from 'src/components';
-import {feesMock} from '@bold-commerce/checkout-frontend-library/lib/variables/mocks';
+import {feesMock} from '@boldcommerce/checkout-frontend-library/lib/variables/mocks';
 
 jest.mock('src/hooks');
 jest.mock('src/utils');

@@ -1,4 +1,4 @@
-import {setPigiListener, removePigiListener, sendUpdateLanguageAction} from '@bold-commerce/checkout-frontend-library';
+import {setPigiListener, removePigiListener, sendUpdateLanguageAction} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {
     actionSetAppStateValid,
@@ -28,7 +28,7 @@ import {IPigiResponsesPayload} from 'src/types';
 import {updatePigiHeight} from 'src/utils';
 import {useSendEvent} from 'src/hooks';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/pigi');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 jest.mock('src/action');
 jest.mock('src/library/processOrder');
 jest.mock('src/library/applicationState');
@@ -308,6 +308,17 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
         await handlePigiHeightThunk(dispatchMock, getStateMock).then(() => {
             expect(updatePigiHeightMock).toHaveBeenCalledTimes(1);
             expect(updatePigiHeightMock).toHaveBeenCalledWith('123px');
+            expect(dispatchMock).toHaveBeenCalledTimes(0);
+        });
+    });
+
+    test('when handlePigiHeight is called with pigiDisplaySca false and the height is floating point, it rounds height up', async () => {
+        const payloadMock: IPigiResponsesPayload = {height: 123.01, success: true, step: 'DISPLAYED'};
+
+        const handlePigiHeightThunk = await handlePigiHeight(payloadMock);
+        await handlePigiHeightThunk(dispatchMock, getStateMock).then(() => {
+            expect(updatePigiHeightMock).toHaveBeenCalledTimes(1);
+            expect(updatePigiHeightMock).toHaveBeenCalledWith('124px');
             expect(dispatchMock).toHaveBeenCalledTimes(0);
         });
     });

@@ -3,7 +3,7 @@ import {DisplayPaymentMethods} from 'src/components';
 import {useGetDisplayPaymentMethods} from 'src/hooks';
 import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
-import {IPayment} from '@bold-commerce/checkout-frontend-library';
+import {IPayment} from '@boldcommerce/checkout-frontend-library';
 import {getTerm} from 'src/utils';
 
 jest.mock('src/hooks/useGetDisplayPaymentMethods');

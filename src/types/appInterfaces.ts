@@ -1,6 +1,6 @@
 import {IInitialState} from 'src/types/globalInterface';
 import {IError} from 'src/types/translationInterfaces';
-import {IInitializeOrderResponse} from '@bold-commerce/checkout-frontend-library';
+import {IInitializeOrderResponse} from '@boldcommerce/checkout-frontend-library';
 
 export interface IPaymentsSummaryClasses {
     container: string,
@@ -161,7 +161,7 @@ export interface IPigiResponseData {
 
 export interface IExternalPaymentGatewayMessageFromIframe {
     type: string,
-    payload: IExternalPaymentGatewayMessagePayload,
+    payload: IExternalPaymentGatewayMessagePayload | IExternalPaymentGatewayAddPayment | IExternalPaymentGatewayUpdateHeight,
 }
 
 export interface IEventType {
@@ -197,5 +197,24 @@ export interface INewApiErrorResponseErrorWarningMessage {
     error_message?: string;
     warning_message?: string;
     field: string;
+}
+
+export interface IExternalPaymentGatewayAddPayment {
+    height: number,
+    amount: number,
+    currency: string,
+    display_string: string,
+    retain: boolean,
+    token: string,
+    type: string,
+    gateway_public_id: string,
+    external_id: string,
+}
+
+export interface IExternalPaymentGatewayUpdateHeight {
+    success: boolean,
+    height: number,
+    step?: 'DISPLAYED' | 'COMPLETED' | 'FAILED',
+    paymentType?: string,
 }
 // END TODO - CE-579

@@ -41,8 +41,8 @@ import * as AppActions from 'src/action/appActionType';
 import {autocompleteServices} from 'src/constants';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {IError, IOrderInitialization} from 'src/types';
-import {ILineItem, IShippingLine, IExternalPaymentGateway} from '@bold-commerce/checkout-frontend-library';
-import {feesMock} from '@bold-commerce/checkout-frontend-library/lib/variables/mocks';
+import {ILineItem, IShippingLine, IExternalPaymentGateway} from '@boldcommerce/checkout-frontend-library';
+import {feesMock} from '@boldcommerce/checkout-frontend-library/lib/variables/mocks';
 
 describe('Testing App Actions', () => {
 
@@ -163,7 +163,7 @@ describe('Testing App Actions', () => {
     test('actionSetExternalGatewayLoading', () => {
         const loading = true;
         const gateway: IExternalPaymentGateway = {
-            base_url: '', iframe_url: '', is_test: false, location: '', public_id: '', target_div: ''
+            base_url: '', iframe_url: '', is_test: false, location: '', public_id: '', target_div: '', currency: ''
         };
         const actionReturnExpectation = {
             type: AppActions.SET_EXTERNAL_PAYMENT_GATEWAY_LOADING,
@@ -178,7 +178,7 @@ describe('Testing App Actions', () => {
     test('actionSetAppExternalGatewayStateValid', () => {
         const loading = true;
         const gateway: IExternalPaymentGateway = {
-            base_url: '', iframe_url: '', is_test: false, location: '', public_id: '', target_div: ''
+            base_url: '', iframe_url: '', is_test: false, location: '', public_id: '', target_div: '', currency: ''
         };
         const actionReturnExpectation = {
             type: AppActions.SET_EXTERNAL_PAYMENT_GATEWAY_VALID,

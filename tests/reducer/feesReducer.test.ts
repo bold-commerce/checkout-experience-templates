@@ -1,7 +1,7 @@
 import {feesReducer} from 'src/reducer';
 import {stateMock} from 'src/mocks';
 import {UPDATE_FEES} from 'src/action';
-import {feesMock} from '@bold-commerce/checkout-frontend-library/lib/variables/mocks';
+import {feesMock} from '@boldcommerce/checkout-frontend-library/lib/variables/mocks';
 
 describe('testing fees Reducer', () => {
 

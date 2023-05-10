@@ -5,13 +5,13 @@ import {useGetCountryInfoList} from 'src/hooks/useGetCountryData';
 import {IAutocompleteData, ILoqateSettingsOptions} from 'src/types';
 import {isAutocompleteDataPopulated, scriptsAreLoaded} from 'src/utils';
 import {useEffect, useState} from 'react';
-import {autocompleteServices, LoqateConstants} from 'src/constants';
+import {LoqateConstants} from 'src/constants';
 import {useDispatchAutocompleteData, useGetAutocompleteAPIKey} from 'src/hooks';
-import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
+import {ICountryInformation} from '@boldcommerce/checkout-frontend-library';
 
 export function useInitiateLoqate(scriptIsLoaded = false): {scriptIsLoaded: boolean} {
     //Needs to be passed as parameter coming from endpoint - no hard coded values
-    const apiKey = useGetAutocompleteAPIKey(autocompleteServices.LOQATE);
+    const apiKey = useGetAutocompleteAPIKey();
     const getCountryInfoList: Array<ICountryInformation> = useGetCountryInfoList();
     const [loqateScriptIsLoaded, setLoqateScriptIsLoaded] = useState(scriptIsLoaded);
     const [addressData, setAddressData] = useState({
@@ -23,6 +23,7 @@ export function useInitiateLoqate(scriptIsLoaded = false): {scriptIsLoaded: bool
         country: '',
         countryCode: ''
     });
+    const dispatchAutocompleteData = useDispatchAutocompleteData();
 
     /*
      * initializeAutoComplete needs to be in window object, as it is called in the callback part of the Google Maps API URL
@@ -33,7 +34,7 @@ export function useInitiateLoqate(scriptIsLoaded = false): {scriptIsLoaded: bool
      */
     useEffect(() => {
         if (addressData && isAutocompleteDataPopulated(addressData)) {
-            useDispatchAutocompleteData(addressData);
+            dispatchAutocompleteData(addressData);
         }
 
         if (loqateScriptIsLoaded) {

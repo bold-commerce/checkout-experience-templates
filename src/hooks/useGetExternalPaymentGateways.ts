@@ -1,5 +1,5 @@
 import {useAppSelector} from 'src/hooks';
-import {IExternalPaymentGateway} from '@bold-commerce/checkout-frontend-library';
+import {IExternalPaymentGateway} from '@boldcommerce/checkout-frontend-library';
 
 export function useGetExternalPaymentGateways(location: string): Array<IExternalPaymentGateway> {
     return useAppSelector((state) => state.data.initial_data.external_payment_gateways)

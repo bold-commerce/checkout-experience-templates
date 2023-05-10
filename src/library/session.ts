@@ -1,4 +1,4 @@
-import {IApiReturnObject, initialize} from '@bold-commerce/checkout-frontend-library';
+import {IApiReturnObject, initialize} from '@boldcommerce/checkout-frontend-library';
 import {displayFatalErrorFromTranslation, handleErrorIfNeeded} from 'src/utils';
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';

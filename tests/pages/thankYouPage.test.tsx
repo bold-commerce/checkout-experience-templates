@@ -16,7 +16,7 @@ import {
 import {addressMock, stateMock} from 'src/mocks';
 import {ThankYouPage} from 'src/pages';
 import * as Store from 'src/store';
-import {IAddress} from '@bold-commerce/checkout-frontend-library';
+import {IAddress} from '@boldcommerce/checkout-frontend-library';
 import {getTerm} from 'src/utils';
 import {HelmetProvider} from 'react-helmet-async';
 

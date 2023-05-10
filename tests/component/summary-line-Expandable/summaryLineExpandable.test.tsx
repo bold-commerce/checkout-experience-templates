@@ -9,7 +9,7 @@ import {useSummaryLineExpandable, useSummaryLineExpanded} from 'src/hooks';
 import {SummaryLineExpandable} from 'src/components';
 import {render} from '@testing-library/react';
 import {classesListSummary} from 'src/mocks';
-import {IDiscount, IPayment} from '@bold-commerce/checkout-frontend-library';
+import {IDiscount, IPayment} from '@boldcommerce/checkout-frontend-library';
 
 jest.mock('src/hooks');
 const useSummaryLineExpandableMock = mocked(useSummaryLineExpandable, true);

@@ -1,6 +1,6 @@
 import {displayDefaultFlashError} from 'src/utils';
 import {errorSeverities, errorTypes} from 'src/constants';
-import {IApiErrorResponse} from '@bold-commerce/checkout-frontend-library';
+import {IApiErrorResponse} from '@boldcommerce/checkout-frontend-library';
 import * as AppActions from 'src/action/appActionType';
 
 describe('Test function displayDefaultFlashError', () => {

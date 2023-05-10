@@ -6,7 +6,7 @@ import * as scriptsAreLoaded from 'src/utils/scriptsAreLoaded';
 import * as isAutocompleteDataPopulated from 'src/utils/isAutocompleteDataPopulated';
 import SpyInstance = jest.SpyInstance;
 import {LoqateConstants} from 'src/constants';
-import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
+import {ICountryInformation} from '@boldcommerce/checkout-frontend-library';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({

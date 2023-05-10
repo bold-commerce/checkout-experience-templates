@@ -3,7 +3,7 @@ import {
     getShippingAddress,
     setShippingAddress,
     updateShippingAddress
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {actionSetAppStateValid, SET_VALID} from 'src/action';
 import {API_RETRY, defaultAddressState} from 'src/constants';
@@ -12,8 +12,8 @@ import {stateMock} from 'src/mocks';
 import {handleErrorIfNeeded} from 'src/utils';
 import {AnyAction} from 'redux';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/state');
-jest.mock('@bold-commerce/checkout-frontend-library/lib/address');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/state');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/address');
 jest.mock('src/action');
 jest.mock('src/utils/handleErrorIfNeeded');
 const updateShippingAddressMock = mocked(updateShippingAddress, true);

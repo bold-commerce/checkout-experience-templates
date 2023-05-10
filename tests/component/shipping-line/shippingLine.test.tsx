@@ -1,4 +1,4 @@
-import {IShippingLine} from '@bold-commerce/checkout-frontend-library';
+import {IShippingLine} from '@boldcommerce/checkout-frontend-library';
 import {render} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 import {ShippingLine} from 'src/components';

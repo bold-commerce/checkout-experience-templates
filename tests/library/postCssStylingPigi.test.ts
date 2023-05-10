@@ -1,4 +1,4 @@
-import {baseReturnObject, cssStylingPaymentIframe, sendUpdateMediaMatchAction} from '@bold-commerce/checkout-frontend-library';
+import {baseReturnObject, cssStylingPaymentIframe, sendUpdateMediaMatchAction} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {
     stateMock,
@@ -11,8 +11,8 @@ import {postCssStylingPigi} from 'src/library';
 import {getPigiIframe, handleErrorIfNeeded, getPigiStylingRules} from 'src/utils';
 import {createEvent, fireEvent} from '@testing-library/react';
 
-jest.mock('@bold-commerce/checkout-frontend-library/lib/paymentIframe');
-jest.mock('@bold-commerce/checkout-frontend-library/lib/pigi');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/paymentIframe');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 jest.mock('src/utils');
 const cssStylingPaymentIframeMock = mocked(cssStylingPaymentIframe, true);
 const getPigiIframeMock = mocked(getPigiIframe, true);

@@ -1,6 +1,6 @@
 import {getTerm} from 'src/utils';
 import {getGiftCardDisplayFormat} from 'src/utils';
-import {IPayment} from '@bold-commerce/checkout-frontend-library';
+import {IPayment} from '@boldcommerce/checkout-frontend-library';
 
 export function useGetPaymentType(props: IPayment): string {
     const {driver, lineText, display_string: displayString, type} = props; // TODO: remove driver and lineText and change displayString to displayText after FF CE-539-Add-PaymentLine-Model is Enabled by default

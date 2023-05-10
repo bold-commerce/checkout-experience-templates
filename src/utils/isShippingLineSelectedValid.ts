@@ -1,5 +1,5 @@
 import {useGetAvailableShippingLines, useGetSelectShippingLine} from 'src/hooks';
-import {IShippingLine} from '@bold-commerce/checkout-frontend-library';
+import {IShippingLine} from '@boldcommerce/checkout-frontend-library';
 import {isObjectEmpty} from 'src/utils';
 
 export function isShippingLineSelectedValid(): boolean {

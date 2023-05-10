@@ -1,3 +1,4 @@
+export * from './addPayment';
 export * from './applicationState';
 export * from './callCustomerPageApi';
 export * from './callShippingLinesPageApi';
@@ -42,4 +43,5 @@ export * from './validateDiscounts';
 export * from './validateEmailAddress';
 export * from './validateShippingAddress';
 export * from './validateShippingLine';
+export * from '../utils/updateExternalPaymentGatewayHeight';
 export * from './updateLineItemQuantity';

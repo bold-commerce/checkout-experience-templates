@@ -6,7 +6,7 @@ import {deleteDiscounts} from 'src/library';
 import {ISummaryLineExpanded, IUseSummaryLineExpanded} from 'src/types';
 import {Constants, CreditBrandedCardsBrand} from 'src/constants';
 import {getFieldNamesSummary, getTerm} from 'src/utils';
-import {IPayment} from '@bold-commerce/checkout-frontend-library';
+import {IPayment} from '@boldcommerce/checkout-frontend-library';
 import {deletePayment} from 'src/library/deletePayment';
 import {deleteGiftCardPayment} from 'src/library/deleteGiftCardPayment';
 

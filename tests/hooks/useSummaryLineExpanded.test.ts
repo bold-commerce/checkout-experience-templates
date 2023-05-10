@@ -13,7 +13,7 @@ import {act} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 import {stateMock} from 'src/mocks';
 import {Constants} from 'src/constants';
-import {IPayment} from '@bold-commerce/checkout-frontend-library';
+import {IPayment} from '@boldcommerce/checkout-frontend-library';
 import {getTerm} from 'src/utils';
 
 const mockDispatch = jest.fn();

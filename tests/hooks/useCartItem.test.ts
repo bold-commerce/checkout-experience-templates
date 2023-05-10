@@ -1,5 +1,5 @@
 import { stateMock} from 'src/mocks';
-import {ILineItem} from '@bold-commerce/checkout-frontend-library';
+import {ILineItem} from '@boldcommerce/checkout-frontend-library';
 import {renderHook} from '@testing-library/react-hooks';
 import {useCartItem} from 'src/hooks';
 import { act } from "react-dom/test-utils";

@@ -8,7 +8,7 @@ import {
     useSummaryDiscountCode,
     useSummaryDiscountLine
 } from 'src/hooks';
-import {IDiscount} from '@bold-commerce/checkout-frontend-library';
+import {IDiscount} from '@boldcommerce/checkout-frontend-library';
 import {getTerm} from 'src/utils';
 import React from 'react';
 

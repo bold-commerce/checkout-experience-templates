@@ -5,7 +5,7 @@ import {
     IGeneralSettings,
     IInitializeOrderResponse,
     ISupportedLanguage
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 
 export function getValidatedOrderData(orderData: IInitializeOrderResponse): IInitializeOrderResponse {
 

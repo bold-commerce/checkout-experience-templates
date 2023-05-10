@@ -1,7 +1,7 @@
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
 import {actionSetButtonDisable} from 'src/action';
-import {IExternalPaymentGateway} from '@bold-commerce/checkout-frontend-library';
+import {IExternalPaymentGateway} from '@boldcommerce/checkout-frontend-library';
 
 export function checkLoadExternalPaymentGatewayErrors(gateway: IExternalPaymentGateway, externalSetStateFunction: () => void) {
     return async function checkLoadExternalErrorsThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {

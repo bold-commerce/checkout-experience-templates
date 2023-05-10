@@ -1,4 +1,4 @@
-import {IApiReturnObject, getCustomer, validateEmail, ICustomer} from '@bold-commerce/checkout-frontend-library';
+import {IApiReturnObject, getCustomer, validateEmail, ICustomer} from '@boldcommerce/checkout-frontend-library';
 import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';

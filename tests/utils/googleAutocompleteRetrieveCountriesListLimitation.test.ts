@@ -1,7 +1,7 @@
 import {googleAutocompleteRetrieveCountriesListLimitation} from 'src/utils';
 import {Constants} from 'src/constants';
 import {countriesListMock} from 'src/mocks';
-import {ICountryInformation} from '@bold-commerce/checkout-frontend-library';
+import {ICountryInformation} from '@boldcommerce/checkout-frontend-library';
 
 describe('Test googleAutocompleteRetrieveCountriesListLimitation function', () => {
     const countriesList: Array<ICountryInformation> = countriesListMock;

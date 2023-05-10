@@ -5,7 +5,7 @@ import {
     IApiSuccessResponse,
     IApplicationState,
     IInitializeOrderResponse
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import Bugsnag, {BreadcrumbType} from '@bugsnag/js';
 
 import {LIB_VERSION as appVersion} from 'src/constants';

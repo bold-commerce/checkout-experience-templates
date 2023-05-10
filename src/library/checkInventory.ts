@@ -6,7 +6,7 @@ import {
     IApiSuccessResponse,
     ICheckInventoryResponse,
     IInventoryStage
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {getCheckoutUrl, getHook, handleErrorIfNeeded} from 'src/utils';
 import {HistoryLocationState} from 'react-router';
 import {actionSetOverlayContent, actionShowHideOverlayContent} from 'src/action';

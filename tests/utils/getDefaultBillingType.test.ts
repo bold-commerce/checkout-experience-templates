@@ -1,6 +1,6 @@
 import {getDefaultBillingType, getErrorTerm} from 'src/utils';
 import {initialDataMock} from 'src/mocks';
-import {IAddress, setJwtToken} from '@bold-commerce/checkout-frontend-library';
+import {IAddress, setJwtToken} from '@boldcommerce/checkout-frontend-library';
 import {Constants} from 'src/constants';
 import {useGetAddressData} from 'src/hooks';
 import {mocked} from 'jest-mock';

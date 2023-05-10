@@ -1,4 +1,4 @@
-import {environmentTypes} from '@bold-commerce/checkout-frontend-library';
+import {environmentTypes} from '@boldcommerce/checkout-frontend-library';
 import Bugsnag from '@bugsnag/js';
 import {ErrorInfo} from 'react';
 import {mocked} from 'jest-mock';
@@ -20,7 +20,7 @@ import {
     IApiReturnObject,
     IApiSuccessResponse,
     IInitializeOrderResponse
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 
 jest.mock('@bugsnag/js');
 const bugsnagMock = mocked(Bugsnag, true);

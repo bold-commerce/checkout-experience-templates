@@ -6,7 +6,7 @@ import {
     ILineItem,
     IPayment,
     ITax
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 
 
 export function getTotals(

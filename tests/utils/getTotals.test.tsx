@@ -1,6 +1,6 @@
 import {getTotals} from 'src/utils';
 import {initialDataMock} from 'src/mocks';
-import {feesMock} from '@bold-commerce/checkout-frontend-library/lib/variables/mocks';
+import {feesMock} from '@boldcommerce/checkout-frontend-library/lib/variables/mocks';
 
 describe('testing getTotals', () => {
 

@@ -1,4 +1,4 @@
-import {sendUpdateLanguageAction, setPigiListener, removePigiListener} from '@bold-commerce/checkout-frontend-library';
+import {sendUpdateLanguageAction, setPigiListener, removePigiListener} from '@boldcommerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
 import {
     actionSetAppStateValid,
@@ -114,7 +114,7 @@ export function handlePigiHeight(payload: IPigiResponsesPayload) {
         if (pigiDisplaySca) {
             updatePigiHeight('100%');
         } else {
-            updatePigiHeight(`${payload.height}px`);
+            updatePigiHeight(`${Math.ceil(payload.height)}px`);
         }
     };
 }

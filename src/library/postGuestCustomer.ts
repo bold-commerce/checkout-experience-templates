@@ -1,6 +1,6 @@
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
-import {IApiReturnObject, addGuestCustomer, getCustomer, ICustomer} from '@bold-commerce/checkout-frontend-library';
+import {IApiReturnObject, addGuestCustomer, getCustomer, ICustomer} from '@boldcommerce/checkout-frontend-library';
 import {handleErrorIfNeeded, isObjectEmpty} from 'src/utils';
 import {getCustomerFromLib, updateCustomer} from 'src/library';
 import {API_RETRY} from 'src/constants';

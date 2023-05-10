@@ -1,7 +1,7 @@
 import {AnyAction} from 'redux';
 import * as AppActionsType from '../action/appActionType';
 import {defaultOrderInitialization} from 'src/constants/orderInitialization';
-import {IPayment} from '@bold-commerce/checkout-frontend-library';
+import {IPayment} from '@boldcommerce/checkout-frontend-library';
 
 const {data:{application_state}} = defaultOrderInitialization;
 

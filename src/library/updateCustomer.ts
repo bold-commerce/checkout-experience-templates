@@ -5,7 +5,7 @@ import {
     IApiReturnObject,
     ICustomer,
     getCustomer
-} from '@bold-commerce/checkout-frontend-library';
+} from '@boldcommerce/checkout-frontend-library';
 import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
 import {getCustomerFromLib, validateDiscounts} from 'src/library';
 import {API_RETRY} from 'src/constants';

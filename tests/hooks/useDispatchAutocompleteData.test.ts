@@ -1,4 +1,4 @@
-import {renderHook} from '@testing-library/react-hooks';
+import {renderHook, act} from '@testing-library/react-hooks';
 import {useDispatchAutocompleteData} from 'src/hooks';
 import {IAutocompleteData} from 'src/types';
 
@@ -22,7 +22,12 @@ describe('Testing hook useDispatchAutocompleteData', () => {
     test.each(autocompleteDataSet)(
         'rendering the hook properly ($numCalls, $autocompleteData)',
         ({numCalls, autocompleteData}) => {
-            renderHook(() => useDispatchAutocompleteData(autocompleteData));
+            const {result} = renderHook(() => useDispatchAutocompleteData());
+
+            act(() => {
+                result.current(autocompleteData);
+            });
+
             expect(mockDispatch).toBeCalledTimes(numCalls);
         });
 
