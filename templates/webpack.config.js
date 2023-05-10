@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* global __dirname, process */
 const path = require('path');
+const webpack = require('webpack');
 
 const isDev = process.env.NODE_ENV === 'development';
-const { BugsnagBuildReporterPlugin } = require('webpack-bugsnag-plugins');
+const {BugsnagBuildReporterPlugin} = require('webpack-bugsnag-plugins');
 
 const PACKAGE = require('./package.json');
 const CONFIG = require('./config.json');
-const { version } = PACKAGE;
-const { bugsnagApiKeyStaging, bugsnagApiKeyProduction } = CONFIG;
+const {version} = PACKAGE;
+const {bugsnagApiKeyStaging, bugsnagApiKeyProduction} = CONFIG;
 
 const bugsnagPlugin = [];
 bugsnagApiKeyStaging && bugsnagPlugin.push(new BugsnagBuildReporterPlugin({apiKey: bugsnagApiKeyStaging, appVersion: version}));
@@ -48,7 +49,7 @@ module.exports = {
                 use: [
                     {
                         loader: 'style-loader',
-                        options: { injectType: 'singletonStyleTag' }
+                        options: {injectType: 'singletonStyleTag'}
                     }, 'css-loader']
             },
             {
@@ -66,7 +67,12 @@ module.exports = {
             }
         ]
     },
-    plugins: [...bugsnagPlugin],
+    plugins: [
+        ...bugsnagPlugin,
+        new webpack.DefinePlugin({
+            VERSION: JSON.stringify(version),
+        }),
+    ],
     performance: {
         hints: isDev ? false : 'warning',
         maxEntrypointSize: 1048576,

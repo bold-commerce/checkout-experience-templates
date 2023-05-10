@@ -1,6 +1,6 @@
 {
   "name": "@boldcommerce/checkout-experience-templates",
-  "version": "1.0.1-build.188",
+  "version": "1.0.1-build.189",
   "description": "Code base to generate the Javascript template to load Checkout using Bold Checkout Storefront APIs",
   "main": "index.js",
   "license": "MIT",
@@ -10,7 +10,7 @@
   },
   "scripts": {
     "preconfig": "node createRequiredConfig.js",
-    "prerelease": "npm --no-git-tag-version --preid=build version prerelease && node libVersion.js > src/constants/version.ts",
+    "prerelease": "npm --no-git-tag-version --preid=build version prerelease",
     "prebuild": "yarn preconfig && yarn prerelease",
     "test": "jest",
     "cover-test": "jest --coverage --colors",
