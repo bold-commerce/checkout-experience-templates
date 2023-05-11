@@ -47,8 +47,8 @@
     "webpack-dev-server": "^4.9.2"
   },
   "dependencies": {
-    "@boldcommerce/checkout-express-pay-library": "0.18.0",
-    "@boldcommerce/checkout-frontend-library": "0.43.0",
+    "@boldcommerce/checkout-express-pay-library": "0.20.0",
+    "@boldcommerce/checkout-frontend-library": "0.45.0",
     "@boldcommerce/stacks-ui": "^1.1.1",
     "@bugsnag/js": "^7.16.2",
     "@redux-devtools/extension": "^3.2.2",

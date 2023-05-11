@@ -3,7 +3,7 @@ import {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 import {actionSetLanguageIso} from 'src/action';
 import {IUseSupportedLanguages} from 'src/types';
-import {updatePigiLanguage} from 'src/library';
+import {updateExternalPaymentGatewayLanguage, updatePigiLanguage} from 'src/library';
 
 export function useSupportedLanguages(): IUseSupportedLanguages {
     const dispatch = useDispatch();
@@ -13,6 +13,7 @@ export function useSupportedLanguages(): IUseSupportedLanguages {
     const handleChange = useCallback(async e => {
         dispatch(actionSetLanguageIso(e.target.value));
         await dispatch(updatePigiLanguage());
+        await dispatch(updateExternalPaymentGatewayLanguage());
     }, []);
 
     return {languagesOptions, value , handleChange};

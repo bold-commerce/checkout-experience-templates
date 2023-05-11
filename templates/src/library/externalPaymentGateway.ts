@@ -3,7 +3,9 @@ import {
     removeExternalPaymentGatewayListener,
     IExternalPaymentGateway,
     sendExternalPaymentGatewayUpdateStateAction,
-    IAddPaymentRequest, sendExternalPaymentGatewaySetConfigAction,
+    IAddPaymentRequest,
+    sendExternalPaymentGatewaySetConfigAction,
+    sendExternalPaymentGatewayUpdateLanguageAction
 } from '@boldcommerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
 import {
@@ -19,6 +21,7 @@ import {
 import {useSendEvent} from 'src/hooks';
 import {addPayment, getUpdatedApplicationState} from 'src/library';
 import {updateExternalPaymentGatewayHeight} from 'src/utils/updateExternalPaymentGatewayHeight';
+import {Constants} from 'src/constants';
 
 export function setExternalPaymentGatewayListenerInLibrary(paymentGateway: IExternalPaymentGateway, callbackEvent: (evt: Event) => void) {
     return async function setExternalPaymentGatewayListenerThunk(): Promise<void> {
@@ -71,5 +74,17 @@ export function handleExternalPaymentGatewayRefreshOrder() {
     return async function handleExternalPaymentGatewayRefreshThunk(dispatch: Dispatch): Promise<void> {
         useSendEvent('CheckoutExperienceExternalPaymentGatewayRefreshOrder');
         dispatch(getUpdatedApplicationState);
+    };
+}
+
+export function updateExternalPaymentGatewayLanguage(){
+    return async function updateExternalPaymentGatewayLanguageThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
+        const {appSetting: {languageIso}} = getState();
+        const externalPaymentGatewaysInfo = getState().data.initial_data.external_payment_gateways;
+        const externalPaymentGateways = externalPaymentGatewaysInfo.filter(externalPaymentGatewayInfo => externalPaymentGatewayInfo.location === Constants.PAYMENT_METHOD_BELOW || Constants.CUSTOMER_INFO_ABOVE);
+
+        await externalPaymentGateways.forEach(async (externalPaymentgateway) => {
+            await sendExternalPaymentGatewayUpdateLanguageAction(externalPaymentgateway, languageIso);
+        });
     };
 }

@@ -5,6 +5,7 @@ import {
     handleExternalPaymentGatewayUpdateHeight,
     removeExternalPaymentGatewayListenerInLibrary,
     setExternalPaymentGatewayListenerInLibrary,
+    updateExternalPaymentGatewayLanguage,
 } from 'src/library';
 import {stateMock} from 'src/mocks';
 import {
@@ -23,6 +24,7 @@ const setExternalPaymentGatewayListenerMock = mocked(setExternalPaymentGatewayLi
 const removeExternalPaymentGatewayListenerMock = mocked(removeExternalPaymentGatewayListener, true);
 const sendExternalPaymentGatewayUpdateStateActionMock = mocked(sendExternalPaymentGatewayUpdateStateAction, true);
 const sendExternalPaymentGatewaySetConfigActionMock = mocked(sendExternalPaymentGatewaySetConfigAction, true);
+const updateExternalPaymentGatewayLanguageMock = mocked(updateExternalPaymentGatewayLanguage, true);
 
 describe('testing setExternalPaymentGatewayListenerInLibrary', () => {
     const gateway = {
@@ -177,5 +179,21 @@ describe('testing handleExternalPaymentGatewayRefreshOrder', () => {
         await handleExternalPaymentGatewayRefreshOrder()(dispatch);
 
         expect(dispatch).toHaveBeenCalledTimes(1);
+    });
+});
+
+describe('testing updateExternalPaymentGatewayLanguage', () => {
+    const dispatch = jest.fn();
+    const getState = jest.fn();
+
+    beforeEach(() => {
+        jest.resetAllMocks();
+        getState.mockReturnValue(stateMock);
+        dispatch.mockReturnValue(Promise.resolve());
+        setExternalPaymentGatewayListenerMock.mockReturnValue();
+    });
+
+    test('call updateExternalPaymentGatewayLanguageAction', async () => {
+        await updateExternalPaymentGatewayLanguage()(dispatch, getState);
     });
 });
