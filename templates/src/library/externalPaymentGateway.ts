@@ -1,27 +1,30 @@
 import {
-    setExternalPaymentGatewayListener,
-    removeExternalPaymentGatewayListener,
-    IExternalPaymentGateway,
-    sendExternalPaymentGatewayUpdateStateAction,
     IAddPaymentRequest,
+    IAddress,
+    IExternalPaymentGateway,
+    removeExternalPaymentGatewayListener,
     sendExternalPaymentGatewaySetConfigAction,
-    sendExternalPaymentGatewayUpdateLanguageAction
+    sendExternalPaymentGatewayUpdateBillingAddressAction,
+    sendExternalPaymentGatewayUpdateLanguageAction,
+    sendExternalPaymentGatewayUpdateShippingAddressAction,
+    sendExternalPaymentGatewayUpdateStateAction,
+    setExternalPaymentGatewayListener,
 } from '@boldcommerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
 import {
-    actionSetExternalGatewayReady,
     actionSetButtonDisable,
-    actionSetExternalPaymentGatewayLoading,
+    actionSetExternalGatewayReady,
+    actionSetExternalPaymentGatewayLoading
 } from 'src/action';
-import {
-    IOrderInitialization,
-    IExternalPaymentGatewayAddPayment,
-    IExternalPaymentGatewayUpdateHeight
-} from 'src/types';
+import {Constants} from 'src/constants';
 import {useSendEvent} from 'src/hooks';
 import {addPayment, getUpdatedApplicationState} from 'src/library';
+import {
+    IExternalPaymentGatewayAddPayment,
+    IExternalPaymentGatewayUpdateHeight,
+    IOrderInitialization,
+} from 'src/types';
 import {updateExternalPaymentGatewayHeight} from 'src/utils/updateExternalPaymentGatewayHeight';
-import {Constants} from 'src/constants';
 
 export function setExternalPaymentGatewayListenerInLibrary(paymentGateway: IExternalPaymentGateway, callbackEvent: (evt: Event) => void) {
     return async function setExternalPaymentGatewayListenerThunk(): Promise<void> {
@@ -80,11 +83,41 @@ export function handleExternalPaymentGatewayRefreshOrder() {
 export function updateExternalPaymentGatewayLanguage(){
     return async function updateExternalPaymentGatewayLanguageThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         const {appSetting: {languageIso}} = getState();
-        const externalPaymentGatewaysInfo = getState().data.initial_data.external_payment_gateways;
-        const externalPaymentGateways = externalPaymentGatewaysInfo.filter(externalPaymentGatewayInfo => externalPaymentGatewayInfo.location === Constants.PAYMENT_METHOD_BELOW || Constants.CUSTOMER_INFO_ABOVE);
+        const externalPaymentGateways = getAllExternalPaymentGateways(getState);
 
         await externalPaymentGateways.forEach(async (externalPaymentgateway) => {
             await sendExternalPaymentGatewayUpdateLanguageAction(externalPaymentgateway, languageIso);
         });
     };
+}
+
+export function updateExternalPaymentGatewayBillingAddress(payload: IAddress) {
+    return async function updateExternalPaymentGatewaybillingAddressThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
+        useSendEvent('CheckoutExperienceExternalPaymentGatewayUpdatedBillingAddress');
+        const externalPaymentGateways = getAllExternalPaymentGateways(getState);
+
+        await externalPaymentGateways.forEach(async (externalPaymentgateway) => {
+            await sendExternalPaymentGatewayUpdateBillingAddressAction(externalPaymentgateway, payload);
+        });
+    };
+}
+
+export function updateExternalPaymentGatewayShippingAddress(payload: IAddress) {
+    return async function updateExternalPaymentGatewayShippingAddressThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
+        useSendEvent('CheckoutExperienceExternalPaymentGatewayUpdatedShippingAddress');
+        const externalPaymentGateways = getAllExternalPaymentGateways(getState);
+
+        await externalPaymentGateways.forEach(async (externalPaymentgateway) => {
+            await sendExternalPaymentGatewayUpdateShippingAddressAction(externalPaymentgateway, payload);
+        });
+
+    };
+}
+
+export function getAllExternalPaymentGateways(getState: () => IOrderInitialization) {
+    const externalPaymentGatewaysInfo = getState().data.initial_data.external_payment_gateways;
+
+    return externalPaymentGatewaysInfo.filter(externalPaymentGatewayInfo =>
+        externalPaymentGatewayInfo.location === Constants.PAYMENT_METHOD_BELOW ||
+        externalPaymentGatewayInfo.location === Constants.CUSTOMER_INFO_ABOVE);
 }
