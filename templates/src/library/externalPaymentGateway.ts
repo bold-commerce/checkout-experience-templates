@@ -14,7 +14,8 @@ import {Dispatch} from 'redux';
 import {
     actionSetButtonDisable,
     actionSetExternalGatewayReady,
-    actionSetExternalPaymentGatewayLoading
+    actionSetExternalPaymentGatewayLoading,
+    actionSetLoaderAndDisableButton
 } from 'src/action';
 import {Constants} from 'src/constants';
 import {useSendEvent} from 'src/hooks';
@@ -120,4 +121,18 @@ export function getAllExternalPaymentGateways(getState: () => IOrderInitializati
     return externalPaymentGatewaysInfo.filter(externalPaymentGatewayInfo =>
         externalPaymentGatewayInfo.location === Constants.PAYMENT_METHOD_BELOW ||
         externalPaymentGatewayInfo.location === Constants.CUSTOMER_INFO_ABOVE);
+}
+
+export function handleExternalPaymentGatewayTokenizingInProgress() {
+    return async function handleExternalPaymentGatewayTokenizingInProgressThunk(dispatch: Dispatch): Promise<void> {
+        useSendEvent('CheckoutExperienceExternalPaymentGatewayTokenizingInProgress');
+        dispatch(actionSetLoaderAndDisableButton('paymentButton', true));
+    };
+}
+
+export function handleExternalPaymentGatewayTokenizingCompleted() {
+    return async function handleExternalPaymentGatewayTokenizingCompletedThunk(dispatch: Dispatch): Promise<void> {
+        useSendEvent('CheckoutExperienceExternalPaymentGatewayTokenizingCompleted');
+        dispatch(actionSetLoaderAndDisableButton('paymentButton', false));
+    };
 }

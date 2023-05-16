@@ -2,6 +2,8 @@ import {
     handleExternalPaymentGatewayAddPayment,
     handleExternalPaymentGatewayInitialized,
     handleExternalPaymentGatewayRefreshOrder,
+    handleExternalPaymentGatewayTokenizingCompleted,
+    handleExternalPaymentGatewayTokenizingInProgress,
     handleExternalPaymentGatewayUpdateHeight,
     removeExternalPaymentGatewayListenerInLibrary,
     setExternalPaymentGatewayListenerInLibrary,
@@ -228,5 +230,37 @@ describe('testing updateExternalPaymentGatewayShippingAddress', () => {
     });
     test('call updateExternalPaymentGatewayShippingAddress', async () => {
         await updateExternalPaymentGatewayShippingAddress(stateMock.data.application_state.addresses.shipping)(dispatch, getState);
+    });
+});
+
+describe('testing handleExternalPaymentGatewayTokenizingInProgress', () => {
+    const dispatch = jest.fn();
+    const getState = jest.fn();
+
+    beforeEach(() => {
+        jest.resetAllMocks();
+        dispatch.mockReturnValue(Promise.resolve());
+        getState.mockReturnValue(stateMock);
+        setExternalPaymentGatewayListenerMock.mockReturnValue();
+    });
+
+    test('call sendExternalPaymentGatewayTokenizingInProgressAction', async () => {
+        await handleExternalPaymentGatewayTokenizingInProgress()(dispatch);
+    });
+});
+
+describe('testing handleExternalPaymentGatewayTokenizingCompleted', () => {
+    const dispatch = jest.fn();
+    const getState = jest.fn();
+
+    beforeEach(() => {
+        jest.resetAllMocks();
+        dispatch.mockReturnValue(Promise.resolve());
+        getState.mockReturnValue(stateMock);
+        setExternalPaymentGatewayListenerMock.mockReturnValue();
+    });
+
+    test('call sendExternalPaymentGatewayTokenizingCompletedAction', async () => {
+        await handleExternalPaymentGatewayTokenizingCompleted()(dispatch);
     });
 });
