@@ -1,5 +1,3 @@
-
-
 export function isCustomAnalyticsEnabled(): boolean {
     return window['custom_analytics_is_customized'] !== 'undefined' && (window['custom_analytics_is_customized'] === true || window['custom_analytics_is_customized'] === '1' );
 }
