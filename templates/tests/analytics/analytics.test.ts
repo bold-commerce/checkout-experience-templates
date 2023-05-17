@@ -5,6 +5,8 @@ import {
     orderCompleteAnalytics,
     orderCompletedForFacebookPixel,
     orderCompleteForGoogleAnalytics,
+    orderCompleteForGoogleTagManager,
+    orderCompleteTrackingVariables,
     sendEventForGoogleAnalytics,
     sendEvents,
     sendFacebookEvent,
@@ -17,6 +19,8 @@ import {ITotals} from 'src/types';
 
 jest.mock('src/analytics/googleAnalytics');
 jest.mock('src/analytics/facebookAnalytics');
+jest.mock('src/analytics/googleTagManager');
+jest.mock('src/analytics/trackingVariables');
 
 const sendFacebookEventMock = mocked(sendFacebookEvent, true);
 const sendEventForGoogleAnalyticsMock = mocked(sendEventForGoogleAnalytics, true);
@@ -25,6 +29,8 @@ const sendPageViewForGoogleAnalyticsMock = mocked(sendPageViewForGoogleAnalytics
 const sendPageViewForFacebookPixelMock = mocked(sendPageViewForFacebookPixel, true);
 const orderCompleteForGoogleAnalyticsMock = mocked(orderCompleteForGoogleAnalytics, true);
 const orderCompletedForFacebookPixelMock = mocked(orderCompletedForFacebookPixel, true);
+const orderCompleteTrackingVariablesMock = mocked(orderCompleteTrackingVariables, true);
+const orderCompleteForGoogleTagManagerMock = mocked(orderCompleteForGoogleTagManager, true);
 
 describe('testing Analytics functions', () => {
     const appState = stateMock.data.application_state;
@@ -62,8 +68,11 @@ describe('testing Analytics functions', () => {
     });
 
     test('testing orderCompleteAnalytics function', () => {
-        orderCompleteAnalytics(appState.line_items, 'USD', totals, selectedShippingLine, '1', []);
+        orderCompleteAnalytics(appState.customer, appState.addresses, appState.line_items, 'USD', totals, selectedShippingLine, '1', []);
+
         expect(orderCompleteForGoogleAnalyticsMock).toHaveBeenCalledTimes(1);
         expect(orderCompletedForFacebookPixelMock).toHaveBeenCalledTimes(1);
+        expect(orderCompleteTrackingVariablesMock).toHaveBeenCalledTimes(1);
+        expect(orderCompleteForGoogleTagManagerMock).toHaveBeenCalledTimes(1);
     });
 });
