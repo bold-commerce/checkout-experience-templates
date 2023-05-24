@@ -4,7 +4,7 @@ import {Constants} from 'src/constants';
 import {useCallback, useRef} from 'react';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
-import {displayOrderProcessingScreen, processOrder, validateBillingAddress, updateLineItemQuantity} from 'src/library';
+import {displayOrderProcessingScreen, processOrder, validateBillingAddress, validateShippingAddress, updateLineItemQuantity} from 'src/library';
 import {IApiErrorResponse, IApiReturnObject, sendAddPaymentActionAsync, sendRefreshOrderActionAsync} from '@boldcommerce/checkout-frontend-library';
 import {getTerm, isOnlyFlashError, retrieveErrorFromResponse} from 'src/utils';
 import {sendEvents} from 'src/analytics';
@@ -21,9 +21,12 @@ export function useIndexPage(): IUseIndexPageProps {
     const quantityDisabled = useGetButtonDisableVariable('updateLineItemQuantity');
     const customBilling = useGetAppSettingData('billingType');
     const isValidBillingAddress = useGetValidVariable('billingAddress');
-    //need ref to point to valid billing address for most up to date state
+    const isValidShippingAddress = useGetValidVariable('shippingAddress');
+    //need ref to point to valid billing & shipping address for most up to date state
     const isValidBillingAddressRef = useRef<boolean>();
+    const isValidShippingAddressRef = useRef<boolean>();
     isValidBillingAddressRef.current = isValidBillingAddress;
+    isValidShippingAddressRef.current = isValidShippingAddress;
 
     const loginText = getTerm('not_you', Constants.CUSTOMER_INFO);
     const summaryHeadingText = getTerm('summary', Constants.SUMMARY_INFO);
@@ -33,11 +36,13 @@ export function useIndexPage(): IUseIndexPageProps {
     const shippingIssueLinkText = getTerm('shipping_address_issue_link', Constants.CUSTOM);
 
     const checkoutOnClick = useCallback(async () => {
+        await dispatch(validateShippingAddress);
+
         if (customBilling === Constants.SHIPPING_DIFFERENT) {
             await dispatch(validateBillingAddress);
         }
         //isValidBillingAddress could get updated in above dispatch call, need to use ref to fetch updated state.
-        if (!isValidBillingAddressRef.current) {
+        if (!isValidShippingAddressRef.current || !isValidBillingAddressRef.current) {
             return;
         }
 

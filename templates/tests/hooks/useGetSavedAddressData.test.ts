@@ -101,7 +101,7 @@ describe('Testing hook useGetSavedAddressData', () => {
         expect(mockDispatch).toBeCalledTimes(8);
         result.current.handleChange({target: {value: savedAddresses[1].id}});
         expect(mockDispatch).toBeCalledTimes(16);
-        result.current.handleChange({target: {value: 'new'}});
+        result.current.handleChange({target: {value: 'Enter a new address'}});
         expect(mockDispatch).toBeCalledTimes(18);
         expect(debounceMock).toBeCalledTimes(0);
     });
