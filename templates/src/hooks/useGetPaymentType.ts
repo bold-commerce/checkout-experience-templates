@@ -4,7 +4,7 @@ import {IPayment} from '@boldcommerce/checkout-frontend-library';
 
 export function useGetPaymentType(props: IPayment): string {
     const {driver, lineText, display_string: displayString, type} = props; // TODO: remove driver and lineText and change displayString to displayText after FF CE-539-Add-PaymentLine-Model is Enabled by default
-    if (driver && type) { // TODO: change condition to (!type) after FF CE-539-Add-PaymentLine-Model is Enabled by default
+    if (!driver && !type) { // TODO: change condition to (!type) after FF CE-539-Add-PaymentLine-Model is Enabled by default
         return '';
     }
     const displayText = displayString ? displayString : lineText ?? ''; // TODO: remove after FF CE-539-Add-PaymentLine-Model is Enabled by default
