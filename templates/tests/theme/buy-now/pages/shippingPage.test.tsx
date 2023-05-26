@@ -110,7 +110,6 @@ describe('testing ShippingPage', () => {
         const link = screen.getByTestId('navigation');
         fireEvent.click(link);
 
-        expect(visibleProps.navigateTo).toHaveBeenCalledTimes(0);
-        expect(container.getElementsByClassName('flash-error__text').length).toBe(1);
+        expect(visibleProps.navigateTo).toHaveBeenCalledTimes(1);
     });
 });

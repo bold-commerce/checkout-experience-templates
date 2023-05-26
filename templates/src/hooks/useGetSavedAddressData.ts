@@ -54,7 +54,7 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
                 dispatch(actionSetAppStateValid('billingAddress', false));
             }
 
-            if (value !== 'new') {
+            if (value !== 'Enter a new address') {
                 dispatch(actionUpdateAddress(type, address));
                 dispatch(actionUpdateCustomerField(Constants.ADDRESS_FIRST_NAME, address.first_name));
                 dispatch(actionUpdateCustomerField(Constants.ADDRESS_LAST_NAME, address.last_name));
