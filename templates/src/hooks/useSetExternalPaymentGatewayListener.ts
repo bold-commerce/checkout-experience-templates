@@ -9,6 +9,8 @@ import {
     handleExternalPaymentGatewayAddPayment,
     handleExternalPaymentGatewayInitialized,
     handleExternalPaymentGatewayRefreshOrder,
+    handleExternalPaymentGatewayTokenizingCompleted,
+    handleExternalPaymentGatewayTokenizingInProgress,
     handleExternalPaymentGatewayUpdateHeight,
     removeExternalPaymentGatewayListenerInLibrary,
     setExternalPaymentGatewayListenerInLibrary,
@@ -38,6 +40,12 @@ export function useSetExternalPaymentGatewayListener(paymentGateway: IExternalPa
                     break;
                 case externalPaymentGatewayToParentActionTypes.EXTERNAL_PAYMENT_GATEWAY_REFRESH_ORDER:
                     dispatch(handleExternalPaymentGatewayRefreshOrder());
+                    break;
+                case externalPaymentGatewayToParentActionTypes.EXTERNAL_PAYMENT_GATEWAY_TOKENIZING_IN_PROGRESS:
+                    dispatch(handleExternalPaymentGatewayTokenizingInProgress());
+                    break;
+                case externalPaymentGatewayToParentActionTypes.EXTERNAL_PAYMENT_GATEWAY_TOKENIZING_COMPLETED:
+                    dispatch(handleExternalPaymentGatewayTokenizingCompleted());
                     break;
                 default:
                     break;

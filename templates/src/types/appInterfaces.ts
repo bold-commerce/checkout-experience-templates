@@ -201,7 +201,6 @@ export interface INewApiErrorResponseErrorWarningMessage {
 }
 
 export interface IExternalPaymentGatewayAddPayment {
-    height: number,
     amount: number,
     currency: string,
     display_string: string,
