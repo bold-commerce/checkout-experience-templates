@@ -31,6 +31,7 @@ describe('testing postBillingAddress', () => {
     beforeEach(() => {
         jest.resetAllMocks();
         getState.mockReturnValue(stateMock);
+        setBillingAddressMock.mockReturnValue(Promise.resolve(returnObject));
     });
 
     test('calling post billing address endpoint with getState returning undefined', async () => {

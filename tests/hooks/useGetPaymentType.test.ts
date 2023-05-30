@@ -2,7 +2,6 @@ import {getTerm, getCardDisplayFormat, getGiftCardDisplayFormat} from 'src/utils
 import {mocked} from 'jest-mock';
 import {useGetPaymentType} from 'src/hooks';
 import {IPayment} from '@boldcommerce/checkout-frontend-library';
-import {Constants} from 'src/constants';
 
 
 jest.mock('src/utils/getTerm');
@@ -53,6 +52,11 @@ describe('Testing function getPaymentType', () => {
             payment: {...appStatePayment, 'brand': undefined, 'driver': 'stripe', 'lineText': '4444', 'tag': 'Credit'},
             getCardDisplayFormatResult: '',
             expected: '4444',
+        },
+        {
+            payment: {...appStatePayment, 'brand': 'Visa', 'driver': undefined, 'type': '', 'lineText': '4444', 'tag': 'Credit'},
+            getCardDisplayFormatResult: '',
+            expected: '',
         },
     ];
 

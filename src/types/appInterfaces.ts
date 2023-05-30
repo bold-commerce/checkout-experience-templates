@@ -25,7 +25,8 @@ export interface ICheckoutProcess {
     company_name_option: string,
     phone_number_required: boolean,
     accepts_marketing_checkbox_option: string,
-    tax_exempt_checkbox_enabled?: boolean
+    tax_exempt_checkbox_enabled?: boolean,
+    tax_shipping?: boolean
 }
 
 export interface IAddressAutoComplete {
@@ -200,7 +201,6 @@ export interface INewApiErrorResponseErrorWarningMessage {
 }
 
 export interface IExternalPaymentGatewayAddPayment {
-    height: number,
     amount: number,
     currency: string,
     display_string: string,

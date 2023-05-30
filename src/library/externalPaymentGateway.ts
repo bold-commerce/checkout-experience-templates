@@ -1,23 +1,30 @@
 import {
-    setExternalPaymentGatewayListener,
-    removeExternalPaymentGatewayListener,
+    IAddPaymentRequest,
+    IAddress,
     IExternalPaymentGateway,
+    removeExternalPaymentGatewayListener,
+    sendExternalPaymentGatewaySetConfigAction,
+    sendExternalPaymentGatewayUpdateBillingAddressAction,
+    sendExternalPaymentGatewayUpdateLanguageAction,
+    sendExternalPaymentGatewayUpdateShippingAddressAction,
     sendExternalPaymentGatewayUpdateStateAction,
-    IAddPaymentRequest, sendExternalPaymentGatewaySetConfigAction,
+    setExternalPaymentGatewayListener,
 } from '@boldcommerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
 import {
-    actionSetExternalGatewayReady,
     actionSetButtonDisable,
+    actionSetExternalGatewayReady,
     actionSetExternalPaymentGatewayLoading,
+    actionSetLoaderAndDisableButton
 } from 'src/action';
-import {
-    IOrderInitialization,
-    IExternalPaymentGatewayAddPayment,
-    IExternalPaymentGatewayUpdateHeight
-} from 'src/types';
+import {Constants} from 'src/constants';
 import {useSendEvent} from 'src/hooks';
 import {addPayment, getUpdatedApplicationState} from 'src/library';
+import {
+    IExternalPaymentGatewayAddPayment,
+    IExternalPaymentGatewayUpdateHeight,
+    IOrderInitialization,
+} from 'src/types';
 import {updateExternalPaymentGatewayHeight} from 'src/utils/updateExternalPaymentGatewayHeight';
 
 export function setExternalPaymentGatewayListenerInLibrary(paymentGateway: IExternalPaymentGateway, callbackEvent: (evt: Event) => void) {
@@ -71,5 +78,61 @@ export function handleExternalPaymentGatewayRefreshOrder() {
     return async function handleExternalPaymentGatewayRefreshThunk(dispatch: Dispatch): Promise<void> {
         useSendEvent('CheckoutExperienceExternalPaymentGatewayRefreshOrder');
         dispatch(getUpdatedApplicationState);
+    };
+}
+
+export function updateExternalPaymentGatewayLanguage(){
+    return async function updateExternalPaymentGatewayLanguageThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
+        const {appSetting: {languageIso}} = getState();
+        const externalPaymentGateways = getAllExternalPaymentGateways(getState);
+
+        await externalPaymentGateways.forEach(async (externalPaymentgateway) => {
+            await sendExternalPaymentGatewayUpdateLanguageAction(externalPaymentgateway, languageIso);
+        });
+    };
+}
+
+export function updateExternalPaymentGatewayBillingAddress(payload: IAddress) {
+    return async function updateExternalPaymentGatewaybillingAddressThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
+        useSendEvent('CheckoutExperienceExternalPaymentGatewayUpdatedBillingAddress');
+        const externalPaymentGateways = getAllExternalPaymentGateways(getState);
+
+        await externalPaymentGateways.forEach(async (externalPaymentgateway) => {
+            await sendExternalPaymentGatewayUpdateBillingAddressAction(externalPaymentgateway, payload);
+        });
+    };
+}
+
+export function updateExternalPaymentGatewayShippingAddress(payload: IAddress) {
+    return async function updateExternalPaymentGatewayShippingAddressThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
+        useSendEvent('CheckoutExperienceExternalPaymentGatewayUpdatedShippingAddress');
+        const externalPaymentGateways = getAllExternalPaymentGateways(getState);
+
+        await externalPaymentGateways.forEach(async (externalPaymentgateway) => {
+            await sendExternalPaymentGatewayUpdateShippingAddressAction(externalPaymentgateway, payload);
+        });
+
+    };
+}
+
+export function getAllExternalPaymentGateways(getState: () => IOrderInitialization) {
+    const externalPaymentGatewaysInfo = getState().data.initial_data.external_payment_gateways;
+
+    return externalPaymentGatewaysInfo.filter(externalPaymentGatewayInfo =>
+        externalPaymentGatewayInfo.location === Constants.PAYMENT_METHOD_BELOW ||
+        externalPaymentGatewayInfo.location === Constants.CUSTOMER_INFO_ABOVE);
+}
+
+export function handleExternalPaymentGatewayTokenizingInProgress() {
+    return async function handleExternalPaymentGatewayTokenizingInProgressThunk(dispatch: Dispatch): Promise<void> {
+        useSendEvent('CheckoutExperienceExternalPaymentGatewayTokenizingInProgress');
+        dispatch(actionSetLoaderAndDisableButton('paymentButton', true));
+    };
+}
+
+export function handleExternalPaymentGatewayTokenizingCompleted() {
+    return async function handleExternalPaymentGatewayTokenizingCompletedThunk(dispatch: Dispatch): Promise<void> {
+        useSendEvent('CheckoutExperienceExternalPaymentGatewayTokenizingCompleted');
+        dispatch(actionSetLoaderAndDisableButton('paymentButton', false));
     };
 }

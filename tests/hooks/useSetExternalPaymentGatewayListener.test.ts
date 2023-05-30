@@ -6,6 +6,8 @@ import {
     handleExternalPaymentGatewayAddPayment,
     handleExternalPaymentGatewayInitialized,
     handleExternalPaymentGatewayRefreshOrder,
+    handleExternalPaymentGatewayTokenizingCompleted,
+    handleExternalPaymentGatewayTokenizingInProgress,
     handleExternalPaymentGatewayUpdateHeight,
     setExternalPaymentGatewayListenerInLibrary,
 } from 'src/library';
@@ -20,6 +22,8 @@ const setExternalPaymentGatewayListenerInLibraryMock = mocked(setExternalPayment
 const handleExternalPaymentGatewayAddPaymentMock = mocked(handleExternalPaymentGatewayAddPayment, true);
 const handleExternalPaymentGatewayUpdateHeightMock = mocked(handleExternalPaymentGatewayUpdateHeight, true);
 const handleExternalPaymentGatewayRefreshOrderMock = mocked(handleExternalPaymentGatewayRefreshOrder, true);
+const handleExternalPaymentGatewayTokenizingInProgressMock = mocked(handleExternalPaymentGatewayTokenizingInProgress, true);
+const handleExternalPaymentGatewayTokenizingCompletedMock = mocked(handleExternalPaymentGatewayTokenizingCompleted, true);
 
 describe('Testing useSetExternalPaymentGatewayListener hook ', () => {
     const dispatchMock = jest.fn();
@@ -128,7 +132,7 @@ describe('Testing useSetExternalPaymentGatewayListener hook ', () => {
     });
 
     test('Trigger EXTERNAL_PAYMENT_GATEWAY_REFRESH_ORDER event', async () => {
-        const eventInit = {data: {type: 'EXTERNAL_PAYMENT_GATEWAY_REFRESH_ORDER', payload}};
+        const eventInit = {data: {type: 'EXTERNAL_PAYMENT_GATEWAY_REFRESH_ORDER'}};
         const event = new MessageEvent('', eventInit);
         let handleEvent;
 
@@ -146,6 +150,50 @@ describe('Testing useSetExternalPaymentGatewayListener hook ', () => {
         expect(setExternalPaymentGatewayListenerInLibraryMock).toHaveBeenCalledTimes(1);
         expect(setExternalPaymentGatewayListenerInLibraryMock).toHaveBeenCalledWith(gateway, handleEvent);
         expect(handleExternalPaymentGatewayRefreshOrderMock).toHaveBeenCalledTimes(1);
+        expect(dispatchMock).toHaveBeenCalledTimes(2);
+    });
+
+    test('Trigger EXTERNAL_PAYMENT_GATEWAY_TOKENIZING_IN_PROGRESS event', async () => {
+        const eventInit = {data: {type: 'EXTERNAL_PAYMENT_GATEWAY_TOKENIZING_IN_PROGRESS'}};
+        const event = new MessageEvent('', eventInit);
+        let handleEvent;
+
+        setExternalPaymentGatewayListenerInLibraryMock.mockImplementationOnce((gateway: IExternalPaymentGateway, callbackEvent: (evt: Event) => void) => {
+            handleEvent = callbackEvent;
+            callbackEvent(event);
+            return jest.fn();
+        });
+
+        const renderHookResult = renderHook(() => useSetExternalPaymentGatewayListener(gateway));
+
+        expect(useDispatchMock).toHaveBeenCalledTimes(1);
+        renderHookResult.rerender();
+        expect(useDispatchMock).toHaveBeenCalledTimes(2);
+        expect(setExternalPaymentGatewayListenerInLibraryMock).toHaveBeenCalledTimes(1);
+        expect(setExternalPaymentGatewayListenerInLibraryMock).toHaveBeenCalledWith(gateway, handleEvent);
+        expect(handleExternalPaymentGatewayTokenizingInProgressMock).toHaveBeenCalledTimes(1);
+        expect(dispatchMock).toHaveBeenCalledTimes(2);
+    });
+
+    test('Trigger EXTERNAL_PAYMENT_GATEWAY_TOKENIZING_COMPLETED event', async () => {
+        const eventInit = {data: {type: 'EXTERNAL_PAYMENT_GATEWAY_TOKENIZING_COMPLETED'}};
+        const event = new MessageEvent('', eventInit);
+        let handleEvent;
+
+        setExternalPaymentGatewayListenerInLibraryMock.mockImplementationOnce((gateway: IExternalPaymentGateway, callbackEvent: (evt: Event) => void) => {
+            handleEvent = callbackEvent;
+            callbackEvent(event);
+            return jest.fn();
+        });
+
+        const renderHookResult = renderHook(() => useSetExternalPaymentGatewayListener(gateway));
+
+        expect(useDispatchMock).toHaveBeenCalledTimes(1);
+        renderHookResult.rerender();
+        expect(useDispatchMock).toHaveBeenCalledTimes(2);
+        expect(setExternalPaymentGatewayListenerInLibraryMock).toHaveBeenCalledTimes(1);
+        expect(setExternalPaymentGatewayListenerInLibraryMock).toHaveBeenCalledWith(gateway, handleEvent);
+        expect(handleExternalPaymentGatewayTokenizingCompletedMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledTimes(2);
     });
 });

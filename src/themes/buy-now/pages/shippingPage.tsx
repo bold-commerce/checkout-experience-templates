@@ -7,12 +7,10 @@ import {getTerm} from 'src/utils';
 import FocusTrap from 'focus-trap-react';
 
 function ShippingPage(props : IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivElement>): React.ReactElement {
-    const {closeBuyNow, flashText, stopBack, setStopBack, isValidAddress} = useShippingPage();
+    const {closeBuyNow} = useShippingPage();
     const placeholder = getTerm('enter_new_address', Constants.CUSTOMER_INFO);
 
-    const backOnClick = useCallback(() => { 
-        return isValidAddress ? props.navigateTo('/') : setStopBack(true);
-    }, [isValidAddress]);
+    const backOnClick = useCallback(() => props.navigateTo('/'), []);
     const {focusTrapOptions} = useFocusTrap();
 
     return (
@@ -20,13 +18,6 @@ function ShippingPage(props : IBuyNowContainerPageProps, ref: ForwardedRef<HTMLD
             <div ref={ref} className={`buy-now buy-now__shipping buy-now__secondary buy-now__secondary--${props.show ? 'open' : 'closed'}`}>
                 <CloseableHeader  className='buy-now__shipping-header' title={getTerm('shipping', Constants.SHIPPING_INFO)} onClose={closeBuyNow} />
                 <NavigationHeading className="buy-now__back" text={getTerm('previous_step',Constants.SAVED_PAYMENT_INFO)} navigation={backOnClick} />
-                {stopBack && (
-                    <div key="flash-error-text-shipping" className="flash-error__container">
-                        <span key="flash-error-text-shipping" aria-live="assertive" className="flash-error__text">
-                            {flashText}
-                        </span>
-                    </div>
-                )}
 
                 <Address
                     type={Constants.SHIPPING}

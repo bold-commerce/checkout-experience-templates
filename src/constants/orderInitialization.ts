@@ -138,6 +138,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
                     phone_number_required: false,
                     accepts_marketing_checkbox_option: '',
                     tax_exempt_checkbox_enabled: false,
+                    tax_shipping: true,
                 },
                 address_autocomplete: {
                     provider: null,

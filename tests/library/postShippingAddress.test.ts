@@ -8,7 +8,7 @@ import {mocked} from 'jest-mock';
 import {actionSetAppStateValid, SET_VALID} from 'src/action';
 import {API_RETRY, defaultAddressState} from 'src/constants';
 import {postShippingAddress, setShippingAddressAsValid} from 'src/library';
-import {stateMock} from 'src/mocks';
+import {addressMock, stateMock} from 'src/mocks';
 import {handleErrorIfNeeded} from 'src/utils';
 import {AnyAction} from 'redux';
 
@@ -79,6 +79,22 @@ describe('testing postAddress', () => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(setShippingAddressMock).toHaveBeenCalledTimes(1);
         expect(setShippingAddressMock).toHaveBeenCalledWith(defaultAddressState, API_RETRY);
+        expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
+        expect(handleErrorMock).toHaveBeenCalledTimes(0);
+    });
+
+    test('calling post shipping address when shipping is not empty and not equal to default address', async () => {
+        const newStateMock = {data: {application_state: {addresses: {shipping: addressMock}}}};
+        getState.mockReturnValueOnce(newStateMock);
+        getAddressesMock.mockReturnValueOnce(defaultAddressState);
+
+        await postShippingAddress(dispatch, getState);
+
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(0);
+        expect(getAddressesMock).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledTimes(2);
+        expect(setShippingAddressMock).toHaveBeenCalledTimes(1);
+        expect(setShippingAddressMock).toHaveBeenCalledWith(addressMock, API_RETRY);
         expect(updateShippingAddressMock).toHaveBeenCalledTimes(0);
         expect(dispatch).toHaveBeenCalledWith(setShippingAddressAsValid);
         expect(handleErrorMock).toHaveBeenCalledTimes(1);

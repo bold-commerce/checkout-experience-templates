@@ -23,9 +23,9 @@ export function FlashError({type = 'flash'}: IFlashErrorProps): React.ReactEleme
     }, [errors]);
 
     return (
-        <div className="flash-error" ref={rootRef}>
+        <div className="flash-error" data-testid={`flash-error-${type}`} ref={rootRef}>
             {errors.map((item, index) =>
-                <div key={`${item}-${index}`} className="flash-error__container">
+                <div key={`${item}-${index}`} className="flash-error__container" data-testid={`flash-error__container-${type}`}>
                     <span aria-live="assertive" className="flash-error__text">{item.message}</span>
                     <button data-testid='delete-flash-error' className={'flash-error__delete-error'} onClick={() => {
                         dispatch(actionRemoveError(item.error));

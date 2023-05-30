@@ -23,6 +23,8 @@ export function checkErrorAndProceedToNextPage(
             history.replace(getCheckoutUrl(page));
             if(callOrderCompleteAnalytics){
                 const {public_order_id: id, application_state: appState} = getState().data;
+                const customer = appState.customer;
+                const addresses = appState.addresses;
                 const discounts = appState.discounts;
                 const payments = appState.payments;
                 const taxes = appState.taxes;
@@ -32,7 +34,7 @@ export function checkErrorAndProceedToNextPage(
                 const fees = appState.fees as Array<IFees>;
                 const orderTotal = appState.order_total;
                 const totals = getTotals(lineItems, payments, taxes, fees, discounts, orderTotal);
-                orderCompleteAnalytics(lineItems, currency, totals, shipping, id, discounts);
+                orderCompleteAnalytics(customer, addresses, lineItems, currency, totals, shipping, id, discounts);
             }
         }
     };
