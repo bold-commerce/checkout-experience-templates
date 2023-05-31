@@ -1,8 +1,13 @@
 import {useDispatch} from 'react-redux';
 import {IShippingLinesHookProps} from 'src/types';
-import {useGetAvailableShippingLines, useGetSelectShippingLine} from 'src/hooks';
+import {
+    useGetAvailableShippingLines,
+    useGetGeneralSettingCheckoutFields,
+    useGetOrderTotal,
+    useGetSelectShippingLine
+} from 'src/hooks';
 import {useCallback} from 'react';
-import {actionSetLoaderAndDisableButton, actionSetSelectedShippingLine} from 'src/action';
+import {actionOrderTotal, actionSetLoaderAndDisableButton, actionSetSelectedShippingLine} from 'src/action';
 import {useDebouncedShippingLines, useGetCurrencyInformation} from 'src/hooks';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
@@ -16,6 +21,8 @@ export function useGetShippingLinesData(): IShippingLinesHookProps {
     const shippingLines: Array<IShippingLine> = useGetAvailableShippingLines();
     const selectedLine: IShippingLine = useGetSelectShippingLine();
     const shippingLinesLength = shippingLines.length;
+    const orderTotal = useGetOrderTotal();
+    const taxShipping = useGetGeneralSettingCheckoutFields('tax_shipping');
 
     const noShippingAreaText = getTerm('no_shipping_available', Constants.SHIPPING_METHOD_INFO);
 
@@ -23,11 +30,17 @@ export function useGetShippingLinesData(): IShippingLinesHookProps {
     const handleChange = useCallback(e => {
         const id = e.target.value;
         const shippingLine = shippingLines.find(o => o.id === id);
-        if(shippingLine) {
-            dispatch(actionSetLoaderAndDisableButton('shippingPageButton' , true));
-            dispatch(actionSetSelectedShippingLine(shippingLine));
-            dispatch(debounceApiCall);
+        if (shippingLine) {
+            if (taxShipping) {
+                dispatch(actionSetLoaderAndDisableButton('shippingPageButton', true));
+                dispatch(actionSetSelectedShippingLine(shippingLine));
+                dispatch(debounceApiCall);
+            } else {
+                dispatch(actionSetSelectedShippingLine(shippingLine));
+                dispatch(actionOrderTotal(shippingLine.amount - selectedLine.amount + orderTotal));
+            }
         }
+
     }, []);
 
     return {shippingLines, selectedLine, noShippingAreaText, shippingLinesLength, handleChange, formattedPrice, shippingAddressValid};
