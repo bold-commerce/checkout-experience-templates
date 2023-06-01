@@ -1,10 +1,12 @@
 import React from 'react';
 import {FieldSection, LockedSection, LoadingSection, ShippingLine, ConditionalWrap} from 'src/components';
-import {useGetShippingLines} from 'src/hooks';
+import {useGetGeneralSettingCheckoutFields, useGetSelectShippingLine, useGetShippingLines} from 'src/hooks';
 import {IShippingLinesProps} from 'src/types';
 
 export function ShippingLines(props: IShippingLinesProps): React.ReactElement {
-    const {loading, isValidAddress, notValidText, fieldSectionText} = useGetShippingLines();
+    const {loading, isValidAddress, notValidText, fieldSectionText, taxShippingText} = useGetShippingLines();
+    const taxShipping = useGetGeneralSettingCheckoutFields('tax_shipping');
+    const selectedLine = useGetSelectShippingLine();
 
     return (
         <div className="shipping-lines">
@@ -24,6 +26,11 @@ export function ShippingLines(props: IShippingLinesProps): React.ReactElement {
                     )}
                 </>}
             </FieldSection>
+            {taxShipping && selectedLine.amount > 0 &&
+                <div className="flash-warning__container">
+                    <span className="flash-warning__text">{taxShippingText}</span>
+                </div>
+            }
         </div>
     );
 }

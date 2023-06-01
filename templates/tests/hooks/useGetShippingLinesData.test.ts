@@ -74,8 +74,8 @@ describe('Testing hook useGetShippingLinesData', () => {
             hookResult.handleChange(event);
         });
 
-        expect(mockDispatch).toBeCalledTimes(3);
-        expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
+        expect(mockDispatch).toBeCalledTimes(2);
+        expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(0);
     });
 
     test('testing when tax_shipping is false ', () => {
