@@ -1,6 +1,6 @@
 {
   "name": "@boldcommerce/checkout-experience-templates",
-  "version": "1.0.1-build.196",
+  "version": "1.0.1-build.197",
   "description": "Code base to generate the Javascript template to load Checkout using Bold Checkout Storefront APIs",
   "main": "index.js",
   "license": "MIT",
