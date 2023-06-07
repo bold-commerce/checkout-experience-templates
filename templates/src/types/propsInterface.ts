@@ -422,6 +422,7 @@ export interface IUseGetShippingLines {
     isValidAddress: boolean;
     notValidText: string;
     fieldSectionText: string;
+    taxShippingText: string;
 }
 
 export interface IUseGetPaymentSection {

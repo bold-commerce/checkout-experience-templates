@@ -12,6 +12,19 @@
     display: flex;
 }
 
+.flash-warning__container {
+    background: #ebf0ff;
+    border-radius: 4px;
+    padding: 16px;
+    margin: 3px;
+    border-left: 4px solid #0A75C2FF;
+    display: flex;
+}
+
+.flash-warning__text {
+    padding-right: 10px;
+}
+
 .flash-error--hidden{
     display: none;
 }

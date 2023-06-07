@@ -1,7 +1,12 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
-import {useGetShippingLines, useGetLoaderScreenVariable, useGetValidVariable} from 'src/hooks';
+import {
+    useGetShippingLines,
+    useGetLoaderScreenVariable,
+    useGetValidVariable,
+    useGetGeneralSettingCheckoutFields, useGetSelectShippingLine
+} from 'src/hooks';
 import {getTerm} from 'src/utils';
 
 jest.mock('react-redux');
@@ -26,7 +31,7 @@ describe('Testing hook useGetShippingLines', () => {
             dispatchCalled: 0,
             getLoaderCalled: 1,
             getValidCalled: 2,
-            getTermCalled: 2
+            getTermCalled: 3,
         },
         {
             name: 'Test isValidAddress true and isLoading false',
@@ -38,7 +43,7 @@ describe('Testing hook useGetShippingLines', () => {
             dispatchCalled: 0,
             getLoaderCalled: 1,
             getValidCalled: 2,
-            getTermCalled: 2
+            getTermCalled: 3,
         },
         {
             name: 'Test isValidAddress false and isLoading true',
@@ -50,7 +55,7 @@ describe('Testing hook useGetShippingLines', () => {
             dispatchCalled: 0,
             getLoaderCalled: 1,
             getValidCalled: 2,
-            getTermCalled: 2
+            getTermCalled: 3,
         },
         {
             name: 'Test isValidAddress and isLoading true',
@@ -62,7 +67,7 @@ describe('Testing hook useGetShippingLines', () => {
             dispatchCalled: 0,
             getLoaderCalled: 1,
             getValidCalled: 2,
-            getTermCalled: 2
+            getTermCalled: 3,
         },
         {
             name: 'Test isValidAddress false and updatedAddress true',
@@ -74,7 +79,7 @@ describe('Testing hook useGetShippingLines', () => {
             dispatchCalled: 0,
             getLoaderCalled: 1,
             getValidCalled: 2,
-            getTermCalled: 2
+            getTermCalled: 3,
         },
         {
             name: 'Test isValidAddress updatedAddress true',
@@ -86,7 +91,7 @@ describe('Testing hook useGetShippingLines', () => {
             dispatchCalled: 3,
             getLoaderCalled: 1,
             getValidCalled: 2,
-            getTermCalled: 2
+            getTermCalled: 3,
         }
     ];
 
@@ -105,7 +110,7 @@ describe('Testing hook useGetShippingLines', () => {
         dispatchCalled,
         getLoaderCalled,
         getValidCalled,
-        getTermCalled
+        getTermCalled,
     }) => {
         useGetValidVariableMock.mockReturnValueOnce(validParameter).mockReturnValueOnce(updatedParameter);
         useGetLoaderScreenVariableMock.mockReturnValueOnce(loadingParameter);
