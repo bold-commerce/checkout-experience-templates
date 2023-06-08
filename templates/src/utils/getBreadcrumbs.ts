@@ -11,7 +11,11 @@ import {BrowserHistory} from 'history';
 
 export function getBreadcrumbs(history: BrowserHistory, active: number): IBreadcrumbs {
     let index = 0;
-    const cartTerm = isBoldPlatform() ? 'store': 'cart';
+    let cartTerm = isBoldPlatform() ? 'store': 'cart';
+    // TODO PXP-682
+    if (window.shopAlias == 'lowlaundry.cpanel.boldlabs.net' || window.shopAlias == 'lowlaundry.com' || window.shopAlias == 'dev.lowlaundry.com' ) {
+        cartTerm = 'cart';
+    }
     const {link} = getReturnToCartTermAndLink();
 
     const sectionLabel = getTerm('checkout_steps', Constants.GLOBAL_INFO, undefined , 'Checkout steps');
