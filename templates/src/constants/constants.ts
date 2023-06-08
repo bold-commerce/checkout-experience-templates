@@ -66,6 +66,7 @@ export class Constants {
     static readonly PAYMENT_METHOD_BELOW = 'payment_method_below';
     static readonly CUSTOMER_INFO_BELOW = 'customer_info_below';
     static readonly CUSTOMER_INFO_ABOVE = 'customer_info_above';
+    static readonly THREE_PAGE = 'three-page';
 }
 
 export const errorTypes: IErrorTypes = {

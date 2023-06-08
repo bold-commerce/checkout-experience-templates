@@ -42,7 +42,7 @@ export function ShippingLinesPage(): React.ReactElement {
                         <Breadcrumbs active={active}/>
                         <form onSubmit={withPreventDefault(nextButtonOnClick)}>
                             <FlashError/>
-                            <ShippingLines/>
+                            <ShippingLines theme={Constants.THREE_PAGE}/>
                             <FormControls
                                 backLinkOnClick={backLinkOnClick}
                                 backLinkText={backLinkText}

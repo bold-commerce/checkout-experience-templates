@@ -2,20 +2,24 @@ import {IShippingLine} from '@boldcommerce/checkout-frontend-library';
 import {render} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 import {ShippingLine} from 'src/components';
-import {useGetIsLoadingExceptSections, useGetShippingLinesData} from 'src/hooks';
-import { IShippingLineProps, IShippingLinesHookProps} from 'src/types';
+import {useGetIsLoadingExceptSections, useGetShippingLinesData, useGetShippingLinesDataNoDebounce} from 'src/hooks';
+import {IShippingLineProps, IShippingLinesHookProps} from 'src/types';
 import resetAllMocks = jest.resetAllMocks;
 
 jest.mock('src/hooks/useGetIsLoadingExceptSections');
 jest.mock('src/hooks/useGetShippingLinesData');
+jest.mock('src/hooks/useGetShippingLinesDataNoDebounce');
 const useGetIsLoadingExceptSectionsMock = mocked(useGetIsLoadingExceptSections, true);
 const useGetShippingLinesDataMock = mocked(useGetShippingLinesData, true);
+const useGetShippingLinesDataNoDebounceMock = mocked(useGetShippingLinesDataNoDebounce, true);
+
 
 type Data = {
     name: string;
     parameter: IShippingLinesHookProps;
     selectors: Record<string, number>;
     called: number;
+    calledNoDebounce: number;
     props?: IShippingLineProps;
 }
 
@@ -51,6 +55,7 @@ describe('Testing shipping line component', () => {
                 '.shipping-line__block': 0,
             },
             called: 1,
+            calledNoDebounce: 0,
         },
         {
             name: 'Render shipping line properly with zero shipping lines & show no rates as alert',
@@ -76,6 +81,7 @@ describe('Testing shipping line component', () => {
                 showNoRatesAsAlert: true,
             },
             called: 1,
+            calledNoDebounce: 0,
         },
         {
             name: 'Render shipping line properly with one shipping line and no selected line',
@@ -97,6 +103,7 @@ describe('Testing shipping line component', () => {
                 'input[type="radio"][checked]': 0,
             },
             called: 1,
+            calledNoDebounce: 0,
         },
         {
             name: 'Render shipping line properly with one shipping line',
@@ -118,6 +125,32 @@ describe('Testing shipping line component', () => {
                 'input[type="radio"][checked]': 1,
             },
             called: 1,
+            calledNoDebounce: 0,
+        },
+        {
+            name: 'Render shipping line properly with one shipping line. no debounce',
+            props: {
+                theme: 'three-page',
+            },
+            parameter: {
+                shippingLines: [selectShippingLine1],
+                selectedLine: selectShippingLine1,
+                handleChange: jest.fn(),
+                shippingLinesLength: 1,
+                shippingAddressValid: true,
+                noShippingAreaText: 'No shipping available',
+                formattedPrice: '${{amount}}',
+            },
+            selectors: {
+                '.shipping_line__items': 1,
+                '.shipping_line__items-border': 0,
+                '.shipping_line__items-description': 1,
+                '.shipping-line__no-valid-address-label': 0,
+                '.shipping-line__block': 0,
+                'input[type="radio"][checked]': 1,
+            },
+            called: 0,
+            calledNoDebounce: 1,
         },
         {
             name: 'Render shipping line properly with multiple shipping lines',
@@ -139,6 +172,7 @@ describe('Testing shipping line component', () => {
                 'input[type="radio"][checked]': 1,
             },
             called: 1,
+            calledNoDebounce: 0,
         },
         {
             name: 'Render shipping lines in block when showNoRatesAsAlert is true',
@@ -163,6 +197,7 @@ describe('Testing shipping line component', () => {
                 'input[type="radio"][checked]': 1,
             },
             called: 1,
+            calledNoDebounce: 0,
         },
     ];
 
@@ -172,11 +207,13 @@ describe('Testing shipping line component', () => {
         jest.resetAllMocks();
     });
 
-    test.each(dataArray)('$name', async ({parameter, called, selectors, props = {}}) => {
+    test.each(dataArray)('$name', async ({parameter, called, calledNoDebounce, selectors, props = {}}) => {
         useGetShippingLinesDataMock.mockReturnValueOnce(parameter);
+        useGetShippingLinesDataNoDebounceMock.mockReturnValueOnce(parameter);
 
         const {container} = render(<ShippingLine {...props} />);
         expect(useGetShippingLinesDataMock).toHaveBeenCalledTimes(called);
+        expect(useGetShippingLinesDataNoDebounceMock).toHaveBeenCalledTimes(calledNoDebounce);
         for (const [ selector, expectedLength ] of Object.entries(selectors)) {
             expect(container.querySelectorAll(selector)).toHaveLength(expectedLength);
         }

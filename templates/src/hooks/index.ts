@@ -63,6 +63,7 @@ export * from './useGetSessionExpired';
 export * from './useGetAutocompleteService';
 export * from './useGetShippingLines';
 export * from './useGetShippingLinesData';
+export * from './useGetShippingLinesDataNoDebounce';
 export * from './useGetShopUrlFromShopAlias';
 export * from './useGetSupportedLanguageData';
 export * from './useGetTaxes';
