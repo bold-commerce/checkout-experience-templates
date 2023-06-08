@@ -47,6 +47,7 @@ describe('Test getBreadcrumbs function', () => {
             }
         });
         window.returnUrl = link;
+        window.shopAlias = 'lowlaundry.com';
         getReturnToCartTermAndLinkMock.mockReturnValue({term:'return_to_cart', link: link});
     });
 
