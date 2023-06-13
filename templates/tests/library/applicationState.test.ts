@@ -55,7 +55,7 @@ import {
     getUpdatedApplicationState
 } from 'src/library';
 import {initialDataMock} from 'src/mocks';
-import {handleErrorIfNeeded} from 'src/utils';
+import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/state');
 jest.mock('@boldcommerce/checkout-frontend-library/lib/order');
@@ -88,12 +88,14 @@ const getShippingAddressMock = mocked(getShippingAddress, true);
 const getTaxesMock = mocked(getTaxes, true);
 const getFeesMock = mocked(getFees, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);
+const isObjectEqualsMock = mocked(isObjectEquals, true);
 
 describe('testing Update Application State Thunk Actions', () => {
     const {application_state} = initialDataMock;
     const {customer, addresses: {billing: billingAddress, shipping: shippingAddress}} = application_state;
     const {line_items, shipping, taxes, discounts, payments, order_meta_data} = application_state;
     const dispatchMock = jest.fn();
+    const getStateMock = jest.fn();
 
     beforeEach(() => {
         getApplicationStateMock.mockReturnValue(application_state);
@@ -127,8 +129,6 @@ describe('testing Update Application State Thunk Actions', () => {
     });
 
     test('calling getUpdatedApplicationState', () => {
-        const getStateMock = jest.fn();
-
         getUpdatedApplicationState(dispatchMock, getStateMock).then(()=> {
             expect(getRefreshedApplicationStateMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
@@ -412,14 +412,24 @@ describe('testing Update Application State Thunk Actions', () => {
         expect(dispatchMock).toHaveBeenCalledWith(actionUpdateShippingLinesDiscountMock);
     });
 
-    test('calling getShippingAddressFromLib filled address', () => {
+    test('calling getShippingAddressFromLib filled address & matching state', () => {
         const actionMock = {
             type: CustomerActions.UPDATE_SHIPPING_ADDRESS,
             payload: {data: shippingAddress}
         };
         actionUpdateAddressMock.mockReturnValueOnce(actionMock);
+        isObjectEqualsMock.mockReturnValue(true);
+        getStateMock.mockReturnValueOnce({
+            data: {
+                application_state: {
+                    addresses: {
+                        shipping: shippingAddress
+                    }
+                }
+            }
+        });
 
-        getShippingAddressFromLib(dispatchMock);
+        getShippingAddressFromLib(dispatchMock, getStateMock);
 
         expect(getShippingAddressMock).toHaveBeenCalledTimes(1);
         expect(actionUpdateAddressMock).toHaveBeenCalledTimes(1);
@@ -428,21 +438,24 @@ describe('testing Update Application State Thunk Actions', () => {
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
 
-    test('calling getShippingAddressFromLib empty address', () => {
+    test('calling getShippingAddressFromLib empty address & mismatch from state', () => {
         getShippingAddressMock.mockReturnValueOnce({} as IAddress);
-        const actionMock = {
-            type: CustomerActions.UPDATE_SHIPPING_ADDRESS,
-            payload: {data: defaultAddressState}
-        };
-        actionUpdateAddressMock.mockReturnValueOnce(actionMock);
+        isObjectEqualsMock.mockReturnValue(false);
+        getStateMock.mockReturnValueOnce({
+            data: {
+                application_state: {
+                    addresses: {
+                        shipping: shippingAddress
+                    }
+                }
+            }
+        });
 
-        getShippingAddressFromLib(dispatchMock);
+        getShippingAddressFromLib(dispatchMock, getStateMock);
 
         expect(getShippingAddressMock).toHaveBeenCalledTimes(1);
-        expect(actionUpdateAddressMock).toHaveBeenCalledTimes(1);
-        expect(actionUpdateAddressMock).toHaveBeenCalledWith(Constants.SHIPPING, defaultAddressState);
-        expect(dispatchMock).toHaveBeenCalledTimes(1);
-        expect(dispatchMock).toHaveBeenCalledWith(actionMock);
+        expect(actionUpdateAddressMock).toHaveBeenCalledTimes(0);
+        expect(dispatchMock).toHaveBeenCalledTimes(0);
     });
 
     test('calling getSummaryStateFromLib', () => {

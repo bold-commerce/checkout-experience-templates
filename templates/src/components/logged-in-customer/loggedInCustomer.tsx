@@ -35,7 +35,11 @@ export function LoggedInCustomer(): React.ReactElement {
                     data-testid={'accept-marketing-checkbox'}
                 />
                 <div className={'address__saved'}>
-                    <AddressSavedSelect type={Constants.SHIPPING} className={'address__saved-select'}/>
+                    <AddressSavedSelect 
+                        type={Constants.SHIPPING} 
+                        className={'address__saved-select'}
+                        autoSelect={true}
+                    />
                 </div>
             </FieldSection>
         </div>

@@ -16,18 +16,22 @@ import {
     HeaderLogo,
     Title
 } from 'src/components';
-import {useBeforeUnload, useScreenBreakpoints, useScrollToElementOnNavigation, useSendEvent, useGetExternalPaymentGateways} from 'src/hooks';
+import {useBeforeUnload, useScreenBreakpoints, useScrollToElementOnNavigation, useSendEvent, useGetExternalPaymentGateways, useIsUserAuthenticated} from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
 import {getTerm, withPreventDefault} from 'src/utils';
 import {Constants} from 'src/constants';
+import {setDefaultAddresses} from 'src/library';
+import {useDispatch} from 'react-redux';
 
 export function CustomerPage(): React.ReactElement {
+    const dispatch = useDispatch();
     const {isMobile} = useScreenBreakpoints();
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading, title} = useCustomerPage();
     const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
     const externalPaymentGateways = useGetExternalPaymentGateways(Constants.CUSTOMER_INFO_ABOVE);
     const headerLogoUrl = window.headerLogoUrl;
+    const isCustomerLoggedIn = useIsUserAuthenticated();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
 
@@ -44,6 +48,10 @@ export function CustomerPage(): React.ReactElement {
     useEffect(() => {
         sendPageView('/customer_information', 1);
         sendEvents('Landed on customer information page', {'category': 'Checkout'});
+
+        if (isCustomerLoggedIn) {
+            dispatch(setDefaultAddresses);
+        }
     }, []);
 
 

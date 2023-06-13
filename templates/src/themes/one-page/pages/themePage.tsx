@@ -17,8 +17,8 @@ import {Constants} from 'src/constants';
 import {useGetOnePageFooterData, useIsValidShippingOnLoad} from 'src/themes/one-page/hooks';
 import {checkInventoryStage} from '@boldcommerce/checkout-frontend-library';
 import {useDispatch} from 'react-redux';
-import {checkInventory} from 'src/library';
-import {useGetExternalPaymentGateways} from 'src/hooks';
+import {checkInventory, setDefaultAddresses} from 'src/library';
+import {useGetExternalPaymentGateways, useIsUserAuthenticated} from 'src/hooks';
 
 export function ThemePage(): React.ReactElement {
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
@@ -28,8 +28,14 @@ export function ThemePage(): React.ReactElement {
     const infoExternalPaymentGateways = useGetExternalPaymentGateways(Constants.CUSTOMER_INFO_ABOVE);
     const paymentExternalPaymentGateways = useGetExternalPaymentGateways(Constants.PAYMENT_METHOD_BELOW);
     const dispatch = useDispatch();
+    const isCustomerLoggedIn = useIsUserAuthenticated();
+
     useEffect(() => {
         dispatch(checkInventory(checkInventoryStage.initial)); 
+        
+        if (isCustomerLoggedIn) {
+            dispatch(setDefaultAddresses);
+        }
     }, []);
 
     return (
