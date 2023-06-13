@@ -32,3 +32,8 @@
     margin-right: 6px;
     padding: 4px;
 }
+
+.navigation__container {
+    display: flex;
+    align-items: center;
+}

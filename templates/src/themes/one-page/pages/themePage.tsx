@@ -36,7 +36,7 @@ export function ThemePage(): React.ReactElement {
         <div className={'checkout-experience-container'}>
             <Header isMobile={true}/>
             <HeaderHelmet title={footerProps.title}/>
-            <div className={'customer-section'}>
+            <div className={'customer-section one-page'}>
                 <Header isMobile={false}/>
                 <main aria-label={mainAriaLabel}>
                     <form onSubmit={withPreventDefault(nextButtonOnClick)}>

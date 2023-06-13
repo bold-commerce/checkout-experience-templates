@@ -12,7 +12,9 @@ import {
     HeaderHelmet,
     ScreenReaderAnnouncement,
     Footer,
-    ExternalPaymentGateway
+    ExternalPaymentGateway,
+    HeaderLogo,
+    Title
 } from 'src/components';
 import {useBeforeUnload, useScreenBreakpoints, useScrollToElementOnNavigation, useSendEvent, useGetExternalPaymentGateways} from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
@@ -25,6 +27,7 @@ export function CustomerPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading, title} = useCustomerPage();
     const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
     const externalPaymentGateways = useGetExternalPaymentGateways(Constants.CUSTOMER_INFO_ABOVE);
+    const headerLogoUrl = window.headerLogoUrl;
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
 
@@ -52,7 +55,12 @@ export function CustomerPage(): React.ReactElement {
                 <Header isMobile={true}/>
                 {isMobile && <SummarySection orderCompleted={false}/>}
                 <div className='customer-section' >
-                    <Header isMobile={false}/>
+                    <header className={'main-header'}>
+                        {headerLogoUrl 
+                            ? <HeaderLogo />
+                            : <Title/>
+                        }
+                    </header>
                     <main aria-label={mainAriaLabel}>
                         <Breadcrumbs active={active}/>
                         {externalPaymentGateways.map((externalGateway) =>

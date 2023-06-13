@@ -19,6 +19,7 @@ const mockScreenBreakpoints = {
 describe('Testing GuestCustomer component', () => {
 
     beforeEach(() => {
+        window.headerLogoUrl = '';
         useSupportedLanguagesMock.mockReturnValue({languagesOptions: [], value: '', handleChange: jest.fn()});
         useGetShopUrlFromShopAliasMock.mockReturnValue('https://google.com');
         useScreenBreakpointsMock.mockReturnValue(mockScreenBreakpoints);
@@ -28,7 +29,9 @@ describe('Testing GuestCustomer component', () => {
         const {container} = render(<Header isMobile={false}/>);
         expect(container.getElementsByClassName('main-header-mobile').length).toBe(0);
         expect(container.getElementsByClassName('main-header').length).toBe(1);
-
+        expect(container.getElementsByClassName('website-title-logo').length).toBe(0);
+        expect(container.getElementsByClassName('website-title-clickable__black-text').length).toBe(1);
+        expect(container.getElementsByClassName('main-header__logo').length).toBe(0);
     });
 
     test('Rendering the component with isMobile = false and width <= 767px', () => {
@@ -36,14 +39,12 @@ describe('Testing GuestCustomer component', () => {
         const {container} = render(<Header isMobile={false}/>);
         expect(container.getElementsByClassName('main-header-mobile').length).toBe(0);
         expect(container.getElementsByClassName('main-header').length).toBe(1);
-
     });
 
     test('Rendering the component with isMobile = true', () => {
         const {container} = render(<Header isMobile={true}/>);
         expect(container.getElementsByClassName('main-header-mobile').length).toBe(1);
         expect(container.getElementsByClassName('main-header').length).toBe(0);
-
     });
 
     test('Rendering the component with isMobile = true and width <= 767px', () => {
@@ -51,6 +52,15 @@ describe('Testing GuestCustomer component', () => {
         const {container} = render(<Header isMobile={true}/>);
         expect(container.getElementsByClassName('main-header-mobile').length).toBe(1);
         expect(container.getElementsByClassName('main-header').length).toBe(0);
+    });
 
+    test('Rendering the component with headerLogoUrl', () => {
+        window.headerLogoUrl = 'logo.shop.com';
+        const {container} = render(<Header isMobile={false} />);
+        expect(container.getElementsByClassName('main-header-mobile').length).toBe(0);
+        expect(container.getElementsByClassName('main-header').length).toBe(1);
+        expect(container.getElementsByClassName('website-title-logo').length).toBe(1);
+        expect(container.getElementsByClassName('website-title-clickable__black-text').length).toBe(0);
+        expect(container.getElementsByClassName('main-header__logo').length).toBe(1);
     });
 });
