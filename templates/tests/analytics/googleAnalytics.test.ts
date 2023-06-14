@@ -9,7 +9,6 @@ import {stateMock} from 'src/mocks';
 import {ITotals} from 'src/types';
 
 describe('testing Google Analytics implementation', () => {
-    window = Object.create(window);
     const appState = stateMock.data.application_state;
     const selectedShippingLine = {
         id: 'shipping_id_1',
@@ -33,11 +32,16 @@ describe('testing Google Analytics implementation', () => {
         { code: 'code_test', text: 'code text', value: 200, valid: true, }
     ];
 
-    let gtagSpy;
+    const script = 'console.log("Testing Custom Script");';
+
+    const gtagMock = jest.fn();
 
     beforeEach(() => {
-        window['gtag'] = jest.fn();
-        gtagSpy = jest.spyOn((window as any), 'gtag');
+        jest.clearAllMocks();
+        document.head.innerHTML = '';
+        window['gtag'] = gtagMock;
+        window['google_analytics_is_customized'] = undefined;
+        window['google_analytics_order_complete_script'] = script;
     });
 
 
@@ -46,7 +50,7 @@ describe('testing Google Analytics implementation', () => {
         window['gtag'] = undefined;
         let result = isGoogleAnalyticsEnabled();
         expect(result).toBe(false);
-        window['gtag'] = jest.fn();
+        window['gtag'] = gtagMock;
 
         window['google_analytics_tracking_id'] = undefined;
         result = isGoogleAnalyticsEnabled();
@@ -61,7 +65,7 @@ describe('testing Google Analytics implementation', () => {
         const page = 'test';
         window['gtag'] = undefined;
         sendPageViewForGoogleAnalytics(page);
-        expect(gtagSpy).toHaveBeenCalledTimes(0);
+        expect(gtagMock).toHaveBeenCalledTimes(0);
     });
 
     test('testing sendPageViewForGoogleAnalytics function', ()=> {
@@ -70,20 +74,20 @@ describe('testing Google Analytics implementation', () => {
 
         sendPageViewForGoogleAnalytics(page);
 
-        expect(gtagSpy).toHaveBeenCalledWith('event', 'page_view', { 'page_location': page });
+        expect(gtagMock).toHaveBeenCalledWith('event', 'page_view', { 'page_location': page });
 
         sendPageViewForGoogleAnalytics(page, step);
 
-        expect(gtagSpy).toHaveBeenCalledWith('event', 'page_view', { 'page_location': page, 'page_title': step });
+        expect(gtagMock).toHaveBeenCalledWith('event', 'page_view', { 'page_location': page, 'page_title': step });
     });
 
-    test('testing sendEventForGoogleAnalytics function without ga defined', ()=> {
-        const event = 'test';
+    test('testing sendEventForGoogleAnalytics function without gtag defined', ()=> {
+        const event = 'test-event';
         const parameters = {'category': 'test-category'};
 
         window['gtag'] = undefined;
         sendEventForGoogleAnalytics(event, parameters);
-        expect(gtagSpy).toHaveBeenCalledTimes(0);
+        expect(gtagMock).toHaveBeenCalledTimes(0);
     });
 
     test('testing sendEventForGoogleAnalytics without parameters function', ()=> {
@@ -91,11 +95,11 @@ describe('testing Google Analytics implementation', () => {
 
         sendEventForGoogleAnalytics(event);
 
-        expect(gtagSpy).toHaveBeenCalledWith('event', event, {});
+        expect(gtagMock).toHaveBeenCalledWith('event', event, {});
     });
 
     test('testing sendEventForGoogleAnalytics with parameters function', ()=> {
-        const event = 'test';
+        const event = 'test-event';
         const rawParameters = {id: '1', value:'1999', items:[{
             product_data: {
                 sku: 'abc123',
@@ -115,19 +119,19 @@ describe('testing Google Analytics implementation', () => {
 
         sendEventForGoogleAnalytics(event, rawParameters);
 
-        expect(gtagSpy).toHaveBeenCalledWith('event', event, formattedParameters);
+        expect(gtagMock).toHaveBeenCalledWith('event', event, formattedParameters);
 
     });
 
     test('testing orderCompleteForGoogleAnalytics function without ga defined', ()=> {
         window['gtag'] = undefined;
         orderCompleteForGoogleAnalytics(appState.line_items, 'USD', totals ,selectedShippingLine, '1', []);
-        expect(gtagSpy).toHaveBeenCalledTimes(0);
+        expect(gtagMock).toHaveBeenCalledTimes(0);
     });
 
     test('testing orderCompleteForGoogleAnalytics function without custom script', ()=> {
         orderCompleteForGoogleAnalytics(appState.line_items, 'USD', totals ,selectedShippingLine, '1', discounts);
-        expect(gtagSpy).toHaveBeenCalledWith('event', 'purchase', {
+        expect(gtagMock).toHaveBeenCalledWith('event', 'purchase', {
             'currency': 'USD',
             'transaction_id': '1',
             'value': '220.99',
@@ -142,18 +146,25 @@ describe('testing Google Analytics implementation', () => {
                 'quantity': 1,
             }]
         });
-        expect(gtagSpy).toHaveBeenCalledWith('event', 'Successful Checkout', {'category': 'Checkout'});
+        expect(gtagMock).toHaveBeenCalledWith('event', 'Successful Checkout', {'category': 'Checkout'});
     });
 
-    test('testing orderCompleteForGoogleAnalytics function with custom script', ()=> {
-        const script = 'const test = 1';
-        window['google_analytics_is_customized'] = 1;
-        window['google_analytics_order_complete_script'] = script;
+    const orderCompleteCustomizedTestData = [
+        { name: 'as string 1', isCustomized: '1'},
+        { name: 'as string true', isCustomized: 'true'},
+        { name: 'as string tRue', isCustomized: 'tRue'},
+        { name: 'as number 1', isCustomized: 1},
+        { name: 'as boolean true', isCustomized: true},
+    ];
 
-        orderCompleteForGoogleAnalytics(appState.line_items, 'USD', totals, selectedShippingLine, '1', []);
-        expect(gtagSpy).toHaveBeenCalledTimes(0);
-        expect(document.head.childNodes.length).toBe(1);
-        expect(document.head.children[0].innerHTML).toContain(script);
-    });
+    test.each(orderCompleteCustomizedTestData)('orderCompleteForGoogleAnalytics with google_analytics_is_customized $name',
+        ({isCustomized}) => {
+            window['google_analytics_is_customized'] = isCustomized;
+
+            orderCompleteForGoogleAnalytics(appState.line_items, 'USD', totals, selectedShippingLine, '1', []);
+            expect(gtagMock).toHaveBeenCalledTimes(0);
+            expect(document.head.childNodes.length).toBe(1);
+            expect(document.head.children[0].innerHTML).toContain(script);
+        });
 
 });
