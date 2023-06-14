@@ -1,9 +1,8 @@
-import {isObjectEmpty} from 'src/utils';
 import {ITotals} from 'src/types';
 import {IDiscount, ILineItem, IShippingLine} from '@boldcommerce/checkout-frontend-library';
 
 export function isGoogleAnalyticsEnabled(): boolean {
-    return typeof window['gtag'] === 'function'&& !!window['google_analytics_tracking_id'] && typeof window['google_analytics_tracking_id'] === 'string';
+    return typeof window['gtag'] === 'function' && !!window['google_analytics_tracking_id'] && typeof window['google_analytics_tracking_id'] === 'string';
 }
 
 export function sendPageViewForGoogleAnalytics(page: string, step?: number) : void {
@@ -16,6 +15,16 @@ export function sendPageViewForGoogleAnalytics(page: string, step?: number) : vo
         parameters['page_title'] = step;
     }
     window['gtag']('event', 'page_view', parameters);
+}
+
+export function isGoogleAnalyticsCustomized(): boolean {
+    const isGACustomized = window['google_analytics_is_customized'];
+    return typeof isGACustomized !== 'undefined' && (
+        isGACustomized === '1'
+        || (typeof isGACustomized === 'string' && isGACustomized.toLowerCase() === 'true')
+        || isGACustomized === 1
+        || isGACustomized === true
+    );
 }
 
 export function sendEventForGoogleAnalytics(event: string, parameters?: Record<string, unknown>) : void {
@@ -37,7 +46,7 @@ export function orderCompleteForGoogleAnalytics(lineItems: Array<ILineItem>, cur
         return;
     }
 
-    if (!isObjectEmpty({analytics: window['google_analytics_is_customized']}) && window['google_analytics_is_customized'] == '1') {
+    if (isGoogleAnalyticsCustomized()) {
         const googleScript = document.createElement('script');
         googleScript.type = 'text/javascript';
         googleScript.innerHTML = window['google_analytics_order_complete_script'];
