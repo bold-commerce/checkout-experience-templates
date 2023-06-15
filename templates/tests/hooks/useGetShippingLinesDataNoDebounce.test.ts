@@ -1,9 +1,9 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {
     useGetAvailableShippingLines,
-    useGetShippingLinesData,
     useGetSelectShippingLine,
-    useGetGeneralSettingCheckoutFields
+    useGetGeneralSettingCheckoutFields,
+    useGetShippingLinesDataNoDebounce
 } from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
@@ -39,7 +39,7 @@ const useGetGeneralSettingsMock = mocked(useGetGeneralSettingCheckoutFields, tru
 const actionOrderTotalMock = mocked(actionOrderTotal, true);
 const getTermMock = mocked(getTerm, true);
 
-describe('Testing hook useGetShippingLinesData', () => {
+describe('Testing hook useGetShippingLinesDataNoDebounce', () => {
     const appStateMock = stateMock.data.application_state;
     const actionSetLoaderAndDisableButtonFunctionMock = jest.fn();
     beforeEach(() => {
@@ -54,7 +54,7 @@ describe('Testing hook useGetShippingLinesData', () => {
         useGetAvailableShippingLinesMock.mockReturnValueOnce(appStateMock.shipping.available_shipping_lines);
         useGetSelectShippingLineMock.mockReturnValueOnce(appStateMock.shipping.available_shipping_lines[0]);
 
-        const {result} = renderHook(() => useGetShippingLinesData());
+        const {result} = renderHook(() => useGetShippingLinesDataNoDebounce());
         const hookResult = result.current;
         expect(hookResult.shippingLines).toBe(appStateMock.shipping.available_shipping_lines);
         expect(hookResult.selectedLine).toBe(appStateMock.shipping.available_shipping_lines[0]);
@@ -67,15 +67,15 @@ describe('Testing hook useGetShippingLinesData', () => {
         useGetAvailableShippingLinesMock.mockReturnValueOnce(appStateMock.shipping.available_shipping_lines);
         useGetSelectShippingLineMock.mockReturnValueOnce(appStateMock.shipping.available_shipping_lines[0]);
 
-        const {result} = renderHook(() => useGetShippingLinesData());
+        const {result} = renderHook(() => useGetShippingLinesDataNoDebounce());
         const hookResult = result.current;
 
         act(() => {
             hookResult.handleChange(event);
         });
 
-        expect(mockDispatch).toBeCalledTimes(3);
-        expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
+        expect(mockDispatch).toBeCalledTimes(2);
+        expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(0);
     });
 
     test('testing when tax_shipping is false ', () => {
@@ -84,7 +84,7 @@ describe('Testing hook useGetShippingLinesData', () => {
         useGetAvailableShippingLinesMock.mockReturnValueOnce(appStateMock.shipping.available_shipping_lines);
         useGetSelectShippingLineMock.mockReturnValueOnce(appStateMock.shipping.available_shipping_lines[0]);
 
-        const {result} = renderHook(() => useGetShippingLinesData());
+        const {result} = renderHook(() => useGetShippingLinesDataNoDebounce());
         const hookResult = result.current;
 
         act(() => {
