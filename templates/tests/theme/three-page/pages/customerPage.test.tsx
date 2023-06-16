@@ -61,6 +61,7 @@ describe('testing CustomerPage', () => {
         useScreenBreakpointsMock.mockReturnValue(mockScreenBreakpoints);
         addEventListenerSpy = jest.spyOn(global, 'addEventListener');
 
+        window.headerLogoUrl = '';
         window.publicOrderId = 'pubOrderIDMultiEvent';
         window.initialTimestamps = {
             'CheckoutExperienceDomLoading': '2022-09-03 15:00:00.000',
@@ -68,7 +69,7 @@ describe('testing CustomerPage', () => {
         } as IFrontEndEvent;
     });
 
-    test('Rendering customerPage properly', () => {
+    test('Rendering customerPage properly with title', () => {
         const context = {};
         HelmetProvider.canUseDOM = false;
         const {container} = render(<HelmetProvider context={context}><CustomerPage/></HelmetProvider>);
@@ -78,6 +79,21 @@ describe('testing CustomerPage', () => {
         expect(container.getElementsByClassName('three-page').length).toBe(1);
         expect(container.getElementsByClassName('customer-section').length).toBe(1);
         expect(container.getElementsByClassName('website-title').length).toBe(2);
+        expect(container.getElementsByClassName('website-title-logo').length).toBe(0);
+    });
+
+    test('Rendering customerPage properly with logo', () => {
+        window.headerLogoUrl = 'logo.shop.com';
+        const context = {};
+        HelmetProvider.canUseDOM = false;
+        const {container} = render(<HelmetProvider context={context}><CustomerPage/></HelmetProvider>);
+        global.dispatchEvent(new Event('load'));
+        expect(useSendEventMock).toHaveBeenCalled();
+        expect(addEventListenerSpy).toHaveBeenCalled();
+        expect(container.getElementsByClassName('three-page').length).toBe(1);
+        expect(container.getElementsByClassName('customer-section').length).toBe(1);
+        expect(container.getElementsByClassName('website-title').length).toBe(0);
+        expect(container.getElementsByClassName('website-title-logo').length).toBe(2);
     });
 
     test('Rendering customerPage properly when page innerWidth <= 767px', () => {
@@ -91,5 +107,6 @@ describe('testing CustomerPage', () => {
         expect(container.getElementsByClassName('three-page').length).toBe(1);
         expect(container.getElementsByClassName('customer-section').length).toBe(1);
         expect(container.getElementsByClassName('website-title').length).toBe(2);
+        expect(container.getElementsByClassName('website-title-logo').length).toBe(0);
     });
 });

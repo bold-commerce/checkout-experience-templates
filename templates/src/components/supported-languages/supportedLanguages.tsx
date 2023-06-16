@@ -3,13 +3,12 @@ import {useSupportedLanguages} from 'src/hooks';
 import {FieldSelect} from 'src/components';
 
 export function SupportedLanguages(): React.ReactElement {
-
     const {languagesOptions, value , handleChange} = useSupportedLanguages();
-    return (
 
-        <div className={'supported-language__container'}>
-            {
-                (languagesOptions && languagesOptions.length > 1) ?
+    return (
+        <>
+            {(languagesOptions && languagesOptions.length > 1) &&
+                <div className={'supported-language__container'}>
                     <FieldSelect
                         className={'supported-languages-select-field'}
                         data-testid='supported-language-input-select'
@@ -20,9 +19,8 @@ export function SupportedLanguages(): React.ReactElement {
                         value={value}
                         options={languagesOptions}
                     />
-                    : null
+                </div>
             }
-        </div>
-
+        </>
     );
 }
