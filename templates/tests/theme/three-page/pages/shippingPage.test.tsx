@@ -1,5 +1,5 @@
 import {render} from '@testing-library/react';
-import {PaymentPage, ShippingLinesPage} from 'src/themes/three-page/pages';
+import {ShippingLinesPage} from 'src/themes/three-page/pages';
 import {IUseCustomerPageProp} from 'src/types';
 import React from 'react';
 import {initialDataMock} from 'src/mocks';
@@ -44,14 +44,27 @@ describe('testing ShippingPage', () => {
         jest.clearAllMocks();
         useShippingPageMock.mockReturnValue(props);
         useGetShopUrlFromShopAliasMock.mockReturnValue(shopURL);
+        window.headerLogoUrl = '';
     });
 
-    test('Rendering shippingPage properly', () => {
+    test('Rendering shippingPage properly with title', () => {
         const context = {};
         HelmetProvider.canUseDOM = false;
         const {container} = render(<HelmetProvider context={context}><ShippingLinesPage/></HelmetProvider>);
         expect(container.getElementsByClassName('three-page').length).toBe(1);
         expect(container.getElementsByClassName('customer-section').length).toBe(1);
         expect(container.getElementsByClassName('website-title').length).toBe(2);
+        expect(container.getElementsByClassName('website-title-logo').length).toBe(0);
+    });
+
+    test('Rendering shippingPage properly with logo', () => {
+        window.headerLogoUrl = 'https://headerlogo.store.com';
+        const context = {};
+        HelmetProvider.canUseDOM = false;
+        const {container} = render(<HelmetProvider context={context}><ShippingLinesPage/></HelmetProvider>);
+        expect(container.getElementsByClassName('three-page').length).toBe(1);
+        expect(container.getElementsByClassName('customer-section').length).toBe(1);
+        expect(container.getElementsByClassName('website-title').length).toBe(0);
+        expect(container.getElementsByClassName('website-title-logo').length).toBe(2);
     });
 });
