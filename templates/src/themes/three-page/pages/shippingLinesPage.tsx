@@ -5,9 +5,11 @@ import {
     Footer,
     FormControls, Header,
     HeaderHelmet,
+    HeaderLogo,
     ScreenReaderAnnouncement,
     ShippingLines,
     SummarySection,
+    Title,
 } from 'src/components';
 import {sendEvents, sendPageView} from 'src/analytics';
 import {
@@ -22,6 +24,7 @@ import {Constants} from 'src/constants';
 export function ShippingLinesPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading, title} = useShippingPage();
     const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
+    const headerLogoUrl = window.headerLogoUrl;
     useOnLoadValidateCustomer();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
@@ -37,7 +40,12 @@ export function ShippingLinesPage(): React.ReactElement {
             <div className={'three-page'}>
                 <Header isMobile={true} />
                 <div className='customer-section' >
-                    <Header isMobile={false} />
+                    <header className={'main-header'}>
+                        {headerLogoUrl 
+                            ? <HeaderLogo />
+                            : <Title/>
+                        }
+                    </header>
                     <main aria-label={mainAriaLabel}>
                         <Breadcrumbs active={active}/>
                         <form onSubmit={withPreventDefault(nextButtonOnClick)}>
