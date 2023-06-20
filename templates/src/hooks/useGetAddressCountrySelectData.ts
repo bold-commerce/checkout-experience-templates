@@ -1,6 +1,6 @@
 import {useDispatch} from 'react-redux';
 import {useGetCountryInfoList, useGetAddressDataField, useCallApiAtOnEvents, useGetErrorByField} from 'src/hooks';
-import {useCallback} from 'react';
+import {useCallback, useEffect} from 'react';
 import {actionUpdateAddressField, actionRemoveErrorByField} from 'src/action';
 import {IAddressCountryHookProps} from 'src/types';
 import {AddressLabelMapping, Constants, defaultAddressState} from 'src/constants';
@@ -28,16 +28,19 @@ export function useGetAddressCountryInputData(type: string, debounceApiCall: () 
     } else {
         errorMessage = undefined;
     }
-    if (countriesList && countriesList.length === 1) {
-        if (countryName === '') {
-            countryName = countriesList[0].name;
-            dispatch(actionUpdateAddressField(Constants.ADDRESS_COUNTRY, countryName, type));
+
+    useEffect(() => {
+        if (countriesList && countriesList.length === 1) {
+            if (countryName === '') {
+                countryName = countriesList[0].name;
+                dispatch(actionUpdateAddressField(Constants.ADDRESS_COUNTRY, countryName, type));
+            }
+            if (value === '') {
+                value = countriesList[0].iso_code;
+                dispatch(actionUpdateAddressField(Constants.ADDRESS_COUNTRY_CODE, value, type));
+            }
         }
-        if (value === '') {
-            value = countriesList[0].iso_code;
-            dispatch(actionUpdateAddressField(Constants.ADDRESS_COUNTRY_CODE, value, type));
-        }
-    }
+    }, [countriesList, countryName, value]);
 
     const handleChange = useCallback(e => {
         const value = e.target.value;

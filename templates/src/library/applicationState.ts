@@ -32,7 +32,7 @@ import {
 } from 'src/action';
 import {Constants, defaultAddressState} from 'src/constants';
 import {IOrderInitialization} from 'src/types';
-import {handleErrorIfNeeded} from 'src/utils';
+import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
 
 export async function getUpdatedApplicationState(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void>{
     const response:IApiReturnObject = await getRefreshedApplicationState();
@@ -119,12 +119,29 @@ export async function getShippingFromLib(dispatch: Dispatch): Promise<void>{
     dispatch(actionUpdateShippingLinesDiscount(shipping.discounts));
 }
 
-export async function getShippingAddressFromLib(dispatch: Dispatch): Promise<void>{
-    let shipping = getShippingAddress();
-    if(!shipping || Object.keys(shipping).length <=0){
-        shipping = defaultAddressState;
+export async function getShippingAddressFromLib(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void>{
+    let libShipping = getShippingAddress();
+    const state = getState();
+    const stateShipping = state.data.application_state.addresses.shipping;
+
+    // adjust properties so we can do a direct compare
+    const stateShippingSimple = {
+        ...stateShipping,
+        country: '',
+        country_code: '',
+    };
+
+    delete stateShippingSimple.id;
+
+    if (!libShipping || Object.keys(libShipping).length <=0) {
+        libShipping = defaultAddressState;
     }
-    dispatch(actionUpdateAddress(Constants.SHIPPING , shipping));
+
+    // only update address if lib and state shipping match
+    // prevents clobbering of state actively being set
+    if (isObjectEquals(libShipping, stateShippingSimple)) {
+        dispatch(actionUpdateAddress(Constants.SHIPPING , libShipping));
+    }
 }
 
 export async function getSummaryStateFromLib(dispatch: Dispatch): Promise<void>{

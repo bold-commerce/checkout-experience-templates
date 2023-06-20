@@ -10,6 +10,7 @@ import {Constants} from 'src/constants';
 import {renderHook} from '@testing-library/react-hooks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
+import {actionUpdateAddressField} from 'src/action';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -33,7 +34,7 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
     const getTermValue = 'test-value';
     const countriesListSorted = initialDataMock.initial_data.country_info.sort((a, b) => a.name < b.name ? -1 : 1);
     const countriesList = initialDataMock.initial_data.country_info;
-    const countriesOptions = countriesList.map(country => ({ value: country.iso_code, name: country.name })).sort((a, b) => a.name < b.name ? -1 : 1);
+    const countriesOptions = countriesList.map(country => ({value: country.iso_code, name: country.name})).sort((a, b) => a.name < b.name ? -1 : 1);
     const target ={
         target: {
             value: '',
@@ -104,6 +105,9 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
         expect(result.current.value).toStrictEqual(getTermValue);
         expect(result.current.errorMessage).toStrictEqual(undefined);
 
+        expect(mockDispatch).toBeCalledTimes(1);
+        expect(mockDispatch).toHaveBeenCalledWith(actionUpdateAddressField('country', 'Canada', 'test'));
+
         result.current.handleChange(target);
         expect(mockDispatch).toBeCalledTimes(5);
         expect(debounceMock).toBeCalledTimes(0);
@@ -119,8 +123,10 @@ describe('Testing hook useGetAddressCountrySelectData', () => {
         expect(result.current.countryOptions).toStrictEqual([countriesOptions[0]]);
         expect(result.current.id).toStrictEqual(type+'-address__country');
         expect(result.current.name).toStrictEqual(Constants.ADDRESS_COUNTRY);
-        expect(result.current.value).toStrictEqual('CA');
         expect(result.current.errorMessage).toStrictEqual(undefined);
+
+        expect(mockDispatch).toBeCalledTimes(1);
+        expect(mockDispatch).toHaveBeenCalledWith(actionUpdateAddressField('country_code', 'CA', 'test'));
 
         result.current.handleChange(target);
         expect(mockDispatch).toBeCalledTimes(5);
