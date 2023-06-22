@@ -6,13 +6,19 @@ import {useScreenBreakpoints} from 'src/hooks';
 
 export function Header(props: ITitle): React.ReactElement {
     const {isMobile} = useScreenBreakpoints();
+    const headerLogoUrl = window.headerLogoUrl;
 
     return(
-        <header className={props.isMobile ? classNames(['main-header-mobile']) : classNames(['main-header'])}>
+        <header className={classNames([
+            props.isMobile ? 'main-header-mobile' : 'main-header',
+            headerLogoUrl && 'main-header__logo'
+        ])}>
             {isMobile && <SupportedLanguages/>}
-            <HeaderLogo />
-            <Title/>
-            {!isMobile && <SupportedLanguages/>}
+            {headerLogoUrl 
+                ? <HeaderLogo />
+                : <Title/>
+            }
+            {!isMobile && <SupportedLanguages />}
         </header>
     );
 }

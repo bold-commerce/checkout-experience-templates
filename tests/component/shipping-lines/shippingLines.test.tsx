@@ -64,7 +64,7 @@ describe('Testing shipping lines component', () => {
     });
 
     test.each(dataArray)( '$name', async ({name, loadingParameter, validParameter, shippingLineLabelLength, shippingLineBlockLength, shippingLinesLength, shippingLinesCalled}) => {
-        getShippingLinesMock.mockReturnValueOnce({loading: loadingParameter, isValidAddress: validParameter, notValidText: 'testText1', fieldSectionText: 'testText2'});
+        getShippingLinesMock.mockReturnValueOnce({loading: loadingParameter, isValidAddress: validParameter, notValidText: 'testText1', fieldSectionText: 'testText2', taxShippingText: 'text'});
         const {container} = render(<ShippingLines/>);
         expect(container.getElementsByClassName('shipping-line__no-valid-address-label').length).toBe(shippingLineLabelLength);
         expect(container.getElementsByClassName('shipping-line__block').length).toBe(shippingLineBlockLength);

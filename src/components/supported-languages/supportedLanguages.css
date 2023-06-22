@@ -7,6 +7,10 @@
     margin-left: auto;
 }
 
+.one-page .main-header__logo .supported-language__container {
+    margin-left: unset;
+}
+
 .supported-language__container .select-field {
     margin-bottom: 0;
 }

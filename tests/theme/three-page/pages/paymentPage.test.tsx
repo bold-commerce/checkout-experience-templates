@@ -47,14 +47,27 @@ describe('testing PaymentPage', () => {
         jest.clearAllMocks();
         usePaymentPageMock.mockReturnValue(props);
         useGetShopUrlFromShopAliasMock.mockReturnValue(shopURL);
+        window.headerLogoUrl = '';
     });
 
-    test('Rendering PaymentPage properly', () => {
+    test('Rendering PaymentPage properly with title', () => {
         const context = {};
         HelmetProvider.canUseDOM = false;
         const {container} = render(<HelmetProvider context={context}><PaymentPage/></HelmetProvider>);
         expect(container.getElementsByClassName('three-page').length).toBe(1);
         expect(container.getElementsByClassName('customer-section').length).toBe(1);
         expect(container.getElementsByClassName('website-title').length).toBe(2);
+        expect(container.getElementsByClassName('website-title-logo').length).toBe(0);
+    });
+
+    test('Rendering PaymentPage properly with logo', () => {
+        window.headerLogoUrl = 'https://headerlogo.store.com';
+        const context = {};
+        HelmetProvider.canUseDOM = false;
+        const {container} = render(<HelmetProvider context={context}><PaymentPage/></HelmetProvider>);
+        expect(container.getElementsByClassName('three-page').length).toBe(1);
+        expect(container.getElementsByClassName('customer-section').length).toBe(1);
+        expect(container.getElementsByClassName('website-title').length).toBe(0);
+        expect(container.getElementsByClassName('website-title-logo').length).toBe(2);
     });
 });

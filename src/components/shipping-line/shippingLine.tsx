@@ -1,12 +1,15 @@
 import React from 'react';
 import {FieldRadio, LockedSection, ConditionalWrap} from 'src/components';
-import {useGetShippingLinesData} from 'src/hooks';
+import {useGetShippingLinesData, useGetShippingLinesDataNoDebounce} from 'src/hooks';
 import {Price} from '@boldcommerce/stacks-ui';
 import {IShippingLineProps} from 'src/types';
 import ClassNames from 'classnames';
+import {Constants} from 'src/constants';
 
 export function ShippingLine(props: IShippingLineProps): React.ReactElement {
-    const {shippingLines, selectedLine, handleChange, shippingLinesLength, noShippingAreaText, formattedPrice} = useGetShippingLinesData();
+    const useDebounce = props.theme != Constants.THREE_PAGE;
+    const {shippingLines, selectedLine, handleChange, shippingLinesLength, noShippingAreaText, formattedPrice} =
+        useDebounce ? useGetShippingLinesData() : useGetShippingLinesDataNoDebounce();
 
     return (
         <>

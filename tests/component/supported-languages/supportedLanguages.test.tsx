@@ -15,17 +15,17 @@ describe('testing Supported languages component', () => {
         useGetIsLoadingExceptSectionsMock.mockReturnValue(false);
     });
 
-    test('Rendering component with only one language ', () => {
+    test('Rendering component with only one language', () => {
 
         useSupportedLanguagesMock.mockReturnValueOnce({languagesOptions: [{value: 'en', name: 'English'}], value: '', handleChange: jest.fn()});
         const {container} = render(<SupportedLanguages/>);
 
-        expect(container.getElementsByClassName('supported-language__container').length).toBe(1);
+        expect(container.getElementsByClassName('supported-language__container').length).toBe(0);
         expect(container.getElementsByClassName('select-field').length).toBe(0);
 
     });
 
-    test('Rendering component with more than one language ', () => {
+    test('Rendering component with more than one language', () => {
 
         useSupportedLanguagesMock.mockReturnValueOnce({languagesOptions: [{value: 'en', name: 'English'}, {value: 'fr', name: 'French'}], value: '', handleChange: jest.fn()});
         const {container} = render(<SupportedLanguages/>);

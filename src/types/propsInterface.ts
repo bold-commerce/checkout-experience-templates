@@ -422,6 +422,7 @@ export interface IUseGetShippingLines {
     isValidAddress: boolean;
     notValidText: string;
     fieldSectionText: string;
+    taxShippingText: string;
 }
 
 export interface IUseGetPaymentSection {
@@ -555,6 +556,7 @@ export interface ICondensedShippingProps {
 
 export interface IShippingLineProps {
     showNoRatesAsAlert?: boolean;
+    theme?: string;
 }
 
 export interface IConditionalWrapProps {
@@ -566,6 +568,7 @@ export interface IConditionalWrapProps {
 
 export interface IShippingLinesProps {
     showNoRatesAsAlert?: boolean;
+    theme?: string,
 }
 
 export interface IUseGetFlashError {

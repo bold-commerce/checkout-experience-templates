@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Breadcrumbs, FormControls, Payment, SummarySection, FlashError, Header, HeaderHelmet, ScreenReaderAnnouncement, Footer, TaxExemption, ExternalPaymentGateway} from 'src/components';
+import {Breadcrumbs, FormControls, Payment, SummarySection, FlashError, Header, HeaderHelmet, ScreenReaderAnnouncement, Footer, TaxExemption, ExternalPaymentGateway, HeaderLogo, Title} from 'src/components';
 import {
     useBeforeUnload,
     useOnLoadValidateCustomerAndShipping,
@@ -14,8 +14,8 @@ import {Constants} from 'src/constants';
 export function PaymentPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable, title} = usePaymentPage();
     const externalPaymentGateways = useGetExternalPaymentGateways(Constants.PAYMENT_METHOD_BELOW);
-
     const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined, 'Checkout form');
+    const headerLogoUrl = window.headerLogoUrl;
     useOnLoadValidateCustomerAndShipping();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
@@ -31,7 +31,12 @@ export function PaymentPage(): React.ReactElement {
             <div className={'three-page'}>
                 <Header isMobile={true}/>
                 <div className='customer-section'>
-                    <Header isMobile={false}/>
+                    <header className={'main-header'}>
+                        {headerLogoUrl 
+                            ? <HeaderLogo />
+                            : <Title/>
+                        }
+                    </header>
                     <main aria-label={mainAriaLabel}>
                         <Breadcrumbs active={3}/>
                         <form onSubmit={withPreventDefault(nextButtonOnClick)}>
