@@ -8,10 +8,16 @@ export function ExpandableDiscount(): React.ReactElement {
 
     return (
         <div className={classNames(['expandable-discount'])}>
-            {!expandDiscount ? 
-                <a className={classNames(['expandable-discount__toggle'])} data-testid='discount-toggle' onClick={toggleDiscount} href="#discount">{discountCodeInputText}</a> :
-                <SummaryDiscountCode />
-            }
+            <a 
+                className={classNames(['expandable-discount__toggle', expandDiscount && 'expandable-discount__toggle--open'])} 
+                data-testid='discount-toggle' 
+                onClick={toggleDiscount} 
+                href="#discount"
+            >
+                {discountCodeInputText}
+            </a>
+
+            {expandDiscount && <SummaryDiscountCode />}
         </div>
     );
 }

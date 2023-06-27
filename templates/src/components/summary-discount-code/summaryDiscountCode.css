@@ -18,7 +18,7 @@
 
 .discount-code-input .btn-checkout{
     background: #0A75C2;
-    border: 1px solid #e6e6e6;
+    border: 0;
     box-sizing: border-box;
     box-shadow: 0 1px 2px #e6e6e6;
     border-radius: 4px;
@@ -35,6 +35,7 @@
 
 .discount-code__button[aria-disabled="true"]:hover {
     cursor: not-allowed;
+    box-shadow: none;
 }
 
 .discount-code-input .btn-checkout:focus {
@@ -43,7 +44,7 @@
 
 .discount-code__input-field {
     flex-grow: 1;
-    margin: 0 8px 8px 0;
+    margin: 0 8px 5px 0;
     order: 1;
     height: auto;
     overflow: hidden;
@@ -63,9 +64,8 @@
 }
 
 .discount-code-input .btn-checkout.stx-button--is-disabled:not(.stx-button--is-loading), .discount-code__button[aria-disabled="true"] {
-    background: #fff;
-    border-color: #595959;
-    color: #595959;
+    background: #ccc;
+    color: #fff;
     opacity: 1;
     box-shadow: 0 1px 2px #e6e6e6;
 }
