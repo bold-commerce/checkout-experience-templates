@@ -349,7 +349,8 @@ export interface ISummaryDiscountCode {
 export interface ISummaryDiscountLine{
     discountCloseLoading: boolean,
     deleteElementFromState: (e, i) => void
-    isLoading: boolean,
+    isLoading: boolean
+    formattedPrice: string
 }
 
 export interface IUseSummaryLineExpanded{
@@ -395,6 +396,7 @@ export interface IUseCartSummary {
     toggleSummary: () => void;
     lineItems: Array<ILineItem>
     summaryAriaLabel: string
+    formattedPrice: string
 }
 
 export interface IUseGetThankYou {

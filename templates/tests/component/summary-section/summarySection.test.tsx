@@ -35,6 +35,7 @@ describe('Testing CartSummary component', () => {
         toggleSummary: jest.fn(),
         lineItems: [],
         summaryAriaLabel: 'order summary',
+        formattedPrice: '${{amount}}',
     };
 
     const discounts : Array<IDiscount> = [
@@ -63,6 +64,7 @@ describe('Testing CartSummary component', () => {
         discountCloseLoading: false,
         deleteElementFromState: jest.fn(),
         isLoading: false,
+        formattedPrice: '${{amount}}',
     };
 
     beforeEach(() => {
