@@ -9,7 +9,7 @@ import {ISummaryDiscountLineProps} from 'src/types';
 import {getTerm} from 'src/utils';
 
 export function SummaryDiscountLine(props: ISummaryDiscountLineProps): React.ReactElement {
-    const {discountCloseLoading, deleteElementFromState, isLoading} = useSummaryDiscountLine();
+    const {discountCloseLoading, deleteElementFromState, isLoading, formattedPrice} = useSummaryDiscountLine();
     const notLoadingCloseDiscount = isLoading && !discountCloseLoading;
     const appliedDiscount = getTerm('applied_discount', Constants.SUMMARY_INFO);
     const deleteDiscount = getTerm('delete_discount', Constants.SUMMARY_INFO);
@@ -28,7 +28,7 @@ export function SummaryDiscountLine(props: ISummaryDiscountLineProps): React.Rea
                 </div>
             </div>
             <div className={'discount-code__discount-code-price'}>
-                <Price className={'discount_code--price'} amount={-props.amount} textAlign={'right'}/>
+                <Price className={'discount_code--price'} moneyFormatString={formattedPrice} amount={-props.amount} textAlign={'right'}/>
             </div>
         </div>
     );

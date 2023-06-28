@@ -3,7 +3,7 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import {SummaryDiscountLine} from 'src/components';
 import {mocked} from 'jest-mock';
 import {useSummaryDiscountLine} from 'src/hooks';
-import { getTerm } from 'src/utils';
+import {getTerm} from 'src/utils';
 
 jest.mock('src/hooks/useSummaryDiscountLine');
 jest.mock('src/utils/getTerm');
@@ -21,6 +21,7 @@ describe('Testing SummaryDiscountLine component', () => {
         discountCloseLoading: false,
         deleteElementFromState: jest.fn(),
         isLoading: false,
+        formattedPrice: '${{amount}}',
     };
 
     beforeEach(() => {
