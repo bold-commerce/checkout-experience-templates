@@ -71,6 +71,7 @@ describe('Testing ExpandableDiscount Component', () => {
         const {container} = render(<ExpandableDiscount />);
 
         expect(container.getElementsByClassName('expandable-discount__toggle').length).toBe(1);
+        expect(container.querySelectorAll('input').length).toBe(0);
     });
 
     test('render expanded component', () => {
@@ -78,7 +79,7 @@ describe('Testing ExpandableDiscount Component', () => {
 
         const {container, getByTestId} = render(<ExpandableDiscount />);
 
-        expect(container.getElementsByClassName('expandable-discount__toggle').length).toBe(0);
+        expect(container.getElementsByClassName('expandable-discount__toggle').length).toBe(1);
         expect(getByTestId('discount-code-input-field')).toBeTruthy();
         expect(getByTestId('apply-discount')).toBeTruthy();
     });
