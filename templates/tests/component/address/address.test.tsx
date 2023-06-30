@@ -67,19 +67,29 @@ describe('Testing Address component', () => {
         savedAddresses: savedAddresses,
         handleChange: jest.fn()
     };
+    const addressProvinceInputDataMock = {
+        placeholder: 'test',
+        label: 'test-label',
+        id: 'test-id',
+        name: 'test-name',
+        value: 'option1',
+        provinceName: 'Option 1',
+        showProvince: true,
+        provinceOptions: [],
+        handleChange: jest.fn()
+    };
+    const addressPostalCodeAndProvinceDataMock = {
+        province: [], provinceLabel:'', showProvince:true, showPostalCode:true
+    };
 
     beforeEach(() =>{
         jest.resetAllMocks();
-        useGetAddressPostalCodeAndProvinceDataMock.mockReturnValue({
-            province: [], provinceLabel:'', showProvince:true, showPostalCode:true
-        });
+        useGetAddressPostalCodeAndProvinceDataMock.mockReturnValue(addressPostalCodeAndProvinceDataMock);
         useGetSavedAddressDataMock.mockReturnValue(savedAddressData);
         useGetAddressCountryInputDataMock.mockReturnValue({
             placeholder: '', id: '1', name: 'test', value: 'test', handleChange: jest.fn(), countryOptions: [], countryName: '', label: ''
         });
-        useGetAddressProvinceInputDataMock.mockReturnValueOnce({
-            placeholder: 'test', label: 'test-label', id: 'test-id', name: 'test-name', value: 'option1', provinceName: 'Option 1', showProvince: true, provinceOptions: [], handleChange: jest.fn()
-        });
+        useGetAddressProvinceInputDataMock.mockReturnValue(addressProvinceInputDataMock);
         useGetCustomerInfoDataMock.mockReturnValue(initialDataMock.application_state.customer);
         useGetErrorByFieldMock.mockReturnValue('');
         getTermMock
@@ -94,7 +104,7 @@ describe('Testing Address component', () => {
             .mockReturnValueOnce('optional')
             .mockReturnValueOnce(true);
 
-        const { container, getByPlaceholderText } = render(<Address {...props}/>);
+        const {container, getByPlaceholderText} = render(<Address {...props}/>);
 
         expect(container.getElementsByClassName('address__FieldSection').length).toBe(1);
         expect(container.getElementsByClassName('address__saved-select').length).toBe(1);
@@ -120,7 +130,7 @@ describe('Testing Address component', () => {
             .mockReturnValueOnce('hidden')
             .mockReturnValueOnce(false);
 
-        const { container } = render(<Address {...localProps}/>);
+        const {container} = render(<Address {...localProps}/>);
 
         expect(container.getElementsByClassName('address__hidden').length).toBe(1);
         expect(container.getElementsByClassName('address__saved-select').length).toBe(0);
@@ -134,8 +144,49 @@ describe('Testing Address component', () => {
             .mockReturnValueOnce('required')
             .mockReturnValueOnce(false);
 
-        const { getByPlaceholderText} = render(<Address {...props}/>);
+        const {getByPlaceholderText} = render(<Address {...props}/>);
 
         expect(getByPlaceholderText('Company')).toBeTruthy();
+    });
+
+    test('Render address without province', () => {
+        useGetAddressProvinceInputDataMock.mockReturnValue({
+            ...addressProvinceInputDataMock,
+            showProvince: false,
+        });
+        useGetAddressPostalCodeAndProvinceDataMock.mockReturnValue({
+            ...addressPostalCodeAndProvinceDataMock,
+            showProvince: false,
+        });
+        const {container} = render(<Address {...props} />);
+        
+        const province = container.getElementsByClassName('address__province');
+        const postalCode = container.getElementsByClassName('address__postal_code');
+
+        expect(province.length).toBe(1);
+        expect(postalCode.length).toBe(1);
+        expect(province[0].classList).toContain('address__hidden');
+        expect(postalCode[0].classList).toContain('address__postal_code--full-width');
+    });
+
+    test('Render Address without province or postal code', () => {
+        useGetAddressProvinceInputDataMock.mockReturnValue({
+            ...addressProvinceInputDataMock,
+            showProvince: false,
+        });
+        useGetAddressPostalCodeAndProvinceDataMock.mockReturnValue({
+            ...addressPostalCodeAndProvinceDataMock,
+            showProvince: false,
+            showPostalCode: false,
+        });
+        const {container} = render(<Address {...props} />);
+        
+        const province = container.getElementsByClassName('address__province');
+        const postalCode = container.getElementsByClassName('address__postal_code');
+
+        expect(province.length).toBe(1);
+        expect(postalCode.length).toBe(1);
+        expect(province[0].classList).toContain('address__hidden');
+        expect(postalCode[0].classList).toContain('address__hidden');
     });
 });

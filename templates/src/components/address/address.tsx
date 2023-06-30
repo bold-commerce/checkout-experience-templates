@@ -19,8 +19,8 @@ export function Address(props: IAddressProps): React.ReactElement {
     const companyField = company === 'required' ? Constants.ADDRESS_BUSINESS : Constants.ADDRESS_BUSINESS_OPTIONAL;
     const isPhoneRequired = useGetGeneralSettingCheckoutFields('phone_number_required') as boolean;
     const phoneField = isPhoneRequired ? Constants.ADDRESS_PHONE : Constants.ADDRESS_PHONE_OPTIONAL;
-    const {showPostalCode} = useGetAddressPostalCodeAndProvinceData(type);
-    const postalCodeCN = ClassNames('address__postal_code', {'address__hidden': !showPostalCode});
+    const {showPostalCode, showProvince} = useGetAddressPostalCodeAndProvinceData(type);
+    const postalCodeCN = ClassNames('address__postal_code', {'address__hidden': !showPostalCode}, {'address__postal_code--full-width': !showProvince});
     const phoneCN = ClassNames('address__phone', {'address__phone--full-width': !showPostalCode});
     const businessNameCN = ClassNames('address__company', {'address__hidden': hideCompany});
     const commonProps = {type, debounceApiCall};
