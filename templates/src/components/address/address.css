@@ -49,6 +49,11 @@
 
 .input-field__container.address__postal_code{
     width: 50%;
+    margin-bottom: 8px;
+}
+
+.input-field__container.address__postal_code.address__postal_code--full-width{
+    width: 100%;
 }
 
 .input-field__container.address__hidden,
