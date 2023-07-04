@@ -1,44 +1,56 @@
+.expandable-discount {
+    border: 1px solid rgb(148, 148, 148);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
 .expandable-discount .discount-code--border-bottom {
     padding-top: 0;
     padding-bottom: 0;
     border-bottom: 0;
 }
 
-.expandable-discount .discount-code__button {
-    width: 120px;
+.expandable-discount__toggle {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    cursor: pointer;
+    padding: 8px;
+    margin: 2px;
 }
 
-.expandable-discount__toggle {
-    padding-left: 20px;
-    display: block;
-    position: relative;
-    color: #0A75C2;
-    height: 22px;
-    line-height: 22px;
-    cursor: pointer;
-    font-weight: bold;
+.buy-now a.expandable-discount__toggle,
+.buy-now a.expandable-discount__toggle:focus {
+    color: #1a1a1a;
+}
+
+.buy-now a.expandable-discount__toggle:hover {
+    color: inherit;
+    text-decoration: none;
 }
 
 .expandable-discount__toggle:before {
     content: '';
-    height: 11px;
-    width: 1px;
-    background: #0A75C2;
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate(5px, 50%) rotate(90deg);
+    position: relative;
+    border-style: solid;
+    border-width: 2px 2px 0 0;
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    transform: rotate(135deg);
+    margin: 0 15px 0 5px;
 }
 
-.expandable-discount__toggle:after {
-    content: '';
-    height: 11px;
-    width: 1px;
-    background: #0A75C2;
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate(5px, 50%);
+.expandable-discount__toggle--open {
+    align-items: flex-end;
+}
+
+.expandable-discount__toggle--open:before {
+    transform: rotate(-45deg);
+}
+
+.expandable-discount .discount-code {
+    background: #FAFAFA;
+    border-top: 1px solid #D9D9D9;
+    padding: 10px 10px 0px;
 }

@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import {Price} from '@boldcommerce/stacks-ui';
 
 export function SummarySection (props: ISummarySection) : React.ReactElement {
-    const {expandSummary, showSummary, toggleSummary, totals, lineItems, summaryAriaLabel} = useCartSummary();
+    const {expandSummary, showSummary, toggleSummary, totals, lineItems, summaryAriaLabel, formattedPrice} = useCartSummary();
 
     const classes = classNames([
         'summary__cart--expand',
@@ -21,7 +21,7 @@ export function SummarySection (props: ISummarySection) : React.ReactElement {
                 </button>
                 <div className={'summary__cart-title'} onClick={toggleSummary} data-testid={'summary__cart-total'}>
                     <h2 className={'cart-summary__title-content'} data-testid={'summary__cart-total-title'}>Summary</h2>
-                    <Price amount={totals} className={'summary__cart-price'} data-testid={'summary__cart-total-price'}/>
+                    <Price amount={totals} moneyFormatString={formattedPrice} className={'summary__cart-price'} data-testid={'summary__cart-total-price'}/>
                 </div>
                 {showSummary && <CartItems line_items={lineItems}/>}
                 {showSummary && !props.orderCompleted && <SummaryDiscountCode />}

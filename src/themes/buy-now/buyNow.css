@@ -357,7 +357,7 @@ html, body, .buy-now__app {
 }
 
 .buy-now__payment .payment {
-  padding-top: 0;
+  padding: 8px 0 0;
 }
 
 .buy-now .address__address2 .input-field__label {

@@ -7,8 +7,8 @@ import {
     useSummaryDiscountCode,
     useSummaryDiscountLine
 } from 'src/hooks';
-import { ExpandableDiscount } from 'src/components';
-import { ISummaryDiscountLine } from 'src/types';
+import {ExpandableDiscount} from 'src/components';
+import {ISummaryDiscountLine} from 'src/types';
 import {getTerm} from 'src/utils';
 
 const mockDispatch = jest.fn();
@@ -49,10 +49,11 @@ describe('Testing ExpandableDiscount Component', () => {
         ariaLive: ''
     };
 
-    const hookResultForDiscountLine: ISummaryDiscountLine= {
+    const hookResultForDiscountLine: ISummaryDiscountLine = {
         discountCloseLoading: false,
         deleteElementFromState: jest.fn(),
         isLoading: false,
+        formattedPrice: '${{amount}}',
     };
 
     beforeEach(() => {
@@ -70,6 +71,7 @@ describe('Testing ExpandableDiscount Component', () => {
         const {container} = render(<ExpandableDiscount />);
 
         expect(container.getElementsByClassName('expandable-discount__toggle').length).toBe(1);
+        expect(container.querySelectorAll('input').length).toBe(0);
     });
 
     test('render expanded component', () => {
@@ -77,7 +79,7 @@ describe('Testing ExpandableDiscount Component', () => {
 
         const {container, getByTestId} = render(<ExpandableDiscount />);
 
-        expect(container.getElementsByClassName('expandable-discount__toggle').length).toBe(0);
+        expect(container.getElementsByClassName('expandable-discount__toggle').length).toBe(1);
         expect(getByTestId('discount-code-input-field')).toBeTruthy();
         expect(getByTestId('apply-discount')).toBeTruthy();
     });

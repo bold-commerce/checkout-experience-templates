@@ -53,6 +53,7 @@ describe('Testing SummaryDiscountCode Component', () => {
         discountCloseLoading: false,
         deleteElementFromState: jest.fn(),
         isLoading: false,
+        formattedPrice: '${{amount}}',
     };
 
     beforeEach(() => {
