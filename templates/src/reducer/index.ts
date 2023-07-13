@@ -24,3 +24,5 @@ export * from './selectShippingLineReducer';
 export * from './shippingLineItemReducer';
 export * from './taxesReducer';
 export * from './validReducer';
+export * from './lifeFieldsInitialDataReducer';
+export * from './flowSettingsInitialDataReducer';

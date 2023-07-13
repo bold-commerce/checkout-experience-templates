@@ -9,7 +9,8 @@ import {
     IPayment,
     IProvince,
     IShippingLine,
-    ITax
+    ITax,
+    ILifeField,
 } from '@boldcommerce/checkout-frontend-library';
 import {Constants} from 'src/constants';
 
@@ -604,3 +605,73 @@ export interface IExternalPaymentGatewayIframeProps {
     onLoad: () => void;
     externalPaymentGateway: IExternalPaymentGateway;
 }
+
+export interface ILifeFieldsProps {
+    lifeFields: Array<ILifeField>;
+    className?: string;
+}
+
+export interface ILifeFieldProps {
+    key: string;
+    lifeField: ILifeField;
+}
+
+export interface ILifeFieldInput {
+    inputValue: string;
+    label: string;
+    placeHolder: string;
+    id: string;
+    handleChange: (e) => void;
+}
+
+export interface ILifeFieldCheckbox {
+    checked: boolean;
+    value: string;
+    label: string;
+    helpText: string;
+    id: string;
+    handleChange: (e) => void;
+}
+
+export interface ITextareaProps {
+    id?: string,
+    className?: string,
+    name?: string,
+    value?: string,
+    placeholder?: string,
+    messageType?: string,
+    minLength?: number,
+    maxLength?: number,
+    autoComplete?: string,
+    disabled?: boolean,
+    readOnly?: boolean,
+    testId?: string,
+    onFocus?: (e) => void;
+    onBlur?: (et) => void,
+    onChange?: React.ChangeEventHandler<HTMLTextAreaElement>,
+    onKeyUp?: React.KeyboardEventHandler<HTMLTextAreaElement>,
+    onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>,
+}
+
+export interface IFieldTextareaProps {
+    label?: string;
+    id?: string,
+    className?: string,
+    name?: string,
+    value?: string,
+    placeholder?: string,
+    messageType?: string,
+    messageText?: string,
+    minLength?: number,
+    maxLength?: number,
+    autoComplete?: string,
+    disabled?: boolean,
+    readOnly?: boolean,
+    testId?: string,
+    onFocus?: (e) => void;
+    onBlur?: (et) => void,
+    onChange?: React.ChangeEventHandler<HTMLTextAreaElement>,
+    onKeyUp?: React.KeyboardEventHandler<HTMLTextAreaElement>,
+    onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>,
+}
+

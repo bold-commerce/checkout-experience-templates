@@ -1,19 +1,35 @@
 import React, {useEffect} from 'react';
-import {Breadcrumbs, FormControls, Payment, SummarySection, FlashError, Header, HeaderHelmet, ScreenReaderAnnouncement, Footer, TaxExemption, ExternalPaymentGateway, HeaderLogo, Title} from 'src/components';
+import {
+    Breadcrumbs,
+    FormControls,
+    Payment,
+    SummarySection,
+    FlashError,
+    Header,
+    HeaderHelmet,
+    ScreenReaderAnnouncement,
+    Footer,
+    TaxExemption,
+    ExternalPaymentGateway,
+    HeaderLogo,
+    Title,
+    LifeFields
+} from 'src/components';
 import {
     useBeforeUnload,
     useOnLoadValidateCustomerAndShipping,
     useScrollToElementOnNavigation,
-    useGetExternalPaymentGateways
+    useGetExternalPaymentGateways, useGetLifeFields
 } from 'src/hooks';
 import {usePaymentPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
 import {getTerm, withPreventDefault} from 'src/utils';
-import {Constants} from 'src/constants';
+import {Constants, LifeInputLocationConstants} from 'src/constants';
 
 export function PaymentPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable, title} = usePaymentPage();
     const externalPaymentGateways = useGetExternalPaymentGateways(Constants.PAYMENT_METHOD_BELOW);
+    const paymentGatewayLifeFields = useGetLifeFields(LifeInputLocationConstants.PAYMENT_GATEWAY);
     const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined, 'Checkout form');
     const headerLogoUrl = window.headerLogoUrl;
     useOnLoadValidateCustomerAndShipping();
@@ -51,6 +67,7 @@ export function PaymentPage(): React.ReactElement {
                                     key={externalGateway.public_id}
                                 />
                             )}
+                            <LifeFields lifeFields={paymentGatewayLifeFields}/>
                             <TaxExemption />
                             <FormControls
                                 backLinkOnClick={backLinkOnClick}

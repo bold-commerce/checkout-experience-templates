@@ -171,7 +171,25 @@ export class PlatformTypeConstants {
     static WOO_COMMERCE = 'woocommerce';
 }
 
+export class LifeInputTypeConstants {
+    static TEXT = 'text';
+    static TEXTAREA = 'textarea';
+    static HTML = 'html';
+    static CHECKBOX = 'checkbox';
+}
+
+export class LifeInputLocationConstants {
+    static CUSTOMER_INFO = 'customer_info';
+    static SHIPPING = 'shipping';
+    static BILLING_ADDRESS_AFTER = 'billing_address_after';
+    static SHIPPING_LINES = 'shipping_lines';
+    static BELOW_ACTIONS = 'below_actions';
+    static SUMMARY_ABOVE_HEADER = 'summary_above_header';
+    static PAYMENT_GATEWAY = 'payment_gateway';
+}
+
 export const MOBILE_SCREEN_WIDTH = 768;
 export const TABLET_SCREEN_WIDTH = 1200;
+export const TEXTAREA_MAX_LENGTH = 2000;
 
 export const PLUGIN_BACKEND_DISCOUNT_SOURCE = 'cart';

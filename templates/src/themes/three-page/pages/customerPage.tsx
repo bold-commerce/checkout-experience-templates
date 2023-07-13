@@ -14,13 +14,22 @@ import {
     Footer,
     ExternalPaymentGateway,
     HeaderLogo,
-    Title
+    Title,
+    LifeFields
 } from 'src/components';
-import {useBeforeUnload, useScreenBreakpoints, useScrollToElementOnNavigation, useSendEvent, useGetExternalPaymentGateways, useIsUserAuthenticated} from 'src/hooks';
+import {
+    useBeforeUnload,
+    useScreenBreakpoints,
+    useScrollToElementOnNavigation,
+    useSendEvent,
+    useGetExternalPaymentGateways,
+    useIsUserAuthenticated,
+    useGetLifeFields
+} from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
 import {getTerm, withPreventDefault} from 'src/utils';
-import {Constants} from 'src/constants';
+import {Constants, LifeInputLocationConstants} from 'src/constants';
 import {setDefaultAddresses} from 'src/library';
 import {useDispatch} from 'react-redux';
 
@@ -30,6 +39,9 @@ export function CustomerPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading, title} = useCustomerPage();
     const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
     const externalPaymentGateways = useGetExternalPaymentGateways(Constants.CUSTOMER_INFO_ABOVE);
+    const customerInfoLifeFields = useGetLifeFields(LifeInputLocationConstants.CUSTOMER_INFO);
+    const shippingLifeFields = useGetLifeFields(LifeInputLocationConstants.SHIPPING);
+    const billingAddressAfterLifeFields = useGetLifeFields(LifeInputLocationConstants.BILLING_ADDRESS_AFTER);
     const headerLogoUrl = window.headerLogoUrl;
     const isCustomerLoggedIn = useIsUserAuthenticated();
     useBeforeUnload();
@@ -84,8 +96,11 @@ export function CustomerPage(): React.ReactElement {
                             <FlashError/>
                             <ExpressPaymentGateway/>
                             <CustomerInformation/>
+                            <LifeFields lifeFields={customerInfoLifeFields}/>
                             <ShippingAddress/>
+                            <LifeFields lifeFields={shippingLifeFields}/>
                             <BillingAddress/>
+                            <LifeFields lifeFields={billingAddressAfterLifeFields}/>
                             <FormControls
                                 backLinkOnClick={backLinkOnClick}
                                 backLinkText={backLinkText}

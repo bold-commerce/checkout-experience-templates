@@ -52,5 +52,12 @@
 @import '../src/components/thank-you/thankYou.css';
 @import '../src/components/title/title.css';
 @import '../src/components/screen-reader-announcement/screenReaderAnnouncement.css';
+@import '../src/components/life-field-checkbox/lifeFieldCheckbox.css';
+@import '../src/components/life-field-html/lifeFieldHtml.css';
+@import '../src/components/life-field-text/lifeFieldText.css';
+@import '../src/components/life-field-textarea/lifeFieldTextarea.css';
+@import '../src/components/life-fields/lifeFields.css';
+@import '../src/components/field-textarea/fieldTextarea.css';
+@import '../src/components/textarea/textarea.css';
 
 @import '~@boldcommerce/checkout-express-pay-library/lib/style.css';

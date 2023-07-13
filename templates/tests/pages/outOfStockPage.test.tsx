@@ -8,7 +8,8 @@ import {
     useGetOutOfStock,
     useGetShopUrlFromShopAlias,
     useScreenBreakpoints,
-    useSupportedLanguages
+    useSupportedLanguages,
+    useGetLifeFields
 } from 'src/hooks';
 import {OutOfStockPage} from 'src/pages';
 import {IUseContactUs, IUseFooter, IUseOutOfStock} from 'src/types';
@@ -23,6 +24,7 @@ jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useScreenBreakpoints');
+jest.mock('src/hooks/useGetLifeFields');
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetOutOfStockMock = mocked(useGetOutOfStock, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
@@ -31,6 +33,7 @@ const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 const getTermMock = mocked(getTerm, true);
+const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 
 describe('testing OutOfStockPage', () => {
     const terms: Record<string, string> = {
@@ -65,6 +68,7 @@ describe('testing OutOfStockPage', () => {
         useGetShopUrlFromShopAliasMock.mockReturnValue('https://google.com');
         useGetAppSettingDataMock.mockReturnValue('en');
         getTermMock.mockReturnValue('test');
+        useGetLifeFieldsMock.mockReturnValue([]);
     });
 
     test('Rendering OutOfStockPage', () => {

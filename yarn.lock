@@ -2,3 +2,17 @@
 # yarn lockfile v1
 
 
+"@boldcommerce/checkout-frontend-library@0.48.0":
+  version "0.48.0"
+  resolved "https://registry.npmjs.org/@boldcommerce/checkout-frontend-library/-/checkout-frontend-library-0.48.0.tgz#741de2de9662aecbbc056789b1ab687443c3bbf1"
+  integrity sha512-cWhC9UXMVQfD0tJx7ZO+jh43aOHEMEC2WlKrcTHehev1djngJbGhvflnsSHP/QrUwjRkUfKBqF+BcSNdjf7VLA==
+
+add@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.npmjs.org/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
+  integrity sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q==
+
+yarn@^1.22.19:
+  version "1.22.19"
+  resolved "https://registry.npmjs.org/yarn/-/yarn-1.22.19.tgz#4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
+  integrity sha512-/0V5q0WbslqnwP91tirOvldvYISzaqhClxzyUKXYxs07yUILIs5jx/k6CFe8bvKSkds5w+eiOqta39Wk3WxdcQ==
