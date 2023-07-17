@@ -21,6 +21,8 @@ export function useGetShippingLinesData(): IShippingLinesHookProps {
     const shippingLines: Array<IShippingLine> = useGetAvailableShippingLines();
     const selectedLine: IShippingLine = useGetSelectShippingLine();
     const shippingLinesLength = shippingLines.length;
+    const orderTotal = useGetOrderTotal();
+    const taxShipping = useGetGeneralSettingCheckoutFields('tax_shipping');
 
     const noShippingAreaText = getTerm('no_shipping_available', Constants.SHIPPING_METHOD_INFO);
 
@@ -29,9 +31,14 @@ export function useGetShippingLinesData(): IShippingLinesHookProps {
         const id = e.target.value;
         const shippingLine = shippingLines.find(o => o.id === id);
         if (shippingLine) {
-            dispatch(actionSetLoaderAndDisableButton('shippingPageButton', true));
-            dispatch(actionSetSelectedShippingLine(shippingLine));
-            dispatch(debounceApiCall);
+            if (taxShipping) {
+                dispatch(actionSetLoaderAndDisableButton('shippingPageButton', true));
+                dispatch(actionSetSelectedShippingLine(shippingLine));
+                dispatch(debounceApiCall);
+            } else {
+                dispatch(actionSetSelectedShippingLine(shippingLine));
+                dispatch(actionOrderTotal(shippingLine.amount - selectedLine.amount + orderTotal));
+            }
         }
 
     }, []);
