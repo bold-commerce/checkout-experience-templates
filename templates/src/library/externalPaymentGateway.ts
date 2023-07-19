@@ -115,7 +115,7 @@ export function updateExternalPaymentGatewayShippingAddress(payload: IAddress) {
     };
 }
 
-export function getAllExternalPaymentGateways(getState: () => IOrderInitialization) {
+export function getAllExternalPaymentGateways(getState: () => IOrderInitialization): Array<IExternalPaymentGateway> {
     const externalPaymentGatewaysInfo = getState().data.initial_data.external_payment_gateways;
 
     return externalPaymentGatewaysInfo.filter(externalPaymentGatewayInfo =>
