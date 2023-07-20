@@ -6,6 +6,7 @@ import {
     FormControls, Header,
     HeaderHelmet,
     HeaderLogo,
+    LifeFields,
     ScreenReaderAnnouncement,
     ShippingLines,
     SummarySection,
@@ -13,17 +14,18 @@ import {
 } from 'src/components';
 import {sendEvents, sendPageView} from 'src/analytics';
 import {
-    useBeforeUnload,
+    useBeforeUnload, useGetLifeFields,
     useOnLoadValidateCustomer,
     useScrollToElementOnNavigation,
 } from 'src/hooks';
 import {useShippingPage} from 'src/themes/three-page/hooks';
 import {getTerm, withPreventDefault} from 'src/utils';
-import {Constants} from 'src/constants';
+import {Constants, LifeInputLocationConstants} from 'src/constants';
 
 export function ShippingLinesPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading, title} = useShippingPage();
     const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
+    const shippingLinesLifeFields  = useGetLifeFields(LifeInputLocationConstants.SHIPPING_LINES);
     const headerLogoUrl = window.headerLogoUrl;
     useOnLoadValidateCustomer();
     useBeforeUnload();
@@ -51,6 +53,7 @@ export function ShippingLinesPage(): React.ReactElement {
                         <form onSubmit={withPreventDefault(nextButtonOnClick)}>
                             <FlashError/>
                             <ShippingLines theme={Constants.THREE_PAGE}/>
+                            <LifeFields lifeFields={shippingLinesLifeFields}/>
                             <FormControls
                                 backLinkOnClick={backLinkOnClick}
                                 backLinkText={backLinkText}

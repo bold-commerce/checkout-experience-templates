@@ -127,6 +127,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
             resumable_link: '',
             created_via: '',
             is_processed: false,
+            link_to_cart: '',
         },
         initial_data: {
             shop_name: '',
@@ -147,6 +148,8 @@ export const defaultOrderInitialization: IOrderInitialization = {
             },
             alternative_payment_methods: [],
             external_payment_gateways: [],
+            life_elements: [],
+            flow_settings: {},
         }
     },
 };

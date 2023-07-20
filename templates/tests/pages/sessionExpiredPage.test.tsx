@@ -8,7 +8,8 @@ import {
     useGetFooter,
     useGetSessionExpired,
     useGetShopUrlFromShopAlias, useScreenWidth,
-    useSupportedLanguages
+    useSupportedLanguages,
+    useGetLifeFields,
 } from 'src/hooks';
 import {IUseContactUs, IUseFooter, IUseSessionExpired} from 'src/types';
 import {getErrorTerm, getTerm} from 'src/utils';
@@ -23,6 +24,7 @@ jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/utils/getTerm');
 jest.mock('src/utils/getErrorTerm');
 jest.mock('src/hooks/useScreenWidth');
+jest.mock('src/hooks/useGetLifeFields');
 const useScreenWidthMock = mocked(useScreenWidth, true);
 const useGetSessionExpiredMock = mocked(useGetSessionExpired, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
@@ -30,6 +32,7 @@ const useGetFooterMock = mocked(useGetFooter, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
+const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 const getTermMock = mocked(getTerm, true);
 const getErrorTermMock = mocked(getErrorTerm, true);
 
@@ -62,6 +65,7 @@ describe('testing SessionExpiredPage', () => {
         useGetAppSettingDataMock.mockReturnValue('en');
         getTermMock.mockReturnValue('test');
         getErrorTermMock.mockReturnValue('error');
+        useGetLifeFieldsMock.mockReturnValue([]);
     });
 
     test('Rendering SessionExpiredPage', () => {

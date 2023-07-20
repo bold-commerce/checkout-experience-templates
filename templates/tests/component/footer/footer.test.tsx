@@ -2,11 +2,13 @@ import {render, screen} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 
 import {Footer} from 'src/components';
-import {useGetFooter} from 'src/hooks';
+import {useGetFooter, useGetLifeFields} from 'src/hooks';
 import {IUseFooter} from 'src/types';
 
 jest.mock('src/hooks/useGetFooter');
+jest.mock('src/hooks/useGetLifeFields');
 const useGetFooterMock = mocked(useGetFooter, true);
+const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 
 describe('testing Footer component', () => {
     const hookReturn: IUseFooter = {
@@ -16,6 +18,7 @@ describe('testing Footer component', () => {
 
     beforeEach(() => {
         useGetFooterMock.mockReturnValue(hookReturn);
+        useGetLifeFieldsMock.mockReturnValue([]);
     });
 
     test('Rendering Footer component', () => {

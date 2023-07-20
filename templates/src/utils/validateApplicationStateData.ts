@@ -64,7 +64,8 @@ export function validateApplicationStateData(appData: IApplicationState): IAppli
             taxes: appData.shipping.taxes,
             discounts: appData.shipping.discounts
         },
-        order_meta_data: metaData
+        order_meta_data: metaData,
+        link_to_cart: appData.link_to_cart
     };
 
     return applicationState;

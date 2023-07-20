@@ -11,7 +11,8 @@ import {
     useGetThankYou,
     useSupportedLanguages,
     useSendEvent,
-    useScreenBreakpoints
+    useScreenBreakpoints,
+    useGetLifeFields,
 } from 'src/hooks';
 import {addressMock, initialDataMock} from 'src/mocks';
 import {IUseContactUs, IUseFooter, IUseGetOrderRecap, IUseGetThankYou, IUseScreenBreakpoints} from 'src/types';
@@ -26,6 +27,7 @@ jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useSendEvent');
 jest.mock('src/hooks/useScreenBreakpoints');
+jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/utils/getTerm');
 const getTermMock = mocked(getTerm, true);
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
@@ -36,6 +38,7 @@ const useGetFooterMock = mocked(useGetFooter, true);
 const useGetOrderRecapMock = mocked(useGetOrderRecap, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
+const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 mocked(useSendEvent, true);
 
 describe('testing ThankYou component', () => {
@@ -92,6 +95,7 @@ describe('testing ThankYou component', () => {
         useSupportedLanguagesMock.mockReturnValue({languagesOptions: [], value: '', handleChange: jest.fn()});
         useGetShopUrlFromShopAliasMock.mockReturnValue('https://google.com');
         getTermMock.mockReturnValue('some_text');
+        useGetLifeFieldsMock.mockReturnValue([]);
     });
 
     test('Rendering ThankYou component', () => {

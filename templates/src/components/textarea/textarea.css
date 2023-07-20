@@ -1,0 +1,6 @@
+textarea {
+    max-width: 99%;
+}
+textarea:focus {
+    outline: none;
+}

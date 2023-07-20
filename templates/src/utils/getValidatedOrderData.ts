@@ -4,7 +4,8 @@ import {
     ICountryInformation,
     IGeneralSettings,
     IInitializeOrderResponse,
-    ISupportedLanguage
+    ISupportedLanguage,
+    ILifeField,
 } from '@boldcommerce/checkout-frontend-library';
 
 export function getValidatedOrderData(orderData: IInitializeOrderResponse): IInitializeOrderResponse {
@@ -12,6 +13,7 @@ export function getValidatedOrderData(orderData: IInitializeOrderResponse): IIni
     const countryInfo: Array<ICountryInformation> = orderData.initial_data.country_info;
     const languages: Array<ISupportedLanguage> = orderData.initial_data.supported_languages;
     const settings: IGeneralSettings = orderData.initial_data.general_settings;
+    const lifeElements: Array<ILifeField> = orderData.initial_data.life_elements;
 
     const validatedAppState: IApplicationState = validateApplicationStateData(orderData.application_state);
 
@@ -26,6 +28,8 @@ export function getValidatedOrderData(orderData: IInitializeOrderResponse): IIni
             general_settings: settings,
             alternative_payment_methods: orderData.initial_data.alternative_payment_methods,
             external_payment_gateways: orderData.initial_data.external_payment_gateways,
+            life_elements: lifeElements,
+            flow_settings:orderData.initial_data.flow_settings
         }
     };
 }
