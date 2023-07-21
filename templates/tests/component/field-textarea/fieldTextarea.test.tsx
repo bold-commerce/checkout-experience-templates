@@ -60,8 +60,7 @@ describe('testing field textarea component', () => {
 
     test('test error message', () => {
         const localProps: IFieldTextareaProps = {...props};
-        localProps.messageType = 'alert';
-        localProps.messageText = 'test-message';
+        localProps.errorMessage = 'test-message';
         const {container} = render(<FieldTextArea {...localProps}/>);
 
         expect(container.getElementsByClassName('textarea-field__container').length).toBe(1);

@@ -1,8 +1,14 @@
 import {actionClearErrors} from 'src/action';
 import {sendEvents} from 'src/analytics';
-import {Constants} from 'src/constants';
-import {useGetAppSettingData, useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
-import {callShippingLinesPageApi} from 'src/library';
+import {Constants, LifeInputPageConstants} from 'src/constants';
+import {
+    useGetAppSettingData,
+    useGetButtonDisableVariable,
+    useGetIsLoading,
+    useGetIsOrderProcessed,
+    useGetRequiredLifeFields
+} from 'src/hooks';
+import {callShippingLinesPageApi, validateLifeFields} from 'src/library';
 import {IUseCustomerPageProp} from 'src/types';
 import {getCheckoutUrl, getTerm, isShippingLineSelectedValid} from 'src/utils';
 
@@ -30,10 +36,15 @@ export function useShippingPage(): IUseCustomerPageProp{
     } , [history]);
     const nextButtonText = getTerm('footer_shipping_continue', Constants.SHIPPING_METHOD_INFO);
     const active = 2;
+
+    const requiredLifeFields = useGetRequiredLifeFields(LifeInputPageConstants.SHIPPING_THREE_PAGE);
     const nextButtonOnClick = useCallback(() => {
         sendEvents('Clicked continue to payment button', {'category': 'Checkout'});
         dispatch(actionClearErrors());
         dispatch(callShippingLinesPageApi(history));
+        if (requiredLifeFields.length > 0) {
+            dispatch(validateLifeFields(requiredLifeFields));
+        }
     } , []);
 
     return {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading, language, title};

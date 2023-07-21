@@ -30,6 +30,9 @@ export function useGetFlashErrors(type = 'flash'): Array<IUseGetFlashError> {
                 if(!error.field && error.message && type !== 'discountFlash'){
                     const flashError: IUseGetFlashError = {message: error.message, error};
                     arr.push(flashError);
+                } else if (error.type === 'life_field' && type !== 'discountFlash') {
+                    const flashError: IUseGetFlashError = {message: error.message, error};
+                    arr.push(flashError);
                 } else if (!fieldTerms) {
                     // bugsnag the error if not found in the translation constant.
                     const unhandledError = new Error(error.message);

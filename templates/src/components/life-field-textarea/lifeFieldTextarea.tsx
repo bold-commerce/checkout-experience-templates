@@ -4,7 +4,7 @@ import {FieldTextArea} from 'src/components';
 import {useLifeFieldTextInput} from 'src/hooks';
 import {TEXTAREA_MAX_LENGTH} from 'src/constants';
 export function LifeFieldTextarea(props: ILifeFieldProps): React.ReactElement {
-    const {inputValue, label, placeHolder, id, handleChange} = useLifeFieldTextInput(props.lifeField);
+    const {inputValue, label, placeHolder, id, errorMessage, handleChange} = useLifeFieldTextInput(props.lifeField);
 
     return (
         <div className={'life-field-textarea'} key={id}>
@@ -17,7 +17,8 @@ export function LifeFieldTextarea(props: ILifeFieldProps): React.ReactElement {
                 onChange={handleChange}
                 id={id}
                 maxLength={TEXTAREA_MAX_LENGTH}
-                data-testid={`${id}-life-field-textarea`}/>
+                data-testid={`${id}-life-field-textarea`}
+                errorMessage={errorMessage}/>
         </div>
     );
 }

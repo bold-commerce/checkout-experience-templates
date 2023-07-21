@@ -621,6 +621,8 @@ export interface ILifeFieldInput {
     label: string;
     placeHolder: string;
     id: string;
+
+    errorMessage?: string | null;
     handleChange: (e) => void;
 }
 
@@ -660,8 +662,7 @@ export interface IFieldTextareaProps {
     name?: string,
     value?: string,
     placeholder?: string,
-    messageType?: string,
-    messageText?: string,
+    errorMessage?: string | null,
     minLength?: number,
     maxLength?: number,
     autoComplete?: string,

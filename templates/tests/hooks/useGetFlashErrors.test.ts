@@ -97,4 +97,23 @@ describe('Testing hook useGetFlashErrors', () => {
         expect(result.current).toStrictEqual([{message: 'Test message', error: localErrors[0]}]);
         expect(getErrorTerm).toHaveBeenCalledTimes(0);
     });
+
+    test('rendering the hook with life element errors', () => {
+        const lifeElementErrors: Array<IError> = [{
+            message: 'The checkbox is Required.',
+            field: 'test_meta_data_field',
+            severity: 'validation',
+            sub_type: '123456',
+            type: 'life_field',
+            address_type: ''
+        }];
+        useGetErrorsMock.mockReturnValueOnce(lifeElementErrors);
+        useAppSelectorMock.mockReturnValueOnce(stateMock.appSetting.languageIso);
+        useGetSupportedLanguageDataMock.mockReturnValueOnce(stateMock.data.initial_data.supported_languages[0]);
+        getLanguageBlobMock.mockReturnValueOnce(null);
+
+        const {result} = renderHook(() => useGetFlashErrors());
+        expect(result.current).toStrictEqual([{message: 'The checkbox is Required.', error: lifeElementErrors[0]}]);
+        expect(getErrorTerm).toHaveBeenCalledTimes(0);
+    });
 });

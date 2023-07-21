@@ -18,8 +18,8 @@ export function FieldTextArea(props: IFieldTextareaProps): React.ReactElement {
             <Field
                 htmlFor={props.id}
                 className={'textarea-field'}
-                messageType={props.messageType ? 'alert' : ''}
-                messageText={props.messageText ? props.messageText : ''}
+                messageType={props.errorMessage ? 'alert' : ''}
+                messageText={props.errorMessage ? props.errorMessage : ''}
                 disabled={props.disabled}
                 readOnly={props.readOnly}
                 ariaLive='polite'
@@ -39,11 +39,11 @@ export function FieldTextArea(props: IFieldTextareaProps): React.ReactElement {
                     onKeyUp={props.onKeyUp}
                     onKeyDown={props.onKeyDown}
                     onChange={props.onChange}
-                    messageType={props.messageType ? 'alert' : ''}
+                    messageType={props.errorMessage ? 'alert' : ''}
                     testId={props.testId}
                 />
             </Field>
-            <label htmlFor={props.id} data-testid='textarea-field__label' className={ClassNames(['textarea-field__label', {'field--alert': props.messageText}])}>{props.label}</label>
+            <label htmlFor={props.id} data-testid='textarea-field__label' className={ClassNames(['textarea-field__label', {'field--alert': props.errorMessage}])}>{props.label}</label>
         </div>
     );
 }
