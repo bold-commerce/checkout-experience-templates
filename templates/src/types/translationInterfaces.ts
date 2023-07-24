@@ -7,7 +7,8 @@ export interface IErrorTypes {
     order: string;
     address: string;
     discount_code_validation: string;
-    shipping_line: string
+    shipping_line: string;
+    life_elements: string;
 }
 
 export interface IErrorFields {

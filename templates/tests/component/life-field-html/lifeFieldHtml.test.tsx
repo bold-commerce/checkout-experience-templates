@@ -7,7 +7,7 @@ import {ILifeField} from '@boldcommerce/checkout-frontend-library';
 describe('testing life html component', () => {
     const lifeFields: Array<ILifeField> = [
         {
-            input_default: 'https://test-url.com/',
+            input_default: '<a href="https://test-shop.alias.com/">Learn about our return policy.</a>',
             input_label: 'label',
             input_placeholder: 'placeholder',
             input_required: true,
@@ -40,9 +40,8 @@ describe('testing life html component', () => {
 
         expect(container.getElementsByClassName('life-field-html').length).toBe(1);
         expect(container.getElementsByClassName('life-field-html-link').length).toBe(1);
-        const element: HTMLAnchorElement = screen.getByText('label');
-        expect(element.href).toBe(lifeFields[0].input_default);
-
+        const element: HTMLAnchorElement = screen.getByText('Learn about our return policy.');
+        expect(element.href).toBe('https://test-shop.alias.com/');
     });
 
     test('Rendering life html component with optional values', () => {

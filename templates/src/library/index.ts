@@ -45,3 +45,5 @@ export * from './validateShippingAddress';
 export * from './validateShippingLine';
 export * from '../utils/updateExternalPaymentGatewayHeight';
 export * from './updateLineItemQuantity';
+export * from './validateLifeFields';
+export * from './patchLifeFields';

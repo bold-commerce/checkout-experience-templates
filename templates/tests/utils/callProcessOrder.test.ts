@@ -9,7 +9,7 @@ import {
     sendAddPaymentActionAsync,
     sendRefreshOrderActionAsync
 } from '@boldcommerce/checkout-frontend-library/lib/pigi';
-import {IApiErrorResponse, IFetchError, IPigiResponseType} from '@boldcommerce/checkout-frontend-library';
+import {IApiErrorResponse, IFetchError, ILifeField, IPigiResponseType} from '@boldcommerce/checkout-frontend-library';
 import {pigiActionTypes} from '@boldcommerce/checkout-frontend-library/lib/variables/constants';
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
@@ -22,7 +22,6 @@ const useHistoryMock = mocked(useHistory, true);
 const processOrderMock = mocked(processOrder, true);
 const sendRefreshOrderActionAsyncMock = mocked(sendRefreshOrderActionAsync, true);
 const sendAddPaymentActionAsyncMock = mocked(sendAddPaymentActionAsync, true);
-
 
 describe('Testing callProcessOrder function', () => {
     const pageNameWithPrefix = 'prefix_page_name';
@@ -52,7 +51,21 @@ describe('Testing callProcessOrder function', () => {
         field: '',
         severity: 'critical',
         sub_type: ''
-    }
+    };
+
+    const lifeFields: Array<ILifeField> = [
+        {
+            input_default: 'default',
+            input_label: 'label',
+            input_placeholder: 'placeholder',
+            input_required: true,
+            input_type: 'text',
+            location: 'customer_info',
+            meta_data_field: 'test_meta_data_field',
+            order_asc: 1,
+            public_id: '1',
+        }
+    ];
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -67,10 +80,10 @@ describe('Testing callProcessOrder function', () => {
     test('Render the function with amount remaining', async () => {
 
         const total: ITotals = {totalSubtotal: 2999, totalFees:0, totalTaxes:0, totalAdditionalFees:0, totalOrder:0, totalPaid:0, totalDiscounts:0, totalAmountDue:2999};
-        callProcessOrder(dispatchMock, total, historyMock);
+        callProcessOrder(dispatchMock, total, historyMock, lifeFields);
         await Promise.resolve();
 
-        expect(dispatchMock).toHaveBeenCalledTimes(2);
+        expect(dispatchMock).toHaveBeenCalledTimes(3);
         expect(dispatchMock).toHaveBeenCalledWith(actionClearErrors());
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
         expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
@@ -82,7 +95,7 @@ describe('Testing callProcessOrder function', () => {
         sendRefreshOrderActionAsyncMock.mockRejectedValue(rejectedValue);
         const total: ITotals = {totalSubtotal: 2999, totalFees:0, totalTaxes:0, totalAdditionalFees:0, totalOrder:0, totalPaid:0, totalDiscounts:0, totalAmountDue:2999};
 
-        callProcessOrder(dispatchMock, total, historyMock);
+        callProcessOrder(dispatchMock, total, historyMock, lifeFields);
         await Promise.resolve();
 
         expect(dispatchMock).toHaveBeenCalledWith(actionClearErrors());
@@ -96,10 +109,10 @@ describe('Testing callProcessOrder function', () => {
     test('Render the function with no amount remaining', async () => {
         const total: ITotals = {totalSubtotal: 2999, totalFees:0, totalTaxes:0, totalAdditionalFees:0, totalOrder:0, totalPaid:2999, totalDiscounts:0, totalAmountDue:0};
 
-        callProcessOrder(dispatchMock, total, historyMock);
+        callProcessOrder(dispatchMock, total, historyMock, lifeFields);
         await Promise.resolve();
 
-        expect(dispatchMock).toHaveBeenCalledTimes(3);
+        expect(dispatchMock).toHaveBeenCalledTimes(4);
         expect(dispatchMock).toHaveBeenCalledWith(actionClearErrors());
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
         expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(0);

@@ -15,19 +15,22 @@ import {
     IApiReturnObject
 } from '@boldcommerce/checkout-frontend-library';
 import {
-    actionOrderMetaData,
     actionOrderTotal,
     actionUpdateAddress,
     actionUpdateAvailableShippingLines,
+    actionUpdateCartParameters,
     actionUpdateCustomer,
     actionUpdateDiscounts,
     actionUpdateFees,
     actionUpdateIsProcessedOrder,
     actionUpdateLineItem,
+    actionUpdateNoteAttributes,
+    actionUpdateNotes,
     actionUpdatePayments,
     actionUpdateSelectedShippingLine,
     actionUpdateShippingLinesDiscount,
     actionUpdateShippingLinesTaxes,
+    actionUpdateTags,
     actionUpdateTaxes
 } from 'src/action';
 import {Constants, defaultAddressState} from 'src/constants';
@@ -85,7 +88,9 @@ export async function getLineItemsFromLib(dispatch: Dispatch): Promise<void>{
 
 export async function getOrderMetaDataFromLib(dispatch: Dispatch): Promise<void>{
     const orderMetaData = getOrderMetaData();
-    dispatch(actionOrderMetaData(orderMetaData));
+    dispatch(actionUpdateCartParameters(orderMetaData.cart_parameters));
+    dispatch(actionUpdateNotes(orderMetaData.notes));
+    dispatch(actionUpdateTags(orderMetaData.tags));
 }
 
 export async function getOrderTotalFromLib(dispatch: Dispatch): Promise<void>{

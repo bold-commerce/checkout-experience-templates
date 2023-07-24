@@ -9,7 +9,6 @@ export * from './useDebounceCustomerField';
 export * from './useDebounceShippingLines';
 export * from './useDebounceValidateAddress';
 export * from './useDispatchAutocompleteData';
-export * from './useDebounceLifeField';
 export * from './useExpandableDiscount';
 export * from './useGetAddressCountrySelectData';
 export * from './useGetAddressData';
@@ -101,4 +100,5 @@ export * from './useGetNoteAttributes';
 export * from './useLifeFieldTextInput';
 export * from './useLifeFieldCheckbox';
 export * from './useGetLifeFields';
+export * from './useGetRequiredLifeFields';
 

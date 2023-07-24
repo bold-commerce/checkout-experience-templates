@@ -77,6 +77,7 @@ export const errorTypes: IErrorTypes = {
     address: 'address',
     discount_code_validation: 'discount_code.discount_validation',
     shipping_line: 'shipping_line',
+    life_elements: 'life_elements',
 };
 
 export const errorFields: IErrorFields = {
@@ -186,6 +187,13 @@ export class LifeInputLocationConstants {
     static BELOW_ACTIONS = 'below_actions';
     static SUMMARY_ABOVE_HEADER = 'summary_above_header';
     static PAYMENT_GATEWAY = 'payment_gateway';
+}
+
+export class LifeInputPageConstants {
+    static CUSTOMER_THREE_PAGE = 'customer_three_page';
+    static SHIPPING_THREE_PAGE = 'shipping_three_page';
+    static PAYMENT_THREE_PAGE = 'payment_three_page';
+    static ONE_PAGE = 'one_page';
 }
 
 export const MOBILE_SCREEN_WIDTH = 768;

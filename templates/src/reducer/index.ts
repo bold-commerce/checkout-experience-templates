@@ -26,3 +26,7 @@ export * from './taxesReducer';
 export * from './validReducer';
 export * from './lifeFieldsInitialDataReducer';
 export * from './flowSettingsInitialDataReducer';
+export * from './noteAttributesReducer';
+export * from './cartParametersReducer';
+export * from './noteReducer';
+export * from './tagsReducer';

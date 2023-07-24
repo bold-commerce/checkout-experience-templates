@@ -4,7 +4,7 @@ import {FieldInput} from 'src/components';
 import {useLifeFieldTextInput} from 'src/hooks';
 
 export function LifeFieldText(props: ILifeFieldProps): React.ReactElement {
-    const {inputValue, placeHolder, id, handleChange} = useLifeFieldTextInput(props.lifeField);
+    const {inputValue, placeHolder, id, errorMessage, handleChange} = useLifeFieldTextInput(props.lifeField);
 
     return (
         <div className={'life-field-text'} key={id}>
@@ -16,6 +16,7 @@ export function LifeFieldText(props: ILifeFieldProps): React.ReactElement {
                 handleChange={handleChange}
                 id={id}
                 data-testid={`${id}-life-field-text`}
+                errorMessage={errorMessage}
             />
         </div>
     );

@@ -14,7 +14,6 @@ import {
     languageReducer,
     lineItemsReducer,
     loadingReducer,
-    orderMetaReducer,
     orderTotalReducer,
     overlayReducer,
     paymentsReducer,
@@ -38,7 +37,8 @@ import {
     sessionInitializedReducer,
     lifeFieldsInitialDataReducer,
     linkToCartReducer,
-    flowSettingsInitialDataReducer
+    flowSettingsInitialDataReducer,
+    noteAttributesReducer, cartParametersReducer, notesReducer, tagsReducer
 } from 'src/reducer';
 import {autocompleteServices, Constants} from 'src/constants';
 import {defaultOrderInitialization} from 'src/constants/orderInitialization';
@@ -89,6 +89,13 @@ const shippingOptionsReducer = combineReducers({
     discounts: shippingLineItemDiscountReducer
 });
 
+const orderMetaReducer = combineReducers({
+    cart_parameters: cartParametersReducer,
+    note_attributes: noteAttributesReducer,
+    notes: notesReducer,
+    tags: tagsReducer
+});
+
 const appStateReducer = combineReducers({
     customer: customerReducer,
     addresses: addressReducer,
@@ -104,7 +111,7 @@ const appStateReducer = combineReducers({
     created_via: createdViaReducer,
     is_processed: isProcessedReducer,
     fees: feesReducer,
-    link_to_cart: linkToCartReducer
+    link_to_cart: linkToCartReducer,
 });
 
 const generalSettingReducer = combineReducers({

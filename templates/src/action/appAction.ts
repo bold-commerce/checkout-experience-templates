@@ -10,7 +10,8 @@ import {
     IPayment,
     IShippingLine,
     ITax,
-    IExternalPaymentGateway
+    IExternalPaymentGateway,
+    ICartParameters
 } from '@boldcommerce/checkout-frontend-library';
 
 export function actionGetInitialData(url:string): AnyAction {
@@ -200,6 +201,41 @@ export function actionUpdatePayments(data: Array<IPayment>): AnyAction {
 export function actionOrderMetaData(data: IOrderMetaData): AnyAction {
     return {
         type: AppActions.UPDATE_ORDER_META_DATA,
+        payload: {data}
+    };
+}
+
+export function actionUpdateNoteAttributes(data: ICartParameters): AnyAction {
+    return {
+        type: AppActions.UPDATE_NOTE_ATTRIBUTES,
+        payload: {data}
+    };
+}
+
+export function actionUpdateNoteAttributeField(field: string, value: string | boolean): AnyAction {
+    return {
+        type: AppActions.UPDATE_NOTE_ATTRIBUTE_FIELD,
+        payload: {field, value}
+    };
+}
+
+export function actionUpdateCartParameters(data: ICartParameters): AnyAction {
+    return {
+        type: AppActions.UPDATE_CART_PARAMETERS,
+        payload: {data}
+    };
+}
+
+export function actionUpdateNotes(data: string): AnyAction {
+    return {
+        type: AppActions.UPDATE_NOTES,
+        payload: {data}
+    };
+}
+
+export function actionUpdateTags(data: Array<string>): AnyAction {
+    return {
+        type: AppActions.UPDATE_TAGS,
         payload: {data}
     };
 }

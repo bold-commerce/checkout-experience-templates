@@ -36,6 +36,11 @@ import {
     actionUpdateTaxes,
     actionSetExternalPaymentGatewayLoading,
     actionSetExternalGatewayReady,
+    actionUpdateNoteAttributes,
+    actionUpdateNoteAttributeField,
+    actionUpdateCartParameters,
+    actionUpdateNotes,
+    actionUpdateTags,
 } from 'src/action';
 import * as AppActions from 'src/action/appActionType';
 import {autocompleteServices} from 'src/constants';
@@ -621,4 +626,65 @@ describe('Testing App Actions', () => {
         expect(result).toStrictEqual(actionReturnExpectation);
     });
 
+    test('actionUpdateNoteAttributes', () => {
+        const data = initialDataMock.application_state.order_meta_data.note_attributes;
+        const actionReturnExpectation = {
+            type: AppActions.UPDATE_NOTE_ATTRIBUTES,
+            payload: {data}
+        };
+
+        const result = actionUpdateNoteAttributes(data);
+
+        expect(result).toStrictEqual(actionReturnExpectation);
+    });
+
+    test('actionUpdateNoteAttributeField', () => {
+        const field = 'test_me';
+        const value = true;
+
+        const actionReturnExpectation = {
+            type: AppActions.UPDATE_NOTE_ATTRIBUTE_FIELD,
+            payload: {field, value}
+        };
+
+        const result = actionUpdateNoteAttributeField(field, value);
+
+        expect(result).toStrictEqual(actionReturnExpectation);
+    });
+
+    test('actionUpdateCartParameters', () => {
+        const data = initialDataMock.application_state.order_meta_data.cart_parameters;
+        const actionReturnExpectation = {
+            type: AppActions.UPDATE_CART_PARAMETERS,
+            payload: {data}
+        };
+
+        const result = actionUpdateCartParameters(data);
+
+        expect(result).toStrictEqual(actionReturnExpectation);
+    });
+
+    test('actionUpdateNotes', () => {
+        const data = initialDataMock.application_state.order_meta_data.notes;
+        const actionReturnExpectation = {
+            type: AppActions.UPDATE_NOTES,
+            payload: {data}
+        };
+
+        const result = actionUpdateNotes(data);
+
+        expect(result).toStrictEqual(actionReturnExpectation);
+    });
+
+    test('actionUpdateTags', () => {
+        const data = initialDataMock.application_state.order_meta_data.tags;
+        const actionReturnExpectation = {
+            type: AppActions.UPDATE_TAGS,
+            payload: {data}
+        };
+
+        const result = actionUpdateTags(data);
+
+        expect(result).toStrictEqual(actionReturnExpectation);
+    });
 });

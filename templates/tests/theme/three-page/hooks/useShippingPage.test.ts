@@ -1,5 +1,10 @@
 import {renderHook} from '@testing-library/react-hooks';
-import {useGetButtonDisableVariable, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
+import {
+    useGetButtonDisableVariable,
+    useGetIsLoading,
+    useGetIsOrderProcessed,
+    useGetRequiredLifeFieldsByLocations
+} from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
 import {getCheckoutUrl, getTerm, isShippingLineSelectedValid} from 'src/utils';
@@ -7,6 +12,7 @@ import {useHistory} from 'react-router';
 import {callShippingLinesPageApi} from 'src/library';
 import {useShippingPage} from 'src/themes/three-page/hooks';
 import {actionClearErrors} from 'src/action';
+import {ILifeField} from '@boldcommerce/checkout-frontend-library';
 
 jest.mock('react-redux');
 jest.mock('react-router');
@@ -14,6 +20,7 @@ jest.mock('src/utils/getTerm');
 jest.mock('src/utils/isShippingLineSelectedValid');
 jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/hooks/useGetButtonDisableVariable');
+jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/library/callShippingLinesPageApi');
 jest.mock('src/hooks/useGetIsOrderProcessed');
 const useDispatchMock = mocked(useDispatch, true);
@@ -24,6 +31,7 @@ const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true
 const callShippingLinesPageApiMock = mocked(callShippingLinesPageApi, true);
 const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
 const isShippingLineSelectedValidMock = mocked(isShippingLineSelectedValid, true);
+const useGetRequiredLifeFieldsByLocationsMock = mocked(useGetRequiredLifeFieldsByLocations, true);
 
 describe('Testing hook useShippingPage', () => {
     const mockDispatch = jest.fn();
@@ -32,6 +40,19 @@ describe('Testing hook useShippingPage', () => {
     const historyMock = {replace: jest.fn()};
     const eventMock = {preventDefault: jest.fn()};
     const pageNameWithPrefix = 'prefix_page_name';
+    const lifeFields: Array<ILifeField> = [
+        {
+            input_default: 'default',
+            input_label: 'label',
+            input_placeholder: 'placeholder',
+            input_required: true,
+            input_type: 'text',
+            location: 'customer_info',
+            meta_data_field: 'test_meta_data_field',
+            order_asc: 1,
+            public_id: '1',
+        }
+    ];
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -39,6 +60,7 @@ describe('Testing hook useShippingPage', () => {
         useHistoryMock.mockReturnValue(historyMock);
         getTermMock.mockReturnValue(getTermValue);
         useGetIsLoadingMock.mockReturnValue(false);
+        useGetRequiredLifeFieldsByLocationsMock.mockReturnValue(lifeFields);
         useGetButtonDisableVariableMock.mockReturnValue(false);
         callShippingLinesPageApiMock.mockReturnValue(mockCallShippingLinesPageApi);
     });
@@ -60,7 +82,7 @@ describe('Testing hook useShippingPage', () => {
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
 
         result.current.nextButtonOnClick();
-        expect(mockDispatch).toHaveBeenCalledTimes(2);
+        expect(mockDispatch).toHaveBeenCalledTimes(3);
         expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors());
         expect(mockDispatch).toHaveBeenCalledWith(mockCallShippingLinesPageApi);
     });
@@ -83,7 +105,7 @@ describe('Testing hook useShippingPage', () => {
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
 
         result.current.nextButtonOnClick();
-        expect(mockDispatch).toHaveBeenCalledTimes(2);
+        expect(mockDispatch).toHaveBeenCalledTimes(3);
         expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors());
         expect(mockDispatch).toHaveBeenCalledWith(mockCallShippingLinesPageApi);
     });
@@ -107,7 +129,7 @@ describe('Testing hook useShippingPage', () => {
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
 
         result.current.nextButtonOnClick();
-        expect(mockDispatch).toHaveBeenCalledTimes(2);
+        expect(mockDispatch).toHaveBeenCalledTimes(3);
         expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors());
         expect(mockDispatch).toHaveBeenCalledWith(mockCallShippingLinesPageApi);
     });
