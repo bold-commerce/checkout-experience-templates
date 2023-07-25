@@ -541,6 +541,18 @@ export const initialDataMock: IInitializeOrderResponse = {
             'location': 'customer_info_above',
             'currency': 'USD'
         }],
+        'life_elements': [{
+            'location':'customer_info',
+            'public_id':'1234567',
+            'input_type':'text_field',
+            'input_default':'input default',
+            'input_placeholder':'input placeholder',
+            'input_label':'input label',
+            'input_required': true,
+            'meta_data_field':'meta data',
+            'order_asc':0
+        }],
+        'flow_settings': {}
     },
     'application_state': {
         'customer': {
@@ -676,6 +688,7 @@ export const initialDataMock: IInitializeOrderResponse = {
             'has_decimal': true,
             'show_iso_code': true
         },
+        link_to_cart: '',
     },
     'jwt_token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfb3JkZXJfaWQiOiJhRnpSV21JUXUxeWNSY1hLZHRoYXNYUGU1TEdZQ201b1IzRzhqNmNQRWgya1VJTE0ydUEyejdPaFJrZzI4YVduIiwiZXhwIjoxNjI3MzExMTM1fQ.6YwERIdKKv1YO19PauBbKnoupfLjtpLiMEt4i_YG5Ao',
     'public_order_id': 'aFzRWmIQu1ycRcXKdthasXPe5LGYCm5oR3G8j6cPEh2kUILM2uA2z7OhRkg28aWn'

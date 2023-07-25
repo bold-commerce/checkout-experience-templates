@@ -6,6 +6,8 @@ const {data: {application_state}} = defaultOrderInitialization;
 
 export const resumableLinkReducer = (state = application_state.resumable_link): string | null => state;
 
+export const linkToCartReducer = (state = application_state.link_to_cart): string | null => state;
+
 export const createdViaReducer = (state = application_state.created_via): string => state;
 
 export function isProcessedReducer(state = application_state.is_processed, action: AnyAction ): boolean {

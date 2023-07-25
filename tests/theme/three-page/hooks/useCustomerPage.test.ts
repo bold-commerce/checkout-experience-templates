@@ -1,12 +1,19 @@
 import {renderHook} from '@testing-library/react-hooks';
-import {useGetButtonDisableVariable, useGetCurrencyInformation, useGetIsLoading, useGetIsOrderProcessed} from 'src/hooks';
+import {
+    useGetButtonDisableVariable,
+    useGetCurrencyInformation,
+    useGetIsLoading,
+    useGetIsOrderProcessed,
+    useGetRequiredLifeFieldsByLocations,
+} from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
 import {getCheckoutUrl, getTerm, getReturnToCartTermAndLink} from 'src/utils';
-import {callCustomerPageApi, checkInventory, initializeExpressPay} from 'src/library';
+import {callCustomerPageApi, initializeExpressPay} from 'src/library';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {useHistory} from 'react-router';
 import {actionClearErrors} from 'src/action';
+import {ILifeField} from '@boldcommerce/checkout-frontend-library';
 
 jest.mock('react-redux');
 jest.mock('react-router');
@@ -18,6 +25,7 @@ jest.mock('src/library/callCustomerPageApi');
 jest.mock('src/library/initializeExpressPay');
 jest.mock('src/utils/getReturnToCartTermAndLink');
 jest.mock('src/hooks/useGetCurrencyInformation');
+jest.mock('src/hooks/useGetLifeFields');
 
 const useDispatchMock = mocked(useDispatch, true);
 const useHistoryMock = mocked(useHistory, true);
@@ -29,16 +37,29 @@ const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
 const initializeExpressPayMock = mocked(initializeExpressPay, true);
 const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
+const useGetRequiredLifeFieldsByLocationsMock = mocked(useGetRequiredLifeFieldsByLocations, true);
 
 describe('Testing hook useCustomerPage', () => {
     const mockDispatch = jest.fn();
     const mockCallCustomerPageApi = jest.fn();
-    const mockCheckInventory = jest.fn();
     const getTermValue = 'test-value';
     const eventMock = {preventDefault: jest.fn()};
     const historyMock = {replace: jest.fn()};
     const currencyInformationMock = {iso_code: 'CAD', currency:'', currencySymbol:'', formattedPrice:''};
     const mockExpressEntry = jest.fn();
+    const lifeFields: Array<ILifeField> = [
+        {
+            input_default: 'default',
+            input_label: 'label',
+            input_placeholder: 'placeholder',
+            input_required: true,
+            input_type: 'text',
+            location: 'customer_info',
+            meta_data_field: 'test_meta_data_field',
+            order_asc: 1,
+            public_id: '1',
+        }
+    ];
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -50,6 +71,7 @@ describe('Testing hook useCustomerPage', () => {
         callCustomerPageApiMock.mockReturnValue(mockCallCustomerPageApi);
         initializeExpressPayMock.mockReturnValue(mockExpressEntry);
         useGetCurrencyInformationMock.mockReturnValue(currencyInformationMock);
+        useGetRequiredLifeFieldsByLocationsMock.mockReturnValue(lifeFields);
         window = Object.create(window);
         Object.defineProperty(window, 'location', {
             value: {
@@ -75,7 +97,7 @@ describe('Testing hook useCustomerPage', () => {
 
         expect(window.location.href).toEqual(window.returnUrl);
         result.current.nextButtonOnClick();
-        expect(mockDispatch).toHaveBeenCalledTimes(3);
+        expect(mockDispatch).toHaveBeenCalledTimes(4);
         expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors());
         expect(mockDispatch).toHaveBeenCalledWith(mockCallCustomerPageApi);
         expect(mockDispatch).toHaveBeenCalledWith(mockExpressEntry);

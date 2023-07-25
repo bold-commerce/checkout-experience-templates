@@ -7,9 +7,10 @@ import {
     useGetFooter,
     useGetShopUrlFromShopAlias,
     useScreenBreakpoints,
-    useSupportedLanguages
+    useSupportedLanguages,
+    useGetLifeFields
 } from 'src/hooks';
-import {IUseContactUs, IUseFooter, IUseScreenBreakpoints, IUseSessionExpired} from 'src/types';
+import {IUseContactUs, IUseFooter, IUseScreenBreakpoints} from 'src/types';
 import {getErrorTerm, getTerm} from 'src/utils';
 
 jest.mock('src/hooks/useGetContactUs');
@@ -17,6 +18,7 @@ jest.mock('src/hooks/useGetFooter');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useScreenBreakpoints');
+jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/utils/getTerm');
 jest.mock('src/utils/getErrorTerm');
 const getTermMock = mocked(getTerm, true);
@@ -26,6 +28,7 @@ const useGetContactUsMock = mocked(useGetContactUs, true);
 const useGetFooterMock = mocked(useGetFooter, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
+const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 
 describe('testing SessionExpired component', () => {
     const contactUsHookReturn: IUseContactUs = {
@@ -52,6 +55,7 @@ describe('testing SessionExpired component', () => {
         useGetShopUrlFromShopAliasMock.mockReturnValue(shopUrl);
         getTermMock.mockReturnValue('some_text');
         getErrorTermMock.mockReturnValue('some_error_text');
+        useGetLifeFieldsMock.mockReturnValue([]);
         window = Object.create(window);
         Object.defineProperty(window, 'location', {
             value: {

@@ -75,7 +75,8 @@ describe('testing function validateApplicationStateData', () => {
         created_via: '',
         currency: currency,
         is_processed: false,
-        order_meta_data: {} as IOrderMetaData
+        order_meta_data: {} as IOrderMetaData,
+        link_to_cart: '',
     } as IApplicationState;
 
     const expected = {
@@ -100,7 +101,8 @@ describe('testing function validateApplicationStateData', () => {
         currency: currency,
         created_via: '',
         is_processed: false,
-        order_meta_data: {} as IOrderMetaData
+        order_meta_data: {} as IOrderMetaData,
+        link_to_cart: '',
     } as IApplicationState;
 
     const dataArray = [

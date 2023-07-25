@@ -21,7 +21,6 @@ import {
     actionUpdateAddress,
     actionUpdateCustomer,
     actionUpdateDiscounts,
-    actionOrderMetaData,
     actionOrderTotal,
     actionUpdateAvailableShippingLines,
     actionUpdateLineItem,
@@ -31,7 +30,11 @@ import {
     actionUpdateShippingLinesTaxes,
     actionUpdateTaxes,
     actionUpdateIsProcessedOrder,
-    actionUpdateFees
+    actionUpdateFees,
+    actionUpdateNoteAttributes,
+    actionUpdateCartParameters,
+    actionUpdateNotes,
+    actionUpdateTags
 } from 'src/action';
 import * as CustomerActions from 'src/action/customerActionType';
 import * as AppActions from 'src/action/appActionType';
@@ -64,7 +67,10 @@ jest.mock('src/utils');
 const actionUpdateAddressMock = mocked(actionUpdateAddress, true);
 const actionUpdateCustomerMock = mocked(actionUpdateCustomer, true);
 const actionUpdateDiscountsMock = mocked(actionUpdateDiscounts, true);
-const actionOrderMetaDataMock = mocked(actionOrderMetaData, true);
+const actionUpdateNoteAttributesMock = mocked(actionUpdateNoteAttributes, true);
+const actionUpdateCartParametersMock = mocked(actionUpdateCartParameters, true);
+const actionUpdateNotesMock = mocked(actionUpdateNotes, true);
+const actionUpdateTagsMock = mocked(actionUpdateTags, true);
 const actionOrderTotalMock = mocked(actionOrderTotal, true);
 const actionUpdateAvailableShippingLinesFuncMock = mocked(actionUpdateAvailableShippingLines, true);
 const actionUpdateLineItemMock = mocked(actionUpdateLineItem, true);
@@ -232,14 +238,24 @@ describe('testing Update Application State Thunk Actions', () => {
             type: AppActions.UPDATE_ORDER_META_DATA,
             payload: {data: order_meta_data}
         };
-        actionOrderMetaDataMock.mockReturnValueOnce(actionMock);
+        actionUpdateNoteAttributesMock.mockReturnValueOnce(actionMock);
+        actionUpdateCartParametersMock.mockReturnValueOnce(actionMock);
+        actionUpdateNotesMock.mockReturnValueOnce(actionMock);
+        actionUpdateTagsMock.mockReturnValueOnce(actionMock);
 
         getOrderMetaDataFromLib(dispatchMock);
 
         expect(getOrderMetaDataMock).toHaveBeenCalledTimes(1);
-        expect(actionOrderMetaDataMock).toHaveBeenCalledTimes(1);
-        expect(actionOrderMetaDataMock).toHaveBeenCalledWith(order_meta_data);
-        expect(dispatchMock).toHaveBeenCalledTimes(1);
+
+        expect(actionUpdateCartParametersMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateNotesMock).toHaveBeenCalledTimes(1);
+        expect(actionUpdateTagsMock).toHaveBeenCalledTimes(1);
+
+        expect(actionUpdateCartParametersMock).toHaveBeenCalledWith(order_meta_data.cart_parameters);
+        expect(actionUpdateNotesMock).toHaveBeenCalledWith(order_meta_data.notes);
+        expect(actionUpdateTagsMock).toHaveBeenCalledWith(order_meta_data.tags);
+
+        expect(dispatchMock).toHaveBeenCalledTimes(3);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
 

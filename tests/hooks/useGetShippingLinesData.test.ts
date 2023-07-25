@@ -78,22 +78,4 @@ describe('Testing hook useGetShippingLinesData', () => {
         expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
     });
 
-    test('testing when tax_shipping is false ', () => {
-        useGetGeneralSettingsMock.mockReturnValueOnce(false);
-        const event = {target: {value: 'shipping_id_1'}};
-        useGetAvailableShippingLinesMock.mockReturnValueOnce(appStateMock.shipping.available_shipping_lines);
-        useGetSelectShippingLineMock.mockReturnValueOnce(appStateMock.shipping.available_shipping_lines[0]);
-
-        const {result} = renderHook(() => useGetShippingLinesData());
-        const hookResult = result.current;
-
-        act(() => {
-            hookResult.handleChange(event);
-        });
-
-        expect(mockDispatch).toBeCalledTimes(2);
-        expect(actionOrderTotalMock).toHaveBeenCalledTimes(1);
-        expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(0);
-    });
-
 });

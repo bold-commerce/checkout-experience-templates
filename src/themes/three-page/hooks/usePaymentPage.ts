@@ -6,6 +6,7 @@ import {
     useGetIsLoading,
     useGetIsOrderProcessed,
     useGetLineItems,
+    useGetRequiredLifeFields,
     useGetSelectShippingLine,
 } from 'src/hooks';
 import {
@@ -14,7 +15,7 @@ import {
     getTotalsFromState,
     callProcessOrder
 } from 'src/utils';
-import {Constants} from 'src/constants';
+import {Constants, LifeInputPageConstants} from 'src/constants';
 import {useCallback, useEffect} from 'react';
 import {useHistory} from 'react-router';
 import {IUsePaymentPage} from 'src/types';
@@ -43,8 +44,9 @@ export function usePaymentPage(): IUsePaymentPage{
         history.replace(getCheckoutUrl(Constants.SHIPPING_ROUTE));
     } , [history]);
 
+    const requiredLifeFields = useGetRequiredLifeFields(LifeInputPageConstants.PAYMENT_THREE_PAGE);
     const nextButtonOnClick = useCallback( () => {
-        callProcessOrder(dispatch, totals, history);
+        callProcessOrder(dispatch, totals, history, requiredLifeFields);
     },[totals, history]);
 
     useEffect(() => {

@@ -1,9 +1,9 @@
 import {useCallback, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {useGetAppSettingData, useGetButtonDisableVariable, useGetCurrencyInformation, useGetIsLoading, useGetIsOrderProcessed, useGetLineItems, useGetOrderTotal} from 'src/hooks';
-import {callCustomerPageApi, initializeExpressPay} from 'src/library';
+import {useGetAppSettingData, useGetButtonDisableVariable, useGetCurrencyInformation, useGetIsLoading, useGetIsOrderProcessed, useGetLineItems, useGetOrderTotal, useGetRequiredLifeFields} from 'src/hooks';
+import {callCustomerPageApi, initializeExpressPay, validateLifeFields} from 'src/library';
 import {useHistory} from 'react-router';
-import {Constants} from 'src/constants';
+import {Constants, LifeInputPageConstants} from 'src/constants';
 import {IUseCustomerPageProp} from 'src/types';
 import {getCheckoutUrl, getReturnToCartTermAndLink, getTerm} from 'src/utils';
 import {sendEvents} from 'src/analytics';
@@ -28,10 +28,14 @@ export function useCustomerPage(): IUseCustomerPageProp {
     } , [window.returnUrl]);
     const nextButtonText = getTerm('cont_to_shipping', Constants.SHIPPING_INFO);
     const active = 1;
+    const requiredLifeFields = useGetRequiredLifeFields(LifeInputPageConstants.CUSTOMER_THREE_PAGE);
     const nextButtonOnClick = useCallback(() => {
         sendEvents('Clicked continue to shipping lines button', {'category': 'Checkout'});
 
         dispatch(actionClearErrors());
+        if (requiredLifeFields.length > 0) {
+            dispatch(validateLifeFields(requiredLifeFields));
+        }
         dispatch(callCustomerPageApi(history));
     } , []);
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));

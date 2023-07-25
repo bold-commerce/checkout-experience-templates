@@ -5,6 +5,7 @@ import {
     FlashError, Footer, FormControls,
     Header,
     HeaderHelmet,
+    LifeFields,
     Payment,
     ShippingAddress,
     ShippingLines,
@@ -18,7 +19,8 @@ import {useGetOnePageFooterData, useIsValidShippingOnLoad} from 'src/themes/one-
 import {checkInventoryStage} from '@boldcommerce/checkout-frontend-library';
 import {useDispatch} from 'react-redux';
 import {checkInventory, setDefaultAddresses} from 'src/library';
-import {useGetExternalPaymentGateways, useIsUserAuthenticated} from 'src/hooks';
+import {useGetExternalPaymentGateways, useIsUserAuthenticated, useGetLifeFields} from 'src/hooks';
+import {LifeInputLocationConstants} from 'src/constants';
 
 export function ThemePage(): React.ReactElement {
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
@@ -29,6 +31,13 @@ export function ThemePage(): React.ReactElement {
     const paymentExternalPaymentGateways = useGetExternalPaymentGateways(Constants.PAYMENT_METHOD_BELOW);
     const dispatch = useDispatch();
     const isCustomerLoggedIn = useIsUserAuthenticated();
+
+    const customerInfoLifeFields = useGetLifeFields(LifeInputLocationConstants.CUSTOMER_INFO);
+    const shippingLifeFields = useGetLifeFields(LifeInputLocationConstants.SHIPPING);
+    const billingAddressAfterLifeFields = useGetLifeFields(LifeInputLocationConstants.BILLING_ADDRESS_AFTER);
+    const shippingLinesLifeFields  = useGetLifeFields(LifeInputLocationConstants.SHIPPING_LINES);
+    const paymentGatewayLifeFields = useGetLifeFields(LifeInputLocationConstants.PAYMENT_GATEWAY);
+
 
     useEffect(() => {
         dispatch(checkInventory(checkInventoryStage.initial)); 
@@ -58,9 +67,13 @@ export function ThemePage(): React.ReactElement {
                             />
                         )}
                         <CustomerInformation/>
+                        <LifeFields lifeFields={customerInfoLifeFields}/>
                         <ShippingAddress/>
+                        <LifeFields lifeFields={shippingLifeFields}/>
                         <BillingAddress/>
+                        <LifeFields lifeFields={billingAddressAfterLifeFields}/>
                         <ShippingLines/>
+                        <LifeFields lifeFields={shippingLinesLifeFields}/>
                         <Payment loadIframeImmediately={true} />
                         {paymentExternalPaymentGateways.map((externalGateway) =>
                             <ExternalPaymentGateway
@@ -71,6 +84,7 @@ export function ThemePage(): React.ReactElement {
                                 position={Constants.PAYMENT_METHOD_BELOW}
                             />
                         )}
+                        <LifeFields lifeFields={paymentGatewayLifeFields}/>
                         <TaxExemption />
                         <FormControls {...footerProps}/>
                     </form>

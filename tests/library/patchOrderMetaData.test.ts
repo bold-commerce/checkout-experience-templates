@@ -6,7 +6,7 @@ import {stateMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {handleErrorIfNeeded} from 'src/utils';
 import {patchOrderMetaData} from 'src/library/patchOrderMetaData';
-import {actionOrderMetaData} from 'src/action';
+import {actionUpdateNoteAttributes} from 'src/action';
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/orderMetaData');
 jest.mock('src/utils');
@@ -25,7 +25,7 @@ describe('testing patchOrderMetaData', () => {
         cart_parameters: null,
         notes: null,
         tags: null,
-    }
+    };
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -48,7 +48,7 @@ describe('testing patchOrderMetaData', () => {
         const metaData = {
             order_meta_data: payload
         } as IPatchOrderMetaDataResponse;
-        const data = {data: metaData}
+        const data = {data: metaData};
         const newReturnObj = {...returnObject, success: true};
         newReturnObj.response = data;
         patchOrderMetaDataLibMock.mockReturnValueOnce(Promise.resolve(newReturnObj));
@@ -59,7 +59,7 @@ describe('testing patchOrderMetaData', () => {
         expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        expect(mockDispatch).toHaveBeenCalledWith(actionOrderMetaData(metaData.order_meta_data));
+        expect(mockDispatch).toHaveBeenCalledWith(actionUpdateNoteAttributes(metaData.order_meta_data.note_attributes));
     });
 
     test('tests calling validate Discount with success as true but null response', async  () => {

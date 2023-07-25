@@ -3,7 +3,14 @@ import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import {mocked} from 'jest-mock';
 import {Constants} from 'src/constants';
-import {useGetButtonDisableVariable, useGetCurrencyInformation, useGetIsLoading, useGetIsOrderProcessed, useGetSelectShippingLine,} from 'src/hooks';
+import {
+    useGetButtonDisableVariable,
+    useGetCurrencyInformation,
+    useGetIsLoading,
+    useGetIsOrderProcessed,
+    useGetRequiredLifeFieldsByLocations,
+    useGetSelectShippingLine,
+} from 'src/hooks';
 import {usePaymentPage} from 'src/themes/three-page/hooks';
 import {callProcessOrder, getCheckoutUrl, getTerm, getTotalsFromState} from 'src/utils';
 import {ITotals} from 'src/types';
@@ -20,6 +27,7 @@ jest.mock('src/utils/callProcessOrder');
 jest.mock('src/utils/getTotalsFromState');
 jest.mock('src/hooks/useGetCurrencyInformation');
 jest.mock('src/hooks/useGetSelectShippingLine');
+jest.mock('src/hooks/useGetLifeFields');
 
 const useDispatchMock = mocked(useDispatch, true);
 const useHistoryMock = mocked(useHistory, true);
@@ -31,6 +39,7 @@ const callProcessOrderMock = mocked(callProcessOrder, true);
 const getTotalsFromStateMock = mocked(getTotalsFromState, true);
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
+const useGetRequiredLifeFieldsByLocationsMock = mocked(useGetRequiredLifeFieldsByLocations, true);
 
 describe('Testing hook usePaymentPage', () => {
     const dispatchMock = jest.fn();
@@ -57,6 +66,7 @@ describe('Testing hook usePaymentPage', () => {
         getTotalsFromStateMock.mockReturnValue(total);
         useGetCurrencyInformationMock.mockReturnValue(currencyInformationMock);
         useGetSelectShippingLineMock.mockReturnValue(selectedShippingLineMock);
+        useGetRequiredLifeFieldsByLocationsMock.mockReturnValue([]);
     });
 
     test('Render with empty errors array', async () => {

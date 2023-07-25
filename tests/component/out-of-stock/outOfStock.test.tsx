@@ -8,7 +8,8 @@ import {
     useGetOutOfStock,
     useGetShopUrlFromShopAlias,
     useScreenBreakpoints,
-    useSupportedLanguages
+    useSupportedLanguages,
+    useGetLifeFields,
 } from 'src/hooks';
 import {IUseContactUs, IUseFooter, IUseOutOfStock, IUseScreenBreakpoints} from 'src/types';
 import {getTerm} from 'src/utils';
@@ -19,6 +20,7 @@ jest.mock('src/hooks/useGetFooter');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useScreenBreakpoints');
+jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/utils/getTerm');
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetOutOfStockMock = mocked(useGetOutOfStock, true);
@@ -27,6 +29,7 @@ const useGetFooterMock = mocked(useGetFooter, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const getTermMock = mocked(getTerm, true);
+const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 
 describe('Testing OutOfStock component', () => {
     const contactUsHookReturn: IUseContactUs = {
@@ -60,6 +63,7 @@ describe('Testing OutOfStock component', () => {
         useSupportedLanguagesMock.mockReturnValue({languagesOptions: [], value: '', handleChange: jest.fn()});
         useGetShopUrlFromShopAliasMock.mockReturnValue('https://google.com');
         getTermMock.mockImplementation(term => term);
+        useGetLifeFieldsMock.mockReturnValue([]);
     });
 
     test('Render the component properly', () => {

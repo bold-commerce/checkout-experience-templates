@@ -1,0 +1,111 @@
+.textarea-field__container{
+    position: relative;
+    width: 100%;
+}
+
+.textarea-field--has-value .textarea-field__label{
+    font-size: 11px;
+    display: block;
+    top: 4px;
+}
+
+.textarea-field textarea{
+    position: static;
+    left: 0;
+    top: 38px;
+    border-radius: 4px;
+    min-height: 36px;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    appearance: none;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    flex: 1 1 0%;
+    min-width: 1.5rem;
+    width: 99%;
+    font-family: "SF Pro Display", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 20px;
+    margin-top: 15px;
+}
+
+.textarea-field__label{
+    position: absolute;
+    top: 13px;
+    padding-left: 10px;
+    color: #757575;
+    display: none;
+    user-select: none;
+}
+
+.textarea-field .textarea--alert,
+.textarea{
+    border-radius: 4px;
+    margin-bottom: 0.25rem;
+}
+
+.textarea-field__container .textarea-field{
+    margin-bottom: 0px;
+}
+
+.textarea-field textarea::placeholder {
+    color: #757575;
+    opacity: 1; /* Firefox */
+    font-size: 14px
+}
+.textarea-field textarea::-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #757575;
+}
+.textarea-field textarea::-ms-input-placeholder { /* Microsoft Edge */
+    color: #757575;
+}
+.textarea-field__container .textarea{
+    border: 1px solid #949494;
+    box-sizing: border-box;
+    box-shadow: inset 0px 0px 2px #e6e6e6;
+
+}
+
+.textarea--disabled {
+    cursor: not-allowed;
+    background-color: #F8F8F8;
+}
+
+.textarea--disabled textarea{
+    cursor: not-allowed;
+    color: rgba(0,0,0,0.5);
+}
+
+.textarea--has-focus{
+    box-shadow: inset 0px 0px 0px 2px #0A75C2 !important;
+}
+.textarea-field .textarea--alert{
+    box-shadow: inset 0px 0px 0px 2px #ff300e !important;
+}
+
+.textarea-field .textarea--alert textarea::placeholder{
+    color: #FF1A2D;
+}
+
+.textarea-field .textarea--alert textarea{
+    color: #FF1A2D;
+}
+
+.textarea:hover {
+    box-shadow: none;
+}
+
+textarea.textarea__textarea-element::-webkit-input-placeholder,
+textarea.textarea__textarea-element:-moz-placeholder,
+textarea.textarea__textarea-element::-moz-placeholder,
+textarea.textarea__textarea-element:-ms-input-placeholder,
+textarea.textarea__textarea-element::-ms-input-placeholder {
+    color: inherit;
+}
+
+textarea.textarea__textarea-element:-moz-placeholder,
+textarea.textarea__textarea-element::-moz-placeholder {
+    opacity: 1;
+}
