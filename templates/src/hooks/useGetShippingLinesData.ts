@@ -1,13 +1,8 @@
 import {useDispatch} from 'react-redux';
 import {IShippingLinesHookProps} from 'src/types';
-import {
-    useGetAvailableShippingLines,
-    useGetGeneralSettingCheckoutFields,
-    useGetOrderTotal,
-    useGetSelectShippingLine
-} from 'src/hooks';
+import {useGetAvailableShippingLines, useGetSelectShippingLine} from 'src/hooks';
 import {useCallback} from 'react';
-import {actionOrderTotal, actionSetLoaderAndDisableButton, actionSetSelectedShippingLine} from 'src/action';
+import {actionSetLoaderAndDisableButton, actionSetSelectedShippingLine} from 'src/action';
 import {useDebouncedShippingLines, useGetCurrencyInformation} from 'src/hooks';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
