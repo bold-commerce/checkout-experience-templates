@@ -1,28 +1,36 @@
 import {IMetaPaymentError, IMetaPaymentResponse} from 'src/themes/flow-sdk/types';
 import {logger} from 'src/themes/flow-sdk/logger';
-import {metaFlow} from 'src/themes/flow-sdk/flowState';
+import {checkoutFlow, metaFlow} from 'src/themes/flow-sdk/flowState';
 
 export async function metaOnResponse(responsePromise: Promise<IMetaPaymentResponse>): Promise<void> {
-    logger(`metaOnResponse PaymentResponse: ${JSON.stringify(responsePromise, undefined, 4)}`, 'info');
-
     try {
-        const response = await responsePromise;
-        logger(`Meta PaymentResponse response: ${JSON.stringify(response, undefined, 4)}`, 'info');
-        //TODO Implement OnResponse Event
+        await responsePromise; // Just watch responsePromise from metapay for any PaymentError.
     } catch (err) {
-        logger(`Meta PaymentResponse error: ${JSON.stringify(err, undefined, 4)}`, 'error');
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         if (err instanceof metaFlow.metaPay?.PaymentError) {
             const error = err as IMetaPaymentError;
             switch (error.code) {
-                case 'ABORTED': //TODO: execute callback informing that the Meta Checkout was dismissed
-                case 'DISMISSED_FOR_SESSION': //TODO: execute callback informing to proceed to normal checkout
+                case 'ABORTED': {
+                    if (checkoutFlow.params.onAction && typeof checkoutFlow.params.onAction === 'function') {
+                        checkoutFlow.params.onAction('FLOW_ABORTED', error);
+                    }
                     logger(`Flow was ended with code: ${error.code}`, 'log', true);
                     break;
-                default:
+                }
+                case 'DISMISSED_FOR_SESSION': {
+                    if (checkoutFlow.params.onAction && typeof checkoutFlow.params.onAction === 'function') {
+                        checkoutFlow.params.onAction('FLOW_DISMISSED', error);
+                    }
+                    logger(`Flow was ended with code: ${error.code}`, 'log', true);
+                    break;
+                }
+                default: {
+                    if (checkoutFlow.params.onAction && typeof checkoutFlow.params.onAction === 'function') {
+                        checkoutFlow.params.onAction('FLOW_ERROR', error);
+                    }
                     logger(`Flow error code: ${error.code} - message: ${error.message}`, 'error');
-                    throw error;
+                }
             }
         }
     }

@@ -146,8 +146,8 @@ export interface IMetaPaymentResponse {
     pickupName?: string;
     pickupEmail?: string;
     pickupPhone?: string;
-    shippingAddress?: string;
-    billingAddress?: string;
+    shippingAddress?: IMetaPaymentAddress;
+    billingAddress?: IMetaPaymentAddress;
     offers?: Array<IMetaOffer>;
 }
 
