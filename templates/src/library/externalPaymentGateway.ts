@@ -61,6 +61,7 @@ export function handleExternalPaymentGatewayAddPayment(paymentGateway: IExternal
             token: payload.token,
             type: payload.type,
             gateway_public_id: paymentGateway.public_id,
+            custom_attributes: payload.custom_attributes,
         };
         await dispatch(addPayment(paymentPayload));
         dispatch(getUpdatedApplicationState);
