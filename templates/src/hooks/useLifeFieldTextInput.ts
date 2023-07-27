@@ -1,9 +1,11 @@
-import {useGetErrorByField, useGetNoteAttributes} from 'src/hooks';
+import {useDebounceLifeField, useGetErrorByField, useGetNoteAttributes, useGetLifeFieldErrorMessage} from 'src/hooks';
 import {useCallback, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {ILifeFieldInput} from 'src/types';
 import {ILifeField} from '@boldcommerce/checkout-frontend-library/lib/types/apiInterfaces';
-import {actionRemoveErrorByField, actionUpdateNoteAttributeField} from 'src/action';
+import {actionAddError, actionRemoveErrorByField, actionUpdateNoteAttributeField} from 'src/action';
+import {patchLifeField} from 'src/library';
+import {ICartParameters} from '@boldcommerce/checkout-frontend-library';
 
 export function useLifeFieldTextInput(lifeField: ILifeField): ILifeFieldInput {
     const dispatch = useDispatch();
@@ -16,6 +18,8 @@ export function useLifeFieldTextInput(lifeField: ILifeField): ILifeFieldInput {
     const inputDefault = lifeField.input_default ?? '';
     const defaultValue = lifeField.meta_data_field in noteAttributes ? noteAttributes[lifeField.meta_data_field] : inputDefault;
     const [inputValue, setInputValue] = useState(defaultValue);
+    const debounceApiCall = useDebounceLifeField();
+    const defaultError = useGetLifeFieldErrorMessage();
 
     const handleChange = useCallback(e => {
 
@@ -25,13 +29,25 @@ export function useLifeFieldTextInput(lifeField: ILifeField): ILifeFieldInput {
             dispatch(actionRemoveErrorByField(lifeField.meta_data_field, ''));
         }
 
-        setInputValue(inputValue);
-        dispatch(actionUpdateNoteAttributeField(lifeField.meta_data_field, inputValue));
+        if (inputValue) {
+            setInputValue(inputValue);
+            dispatch(actionUpdateNoteAttributeField(lifeField.meta_data_field, inputValue));
+            dispatch(debounceApiCall);
+        } else {
+            setInputValue(inputValue);
+            dispatch(actionUpdateNoteAttributeField(lifeField.meta_data_field, inputValue));
+            dispatch(actionAddError({
+                ...defaultError,
+                field: lifeField.meta_data_field,
+                message: `${lifeField.input_label}${defaultError.message}`
+            }));
+        }
     }, [errorMessage]);
 
     useEffect(() => {
         if (defaultValue.length > 0 && !(lifeField.meta_data_field in noteAttributes)) {
             dispatch(actionUpdateNoteAttributeField(lifeField.meta_data_field, defaultValue));
+            dispatch(patchLifeField({[lifeField.meta_data_field]: defaultValue} as ICartParameters));
         }
     }, []);
 

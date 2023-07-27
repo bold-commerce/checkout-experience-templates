@@ -247,15 +247,17 @@ describe('testing Update Application State Thunk Actions', () => {
 
         expect(getOrderMetaDataMock).toHaveBeenCalledTimes(1);
 
+        expect(actionUpdateNoteAttributesMock).toHaveBeenCalledTimes(1);
         expect(actionUpdateCartParametersMock).toHaveBeenCalledTimes(1);
         expect(actionUpdateNotesMock).toHaveBeenCalledTimes(1);
         expect(actionUpdateTagsMock).toHaveBeenCalledTimes(1);
 
+        expect(actionUpdateCartParametersMock).toHaveBeenCalledWith(order_meta_data.note_attributes);
         expect(actionUpdateCartParametersMock).toHaveBeenCalledWith(order_meta_data.cart_parameters);
         expect(actionUpdateNotesMock).toHaveBeenCalledWith(order_meta_data.notes);
         expect(actionUpdateTagsMock).toHaveBeenCalledWith(order_meta_data.tags);
 
-        expect(dispatchMock).toHaveBeenCalledTimes(3);
+        expect(dispatchMock).toHaveBeenCalledTimes(4);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
 

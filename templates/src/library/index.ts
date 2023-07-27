@@ -47,3 +47,4 @@ export * from '../utils/updateExternalPaymentGatewayHeight';
 export * from './updateLineItemQuantity';
 export * from './validateLifeFields';
 export * from './patchLifeFields';
+export * from './patchLifeField';
