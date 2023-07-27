@@ -9,7 +9,7 @@ import {
 import {getTotals, getValueByCurrency} from '@boldcommerce/checkout-express-pay-library';
 import {formatMetaAddressFromCheckout} from 'src/themes/flow-sdk/meta/formatMetaAddressFromCheckout';
 
-export function metaBuildPaymentDetails(): IMetaPaymentDetails {
+export const metaBuildPaymentDetails = (): IMetaPaymentDetails => {
     const {iso_code: currencyCode} = getCurrency();
     const {totalAmountDue, totalFees, totalTaxes, totalDiscounts, totalSubtotal} = getTotals();
     const {available_shipping_lines: shippingOptions, selected_shipping: selectedShippingOption} = getShipping();
@@ -93,4 +93,4 @@ export function metaBuildPaymentDetails(): IMetaPaymentDetails {
     }
 
     return paymentDetails;
-}
+};

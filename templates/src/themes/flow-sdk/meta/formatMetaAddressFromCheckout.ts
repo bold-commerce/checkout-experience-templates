@@ -1,28 +1,15 @@
 import {IAddress} from '@boldcommerce/checkout-frontend-library';
 import {IMetaPaymentAddress} from 'src/themes/flow-sdk/types';
 
-export function formatMetaAddressFromCheckout(address: IAddress): IMetaPaymentAddress {
-    const {
-        first_name: firstName,
-        last_name: lastName,
-        address_line_1: addressLine1,
-        address_line_2: addressLine2,
-        country_code: country,
-        province_code: region,
-        postal_code: postalCode,
-        business_name: organization,
-        phone_number: phone,
-        city
-    } = address ?? {};
-
+export const formatMetaAddressFromCheckout = (address: IAddress): IMetaPaymentAddress => {
     return {
-        addressLine:[addressLine1, addressLine2],
-        city,
-        region,
-        country,
-        recipient: `${firstName} ${lastName}`.trim(),
-        phone,
-        organization,
-        postalCode
+        addressLine:[address.address_line_1, address.address_line_2],
+        city: address.city,
+        region: address.province_code,
+        country: address.country_code,
+        recipient: `${address.first_name} ${address.last_name}`.trim(),
+        phone: address.phone_number,
+        organization: address.business_name,
+        postalCode: address.postal_code,
     };
-}
+};

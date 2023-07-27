@@ -2,9 +2,11 @@ import {IMetaPay} from 'src/themes/flow-sdk/types';
 import {metaFlow} from 'src/themes/flow-sdk/flowState';
 import {MetaNullStateKeyError} from 'src/themes/flow-sdk/errors';
 
-export function getMetaPay(): IMetaPay {
+export const MetaPayNullStateError = new MetaNullStateKeyError('Precondition violated: metaPay is null');
+
+export const getMetaPay = (): IMetaPay => {
     if (!metaFlow.metaPay) {
-        throw new MetaNullStateKeyError('Precondition violated: metaPay is null');
+        throw MetaPayNullStateError;
     }
     return metaFlow.metaPay;
-}
+};
