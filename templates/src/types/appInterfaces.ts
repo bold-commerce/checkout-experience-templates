@@ -209,6 +209,7 @@ export interface IExternalPaymentGatewayAddPayment {
     type: string,
     gateway_public_id: string,
     external_id: string,
+    custom_attributes?: Record<string, string|number|boolean>,
 }
 
 export interface IExternalPaymentGatewayUpdateHeight {
