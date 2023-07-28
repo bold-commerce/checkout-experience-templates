@@ -1,7 +1,7 @@
 import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {useGetNoteAttributes, useLifeFieldCheckbox} from 'src/hooks';
-import {patchOrderMetaData} from 'src/library';
+import {patchLifeFields, patchOrderMetaData} from 'src/library';
 import {renderHook} from '@testing-library/react-hooks';
 import {act} from '@testing-library/react';
 import {ILifeField} from '@boldcommerce/checkout-frontend-library/lib/types/apiInterfaces';
@@ -42,12 +42,23 @@ describe('Testing hook useLifeFieldCheckbox', () => {
             input_default: null,
             input_label: null,
             input_placeholder: null,
-            input_required: true,
+            input_required: false,
             input_type: 'checkbox',
             location: 'customer_info',
             meta_data_field: 'test_meta_data_field_1',
             order_asc: 2,
             public_id: '2',
+        },
+        {
+            input_default: null,
+            input_label: null,
+            input_placeholder: null,
+            input_required: true,
+            input_type: 'checkbox',
+            location: 'customer_info',
+            meta_data_field: 'test_meta_data_field_2',
+            order_asc: 3,
+            public_id: '3',
         }
     ];
 
@@ -68,7 +79,7 @@ describe('Testing hook useLifeFieldCheckbox', () => {
         expect(hookResult.id).toBe('1');
     });
 
-    test('rendering the hook with optional values properly', () => {
+    test('rendering the hook with already existing note attributes properly', () => {
         const noteAttributes: Record<string, string> = {
             test_meta_data_field_1: 'true',
         };
@@ -82,6 +93,20 @@ describe('Testing hook useLifeFieldCheckbox', () => {
         expect(hookResult.id).toBe('2');
     });
 
+    test('rendering the hook with not existing note attributes properly', () => {
+        useGetNoteAttributesMock.mockReturnValue({});
+        const {result} = renderHook(() => useLifeFieldCheckbox(lifeFields[2]));
+        const hookResult = result.current;
+        expect(hookResult.checked).toBe(false);
+        expect(hookResult.value).toBe('false');
+        expect(hookResult.label).toBe('');
+        expect(hookResult.helpText).toBe('');
+        expect(hookResult.id).toBe('3');
+
+        expect(mockDispatch).toHaveBeenCalledTimes(2);
+        expect(mockDispatch).toHaveBeenCalledWith(actionUpdateNoteAttributeField('test_meta_data_field_2', false));
+    });
+
     test('testing the change handler', () => {
         useGetNoteAttributesMock.mockReturnValue({});
         const event = {target: {checked: true}};
@@ -91,9 +116,9 @@ describe('Testing hook useLifeFieldCheckbox', () => {
             hookResult.handleChange(event);
         });
 
-        expect(mockDispatch).toHaveBeenCalledTimes(2);
+        expect(mockDispatch).toHaveBeenCalledTimes(4);
         expect(mockDispatch).toHaveBeenCalledWith(actionUpdateNoteAttributeField('test_meta_data_field', true));
-
+        expect(mockDispatch).toHaveBeenCalledWith(patchLifeFields);
     });
 
 });
