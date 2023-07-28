@@ -23,7 +23,7 @@ export function ThemePage(): React.ReactElement {
     const isCustomerLoggedIn = useIsUserAuthenticated();
     const initialData = useAppSelector(state => state.data);
     const [isFlowStarted, setIsFlowStarted] = useState(false);
-    const onClickCheckout = useCallback(() => {
+    const onClickCheckout = useCallback(async () => {
         if (isFlowStarted && window.bold?.canCheckoutWithFlow()) {
             window.bold?.onCheckoutClick && window.bold.onCheckoutClick();
         } else {
@@ -44,8 +44,30 @@ export function ThemePage(): React.ReactElement {
             const params: ICheckoutFlowParameters = {
                 shopIdentifier: window.shopIdentifier,
                 flowElementId: '',
-                boldSecureUrl: 'https://spt-felipe-santos.bold.ninja', // TODO: get url from window variable (add to window variable on Checkout view loading)
+                boldSecureUrl: 'https://secure.staging.boldcommerce.com',
                 environment: window.environment,
+                onAction: (type, payload) => {
+                    // eslint-disable-next-line no-console
+                    console.log({action: {type, payload}});
+                    switch (type) {
+                        case 'FLOW_ORDER_COMPLETED': {
+                            // Redirect/Show Thank you page - payload has application_state
+                            break;
+                        }
+                        case 'FLOW_ABORTED': {
+                            // Flow dialog/bottom drawer was dismissed - payload has error details
+                            break;
+                        }
+                        case 'FLOW_DISMISSED': {
+                            // Redirect to normal Checkout - payload has error details
+                            break;
+                        }
+                        case 'FLOW_ERROR': {
+                            // Another Error Happened During the Flow - payload has error details
+                            break;
+                        }
+                    }
+                }
             };
             window.bold.initFlow(initialData, params).then(() => setIsFlowStarted(true));
         }

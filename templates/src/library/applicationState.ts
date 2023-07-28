@@ -24,7 +24,6 @@ import {
     actionUpdateFees,
     actionUpdateIsProcessedOrder,
     actionUpdateLineItem,
-    actionUpdateNoteAttributes,
     actionUpdateNotes,
     actionUpdatePayments,
     actionUpdateSelectedShippingLine,

@@ -1,5 +1,5 @@
-import {IEnvironment} from '@boldcommerce/checkout-frontend-library';
-import {IFlow, IMetaFlowSettings} from 'src/themes/flow-sdk/types/meta';
+import {IApplicationState, IEnvironment} from '@boldcommerce/checkout-frontend-library';
+import {IFlow, IMetaFlowSettings, IMetaPaymentError} from 'src/themes/flow-sdk/types/meta';
 
 export interface ICheckoutFlowParameters {
     shopIdentifier: string;
@@ -11,7 +11,11 @@ export interface ICheckoutFlowParameters {
 
 export type IOnCheckoutClickEvent = (event?: MouseEvent) => void;
 
-export type IOnAction = (actionType: string, payload?: Record<string, unknown>) => void;
+export interface IProcessOrderResponse {
+    application_state?: IApplicationState;
+}
+
+export type IOnAction = (actionType: string, payload?: Record<string, unknown> | IProcessOrderResponse | IMetaPaymentError) => void;
 
 export interface ICheckoutFlow {
     params: Required<ICheckoutFlowParameters>;

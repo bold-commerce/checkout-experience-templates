@@ -14,6 +14,5 @@ export async function metaCheckAvailability(): Promise<void> {
     const availability: IMetaAvailability = await paymentClient.getAvailability(paymentConfiguration);
     checkoutFlow.canCheckout = (availability === 'AVAILABLE');
 
-    logger(`Meta PaymentConfiguration: ${JSON.stringify(paymentConfiguration, undefined, 4)}`, 'info');
     logger(`Meta Availability: ${availability}`, 'info');
 }

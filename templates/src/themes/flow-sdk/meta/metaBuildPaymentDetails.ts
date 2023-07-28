@@ -64,12 +64,14 @@ export function metaBuildPaymentDetails(): IMetaPaymentDetails {
         });
     }
 
-    if (selectedShippingOption && selectedShippingOption.amount > 0) {
-        summaryItems.push({
-            amount: {currency: currencyCode, value: getValueByCurrency(selectedShippingOption.amount, currencyCode)},
-            summaryItemType: 'FULFILLMENT',
-            label: 'Shipping'
-        });
+    if (selectedShippingOption) {
+        if (selectedShippingOption.amount > 0) {
+            summaryItems.push({
+                amount: {currency: currencyCode, value: getValueByCurrency(selectedShippingOption.amount, currencyCode)},
+                summaryItemType: 'FULFILLMENT',
+                label: 'Shipping'
+            });
+        }
         paymentDetails.fulfillmentOptionId = selectedShippingOption.id;
     }
 
