@@ -69,19 +69,27 @@ export function useInitiateGoogleAutocomplete(): void {
             const googleAutocompleteAddressComponentType: string = googleAutocompleteAddressComponent.types[0];
             switch (googleAutocompleteAddressComponentType) {
                 case 'street_number': {
-                    tempAddressData.address1 = `${googleAutocompleteAddressComponent.long_name} ${tempAddressData.address1}`; break;
+                    tempAddressData.address1 = `${googleAutocompleteAddressComponent.long_name} ${tempAddressData.address1}`;
+                    break;
                 }
                 case 'route': {
-                    tempAddressData.address1 += googleAutocompleteAddressComponent.long_name; break;
+                    tempAddressData.address1 += googleAutocompleteAddressComponent.long_name;
+                    break;
                 }
                 case 'postal_code': {
-                    tempAddressData.postalCode = `${googleAutocompleteAddressComponent.long_name}${tempAddressData.postalCode}`;  break;
+                    tempAddressData.postalCode = `${googleAutocompleteAddressComponent.long_name}${tempAddressData.postalCode}`;
+                    break;
                 }
                 case 'postal_code_suffix': {
-                    tempAddressData.postalCode = `${tempAddressData.postalCode}-${googleAutocompleteAddressComponent.long_name}`; break;
+                    tempAddressData.postalCode = `${tempAddressData.postalCode}-${googleAutocompleteAddressComponent.long_name}`;
+                    break;
                 }
                 case 'locality':
-                    tempAddressData.city = googleAutocompleteAddressComponent.long_name;
+                case 'postal_town':
+                case 'administrative_area_level_2':
+                    if (!tempAddressData.city) {
+                        tempAddressData.city = googleAutocompleteAddressComponent.long_name;
+                    }
                     break;
                 case 'administrative_area_level_1': {
                     tempAddressData.province = googleAutocompleteAddressComponent.long_name;
