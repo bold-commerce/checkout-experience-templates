@@ -1,6 +1,6 @@
 {
   "name": "@boldcommerce/checkout-experience-templates",
-  "version": "1.0.1-build.227",
+  "version": "1.0.1-build.237",
   "description": "Code base to generate the Javascript template to load Checkout using Bold Checkout Storefront APIs",
   "main": "index.js",
   "license": "MIT",
@@ -47,8 +47,8 @@
     "webpack-dev-server": "^4.9.2"
   },
   "dependencies": {
-    "@boldcommerce/checkout-express-pay-library": "0.22.1",
-    "@boldcommerce/checkout-frontend-library": "0.49.0",
+    "@boldcommerce/checkout-express-pay-library": "0.22.3",
+    "@boldcommerce/checkout-frontend-library": "0.49.1",
     "@boldcommerce/stacks-ui": "^1.1.1",
     "@bugsnag/js": "^7.16.2",
     "@redux-devtools/extension": "^3.2.2",

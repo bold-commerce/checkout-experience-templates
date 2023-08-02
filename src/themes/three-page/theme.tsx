@@ -7,7 +7,7 @@ import {
     useWindowDimensions
 } from 'src/hooks';
 import {BrowserRouter, Route} from 'react-router-dom';
-import {Switch} from 'react-router';
+import {Redirect, Switch} from 'react-router';
 import {ThankYouPage, OutOfStockPage, SessionExpiredPage} from 'src/pages';
 import {CustomerPage, PaymentPage, ShippingLinesPage} from 'src/themes/three-page/pages';
 import 'public/app.css';
@@ -51,6 +51,7 @@ function Theme(): React.ReactElement {
                     <Route path={`*/${Constants.SHIPPING_ROUTE}`} component={ShippingLinesPage} />
                     <Route path={`*/${Constants.THANK_YOU_ROUTE}`} component={ThankYouPage} />
                     <Route path={`*/${Constants.EXPERIENCE_ROUTE}`} component={CustomerPage} />
+                    <Redirect to={`/${Constants.EXPERIENCE_ROUTE}`} />
                 </Switch>
                 <StandaloneHooks/>
             </BrowserRouter>

@@ -88,6 +88,7 @@ export async function getLineItemsFromLib(dispatch: Dispatch): Promise<void>{
 
 export async function getOrderMetaDataFromLib(dispatch: Dispatch): Promise<void>{
     const orderMetaData = getOrderMetaData();
+    dispatch(actionUpdateNoteAttributes(orderMetaData.note_attributes));
     dispatch(actionUpdateCartParameters(orderMetaData.cart_parameters));
     dispatch(actionUpdateNotes(orderMetaData.notes));
     dispatch(actionUpdateTags(orderMetaData.tags));
