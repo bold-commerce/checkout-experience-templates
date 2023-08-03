@@ -3,7 +3,16 @@ import {Constants} from 'src/constants';
 import {getTotals, getTerm} from 'src/utils';
 import {SummaryLineExpandable, SummaryLineNonExpandable} from 'src/components';
 import {REMOVE_DISCOUNT, REMOVE_PAYMENT} from 'src/action/appActionType';
-import {useGetDiscounts, useGetLineItems, useGetPayments, useGetSelectShippingLine, useGetTaxes, useGetFees, useGetOrderTotal} from 'src/hooks';
+import {
+    useGetDiscounts,
+    useGetLineItems,
+    useGetPayments,
+    useGetSelectShippingLine,
+    useGetTaxes,
+    useGetFees,
+    useGetOrderTotal,
+    useGetRequiresShipping
+} from 'src/hooks';
 import {ISummaryTotals} from 'src/types';
 
 export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
@@ -14,6 +23,7 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
     const shipping = useGetSelectShippingLine();
     const lineItems = useGetLineItems();
     const orderTotal = useGetOrderTotal();
+    const requiresShipping = useGetRequiresShipping();
     const totals = getTotals(lineItems, payments, taxes, fees, discounts, orderTotal);
 
     const discountSection = <SummaryLineExpandable
@@ -53,6 +63,14 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
         total={totals.totalAmountDue}
     />;
 
+    const shippingSection = <SummaryLineExpandable
+        hasList
+        content={[shipping]}
+        eventToggleName={Constants.SHIPPING_TOGGLE}
+        total={shipping.amount}
+        title={getTerm('shipping',Constants.SUMMARY_INFO)}
+    />;
+
     return (
         <div className={'taxes-amount'} data-testid={'summary-totals__lines'}>
             <SummaryLineNonExpandable
@@ -61,13 +79,7 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
                 total={totals.totalSubtotal}
             />
 
-            <SummaryLineExpandable
-                hasList
-                content={[shipping]}
-                eventToggleName={Constants.SHIPPING_TOGGLE}
-                total={shipping.amount}
-                title={getTerm('shipping',Constants.SUMMARY_INFO)}
-            />
+            {requiresShipping && shippingSection}
 
             {discounts && discounts.length > 0 && discountSection}
 

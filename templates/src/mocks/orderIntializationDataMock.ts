@@ -552,7 +552,8 @@ export const initialDataMock: IInitializeOrderResponse = {
             'meta_data_field':'meta data',
             'order_asc':0
         }],
-        'flow_settings': {}
+        'flow_settings': {},
+        'requires_shipping': true,
     },
     'application_state': {
         'customer': {

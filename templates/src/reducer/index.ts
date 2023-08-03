@@ -30,3 +30,4 @@ export * from './noteAttributesReducer';
 export * from './cartParametersReducer';
 export * from './noteReducer';
 export * from './tagsReducer';
+export * from './requiresShippingDataReducer';
