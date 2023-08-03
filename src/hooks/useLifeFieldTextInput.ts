@@ -29,19 +29,19 @@ export function useLifeFieldTextInput(lifeField: ILifeField): ILifeFieldInput {
             dispatch(actionRemoveErrorByField(lifeField.meta_data_field, ''));
         }
 
-        if (inputValue) {
-            setInputValue(inputValue);
-            dispatch(actionUpdateNoteAttributeField(lifeField.meta_data_field, inputValue));
-            dispatch(debounceApiCall);
-        } else {
-            setInputValue(inputValue);
-            dispatch(actionUpdateNoteAttributeField(lifeField.meta_data_field, inputValue));
+        setInputValue(inputValue);
+        dispatch(actionUpdateNoteAttributeField(lifeField.meta_data_field, inputValue));
+
+        if(!inputValue && lifeField.input_required) {
             dispatch(actionAddError({
                 ...defaultError,
                 field: lifeField.meta_data_field,
                 message: `${lifeField.input_label}${defaultError.message}`
             }));
+        } else {
+            dispatch(debounceApiCall);
         }
+
     }, [errorMessage]);
 
     useEffect(() => {
