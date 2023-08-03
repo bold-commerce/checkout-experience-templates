@@ -97,29 +97,6 @@ describe('testing patchLifeFields', () => {
         });
     });
 
-    test('not calling patch order api when the string value is empty', async () => {
-        const noteAttributes: Record<string, string> = {
-            test_meta_data_field: '',
-        };
-        const newMock = {...stateMock};
-        newMock.data.application_state.order_meta_data.note_attributes = noteAttributes;
-        getState.mockReturnValue(newMock);
-
-        const fakeEmptyStringNoteAttributes: IOrderMetaData = {
-            cart_parameters: {},
-            note_attributes: {
-                ['test_meta_data_field']: '12345',
-            } as ICartParameters,
-            notes: '',
-            tags: [],
-        };
-        getOrderDataMock.mockReturnValueOnce(fakeEmptyStringNoteAttributes);
-
-        await patchLifeFields(dispatch, getState).then(() => {
-            expect(patchOrderMetaDataMock).toHaveBeenCalledTimes(0);
-        });
-    });
-
     test('calling patch order api for the boolean value', async () => {
         const noteAttributes: Record<string, boolean> = {
             test_meta_data_field: true,

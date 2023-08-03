@@ -12,11 +12,7 @@ export async function patchLifeFields(dispatch: Dispatch, getState: () => IOrder
     const noteAttributesToAdd: ICartParameters = {};
     for (const [key, value] of Object.entries(noteAttributes)) {
         if (key in prevNoteAttributes && prevNoteAttributes[key] !== value) {
-            if (typeof value === 'string' && value) {
-                noteAttributesToAdd[key] = value;
-            } else if (typeof value === 'boolean') {
-                noteAttributesToAdd[key] = value;
-            }
+            noteAttributesToAdd[key] = value;
         } else if (!(key in prevNoteAttributes)) {
             noteAttributesToAdd[key] = value;
         }
