@@ -3,7 +3,7 @@ import {useHistory} from 'react-router-dom';
 import {IBreadcrumbsProps} from 'src/types';
 import classNames from 'classnames';
 import {getBreadcrumbs} from 'src/utils';
-import {SupportedLanguages} from '../supported-languages/supportedLanguages';
+import {SupportedLanguages} from 'src/components';
 import {useScreenBreakpoints} from 'src/hooks';
 
 export function Breadcrumbs(props: IBreadcrumbsProps): React.ReactElement {
@@ -13,8 +13,6 @@ export function Breadcrumbs(props: IBreadcrumbsProps): React.ReactElement {
     let breadcrumbIndex = 1;
 
     const {crumbs, sectionLabel} = getBreadcrumbs(history, active);
-
-    //TODO: implement digital checkout for non-physical items later
 
     return (
         <div className='navigation__container'>

@@ -110,4 +110,20 @@ describe('testing callCustomerPageApi', () => {
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('shipping_lines', 'customerPageButton', historyMock, false);
         });
     });
+
+    test('Redirect to payment page when not requires shipping', async () => {
+        const historyMock = {} as HistoryLocationState;
+        const newStateMock = {...stateMock};
+        newStateMock.data.initial_data.requires_shipping = false;
+        getState.mockReturnValueOnce(newStateMock);
+
+        const callCustomerPageApiThunk = callCustomerPageApi(historyMock);
+        await callCustomerPageApiThunk(dispatch, getState).then(() => {
+            expect(getState).toHaveBeenCalledTimes(1);
+            expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
+            expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledWith('customerPageButton', true);
+            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
+            expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('payment', 'customerPageButton', historyMock, false);
+        });
+    });
 });
