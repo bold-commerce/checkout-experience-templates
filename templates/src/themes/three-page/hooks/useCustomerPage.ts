@@ -33,9 +33,7 @@ export function useCustomerPage(): IUseCustomerPageProp {
         sendEvents('Clicked continue to shipping lines button', {'category': 'Checkout'});
 
         dispatch(actionClearErrors());
-        if (requiredLifeFields.length > 0) {
-            dispatch(validateLifeFields(requiredLifeFields));
-        }
+        dispatch(validateLifeFields(requiredLifeFields));
         dispatch(callCustomerPageApi(history));
     } , []);
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
