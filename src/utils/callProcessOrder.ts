@@ -20,11 +20,7 @@ export function callProcessOrder(dispatch: Dispatch, totals: ITotals, history: H
 
     dispatch(actionClearErrors());
     sendClearErrorMessageAction();
-
-    if (requiredLifeFields.length > 0) {
-        dispatch(validateLifeFields(requiredLifeFields));
-    }
-
+    dispatch(validateLifeFields(requiredLifeFields));
     dispatch(displayOrderProcessingScreen);
     if (totals.totalAmountDue <= 0) {
         dispatch(processOrder(history));
