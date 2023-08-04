@@ -42,9 +42,7 @@ export function useShippingPage(): IUseCustomerPageProp{
         sendEvents('Clicked continue to payment button', {'category': 'Checkout'});
         dispatch(actionClearErrors());
         dispatch(callShippingLinesPageApi(history));
-        if (requiredLifeFields.length > 0) {
-            dispatch(validateLifeFields(requiredLifeFields));
-        }
+        dispatch(validateLifeFields(requiredLifeFields));
     } , []);
 
     return {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading, language, title};
