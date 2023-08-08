@@ -5,7 +5,7 @@ import {
 import {ITotals} from 'src/types';
 
 export const MetaPaymentOptionsMock: IMetaPaymentOptions = {
-    allowOfferCodes: false,
+    allowOfferCodes: true,
     requestBillingAddress: true,
     requestPayerEmail: true,
     requestPayerPhone: false,
