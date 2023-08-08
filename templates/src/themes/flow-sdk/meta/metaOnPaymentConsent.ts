@@ -31,7 +31,7 @@ import {
 import {API_RETRY} from 'src/constants';
 import {checkoutFlow} from 'src/themes/flow-sdk/flowState';
 
-export async function metaOnPaymentConsent(response: IMetaPaymentResponse): Promise<IMetaPaymentAuthorizationResult> {
+export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Promise<IMetaPaymentAuthorizationResult> => {
     //Update Order Customer
     const {firstName, lastName} = getFirstAndLastName(response.billingAddress?.recipient || response.shippingAddress?.recipient);
     const customerResult = await callGuestCustomerEndpoint(firstName, lastName, response.payerEmail || '');
@@ -115,4 +115,4 @@ export async function metaOnPaymentConsent(response: IMetaPaymentResponse): Prom
 
     logger(`AuthorizationResult: ${JSON.stringify(META_AUTHORIZATION_SUCCESS, undefined, 4)}`, 'info');
     return META_AUTHORIZATION_SUCCESS;
-}
+};

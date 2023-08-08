@@ -17,3 +17,11 @@ export const META_AUTHORIZATION_OTHER_ERROR: IMetaPaymentAuthorizationResult = {
 export const META_AUTHORIZATION_SHIPPING_ERROR: IMetaPaymentAuthorizationResult = {authorizationState: 'ERROR', error: META_SHIPPING_DATA_ERROR};
 export const META_AUTHORIZATION_BILLING_ERROR: IMetaPaymentAuthorizationResult = {authorizationState: 'ERROR', error: META_BILLING_DATA_ERROR};
 export const META_AUTHORIZATION_PAYMENT_ERROR: IMetaPaymentAuthorizationResult = {authorizationState: 'ERROR', error: META_PAYMENT_DATA_ERROR};
+
+
+export const MetaAddressPlaceholders = {
+    first_name: 'firstname',
+    last_name: 'lastname',
+    address_line_1: 'addressLine1',
+    phone_number: '0000000000',
+};

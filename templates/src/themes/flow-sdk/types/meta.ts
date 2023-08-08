@@ -225,7 +225,7 @@ export interface IMetaPaymentClientConstructor extends Error{
 export type IMetaPaymentErrorCode = 'ABORTED' | 'TIMEOUT' | 'INVALID_REQUEST' | 'MERCHANT_ACCOUNT_ERROR' | 'INTERNAL_ERROR' | 'DISMISSED_FOR_SESSION';
 
 export interface IMetaPaymentError {
-    readonly code: IMetaPaymentErrorCode;
+    readonly code: IMetaPaymentErrorCode | string;
     readonly message: string;
 }
 

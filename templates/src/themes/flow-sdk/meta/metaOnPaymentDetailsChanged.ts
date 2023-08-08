@@ -14,18 +14,23 @@ import {
     META_SHIPPING_DATA_ERROR
 } from 'src/themes/flow-sdk/constants';
 
-export async function metaOnPaymentDetailsChanged(event: IMetaPaymentDetailsChangedEvent): Promise<IMetaPaymentDetailsUpdate> {
+export const metaOnPaymentDetailsChanged = async (event: IMetaPaymentDetailsChangedEvent): Promise<IMetaPaymentDetailsUpdate> => {
     logger(`Event.changeTypes: ${JSON.stringify(event.changeTypes, undefined, 4)}`, 'info');
     logger(`Event.paymentDetails.fulfillmentOptionId: ${JSON.stringify(event.paymentDetails.fulfillmentOptionId, undefined, 4)}`, 'info');
     logger(`Event.paymentDetails.fulfillmentOptions: ${JSON.stringify(event.paymentDetails.fulfillmentOptions, undefined, 4)}`, 'info');
     const {shippingAddress, billingAddress, fulfillmentOptionId} = event.paymentDetails;
-    const paymentDetailsUpdate: IMetaPaymentDetailsUpdate = {paymentDetails: event.paymentDetails, errors: []};
+    const paymentDetailsUpdate: IMetaPaymentDetailsUpdate = {paymentDetails: event.paymentDetails};
+    
 
     if (event.changeTypes.includes('SHIPPING_ADDRESS')) {
         const formattedShippingAddress = formatCheckoutAddressFromMeta(shippingAddress, true);
         const shippingAddressResponse = await callShippingAddressEndpoint(formattedShippingAddress, false);
+        
         if (!shippingAddressResponse.success) {
-            paymentDetailsUpdate.errors?.push(META_SHIPPING_DATA_ERROR);
+            if(paymentDetailsUpdate.errors === undefined){
+                paymentDetailsUpdate.errors = [];
+            }
+            paymentDetailsUpdate.errors.push(META_SHIPPING_DATA_ERROR);
         }
         await getShippingLines(API_RETRY);
         await setTaxes(API_RETRY);
@@ -40,24 +45,33 @@ export async function metaOnPaymentDetailsChanged(event: IMetaPaymentDetailsChan
         const formattedBillingAddress = formatCheckoutAddressFromMeta(metaBillingAddress, true);
         const billingAddressResponse = await callBillingAddressEndpoint(formattedBillingAddress, false);
         if (!billingAddressResponse.success) {
-            paymentDetailsUpdate.errors?.push(META_BILLING_DATA_ERROR);
+            if(paymentDetailsUpdate.errors === undefined){
+                paymentDetailsUpdate.errors = [];
+            }
+            paymentDetailsUpdate.errors.push(META_BILLING_DATA_ERROR);
         }
     }
 
     const {selected_shipping: selectedShipping, available_shipping_lines: shippingLines} = getShipping();
     logger(`selected_shipping: ${JSON.stringify(selectedShipping, undefined, 4)}`, 'info');
     logger(`available_shipping_lines: ${JSON.stringify(shippingLines, undefined, 4)}`, 'info');
-    if (event.changeTypes.includes('FULFILLMENT_OPTION_ID') || (!!fulfillmentOptionId && selectedShipping?.id !== fulfillmentOptionId)) {
+    if (event.changeTypes.includes('FULFILLMENT_OPTION_ID') || (!!fulfillmentOptionId && selectedShipping.id !== fulfillmentOptionId)) {
         const option = shippingLines.find(line => line.id === fulfillmentOptionId);
         if (option) {
             const shippingLineResponse = await changeShippingLine(option.id, API_RETRY);
             if (!shippingLineResponse.success) {
-                paymentDetailsUpdate.errors?.push(META_FULFILLMENT_DATA_ERROR);
+                if(paymentDetailsUpdate.errors === undefined){
+                    paymentDetailsUpdate.errors = [];
+                }
+                paymentDetailsUpdate.errors.push(META_FULFILLMENT_DATA_ERROR);
             } else {
                 await getShippingLines(API_RETRY);
             }
         } else {
-            paymentDetailsUpdate.errors?.push(META_FULFILLMENT_DATA_ERROR);
+            if(paymentDetailsUpdate.errors === undefined){
+                paymentDetailsUpdate.errors = [];
+            }
+            paymentDetailsUpdate.errors.push(META_FULFILLMENT_DATA_ERROR);
         }
     }
 
@@ -65,4 +79,4 @@ export async function metaOnPaymentDetailsChanged(event: IMetaPaymentDetailsChan
     logger(`Update.paymentDetails.fulfillmentOptionId: ${JSON.stringify(paymentDetailsUpdate.paymentDetails.fulfillmentOptionId, undefined, 4)}`, 'info');
     logger(`Update.paymentDetails.fulfillmentOptions: ${JSON.stringify(paymentDetailsUpdate.paymentDetails.fulfillmentOptions, undefined, 4)}`, 'info');
     return paymentDetailsUpdate;
-}
+};
