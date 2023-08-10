@@ -8,21 +8,26 @@ import { checkoutFlow } from 'src/themes/flow-sdk/flowState';
 jest.mock('src/themes/flow-sdk/logger')
 jest.mock('src/themes/flow-sdk/meta/metaInitPaymentClient')
 jest.mock('src/themes/flow-sdk/meta/metaCheckAvailability')
-jest.mock('src/themes/flow-sdk/flowState')
 jest.mock('src/themes/flow-sdk/meta/metaRenderButton')
 
 const loggerMock = mocked(logger, true);
 const metaInitPaymentClientMock = mocked(metaInitPaymentClient, true);
 const metaCheckAvailabilityMock = mocked(metaCheckAvailability, true);
-const checkoutFlowMock = mocked(checkoutFlow, true);
 const metaRenderButtonMock = mocked(metaRenderButton, true);
+const onActionMock = jest.fn();
 
 describe('metaOnLoadScript', () => {
 
     it('should log error if window.metapay is not defined', async () => {
         window.metapay = undefined;
+
+        checkoutFlow.params.onAction = onActionMock;
+
         await expect(metaOnLoadScript()).rejects.toEqual(MissingMetapayObjectError);
+
         expect(loggerMock).toHaveBeenCalled();
+        expect(onActionMock).toHaveBeenCalled();
+        expect(onActionMock).toHaveBeenCalledWith('FLOW_INITIALIZE', {success: false, error: new Error(MissingMetapayObjectError)});
     });
 
     it('Metapay causes error', async () => {
@@ -31,27 +36,33 @@ describe('metaOnLoadScript', () => {
             PaymentError: Object.assign(jest.fn(), { message: "Some Error Message" })
         } as IMetaPay;
 
-        checkoutFlowMock.params.flowElementId = 'someId';
+        checkoutFlow.params.flowElementId = 'someId';
+        checkoutFlow.params.onAction = onActionMock;
 
         await expect(metaOnLoadScript()).resolves.toEqual(undefined);
 
         expect(metaInitPaymentClientMock).toHaveBeenCalled();
         expect(metaCheckAvailabilityMock).toHaveBeenCalled();
         expect(metaRenderButtonMock).toHaveBeenCalled();
+        expect(onActionMock).toHaveBeenCalled();
+        expect(onActionMock).toHaveBeenCalledWith('FLOW_INITIALIZE', {success: true});
     });
 
-    it('should log error if flowElementID is not set in pararms', async () => {
+    it('should log error if flowElementID is not set in params', async () => {
         window.metapay = {
             PaymentClient: Object.assign(jest.fn(), { message: "Some Message" }),
             PaymentError: Object.assign(jest.fn(), { message: "Some Error Message" })
         } as IMetaPay;
 
-        checkoutFlowMock.params.flowElementId = "";
+        checkoutFlow.params.flowElementId = "";
+        checkoutFlow.params.onAction = onActionMock;
 
         await expect(metaOnLoadScript()).resolves.toEqual(undefined);
 
         expect(metaInitPaymentClientMock).toHaveBeenCalled();
         expect(metaCheckAvailabilityMock).toHaveBeenCalled();
         expect(loggerMock).toHaveBeenCalled();
+        expect(onActionMock).toHaveBeenCalled();
+        expect(onActionMock).toHaveBeenCalledWith('FLOW_INITIALIZE', {success: true});
     });
 })
