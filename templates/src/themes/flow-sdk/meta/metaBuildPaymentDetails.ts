@@ -2,6 +2,7 @@ import {IMetaPaymentDetails, IMetaPaymentItem, IMetaSummaryPaymentItem} from 'sr
 import {
     getBillingAddress,
     getCurrency,
+    getDiscounts,
     getLineItems,
     getShipping,
     getShippingAddress
@@ -16,6 +17,7 @@ export const metaBuildPaymentDetails = (): IMetaPaymentDetails => {
     const shippingAddress = getShippingAddress();
     const billingAddress = getBillingAddress();
     const lineItems = getLineItems();
+    const discounts = getDiscounts();
 
     const paymentDetails: IMetaPaymentDetails = {
         total: {amount: {currency: currencyCode, value: getValueByCurrency(totalAmountDue, currencyCode)}, label: 'Total'},
@@ -62,6 +64,15 @@ export const metaBuildPaymentDetails = (): IMetaPaymentDetails => {
             summaryItemType: 'OFFER',
             label: 'Discounts'
         });
+    }
+
+    if (discounts.length > 0) {
+        paymentDetails.offers = discounts.map(discount => ({
+            code: discount.code,
+            label: discount.text
+        }));
+    } else {
+        paymentDetails.offers = [];
     }
 
     if (selectedShippingOption) {
