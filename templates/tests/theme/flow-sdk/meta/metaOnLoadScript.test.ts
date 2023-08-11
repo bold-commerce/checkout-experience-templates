@@ -4,6 +4,7 @@ import { logger } from 'src/themes/flow-sdk/logger';
 import { metaInitPaymentClient, metaCheckAvailability, metaRenderButton } from 'src/themes/flow-sdk/meta/';
 import { IMetaPay } from 'src/themes/flow-sdk/types';
 import { checkoutFlow } from 'src/themes/flow-sdk/flowState';
+import {FlowError} from "src/themes/flow-sdk/errors";
 
 jest.mock('src/themes/flow-sdk/logger')
 jest.mock('src/themes/flow-sdk/meta/metaInitPaymentClient')
@@ -27,7 +28,7 @@ describe('metaOnLoadScript', () => {
 
         expect(loggerMock).toHaveBeenCalled();
         expect(onActionMock).toHaveBeenCalled();
-        expect(onActionMock).toHaveBeenCalledWith('FLOW_INITIALIZE', {success: false, error: new Error(MissingMetapayObjectError)});
+        expect(onActionMock).toHaveBeenCalledWith('FLOW_INITIALIZE', {success: false, error: new FlowError(MissingMetapayObjectError)});
     });
 
     it('Metapay causes error', async () => {

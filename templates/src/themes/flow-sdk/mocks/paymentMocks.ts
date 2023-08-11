@@ -75,7 +75,12 @@ export const MetaPaymentDetailsMock: IMetaPaymentDetails = {
             label: 'USPS ground carrier',
         },
     ],
-
+    offers: [
+        {
+            code: 'Test Discount Code',
+            label: 'Test Text',
+        }
+    ],
     shippingAddress: {
         addressLine: [
             '50 Fultz Boulevard',

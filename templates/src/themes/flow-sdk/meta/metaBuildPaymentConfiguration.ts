@@ -15,7 +15,7 @@ export const metaBuildPaymentConfiguration = (): IMetaPaymentConfiguration => {
             'basic-card-v1': {},
             'ecom-token-v1': {},
         },
-        containerContext: getPublicOrderId(), //TODO Using the public order id. Unique id for the payment, what should this be at this point?
-        uxFlags: ['META_CHECKOUT'], //TODO Should we use 'DISABLE_PROACTIVE_CHECKOUT' too?
+        containerContext: getPublicOrderId(),
+        uxFlags: ['META_CHECKOUT'],
     };
 };

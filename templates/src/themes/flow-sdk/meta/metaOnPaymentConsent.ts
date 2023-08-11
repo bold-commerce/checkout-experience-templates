@@ -70,7 +70,7 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
             service: 'meta-sdk',
             version: 1,
             payment_gateway_id: publicGatewayId,
-            payload: response.container.containerData, //TODO use this
+            payload: response.container.containerData,
         })
     };
     const tokenizeResponse = await fetch(tokenizeUrl, options);
@@ -113,6 +113,6 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
         return Promise.reject(META_AUTHORIZATION_ERROR);
     }
 
-    logger(`AuthorizationResult: ${JSON.stringify(META_AUTHORIZATION_SUCCESS, undefined, 4)}`, 'info');
+    logger({AuthorizationResult: META_AUTHORIZATION_SUCCESS}, 'info');
     return META_AUTHORIZATION_SUCCESS;
 };
