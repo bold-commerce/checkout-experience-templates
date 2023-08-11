@@ -7,7 +7,7 @@ import {
     useGetCustomerInfoData,
     useGetShippingData,
     useGetBillingData,
-    useGetSelectShippingLine, useGetRequiresShipping
+    useGetSelectShippingLine
 } from 'src/hooks';
 import {emptyAddressMock, initialDataMock} from 'src/mocks';
 import {getTerm} from 'src/utils';
@@ -17,13 +17,11 @@ jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/hooks/useGetAddressData');
 jest.mock('src/hooks/useGetSelectShippingLine');
-jest.mock('src/hooks/useGetRequiresShipping');
 const getTermMock = mocked(getTerm, true);
 const useGetCustomerInfoDataMock = mocked(useGetCustomerInfoData, true);
 const useGetShippingDataMock = mocked(useGetShippingData, true);
 const useGetBillingDataMock = mocked(useGetBillingData, true);
 const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
-const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 
 describe('Testing hook useGetOrderRecap', () => {
     const mockResponse = {
@@ -56,7 +54,6 @@ describe('Testing hook useGetOrderRecap', () => {
             .mockReturnValueOnce(mockResponse.terms.billingAddress)
             .mockReturnValueOnce(mockResponse.terms.shippingMethod)
             .mockReturnValueOnce(mockResponse.terms.paymentMethod);
-        useGetRequiresShippingMock.mockReturnValue(true);
 
         const {result} = renderHook(() => useGetOrderRecap());
         expect(result.current.noOrderData).toStrictEqual(mockResponse.noOrderData);
@@ -90,7 +87,6 @@ describe('Testing hook useGetOrderRecap', () => {
             .mockReturnValueOnce(newResponse.terms.billingAddress)
             .mockReturnValueOnce(newResponse.terms.shippingMethod)
             .mockReturnValueOnce(newResponse.terms.paymentMethod);
-        useGetRequiresShippingMock.mockReturnValue(true);
 
         const {result} = renderHook(() => useGetOrderRecap());
         expect(result.current.noOrderData).toStrictEqual(newResponse.noOrderData);
@@ -126,7 +122,6 @@ describe('Testing hook useGetOrderRecap', () => {
             .mockReturnValueOnce(newResponse.terms.billingAddress)
             .mockReturnValueOnce(newResponse.terms.shippingMethod)
             .mockReturnValueOnce(newResponse.terms.paymentMethod);
-        useGetRequiresShippingMock.mockReturnValue(true);
 
         const {result} = renderHook(() => useGetOrderRecap());
         expect(result.current.noOrderData).toStrictEqual(newResponse.noOrderData);
@@ -141,33 +136,6 @@ describe('Testing hook useGetOrderRecap', () => {
         expect(getTermMock).toHaveBeenCalledTimes(5);
         expect(getTermMock).toHaveBeenCalledWith('customer_info', Constants.CUSTOMER_INFO);
         expect(getTermMock).toHaveBeenCalledWith('shipping_address', Constants.SHIPPING_INFO);
-        expect(getTermMock).toHaveBeenCalledWith('billing_address', Constants.PAYMENT_INFO);
-        expect(getTermMock).toHaveBeenCalledWith('shipping_method', Constants.SHIPPING_METHOD_INFO);
-        expect(getTermMock).toHaveBeenCalledWith('payment_method', Constants.PAYMENT_INFO);
-    });
-
-    test('rendering the hook with not requires shipping', () => {
-        getTermMock
-            .mockReturnValueOnce(mockResponse.terms.customerInfo)
-            .mockReturnValueOnce(mockResponse.terms.shippingAddress)
-            .mockReturnValueOnce(mockResponse.terms.billingAddress)
-            .mockReturnValueOnce(mockResponse.terms.shippingMethod)
-            .mockReturnValueOnce(mockResponse.terms.paymentMethod);
-        useGetRequiresShippingMock.mockReturnValue(false);
-
-        const {result} = renderHook(() => useGetOrderRecap());
-        expect(result.current.noOrderData).toStrictEqual(mockResponse.noOrderData);
-        expect(result.current.shippingAddress).toStrictEqual(mockResponse.shippingAddress);
-        expect(result.current.billingAddress).toStrictEqual(mockResponse.billingAddress);
-        expect(result.current.terms).toStrictEqual(mockResponse.terms);
-        expect(useGetCustomerInfoDataMock).toHaveBeenCalledTimes(1);
-        expect(useGetShippingDataMock).toHaveBeenCalledTimes(1);
-        expect(useGetBillingDataMock).toHaveBeenCalledTimes(1);
-        expect(useGetSelectShippingLineMock).toHaveBeenCalledTimes(1);
-        expect(useGetShippingDataMock).toHaveBeenCalledTimes(1);
-        expect(useGetRequiresShippingMock).toHaveBeenCalledTimes(1);
-        expect(getTermMock).toHaveBeenCalledWith('customer_info', Constants.CUSTOMER_INFO);
-        expect(getTermMock).not.toHaveBeenCalledWith('shipping_address', Constants.SHIPPING_INFO);
         expect(getTermMock).toHaveBeenCalledWith('billing_address', Constants.PAYMENT_INFO);
         expect(getTermMock).toHaveBeenCalledWith('shipping_method', Constants.SHIPPING_METHOD_INFO);
         expect(getTermMock).toHaveBeenCalledWith('payment_method', Constants.PAYMENT_INFO);

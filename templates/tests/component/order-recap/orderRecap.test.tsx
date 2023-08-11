@@ -2,19 +2,17 @@ import {render, screen} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 
 import {OrderRecap} from 'src/components';
-import {useGetDisplayPaymentMethods, useGetOrderRecap, useGetRequiresShipping} from 'src/hooks';
+import {useGetDisplayPaymentMethods, useGetOrderRecap} from 'src/hooks';
 import {addressMock, initialDataMock} from 'src/mocks';
 import {IUseGetOrderRecap} from 'src/types';
-import {getTerm} from 'src/utils';
+import {getTerm} from "src/utils";
 
 jest.mock('src/hooks/useGetOrderRecap');
 jest.mock('src/hooks/useGetDisplayPaymentMethods');
 jest.mock('src/utils/getTerm');
-jest.mock('src/hooks/useGetRequiresShipping');
 const getTermMock = mocked(getTerm, true);
 const useGetOrderRecapMock = mocked(useGetOrderRecap, true);
 const useGetDisplayPaymentMethodsMock = mocked(useGetDisplayPaymentMethods, true);
-const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 
 describe('testing OrderRecap component', () => {
     const terms: Record<string, string> = {
@@ -47,7 +45,6 @@ describe('testing OrderRecap component', () => {
         {
             name: 'Rendering OrderRecap component with noOrderData false',
             hookReturnOnce: {...hookReturn, noOrderData: false},
-            requiresShipping: true,
             counters: {
                 order_recap__container: 1,
                 order_recap__title: 1,
@@ -64,7 +61,6 @@ describe('testing OrderRecap component', () => {
         {
             name: 'Rendering OrderRecap component with noOrderData true',
             hookReturnOnce: {...hookReturn, noOrderData: true},
-            requiresShipping: true,
             counters: {
                 order_recap__container: 0,
                 order_recap__title: 0,
@@ -76,28 +72,10 @@ describe('testing OrderRecap component', () => {
                 order_recap__display_item__payments_method: 0,
                 display_payment_methods_container: 0,
             }
-        },
-        {
-            name: 'Rendering OrderRecap component with requiresShipping false',
-            hookReturnOnce: {...hookReturn, noOrderData: false},
-            requiresShipping: false,
-            counters: {
-                order_recap__container: 1,
-                order_recap__title: 1,
-                order_recap__display_item: 2,
-                order_recap__display_item__shipping_address: 1,
-                order_recap__display_item__billing_address: 0,
-                display_address_container: 1,
-                order_recap__display_item__shipping_method: 0,
-                order_recap__display_item__payments_method: 1,
-                display_payment_methods_container: 1,
-                getAllByText_customer_info: 1
-            }
-        },
+        }
     ];
 
-    test.each(dataArray)( '$name', ({counters, hookReturnOnce, requiresShipping}) => {
-        useGetRequiresShippingMock.mockReturnValue(requiresShipping);
+    test.each(dataArray)( '$name', ({counters, hookReturnOnce}) => {
         useGetOrderRecapMock.mockReturnValueOnce(hookReturnOnce);
         const {container} = render(<OrderRecap className={'test-class'} />);
 

@@ -150,7 +150,6 @@ export const defaultOrderInitialization: IOrderInitialization = {
             external_payment_gateways: [],
             life_elements: [],
             flow_settings: {},
-            requires_shipping: true,
         }
     },
 };

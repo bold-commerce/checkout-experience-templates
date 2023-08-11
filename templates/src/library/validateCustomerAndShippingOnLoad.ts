@@ -6,10 +6,10 @@ import {
     validateEmailAddress,
     updateCustomer,
     returnToPageOnError,
-    validateShippingLine, generateTaxes
+    validateShippingLine
 } from 'src/library';
 import {HistoryLocationState} from 'react-router';
-import {actionSetAppStateValid, actionSetLoaderAndDisableButton} from 'src/action';
+import {actionSetLoaderAndDisableButton} from 'src/action';
 import {Constants} from 'src/constants';
 
 export function validateCustomerAndShippingOnLoad(history: HistoryLocationState) {
@@ -18,7 +18,6 @@ export function validateCustomerAndShippingOnLoad(history: HistoryLocationState)
         dispatch(actionSetLoaderAndDisableButton('customerPageButton', true));
         const platformId = state.data.application_state.customer.platform_id;
         const isUserLogin = (platformId != null && +platformId > 0);
-        const requiresShipping = state.data.initial_data.requires_shipping;
 
         const validateAddressesAndShipping = async () => {
             dispatch(validateShippingAddress).then(async () => {
@@ -26,14 +25,9 @@ export function validateCustomerAndShippingOnLoad(history: HistoryLocationState)
                     dispatch(returnToPageOnError('', 'customerPageButton', history)).then(() => {
                         const {errors} = getState();
                         if(!errors || errors.length === 0) {
-                            if (requiresShipping) {
-                                dispatch(validateShippingLine).then(async () => {
-                                    dispatch(returnToPageOnError(Constants.SHIPPING_ROUTE, 'shippingPageButton', history));
-                                });
-                            } else {
-                                dispatch(generateTaxes);
-                                dispatch(actionSetAppStateValid('shippingLine', true));
-                            }
+                            dispatch(validateShippingLine).then(async () => {
+                                dispatch(returnToPageOnError(Constants.SHIPPING_ROUTE, 'shippingPageButton', history));
+                            });
                         }
                     });
                 });

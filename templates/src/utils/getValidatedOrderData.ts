@@ -29,8 +29,7 @@ export function getValidatedOrderData(orderData: IInitializeOrderResponse): IIni
             alternative_payment_methods: orderData.initial_data.alternative_payment_methods,
             external_payment_gateways: orderData.initial_data.external_payment_gateways,
             life_elements: lifeElements,
-            flow_settings:orderData.initial_data.flow_settings,
-            requires_shipping: orderData.initial_data.requires_shipping,
+            flow_settings:orderData.initial_data.flow_settings
         }
     };
 }

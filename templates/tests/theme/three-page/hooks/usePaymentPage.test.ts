@@ -8,7 +8,7 @@ import {
     useGetCurrencyInformation,
     useGetIsLoading,
     useGetIsOrderProcessed,
-    useGetRequiredLifeFieldsByLocations, useGetRequiresShipping,
+    useGetRequiredLifeFieldsByLocations,
     useGetSelectShippingLine,
 } from 'src/hooks';
 import {usePaymentPage} from 'src/themes/three-page/hooks';
@@ -28,7 +28,6 @@ jest.mock('src/utils/getTotalsFromState');
 jest.mock('src/hooks/useGetCurrencyInformation');
 jest.mock('src/hooks/useGetSelectShippingLine');
 jest.mock('src/hooks/useGetLifeFields');
-jest.mock('src/hooks/useGetRequiresShipping');
 
 const useDispatchMock = mocked(useDispatch, true);
 const useHistoryMock = mocked(useHistory, true);
@@ -41,7 +40,6 @@ const getTotalsFromStateMock = mocked(getTotalsFromState, true);
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
 const useGetRequiredLifeFieldsByLocationsMock = mocked(useGetRequiredLifeFieldsByLocations, true);
-const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 
 describe('Testing hook usePaymentPage', () => {
     const dispatchMock = jest.fn();
@@ -50,7 +48,6 @@ describe('Testing hook usePaymentPage', () => {
     const backLinkTextMock = 'Back Link';
     const backLinkTextExpectation = 'Back Link';
     const nextButtonTextMock = 'Next Button';
-    const titleMock = 'Title';
     const nextButtonLoadingMock = false;
     const nextDisableVariableMock = false;
     const eventMock = {preventDefault: jest.fn()};
@@ -70,14 +67,12 @@ describe('Testing hook usePaymentPage', () => {
         useGetCurrencyInformationMock.mockReturnValue(currencyInformationMock);
         useGetSelectShippingLineMock.mockReturnValue(selectedShippingLineMock);
         useGetRequiredLifeFieldsByLocationsMock.mockReturnValue([]);
-        useGetRequiresShippingMock.mockReturnValue(true);
     });
 
     test('Render with empty errors array', async () => {
         getTermMock
-            .mockReturnValueOnce(nextButtonTextMock)
-            .mockReturnValueOnce(titleMock)
-            .mockReturnValueOnce(backLinkTextMock);
+            .mockReturnValueOnce(backLinkTextMock)
+            .mockReturnValueOnce(nextButtonTextMock);
 
         const {result} = renderHook(() => usePaymentPage());
 
@@ -109,13 +104,5 @@ describe('Testing hook usePaymentPage', () => {
         expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('thank_you'));
     });
 
-    test('rendering the hook with not requires shipping', () => {
-        useGetRequiresShippingMock.mockReturnValue(false);
-        const {result} = renderHook(() => usePaymentPage());
-        expect(getTermMock).toHaveBeenCalledWith('footer_shipping_cust_info', 'shipping_method');
 
-        result.current.backLinkOnClick && result.current.backLinkOnClick(eventMock);
-        expect(historyMock.replace).toHaveBeenCalledTimes(1);
-        expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl(''));
-    });
 });

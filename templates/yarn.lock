@@ -315,20 +315,20 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@boldcommerce/checkout-express-pay-library@0.23.0":
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/@boldcommerce/checkout-express-pay-library/-/checkout-express-pay-library-0.23.0.tgz#5e2ad06eed87e447e7d47613a5b7745cc073f030"
-  integrity sha512-F47vkKxvNHG1qHZ7MC0JrAnpIjUOZ21B/DzMbdb+aw+jpidTCsyiQze1gASQ7WyLkSIMqxm0YteY3dRhoFdz3Q==
+"@boldcommerce/checkout-express-pay-library@0.22.3":
+  version "0.22.3"
+  resolved "https://registry.yarnpkg.com/@boldcommerce/checkout-express-pay-library/-/checkout-express-pay-library-0.22.3.tgz#d2601efe91a059ee7f170db5db2fe7867e9d49b2"
+  integrity sha512-9UlvKbqZMVBS+8QvxQbQM/P86xKs4YyM+O3X+ugjGWxRP4mK4WU3aK0cVOABiL9CmKqvXNKfAaGEcPmtM8oc+Q==
   dependencies:
-    "@boldcommerce/checkout-frontend-library" "0.49.2"
+    "@boldcommerce/checkout-frontend-library" "0.49.1"
     "@paypal/paypal-js" "^5.1.1"
     "@types/applepayjs" "^3.0.4"
     "@types/googlepay" "^0.6.4"
 
-"@boldcommerce/checkout-frontend-library@0.49.2":
-  version "0.49.2"
-  resolved "https://registry.yarnpkg.com/@boldcommerce/checkout-frontend-library/-/checkout-frontend-library-0.49.2.tgz#1a1b9bd90d5ba15b7b126bf7290c89f00aaf817e"
-  integrity sha512-WD7lvwVp3InwjkOc7wWr8Ehqqj9OzFqQQTOlpTVudurw6i13HLwS4wRRTZmB8n4F5LE4LBlIxGOE2uIRvyYsEQ==
+"@boldcommerce/checkout-frontend-library@0.49.1":
+  version "0.49.1"
+  resolved "https://registry.yarnpkg.com/@boldcommerce/checkout-frontend-library/-/checkout-frontend-library-0.49.1.tgz#4817b8bd324dcc14533c1a26d1330f240fc5c6c4"
+  integrity sha512-DcMVaTj6c1P4YoXR5/GrxNib11DwkW/xEpJV6GkaVlNo6zlksB/jczevwNGzSRJ3hnBlh8lYGrYBK/GSAauO1w==
 
 "@boldcommerce/stacks-ui@^1.1.1":
   version "1.4.1"

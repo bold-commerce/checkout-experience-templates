@@ -8,23 +8,20 @@ import {
     updateCustomer,
     returnToPageOnError,
     validateCustomerAndShippingOnLoad,
-    validateShippingLine,
-    generateTaxes
+    validateShippingLine
 } from 'src/library';
-import {actionSetAppStateValid, actionSetLoaderAndDisableButton, SET_VALID} from 'src/action';
+import {actionSetLoaderAndDisableButton} from 'src/action';
 
 jest.mock('src/action');
 jest.mock('src/library/returnToPageOnError');
 const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButton, true);
 const returnToPageOnErrorMock = mocked(returnToPageOnError, true);
-const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true);
 
 describe('testing validateCustomerAndShippingOnLoad', () => {
     const dispatch = jest.fn();
     const getState = jest.fn();
     const returnToPageOnErrorThunkMock = jest.fn();
     const actionSetLoaderAndDisableButtonThunkMock = jest.fn();
-    const setValidAction = {type: SET_VALID, payload: {'test': false}};
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -38,8 +35,6 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
                 case validateShippingAddress:
                 case validateBillingAddress:
                 case validateShippingLine:
-                case generateTaxes:
-                case setValidAction:
                     return Promise.resolve();
                 default:
                     return fun();
@@ -47,7 +42,6 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
         });
         returnToPageOnErrorMock.mockReturnValue(returnToPageOnErrorThunkMock);
         actionSetLoaderAndDisableButtonMock.mockReturnValue(actionSetLoaderAndDisableButtonThunkMock);
-        actionSetAppStateValidMock.mockReturnValue(setValidAction);
     });
 
     test('When customer platform_id is null, not logged in', async () => {
@@ -175,25 +169,6 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
             expect(returnToPageOnErrorMock).toHaveBeenCalledTimes(1);
             expect(returnToPageOnErrorMock).toHaveBeenCalledWith('', 'customerPageButton', historyMock);
             expect(returnToPageOnErrorMock).not.toHaveBeenCalledWith('shipping_lines', 'shippingPageButton', historyMock);
-        });
-    });
-
-    test('Test not requires shipping', async () => {
-        const historyMock = {} as HistoryLocationState;
-        const newStateMock = {...stateMock};
-        newStateMock.data.initial_data.requires_shipping = false;
-        newStateMock.errors = [];
-        getState.mockReturnValue(newStateMock);
-
-        const validateCustomerAndShippingOnLoadThunk = validateCustomerAndShippingOnLoad(historyMock);
-        await validateCustomerAndShippingOnLoadThunk(dispatch, getState).then(() => {
-            expect(dispatch).not.toHaveBeenCalledWith(validateShippingLine);
-            expect(dispatch).toHaveBeenCalledTimes(8);
-            expect(dispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonThunkMock);
-            expect(dispatch).toHaveBeenCalledWith(validateEmailAddress);
-            expect(dispatch).toHaveBeenCalledWith(validateShippingAddress);
-            expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
-            expect(dispatch).toHaveBeenCalledWith(generateTaxes);
         });
     });
 });

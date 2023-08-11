@@ -8,7 +8,6 @@ import {
 } from 'src/utils';
 import {Constants} from 'src/constants';
 import {BrowserHistory} from 'history';
-import {useGetRequiresShipping} from 'src/hooks';
 
 export function getBreadcrumbs(history: BrowserHistory, active: number): IBreadcrumbs {
     let index = 0;
@@ -20,8 +19,6 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): IBreadc
     const {link} = getReturnToCartTermAndLink();
 
     const sectionLabel = getTerm('checkout_steps', Constants.GLOBAL_INFO, undefined , 'Checkout steps');
-
-    const requiresShipping = useGetRequiresShipping();
 
     const crumbs: Array<IBreadcrumb> = [
         {
@@ -61,10 +58,6 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): IBreadc
             },
         },
     ];
-
-    if (!requiresShipping) {
-        crumbs.splice(crumbs.findIndex(el => el.name === 'shipping_lines'), 1);
-    }
 
     return {crumbs, sectionLabel};
 }

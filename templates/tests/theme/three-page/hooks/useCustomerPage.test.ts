@@ -4,7 +4,7 @@ import {
     useGetCurrencyInformation,
     useGetIsLoading,
     useGetIsOrderProcessed,
-    useGetRequiredLifeFieldsByLocations, useGetRequiresShipping,
+    useGetRequiredLifeFieldsByLocations,
 } from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
@@ -25,7 +25,6 @@ jest.mock('src/library/callCustomerPageApi');
 jest.mock('src/library/initializeExpressPay');
 jest.mock('src/utils/getReturnToCartTermAndLink');
 jest.mock('src/hooks/useGetCurrencyInformation');
-jest.mock('src/hooks/useGetRequiresShipping');
 jest.mock('src/hooks/useGetLifeFields');
 
 const useDispatchMock = mocked(useDispatch, true);
@@ -39,7 +38,6 @@ const initializeExpressPayMock = mocked(initializeExpressPay, true);
 const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 const useGetRequiredLifeFieldsByLocationsMock = mocked(useGetRequiredLifeFieldsByLocations, true);
-const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 
 describe('Testing hook useCustomerPage', () => {
     const mockDispatch = jest.fn();
@@ -86,7 +84,6 @@ describe('Testing hook useCustomerPage', () => {
 
     test('rendering the hook properly', () => {
         useGetIsOrderProcessedMock.mockReturnValueOnce(false);
-        useGetRequiresShippingMock.mockReturnValue(true);
         const {result} = renderHook(() => useCustomerPage());
         const hookResult = result.current;
         expect(useDispatchMock).toHaveBeenCalledTimes(1);
@@ -108,17 +105,9 @@ describe('Testing hook useCustomerPage', () => {
 
     test('rendering the hook with complete order', () => {
         useGetIsOrderProcessedMock.mockReturnValue(true);
-        useGetRequiresShippingMock.mockReturnValue(true);
         renderHook(() => useCustomerPage());
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
         expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('thank_you'));
-    });
-
-    test('rendering the hook with not requires shipping', () => {
-        useGetIsOrderProcessedMock.mockReturnValue(true);
-        useGetRequiresShippingMock.mockReturnValue(false);
-        renderHook(() => useCustomerPage());
-        expect(getTermMock).toHaveBeenCalledWith('footer_shipping_continue', 'shipping_method');
     });
 
 });
