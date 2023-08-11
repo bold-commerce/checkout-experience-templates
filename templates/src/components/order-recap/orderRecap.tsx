@@ -2,7 +2,7 @@ import ClassNames from 'classnames';
 import React from 'react';
 
 import {DisplayAddress, DisplayPaymentMethods, RecapDisplayItem} from 'src/components';
-import {useGetOrderRecap, useGetRequiresShipping} from 'src/hooks';
+import {useGetOrderRecap} from 'src/hooks';
 import {IOrderRecapProps} from 'src/types';
 
 export function OrderRecap(props: IOrderRecapProps): React.ReactElement {
@@ -16,7 +16,6 @@ export function OrderRecap(props: IOrderRecapProps): React.ReactElement {
 
     const cssClass = ClassNames(['order-recap', props.className]);
     const getClass = (key: string) => ClassNames(['order-recap__display-item', `order-recap__display-item--${key}`]);
-    const requiresShipping = useGetRequiresShipping();
 
     return (
         <div className={cssClass}>
@@ -28,18 +27,16 @@ export function OrderRecap(props: IOrderRecapProps): React.ReactElement {
                         className={getClass('shipping-address')}
                         title={terms.shippingAddress}
                         children={<DisplayAddress {...shippingAddress} testDataId={'shipping'}/>}/>
-                    {requiresShipping ? 
-                        <RecapDisplayItem
-                            testDataId={'billing-address'}
-                            className={getClass('billing-address')}
-                            title={terms.billingAddress}
-                            children={<DisplayAddress {...billingAddress} testDataId={'billing'}/>} /> : null}
-                    {requiresShipping ?
-                        <RecapDisplayItem
-                            testDataId={'shipping-method'}
-                            className={getClass('shipping-method')}
-                            title={terms.shippingMethod}
-                            children={shippingDescription} />  : null}
+                    <RecapDisplayItem
+                        testDataId={'billing-address'}
+                        className={getClass('billing-address')}
+                        title={terms.billingAddress}
+                        children={<DisplayAddress {...billingAddress} testDataId={'billing'}/>} />
+                    <RecapDisplayItem
+                        testDataId={'shipping-method'}
+                        className={getClass('shipping-method')}
+                        title={terms.shippingMethod}
+                        children={shippingDescription} />
                     <RecapDisplayItem
                         testDataId={'payments-method'}
                         className={getClass('payments-method')}

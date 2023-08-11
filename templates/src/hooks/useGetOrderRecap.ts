@@ -1,11 +1,5 @@
 import {Constants} from 'src/constants';
-import {
-    useGetCustomerInfoData,
-    useGetBillingData,
-    useGetShippingData,
-    useGetSelectShippingLine,
-    useGetRequiresShipping
-} from 'src/hooks';
+import {useGetCustomerInfoData, useGetBillingData, useGetShippingData, useGetSelectShippingLine} from 'src/hooks';
 import {IUseGetOrderRecap} from 'src/types';
 import {getTerm, isObjectEmpty} from 'src/utils';
 
@@ -14,10 +8,9 @@ export function useGetOrderRecap(): IUseGetOrderRecap {
     const shippingAddress = useGetShippingData();
     const billingAddress = useGetBillingData();
     const shippingMethod = useGetSelectShippingLine();
-    const requiresShipping = useGetRequiresShipping();
     const terms = {
         customerInfo: getTerm('customer_info',Constants.CUSTOMER_INFO),
-        shippingAddress: requiresShipping ? getTerm('shipping_address', Constants.SHIPPING_INFO) : getTerm('billing_address', Constants.PAYMENT_INFO),
+        shippingAddress: getTerm('shipping_address', Constants.SHIPPING_INFO),
         billingAddress: getTerm('billing_address', Constants.PAYMENT_INFO),
         shippingMethod: getTerm('shipping_method', Constants.SHIPPING_METHOD_INFO),
         paymentMethod: getTerm('payment_method', Constants.PAYMENT_INFO)
