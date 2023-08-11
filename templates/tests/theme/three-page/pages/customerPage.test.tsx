@@ -4,7 +4,13 @@ import {IFrontEndEvent, IUseCustomerPageProp} from 'src/types';
 import React from 'react';
 import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
-import {useGetShopUrlFromShopAlias, useScreenBreakpoints, useScrollToElementOnNavigation, useSendEvent} from 'src/hooks';
+import {
+    useGetRequiresShipping,
+    useGetShopUrlFromShopAlias,
+    useScreenBreakpoints,
+    useScrollToElementOnNavigation,
+    useSendEvent
+} from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {HelmetProvider} from 'react-helmet-async';
 
@@ -37,11 +43,13 @@ jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useScrollToElementOnNavigation');
 jest.mock('src/hooks/useSendEvent');
 jest.mock('src/hooks/useScreenBreakpoints');
+jest.mock('src/hooks/useGetRequiresShipping');
 mocked(useScrollToElementOnNavigation, true);
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useCustomerPageMock = mocked(useCustomerPage, true);
 const useSendEventMock = mocked(useSendEvent, true);
+const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 let addEventListenerSpy: jest.SpyInstance;
 
 describe('testing CustomerPage', () => {
@@ -108,5 +116,15 @@ describe('testing CustomerPage', () => {
         expect(container.getElementsByClassName('customer-section').length).toBe(1);
         expect(container.getElementsByClassName('website-title').length).toBe(2);
         expect(container.getElementsByClassName('website-title-logo').length).toBe(0);
+    });
+
+    test('Rendering customerPage properly when not requires shipping', () => {
+        useGetRequiresShippingMock.mockReturnValue(false);
+        const context = {};
+        HelmetProvider.canUseDOM = false;
+        const {container} = render(<HelmetProvider context={context}><CustomerPage/></HelmetProvider>);
+        global.dispatchEvent(new Event('load'));
+        expect(container.getElementsByClassName('shipping-address').length).toBe(1);
+        expect(container.getElementsByClassName('billing-address').length).toBe(0);
     });
 });

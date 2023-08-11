@@ -17,11 +17,16 @@ export function callCustomerPageApi(history: HistoryLocationState) {
         dispatch(actionSetLoaderAndDisableButton('customerPageButton', true));
         const platformId = state.data.application_state.customer.platform_id;
         const isUserLogin = (platformId != null && +platformId > 0);
+        const requiresShipping = state.data.initial_data.requires_shipping;
 
         const validateAddresses = async () => {
             dispatch(validateShippingAddress).then(() => {
                 dispatch(validateBillingAddress).then(() => {
-                    dispatch(checkErrorAndProceedToNextPage(Constants.SHIPPING_ROUTE, 'customerPageButton', history, false));
+                    if (requiresShipping) {
+                        dispatch(checkErrorAndProceedToNextPage(Constants.SHIPPING_ROUTE, 'customerPageButton', history, false));
+                    } else {
+                        dispatch(checkErrorAndProceedToNextPage(Constants.PAYMENT_ROUTE, 'customerPageButton', history, false));
+                    }
                 });
             });
         };

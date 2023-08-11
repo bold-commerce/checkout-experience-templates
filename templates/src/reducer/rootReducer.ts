@@ -38,7 +38,11 @@ import {
     lifeFieldsInitialDataReducer,
     linkToCartReducer,
     flowSettingsInitialDataReducer,
-    noteAttributesReducer, cartParametersReducer, notesReducer, tagsReducer
+    noteAttributesReducer,
+    cartParametersReducer,
+    notesReducer,
+    tagsReducer,
+    requiresShippingDataReducer
 } from 'src/reducer';
 import {autocompleteServices, Constants} from 'src/constants';
 import {defaultOrderInitialization} from 'src/constants/orderInitialization';
@@ -128,6 +132,7 @@ const initialDataReducer = combineReducers({
     external_payment_gateways: externalPaymentGatewayInitialDataReducer,
     life_elements: lifeFieldsInitialDataReducer,
     flow_settings: flowSettingsInitialDataReducer,
+    requires_shipping: requiresShippingDataReducer,
 });
 
 const dataReducer = combineReducers({

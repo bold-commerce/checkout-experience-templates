@@ -5,7 +5,7 @@ import {
     useGetDiscounts,
     useGetFees,
     useGetLineItems,
-    useGetPayments,
+    useGetPayments, useGetRequiresShipping,
     useGetSelectShippingLine,
     useGetTaxes,
     useSummaryLineExpandable,
@@ -25,6 +25,7 @@ import {feesMock} from '@boldcommerce/checkout-frontend-library/lib/variables/mo
 
 jest.mock('src/hooks');
 jest.mock('src/utils');
+jest.mock('src/hooks/useGetRequiresShipping');
 const useGetDiscountsMock = mocked(useGetDiscounts, true);
 const useGetPaymentsMock = mocked(useGetPayments, true);
 const useGetTaxesMock = mocked(useGetTaxes, true);
@@ -37,6 +38,7 @@ const useSummaryLineExpandableMock = mocked(useSummaryLineExpandable, true);
 const useSummaryLineExpandedMock = mocked(useSummaryLineExpanded, true);
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 const useGetFeesMock = mocked(useGetFees, true);
+const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 
 describe('Testing TaxesAmount component', () => {
 
@@ -96,6 +98,7 @@ describe('Testing TaxesAmount component', () => {
         useSummaryLineExpandedMock.mockReturnValue(useSummaryLineExpandedHookResult);
         getTotalsMock.mockReturnValue(totals);
         useGetCurrencyInformationMock.mockReturnValue(currencyData);
+        useGetRequiresShippingMock.mockReturnValue(true);
     });
 
     test('Rendering the component properly', () => {
