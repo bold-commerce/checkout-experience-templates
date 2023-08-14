@@ -40,6 +40,10 @@ export const metaOnPaymentDetailsChanged = async (event: IMetaPaymentDetailsChan
             paymentDetailsUpdate.errors.push(META_SHIPPING_DATA_ERROR);
         }
         await getShippingLines(API_RETRY);
+        const {selected_shipping: selectedShipping, available_shipping_lines: shippingLines} = getShipping();
+        if (shippingLines.length > 0 && !selectedShipping) {
+            await changeShippingLine(shippingLines[0].id, API_RETRY);
+        }
         await setTaxes(API_RETRY);
     }
 
