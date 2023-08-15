@@ -24,7 +24,8 @@ import {
     useSendEvent,
     useGetExternalPaymentGateways,
     useIsUserAuthenticated,
-    useGetLifeFields
+    useGetLifeFields,
+    useGetRequiresShipping
 } from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
@@ -44,6 +45,7 @@ export function CustomerPage(): React.ReactElement {
     const billingAddressAfterLifeFields = useGetLifeFields(LifeInputLocationConstants.BILLING_ADDRESS_AFTER);
     const headerLogoUrl = window.headerLogoUrl;
     const isCustomerLoggedIn = useIsUserAuthenticated();
+    const requiresShipping = useGetRequiresShipping();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
 
@@ -99,7 +101,7 @@ export function CustomerPage(): React.ReactElement {
                             <LifeFields lifeFields={customerInfoLifeFields}/>
                             <ShippingAddress/>
                             <LifeFields lifeFields={shippingLifeFields}/>
-                            <BillingAddress/>
+                            {requiresShipping ? <BillingAddress/> : null}
                             <LifeFields lifeFields={billingAddressAfterLifeFields}/>
                             <FormControls
                                 backLinkOnClick={backLinkOnClick}

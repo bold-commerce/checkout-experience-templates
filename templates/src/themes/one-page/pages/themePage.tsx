@@ -19,7 +19,12 @@ import {useGetOnePageFooterData, useIsValidShippingOnLoad} from 'src/themes/one-
 import {checkInventoryStage} from '@boldcommerce/checkout-frontend-library';
 import {useDispatch} from 'react-redux';
 import {checkInventory, setDefaultAddresses} from 'src/library';
-import {useGetExternalPaymentGateways, useIsUserAuthenticated, useGetLifeFields} from 'src/hooks';
+import {
+    useGetExternalPaymentGateways,
+    useIsUserAuthenticated,
+    useGetLifeFields,
+    useGetRequiresShipping
+} from 'src/hooks';
 import {LifeInputLocationConstants} from 'src/constants';
 
 export function ThemePage(): React.ReactElement {
@@ -31,6 +36,7 @@ export function ThemePage(): React.ReactElement {
     const paymentExternalPaymentGateways = useGetExternalPaymentGateways(Constants.PAYMENT_METHOD_BELOW);
     const dispatch = useDispatch();
     const isCustomerLoggedIn = useIsUserAuthenticated();
+    const requiresShipping = useGetRequiresShipping();
 
     const customerInfoLifeFields = useGetLifeFields(LifeInputLocationConstants.CUSTOMER_INFO);
     const shippingLifeFields = useGetLifeFields(LifeInputLocationConstants.SHIPPING);
@@ -70,7 +76,7 @@ export function ThemePage(): React.ReactElement {
                         <LifeFields lifeFields={customerInfoLifeFields}/>
                         <ShippingAddress/>
                         <LifeFields lifeFields={shippingLifeFields}/>
-                        <BillingAddress/>
+                        {requiresShipping ? <BillingAddress/> : null}
                         <LifeFields lifeFields={billingAddressAfterLifeFields}/>
                         <ShippingLines/>
                         <LifeFields lifeFields={shippingLinesLifeFields}/>

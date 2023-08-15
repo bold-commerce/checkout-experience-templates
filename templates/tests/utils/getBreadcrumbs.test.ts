@@ -8,6 +8,7 @@ import {BreadcrumbsStatus} from 'src/constants';
 import {renderHook} from '@testing-library/react-hooks';
 import {Action, Location} from 'history';
 import {mocked} from 'jest-mock';
+import {useGetRequiresShipping} from 'src/hooks';
 
 const replaceMock = jest.fn();
 const historyMock = {
@@ -26,9 +27,11 @@ const historyMock = {
 jest.mock('src/utils/getTerm');
 jest.mock('src/utils/getReturnToCartTermAndLink');
 jest.mock('src/utils/isBoldPlatform');
+jest.mock('src/hooks/useGetRequiresShipping');
 const getTermMock = mocked(getTerm, true);
 const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
 const isBoldPlatformMock = mocked(isBoldPlatform, true);
+const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 
 describe('Test getBreadcrumbs function', () => {
     const active = 5;
@@ -53,8 +56,9 @@ describe('Test getBreadcrumbs function', () => {
 
     test('Completed state', () => {
         isBoldPlatformMock.mockReturnValueOnce(true);
+        useGetRequiresShippingMock.mockReturnValue(true);
         const {result} = renderHook(() => getBreadcrumbs(historyMock, active));
-        const { crumbs: results } = result.current;
+        const {crumbs: results} = result.current;
 
         results[0].onClick(eventMock);
         expect(window.location.href).toEqual(window.returnUrl);
@@ -82,11 +86,21 @@ describe('Test getBreadcrumbs function', () => {
 
     test('Completed state without bold platform', () => {
         isBoldPlatformMock.mockReturnValueOnce(false);
+        useGetRequiresShippingMock.mockReturnValue(true);
         const {result} = renderHook(() => getBreadcrumbs(historyMock, active));
-        const { crumbs: results } = result.current;
+        const {crumbs: results} = result.current;
 
         results[0].onClick(eventMock);
         expect(window.location.href).toEqual(link);
         expect(results[0].status).toBe(BreadcrumbsStatus.COMPLETED);
+    });
+
+    test('Test not requires shipping', () => {
+        isBoldPlatformMock.mockReturnValueOnce(true);
+        useGetRequiresShippingMock.mockReturnValue(false);
+        const {result} = renderHook(() => getBreadcrumbs(historyMock, active));
+        const {crumbs: results} = result.current;
+        expect(results[2].name).toBe('payment_method');
+        expect(results[2].name).not.toBe('shipping_lines');
     });
 });
