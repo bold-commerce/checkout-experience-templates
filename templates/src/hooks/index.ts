@@ -104,4 +104,5 @@ export * from './useGetRequiredLifeFields';
 export * from './useGetLifeFieldErrorMessage';
 export * from './useDebounceLifeField';
 export * from './useGetRequiresShipping';
+export * from './useLifeFieldSelect';
 

@@ -1,15 +1,15 @@
-.textarea-field__container{
+.textarea-field__container {
     position: relative;
     width: 100%;
 }
 
-.textarea-field--has-value .textarea-field__label{
+.textarea-field--has-value .textarea-field__label {
     font-size: 11px;
     display: block;
     top: 4px;
 }
 
-.textarea-field textarea{
+.textarea-field textarea {
     position: static;
     left: 0;
     top: 38px;
@@ -31,7 +31,7 @@
     margin-top: 15px;
 }
 
-.textarea-field__label{
+.textarea-field__label {
     position: absolute;
     top: 13px;
     padding-left: 10px;
@@ -41,12 +41,12 @@
 }
 
 .textarea-field .textarea--alert,
-.textarea{
+.textarea {
     border-radius: 4px;
     margin-bottom: 0.25rem;
 }
 
-.textarea-field__container .textarea-field{
+.textarea-field__container .textarea-field {
     margin-bottom: 0px;
 }
 
@@ -61,7 +61,7 @@
 .textarea-field textarea::-ms-input-placeholder { /* Microsoft Edge */
     color: #757575;
 }
-.textarea-field__container .textarea{
+.textarea-field__container .textarea {
     border: 1px solid #949494;
     box-sizing: border-box;
     box-shadow: inset 0px 0px 2px #e6e6e6;
@@ -73,23 +73,23 @@
     background-color: #F8F8F8;
 }
 
-.textarea--disabled textarea{
+.textarea--disabled textarea {
     cursor: not-allowed;
     color: rgba(0,0,0,0.5);
 }
 
-.textarea--has-focus{
+.textarea--has-focus {
     box-shadow: inset 0px 0px 0px 2px #0A75C2 !important;
 }
-.textarea-field .textarea--alert{
+.textarea-field .textarea--alert {
     box-shadow: inset 0px 0px 0px 2px #ff300e !important;
 }
 
-.textarea-field .textarea--alert textarea::placeholder{
+.textarea-field .textarea--alert textarea::placeholder {
     color: #FF1A2D;
 }
 
-.textarea-field .textarea--alert textarea{
+.textarea-field .textarea--alert textarea {
     color: #FF1A2D;
 }
 

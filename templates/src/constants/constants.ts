@@ -177,6 +177,7 @@ export class LifeInputTypeConstants {
     static TEXTAREA = 'textarea';
     static HTML = 'html';
     static CHECKBOX = 'checkbox';
+    static DROPDOWN = 'dropdown';
 }
 
 export class LifeInputLocationConstants {
