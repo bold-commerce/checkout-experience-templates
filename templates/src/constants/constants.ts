@@ -188,6 +188,9 @@ export class LifeInputLocationConstants {
     static BELOW_ACTIONS = 'below_actions';
     static SUMMARY_ABOVE_HEADER = 'summary_above_header';
     static PAYMENT_GATEWAY = 'payment_gateway';
+    static THANK_YOU_MESSAGE = 'thank_you_message';
+    static ORDER_CONFIRMATION = 'order_confirmation';
+    static ORDER_DETAILS = 'order_details';
 }
 
 export class LifeInputPageConstants {

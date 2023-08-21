@@ -27,3 +27,7 @@
     font-size: 14px;
     color: #595959;
 }
+
+.generic-message-section__life-element {
+    padding-bottom: 8px;
+}

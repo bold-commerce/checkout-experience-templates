@@ -300,6 +300,7 @@ export interface IGenericMessageSectionProps {
     sectionTitle?: string;
     messageTitle: string;
     messageText: string;
+    orderConfirmation?: boolean;
 }
 
 export interface IUseGuestCustomer {
