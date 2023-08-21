@@ -1,22 +1,19 @@
 import fetchMock from "jest-fetch-mock";
-import { mocked } from 'jest-mock';
-import { metaOnPaymentConsent } from 'src/themes/flow-sdk/meta/metaOnPaymentConsent';
-import { IMetaPaymentResponse, IOnAction, IProcessOrderResponse } from 'src/themes/flow-sdk/types';
+import {mocked} from 'jest-mock';
+import {metaOnPaymentConsent} from 'src/themes/flow-sdk/meta/metaOnPaymentConsent';
+import {IMetaPaymentResponse} from 'src/themes/flow-sdk/types';
+import {getTotals} from '@boldcommerce/checkout-express-pay-library';
 import {
-    callBillingAddressEndpoint,
-    callGuestCustomerEndpoint,
-    callShippingAddressEndpoint,
-    getTotals,
-} from '@boldcommerce/checkout-express-pay-library';
-import {
-    baseReturnObject,
-    setTaxes,
-    getCurrency,
     addPayment,
+    baseReturnObject,
+    batchRequest,
+    getApplicationState,
+    getBillingAddress,
+    getCurrency,
+    getShippingAddress,
     processOrder,
-    IApiSuccessResponse,
 } from '@boldcommerce/checkout-frontend-library';
-import { MetaPaymentDetailsMock } from 'src/themes/flow-sdk/mocks/paymentMocks';
+import {MetaPaymentDetailsMock} from 'src/themes/flow-sdk/mocks/paymentMocks';
 import {
     META_AUTHORIZATION_BILLING_ERROR,
     META_AUTHORIZATION_OTHER_ERROR,
@@ -25,45 +22,44 @@ import {
     META_AUTHORIZATION_ERROR,
     META_AUTHORIZATION_SUCCESS,
 } from 'src/themes/flow-sdk/constants';
-import { checkoutFlow } from 'src/themes/flow-sdk/flowState';
+import {checkoutFlow} from 'src/themes/flow-sdk/flowState';
 import {
     MetaPaymentConfiguration,
     CurrencyMock,
     TotalMock,
 } from 'src/themes/flow-sdk/mocks/paymentMocks';
-import { initialDataMock } from 'src/mocks/orderIntializationDataMock';
+import {initialDataMock} from 'src/mocks/orderIntializationDataMock';
+import {IApiSubrequestResponse} from "@boldcommerce/checkout-frontend-library/lib/types/apiInterfaces";
 
-jest.mock('@boldcommerce/checkout-express-pay-library/lib/utils/callGuestCustomerEndpoint');
-const callGuestCustomerEndpointMock = mocked(callGuestCustomerEndpoint, true);
+jest.mock('@boldcommerce/checkout-frontend-library/lib/batch/batchRequest');
+const batchRequestMock = mocked(batchRequest, true);
 
-jest.mock('@boldcommerce/checkout-express-pay-library/lib/utils/callShippingAddressEndpoint');
-const callShippingAddressEndpointMock = mocked(callShippingAddressEndpoint, true);
+jest.mock('@boldcommerce/checkout-frontend-library/lib/state/getApplicationState');
+const getApplicationStateMock = mocked(getApplicationState, true);
 
-jest.mock('@boldcommerce/checkout-express-pay-library/lib/utils/callBillingAddressEndpoint');
-const callBillingAddressEndpointMock = mocked(callBillingAddressEndpoint, true);
-
-jest.mock('@boldcommerce/checkout-frontend-library/lib/taxes');
-const setTaxesMock = mocked(setTaxes, true);
-
-jest.mock('src/themes/flow-sdk/flowState')
-const checkoutFlowMock = mocked(checkoutFlow, true);
+jest.mock('@boldcommerce/checkout-frontend-library/lib/state/getBillingAddress');
+const getBillingAddressMock = mocked(getBillingAddress, true);
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/state/getCurrency');
 const getCurrencyMock = mocked(getCurrency, true);
 
-jest.mock('@boldcommerce/checkout-express-pay-library/lib/utils/getTotals');
-const getTotalsMock = mocked(getTotals, true);
-
-
-jest.mock('@boldcommerce/checkout-frontend-library/lib/payment');
-const addPaymentMock = mocked(addPayment, true);
+jest.mock('@boldcommerce/checkout-frontend-library/lib/state/getShippingAddress');
+const getShippingAddressMock = mocked(getShippingAddress, true);
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/order/processOrder');
 const processOrderMock = mocked(processOrder, true);
 
+jest.mock('@boldcommerce/checkout-frontend-library/lib/payment/addPayment');
+const addPaymentMock = mocked(addPayment, true);
+
+jest.mock('@boldcommerce/checkout-express-pay-library/lib/utils/getTotals');
+const getTotalsMock = mocked(getTotals, true);
+
 jest.mock('src/themes/flow-sdk/logger')
 
-var respBilling: IMetaPaymentResponse = {
+const onActionMock = jest.fn();
+
+const baseMetaResponse: IMetaPaymentResponse = {
     requestId: "123",
     container: {
         mode: 'TEST',
@@ -71,9 +67,19 @@ var respBilling: IMetaPaymentResponse = {
         containerType: 'basic-card-v1',
         containerData: '123'
     },
-    containerDescription: '123',
+    containerDescription: '123'
+};
+
+const completeMetaResponse: IMetaPaymentResponse = {
+    ...baseMetaResponse,
+    shippingAddress: MetaPaymentDetailsMock.shippingAddress,
     billingAddress: MetaPaymentDetailsMock.billingAddress
-}
+};
+
+const billingOnlyMetaResponse: IMetaPaymentResponse = {
+    ...baseMetaResponse,
+    billingAddress: MetaPaymentDetailsMock.billingAddress
+};
 
 describe('metaOnPaymentConsent', () => {
     beforeAll(() => {
@@ -83,421 +89,198 @@ describe('metaOnPaymentConsent', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         fetchMock.resetMocks();
+
+        getApplicationStateMock.mockReturnValue(initialDataMock.application_state);
+        getBillingAddressMock.mockReturnValue(initialDataMock.application_state.addresses.billing);
+        getCurrencyMock.mockReturnValue(CurrencyMock);
+        getShippingAddressMock.mockReturnValue(initialDataMock.application_state.addresses.shipping);
+        getTotalsMock.mockReturnValue(TotalMock);
+        batchRequestMock.mockReturnValue(Promise.resolve(baseReturnObject));
+        addPaymentMock.mockReturnValue(Promise.resolve(baseReturnObject));
+        processOrderMock.mockReturnValue(Promise.resolve(baseReturnObject));
+        fetchMock.mockReturnValue(Promise.resolve(
+            new Response(JSON.stringify({ data: { token: "test" } }), {
+            status: 200,
+            statusText: 'OK',
+            headers: {'Content-Type': 'application/json'},
+        })));
+
+        checkoutFlow.flow_settings = {
+            is_test_mode: true,
+            partner_id: MetaPaymentConfiguration.partnerId,
+            partner_merchant_id: MetaPaymentConfiguration.partnerMerchantId,
+        };
+        checkoutFlow.params = {
+            shopIdentifier: "test",
+            flowElementId: "test",
+            environment: {
+                type: "test",
+                url: "https://test.com",
+                path: "/test",
+            },
+            boldSecureUrl: "https://secure.boldcommerce.com",
+            onAction: onActionMock,
+        };
     });
 
-    it('META_AUTHORIZATION_OTHER_ERROR', async () => {
-        var resp: IMetaPaymentResponse = {
-            requestId: "123",
-            container: {
-                mode: 'TEST',
-                containerId: '123',
-                containerType: 'basic-card-v1',
-                containerData: '123'
-            },
-            containerDescription: '123',
-            shippingAddress: MetaPaymentDetailsMock.shippingAddress,
-            billingAddress: MetaPaymentDetailsMock.billingAddress
-        }
+    it('META_AUTHORIZATION_SUCCESS', async () => {
+        const expectedApplicationState = {...initialDataMock.application_state, is_processed: true};
+        batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
+        addPaymentMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
+        processOrderMock.mockReturnValueOnce(Promise.resolve({
+            ...baseReturnObject,
+            success: true,
+            response: {data: {application_state: expectedApplicationState}}
+        }));
 
-        callGuestCustomerEndpointMock.mockReturnValue(Promise.resolve(baseReturnObject));
+        const response = await metaOnPaymentConsent(completeMetaResponse);
 
-        await metaOnPaymentConsent(resp).catch((e) => {
+        expect(batchRequestMock).toBeCalledTimes(1);
+        expect(response).toBe(META_AUTHORIZATION_SUCCESS);
+        expect(onActionMock).toHaveBeenCalledTimes(1);
+        expect(onActionMock).toHaveBeenCalledWith('FLOW_ORDER_COMPLETED', {application_state: expectedApplicationState});
+    });
+
+    it('META_AUTHORIZATION_ERROR when batch successful but is_processed false', async () => {
+        const expectedApplicationState = {...initialDataMock.application_state, is_processed: false};
+        batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
+        addPaymentMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
+        processOrderMock.mockReturnValueOnce(Promise.resolve({
+            ...baseReturnObject,
+            success: true,
+            response: {data: {application_state: expectedApplicationState}}
+        }));
+
+        await metaOnPaymentConsent(completeMetaResponse).catch((error) => {
+            expect(error).toBe(META_AUTHORIZATION_ERROR);
+        });
+
+        expect(batchRequestMock).toBeCalledTimes(1);
+        expect(onActionMock).toHaveBeenCalledTimes(0);
+    });
+
+    it('META_AUTHORIZATION_ERROR when batch successful but missing application_state', async () => {
+        batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
+        addPaymentMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
+        processOrderMock.mockReturnValueOnce(Promise.resolve({
+            ...baseReturnObject,
+            success: true,
+            response: {data: {application_state: undefined}}
+        }));
+
+        await metaOnPaymentConsent(completeMetaResponse).catch((error) => {
+            expect(error).toBe(META_AUTHORIZATION_ERROR);
+        });
+
+        expect(batchRequestMock).toBeCalledTimes(1);
+        expect(onActionMock).toHaveBeenCalledTimes(0);
+    });
+
+    it('META_AUTHORIZATION_OTHER_ERROR when invalid data from fail batch response', async () => {
+        await metaOnPaymentConsent(completeMetaResponse).catch((error) => {
+            expect(error).toEqual(META_AUTHORIZATION_OTHER_ERROR);
+        });
+
+        expect(batchRequestMock).toBeCalledTimes(1);
+    });
+
+    it('META_AUTHORIZATION_OTHER_ERROR fail on guest customer subrequest', async () => {
+        const data: Array<IApiSubrequestResponse> = [{status_code: 422, endpoint: '/customer/guest', method: 'POST'}];
+        batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, response: {data}}));
+
+        await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
             expect(e).toEqual(META_AUTHORIZATION_OTHER_ERROR);
         });
 
-        expect(callGuestCustomerEndpointMock).toBeCalledTimes(1);
+        expect(batchRequestMock).toBeCalledTimes(1);
     });
 
+    it('META_AUTHORIZATION_OTHER_ERROR fail on customer subrequest', async () => {
+        const data: Array<IApiSubrequestResponse> = [{status_code: 422, endpoint: '/customer', method: 'PUT'}];
+        batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, response: {data}}));
 
-    it('META_AUTHORIZATION_OTHER_ERROR billingAddress', async () => {
-        var resp: IMetaPaymentResponse = {
-            requestId: "123",
-            container: {
-                mode: 'TEST',
-                containerId: '123',
-                containerType: 'basic-card-v1',
-                containerData: '123'
-            },
-            containerDescription: '123',
-
-        }
-
-        callGuestCustomerEndpointMock.mockReturnValue(Promise.resolve(baseReturnObject));
-
-        await metaOnPaymentConsent(resp).catch((e) => {
+        await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
             expect(e).toEqual(META_AUTHORIZATION_OTHER_ERROR);
         });
 
-        expect(callGuestCustomerEndpointMock).toBeCalledTimes(1);
+        expect(batchRequestMock).toBeCalledTimes(1);
     });
 
-    it('META_AUTHORIZATION_OTHER_ERROR shippingAddress recipient not set', async () => {
-        var resp: IMetaPaymentResponse = {
-            requestId: "123",
-            container: {
-                mode: 'TEST',
-                containerId: '123',
-                containerType: 'basic-card-v1',
-                containerData: '123'
-            },
-            containerDescription: '123',
-            shippingAddress: {
-                addressLine: MetaPaymentDetailsMock.shippingAddress?.addressLine || [],
-                city: MetaPaymentDetailsMock.shippingAddress?.city || "",
-                country: MetaPaymentDetailsMock.shippingAddress?.country || "",
-                dependentLocality: MetaPaymentDetailsMock.shippingAddress?.dependentLocality || "",
-                organization: MetaPaymentDetailsMock.shippingAddress?.organization || "",
-                phone: MetaPaymentDetailsMock.shippingAddress?.phone || "",
-                postalCode: MetaPaymentDetailsMock.shippingAddress?.postalCode || "",
-                region: MetaPaymentDetailsMock.shippingAddress?.region || "",
-                recipient: undefined,
-            },
-        }
+    it('META_AUTHORIZATION_SHIPPING_ERROR fail on shipping address subrequest', async () => {
+        const data: Array<IApiSubrequestResponse> = [{status_code: 422, endpoint: '/addresses/shipping', method: 'POST'}];
+        batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, response: {data}}));
 
-        callGuestCustomerEndpointMock.mockReturnValue(Promise.resolve(baseReturnObject));
-
-        await metaOnPaymentConsent(resp).catch((e) => {
-            expect(e).toEqual(META_AUTHORIZATION_OTHER_ERROR);
-        });
-
-        expect(callGuestCustomerEndpointMock).toBeCalledTimes(1);
-    });
-
-    it('META_AUTHORIZATION_SHIPPING_ERROR', async () => {
-
-        callGuestCustomerEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callShippingAddressEndpointMock.mockReturnValue(Promise.resolve(baseReturnObject));
-
-
-        await metaOnPaymentConsent(respBilling).catch((e) => {
+        await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
             expect(e).toEqual(META_AUTHORIZATION_SHIPPING_ERROR);
         });
 
-
-        expect(callShippingAddressEndpointMock).toBeCalledTimes(1);
+        expect(batchRequestMock).toBeCalledTimes(1);
     });
 
-    it('META_AUTHORIZATION_BILLING_ERROR', async () => {
-        callGuestCustomerEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callShippingAddressEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callBillingAddressEndpointMock.mockReturnValue(Promise.resolve(baseReturnObject));
+    it('META_AUTHORIZATION_BILLING_ERROR fail on billing address subrequest', async () => {
+        const data: Array<IApiSubrequestResponse> = [{status_code: 422, endpoint: '/addresses/billing', method: 'POST'}];
+        batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, response: {data}}));
 
-        await metaOnPaymentConsent(respBilling).catch((e) => {
+        await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
             expect(e).toEqual(META_AUTHORIZATION_BILLING_ERROR);
         });
 
-        expect(callBillingAddressEndpointMock).toBeCalledTimes(1);
+        expect(batchRequestMock).toBeCalledTimes(1);
     });
 
-    it('META_AUTHORIZATION_PAYMENT_ERROR', async () => {
-        callGuestCustomerEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callShippingAddressEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callBillingAddressEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        setTaxesMock.mockReturnValue(Promise.resolve(baseReturnObject));
+    it('META_AUTHORIZATION_OTHER_ERROR fail on taxes subrequest', async () => {
+        const data: Array<IApiSubrequestResponse> = [{status_code: 422, endpoint: '/taxes', method: 'POST'}];
+        batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, response: {data}}));
 
-        await metaOnPaymentConsent(respBilling).catch((e) => {
+        await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
             expect(e).toEqual(META_AUTHORIZATION_OTHER_ERROR);
         });
 
-        expect(setTaxesMock).toBeCalledTimes(1);
+        expect(batchRequestMock).toBeCalledTimes(1);
+    });
+
+    it('META_AUTHORIZATION_PAYMENT_ERROR fail on add payment', async () => {
+        batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
+
+        await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
+            expect(e).toEqual(META_AUTHORIZATION_PAYMENT_ERROR);
+        });
+
+        expect(batchRequestMock).toBeCalledTimes(1);
+    });
+
+    it('META_AUTHORIZATION_ERROR fail on process order', async () => {
+        batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
+        addPaymentMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
+
+        await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
+            expect(e).toEqual(META_AUTHORIZATION_ERROR);
+        });
+
+        expect(batchRequestMock).toBeCalledTimes(1);
+    });
+
+    it('META_AUTHORIZATION_OTHER_ERROR fail on any other subrequest', async () => {
+        const data: Array<IApiSubrequestResponse> = [{status_code: 422, endpoint: '/any_other_subrequest', method: 'POST'}];
+        batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, response: {data}}));
+
+        await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
+            expect(e).toEqual(META_AUTHORIZATION_OTHER_ERROR);
+        });
+
+        expect(batchRequestMock).toBeCalledTimes(1);
     });
 
     it('Tokenize containerData Error', async () => {
-        checkoutFlowMock.flow_settings = {
-            is_test_mode: true,
-            partner_id: MetaPaymentConfiguration.partnerId,
-            partner_merchant_id: MetaPaymentConfiguration.partnerMerchantId,
-        }
-        checkoutFlowMock.params = {
-            shopIdentifier: "test",
-            flowElementId: "test",
-            environment: {
-                type: "test",
-                url: "https://test.com",
-                path: "/test",
-            },
-            boldSecureUrl: "https://secure.boldcommerce.com",
-            // @ts-ignore
-            onAction: jest.fn() as IOnAction,
-        }
-
-
-        callGuestCustomerEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callShippingAddressEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callBillingAddressEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        setTaxesMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        fetchMock.mockReturnValue(Promise.resolve(
+        fetchMock.mockReturnValueOnce(Promise.resolve(
             new Response(JSON.stringify({ success: false }), {
                 status: 400,
-                statusText: 'OK',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }),
-        ));
+                statusText: 'Fail',
+                headers: {'Content-Type': 'application/json'},
+            })));
 
-        await metaOnPaymentConsent(respBilling).catch((e) => {
+        await metaOnPaymentConsent(billingOnlyMetaResponse).catch((e) => {
             expect(e).toEqual(META_AUTHORIZATION_PAYMENT_ERROR);
-        });
-    });
-
-
-    it('addPayment Error META_AUTHORIZATION_PAYMENT_ERROR', async () => {
-        checkoutFlowMock.flow_settings = {
-            is_test_mode: true,
-            partner_id: MetaPaymentConfiguration.partnerId,
-            partner_merchant_id: MetaPaymentConfiguration.partnerMerchantId,
-        }
-        checkoutFlowMock.params = {
-            shopIdentifier: "test",
-            flowElementId: "test",
-            environment: {
-                type: "test",
-                url: "https://test.com",
-                path: "/test",
-            },
-            boldSecureUrl: "https://secure.boldcommerce.com",
-            // @ts-ignore
-            onAction: jest.fn() as IOnAction,
-        }
-
-
-        callGuestCustomerEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callShippingAddressEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callBillingAddressEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        setTaxesMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        fetchMock.mockReturnValue(Promise.resolve(
-            new Response(JSON.stringify({ data: { token: "test" } }), {
-                status: 200,
-                statusText: 'OK',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }),
-        ));
-
-        getCurrencyMock.mockReturnValue(CurrencyMock);
-        getTotalsMock.mockReturnValue(TotalMock);
-        addPaymentMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: false }));
-
-        await metaOnPaymentConsent(respBilling).catch((e) => {
-            expect(e).toEqual(META_AUTHORIZATION_PAYMENT_ERROR);
-        });
-    });
-
-
-    it('processOrder Error META_AUTHORIZATION_ERROR', async () => {
-        checkoutFlowMock.flow_settings = {
-            is_test_mode: true,
-            partner_id: MetaPaymentConfiguration.partnerId,
-            partner_merchant_id: MetaPaymentConfiguration.partnerMerchantId,
-        }
-        checkoutFlowMock.params = {
-            shopIdentifier: "test",
-            flowElementId: "test",
-            environment: {
-                type: "test",
-                url: "https://test.com",
-                path: "/test",
-            },
-            boldSecureUrl: "https://secure.boldcommerce.com",
-            // @ts-ignore
-            onAction: jest.fn() as IOnAction,
-        }
-
-
-        callGuestCustomerEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callShippingAddressEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callBillingAddressEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        setTaxesMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        fetchMock.mockReturnValue(Promise.resolve(
-            new Response(JSON.stringify({ data: { token: "test" } }), {
-                status: 200,
-                statusText: 'OK',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }),
-        ));
-
-        getCurrencyMock.mockReturnValue(CurrencyMock);
-        getTotalsMock.mockReturnValue(TotalMock);
-        addPaymentMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        processOrderMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: false }));
-
-        await metaOnPaymentConsent(respBilling).catch((e) => {
-            expect(e).toEqual(META_AUTHORIZATION_ERROR);
-        });
-    });
-
-
-    it('processOrder Error META_AUTHORIZATION_SUCCESS', async () => {
-        checkoutFlowMock.flow_settings = {
-            is_test_mode: true,
-            partner_id: MetaPaymentConfiguration.partnerId,
-            partner_merchant_id: MetaPaymentConfiguration.partnerMerchantId,
-        }
-        checkoutFlowMock.params = {
-            shopIdentifier: "test",
-            flowElementId: "test",
-            environment: {
-                type: "test",
-                url: "https://test.com",
-                path: "/test",
-            },
-            boldSecureUrl: "https://secure.boldcommerce.com",
-            // @ts-ignore
-            onAction: jest.fn() as IOnAction,
-        }
-
-
-        callGuestCustomerEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callShippingAddressEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callBillingAddressEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        setTaxesMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        fetchMock.mockReturnValue(Promise.resolve(
-            new Response(JSON.stringify({ data: { token: "test" } }), {
-                status: 200,
-                statusText: 'OK',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }),
-        ));
-
-        getCurrencyMock.mockReturnValue(CurrencyMock);
-        getTotalsMock.mockReturnValue(TotalMock);
-        addPaymentMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-
-        var responseOrderData: IProcessOrderResponse = {
-            application_state: {
-                ...initialDataMock.application_state,
-                is_processed: true,
-            },
-        }
-
-        processOrderMock.mockReturnValue(Promise.resolve({
-            ...baseReturnObject, success: true,
-            response: {
-                data: responseOrderData
-            } as IApiSuccessResponse
-        }));
-
-        expect(await metaOnPaymentConsent(respBilling)).toEqual(META_AUTHORIZATION_SUCCESS);
-    });
-
-
-    it('is_processed is false, META_AUTHORIZATION_ERROR', async () => {
-        checkoutFlowMock.flow_settings = {
-            is_test_mode: true,
-            partner_id: MetaPaymentConfiguration.partnerId,
-            partner_merchant_id: MetaPaymentConfiguration.partnerMerchantId,
-        }
-        checkoutFlowMock.params = {
-            shopIdentifier: "test",
-            flowElementId: "test",
-            environment: {
-                type: "test",
-                url: "https://test.com",
-                path: "/test",
-            },
-            boldSecureUrl: "https://secure.boldcommerce.com",
-            // @ts-ignore
-            onAction: jest.fn() as IOnAction,
-        }
-
-
-        callGuestCustomerEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callShippingAddressEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callBillingAddressEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        setTaxesMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        fetchMock.mockReturnValue(Promise.resolve(
-            new Response(JSON.stringify({ data: { token: "test" } }), {
-                status: 200,
-                statusText: 'OK',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }),
-        ));
-
-        getCurrencyMock.mockReturnValue(CurrencyMock);
-        getTotalsMock.mockReturnValue(TotalMock);
-        addPaymentMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-
-        var responseOrderData: IProcessOrderResponse = {
-            application_state: {
-                ...initialDataMock.application_state,
-                is_processed: false,
-            },
-        }
-
-        processOrderMock.mockReturnValue(Promise.resolve({
-            ...baseReturnObject, success: true,
-            response: {
-                data: responseOrderData
-            } as IApiSuccessResponse
-        }));
-
-
-        await metaOnPaymentConsent(respBilling).catch((e) => {
-            expect(e).toEqual(META_AUTHORIZATION_ERROR);
-        });
-    });
-
-
-    it('bad application state', async () => {
-        checkoutFlowMock.flow_settings = {
-            is_test_mode: true,
-            partner_id: MetaPaymentConfiguration.partnerId,
-            partner_merchant_id: MetaPaymentConfiguration.partnerMerchantId,
-        }
-        checkoutFlowMock.params = {
-            shopIdentifier: "test",
-            flowElementId: "test",
-            environment: {
-                type: "test",
-                url: "https://test.com",
-                path: "/test",
-            },
-            boldSecureUrl: "https://secure.boldcommerce.com",
-            // @ts-ignore
-            onAction: jest.fn() as IOnAction,
-        }
-
-
-        callGuestCustomerEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callShippingAddressEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        callBillingAddressEndpointMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        setTaxesMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-        fetchMock.mockReturnValue(Promise.resolve(
-            new Response(JSON.stringify({ data: { token: "test" } }), {
-                status: 200,
-                statusText: 'OK',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }),
-        ));
-
-        getCurrencyMock.mockReturnValue(CurrencyMock);
-        getTotalsMock.mockReturnValue(TotalMock);
-        addPaymentMock.mockReturnValue(Promise.resolve({ ...baseReturnObject, success: true }));
-
-        var responseOrderData: IProcessOrderResponse = {
-            application_state: undefined,
-        }
-
-        processOrderMock.mockReturnValue(Promise.resolve({
-            ...baseReturnObject, success: true,
-            response: {
-                data: responseOrderData
-            } as IApiSuccessResponse
-        }));
-
-
-        await metaOnPaymentConsent(respBilling).catch((e) => {
-            expect(e).toEqual(META_AUTHORIZATION_ERROR);
         });
     });
 })

@@ -60,7 +60,7 @@ export const metaBuildPaymentDetails = (): IMetaPaymentDetails => {
 
     if (totalDiscounts > 0) {
         summaryItems.push({
-            amount: {currency: currencyCode, value: getValueByCurrency(totalDiscounts, currencyCode)},
+            amount: {currency: currencyCode, value: getValueByCurrency(-totalDiscounts, currencyCode)},
             summaryItemType: 'OFFER',
             label: 'Discounts'
         });
