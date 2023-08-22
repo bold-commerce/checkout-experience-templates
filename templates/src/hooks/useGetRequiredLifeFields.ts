@@ -47,5 +47,5 @@ export function useGetRequiredLifeFields(page: string): Array<ILifeField> {
 
     const locations = requiredLifeFieldLocations.filter(value => value.page === page).map(value => value.locations);
     const lifeFields = useGetRequiredLifeFieldsByLocations(locations[0]);
-    return lifeFields.filter(value => (value.input_type === LifeInputTypeConstants.TEXT || value.input_type === LifeInputTypeConstants.TEXTAREA));
+    return lifeFields.filter(value => (value.input_type !== LifeInputTypeConstants.HTML));
 }

@@ -22,6 +22,7 @@
 }
 .stx-select--alert select{
     color: #FF1A2D;
+    box-shadow: 0px 0px 0px 2px #FF1A2D inset;
 }
 .stx-select:hover {
     box-shadow: inset 0px 1px 1px #e6e6e6;

@@ -635,6 +635,16 @@ export interface ILifeFieldCheckbox {
     handleChange: (e) => void;
 }
 
+export interface ILifeFieldSelect {
+    inputValue: string;
+    label: string;
+    placeholder: string;
+    options: Array<ISelectList>;
+    id: string;
+    errorMessage?: string | null;
+    handleChange: (e) => void;
+}
+
 export interface ITextareaProps {
     id?: string,
     className?: string,
