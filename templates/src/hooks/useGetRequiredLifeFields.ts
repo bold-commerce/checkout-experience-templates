@@ -13,6 +13,8 @@ export function useGetRequiredLifeFields(page: string): Array<ILifeField> {
                 LifeInputLocationConstants.BILLING_ADDRESS_AFTER,
                 LifeInputLocationConstants.BELOW_ACTIONS,
                 LifeInputLocationConstants.SUMMARY_ABOVE_HEADER,
+                LifeInputLocationConstants.MAIN_CONTENT_BEGINNING,
+                LifeInputLocationConstants.MAIN_CONTENT_END,
             ],
         },
         {
@@ -21,14 +23,19 @@ export function useGetRequiredLifeFields(page: string): Array<ILifeField> {
                 LifeInputLocationConstants.SHIPPING_LINES,
                 LifeInputLocationConstants.BELOW_ACTIONS,
                 LifeInputLocationConstants.SUMMARY_ABOVE_HEADER,
+                LifeInputLocationConstants.MAIN_CONTENT_BEGINNING,
+                LifeInputLocationConstants.MAIN_CONTENT_END,
             ],
         },
         {
             page: LifeInputPageConstants.PAYMENT_THREE_PAGE,
             locations: [
+                LifeInputLocationConstants.PAYMENT_METHOD_ABOVE,
                 LifeInputLocationConstants.PAYMENT_GATEWAY,
                 LifeInputLocationConstants.BELOW_ACTIONS,
                 LifeInputLocationConstants.SUMMARY_ABOVE_HEADER,
+                LifeInputLocationConstants.MAIN_CONTENT_BEGINNING,
+                LifeInputLocationConstants.MAIN_CONTENT_END,
             ],
         },
         {
@@ -38,9 +45,12 @@ export function useGetRequiredLifeFields(page: string): Array<ILifeField> {
                 LifeInputLocationConstants.SHIPPING,
                 LifeInputLocationConstants.BILLING_ADDRESS_AFTER,
                 LifeInputLocationConstants.SHIPPING_LINES,
+                LifeInputLocationConstants.PAYMENT_METHOD_ABOVE,
                 LifeInputLocationConstants.PAYMENT_GATEWAY,
                 LifeInputLocationConstants.BELOW_ACTIONS,
                 LifeInputLocationConstants.SUMMARY_ABOVE_HEADER,
+                LifeInputLocationConstants.MAIN_CONTENT_BEGINNING,
+                LifeInputLocationConstants.MAIN_CONTENT_END,
             ],
         }
     ];
