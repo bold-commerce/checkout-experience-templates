@@ -175,7 +175,7 @@ CacheBustStaging:
   start_in: 2 minutes
   script:
     - |
-      curl -X POST "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/purge_cache" \
+      curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/purge_cache" \
         -H "Authorization: Bearer ${CLOUDFLARE_PURGE_CACHE_API_TOKEN_STAGING}" \
         -H "Content-Type: application/json" \
         --data '{"prefixes":["'${URL}'"]}'
@@ -205,14 +205,32 @@ DeployProduction:
   extends: .Deploy
   needs: [UpdateArgoImageProduction]
 
+# CacheBust:
+#   stage: post-deploy
+#   only:
+#     - main
+#   variables:
+#     URL: 'cashier.boldcommerce.com/assets/experience'
+#     ZONE_ID: '2e857d867fb3ba231743b024b90fb22a'
+#   extends: .CloudflareCacheBust
+#   needs: [DeployProduction]
+#   when: delayed
+#   start_in: 2 minutes
+
 CacheBust:
   stage: post-deploy
+  image: us.gcr.io/image-place/ci-docker:latest
   only:
     - main
   variables:
-    URL: 'cashier.boldcommerce.com/assets/experience'
-    ZONE_ID: '2e857d867fb3ba231743b024b90fb22a'
-  extends: .CloudflareCacheBust
+    URL: cashier.boldcommerce.com/assets/experience
+    ZONE_ID: 2e857d867fb3ba231743b024b90fb22a
   needs: [DeployProduction]
   when: delayed
   start_in: 2 minutes
+  script:
+    - |
+      curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/purge_cache" \
+        -H "Authorization: Bearer ${CLOUDFLARE_PURGE_CACHE_API_TOKEN_PROD}" \
+        -H "Content-Type: application/json" \
+        --data '{"prefixes":["'${URL}'"]}'
