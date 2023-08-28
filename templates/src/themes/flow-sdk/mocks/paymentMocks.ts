@@ -32,7 +32,7 @@ export const MetaPaymentConfiguration: IMetaPaymentConfiguration = {
     partnerId: 'partnerId',
     partnerMerchantId: 'partnerMerchantId',
     supportedContainers: {
-        'basic-card-v1': {},
+        'basic-card-v1': {'require-cvv': true},
         'ecom-token-v1': {},
     },
     uxFlags: ['META_CHECKOUT'],

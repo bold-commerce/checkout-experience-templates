@@ -4,6 +4,8 @@ import {
     addLineItem as postLineItem,
     deleteDiscount,
     deleteLineItem,
+    getApplicationState,
+    getDiscounts,
     getLineItems,
     getRefreshedApplicationState,
     initialize as initializeFrontendLibrary,
@@ -66,6 +68,8 @@ window.bold = {
     order: {
         addDiscount,
         addLineItem,
+        getApplicationState,
+        getDiscounts,
         getLineItems,
         refreshOrder,
         removeDiscount,
