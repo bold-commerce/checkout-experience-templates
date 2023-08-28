@@ -8,18 +8,23 @@ export interface IMetaConfig {
     partner_id: string;
     partner_merchant_id: string;
     public_gateway_id: string;
+    acquirer_country_code: string;
 }
 
 export type IMetaFlowSettings = IFlow & IMetaConfig;
 
 export type IMetaPaymentMode = 'TEST' | 'LIVE';
 
+export interface IMetaSupportedContainersProperties {
+    'require-cvv': boolean
+}
+
 export interface IMetaPaymentConfiguration {
     mode: IMetaPaymentMode;
     partnerId: string;
     partnerMerchantId: string;
     acquirerCountryCode: string;
-    supportedContainers: Record<'basic-card-v1' | 'ecom-token-v1', unknown>;
+    supportedContainers: Record<'basic-card-v1' | 'ecom-token-v1', IMetaSupportedContainersProperties | Record<string, never>>;
     containerContext: string;
     requestId?: string;
     userID?: string;
