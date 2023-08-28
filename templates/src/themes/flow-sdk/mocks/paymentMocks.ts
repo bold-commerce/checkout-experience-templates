@@ -122,7 +122,7 @@ export const MetaPaymentDetailsMock: IMetaPaymentDetails = {
         {
             amount: {
                 currency: 'CAD',
-                value: '0.10',
+                value: '-0.10',
             },
             label: 'Discounts',
             summaryItemType: 'OFFER',
