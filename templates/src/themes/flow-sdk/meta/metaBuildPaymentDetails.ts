@@ -93,9 +93,14 @@ export const metaBuildPaymentDetails = (): IMetaPaymentDetails => {
     const displayItems: Array<IMetaPaymentItem> = [];
     if (lineItems.length > 0) {
         lineItems.forEach(item => {
+            // This is a Hacky way to handle html entities into Product Title
+            // We add the title to an element and extract its value that will be decoded by the element
+            const el = document.createElement('textarea');
+            el.innerHTML = item.product_data.product_title;
+
             displayItems.push({
                 amount: {currency: currencyCode, value: getValueByCurrency(item.product_data.price, currencyCode)},
-                label: item.product_data.product_title,
+                label: el.value,
                 quantity: item.product_data.quantity,
                 imageURI: item.product_data.image_url,
             });
