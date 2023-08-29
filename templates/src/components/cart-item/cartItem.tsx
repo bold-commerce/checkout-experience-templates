@@ -32,7 +32,10 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
                     <p className="cart-item__variant-title">{product_data.title}</p>
                 )}
                 {   showLineItemProperties && properties.map((property) => {
-                    return <p className='cart-item__property' key={property}>{property}</p>;
+                    const el = document.createElement('textarea');
+                    el.innerHTML = property;
+
+                    return <p className='cart-item__property' key={property}>{el.value}</p>;
                 })
                 }
             </div>
