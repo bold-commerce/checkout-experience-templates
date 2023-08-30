@@ -8,7 +8,8 @@ import {
     useGetCurrencyInformation,
     useGetIsLoading,
     useGetIsOrderProcessed,
-    useGetRequiredLifeFieldsByLocations, useGetRequiresShipping,
+    useGetLifeFieldsOnPage,
+    useGetRequiresShipping,
     useGetSelectShippingLine,
 } from 'src/hooks';
 import {usePaymentPage} from 'src/themes/three-page/hooks';
@@ -28,6 +29,7 @@ jest.mock('src/utils/getTotalsFromState');
 jest.mock('src/hooks/useGetCurrencyInformation');
 jest.mock('src/hooks/useGetSelectShippingLine');
 jest.mock('src/hooks/useGetLifeFields');
+jest.mock('src/hooks/useGetLifeFieldsOnPage');
 jest.mock('src/hooks/useGetRequiresShipping');
 
 const useDispatchMock = mocked(useDispatch, true);
@@ -40,7 +42,7 @@ const callProcessOrderMock = mocked(callProcessOrder, true);
 const getTotalsFromStateMock = mocked(getTotalsFromState, true);
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
-const useGetRequiredLifeFieldsByLocationsMock = mocked(useGetRequiredLifeFieldsByLocations, true);
+const useGetLifeFieldsOnPageMock = mocked(useGetLifeFieldsOnPage, true);
 const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 
 describe('Testing hook usePaymentPage', () => {
@@ -69,7 +71,7 @@ describe('Testing hook usePaymentPage', () => {
         getTotalsFromStateMock.mockReturnValue(total);
         useGetCurrencyInformationMock.mockReturnValue(currencyInformationMock);
         useGetSelectShippingLineMock.mockReturnValue(selectedShippingLineMock);
-        useGetRequiredLifeFieldsByLocationsMock.mockReturnValue([]);
+        useGetLifeFieldsOnPageMock.mockReturnValue([]);
         useGetRequiresShippingMock.mockReturnValue(true);
     });
 

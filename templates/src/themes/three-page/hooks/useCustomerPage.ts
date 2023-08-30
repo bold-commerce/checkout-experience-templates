@@ -8,7 +8,7 @@ import {
     useGetIsOrderProcessed,
     useGetLineItems,
     useGetOrderTotal,
-    useGetRequiredLifeFields,
+    useGetLifeFieldsOnPage,
     useGetRequiresShipping
 } from 'src/hooks';
 import {callCustomerPageApi, initializeExpressPay, validateLifeFields} from 'src/library';
@@ -39,7 +39,7 @@ export function useCustomerPage(): IUseCustomerPageProp {
     const requiresShipping = useGetRequiresShipping();
     const nextButtonText = requiresShipping ? getTerm('cont_to_shipping', Constants.SHIPPING_INFO) : getTerm('footer_shipping_continue', Constants.SHIPPING_METHOD_INFO);
     const active = 1;
-    const requiredLifeFields = useGetRequiredLifeFields(LifeInputPageConstants.CUSTOMER_THREE_PAGE);
+    const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.CUSTOMER_THREE_PAGE);
     const nextButtonOnClick = useCallback(() => {
         sendEvents('Clicked continue to shipping lines button', {'category': 'Checkout'});
 

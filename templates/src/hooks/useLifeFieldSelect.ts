@@ -20,7 +20,7 @@ export function useLifeFieldSelect(lifeField: ILifeField): ILifeFieldSelect {
     const [inputValue, setInputValue] = useState(defaultValue);
 
     const errorMessage = useGetErrorByField(lifeField.meta_data_field, '');
-    const defaultError = useGetLifeFieldErrorMessage();
+    const defaultError = useGetLifeFieldErrorMessage('life_element_required');
 
     const handleChange = useCallback(e => {
 

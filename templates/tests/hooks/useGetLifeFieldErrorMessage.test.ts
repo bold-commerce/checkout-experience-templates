@@ -3,7 +3,8 @@ import {mocked} from 'jest-mock';
 import {
     useAppSelector,
     useGetErrors,
-    useGetLifeFieldErrorMessage, useGetSupportedLanguageData
+    useGetLifeFieldErrorMessage,
+    useGetSupportedLanguageData
 } from 'src/hooks';
 import {errorSeverities, errorSubTypes, errorTypes} from 'src/constants';
 import {stateMock} from 'src/mocks';
@@ -38,7 +39,7 @@ describe('Testing hook useGetLifeFieldErrorMessage', () => {
         findLanguageDataByIsoCodeMock.mockReturnValueOnce(language);
         getErrorTermMock.mockReturnValueOnce('TEST');
 
-        const {result} = renderHook(() => useGetLifeFieldErrorMessage());
+        const {result} = renderHook(() => useGetLifeFieldErrorMessage('life_element_required'));
         expect(result.current).toStrictEqual(hookReturnMock);
     });
 });

@@ -1,7 +1,7 @@
 import {IFormControlsProps} from 'src/types';
 import {getTerm, getTotalsFromState, callProcessOrder, getReturnToCartTermAndLink} from 'src/utils';
 import {Constants, LifeInputPageConstants} from 'src/constants';
-import {useGetAppSettingData, useGetIsLoading, useGetRequiredLifeFields} from 'src/hooks';
+import {useGetAppSettingData, useGetIsLoading, useGetLifeFieldsOnPage} from 'src/hooks';
 import {useCallback, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
@@ -24,7 +24,7 @@ export function useGetOnePageFooterData(): IUseGetOnePageFooterDataProps {
         event.preventDefault();
         window.location.href = link;
     }, [link]);
-    const requiredLifeFields = useGetRequiredLifeFields(LifeInputPageConstants.ONE_PAGE);
+    const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.ONE_PAGE);
     const nextButtonOnClick = useCallback(() => {
         callProcessOrder(dispatch, totals, history, requiredLifeFields);
     }, [totals]);

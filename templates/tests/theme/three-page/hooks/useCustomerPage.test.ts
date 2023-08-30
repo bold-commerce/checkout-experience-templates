@@ -4,7 +4,8 @@ import {
     useGetCurrencyInformation,
     useGetIsLoading,
     useGetIsOrderProcessed,
-    useGetRequiredLifeFieldsByLocations, useGetRequiresShipping,
+    useGetLifeFieldsOnPage,
+    useGetRequiresShipping,
 } from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
@@ -26,6 +27,7 @@ jest.mock('src/library/initializeExpressPay');
 jest.mock('src/utils/getReturnToCartTermAndLink');
 jest.mock('src/hooks/useGetCurrencyInformation');
 jest.mock('src/hooks/useGetRequiresShipping');
+jest.mock('src/hooks/useGetLifeFieldsOnPage');
 jest.mock('src/hooks/useGetLifeFields');
 
 const useDispatchMock = mocked(useDispatch, true);
@@ -38,7 +40,7 @@ const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
 const initializeExpressPayMock = mocked(initializeExpressPay, true);
 const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
-const useGetRequiredLifeFieldsByLocationsMock = mocked(useGetRequiredLifeFieldsByLocations, true);
+const useGetLifeFieldsOnPageMock = mocked(useGetLifeFieldsOnPage, true);
 const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 
 describe('Testing hook useCustomerPage', () => {
@@ -56,6 +58,7 @@ describe('Testing hook useCustomerPage', () => {
             input_placeholder: 'placeholder',
             input_required: true,
             input_type: 'text',
+            input_regex: null,
             location: 'customer_info',
             meta_data_field: 'test_meta_data_field',
             order_asc: 1,
@@ -73,7 +76,7 @@ describe('Testing hook useCustomerPage', () => {
         callCustomerPageApiMock.mockReturnValue(mockCallCustomerPageApi);
         initializeExpressPayMock.mockReturnValue(mockExpressEntry);
         useGetCurrencyInformationMock.mockReturnValue(currencyInformationMock);
-        useGetRequiredLifeFieldsByLocationsMock.mockReturnValue(lifeFields);
+        useGetLifeFieldsOnPageMock.mockReturnValue(lifeFields);
         window = Object.create(window);
         Object.defineProperty(window, 'location', {
             value: {

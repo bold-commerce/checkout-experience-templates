@@ -11,7 +11,8 @@ import {
     useSupportedLanguages,
     useGetValidVariable,
     useGetAppSettingData,
-    useScreenBreakpoints
+    useScreenBreakpoints,
+    useGetLifeFields
 } from 'src/hooks';
 import {addressMock, stateMock} from 'src/mocks';
 import {ThankYouPage} from 'src/pages';
@@ -19,6 +20,7 @@ import * as Store from 'src/store';
 import {IAddress} from '@boldcommerce/checkout-frontend-library';
 import {getTerm} from 'src/utils';
 import {HelmetProvider} from 'react-helmet-async';
+import {ILifeField} from '@boldcommerce/checkout-frontend-library/lib/types/apiInterfaces';
 
 jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/hooks/useGetAddressData');
@@ -29,6 +31,7 @@ jest.mock('src/hooks/useGetValidVariable');
 jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useScreenBreakpoints');
+jest.mock('src/hooks/useGetLifeFields');
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
@@ -38,6 +41,7 @@ const useGetBillingDataMock = mocked(useGetBillingData, true);
 const useGetValidVariableMock = mocked(useGetValidVariable, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 const getTermMock = mocked(getTerm, true);
+const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 
 const store = Store.initializeStore();
 const context = {};
@@ -71,12 +75,14 @@ describe('testing ThankYouPage', () => {
         useGetCustomerInfoDataMock.mockReturnValue(mockedData.customer);
         useGetShippingDataMock.mockReturnValue(addressMock);
         useGetBillingDataMock.mockReturnValue(addressMock);
+        useGetLifeFieldsMock.mockReturnValue([]);
 
         const {container} = render(component);
         expect(container.getElementsByClassName('checkout-experience-container').length).toBe(1);
         expect(container.getElementsByClassName('three-page').length).toBe(1);
         expect(container.getElementsByClassName('thank-you').length).toBe(1);
         expect(container.getElementsByClassName('no-summary').length).toBe(0);
+        expect(container.getElementsByClassName('outside-main-content').length).toBe(0);
     });
 
     test('Rendering ThankYouPage component with generic page', () => {
@@ -85,11 +91,14 @@ describe('testing ThankYouPage', () => {
         useGetCustomerInfoDataMock.mockReturnValue(mockedData);
         useGetShippingDataMock.mockReturnValue({} as IAddress);
         useGetBillingDataMock.mockReturnValue({} as IAddress);
+        useGetLifeFieldsMock.mockReturnValue([]);
+
         const {container} = render(component);
         expect(container.getElementsByClassName('checkout-experience-container').length).toBe(1);
         expect(container.getElementsByClassName('three-page').length).toBe(1);
         expect(container.getElementsByClassName('thank-you').length).toBe(1);
         expect(container.getElementsByClassName('no-summary').length).toBe(1);
+        expect(container.getElementsByClassName('outside-main-content').length).toBe(0);
     });
 
     test('Rendering ThankYouPage component with generic page with orderProcessed', () => {
@@ -98,12 +107,97 @@ describe('testing ThankYouPage', () => {
         useGetShippingDataMock.mockReturnValue(addressMock);
         useGetBillingDataMock.mockReturnValue(addressMock);
         useGetValidVariableMock.mockReturnValueOnce(false);
+        useGetLifeFieldsMock.mockReturnValue([]);
 
         const {container} = render(component);
         expect(container.getElementsByClassName('checkout-experience-container').length).toBe(1);
         expect(container.getElementsByClassName('three-page').length).toBe(1);
         expect(container.getElementsByClassName('thank-you').length).toBe(1);
         expect(container.getElementsByClassName('no-summary').length).toBe(1);
+        expect(container.getElementsByClassName('outside-main-content').length).toBe(0);
+    });
+
+    test('Rendering ThankYouPage component with life elements that outside the main content', () => {
+        const mockedData = stateMock.data.application_state;
+        const lifeFields: Array<ILifeField> = [
+            {
+                input_default: 'default',
+                input_label: null,
+                input_placeholder: 'placeholder',
+                input_required: true,
+                input_type: 'text',
+                input_regex: null,
+                location: 'main_content_beginning',
+                meta_data_field: 'test_meta_data_field',
+                order_asc: 1,
+                public_id: '1',
+            },
+            {
+                input_default: 'default',
+                input_label: null,
+                input_placeholder: 'placeholder',
+                input_required: false,
+                input_type: 'text',
+                input_regex: 'ab*c',
+                location: 'main_content_end',
+                meta_data_field: 'test_meta_data_field_1',
+                order_asc: 2,
+                public_id: '2',
+            }
+        ];
+        useGetCustomerInfoDataMock.mockReturnValue(mockedData.customer);
+        useGetShippingDataMock.mockReturnValue(addressMock);
+        useGetBillingDataMock.mockReturnValue(addressMock);
+        useGetLifeFieldsMock.mockReturnValue(lifeFields);
+
+        const {container} = render(component);
+        expect(container.getElementsByClassName('checkout-experience-container').length).toBe(1);
+        expect(container.getElementsByClassName('three-page').length).toBe(1);
+        expect(container.getElementsByClassName('thank-you').length).toBe(1);
+        expect(container.getElementsByClassName('no-summary').length).toBe(0);
+        expect(container.getElementsByClassName('outside-main-content').length).toBe(2);
+    });
+
+    test('Rendering ThankYouPage component with life elements that outside the main content and orderProcessed', () => {
+        const mockedData = stateMock.data.application_state;
+        const lifeFields: Array<ILifeField> = [
+            {
+                input_default: 'default',
+                input_label: null,
+                input_placeholder: 'placeholder',
+                input_required: true,
+                input_type: 'text',
+                input_regex: null,
+                location: 'main_content_beginning',
+                meta_data_field: 'test_meta_data_field',
+                order_asc: 1,
+                public_id: '1',
+            },
+            {
+                input_default: 'default',
+                input_label: null,
+                input_placeholder: 'placeholder',
+                input_required: false,
+                input_type: 'text',
+                input_regex: 'ab*c',
+                location: 'main_content_end',
+                meta_data_field: 'test_meta_data_field_1',
+                order_asc: 2,
+                public_id: '2',
+            }
+        ];
+        useGetCustomerInfoDataMock.mockReturnValue(mockedData.customer);
+        useGetShippingDataMock.mockReturnValue(addressMock);
+        useGetBillingDataMock.mockReturnValue(addressMock);
+        useGetValidVariableMock.mockReturnValueOnce(false);
+        useGetLifeFieldsMock.mockReturnValue(lifeFields);
+
+        const {container} = render(component);
+        expect(container.getElementsByClassName('checkout-experience-container').length).toBe(1);
+        expect(container.getElementsByClassName('three-page').length).toBe(1);
+        expect(container.getElementsByClassName('thank-you').length).toBe(1);
+        expect(container.getElementsByClassName('no-summary').length).toBe(3);
+        expect(container.getElementsByClassName('outside-main-content').length).toBe(2);
     });
 
 });
