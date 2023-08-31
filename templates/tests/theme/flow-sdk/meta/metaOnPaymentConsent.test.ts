@@ -272,6 +272,7 @@ describe('metaOnPaymentConsent', () => {
     });
 
     it('Tokenize containerData Error', async () => {
+        batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
         fetchMock.mockReturnValueOnce(Promise.resolve(
             new Response(JSON.stringify({ success: false }), {
                 status: 400,
