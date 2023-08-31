@@ -50,26 +50,11 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
             payload: response.container.containerData,
         })
     };
-    const tokenizeResponse = await fetch(tokenizeUrl, options);
-    if (tokenizeResponse.status < 200 || tokenizeResponse.status > 299) {
-        return Promise.reject(META_AUTHORIZATION_PAYMENT_ERROR);
-    }
+    const tokenizePromise = fetch(tokenizeUrl, options);
 
-    const tokenizeJson = await tokenizeResponse.json();
-    const {iso_code: currencyCode} = getCurrency();
-    const {totalAmountDue} = getTotals();
     const {firstName, lastName} = getFirstAndLastName(response.billingAddress?.recipient || response.shippingAddress?.recipient);
     const formattedShippingAddress = formatCheckoutAddressFromMeta(response.shippingAddress, false);
     const formattedBillingAddress = formatCheckoutAddressFromMeta(response.billingAddress, false);
-    const payment: IAddPaymentRequest = {
-        token: tokenizeJson.data.token,
-        gateway_public_id: publicGatewayId,
-        currency: currencyCode,
-        amount: totalAmountDue,
-        extra_payment_data: {
-            request_id: response.requestId
-        }
-    } as IAddPaymentRequest;
 
     // Build Batch Requests
     const requests: Array<IBatchableRequest> = [];
@@ -111,6 +96,25 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
 
         return Promise.reject(META_AUTHORIZATION_OTHER_ERROR);
     }
+
+    const tokenizeResponse = await tokenizePromise;
+    if (tokenizeResponse.status < 200 || tokenizeResponse.status > 299) {
+        return Promise.reject(META_AUTHORIZATION_PAYMENT_ERROR);
+    }
+
+    const tokenizeJson = await tokenizeResponse.json();
+
+    const {iso_code: currencyCode} = getCurrency();
+    const {totalAmountDue} = getTotals();
+    const payment: IAddPaymentRequest = {
+        token: tokenizeJson.data.token,
+        gateway_public_id: publicGatewayId,
+        currency: currencyCode,
+        amount: totalAmountDue,
+        extra_payment_data: {
+            request_id: response.requestId
+        }
+    } as IAddPaymentRequest;
 
     const paymentResponse = await addPayment(payment, API_RETRY);
     if (!paymentResponse.success) {
