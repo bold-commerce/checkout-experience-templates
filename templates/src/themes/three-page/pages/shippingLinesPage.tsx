@@ -26,6 +26,8 @@ export function ShippingLinesPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading, title} = useShippingPage();
     const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
     const shippingLinesLifeFields  = useGetLifeFields(LifeInputLocationConstants.SHIPPING_LINES);
+    const mainContentBeginningLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_BEGINNING);
+    const mainContentEndLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_END);
     const headerLogoUrl = window.headerLogoUrl;
     useOnLoadValidateCustomer();
     useBeforeUnload();
@@ -39,6 +41,10 @@ export function ShippingLinesPage(): React.ReactElement {
         <div className={'checkout-experience-container'}>
             <HeaderHelmet title={title}/>
             <ScreenReaderAnnouncement content={title || ''} />
+            {mainContentBeginningLifeFields.length > 0 ? 
+                <div className={'outside-main-content'}>
+                    <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                </div> : null}
             <div className={'three-page'}>
                 <Header isMobile={true} />
                 <div className='customer-section' >
@@ -68,6 +74,10 @@ export function ShippingLinesPage(): React.ReactElement {
                 </div>
                 <SummarySection orderCompleted={false}/>
             </div>
+            {mainContentEndLifeFields.length > 0 ? 
+                <div className={'outside-main-content'}>
+                    <LifeFields lifeFields={mainContentEndLifeFields}/>
+                </div> : null}
         </div>
     );
 }

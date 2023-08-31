@@ -42,7 +42,10 @@ export function ThemePage(): React.ReactElement {
     const shippingLifeFields = useGetLifeFields(LifeInputLocationConstants.SHIPPING);
     const billingAddressAfterLifeFields = useGetLifeFields(LifeInputLocationConstants.BILLING_ADDRESS_AFTER);
     const shippingLinesLifeFields  = useGetLifeFields(LifeInputLocationConstants.SHIPPING_LINES);
+    const paymentGatewayAboveLifeFields = useGetLifeFields(LifeInputLocationConstants.PAYMENT_METHOD_ABOVE);
     const paymentGatewayLifeFields = useGetLifeFields(LifeInputLocationConstants.PAYMENT_GATEWAY);
+    const mainContentBeginningLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_BEGINNING);
+    const mainContentEndLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_END);
 
 
     useEffect(() => {
@@ -57,47 +60,58 @@ export function ThemePage(): React.ReactElement {
         <div className={'checkout-experience-container'}>
             <Header isMobile={true}/>
             <HeaderHelmet title={footerProps.title}/>
-            <div className={'customer-section one-page'}>
-                <Header isMobile={false}/>
-                <main aria-label={mainAriaLabel}>
-                    <form onSubmit={withPreventDefault(nextButtonOnClick)}>
-                        <FlashError/>
-                        <ExpressPaymentGateway/>
-                        {infoExternalPaymentGateways.map((externalGateway) =>
-                            <ExternalPaymentGateway
-                                externalPaymentGateway={externalGateway}
-                                loadIframeImmediately={true}
-                                showTitle={false}
-                                key={externalGateway.public_id}
-                                position={Constants.CUSTOMER_INFO_ABOVE}
-                            />
-                        )}
-                        <CustomerInformation/>
-                        <LifeFields lifeFields={customerInfoLifeFields}/>
-                        <ShippingAddress/>
-                        <LifeFields lifeFields={shippingLifeFields}/>
-                        {requiresShipping ? <BillingAddress/> : null}
-                        <LifeFields lifeFields={billingAddressAfterLifeFields}/>
-                        <ShippingLines/>
-                        <LifeFields lifeFields={shippingLinesLifeFields}/>
-                        <Payment loadIframeImmediately={true} />
-                        {paymentExternalPaymentGateways.map((externalGateway) =>
-                            <ExternalPaymentGateway
-                                externalPaymentGateway={externalGateway}
-                                loadIframeImmediately={false}
-                                showTitle={false}
-                                key={externalGateway.public_id}
-                                position={Constants.PAYMENT_METHOD_BELOW}
-                            />
-                        )}
-                        <LifeFields lifeFields={paymentGatewayLifeFields}/>
-                        <TaxExemption />
-                        <FormControls {...footerProps}/>
-                    </form>
-                </main>
-                <Footer />
+            {mainContentBeginningLifeFields.length > 0 ?
+                <div className={'outside-main-content'}>
+                    <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                </div> : null}
+            <div className={'one-page'}>
+                <div className={'customer-section one-page'}>
+                    <Header isMobile={false}/>
+                    <main aria-label={mainAriaLabel}>
+                        <form onSubmit={withPreventDefault(nextButtonOnClick)}>
+                            <FlashError/>
+                            <ExpressPaymentGateway/>
+                            {infoExternalPaymentGateways.map((externalGateway) =>
+                                <ExternalPaymentGateway
+                                    externalPaymentGateway={externalGateway}
+                                    loadIframeImmediately={true}
+                                    showTitle={false}
+                                    key={externalGateway.public_id}
+                                    position={Constants.CUSTOMER_INFO_ABOVE}
+                                />
+                            )}
+                            <CustomerInformation/>
+                            <LifeFields lifeFields={customerInfoLifeFields}/>
+                            <ShippingAddress/>
+                            <LifeFields lifeFields={shippingLifeFields}/>
+                            {requiresShipping ? <BillingAddress/> : null}
+                            <LifeFields lifeFields={billingAddressAfterLifeFields}/>
+                            <ShippingLines/>
+                            <LifeFields lifeFields={shippingLinesLifeFields}/>
+                            <LifeFields lifeFields={paymentGatewayAboveLifeFields}/>
+                            <Payment loadIframeImmediately={true} />
+                            {paymentExternalPaymentGateways.map((externalGateway) =>
+                                <ExternalPaymentGateway
+                                    externalPaymentGateway={externalGateway}
+                                    loadIframeImmediately={false}
+                                    showTitle={false}
+                                    key={externalGateway.public_id}
+                                    position={Constants.PAYMENT_METHOD_BELOW}
+                                />
+                            )}
+                            <LifeFields lifeFields={paymentGatewayLifeFields}/>
+                            <TaxExemption />
+                            <FormControls {...footerProps}/>
+                        </form>
+                    </main>
+                    <Footer />
+                </div>
+                <SummarySection orderCompleted={false}/>
             </div>
-            <SummarySection orderCompleted={false}/>
+            {mainContentEndLifeFields.length > 0 ?
+                <div className={'outside-main-content'}>
+                    <LifeFields lifeFields={mainContentEndLifeFields}/>
+                </div> : null}
         </div>
     );
 }

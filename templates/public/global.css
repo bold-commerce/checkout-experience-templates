@@ -67,11 +67,21 @@ html.loading {
     display: flex;
 }
 
+.one-page {
+    display: flex;
+}
+
 .stx-button__spinner{
     top: auto;
     left: auto;
     margin-top: auto;
     margin-left: auto;
+}
+
+.outside-main-content {
+    width: 700px;
+    padding: 40px 100px 0 30px;
+    background-color: #ffffff;
 }
 
 select {
@@ -106,6 +116,15 @@ select {
         min-height: 100vh;
     }
 
+    .checkout-experience-container, .one-page {
+        flex-wrap: wrap;
+        width: 1200px;
+        min-height: 100vh;
+        margin: 0 auto;
+        position: relative;
+        min-height: 100vh;
+    }
+
     .no-summary {
         width: auto;
     }
@@ -113,10 +132,24 @@ select {
     .website__title {
         display: none;
     }
+
+    .outside-main-content.no-summary {
+        margin: 0 auto;
+        width: 700px;
+    }
 }
 
 @media only screen and (max-width: 1200px) and (min-width: 768px) {
     .checkout-experience-container, .three-page {
+        flex-wrap: wrap;
+        position: relative;
+        margin: auto;
+        width: 768px;
+        min-height: 100vh;
+    }
+
+    .checkout-experience-container, .one-page {
+        flex-wrap: wrap;
         position: relative;
         margin: auto;
         width: 768px;
@@ -134,10 +167,27 @@ select {
         font-size: 24px;
         line-height: 36px;
     }
+
+    .outside-main-content {
+        width: 468px;
+        padding: 26px 32px 0 32px;
+    }
+
+    .outside-main-content.no-summary {
+        margin: auto;
+    }
 }
 
 @media only screen and (max-width: 767px) {
     .checkout-experience-container, .three-page {
+        position: relative;
+        margin: auto;
+        width: 100%;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .checkout-experience-container, .one-page {
         position: relative;
         margin: auto;
         width: 100%;
@@ -155,6 +205,11 @@ select {
 
     .footer--button-container .btn-checkout, .thank-you-contact-button-container .btn-checkout{
         width: 100%;
+    }
+
+    .outside-main-content {
+        width: 100%;
+        padding: 16px 32px;
     }
 }
 
