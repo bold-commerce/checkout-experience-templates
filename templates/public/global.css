@@ -4,7 +4,6 @@
 
 html, body {
     font-size: 14px;
-    overflow-x: hidden;
     height: 100%;
 }
 
@@ -48,6 +47,7 @@ a:active {
 
 .checkout-experience-container {
     display: flex;
+    overflow-x: hidden;
 }
 
 html.loading {
@@ -109,20 +109,27 @@ select {
 @media only screen and (min-width: 1200px) {
     .checkout-experience-container, .three-page {
         flex-wrap: wrap;
-        width: 1200px;
+        width: 100%;
         min-height: 100vh;
         margin: 0 auto;
         position: relative;
-        min-height: 100vh;
     }
 
-    .checkout-experience-container, .one-page {
+    .three-page {
+        width: 1200px;
+    }
+
+    .outside-main-content-container {
+        width: 1200px;
+        margin: 0 auto;
+    }
+
+     .one-page {
         flex-wrap: wrap;
         width: 1200px;
         min-height: 100vh;
         margin: 0 auto;
         position: relative;
-        min-height: 100vh;
     }
 
     .no-summary {
@@ -144,16 +151,25 @@ select {
         flex-wrap: wrap;
         position: relative;
         margin: auto;
-        width: 768px;
+        width: 100%;
         min-height: 100vh;
     }
 
-    .checkout-experience-container, .one-page {
+    .three-page {
+        width: 768px;
+    }
+
+    .outside-main-content-container {
+        width: 768px;
+        margin: 0 auto;
+    }
+
+    .one-page {
         flex-wrap: wrap;
         position: relative;
         margin: auto;
-        width: 768px;
         min-height: 100vh;
+        width: 768px;
     }
 
     .no-summary {
@@ -187,7 +203,7 @@ select {
         min-height: 100vh;
     }
 
-    .checkout-experience-container, .one-page {
+    .one-page {
         position: relative;
         margin: auto;
         width: 100%;

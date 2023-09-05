@@ -39,8 +39,10 @@ export function ThankYouPage(): React.ReactElement {
             <ScreenReaderAnnouncement content={title} />
             <div className={'checkout-experience-container'}>
                 {mainContentBeginningLifeFields.length > 0 ?
-                    <div className={isGeneric ? getClasses('outside-main-content','no-summary') : getClasses('outside-main-content')}>
-                        <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                    <div className={'outside-main-content-container'}>
+                        <div className={isGeneric ? getClasses('outside-main-content','no-summary') : getClasses('outside-main-content')}>
+                            <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                        </div>
                     </div> : null}
                 <div className={isGeneric ? getClasses('three-page','no-summary') : getClasses('three-page')}>
                     <Header isMobile={true} />
@@ -48,8 +50,10 @@ export function ThankYouPage(): React.ReactElement {
                     { isGeneric ? null : <SummarySection orderCompleted={true}/>}
                 </div>
                 {mainContentEndLifeFields.length > 0 ?
-                    <div className={isGeneric ? getClasses('outside-main-content','no-summary') : getClasses('outside-main-content')}>
-                        <LifeFields lifeFields={mainContentEndLifeFields}/>
+                    <div className={'outside-main-content-container'}>
+                        <div className={isGeneric ? getClasses('outside-main-content','no-summary') : getClasses('outside-main-content')}>
+                            <LifeFields lifeFields={mainContentEndLifeFields}/>
+                        </div>
                     </div> : null}
             </div>
         </>
