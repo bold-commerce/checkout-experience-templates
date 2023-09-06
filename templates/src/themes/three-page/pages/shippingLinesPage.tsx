@@ -41,9 +41,11 @@ export function ShippingLinesPage(): React.ReactElement {
         <div className={'checkout-experience-container'}>
             <HeaderHelmet title={title}/>
             <ScreenReaderAnnouncement content={title || ''} />
-            {mainContentBeginningLifeFields.length > 0 ? 
-                <div className={'outside-main-content'}>
-                    <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+            {mainContentBeginningLifeFields.length > 0 ?
+                <div className={'outside-main-content-container'}>    
+                    <div className={'outside-main-content'}>
+                        <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                    </div>
                 </div> : null}
             <div className={'three-page'}>
                 <Header isMobile={true} />
@@ -74,9 +76,11 @@ export function ShippingLinesPage(): React.ReactElement {
                 </div>
                 <SummarySection orderCompleted={false}/>
             </div>
-            {mainContentEndLifeFields.length > 0 ? 
-                <div className={'outside-main-content'}>
-                    <LifeFields lifeFields={mainContentEndLifeFields}/>
+            {mainContentEndLifeFields.length > 0 ?
+                <div className={'outside-main-content-container'}>
+                    <div className={'outside-main-content'}>
+                        <LifeFields lifeFields={mainContentEndLifeFields}/>
+                    </div>
                 </div> : null}
         </div>
     );

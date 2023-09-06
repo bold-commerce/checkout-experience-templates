@@ -61,8 +61,10 @@ export function ThemePage(): React.ReactElement {
             <Header isMobile={true}/>
             <HeaderHelmet title={footerProps.title}/>
             {mainContentBeginningLifeFields.length > 0 ?
-                <div className={'outside-main-content'}>
-                    <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                <div className={'outside-main-content-container'}>
+                    <div className={'outside-main-content'}>
+                        <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                    </div>
                 </div> : null}
             <div className={'one-page'}>
                 <div className={'customer-section one-page'}>
@@ -109,8 +111,10 @@ export function ThemePage(): React.ReactElement {
                 <SummarySection orderCompleted={false}/>
             </div>
             {mainContentEndLifeFields.length > 0 ?
-                <div className={'outside-main-content'}>
-                    <LifeFields lifeFields={mainContentEndLifeFields}/>
+                <div className={'outside-main-content-container'}>
+                    <div className={'outside-main-content'}>
+                        <LifeFields lifeFields={mainContentEndLifeFields}/>
+                    </div>
                 </div> : null}
         </div>
     );
