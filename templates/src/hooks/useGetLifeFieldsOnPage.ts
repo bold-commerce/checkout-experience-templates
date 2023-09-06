@@ -1,8 +1,8 @@
-import {useGetRequiredLifeFieldsByLocations} from 'src/hooks';
+import {useLifeFieldsByLocations} from 'src/hooks';
 import {LifeInputLocationConstants, LifeInputPageConstants, LifeInputTypeConstants} from 'src/constants';
 import {ILifeField} from '@boldcommerce/checkout-frontend-library';
 
-export function useGetRequiredLifeFields(page: string): Array<ILifeField> {
+export function useGetLifeFieldsOnPage(page: string): Array<ILifeField> {
 
     const requiredLifeFieldLocations = [
         {
@@ -56,6 +56,6 @@ export function useGetRequiredLifeFields(page: string): Array<ILifeField> {
     ];
 
     const locations = requiredLifeFieldLocations.filter(value => value.page === page).map(value => value.locations);
-    const lifeFields = useGetRequiredLifeFieldsByLocations(locations[0]);
+    const lifeFields = useLifeFieldsByLocations(locations[0]);
     return lifeFields.filter(value => (value.input_type !== LifeInputTypeConstants.HTML));
 }

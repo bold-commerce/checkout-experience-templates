@@ -45,6 +45,7 @@ describe('testing GenericMessageSection component', () => {
             input_placeholder: 'placeholder',
             input_required: false,
             input_type: 'html',
+            input_regex: null,
             location: 'thank_you_message',
             meta_data_field: 'test_meta_data_field',
             order_asc: 1,

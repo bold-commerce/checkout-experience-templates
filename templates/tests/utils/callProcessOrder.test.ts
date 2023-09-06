@@ -38,11 +38,11 @@ describe('Testing callProcessOrder function', () => {
     };
     const resolvedRefreshValue: IPigiResponseType = {
         responseType: pigiActionTypes.PIGI_REFRESH_ORDER,
-        payload: { key: 'value' }
+        payload: {key: 'value' }
     };
     const resolvedPaymentValue: IPigiResponseType = {
         responseType: pigiActionTypes.PIGI_ADD_PAYMENT,
-        payload: { key: 'value' }
+        payload: {key: 'value' }
     };
 
     const convertedFetchError: IApiErrorResponse = {
@@ -60,6 +60,7 @@ describe('Testing callProcessOrder function', () => {
             input_placeholder: 'placeholder',
             input_required: true,
             input_type: 'text',
+            input_regex: null,
             location: 'customer_info',
             meta_data_field: 'test_meta_data_field',
             order_asc: 1,

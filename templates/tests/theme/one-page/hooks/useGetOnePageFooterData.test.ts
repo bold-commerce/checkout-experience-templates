@@ -1,4 +1,4 @@
-import {useGetAppSettingData, useGetIsLoading, useGetRequiredLifeFieldsByLocations} from 'src/hooks';
+import {useGetAppSettingData, useGetIsLoading, useGetLifeFieldsOnPage} from 'src/hooks';
 import {renderHook} from '@testing-library/react-hooks';
 import {mocked} from 'jest-mock';
 import {callProcessOrder, getReturnToCartTermAndLink, getTerm, getTotalsFromState} from 'src/utils';
@@ -18,6 +18,7 @@ jest.mock('src/library/initializeExpressPay');
 jest.mock('src/utils/getReturnToCartTermAndLink');
 jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/hooks/useGetLifeFields');
+jest.mock('src/hooks/useGetLifeFieldsOnPage');
 
 const getTermMock = mocked(getTerm, true);
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
@@ -26,7 +27,7 @@ const callProcessOrderMock = mocked(callProcessOrder, true);
 const initializeExpressPayMock = mocked(initializeExpressPay, true);
 const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
-const useGetRequiredLifeFieldsByLocationsMock = mocked(useGetRequiredLifeFieldsByLocations, true);
+const useGetLifeFieldsOnPageMock = mocked(useGetLifeFieldsOnPage, true);
 
 
 describe('Testing hook useGetAddressFieldInputData', () => {
@@ -55,7 +56,7 @@ describe('Testing hook useGetAddressFieldInputData', () => {
         window.returnUrl = 'http://test.com';
         getTermMock.mockReturnValue(getTermValue);
         useGetIsLoadingMock.mockReturnValue(false);
-        useGetRequiredLifeFieldsByLocationsMock.mockReturnValue([]);
+        useGetLifeFieldsOnPageMock.mockReturnValue([]);
         initializeExpressPayMock.mockReturnValue(mockExpressEntry);
         getTotalsFromStateMock.mockReturnValue(total);
         getReturnToCartTermAndLinkMock.mockReturnValue({term:'return_to_cart', link: 'http://test.com'});

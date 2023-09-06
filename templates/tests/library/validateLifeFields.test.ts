@@ -19,10 +19,35 @@ describe('testing validateLifeFields', () => {
             input_placeholder: 'placeholder',
             input_required: true,
             input_type: 'text',
+            input_regex: null,
             location: 'customer_info',
             meta_data_field: 'test_meta_data_field',
             order_asc: 1,
             public_id: '1',
+        },
+        {
+            input_default: 'default',
+            input_label: null,
+            input_placeholder: 'placeholder',
+            input_required: false,
+            input_type: 'text',
+            input_regex: 'ab*c',
+            location: 'customer_info',
+            meta_data_field: 'test_meta_data_field_1',
+            order_asc: 2,
+            public_id: '2',
+        },
+        {
+            input_default: '<p>some text</p>',
+            input_label: null,
+            input_placeholder: null,
+            input_required: false,
+            input_type: 'html',
+            input_regex: 'ab*c',
+            location: 'customer_info',
+            meta_data_field: 'test_meta_data_field_2',
+            order_asc: 3,
+            public_id: '3',
         }
     ];
 
@@ -34,8 +59,8 @@ describe('testing validateLifeFields', () => {
         getState.mockReturnValue(stateMock);
         const validate = validateLifeFields(lifeFields);
         await validate(dispatch, getState);
-        expect(dispatch).toHaveBeenCalledTimes(1);
-        expect(actionAddErrorMock).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledTimes(2);
+        expect(actionAddErrorMock).toHaveBeenCalledTimes(2);
         expect(patchOrderMetaDataMock).toHaveBeenCalledTimes(0);
     });
 
@@ -58,8 +83,8 @@ describe('testing validateLifeFields', () => {
 
         const validate = validateLifeFields(lifeFields);
         await validate(dispatch, getState);
-        expect(dispatch).toHaveBeenCalledTimes(1);
-        expect(actionAddErrorMock).toHaveBeenCalledTimes(1);
-        expect(patchOrderMetaDataMock).toHaveBeenCalledTimes(0);
+        expect(dispatch).toHaveBeenCalledTimes(3);
+        expect(actionAddErrorMock).toHaveBeenCalledTimes(2);
+        expect(patchOrderMetaDataMock).toHaveBeenCalledTimes(1);
     });
 });

@@ -6,7 +6,7 @@ import {
     useGetIsLoading,
     useGetIsOrderProcessed,
     useGetLineItems,
-    useGetRequiredLifeFields,
+    useGetLifeFieldsOnPage,
     useGetRequiresShipping,
     useGetSelectShippingLine,
 } from 'src/hooks';
@@ -51,7 +51,7 @@ export function usePaymentPage(): IUsePaymentPage{
         }
     } , [history]);
 
-    const requiredLifeFields = useGetRequiredLifeFields(LifeInputPageConstants.PAYMENT_THREE_PAGE);
+    const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.PAYMENT_THREE_PAGE);
     const nextButtonOnClick = useCallback( () => {
         callProcessOrder(dispatch, totals, history, requiredLifeFields);
     },[totals, history]);

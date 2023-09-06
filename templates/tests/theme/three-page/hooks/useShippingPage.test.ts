@@ -3,7 +3,7 @@ import {
     useGetButtonDisableVariable,
     useGetIsLoading,
     useGetIsOrderProcessed,
-    useGetRequiredLifeFieldsByLocations
+    useLifeFieldsByLocations
 } from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
@@ -31,7 +31,7 @@ const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true
 const callShippingLinesPageApiMock = mocked(callShippingLinesPageApi, true);
 const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
 const isShippingLineSelectedValidMock = mocked(isShippingLineSelectedValid, true);
-const useGetRequiredLifeFieldsByLocationsMock = mocked(useGetRequiredLifeFieldsByLocations, true);
+const useGetRequiredLifeFieldsByLocationsMock = mocked(useLifeFieldsByLocations, true);
 
 describe('Testing hook useShippingPage', () => {
     const mockDispatch = jest.fn();
@@ -47,6 +47,7 @@ describe('Testing hook useShippingPage', () => {
             input_placeholder: 'placeholder',
             input_required: true,
             input_type: 'text',
+            input_regex: null,
             location: 'customer_info',
             meta_data_field: 'test_meta_data_field',
             order_asc: 1,
