@@ -14,7 +14,7 @@ describe('Testing useGetCurrencyInformation', () => {
 
     test('Rendering the hook properly', () => {
         const {result} = renderHook(() => useGetCurrencyInformation());
-        expect(useAppSelector).toHaveBeenCalledTimes(1);
+        expect(useAppSelector).toHaveBeenCalledTimes(2);
         expect(result.current.currencySymbol).toStrictEqual('$');
         expect(result.current.currency).toStrictEqual('CAD');
     });

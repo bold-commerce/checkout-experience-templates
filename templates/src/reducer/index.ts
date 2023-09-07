@@ -4,6 +4,7 @@ export * from './availableShippingLinesReducer';
 export * from './buttonDisableReducer';
 export * from './countryReducer';
 export * from './currency';
+export * from './displayCurrency';
 export * from './customerReducer';
 export * from './dataReducer';
 export * from './discountsReducer';
