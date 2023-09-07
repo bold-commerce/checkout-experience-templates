@@ -11,6 +11,7 @@ import {
 import {IDiscount} from '@boldcommerce/checkout-frontend-library';
 import {getTerm} from 'src/utils';
 import React from 'react';
+import {initialDataMock} from 'src/mocks';
 
 const mockDispatch = jest.fn();
 jest.mock('src/hooks/useSummaryDiscountLine');
@@ -23,7 +24,12 @@ const useGetIsLoadingExceptSectionsMock = mocked(useGetIsLoadingExceptSections, 
 const useSummaryDiscountLineMock = mocked(useSummaryDiscountLine, true);
 const useSummaryDiscountCodeMock = mocked(useSummaryDiscountCode, true);
 const useGetFlashErrorsMock = mocked(useGetFlashErrors, true);
+const store = {
+    data: initialDataMock,
+    isValid: {},
+};
 jest.mock('react-redux', () => ({
+    useSelector: jest.fn().mockImplementation(func => func(store)),
     useDispatch: () => mockDispatch
 }));
 
