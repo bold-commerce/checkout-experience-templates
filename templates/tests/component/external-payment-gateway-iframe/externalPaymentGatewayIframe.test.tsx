@@ -19,7 +19,6 @@ describe('Testing External Payment Gateway Iframe Component', () => {
         const gateway = {
             'is_test': true,
             'iframe_url': 'testURL',
-            'target_div': 'payment',
             'base_url': 'testURL',
             'public_id': 'publicID',
             'location': 'payment_method_below',

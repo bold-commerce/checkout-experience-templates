@@ -11,7 +11,6 @@ const store = {
                 {
                     'is_test': true,
                     'iframe_url': 'testURL',
-                    'target_div': 'payment',
                     'base_url': 'testURL',
                     'public_id': 'publicID',
                     'location': 'payment_method_below',
@@ -20,7 +19,6 @@ const store = {
                 {
                     'is_test': true,
                     'iframe_url': 'testURL2',
-                    'target_div': 'payment',
                     'base_url': 'testURL2',
                     'public_id': 'publicID2',
                     'location': 'customer_info_below',

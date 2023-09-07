@@ -33,7 +33,6 @@ describe('testing setExternalPaymentGatewayListenerInLibrary', () => {
     const gateway = {
         'is_test': true,
         'iframe_url': 'testURL',
-        'target_div': 'payment',
         'base_url': 'testURL',
         'public_id': 'publicID',
         'location': 'payment_method_below',
@@ -72,7 +71,6 @@ describe('testing handleExternalPaymentGatewayInitialized', () => {
     const gateway = {
         'is_test': true,
         'iframe_url': 'testURL',
-        'target_div': 'payment',
         'base_url': 'testURL',
         'public_id': 'publicID',
         'location': 'payment_method_below',
@@ -103,7 +101,6 @@ describe('testing handleExternalPaymentGatewayAddPayment', () => {
     const gateway = {
         'is_test': true,
         'iframe_url': 'testURL',
-        'target_div': 'payment',
         'base_url': 'testURL',
         'public_id': 'publicID',
         'location': 'payment_method_below',
@@ -143,7 +140,6 @@ describe('testing handleExternalPaymentGatewayUpdateHeight', () => {
     const gateway = {
         'is_test': true,
         'iframe_url': 'testURL',
-        'target_div': 'payment',
         'base_url': 'testURL',
         'public_id': 'publicID',
         'location': 'payment_method_below',
