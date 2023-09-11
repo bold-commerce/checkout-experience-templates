@@ -42,9 +42,7 @@ import {
     cartParametersReducer,
     notesReducer,
     tagsReducer,
-    requiresShippingDataReducer,
-    displayExchangeRateReducer,
-    displayCurrencyReducer
+    requiresShippingDataReducer
 } from 'src/reducer';
 import {autocompleteServices, Constants} from 'src/constants';
 import {defaultOrderInitialization} from 'src/constants/orderInitialization';
@@ -114,8 +112,6 @@ const appStateReducer = combineReducers({
     order_meta_data: orderMetaReducer,
     resumable_link: resumableLinkReducer,
     currency: currencyReducer,
-    display_currency: displayCurrencyReducer,
-    display_exchange_rate: displayExchangeRateReducer,
     created_via: createdViaReducer,
     is_processed: isProcessedReducer,
     fees: feesReducer,

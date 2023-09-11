@@ -4,11 +4,11 @@ import {Button} from '@boldcommerce/stacks-ui';
 
 import classNames from 'classnames';
 import {FieldInput, SummaryDiscountLine, FlashError} from 'src/components';
-import {useAppSelector, useSummaryDiscountCode} from 'src/hooks';
+import {useSummaryDiscountCode} from 'src/hooks';
 
 export function SummaryDiscountCode(): React.ReactElement {
     const {discounts, discountError, buttonLoading, buttonDisabled, addDiscount, updateNewDiscountCode, discountCodeText, discountCodeInputText, ariaLabel, ariaLive} = useSummaryDiscountCode();
-    const displayExchangeRate: number = useAppSelector((state) => state.data.application_state?.display_exchange_rate);
+
     return (
         <div className={classNames(['discount-code', 'discount-code--border-bottom'])}>
             <div className={'discount-code-input'}>
@@ -41,7 +41,7 @@ export function SummaryDiscountCode(): React.ReactElement {
                             <SummaryDiscountLine
                                 key={`discount-line-${discount.code}`}
                                 code={discount.code}
-                                amount={displayExchangeRate ? displayExchangeRate * discount.value : discount.value}
+                                amount={discount.value}
                                 source={discount.source ?? ''}
                             />
                         );

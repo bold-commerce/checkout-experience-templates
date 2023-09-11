@@ -123,15 +123,6 @@ export const defaultOrderInitialization: IOrderInitialization = {
                 has_decimal: true,
                 show_iso_code: true
             },
-            display_currency: {
-                iso_code: 'CAD',
-                iso_numeric_code: 124,
-                symbol: '$',
-                format: '${{amount}}',
-                has_decimal: true,
-                show_iso_code: true
-            },
-            display_exchange_rate: 1,
             fees: [],
             resumable_link: '',
             created_via: '',

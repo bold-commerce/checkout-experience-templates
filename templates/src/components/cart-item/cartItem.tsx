@@ -1,7 +1,7 @@
 import React from 'react';
 import {Price, Image} from '@boldcommerce/stacks-ui';
 import {ICartItemProps} from 'src/types';
-import {useGetCurrencyInformation, useCartItem, useGetCartParameters, useAppSelector} from 'src/hooks';
+import {useGetCurrencyInformation, useCartItem, useGetCartParameters} from 'src/hooks';
 import {SemiControlledNumberInput} from '../semi-controlled-number-input/semiControlledNumberInput';
 import {getLineItemPropertiesForDisplay} from 'src/utils';
 import {Constants} from 'src/constants';
@@ -9,9 +9,6 @@ import {Constants} from 'src/constants';
 export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLineItemProperties = true}: ICartItemProps): React.ReactElement {
     const {product_data} = line_item;
     const {formattedPrice} = useGetCurrencyInformation();
-    const displayExchangeRate: number = useAppSelector((state) => state.data.application_state?.display_exchange_rate);
-    const displayTotal = displayExchangeRate ? displayExchangeRate * product_data.total_price : product_data.total_price;
-
     const {
         decrementQuantity: decrementLocalQuantity,
         incrementQuantity: incrementLocalQuantity,
@@ -78,7 +75,7 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
                         </div>
                     )}
                 </div>
-                <div className="cart-item__price"><Price amount={displayTotal} moneyFormatString={formattedPrice} textAlign="right" /></div>
+                <div className="cart-item__price"><Price amount={product_data.total_price} moneyFormatString={formattedPrice} textAlign="right" /></div>
             </div>
         </li>
     );
