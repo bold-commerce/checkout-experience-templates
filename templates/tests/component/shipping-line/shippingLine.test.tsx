@@ -5,18 +5,10 @@ import {ShippingLine} from 'src/components';
 import {useGetIsLoadingExceptSections, useGetShippingLinesData, useGetShippingLinesDataNoDebounce} from 'src/hooks';
 import {IShippingLineProps, IShippingLinesHookProps} from 'src/types';
 import resetAllMocks = jest.resetAllMocks;
-import {initialDataMock} from 'src/mocks';
 
 jest.mock('src/hooks/useGetIsLoadingExceptSections');
 jest.mock('src/hooks/useGetShippingLinesData');
 jest.mock('src/hooks/useGetShippingLinesDataNoDebounce');
-const store = {
-    data: initialDataMock,
-    isValid: {},
-};
-jest.mock('react-redux', () => ({
-    useSelector: jest.fn().mockImplementation(func => func(store)),
-}));
 const useGetIsLoadingExceptSectionsMock = mocked(useGetIsLoadingExceptSections, true);
 const useGetShippingLinesDataMock = mocked(useGetShippingLinesData, true);
 const useGetShippingLinesDataNoDebounceMock = mocked(useGetShippingLinesDataNoDebounce, true);

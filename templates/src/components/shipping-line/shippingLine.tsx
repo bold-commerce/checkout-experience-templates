@@ -1,6 +1,6 @@
 import React from 'react';
 import {FieldRadio, LockedSection, ConditionalWrap} from 'src/components';
-import {useAppSelector, useGetShippingLinesData, useGetShippingLinesDataNoDebounce} from 'src/hooks';
+import {useGetShippingLinesData, useGetShippingLinesDataNoDebounce} from 'src/hooks';
 import {Price} from '@boldcommerce/stacks-ui';
 import {IShippingLineProps} from 'src/types';
 import ClassNames from 'classnames';
@@ -10,7 +10,6 @@ export function ShippingLine(props: IShippingLineProps): React.ReactElement {
     const useDebounce = props.theme != Constants.THREE_PAGE;
     const {shippingLines, selectedLine, handleChange, shippingLinesLength, noShippingAreaText, formattedPrice} =
         useDebounce ? useGetShippingLinesData() : useGetShippingLinesDataNoDebounce();
-    const displayExchangeRate: number = useAppSelector((state) => state.data.application_state?.display_exchange_rate);
 
     return (
         <>
@@ -32,7 +31,7 @@ export function ShippingLine(props: IShippingLineProps): React.ReactElement {
                                     checked={selectedLine?.id === line.id}
                                     handleChange={handleChange}
                                 />
-                                <Price className="shipping_line__items-amount" amount={displayExchangeRate ? displayExchangeRate * line.amount : line.amount}
+                                <Price className="shipping_line__items-amount" amount={line.amount}
                                     moneyFormatString={formattedPrice}/>
                             </div>
                         );

@@ -5,16 +5,9 @@ import {SummaryLineNonExpandable} from 'src/components';
 import {ISummaryLineNonExpandable, IUseGetCurrencyInformation} from 'src/types';
 import {Constants} from 'src/constants';
 import {useGetCurrencyInformation} from 'src/hooks';
-import {initialDataMock} from 'src/mocks';
 
 jest.mock('src/utils');
 jest.mock('src/hooks/useGetCurrencyInformation');
-const store = {
-    data: initialDataMock,
-};
-jest.mock('react-redux', () => ({
-    useSelector: jest.fn().mockImplementation(func => func(store)),
-}));
 const getClassesListSummaryMock = mocked(getClassesListSummary, true);
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 
