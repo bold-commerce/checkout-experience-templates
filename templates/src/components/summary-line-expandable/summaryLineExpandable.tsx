@@ -2,7 +2,7 @@ import React from 'react';
 import {Price} from '@boldcommerce/stacks-ui';
 import {ISummaryLineExpandable} from 'src/types';
 import {SummaryLineExpanded} from 'src/components';
-import {useSummaryLineExpandable} from 'src/hooks';
+import {useAppSelector, useSummaryLineExpandable} from 'src/hooks';
 import {Constants, PLUGIN_BACKEND_DISCOUNT_SOURCE} from 'src/constants';
 
 export function SummaryLineExpandable(props: ISummaryLineExpandable): React.ReactElement {
@@ -10,11 +10,15 @@ export function SummaryLineExpandable(props: ISummaryLineExpandable): React.Reac
     const lowerCleanEventName = props.eventToggleName.replace('_TOGGLE', '').toLowerCase();
 
     const hasChildLines = props.content && Array.isArray(props.content) && props.content.length > 0;
+    const displayExchangeRate: number = useAppSelector((state) => state.data.application_state?.display_exchange_rate);
 
     const childLineDetails = hasChildLines && props.content.map((item, index) => {
         let itemAmount = item[fieldNames.amount];
         if(props.eventToggleName === Constants.PAYMENTS_TOGGLE) { // TODO: Remove condition after FF CE-539-Add-PaymentLine-Model is Enabled by default
             itemAmount = item[fieldNames.amount] && item['value'] ? item['value'] : item[fieldNames.amount];
+        }
+        if (displayExchangeRate) {
+            itemAmount *= displayExchangeRate;
         }
         const key = `summary-line-expanded-${props.eventToggleName}-${index}`;
         const displayDeleteButton = 'source' in item ? item.source !== PLUGIN_BACKEND_DISCOUNT_SOURCE && props.hasDeleteButton : props.hasDeleteButton;
@@ -43,7 +47,7 @@ export function SummaryLineExpandable(props: ISummaryLineExpandable): React.Reac
                 {!expand && <Price
                     className={classes.list.price}
                     moneyFormatString={formattedPrice}
-                    amount={props.total}
+                    amount={displayExchangeRate ? displayExchangeRate * props.total : props.total}
                     textAlign={'right'}
                     data-testid={`summary-line__${lowerCleanEventName}-price`}
                 />}
