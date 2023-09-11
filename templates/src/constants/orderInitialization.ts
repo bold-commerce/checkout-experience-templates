@@ -123,6 +123,8 @@ export const defaultOrderInitialization: IOrderInitialization = {
                 has_decimal: true,
                 show_iso_code: true
             },
+            display_currency: null,
+            display_exchange_rate: null,
             fees: [],
             resumable_link: '',
             created_via: '',

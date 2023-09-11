@@ -10,6 +10,8 @@ export const linkToCartReducer = (state = application_state.link_to_cart): strin
 
 export const createdViaReducer = (state = application_state.created_via): string => state;
 
+export const displayExchangeRateReducer = (state = application_state.display_exchange_rate): number | null => state;
+
 export function isProcessedReducer(state = application_state.is_processed, action: AnyAction ): boolean {
     switch (action.type) {
         case UPDATE_ORDER_PROCESSED: {

@@ -10,8 +10,12 @@ import {
 import {ExpandableDiscount} from 'src/components';
 import {ISummaryDiscountLine} from 'src/types';
 import {getTerm} from 'src/utils';
+import {initialDataMock} from 'src/mocks';
 
 const mockDispatch = jest.fn();
+const store = {
+    data: initialDataMock,
+};
 
 jest.mock('src/hooks/useExpandableDiscount');
 jest.mock('src/hooks/useSummaryDiscountLine');
@@ -26,7 +30,8 @@ const useSummaryDiscountLineMock = mocked(useSummaryDiscountLine, true);
 const useSummaryDiscountCodeMock = mocked(useSummaryDiscountCode, true);
 const useGetFlashErrorsMock = mocked(useGetFlashErrors, true);
 jest.mock('react-redux', () => ({
-    useDispatch: () => mockDispatch
+    useDispatch: () => mockDispatch,
+    useSelector: jest.fn().mockImplementation(func => func(store)),
 }));
 
 describe('Testing ExpandableDiscount Component', () => {

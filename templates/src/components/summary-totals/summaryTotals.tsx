@@ -11,7 +11,7 @@ import {
     useGetTaxes,
     useGetFees,
     useGetOrderTotal,
-    useGetRequiresShipping
+    useGetRequiresShipping, useAppSelector
 } from 'src/hooks';
 import {ISummaryTotals} from 'src/types';
 

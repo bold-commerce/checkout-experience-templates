@@ -527,7 +527,6 @@ export const initialDataMock: IInitializeOrderResponse = {
         'external_payment_gateways': [{
             'is_test': true,
             'iframe_url': 'testURL',
-            'target_div': 'payment',
             'base_url': 'testURL',
             'public_id': 'publicID',
             'location': 'payment_method_below',
@@ -535,7 +534,6 @@ export const initialDataMock: IInitializeOrderResponse = {
         }, {
             'is_test': true,
             'iframe_url': 'testURL',
-            'target_div': 'payment',
             'base_url': 'testURL',
             'public_id': 'publicID',
             'location': 'customer_info_above',
@@ -703,6 +701,15 @@ export const initialDataMock: IInitializeOrderResponse = {
             'has_decimal': true,
             'show_iso_code': true
         },
+        'display_currency': {
+            'iso_code': 'CAD',
+            'iso_numeric_code': 124,
+            'symbol': '$',
+            'format': '${{amount}}',
+            'has_decimal': true,
+            'show_iso_code': true
+        },
+        'display_exchange_rate': 1,
         link_to_cart: '',
     },
     'jwt_token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfb3JkZXJfaWQiOiJhRnpSV21JUXUxeWNSY1hLZHRoYXNYUGU1TEdZQ201b1IzRzhqNmNQRWgya1VJTE0ydUEyejdPaFJrZzI4YVduIiwiZXhwIjoxNjI3MzExMTM1fQ.6YwERIdKKv1YO19PauBbKnoupfLjtpLiMEt4i_YG5Ao',
