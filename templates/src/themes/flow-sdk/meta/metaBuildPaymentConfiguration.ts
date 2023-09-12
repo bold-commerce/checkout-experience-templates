@@ -13,7 +13,7 @@ export const metaBuildPaymentConfiguration = (): IMetaPaymentConfiguration => {
         partnerMerchantId,
         acquirerCountryCode: 'US',
         supportedContainers: {
-            'basic-card-v1': {'require-cvv': true},
+            'basic-card-v1': {requireCVV: true},
             'ecom-token-v1': {},
         },
         containerContext: getPublicOrderId(),

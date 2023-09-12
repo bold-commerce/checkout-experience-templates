@@ -16,7 +16,7 @@ export type IMetaFlowSettings = IFlow & IMetaConfig;
 export type IMetaPaymentMode = 'TEST' | 'LIVE';
 
 export interface IMetaSupportedContainersProperties {
-    'require-cvv': boolean
+    requireCVV: boolean
 }
 
 export interface IMetaPaymentConfiguration {
