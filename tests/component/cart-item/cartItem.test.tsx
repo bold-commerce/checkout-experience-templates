@@ -1,8 +1,8 @@
 import {initialDataMock, stateMock} from 'src/mocks';
 import {fireEvent, render} from '@testing-library/react';
 import {CartItem, SemiControlledNumberInput} from 'src/components';
-import { mocked } from 'jest-mock';
-import { getLineItemPropertiesForDisplay } from 'src/utils';
+import {mocked} from 'jest-mock';
+import {getLineItemPropertiesForDisplay} from 'src/utils';
 import {useGetCurrencyInformation} from 'src/hooks';
 import {ILineItem} from '@boldcommerce/checkout-frontend-library';
 
@@ -17,9 +17,9 @@ jest.mock('src/hooks/useGetCurrencyInformation');
 const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 jest.mock('src/components/semi-controlled-number-input/semiControlledNumberInput');
 jest.mock('src/utils', () => ({
-    ... jest.requireActual('src/utils'),
+    ...jest.requireActual('src/utils'),
     getLineItemPropertiesForDisplay: jest.fn()
-}))
+}));
 
 const SemiControlledNumberInputMock = mocked(SemiControlledNumberInput);
 const getLineItemPropertiesForDisplayMock = mocked(getLineItemPropertiesForDisplay, true);
@@ -28,7 +28,11 @@ describe('Testing CartItem component', () => {
     beforeEach(() => {
         jest.useFakeTimers();
         getLineItemPropertiesForDisplayMock.mockReturnValueOnce(['properties: value']);
-        useGetCurrencyInformationMock.mockReturnValue({formattedPrice: '${{amount}}', currency: 'CAD', currencySymbol: '$'})
+        useGetCurrencyInformationMock.mockReturnValue({
+            formattedPrice: '${{amount}}',
+            currency: 'CAD',
+            currencySymbol: '$'
+        });
     });
 
     afterEach(() => {
@@ -51,34 +55,34 @@ describe('Testing CartItem component', () => {
             title: 'Variant Title',
             properties: {'property': 'value'}
         }
-    }
+    };
     const lineItemWithProperties: ILineItem = {
         ...lineItem,
         product_data: {
             ...lineItem.product_data,
             properties: {'property': 'value'}
         }
-    }
+    };
 
     const dataArray = [
         {
             name: 'rendering the cart item component without variant',
-            props: { line_item: lineItem, showLineItemProperties: false  },
-            counters: { variant_title: 0, properties: 0 }
+            props: {line_item: lineItem, showLineItemProperties: false},
+            counters: {variant_title: 0, properties: 0}
         }, {
             name: 'rendering the cart item component with a variant',
-            props: { line_item: lineItemVariant, showLineItemProperties: false  },
-            counters: { variant_title: 1, properties: 0 }
+            props: {line_item: lineItemVariant, showLineItemProperties: false},
+            counters: {variant_title: 1, properties: 0}
         }, {
             name: 'rendering the cart item component with line item properties',
-            props: { line_item: lineItemWithProperties, showLineItemProperties: true },
-            counters: { variant_title: 0, properties: 1 }
+            props: {line_item: lineItemWithProperties, showLineItemProperties: true},
+            counters: {variant_title: 0, properties: 1}
         }, {
             name: 'rendering the cart item component with a variant and line item properties',
-            props: { line_item: lineItemWithVariantAndProperties, showLineItemProperties: true },
-            counters: { variant_title: 1, properties: 1 }
+            props: {line_item: lineItemWithVariantAndProperties, showLineItemProperties: true},
+            counters: {variant_title: 1, properties: 1}
         }
-    ]
+    ];
 
     test.each(dataArray)('$name', ({counters, props}) => {
         const {container} = render(<CartItem {...props}/>);
@@ -96,8 +100,8 @@ describe('Testing CartItem component', () => {
     });
 
     test('rendering the cart item with quantity selector', () => {
-        SemiControlledNumberInputMock.mockImplementation(() => <div data-testid="test-input" />);
-        const { container, getByTestId } = render(<CartItem line_item={lineItem} onUpdateQuantity={jest.fn()} />);
+        SemiControlledNumberInputMock.mockImplementation(() => <div data-testid="test-input"/>);
+        const {container, getByTestId} = render(<CartItem line_item={lineItem} onUpdateQuantity={jest.fn()}/>);
 
         expect(container.getElementsByClassName('cart-item__quantity-controls').length).toBe(1);
         expect(getByTestId('test-input')).toBeTruthy();
@@ -107,7 +111,7 @@ describe('Testing CartItem component', () => {
         let onCommit: (qty: number) => void = jest.fn();
         SemiControlledNumberInputMock.mockImplementation((props) => {
             onCommit = props.onCommit;
-            return <div data-testid="test-input" />;
+            return <div data-testid="test-input"/>;
         });
         getLineItemPropertiesForDisplayMock.mockReturnValue([]);
         const onUpdateQuantity = jest.fn();
@@ -119,9 +123,9 @@ describe('Testing CartItem component', () => {
             }
         };
 
-        const { container } = render(<CartItem line_item={_lineItem} onUpdateQuantity={onUpdateQuantity} />);
-        const [ incrementButton ] = container.getElementsByClassName('cart-item__quantity-increase');
-        const [ decrementButton ] = container.getElementsByClassName('cart-item__quantity-decrease');
+        const {container} = render(<CartItem line_item={_lineItem} onUpdateQuantity={onUpdateQuantity}/>);
+        const [incrementButton] = container.getElementsByClassName('cart-item__quantity-increase');
+        const [decrementButton] = container.getElementsByClassName('cart-item__quantity-decrease');
         expect(incrementButton).toBeTruthy();
         expect(decrementButton).toBeTruthy();
 

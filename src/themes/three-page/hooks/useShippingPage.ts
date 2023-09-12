@@ -6,7 +6,7 @@ import {
     useGetButtonDisableVariable,
     useGetIsLoading,
     useGetIsOrderProcessed,
-    useGetRequiredLifeFields
+    useGetLifeFieldsOnPage
 } from 'src/hooks';
 import {callShippingLinesPageApi, validateLifeFields} from 'src/library';
 import {IUseCustomerPageProp} from 'src/types';
@@ -37,7 +37,7 @@ export function useShippingPage(): IUseCustomerPageProp{
     const nextButtonText = getTerm('footer_shipping_continue', Constants.SHIPPING_METHOD_INFO);
     const active = 2;
 
-    const requiredLifeFields = useGetRequiredLifeFields(LifeInputPageConstants.SHIPPING_THREE_PAGE);
+    const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.SHIPPING_THREE_PAGE);
     const nextButtonOnClick = useCallback(() => {
         sendEvents('Clicked continue to payment button', {'category': 'Checkout'});
         dispatch(actionClearErrors());

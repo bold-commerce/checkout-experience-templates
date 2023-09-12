@@ -1,15 +1,14 @@
 import {IMetaPaymentOptions} from 'src/themes/flow-sdk/types';
 import {getOrderInitialData} from '@boldcommerce/checkout-frontend-library';
 
-export function metaBuildPaymentOptions(): IMetaPaymentOptions {
-    const {general_settings: {checkout_process: {phone_number_required: phoneNumberRequired}}} = getOrderInitialData();
+export const metaBuildPaymentOptions = (): IMetaPaymentOptions => {
     return {
-        allowOfferCodes: false,
+        allowOfferCodes: true,
         requestBillingAddress: true,
         requestPayerEmail: true,
-        requestPayerPhone: phoneNumberRequired,
+        requestPayerPhone: getOrderInitialData().general_settings.checkout_process.phone_number_required,
         requestShipping: true,
         billingAddressMode: 'FULL',
         fulfillmentType: 'SHIPPING'
     };
-}
+};

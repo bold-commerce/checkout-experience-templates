@@ -2,7 +2,7 @@ import {
     IMetaFlowSettings,
     IMetaPaymentAuthorizationResult,
     IMetaPaymentResponse,
-    IProcessOrderResponse
+    IProcessOrderResponse,
 } from 'src/themes/flow-sdk/types';
 import {logger} from 'src/themes/flow-sdk/logger';
 import {
@@ -14,51 +14,28 @@ import {
     META_AUTHORIZATION_SUCCESS,
 } from 'src/themes/flow-sdk/constants';
 import {
-    callBillingAddressEndpoint,
-    callGuestCustomerEndpoint,
-    callShippingAddressEndpoint,
-    getFirstAndLastName, getTotals
+    getFirstAndLastName,
+    getTotals
 } from '@boldcommerce/checkout-express-pay-library';
 import {formatCheckoutAddressFromMeta} from 'src/themes/flow-sdk/meta/formatCheckoutAddressFromMeta';
 import {
     addPayment,
+    apiTypeKeys,
+    apiTypes,
+    batchRequest,
     getCurrency,
     IAddPaymentRequest,
+    IApiBatchResponse,
     IApiSuccessResponse,
+    IBatchableRequest,
     processOrder,
-    setTaxes
 } from '@boldcommerce/checkout-frontend-library';
 import {API_RETRY} from 'src/constants';
 import {checkoutFlow} from 'src/themes/flow-sdk/flowState';
+import {buildCustomerBatchRequest} from 'src/themes/flow-sdk/batch/buildCustomerBatchRequest';
+import {buildAddressBatchRequest} from 'src/themes/flow-sdk/batch/buildAddressBatchRequest';
 
-export async function metaOnPaymentConsent(response: IMetaPaymentResponse): Promise<IMetaPaymentAuthorizationResult> {
-    //Update Order Customer
-    const {firstName, lastName} = getFirstAndLastName(response.billingAddress?.recipient || response.shippingAddress?.recipient);
-    const customerResult = await callGuestCustomerEndpoint(firstName, lastName, response.payerEmail || '');
-    if (!customerResult.success) {
-        return Promise.reject(META_AUTHORIZATION_OTHER_ERROR); //TODO Return Specific Authorization Error for customer data
-    }
-
-    //Update Order Shipping
-    const formattedShippingAddress = formatCheckoutAddressFromMeta(response.shippingAddress, false);
-    const shippingAddressResponse = await callShippingAddressEndpoint(formattedShippingAddress, false);
-    if (!shippingAddressResponse.success) {
-        return Promise.reject(META_AUTHORIZATION_SHIPPING_ERROR);
-    }
-
-    // Update Order Billing
-    const formattedBillingAddress = formatCheckoutAddressFromMeta(response.billingAddress, false);
-    const billingAddressResponse = await callBillingAddressEndpoint(formattedBillingAddress, false);
-    if (!billingAddressResponse.success) {
-        return Promise.reject(META_AUTHORIZATION_BILLING_ERROR);
-    }
-
-    // Update Order Taxes
-    const taxesResponse = await setTaxes(API_RETRY);
-    if (!taxesResponse.success) {
-        return Promise.reject(META_AUTHORIZATION_OTHER_ERROR); //TODO Return Specific Authorization Error for calculating taxes data
-    }
-
+export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Promise<IMetaPaymentAuthorizationResult> => {
     // Tokenize containerData
     const {public_gateway_id: publicGatewayId} = checkoutFlow.flow_settings as IMetaFlowSettings;
     const tokenizeUrl = `${checkoutFlow.params.boldSecureUrl}/tokenize`;
@@ -70,16 +47,63 @@ export async function metaOnPaymentConsent(response: IMetaPaymentResponse): Prom
             service: 'meta-sdk',
             version: 1,
             payment_gateway_id: publicGatewayId,
-            payload: response.container.containerData, //TODO use this
+            payload: response.container.containerData,
         })
     };
-    const tokenizeResponse = await fetch(tokenizeUrl, options);
-    if (tokenizeResponse.status < 200 || tokenizeResponse.status >= 300) {
+    const tokenizePromise = fetch(tokenizeUrl, options);
+
+    const {firstName, lastName} = getFirstAndLastName(response.billingAddress?.recipient || response.shippingAddress?.recipient);
+    const formattedShippingAddress = formatCheckoutAddressFromMeta(response.shippingAddress, false);
+    const formattedBillingAddress = formatCheckoutAddressFromMeta(response.billingAddress, false);
+
+    // Build Batch Requests
+    const requests: Array<IBatchableRequest> = [];
+
+    const customerRequest = buildCustomerBatchRequest(firstName, lastName, response.payerEmail || '');
+    const shippingAddressRequest = buildAddressBatchRequest(formattedShippingAddress, 'shipping');
+    const billingAddressRequest = buildAddressBatchRequest(formattedBillingAddress, 'billing');
+
+    customerRequest && requests.push(customerRequest);
+    shippingAddressRequest && requests.push(shippingAddressRequest);
+    billingAddressRequest && requests.push(billingAddressRequest);
+    requests.push({apiType: apiTypeKeys.setTaxes, payload: {}});
+
+    const batchResponse = await batchRequest(requests, API_RETRY);
+    const batchInnerResponse = batchResponse.response as IApiBatchResponse;
+
+    if (!batchResponse.success) {
+        if (batchInnerResponse && Array.isArray(batchInnerResponse.data)) {
+            for (const subResponse of batchInnerResponse.data) {
+                if (subResponse.status_code < 200 || subResponse.status_code > 299) {
+                    switch (subResponse.endpoint) {
+                        case apiTypes.addGuestCustomer.path:
+                        case apiTypes.updateCustomer.path:
+                            return Promise.reject(META_AUTHORIZATION_OTHER_ERROR);
+                        case apiTypes.setShippingAddress.path:
+                        case apiTypes.updateShippingAddress.path:
+                            return Promise.reject(META_AUTHORIZATION_SHIPPING_ERROR);
+                        case apiTypes.setBillingAddress.path:
+                        case apiTypes.updateBillingAddress.path:
+                            return Promise.reject(META_AUTHORIZATION_BILLING_ERROR);
+                        case apiTypes.setTaxes.path:
+                            return Promise.reject(META_AUTHORIZATION_OTHER_ERROR);
+                        default:
+                            return Promise.reject(META_AUTHORIZATION_OTHER_ERROR);
+                    }
+                }
+            }
+        }
+
+        return Promise.reject(META_AUTHORIZATION_OTHER_ERROR);
+    }
+
+    const tokenizeResponse = await tokenizePromise;
+    if (tokenizeResponse.status < 200 || tokenizeResponse.status > 299) {
         return Promise.reject(META_AUTHORIZATION_PAYMENT_ERROR);
     }
 
-    // Add Order Payment
     const tokenizeJson = await tokenizeResponse.json();
+
     const {iso_code: currencyCode} = getCurrency();
     const {totalAmountDue} = getTotals();
     const payment: IAddPaymentRequest = {
@@ -92,15 +116,14 @@ export async function metaOnPaymentConsent(response: IMetaPaymentResponse): Prom
         }
     } as IAddPaymentRequest;
 
-    const paymentResult = await addPayment(payment, API_RETRY);
-    if (!paymentResult.success) {
+    const paymentResponse = await addPayment(payment, API_RETRY);
+    if (!paymentResponse.success) {
         return Promise.reject(META_AUTHORIZATION_PAYMENT_ERROR);
     }
 
-    // Process Order (Authorize Payment)
     const processOrderResponse = await processOrder(API_RETRY);
     if (!processOrderResponse.success) {
-        return Promise.reject(META_AUTHORIZATION_ERROR); //TODO Return Specific Authorization Error for Processing Order
+        return Promise.reject(META_AUTHORIZATION_ERROR);
     }
 
     const processOrderInnerResponse = processOrderResponse.response as IApiSuccessResponse;
@@ -113,6 +136,6 @@ export async function metaOnPaymentConsent(response: IMetaPaymentResponse): Prom
         return Promise.reject(META_AUTHORIZATION_ERROR);
     }
 
-    logger(`AuthorizationResult: ${JSON.stringify(META_AUTHORIZATION_SUCCESS, undefined, 4)}`, 'info');
+    logger({AuthorizationResult: META_AUTHORIZATION_SUCCESS}, 'info');
     return META_AUTHORIZATION_SUCCESS;
-}
+};

@@ -300,6 +300,7 @@ export interface IGenericMessageSectionProps {
     sectionTitle?: string;
     messageTitle: string;
     messageText: string;
+    orderConfirmation?: boolean;
 }
 
 export interface IUseGuestCustomer {
@@ -632,6 +633,16 @@ export interface ILifeFieldCheckbox {
     label: string;
     helpText: string;
     id: string;
+    handleChange: (e) => void;
+}
+
+export interface ILifeFieldSelect {
+    inputValue: string;
+    label: string;
+    placeholder: string;
+    options: Array<ISelectList>;
+    id: string;
+    errorMessage?: string | null;
     handleChange: (e) => void;
 }
 

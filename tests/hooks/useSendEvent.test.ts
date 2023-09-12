@@ -1,3 +1,4 @@
+import fetchMock from "jest-fetch-mock";
 import {renderHook} from '@testing-library/react-hooks';
 import {mocked} from 'jest-mock';
 import {IEventType, IFrontEndEvent} from 'src/types';
@@ -7,7 +8,6 @@ import MockDate from 'mockdate';
 jest.mock('src/hooks/useGetTimestamp');
 const useGetTimestampMock = mocked(useGetTimestamp, true);
 
-global.fetch = jest.fn();
 
 describe('Testing hook useSendEvent', () => {
     const expectedURI = 'https://some.url/experience/event';
@@ -47,6 +47,10 @@ describe('Testing hook useSendEvent', () => {
             } as IEventType,
         }
     ];
+
+    beforeAll(() => {
+        fetchMock.enableMocks();
+    });
 
     beforeEach(() => {
         jest.clearAllMocks();

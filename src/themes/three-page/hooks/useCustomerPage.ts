@@ -1,6 +1,16 @@
 import {useCallback, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {useGetAppSettingData, useGetButtonDisableVariable, useGetCurrencyInformation, useGetIsLoading, useGetIsOrderProcessed, useGetLineItems, useGetOrderTotal, useGetRequiredLifeFields} from 'src/hooks';
+import {
+    useGetAppSettingData,
+    useGetButtonDisableVariable,
+    useGetCurrencyInformation,
+    useGetIsLoading,
+    useGetIsOrderProcessed,
+    useGetLineItems,
+    useGetOrderTotal,
+    useGetLifeFieldsOnPage,
+    useGetRequiresShipping
+} from 'src/hooks';
 import {callCustomerPageApi, initializeExpressPay, validateLifeFields} from 'src/library';
 import {useHistory} from 'react-router';
 import {Constants, LifeInputPageConstants} from 'src/constants';
@@ -26,9 +36,10 @@ export function useCustomerPage(): IUseCustomerPageProp {
         event.preventDefault();
         window.location.href = link;
     } , [window.returnUrl]);
-    const nextButtonText = getTerm('cont_to_shipping', Constants.SHIPPING_INFO);
+    const requiresShipping = useGetRequiresShipping();
+    const nextButtonText = requiresShipping ? getTerm('cont_to_shipping', Constants.SHIPPING_INFO) : getTerm('footer_shipping_continue', Constants.SHIPPING_METHOD_INFO);
     const active = 1;
-    const requiredLifeFields = useGetRequiredLifeFields(LifeInputPageConstants.CUSTOMER_THREE_PAGE);
+    const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.CUSTOMER_THREE_PAGE);
     const nextButtonOnClick = useCallback(() => {
         sendEvents('Clicked continue to shipping lines button', {'category': 'Checkout'});
 

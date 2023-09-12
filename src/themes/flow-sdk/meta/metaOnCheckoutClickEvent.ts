@@ -1,9 +1,8 @@
-import {IMetaPaymentClient, IMetaPaymentRequest,} from 'src/themes/flow-sdk/types';
 import {getMetaPaymentClient, metaBuildPaymentRequest, metaOnResponse} from 'src/themes/flow-sdk/meta';
 
-export async function metaOnCheckoutClickEvent(): Promise<void> {
-    const paymentClient: IMetaPaymentClient = getMetaPaymentClient();
-    const paymentRequest: IMetaPaymentRequest = metaBuildPaymentRequest();
+export const metaOnCheckoutClickEvent = async (): Promise<void> => {
+    const paymentClient = getMetaPaymentClient();
+    const paymentRequest = metaBuildPaymentRequest();
 
     await metaOnResponse(paymentClient.getPaymentResponse(paymentRequest));
-}
+};

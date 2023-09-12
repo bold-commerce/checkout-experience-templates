@@ -177,6 +177,7 @@ export class LifeInputTypeConstants {
     static TEXTAREA = 'textarea';
     static HTML = 'html';
     static CHECKBOX = 'checkbox';
+    static DROPDOWN = 'dropdown';
 }
 
 export class LifeInputLocationConstants {
@@ -187,6 +188,12 @@ export class LifeInputLocationConstants {
     static BELOW_ACTIONS = 'below_actions';
     static SUMMARY_ABOVE_HEADER = 'summary_above_header';
     static PAYMENT_GATEWAY = 'payment_gateway';
+    static THANK_YOU_MESSAGE = 'thank_you_message';
+    static ORDER_CONFIRMATION = 'order_confirmation';
+    static ORDER_DETAILS = 'order_details';
+    static MAIN_CONTENT_BEGINNING = 'main_content_beginning';
+    static MAIN_CONTENT_END = 'main_content_end';
+    static PAYMENT_METHOD_ABOVE = 'payment_method_above';
 }
 
 export class LifeInputPageConstants {

@@ -527,7 +527,6 @@ export const initialDataMock: IInitializeOrderResponse = {
         'external_payment_gateways': [{
             'is_test': true,
             'iframe_url': 'testURL',
-            'target_div': 'payment',
             'base_url': 'testURL',
             'public_id': 'publicID',
             'location': 'payment_method_below',
@@ -535,24 +534,38 @@ export const initialDataMock: IInitializeOrderResponse = {
         }, {
             'is_test': true,
             'iframe_url': 'testURL',
-            'target_div': 'payment',
             'base_url': 'testURL',
             'public_id': 'publicID',
             'location': 'customer_info_above',
             'currency': 'USD'
         }],
-        'life_elements': [{
-            'location':'customer_info',
-            'public_id':'1234567',
-            'input_type':'text_field',
-            'input_default':'input default',
-            'input_placeholder':'input placeholder',
-            'input_label':'input label',
-            'input_required': true,
-            'meta_data_field':'meta data',
-            'order_asc':0
-        }],
-        'flow_settings': {}
+        'life_elements': [
+            {
+                'location':'customer_info',
+                'public_id':'1234567',
+                'input_type':'text_field',
+                'input_default':'input default',
+                'input_placeholder':'input placeholder',
+                'input_label':'input label',
+                'input_required': true,
+                'input_regex': null,
+                'meta_data_field':'meta_data_1',
+                'order_asc':0
+            },
+            {
+                'location':'shipping_lines',
+                'public_id':'1234568',
+                'input_type':'text_field',
+                'input_default':'input default',
+                'input_placeholder':'input placeholder',
+                'input_label':'input label',
+                'input_required': true,
+                'input_regex': null,
+                'meta_data_field':'meta_data_2',
+                'order_asc':1
+            }],
+        'flow_settings': {},
+        'requires_shipping': true,
     },
     'application_state': {
         'customer': {
@@ -688,6 +701,15 @@ export const initialDataMock: IInitializeOrderResponse = {
             'has_decimal': true,
             'show_iso_code': true
         },
+        'display_currency': {
+            'iso_code': 'CAD',
+            'iso_numeric_code': 124,
+            'symbol': '$',
+            'format': '${{amount}}',
+            'has_decimal': true,
+            'show_iso_code': true
+        },
+        'display_exchange_rate': 1,
         link_to_cart: '',
     },
     'jwt_token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfb3JkZXJfaWQiOiJhRnpSV21JUXUxeWNSY1hLZHRoYXNYUGU1TEdZQ201b1IzRzhqNmNQRWgya1VJTE0ydUEyejdPaFJrZzI4YVduIiwiZXhwIjoxNjI3MzExMTM1fQ.6YwERIdKKv1YO19PauBbKnoupfLjtpLiMEt4i_YG5Ao',

@@ -1,16 +1,17 @@
 import ClassNames from 'classnames';
 import React, {useEffect} from 'react';
 
-import {Header, HeaderHelmet, ScreenReaderAnnouncement, SummarySection, ThankYou} from 'src/components';
+import {Header, HeaderHelmet, LifeFields, ScreenReaderAnnouncement, SummarySection, ThankYou} from 'src/components';
 import {
     useGetBillingData,
     useGetCustomerInfoData,
+    useGetLifeFields,
     useGetShippingData,
     useGetValidVariable,
 } from 'src/hooks';
 import {getTerm, isObjectEmpty} from 'src/utils';
 import {sendEvents, sendPageView} from 'src/analytics';
-import {Constants} from 'src/constants';
+import {Constants, LifeInputLocationConstants} from 'src/constants';
 
 export function ThankYouPage(): React.ReactElement {
     const customerInformation = useGetCustomerInfoData();
@@ -19,6 +20,8 @@ export function ThankYouPage(): React.ReactElement {
     const billingAddress = useGetBillingData();
     const orderProcessed = useGetValidVariable('orderProcessed');
     const title = getTerm('thank_you_title', Constants.GLOBAL_INFO, undefined , 'Order confirmation');
+    const mainContentBeginningLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_BEGINNING);
+    const mainContentEndLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_END);
 
     const isGeneric = !orderProcessed || (!firstName && isObjectEmpty(shippingAddress) && isObjectEmpty(billingAddress));
     useEffect(() => {
@@ -26,8 +29,8 @@ export function ThankYouPage(): React.ReactElement {
         sendEvents('Landed on thank you page', {'category': 'Checkout'});
     }, []);
 
-    const getClasses = ((classes?: Array<string> | string): string => {
-        return ClassNames(['three-page'].concat(classes ?? []));
+    const getClasses = ((baseClassName: string, classes?: Array<string> | string): string => {
+        return ClassNames([baseClassName].concat(classes ?? []));
     });
 
     return (
@@ -35,11 +38,23 @@ export function ThankYouPage(): React.ReactElement {
             <HeaderHelmet title={title}/>
             <ScreenReaderAnnouncement content={title} />
             <div className={'checkout-experience-container'}>
-                <div className={isGeneric ? getClasses('no-summary') : getClasses()}>
+                {mainContentBeginningLifeFields.length > 0 ?
+                    <div className={'outside-main-content-container'}>
+                        <div className={isGeneric ? getClasses('outside-main-content','no-summary') : getClasses('outside-main-content')}>
+                            <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                        </div>
+                    </div> : null}
+                <div className={isGeneric ? getClasses('three-page','no-summary') : getClasses('three-page')}>
                     <Header isMobile={true} />
                     <ThankYou/>
                     { isGeneric ? null : <SummarySection orderCompleted={true}/>}
                 </div>
+                {mainContentEndLifeFields.length > 0 ?
+                    <div className={'outside-main-content-container'}>
+                        <div className={isGeneric ? getClasses('outside-main-content','no-summary') : getClasses('outside-main-content')}>
+                            <LifeFields lifeFields={mainContentEndLifeFields}/>
+                        </div>
+                    </div> : null}
             </div>
         </>
     );

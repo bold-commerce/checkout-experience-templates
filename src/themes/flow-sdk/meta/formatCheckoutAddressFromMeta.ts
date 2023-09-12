@@ -1,29 +1,34 @@
 import {IAddress} from '@boldcommerce/checkout-frontend-library';
 import {IMetaPaymentAddress} from 'src/themes/flow-sdk/types';
 import {getCountryName, getFirstAndLastName, getProvinceDetails} from '@boldcommerce/checkout-express-pay-library';
+import {MetaAddressPlaceholders} from 'src/themes/flow-sdk/constants';
+import {placeHolderTransformer} from 'src/themes/flow-sdk/lib/placeholder';
+import {getFirstAddressLine, getSecondAddressLine} from 'src/themes/flow-sdk/lib/address';
 
-export function formatCheckoutAddressFromMeta(address: IMetaPaymentAddress | undefined, usePlaceHolderData = false): IAddress {
-    const {addressLine, city, region: state, country, recipient, phone, organization, postalCode} = address ?? {};
-    const {firstName, lastName} = getFirstAndLastName(recipient);
-    const countryIso = country || '';
-    const region = state || '';
-    const {code: provinceCode, name: provinceName} = getProvinceDetails(countryIso, region);
-    const countryName = getCountryName(countryIso);
-    const address1 = Array.isArray(addressLine) && addressLine.length > 0 ? addressLine[0] : '';
-    const address2 = Array.isArray(addressLine) && addressLine.length > 0 ? addressLine[1] : '';
-
+export const formatCheckoutAddressFromMeta = (address: IMetaPaymentAddress | undefined, usePlaceHolderData = false): IAddress => {
     return {
-        'first_name': firstName.trim() ? firstName : (usePlaceHolderData ? 'firstname' : ''),
-        'last_name': lastName.trim() ? lastName : (usePlaceHolderData ? 'lastname' : ''),
-        'address_line_1': address1.trim() ? address1 : (usePlaceHolderData ? 'addressLine1' : ''),
-        'address_line_2': address2,
-        'country': countryName,
-        'city': city ?? '',
-        'province':provinceName,
-        'country_code': countryIso,
-        'province_code': provinceCode,
-        'postal_code': postalCode || '',
-        'business_name': organization || '',
-        'phone_number': phone?.trim() ? phone : (usePlaceHolderData ? '0000000000' : ''),
+        first_name: placeHolderTransformer(
+            getFirstAndLastName(address?.recipient).firstName.trim(),
+            MetaAddressPlaceholders.first_name,
+            usePlaceHolderData
+        ),
+        last_name: placeHolderTransformer(
+            getFirstAndLastName(address?.recipient).lastName.trim(),
+            MetaAddressPlaceholders.last_name,
+            usePlaceHolderData),
+        address_line_1: placeHolderTransformer(
+            getFirstAddressLine(address),
+            MetaAddressPlaceholders.address_line_1,
+            usePlaceHolderData,
+        ),
+        address_line_2: getSecondAddressLine(address),
+        country: getCountryName(address?.country || ''),
+        city: address?.city || '',
+        province: getProvinceDetails(address?.country || '', address?.region || '').name,
+        country_code: address?.country || '',
+        province_code: getProvinceDetails(address?.country || '', address?.region || '').code,
+        postal_code: address?.postalCode || '',
+        business_name: address?.organization || '',
+        phone_number: placeHolderTransformer(address?.phone?.trim(), MetaAddressPlaceholders.phone_number, usePlaceHolderData),
     };
-}
+};

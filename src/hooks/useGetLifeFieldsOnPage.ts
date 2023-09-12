@@ -1,8 +1,8 @@
-import {useGetRequiredLifeFieldsByLocations} from 'src/hooks';
+import {useLifeFieldsByLocations} from 'src/hooks';
 import {LifeInputLocationConstants, LifeInputPageConstants, LifeInputTypeConstants} from 'src/constants';
 import {ILifeField} from '@boldcommerce/checkout-frontend-library';
 
-export function useGetRequiredLifeFields(page: string): Array<ILifeField> {
+export function useGetLifeFieldsOnPage(page: string): Array<ILifeField> {
 
     const requiredLifeFieldLocations = [
         {
@@ -13,6 +13,8 @@ export function useGetRequiredLifeFields(page: string): Array<ILifeField> {
                 LifeInputLocationConstants.BILLING_ADDRESS_AFTER,
                 LifeInputLocationConstants.BELOW_ACTIONS,
                 LifeInputLocationConstants.SUMMARY_ABOVE_HEADER,
+                LifeInputLocationConstants.MAIN_CONTENT_BEGINNING,
+                LifeInputLocationConstants.MAIN_CONTENT_END,
             ],
         },
         {
@@ -21,14 +23,19 @@ export function useGetRequiredLifeFields(page: string): Array<ILifeField> {
                 LifeInputLocationConstants.SHIPPING_LINES,
                 LifeInputLocationConstants.BELOW_ACTIONS,
                 LifeInputLocationConstants.SUMMARY_ABOVE_HEADER,
+                LifeInputLocationConstants.MAIN_CONTENT_BEGINNING,
+                LifeInputLocationConstants.MAIN_CONTENT_END,
             ],
         },
         {
             page: LifeInputPageConstants.PAYMENT_THREE_PAGE,
             locations: [
+                LifeInputLocationConstants.PAYMENT_METHOD_ABOVE,
                 LifeInputLocationConstants.PAYMENT_GATEWAY,
                 LifeInputLocationConstants.BELOW_ACTIONS,
                 LifeInputLocationConstants.SUMMARY_ABOVE_HEADER,
+                LifeInputLocationConstants.MAIN_CONTENT_BEGINNING,
+                LifeInputLocationConstants.MAIN_CONTENT_END,
             ],
         },
         {
@@ -38,14 +45,17 @@ export function useGetRequiredLifeFields(page: string): Array<ILifeField> {
                 LifeInputLocationConstants.SHIPPING,
                 LifeInputLocationConstants.BILLING_ADDRESS_AFTER,
                 LifeInputLocationConstants.SHIPPING_LINES,
+                LifeInputLocationConstants.PAYMENT_METHOD_ABOVE,
                 LifeInputLocationConstants.PAYMENT_GATEWAY,
                 LifeInputLocationConstants.BELOW_ACTIONS,
                 LifeInputLocationConstants.SUMMARY_ABOVE_HEADER,
+                LifeInputLocationConstants.MAIN_CONTENT_BEGINNING,
+                LifeInputLocationConstants.MAIN_CONTENT_END,
             ],
         }
     ];
 
     const locations = requiredLifeFieldLocations.filter(value => value.page === page).map(value => value.locations);
-    const lifeFields = useGetRequiredLifeFieldsByLocations(locations[0]);
-    return lifeFields.filter(value => (value.input_type === LifeInputTypeConstants.TEXT || value.input_type === LifeInputTypeConstants.TEXTAREA));
+    const lifeFields = useLifeFieldsByLocations(locations[0]);
+    return lifeFields.filter(value => (value.input_type !== LifeInputTypeConstants.HTML));
 }

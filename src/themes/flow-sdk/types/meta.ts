@@ -8,18 +8,23 @@ export interface IMetaConfig {
     partner_id: string;
     partner_merchant_id: string;
     public_gateway_id: string;
+    acquirer_country_code: string;
 }
 
 export type IMetaFlowSettings = IFlow & IMetaConfig;
 
 export type IMetaPaymentMode = 'TEST' | 'LIVE';
 
+export interface IMetaSupportedContainersProperties {
+    requireCVV: boolean
+}
+
 export interface IMetaPaymentConfiguration {
     mode: IMetaPaymentMode;
     partnerId: string;
     partnerMerchantId: string;
     acquirerCountryCode: string;
-    supportedContainers: Record<'basic-card-v1' | 'ecom-token-v1', unknown>;
+    supportedContainers: Record<'basic-card-v1' | 'ecom-token-v1', IMetaSupportedContainersProperties | Record<string, never>>;
     containerContext: string;
     requestId?: string;
     userID?: string;
@@ -225,7 +230,7 @@ export interface IMetaPaymentClientConstructor extends Error{
 export type IMetaPaymentErrorCode = 'ABORTED' | 'TIMEOUT' | 'INVALID_REQUEST' | 'MERCHANT_ACCOUNT_ERROR' | 'INTERNAL_ERROR' | 'DISMISSED_FOR_SESSION';
 
 export interface IMetaPaymentError {
-    readonly code: IMetaPaymentErrorCode;
+    readonly code: IMetaPaymentErrorCode | string;
     readonly message: string;
 }
 

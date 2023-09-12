@@ -1,23 +1,26 @@
 import {getPublicOrderId} from '@boldcommerce/checkout-frontend-library';
 import {IMetaFlowSettings, IMetaPaymentConfiguration, IMetaPaymentMode} from 'src/themes/flow-sdk/types';
 import {checkoutFlow} from 'src/themes/flow-sdk/flowState';
+import {logger} from 'src/themes/flow-sdk/logger';
 
-export function metaBuildPaymentConfiguration(): IMetaPaymentConfiguration {
-    const orderId = getPublicOrderId();
-    const {flow_settings: flowSettings} = checkoutFlow;
-    const {is_test_mode: isTest, partner_id: partnerId, partner_merchant_id: partnerMerchantId} = flowSettings as IMetaFlowSettings;
+export const metaBuildPaymentConfiguration = (): IMetaPaymentConfiguration => {
+    const {is_test_mode: isTest, partner_id: partnerId = '', partner_merchant_id: partnerMerchantId = ''} = checkoutFlow.flow_settings as IMetaFlowSettings;
     const mode: IMetaPaymentMode = isTest ? 'TEST' : 'LIVE';
 
-    return {
+    const paymentConfiguration: IMetaPaymentConfiguration = {
         mode,
         partnerId,
         partnerMerchantId,
         acquirerCountryCode: 'US',
         supportedContainers: {
-            'basic-card-v1': {},
+            'basic-card-v1': {requireCVV: true},
             'ecom-token-v1': {},
         },
-        containerContext: orderId, //TODO Using the public order id. Unique id for the payment, what should this be at this point?
-        uxFlags: ['META_CHECKOUT'], //TODO Should we use 'DISABLE_PROACTIVE_CHECKOUT' too?
+        containerContext: getPublicOrderId(),
+        uxFlags: ['META_CHECKOUT'],
     };
-}
+
+    logger({paymentConfiguration}, 'info');
+
+    return paymentConfiguration;
+};

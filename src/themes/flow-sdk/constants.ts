@@ -9,6 +9,7 @@ export const META_SDK_URL = 'https://static.xx.fbcdn.net/payments_sdk/v1/metapay
 export const META_OTHER_DATA_ERROR: IMetaPaymentDataError = {reason: 'OTHER_ERROR'};
 export const META_SHIPPING_DATA_ERROR: IMetaPaymentDataError = {reason: 'INVALID_SHIPPING_ADDRESS'};
 export const META_BILLING_DATA_ERROR: IMetaPaymentDataError = {reason: 'INVALID_BILLING_ADDRESS'};
+export const META_OFFER_DATA_ERROR: IMetaPaymentDataError = {reason: 'INVALID_OFFER_CODE'};
 export const META_FULFILLMENT_DATA_ERROR: IMetaPaymentDataError = {reason: 'INVALID_FULFILLMENT_OPTION', field: 'fulfillmentOptionId'};
 export const META_PAYMENT_DATA_ERROR: IMetaPaymentDataError = {reason: 'INVALID_PAYMENT_DATA'};
 export const META_AUTHORIZATION_SUCCESS: IMetaPaymentAuthorizationResult = {authorizationState: 'SUCCESS'};
@@ -17,3 +18,11 @@ export const META_AUTHORIZATION_OTHER_ERROR: IMetaPaymentAuthorizationResult = {
 export const META_AUTHORIZATION_SHIPPING_ERROR: IMetaPaymentAuthorizationResult = {authorizationState: 'ERROR', error: META_SHIPPING_DATA_ERROR};
 export const META_AUTHORIZATION_BILLING_ERROR: IMetaPaymentAuthorizationResult = {authorizationState: 'ERROR', error: META_BILLING_DATA_ERROR};
 export const META_AUTHORIZATION_PAYMENT_ERROR: IMetaPaymentAuthorizationResult = {authorizationState: 'ERROR', error: META_PAYMENT_DATA_ERROR};
+
+
+export const MetaAddressPlaceholders = {
+    first_name: 'firstname',
+    last_name: 'lastname',
+    address_line_1: 'addressLine1',
+    phone_number: '0000000000',
+};

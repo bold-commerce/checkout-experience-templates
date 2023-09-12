@@ -1,4 +1,9 @@
-import {IApplicationState, IEnvironment} from '@boldcommerce/checkout-frontend-library';
+import {
+    IApplicationState,
+    IEnvironment,
+    ILineItemRequestWithPlatformId,
+    ILineItemRequestWithSku
+} from '@boldcommerce/checkout-frontend-library';
 import {IFlow, IMetaFlowSettings, IMetaPaymentError} from 'src/themes/flow-sdk/types/meta';
 
 export interface ICheckoutFlowParameters {
@@ -27,3 +32,5 @@ export interface ICheckoutFlow {
 export interface IFlowType {
     META: string;
 }
+
+export type IAddLineItemRequest = ILineItemRequestWithPlatformId | ILineItemRequestWithSku;

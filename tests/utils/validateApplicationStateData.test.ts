@@ -54,6 +54,15 @@ describe('testing function validateApplicationStateData', () => {
         show_iso_code: true
     };
 
+    const display_currency: ICurrency = {
+        iso_code: 'CAD',
+        iso_numeric_code: 124,
+        symbol: '$',
+        format: '${{amount}}',
+        has_decimal: true,
+        show_iso_code: true
+    };
+
     const appData = {
         customer: {} as ICustomer,
         addresses: {
@@ -74,6 +83,8 @@ describe('testing function validateApplicationStateData', () => {
         resumable_link: '',
         created_via: '',
         currency: currency,
+        display_currency: display_currency,
+        display_exchange_rate: 1,
         is_processed: false,
         order_meta_data: {} as IOrderMetaData,
         link_to_cart: '',
@@ -99,6 +110,8 @@ describe('testing function validateApplicationStateData', () => {
         resumable_link: '',
         fees: [],
         currency: currency,
+        display_currency: display_currency,
+        display_exchange_rate: 1,
         created_via: '',
         is_processed: false,
         order_meta_data: {} as IOrderMetaData,

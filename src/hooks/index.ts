@@ -100,7 +100,9 @@ export * from './useGetNoteAttributes';
 export * from './useLifeFieldTextInput';
 export * from './useLifeFieldCheckbox';
 export * from './useGetLifeFields';
-export * from './useGetRequiredLifeFields';
+export * from './useGetLifeFieldsOnPage';
 export * from './useGetLifeFieldErrorMessage';
 export * from './useDebounceLifeField';
+export * from './useGetRequiresShipping';
+export * from './useLifeFieldSelect';
 

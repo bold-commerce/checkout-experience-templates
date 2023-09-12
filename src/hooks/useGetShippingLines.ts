@@ -1,10 +1,10 @@
-import {shippingLines, validateShippingLine} from 'src/library';
+import {generateTaxes, shippingLines, validateShippingLine} from 'src/library';
 import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
-import {useGetLoaderScreenVariable, useGetValidVariable} from 'src/hooks';
-import {actionSetButtonDisable} from 'src/action';
+import {useGetLoaderScreenVariable, useGetRequiresShipping, useGetValidVariable} from 'src/hooks';
+import {actionSetAppStateValid, actionSetButtonDisable, actionSetLoader} from 'src/action';
 import {IUseGetShippingLines} from 'src/types';
 
 export function useGetShippingLines(): IUseGetShippingLines {
@@ -15,14 +15,22 @@ export function useGetShippingLines(): IUseGetShippingLines {
     const loading = useGetLoaderScreenVariable('shippingLines');
     const isValidAddress = useGetValidVariable('shippingAddress');
     const updatedAddress = useGetValidVariable('updatedShippingAddress');
+    const requiresShipping = useGetRequiresShipping();
 
     useEffect(() => {
         if(isValidAddress && updatedAddress){
             dispatch(actionSetButtonDisable('shippingPageButton', true));
-            dispatch(shippingLines(updatedAddress)).then(() => {
-                dispatch(validateShippingLine);
-            });
-            
+            if (requiresShipping) {
+                dispatch(shippingLines(updatedAddress)).then(() => {
+                    dispatch(validateShippingLine);
+                });
+            } else {
+                dispatch(generateTaxes).then(() => {
+                    dispatch(actionSetButtonDisable('shippingPageButton', false));
+                    dispatch(actionSetAppStateValid('shippingLine', true));
+                    dispatch(actionSetLoader('shippingLines', false));
+                });
+            }
         }
     }, [isValidAddress, updatedAddress]);
 

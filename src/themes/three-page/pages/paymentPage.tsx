@@ -30,6 +30,9 @@ export function PaymentPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable, title} = usePaymentPage();
     const externalPaymentGateways = useGetExternalPaymentGateways(Constants.PAYMENT_METHOD_BELOW);
     const paymentGatewayLifeFields = useGetLifeFields(LifeInputLocationConstants.PAYMENT_GATEWAY);
+    const paymentGatewayAboveLifeFields = useGetLifeFields(LifeInputLocationConstants.PAYMENT_METHOD_ABOVE);
+    const mainContentBeginningLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_BEGINNING);
+    const mainContentEndLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_END);
     const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined, 'Checkout form');
     const headerLogoUrl = window.headerLogoUrl;
     useOnLoadValidateCustomerAndShipping();
@@ -44,6 +47,12 @@ export function PaymentPage(): React.ReactElement {
         <div className={'checkout-experience-container'}>
             <HeaderHelmet title={title}/>
             <ScreenReaderAnnouncement content={title || ''}/>
+            {mainContentBeginningLifeFields.length > 0 ?
+                <div className={'outside-main-content-container'}>    
+                    <div className={'outside-main-content'}>
+                        <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                    </div>  
+                </div> : null}
             <div className={'three-page'}>
                 <Header isMobile={true}/>
                 <div className='customer-section'>
@@ -57,6 +66,7 @@ export function PaymentPage(): React.ReactElement {
                         <Breadcrumbs active={3}/>
                         <form onSubmit={withPreventDefault(nextButtonOnClick)}>
                             <FlashError/>
+                            <LifeFields lifeFields={paymentGatewayAboveLifeFields}/>
                             <Payment/>
                             {externalPaymentGateways.map((externalGateway) =>
                                 <ExternalPaymentGateway
@@ -83,6 +93,12 @@ export function PaymentPage(): React.ReactElement {
                 </div>
                 <SummarySection orderCompleted={false}/>
             </div>
+            {mainContentEndLifeFields.length > 0 ?
+                <div className={'outside-main-content-container'}>
+                    <div className={'outside-main-content'}>
+                        <LifeFields lifeFields={mainContentEndLifeFields}/>
+                    </div>
+                </div> : null}
         </div>
     );
 }

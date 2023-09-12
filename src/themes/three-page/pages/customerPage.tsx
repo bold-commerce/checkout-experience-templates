@@ -24,7 +24,8 @@ import {
     useSendEvent,
     useGetExternalPaymentGateways,
     useIsUserAuthenticated,
-    useGetLifeFields
+    useGetLifeFields,
+    useGetRequiresShipping
 } from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
@@ -42,8 +43,11 @@ export function CustomerPage(): React.ReactElement {
     const customerInfoLifeFields = useGetLifeFields(LifeInputLocationConstants.CUSTOMER_INFO);
     const shippingLifeFields = useGetLifeFields(LifeInputLocationConstants.SHIPPING);
     const billingAddressAfterLifeFields = useGetLifeFields(LifeInputLocationConstants.BILLING_ADDRESS_AFTER);
+    const mainContentBeginningLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_BEGINNING);
+    const mainContentEndLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_END);
     const headerLogoUrl = window.headerLogoUrl;
     const isCustomerLoggedIn = useIsUserAuthenticated();
+    const requiresShipping = useGetRequiresShipping();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
 
@@ -71,6 +75,12 @@ export function CustomerPage(): React.ReactElement {
         <div className={'checkout-experience-container'}>
             <HeaderHelmet title={title}/>
             <ScreenReaderAnnouncement content={title || ''} />
+            {mainContentBeginningLifeFields.length > 0 ? 
+                <div className={'outside-main-content-container'}>
+                    <div className={'outside-main-content'}>
+                        <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                    </div>
+                </div> : null}
             <div className={'three-page'}>
                 <Header isMobile={true}/>
                 {isMobile && <SummarySection orderCompleted={false}/>}
@@ -99,7 +109,7 @@ export function CustomerPage(): React.ReactElement {
                             <LifeFields lifeFields={customerInfoLifeFields}/>
                             <ShippingAddress/>
                             <LifeFields lifeFields={shippingLifeFields}/>
-                            <BillingAddress/>
+                            {requiresShipping ? <BillingAddress/> : null}
                             <LifeFields lifeFields={billingAddressAfterLifeFields}/>
                             <FormControls
                                 backLinkOnClick={backLinkOnClick}
@@ -115,6 +125,12 @@ export function CustomerPage(): React.ReactElement {
                 </div>
                 {!isMobile && <SummarySection orderCompleted={false}/>}
             </div>
+            {mainContentEndLifeFields.length > 0 ?
+                <div className={'outside-main-content-container'}>
+                    <div className={'outside-main-content'}>
+                        <LifeFields lifeFields={mainContentEndLifeFields}/>
+                    </div> 
+                </div> : null}
         </div>
     );
 }

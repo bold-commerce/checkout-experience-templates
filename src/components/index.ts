@@ -76,5 +76,6 @@ export * from './life-field-text/lifeFieldText';
 export * from './life-field-checkbox/lifeFieldCheckbox';
 export * from './life-field-textarea/lifeFieldTextarea';
 export * from './life-field-html/lifeFieldHtml';
+export * from './life-field-select/lifeFieldSelect';
 export * from './textarea/textarea';
 export * from './field-textarea/fieldTextArea';
