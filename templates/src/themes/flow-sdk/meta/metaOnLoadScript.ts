@@ -24,6 +24,15 @@ export const metaOnLoadScript = async (): Promise<void> => {
     metaInitPaymentClient();
     await metaCheckAvailability();
 
+    // If we can't checkout no need to proceed
+    if (!checkoutFlow.canCheckout) {
+        const metaFlowNotAvailable = 'Meta checkout flow not available';
+        if (checkoutFlow.params.onAction && typeof checkoutFlow.params.onAction === 'function') {
+            checkoutFlow.params.onAction('FLOW_INITIALIZE', {success: false, error: new FlowError(metaFlowNotAvailable)});
+        }
+        return Promise.reject(metaFlowNotAvailable);
+    }
+
     if (checkoutFlow.params.flowElementId) {
         const promise = await metaRenderButton();
         if (checkoutFlow.params.onAction && typeof checkoutFlow.params.onAction === 'function') {
