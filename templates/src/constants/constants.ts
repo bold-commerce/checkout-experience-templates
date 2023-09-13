@@ -67,6 +67,7 @@ export class Constants {
     static readonly CUSTOMER_INFO_BELOW = 'customer_info_below';
     static readonly CUSTOMER_INFO_ABOVE = 'customer_info_above';
     static readonly THREE_PAGE = 'three-page';
+    static readonly DATE_PICKER = 'date_picker';
 }
 
 export const errorTypes: IErrorTypes = {
@@ -178,6 +179,7 @@ export class LifeInputTypeConstants {
     static HTML = 'html';
     static CHECKBOX = 'checkbox';
     static DROPDOWN = 'dropdown';
+    static DATEPICKER = 'datepicker';
 }
 
 export class LifeInputLocationConstants {

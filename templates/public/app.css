@@ -59,5 +59,8 @@
 @import '../src/components/life-fields/lifeFields.css';
 @import '../src/components/field-textarea/fieldTextarea.css';
 @import '../src/components/textarea/textarea.css';
+@import '../src/components/life-field-select/lifeFieldSelect.css';
+@import '../src/components/life-field-datepicker/lifeFieldDatePicker.css';
+@import '../src/components/field-datepicker/fieldDatePicker.css';
 
 @import '~@boldcommerce/checkout-express-pay-library/lib/style.css';

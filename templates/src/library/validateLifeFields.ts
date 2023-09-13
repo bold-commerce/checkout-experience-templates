@@ -14,6 +14,7 @@ import {LifeInputTypeConstants} from 'src/constants';
 
 export function validateLifeFields(lifeFields: Array<ILifeField>) {
     return async function validateLifeFieldsThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
+        let callPatchAPI = true;
         const language = findLanguageDataByIsoCode(getState().data.initial_data.supported_languages, getState().appSetting.languageIso);
         let languageErrorBlob;
         if (language) {
@@ -38,12 +39,14 @@ export function validateLifeFields(lifeFields: Array<ILifeField>) {
         const noteAttributes = getState().data.application_state.order_meta_data.note_attributes;
         for (const requiredLifeField  of requiredLifeFields) {
             if(!noteAttributes[requiredLifeField.meta_data_field]) {
+                callPatchAPI = false;
                 dispatch(actionAddError({
                     ...defaultError,
                     field: requiredLifeField.meta_data_field,
                     message: `${requiredLifeField.input_label}${requiredErrorMessage}`
                 }));
             } else if (noteAttributes[requiredLifeField.meta_data_field] && noteAttributes[requiredLifeField.meta_data_field].trim() === '') {
+                callPatchAPI = false;
                 dispatch(actionAddError({
                     ...defaultError,
                     field: requiredLifeField.meta_data_field,
@@ -56,6 +59,7 @@ export function validateLifeFields(lifeFields: Array<ILifeField>) {
             if (regexLifeField.input_regex) {
                 const regex = new RegExp(regexLifeField.input_regex);
                 if(!regex.test(noteAttributes[regexLifeField.meta_data_field])) {
+                    callPatchAPI = false;
                     dispatch(actionAddError({
                         ...defaultError,
                         field: regexLifeField.meta_data_field,
@@ -65,6 +69,8 @@ export function validateLifeFields(lifeFields: Array<ILifeField>) {
             }
         }
 
-        await patchLifeFields(dispatch, getState);
+        if (callPatchAPI) {
+            await patchLifeFields(dispatch, getState);
+        }
     };
 }

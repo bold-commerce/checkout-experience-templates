@@ -79,3 +79,5 @@ export * from './life-field-html/lifeFieldHtml';
 export * from './life-field-select/lifeFieldSelect';
 export * from './textarea/textarea';
 export * from './field-textarea/fieldTextArea';
+export * from './field-datepicker/fieldDatePicker';
+export * from './life-field-datepicker/lifeFieldDatePicker';

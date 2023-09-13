@@ -45,6 +45,8 @@ export interface IFieldInputProps {
     autoFocus?: boolean;
     id?: string;
     name?: string;
+
+    readonly?: boolean;
     dataTestId?: string;
     errorMessage?: string | null;
     handleChange?: (e) => void;
@@ -622,7 +624,15 @@ export interface ILifeFieldInput {
     label: string;
     placeHolder: string;
     id: string;
+    errorMessage?: string | null;
+    handleChange: (e) => void;
+}
 
+export interface ILifeFieldDatePicker {
+    date: string | null;
+    placeHolder: string;
+    id: string;
+    value: string;
     errorMessage?: string | null;
     handleChange: (e) => void;
 }
@@ -685,5 +695,17 @@ export interface IFieldTextareaProps {
     onChange?: React.ChangeEventHandler<HTMLTextAreaElement>,
     onKeyUp?: React.KeyboardEventHandler<HTMLTextAreaElement>,
     onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>,
+}
+
+export interface IFieldDatePickerProps {
+    placeholder: string;
+    className: string;
+    date: string | null;
+    value: string;
+    id: string;
+    name?: string;
+    dataTestId?: string;
+    errorMessage?: string | null;
+    handleChange: (e) => void;
 }
 
