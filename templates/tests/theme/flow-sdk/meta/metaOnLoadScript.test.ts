@@ -39,6 +39,7 @@ describe('metaOnLoadScript', () => {
 
         checkoutFlow.params.flowElementId = 'someId';
         checkoutFlow.params.onAction = onActionMock;
+        checkoutFlow.canCheckout = true;
 
         await expect(metaOnLoadScript()).resolves.toEqual(undefined);
 
@@ -57,6 +58,7 @@ describe('metaOnLoadScript', () => {
 
         checkoutFlow.params.flowElementId = "";
         checkoutFlow.params.onAction = onActionMock;
+        checkoutFlow.canCheckout = true;
 
         await expect(metaOnLoadScript()).resolves.toEqual(undefined);
 
