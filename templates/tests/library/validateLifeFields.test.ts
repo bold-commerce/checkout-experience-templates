@@ -83,8 +83,8 @@ describe('testing validateLifeFields', () => {
 
         const validate = validateLifeFields(lifeFields);
         await validate(dispatch, getState);
-        expect(dispatch).toHaveBeenCalledTimes(3);
+        expect(dispatch).toHaveBeenCalledTimes(2);
         expect(actionAddErrorMock).toHaveBeenCalledTimes(2);
-        expect(patchOrderMetaDataMock).toHaveBeenCalledTimes(1);
+        expect(patchOrderMetaDataMock).toHaveBeenCalledTimes(0);
     });
 });
