@@ -1,7 +1,10 @@
 import React, {useEffect} from 'react';
 import {
     useDebounceCustomer,
+    useGetCurrencyInformation,
     useGetGeneralSettingCheckoutFields,
+    useGetLineItems,
+    useGetOrderTotal,
     useSetApiCallOnEvent,
     useSetDefaultLanguageIso,
     useWindowDimensions
@@ -33,12 +36,15 @@ function Theme(): React.ReactElement {
     const billingType = getDefaultBillingType();
     debounceConstants.debouncedGuestCustomerFunction = useDebounceCustomer();
     const acceptMarketingSetting = useGetGeneralSettingCheckoutFields('accepts_marketing_checkbox_option') as string;
-    initiateCheckout();
+    const items = useGetLineItems();
+    const value = useGetOrderTotal();
+    const {currency} = useGetCurrencyInformation();
 
     useEffect(() => {
         dispatch(actionSetDefaultCustomerAcceptMarketing(acceptMarketingSetting));
         dispatch(actionUpdateBillingTypeInSettings(billingType));
         dispatch(checkInventory(checkInventoryStage.initial));
+        initiateCheckout(items, value, currency);
     }, []);
 
     return (

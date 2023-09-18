@@ -46,7 +46,10 @@ const useSendEventMock = mocked(useSendEvent, true);
 const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true);
 const getUpdatedApplicationStateMock = mocked(getUpdatedApplicationState, true);
 
-describe('testing getPaymentIframe function', () => {const callbackEvent = (): void => { return; };
+describe('testing getPaymentIframe function', () => {
+    const callbackEvent = (): void => {
+        return; 
+    };
     const frameId = 'frame-id';
     const actionMock = {type: 'TEST_ACTION', payload: {testKey: 'test'}};
     const dispatchMock = jest.fn();
@@ -97,7 +100,7 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
         await handlePigiAddPaymentThunk(dispatchMock).then(() => {
             expect(processOrderMock).toHaveBeenCalledTimes(1);
             expect(processOrderMock).toHaveBeenCalledWith(historyMock);
-            expect(dispatchMock).toHaveBeenCalledTimes(2);
+            expect(dispatchMock).toHaveBeenCalledTimes(3);
             expect(dispatchMock).toHaveBeenCalledWith(getUpdatedApplicationState);
             expect(dispatchMock).toHaveBeenCalledWith(processOrderThunkMock);
         });
@@ -121,7 +124,7 @@ describe('testing getPaymentIframe function', () => {const callbackEvent = (): v
         const handlePigiAddPaymentThunk = await handlePigiAddPayment(payloadMock, historyMock);
         await handlePigiAddPaymentThunk(dispatchMock).then(() => {
             expect(actionShowHideOverlayContentMock).toHaveBeenCalledTimes(0);
-            expect(dispatchMock).toHaveBeenCalledTimes(3);
+            expect(dispatchMock).toHaveBeenCalledTimes(4);
             expect(dispatchMock).toHaveBeenCalledWith(getUpdatedApplicationState);
             expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
             expect(processOrderMock).toHaveBeenCalledTimes(1);

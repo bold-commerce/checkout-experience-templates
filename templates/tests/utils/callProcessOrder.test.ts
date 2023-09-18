@@ -9,22 +9,24 @@ import {
     sendAddPaymentActionAsync,
     sendRefreshOrderActionAsync
 } from '@boldcommerce/checkout-frontend-library/lib/pigi';
-import {IApiErrorResponse, IFetchError, ILifeField, IPigiResponseType} from '@boldcommerce/checkout-frontend-library';
+import {IApiErrorResponse, IFetchError, ILifeField, IPayment, IPigiResponseType} from '@boldcommerce/checkout-frontend-library';
 import {pigiActionTypes} from '@boldcommerce/checkout-frontend-library/lib/variables/constants';
+import {useGetPayments} from 'src/hooks';
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 jest.mock('react-redux');
 jest.mock('react-router');
 jest.mock('src/library');
+jest.mock('src/hooks/useGetPayments');
 
 const useDispatchMock = mocked(useDispatch, true);
 const useHistoryMock = mocked(useHistory, true);
 const processOrderMock = mocked(processOrder, true);
 const sendRefreshOrderActionAsyncMock = mocked(sendRefreshOrderActionAsync, true);
 const sendAddPaymentActionAsyncMock = mocked(sendAddPaymentActionAsync, true);
+const useGetPaymentsMock = mocked(useGetPayments, true);
 
 describe('Testing callProcessOrder function', () => {
-    const pageNameWithPrefix = 'prefix_page_name';
     const dispatchMock = jest.fn();
     const historyMock = {replace: jest.fn()};
     const processOrderThunkMock = jest.fn();
@@ -38,11 +40,11 @@ describe('Testing callProcessOrder function', () => {
     };
     const resolvedRefreshValue: IPigiResponseType = {
         responseType: pigiActionTypes.PIGI_REFRESH_ORDER,
-        payload: {key: 'value' }
+        payload: {key: 'value'}
     };
     const resolvedPaymentValue: IPigiResponseType = {
         responseType: pigiActionTypes.PIGI_ADD_PAYMENT,
-        payload: {key: 'value' }
+        payload: {key: 'value'}
     };
 
     const convertedFetchError: IApiErrorResponse = {
@@ -68,6 +70,19 @@ describe('Testing callProcessOrder function', () => {
         }
     ];
 
+    const paymentsMock: Array<IPayment> = [
+        {
+            gateway_public_id: '1234',
+            amount: 2999,
+            currency: 'CAD',
+            type: 'Crypto',
+            display_string: '',
+            id: '1234',
+            token: 'token',
+            retain: false,
+        }
+    ];
+
     beforeEach(() => {
         jest.resetAllMocks();
         dispatchMock.mockReturnValue(Promise.resolve());
@@ -76,6 +91,7 @@ describe('Testing callProcessOrder function', () => {
         processOrderMock.mockReturnValue(processOrderThunkMock);
         sendRefreshOrderActionAsyncMock.mockResolvedValue(resolvedRefreshValue);
         sendAddPaymentActionAsyncMock.mockResolvedValue(resolvedPaymentValue);
+        useGetPaymentsMock.mockReturnValue(paymentsMock);
     });
 
     test('Render the function with amount remaining', async () => {
@@ -120,5 +136,4 @@ describe('Testing callProcessOrder function', () => {
         expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(processOrderMock).toHaveBeenCalledTimes(1);
     });
-
 });
