@@ -14,7 +14,8 @@ import {
 } from 'src/components';
 import {sendEvents, sendPageView} from 'src/analytics';
 import {
-    useBeforeUnload, useGetLifeFields,
+    useBeforeUnload,
+    useGetLifeFields,
     useOnLoadValidateCustomer,
     useScrollToElementOnNavigation,
 } from 'src/hooks';

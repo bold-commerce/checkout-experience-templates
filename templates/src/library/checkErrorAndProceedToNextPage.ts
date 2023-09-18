@@ -7,11 +7,12 @@ import {errorFields, errorTypes} from 'src/constants';
 import {orderCompleteAnalytics} from 'src/analytics';
 import {IFees, IShippingLine} from '@boldcommerce/checkout-frontend-library';
 
-export function checkErrorAndProceedToNextPage(
+export function checkErrorAndProceedToNextPage (
     page: string,
     loaderName: string,
     history: HistoryLocationState,
-    callOrderCompleteAnalytics = false) {
+    callOrderCompleteAnalytics = false
+) {
     return async function checkErrorAndProceedToNextPageThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         await dispatch(actionRemoveErrorByField(`${errorFields.discounts}`));
         await dispatch(actionRemoveErrorByTypeAndCode(`${errorTypes.discount_code_validation}`, '02'));

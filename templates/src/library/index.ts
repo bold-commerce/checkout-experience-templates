@@ -28,6 +28,7 @@ export * from './postShippingAddress';
 export * from './postShippingLines';
 export * from './processOrder';
 export * from './returnToPageOnError';
+export * from './sendPaymentEvent';
 export * from './session';
 export * from './setDefaultAddresses';
 export * from './setBillingAddressAsValid';

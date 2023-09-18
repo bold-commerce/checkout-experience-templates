@@ -8,7 +8,7 @@ import {
     actionShowHideOverlayContent
 } from 'src/action';
 import {pigiHandleScaSteps, pigiPaymentTypes} from 'src/constants';
-import {displayOrderProcessingScreen, getUpdatedApplicationState, processOrder} from 'src/library';
+import {displayOrderProcessingScreen, getUpdatedApplicationState, processOrder, sendPaymentEvent} from 'src/library';
 import {IOrderInitialization, IPigiResponsesPayload} from 'src/types';
 import {updatePigiHeight} from 'src/utils';
 import {useSendEvent} from 'src/hooks';
@@ -40,6 +40,7 @@ export function handlePigiAddPayment(payload: IPigiResponsesPayload, history: Hi
     return async function handlePigiAddPaymentThunk(dispatch: Dispatch): Promise<void> {
         await dispatch(getUpdatedApplicationState);
         if(payload.success && payload.paymentType !== pigiPaymentTypes.GIFT_CARD) {
+            dispatch(sendPaymentEvent);
             if(payload.paymentType === pigiPaymentTypes.PAYPAL){
                 dispatch(displayOrderProcessingScreen);
             }

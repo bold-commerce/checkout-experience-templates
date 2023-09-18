@@ -3,11 +3,8 @@ import {useDispatch} from 'react-redux';
 import {
     useGetAppSettingData,
     useGetButtonDisableVariable,
-    useGetCurrencyInformation,
     useGetIsLoading,
     useGetIsOrderProcessed,
-    useGetLineItems,
-    useGetOrderTotal,
     useGetLifeFieldsOnPage,
     useGetRequiresShipping
 } from 'src/hooks';
@@ -48,13 +45,9 @@ export function useCustomerPage(): IUseCustomerPageProp {
         dispatch(callCustomerPageApi(history));
     } , []);
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
-    const items = useGetLineItems();
-    const value = useGetOrderTotal();
-    const {currency} = useGetCurrencyInformation();
 
     useEffect( () => {
         if (!isOrderCompleted) {
-            sendEvents('begin_checkout', {currency, value, items});
             dispatch(initializeExpressPay(history));
         }
     }, []);

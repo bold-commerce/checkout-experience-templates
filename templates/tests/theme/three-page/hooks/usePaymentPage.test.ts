@@ -5,12 +5,10 @@ import {mocked} from 'jest-mock';
 import {Constants} from 'src/constants';
 import {
     useGetButtonDisableVariable,
-    useGetCurrencyInformation,
     useGetIsLoading,
     useGetIsOrderProcessed,
     useGetLifeFieldsOnPage,
     useGetRequiresShipping,
-    useGetSelectShippingLine,
 } from 'src/hooks';
 import {usePaymentPage} from 'src/themes/three-page/hooks';
 import {callProcessOrder, getCheckoutUrl, getTerm, getTotalsFromState} from 'src/utils';
@@ -26,8 +24,6 @@ jest.mock('src/library');
 jest.mock('src/hooks/useGetIsOrderProcessed');
 jest.mock('src/utils/callProcessOrder');
 jest.mock('src/utils/getTotalsFromState');
-jest.mock('src/hooks/useGetCurrencyInformation');
-jest.mock('src/hooks/useGetSelectShippingLine');
 jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/hooks/useGetLifeFieldsOnPage');
 jest.mock('src/hooks/useGetRequiresShipping');
@@ -40,8 +36,6 @@ const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true
 const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
 const callProcessOrderMock = mocked(callProcessOrder, true);
 const getTotalsFromStateMock = mocked(getTotalsFromState, true);
-const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
-const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
 const useGetLifeFieldsOnPageMock = mocked(useGetLifeFieldsOnPage, true);
 const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 
@@ -57,8 +51,6 @@ describe('Testing hook usePaymentPage', () => {
     const nextDisableVariableMock = false;
     const eventMock = {preventDefault: jest.fn()};
     const total: ITotals = {totalSubtotal: 2999, totalFees:0, totalTaxes:0, totalAdditionalFees:0, totalOrder:0, totalPaid:0, totalDiscounts:0, totalAmountDue:2999};
-    const currencyInformationMock = {iso_code: 'CAD', currency:'', currencySymbol:'', formattedPrice:''};
-    const selectedShippingLineMock = {description: 'test shipping line', amount: 1999, id: '1'};
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -69,8 +61,6 @@ describe('Testing hook usePaymentPage', () => {
         useGetIsLoadingMock.mockReturnValue(nextButtonLoadingMock);
         useGetButtonDisableVariableMock.mockReturnValueOnce(nextDisableVariableMock);
         getTotalsFromStateMock.mockReturnValue(total);
-        useGetCurrencyInformationMock.mockReturnValue(currencyInformationMock);
-        useGetSelectShippingLineMock.mockReturnValue(selectedShippingLineMock);
         useGetLifeFieldsOnPageMock.mockReturnValue([]);
         useGetRequiresShippingMock.mockReturnValue(true);
     });
