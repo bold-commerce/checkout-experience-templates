@@ -1,18 +1,19 @@
 import {
-    baseReturnObject,
-    IApiSubrequestSuccessResponse, ISetBillingAddressResponse,
+    IApiSubrequestSuccessResponse,
+    ISetBillingAddressResponse,
 } from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {
     getCustomerFromLib,
     handleBatchSuccess,
     setBillingAddressAsValid,
-    setShippingAddressAsValid, updateExternalPaymentGatewayShippingAddress,
+    setShippingAddressAsValid,
     validateShippingLine
 } from 'src/library';
 import {stateMock} from 'src/mocks';
 import {
-    IAddGuestCustomerResponse, IGetShippingLinesResponse,
+    IAddGuestCustomerResponse,
+    IGetShippingLinesResponse,
     ISetShippingAddressResponse
 } from '@boldcommerce/checkout-frontend-library/lib/types/apiInterfaces';
 
@@ -22,14 +23,12 @@ jest.mock('src/library/deleteAddress');
 jest.mock('src/library/postAddress');
 jest.mock('src/utils/handleErrorIfNeeded');
 const validateShippingLineMock = mocked(validateShippingLine, true);
-const updateExternalPaymentGatewayShippingAddressMock = mocked(updateExternalPaymentGatewayShippingAddress, true);
 const setShippingAddressAsValidMock = mocked(setShippingAddressAsValid, true);
 const setBillingAddressAsValidMock = mocked(setBillingAddressAsValid, true);
 const getCustomerFromLibMock = mocked(getCustomerFromLib, true);
 
 
 describe('testing handleBatchSuccess', () => {
-    const returnObject = {...baseReturnObject};
     const dispatchMock = jest.fn();
     const getStateMock = jest.fn();
 
@@ -50,9 +49,7 @@ describe('testing handleBatchSuccess', () => {
             'endpoint': '/validate_email_address'
         };
 
-        const newReturnObj = {...returnObject, success: true};
-
-        await handleBatchSuccess(dispatchMock, getStateMock, validateEmailSubrequest, newReturnObj);
+        await handleBatchSuccess(dispatchMock, getStateMock, validateEmailSubrequest);
 
         expect(dispatchMock).toHaveBeenCalledTimes(0);
         expect(getStateMock).toHaveBeenCalledTimes(1);
@@ -70,9 +67,7 @@ describe('testing handleBatchSuccess', () => {
             'endpoint': '/customer/guest'
         };
 
-        const newReturnObj = {...returnObject, success: true};
-
-        await handleBatchSuccess(dispatchMock, getStateMock, addGuestCustomerSubrequest, newReturnObj);
+        await handleBatchSuccess(dispatchMock, getStateMock, addGuestCustomerSubrequest);
 
         expect(dispatchMock).toHaveBeenCalledTimes(2);
         expect(dispatchMock).toHaveBeenCalledWith(getCustomerFromLibMock);
@@ -90,9 +85,7 @@ describe('testing handleBatchSuccess', () => {
             'endpoint': '/addresses/shipping'
         };
 
-        const newReturnObj = {...returnObject, success: true};
-
-        await handleBatchSuccess(dispatchMock, getStateMock, addShippingSubrequest, newReturnObj);
+        await handleBatchSuccess(dispatchMock, getStateMock, addShippingSubrequest);
 
         expect(dispatchMock).toHaveBeenCalledTimes(2);
         expect(dispatchMock).toHaveBeenCalledWith(setShippingAddressAsValidMock);
@@ -110,9 +103,7 @@ describe('testing handleBatchSuccess', () => {
             'endpoint': '/addresses/billing'
         };
 
-        const newReturnObj = {...returnObject, success: true};
-
-        await handleBatchSuccess(dispatchMock, getStateMock, addBillingSubrequest, newReturnObj);
+        await handleBatchSuccess(dispatchMock, getStateMock, addBillingSubrequest);
 
         expect(dispatchMock).toHaveBeenCalledTimes(2);
         expect(dispatchMock).toHaveBeenCalledWith(setBillingAddressAsValidMock);
@@ -130,9 +121,7 @@ describe('testing handleBatchSuccess', () => {
             'endpoint': '/shipping_lines'
         };
 
-        const newReturnObj = {...returnObject, success: true};
-
-        await handleBatchSuccess(dispatchMock, getStateMock, getShippingSubrequest, newReturnObj);
+        await handleBatchSuccess(dispatchMock, getStateMock, getShippingSubrequest);
 
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(validateShippingLineMock);
