@@ -2,8 +2,8 @@ import {IAddress} from '@boldcommerce/checkout-frontend-library';
 import {IMetaPaymentAddress} from 'src/themes/flow-sdk/types';
 import {getCountryName, getFirstAndLastName, getProvinceDetails} from '@boldcommerce/checkout-express-pay-library';
 import {MetaAddressPlaceholders} from 'src/themes/flow-sdk/constants';
-import {placeHolderTransformer} from 'src/themes/flow-sdk/lib/placeholder';
-import {getFirstAddressLine, getSecondAddressLine} from 'src/themes/flow-sdk/lib/address';
+import {placeHolderTransformer} from 'src/utils/placeholder';
+import {getFirstAddressLine, getSecondAddressLine} from 'src/themes/flow-sdk/flow-utils/address';
 
 export const formatCheckoutAddressFromMeta = (address: IMetaPaymentAddress | undefined, usePlaceHolderData = false): IAddress => {
     return {

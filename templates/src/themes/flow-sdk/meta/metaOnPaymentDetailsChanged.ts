@@ -22,6 +22,7 @@ import {
     META_OFFER_DATA_ERROR,
     META_SHIPPING_DATA_ERROR
 } from 'src/themes/flow-sdk/constants';
+import {getErrorFromResponse} from 'src/themes/flow-sdk/flow-utils/getErrorFromResponse';
 
 export const metaOnPaymentDetailsChanged = async (event: IMetaPaymentDetailsChangedEvent): Promise<IMetaPaymentDetailsUpdate> => {
     logger({PaymentDetailsChangedEvent: {changeTypes: event.changeTypes}});
@@ -37,7 +38,7 @@ export const metaOnPaymentDetailsChanged = async (event: IMetaPaymentDetailsChan
             if(paymentDetailsUpdate.errors === undefined){
                 paymentDetailsUpdate.errors = [];
             }
-            paymentDetailsUpdate.errors.push(META_SHIPPING_DATA_ERROR);
+            paymentDetailsUpdate.errors.push(getErrorFromResponse(shippingAddressResponse, META_SHIPPING_DATA_ERROR));
         }
         await getShippingLines(API_RETRY);
         const {selected_shipping: selectedShipping, available_shipping_lines: shippingLines} = getShipping();
@@ -56,7 +57,7 @@ export const metaOnPaymentDetailsChanged = async (event: IMetaPaymentDetailsChan
             if(paymentDetailsUpdate.errors === undefined){
                 paymentDetailsUpdate.errors = [];
             }
-            paymentDetailsUpdate.errors.push(META_BILLING_DATA_ERROR);
+            paymentDetailsUpdate.errors.push(getErrorFromResponse(billingAddressResponse, META_BILLING_DATA_ERROR));
         }
     }
 
@@ -72,7 +73,7 @@ export const metaOnPaymentDetailsChanged = async (event: IMetaPaymentDetailsChan
                         if (paymentDetailsUpdate.errors === undefined) {
                             paymentDetailsUpdate.errors = [];
                         }
-                        paymentDetailsUpdate.errors.push(META_OFFER_DATA_ERROR);
+                        paymentDetailsUpdate.errors.push(getErrorFromResponse(deleteDiscountResponse, META_OFFER_DATA_ERROR));
                     }
                 }
             }
@@ -83,7 +84,7 @@ export const metaOnPaymentDetailsChanged = async (event: IMetaPaymentDetailsChan
                     if (paymentDetailsUpdate.errors === undefined) {
                         paymentDetailsUpdate.errors = [];
                     }
-                    paymentDetailsUpdate.errors.push(META_OFFER_DATA_ERROR);
+                    paymentDetailsUpdate.errors.push(getErrorFromResponse(addDiscountResponse, META_OFFER_DATA_ERROR));
                 }
             }
         }
@@ -99,7 +100,7 @@ export const metaOnPaymentDetailsChanged = async (event: IMetaPaymentDetailsChan
                 if(paymentDetailsUpdate.errors === undefined){
                     paymentDetailsUpdate.errors = [];
                 }
-                paymentDetailsUpdate.errors.push(META_FULFILLMENT_DATA_ERROR);
+                paymentDetailsUpdate.errors.push(getErrorFromResponse(shippingLineResponse, META_FULFILLMENT_DATA_ERROR));
             } else {
                 await getShippingLines(API_RETRY);
             }

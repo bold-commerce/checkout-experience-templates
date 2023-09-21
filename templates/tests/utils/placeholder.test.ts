@@ -1,4 +1,4 @@
-import {placeHolderTransformer} from 'src/themes/flow-sdk/lib/placeholder';
+import {placeHolderTransformer} from 'src/utils/placeholder';
 
 describe('placeHolderData', () => {
     it('should return placeholder if active and data is empty', () => {

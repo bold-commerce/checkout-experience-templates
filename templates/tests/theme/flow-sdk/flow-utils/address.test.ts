@@ -1,4 +1,4 @@
-import { getFirstAddressLine, getSecondAddressLine } from 'src/themes/flow-sdk/lib/address';
+import { getFirstAddressLine, getSecondAddressLine } from 'src/themes/flow-sdk/flow-utils/address';
 
 describe('getFirstAddressLine', () => {
     it('should return first address line if it exists', () => {
