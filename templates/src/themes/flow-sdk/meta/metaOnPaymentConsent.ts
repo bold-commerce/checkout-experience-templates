@@ -7,11 +7,14 @@ import {
 import {logger} from 'src/themes/flow-sdk/logger';
 import {
     META_AUTHORIZATION_BILLING_ERROR,
-    META_AUTHORIZATION_ERROR,
     META_AUTHORIZATION_OTHER_ERROR,
     META_AUTHORIZATION_PAYMENT_ERROR,
     META_AUTHORIZATION_SHIPPING_ERROR,
     META_AUTHORIZATION_SUCCESS,
+    META_OTHER_DATA_ERROR,
+    META_PAYMENT_DATA_ERROR,
+    META_SHIPPING_DATA_ERROR,
+    META_BILLING_DATA_ERROR,
 } from 'src/themes/flow-sdk/constants';
 import {
     getFirstAndLastName,
@@ -26,6 +29,7 @@ import {
     getCurrency,
     IAddPaymentRequest,
     IApiBatchResponse,
+    IApiSubrequestErrorsResponse,
     IApiSuccessResponse,
     IBatchableRequest,
     processOrder,
@@ -34,8 +38,19 @@ import {API_RETRY} from 'src/constants';
 import {checkoutFlow} from 'src/themes/flow-sdk/flowState';
 import {buildCustomerBatchRequest} from 'src/themes/flow-sdk/batch/buildCustomerBatchRequest';
 import {buildAddressBatchRequest} from 'src/themes/flow-sdk/batch/buildAddressBatchRequest';
+import {getErrorTermFromLibState} from 'src/utils';
+import {getErrorWithField} from 'src/themes/flow-sdk/flow-utils/getErrorWithField';
 
 export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Promise<IMetaPaymentAuthorizationResult> => {
+    const paymentDataError = {...META_PAYMENT_DATA_ERROR, message: getErrorTermFromLibState('payment_gateway', 'unknown_error')};
+    const paymentMetaError = {...META_AUTHORIZATION_PAYMENT_ERROR, error: paymentDataError};
+
+    const genericOtherDataError = {...META_OTHER_DATA_ERROR, message: getErrorTermFromLibState('generic', 'unknown_error')};
+    const genericMetaError = {...META_AUTHORIZATION_OTHER_ERROR, error: genericOtherDataError};
+
+    const taxesDataError = {...META_OTHER_DATA_ERROR, message: getErrorTermFromLibState('payment_gateway', 'no_tax')};
+    const taxesMetaError = {...META_AUTHORIZATION_OTHER_ERROR, error: taxesDataError};
+
     // Tokenize containerData
     const {public_gateway_id: publicGatewayId} = checkoutFlow.flow_settings as IMetaFlowSettings;
     const tokenizeUrl = `${checkoutFlow.params.boldSecureUrl}/tokenize`;
@@ -50,7 +65,13 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
             payload: response.container.containerData,
         })
     };
-    const tokenizePromise = fetch(tokenizeUrl, options);
+
+    let tokenizePromise: Promise<Response>;
+    try {
+        tokenizePromise = fetch(tokenizeUrl, options);
+    } catch (e) {
+        return Promise.reject(paymentMetaError);
+    }
 
     const {firstName, lastName} = getFirstAndLastName(response.billingAddress?.recipient || response.shippingAddress?.recipient);
     const formattedShippingAddress = formatCheckoutAddressFromMeta(response.shippingAddress, false);
@@ -77,29 +98,40 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
                 if (subResponse.status_code < 200 || subResponse.status_code > 299) {
                     switch (subResponse.endpoint) {
                         case apiTypes.addGuestCustomer.path:
-                        case apiTypes.updateCustomer.path:
-                            return Promise.reject(META_AUTHORIZATION_OTHER_ERROR);
+                        case apiTypes.updateCustomer.path: {
+                            return Promise.reject(genericMetaError);
+                        }
                         case apiTypes.setShippingAddress.path:
-                        case apiTypes.updateShippingAddress.path:
-                            return Promise.reject(META_AUTHORIZATION_SHIPPING_ERROR);
+                        case apiTypes.updateShippingAddress.path: {
+                            const {errors} = subResponse as IApiSubrequestErrorsResponse;
+                            const shippingDataError = getErrorWithField(errors, META_SHIPPING_DATA_ERROR);
+                            const shippingMetaError = {...META_AUTHORIZATION_SHIPPING_ERROR, error: shippingDataError};
+                            
+                            return Promise.reject(shippingMetaError);
+                        }
                         case apiTypes.setBillingAddress.path:
-                        case apiTypes.updateBillingAddress.path:
-                            return Promise.reject(META_AUTHORIZATION_BILLING_ERROR);
-                        case apiTypes.setTaxes.path:
-                            return Promise.reject(META_AUTHORIZATION_OTHER_ERROR);
+                        case apiTypes.updateBillingAddress.path: {
+                            const {errors} = subResponse as IApiSubrequestErrorsResponse;
+                            const updateBillingDataError = getErrorWithField(errors, META_BILLING_DATA_ERROR);
+                            const updateBillingMetaError = {...META_AUTHORIZATION_BILLING_ERROR, error: updateBillingDataError};
+
+                            return Promise.reject(updateBillingMetaError);
+                        }
+                        case apiTypes.setTaxes.path: 
+                            return Promise.reject(taxesMetaError);
                         default:
-                            return Promise.reject(META_AUTHORIZATION_OTHER_ERROR);
+                            return Promise.reject(genericMetaError);
                     }
                 }
             }
         }
 
-        return Promise.reject(META_AUTHORIZATION_OTHER_ERROR);
+        return Promise.reject(genericMetaError);
     }
 
     const tokenizeResponse = await tokenizePromise;
     if (tokenizeResponse.status < 200 || tokenizeResponse.status > 299) {
-        return Promise.reject(META_AUTHORIZATION_PAYMENT_ERROR);
+        return Promise.reject(paymentMetaError);
     }
 
     const tokenizeJson = await tokenizeResponse.json();
@@ -118,12 +150,12 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
 
     const paymentResponse = await addPayment(payment, API_RETRY);
     if (!paymentResponse.success) {
-        return Promise.reject(META_AUTHORIZATION_PAYMENT_ERROR);
+        return Promise.reject(paymentMetaError);
     }
 
     const processOrderResponse = await processOrder(API_RETRY);
     if (!processOrderResponse.success) {
-        return Promise.reject(META_AUTHORIZATION_ERROR);
+        return Promise.reject(paymentMetaError);
     }
 
     const processOrderInnerResponse = processOrderResponse.response as IApiSuccessResponse;
@@ -133,7 +165,7 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
             checkoutFlow.params.onAction('FLOW_ORDER_COMPLETED', processOrderDataResponse);
         }
     } else {
-        return Promise.reject(META_AUTHORIZATION_ERROR);
+        return Promise.reject(paymentMetaError);
     }
 
     logger({AuthorizationResult: META_AUTHORIZATION_SUCCESS}, 'info');

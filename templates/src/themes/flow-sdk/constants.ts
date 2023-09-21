@@ -1,4 +1,4 @@
-import {IFlowType, IMetaPaymentAuthorizationResult, IMetaPaymentDataError} from 'src/themes/flow-sdk/types';
+import {IFlowType, IMetaPaymentAuthorizationResult, IMetaPaymentDataError, IMetaPaymentDataErrorField} from 'src/themes/flow-sdk/types';
 
 export const flowType: IFlowType = {
     META: 'meta',
@@ -25,4 +25,19 @@ export const MetaAddressPlaceholders = {
     last_name: 'lastname',
     address_line_1: 'addressLine1',
     phone_number: '0000000000',
+};
+
+export const MetaFields: {[key: string]: IMetaPaymentDataErrorField} = {
+    email_address: 'payerEmail',
+    email: 'payerEmail',
+    postal_code: 'postalCode',
+    country_code: 'country',
+    province: 'region',
+    phone_number: 'payerPhone',
+    first_name: 'recipient',
+    last_name: 'recipient',
+    address_line_1: 'addressLine',
+    city: 'city',
+    customer: 'recipient',
+    business_name: 'organization',
 };
