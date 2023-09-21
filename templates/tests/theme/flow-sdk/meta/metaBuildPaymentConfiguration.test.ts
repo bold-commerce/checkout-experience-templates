@@ -17,6 +17,7 @@ describe('metaBuildPaymentConfiguration', () => {
         const metaPaymentConfiguration: IMetaPaymentConfiguration = {
             acquirerCountryCode: 'US',
             containerContext: MetaPaymentConfiguration.containerContext,
+            requestId: MetaPaymentConfiguration.requestId,
             mode: 'LIVE',
             partnerId: "",
             partnerMerchantId: "",

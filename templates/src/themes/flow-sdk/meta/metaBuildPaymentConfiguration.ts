@@ -17,6 +17,7 @@ export const metaBuildPaymentConfiguration = (): IMetaPaymentConfiguration => {
             'ecom-token-v1': {},
         },
         containerContext: getPublicOrderId(),
+        requestId: getPublicOrderId(),
         uxFlags: ['META_CHECKOUT'],
     };
 

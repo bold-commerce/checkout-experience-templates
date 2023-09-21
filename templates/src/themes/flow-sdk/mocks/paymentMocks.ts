@@ -28,6 +28,7 @@ export const MetaPaymentClientMock: IMetaPaymentClient = {
 export const MetaPaymentConfiguration: IMetaPaymentConfiguration = {
     acquirerCountryCode: 'US',
     containerContext: 'publicOrderId',
+    requestId: 'publicOrderId',
     mode: 'TEST',
     partnerId: 'partnerId',
     partnerMerchantId: 'partnerMerchantId',
