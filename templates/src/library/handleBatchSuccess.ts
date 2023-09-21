@@ -1,7 +1,6 @@
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
 import {
-    IApiReturnObject,
     IApiSubrequestSuccessResponse
 } from '@boldcommerce/checkout-frontend-library';
 import {
@@ -14,7 +13,7 @@ import {
 import {compareAddresses} from 'src/utils';
 import {defaultAddressState} from 'src/constants';
 
-export async function handleBatchSuccess(dispatch: Dispatch, getState: () => IOrderInitialization, subrequest: IApiSubrequestSuccessResponse, response : IApiReturnObject): Promise<void> {
+export async function handleBatchSuccess(dispatch: Dispatch, getState: () => IOrderInitialization, subrequest: IApiSubrequestSuccessResponse): Promise<void> {
     const {data: {application_state: {addresses: {shipping, billing}}}} = getState();
     const shippingEmpty = compareAddresses(shipping, defaultAddressState);
 

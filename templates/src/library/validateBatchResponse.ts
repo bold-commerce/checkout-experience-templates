@@ -21,7 +21,7 @@ export async function validateBatchResponse(dispatch: Dispatch, getState: () => 
                     }
                     handleErrorIfNeeded(response, dispatch, getState, addressType);
                 } else {
-                    handleBatchSuccess(dispatch, getState, subrequest as IApiSubrequestSuccessResponse, response);
+                    handleBatchSuccess(dispatch, getState, subrequest as IApiSubrequestSuccessResponse);
                 }
             });
         } else {
@@ -30,7 +30,7 @@ export async function validateBatchResponse(dispatch: Dispatch, getState: () => 
     } else {
         const batchResponse : IApiBatchResponse = response.response as IApiBatchResponse;
         batchResponse.data.forEach( (subrequest) => {
-            handleBatchSuccess(dispatch, getState, subrequest as IApiSubrequestSuccessResponse, response);
+            handleBatchSuccess(dispatch, getState, subrequest as IApiSubrequestSuccessResponse);
         });
     }
 }
