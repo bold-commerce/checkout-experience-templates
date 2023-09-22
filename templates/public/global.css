@@ -79,8 +79,7 @@ html.loading {
 }
 
 .outside-main-content {
-    width: 700px;
-    padding: 40px 100px 0 30px;
+    padding: 40px 60px 0 30px;
     background-color: #ffffff;
 }
 
@@ -185,8 +184,7 @@ select {
     }
 
     .outside-main-content {
-        width: 468px;
-        padding: 26px 32px 0 32px;
+        padding: 26px 13px 0 32px;
     }
 
     .outside-main-content.no-summary {

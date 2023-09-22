@@ -33,7 +33,7 @@ describe('Testing FieldDatePicker component', () => {
         const input: Partial<HTMLInputElement> = screen.getByTestId('input-field');
         expect(container.getElementsByClassName(props.className).length).toBe(1);
         expect(input.id).toBe(props.id);
-        expect(input.value).toBe('January 1, 2010');
+        expect(input.value).toBe(props.value);
         expect(input.name).toBe(props.id);
         expect(input.placeholder).toBe(props.placeholder);
     });

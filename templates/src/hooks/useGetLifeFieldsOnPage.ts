@@ -52,7 +52,15 @@ export function useGetLifeFieldsOnPage(page: string): Array<ILifeField> {
                 LifeInputLocationConstants.MAIN_CONTENT_BEGINNING,
                 LifeInputLocationConstants.MAIN_CONTENT_END,
             ],
-        }
+        },
+        {
+            page: LifeInputPageConstants.THANK_YOU_PAGE,
+            locations: [
+                LifeInputLocationConstants.THANK_YOU_MESSAGE,
+                LifeInputLocationConstants.ORDER_CONFIRMATION,
+                LifeInputLocationConstants.ORDER_DETAILS,
+            ],
+        },
     ];
 
     const locations = requiredLifeFieldLocations.filter(value => value.page === page).map(value => value.locations);

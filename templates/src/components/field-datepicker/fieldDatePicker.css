@@ -1,78 +1,78 @@
-.dp-col-header {
+body .dp-col-header {
     color: #999;
     font-weight: 900;
 }
 
-.dp-clear, .dp-close, .dp-today {
+body .dp-cal-footer {
     display: none;
 }
 
-.dp:before {
+body .dp:before {
     background: #f5f5f5;
 }
 
-.dp-day {
+body .dp-day {
     height: 40px;
 }
 
-.dp-cal-month, .dp-cal-year, .dp-month {
+body .dp-cal-month, .dp-cal-year, .dp-month {
     height: 50px;
     width: 100px;
 }
 
-.dp-year {
+body .dp-year {
     height: 40px;
 }
 
-.dp-close:active,
-.dp-clear:active,
-.dp-today:active,
-.dp-next:active,
-.dp-prev:active,
-.dp-cal-month:active,
-.dp-cal-year:active {
+body .dp-close:active,
+body .dp-clear:active,
+body .dp-today:active,
+body .dp-next:active,
+body .dp-prev:active,
+body .dp-cal-month:active,
+body .dp-cal-year:active {
     background: #2283C8;
 }
 
 @media screen and (min-device-width: 1200px) {
-    .dp-close:hover,
-    .dp-close:focus,
-    .dp-clear:hover,
-    .dp-clear:focus,
-    .dp-today:hover,
-    .dp-today:focus,
-    .dp-next:hover,
-    .dp-next:focus,
-    .dp-prev:hover,
-    .dp-prev:focus,
-    .dp-cal-month:focus,
-    .dp-cal-month:hover,
-    .dp-cal-year:hover,
-    .dp-cal-year:focus {
+    body .dp-close:hover,
+    body .dp-close:focus,
+    body .dp-clear:hover,
+    body .dp-clear:focus,
+    body .dp-today:hover,
+    body .dp-today:focus,
+    body .dp-next:hover,
+    body .dp-next:focus,
+    body .dp-prev:hover,
+    body .dp-prev:focus,
+    body .dp-cal-month:focus,
+    body .dp-cal-month:hover,
+    body .dp-cal-year:hover,
+    body .dp-cal-year:focus {
         background: #2283C8;
     }
 }
 
-.dp-day:hover,
-.dp-month:hover,
-.dp-year:hover,
-.dp-current:focus,
-.dp-current,
-.dp-day:focus,
-.dp-month:focus,
-.dp-year:focus {
+body .dp-day:hover,
+body .dp-month:hover,
+body .dp-year:hover,
+body .dp-current:focus,
+body .dp-current,
+body .dp-day:focus,
+body .dp-month:focus,
+body .dp-year:focus {
     outline: none;
     background: #2283C8;
     color: white;
 }
 
-.dp-selected:hover,
-.dp-selected:focus,
-.dp-selected {
+body .dp-selected:hover,
+body .dp-selected:focus,
+body .dp-selected {
     background: #0A75C2;
 }
 
-.dp-day-today:after {
+body .dp-day-today:after {
     border: 7px solid #0F67A8;
     content: '';
     height: 0;

@@ -4,7 +4,6 @@ import {useDispatch} from 'react-redux';
 import {ILifeFieldInput} from 'src/types';
 import {ILifeField} from '@boldcommerce/checkout-frontend-library/lib/types/apiInterfaces';
 import {actionAddError, actionRemoveErrorByField, actionUpdateNoteAttributeField} from 'src/action';
-import {patchLifeField} from 'src/library';
 import {ICartParameters} from '@boldcommerce/checkout-frontend-library';
 
 export function useLifeFieldTextInput(lifeField: ILifeField): ILifeFieldInput {
@@ -18,13 +17,14 @@ export function useLifeFieldTextInput(lifeField: ILifeField): ILifeFieldInput {
     const inputDefault = lifeField.input_default ?? '';
     const defaultValue = lifeField.meta_data_field in noteAttributes ? noteAttributes[lifeField.meta_data_field] : inputDefault;
     const [inputValue, setInputValue] = useState(defaultValue);
-    const debounceApiCall = useDebounceLifeField();
+    const debounceApiCall = useDebounceLifeField({[lifeField.meta_data_field]: inputValue} as ICartParameters);
     const defaultRequiredError = useGetLifeFieldErrorMessage('life_element_required');
     const defaultInvalidError = useGetLifeFieldErrorMessage('life_element_invalid');
 
     const handleChange = useCallback(e => {
 
         const inputValue = e.target.value;
+        let dispatchDebounceApiCall = true;
 
         if (errorMessage) {
             dispatch(actionRemoveErrorByField(lifeField.meta_data_field, ''));
@@ -39,6 +39,7 @@ export function useLifeFieldTextInput(lifeField: ILifeField): ILifeFieldInput {
                 field: lifeField.meta_data_field,
                 message: `${lifeField.input_label}${defaultRequiredError.message}`
             }));
+            dispatchDebounceApiCall = false;
         } else if (lifeField.input_regex) {
             const regex = new RegExp(lifeField.input_regex);
             if (!regex.test(inputValue)) {
@@ -47,8 +48,11 @@ export function useLifeFieldTextInput(lifeField: ILifeField): ILifeFieldInput {
                     field: lifeField.meta_data_field,
                     message: `${lifeField.input_label}${defaultInvalidError.message}`
                 }));
+                dispatchDebounceApiCall = false;
             }
-        } else {
+        }
+
+        if (dispatchDebounceApiCall) {
             dispatch(debounceApiCall);
         }
 
@@ -57,7 +61,6 @@ export function useLifeFieldTextInput(lifeField: ILifeField): ILifeFieldInput {
     useEffect(() => {
         if (defaultValue.length > 0 && !(lifeField.meta_data_field in noteAttributes)) {
             dispatch(actionUpdateNoteAttributeField(lifeField.meta_data_field, defaultValue));
-            dispatch(patchLifeField({[lifeField.meta_data_field]: defaultValue} as ICartParameters));
         }
     }, []);
 

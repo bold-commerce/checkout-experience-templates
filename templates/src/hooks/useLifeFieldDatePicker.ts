@@ -4,12 +4,13 @@ import {
     useGetLifeFieldErrorMessage,
     useGetAppSettingData
 } from 'src/hooks';
-import {useCallback, useState} from 'react';
+import {useCallback, useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {ILifeFieldDatePicker} from 'src/types';
 import {ILifeField} from '@boldcommerce/checkout-frontend-library/lib/types/apiInterfaces';
 import {actionAddError, actionRemoveErrorByField, actionUpdateNoteAttributeField} from 'src/action';
-import {patchLifeFields} from 'src/library';
+import {patchLifeField} from 'src/library';
+import {ICartParameters} from '@boldcommerce/checkout-frontend-library';
 export function useLifeFieldDatePicker(lifeField: ILifeField): ILifeFieldDatePicker {
     const dispatch = useDispatch();
     const noteAttributes = useGetNoteAttributes();
@@ -22,16 +23,22 @@ export function useLifeFieldDatePicker(lifeField: ILifeField): ILifeFieldDatePic
     const [value, setValue] = useState(defaultValue);
     const defaultRequiredError = useGetLifeFieldErrorMessage('life_element_required');
     const date = lifeField.input_default;
+    const isFirstRender = useRef(true);
 
-    const handleChange = useCallback(date => {
+    const handleChange = useCallback(selectedDate => {
 
         dispatch(actionRemoveErrorByField(lifeField.meta_data_field, ''));
 
-        if (date) {
-            const selectedDate = date.toLocaleDateString(languageIso, {year: 'numeric', month: 'long', day: 'numeric'});
-            setValue(selectedDate);
-            dispatch(actionUpdateNoteAttributeField(lifeField.meta_data_field, selectedDate));
-            dispatch(patchLifeFields);
+        if (selectedDate) {
+            const selectedDateString = selectedDate.toLocaleDateString(languageIso, {year: 'numeric', month: 'long', day: 'numeric'});
+            setValue(selectedDateString);
+            dispatch(actionUpdateNoteAttributeField(lifeField.meta_data_field, selectedDateString));
+
+            const defaultDate = new Date(lifeField.input_default ?? '');
+            if (!isFirstRender.current || isNaN(defaultDate.getTime())) {
+                dispatch(patchLifeField({[lifeField.meta_data_field]: selectedDateString} as ICartParameters));
+            }
+            isFirstRender.current = false;
         } else {
             dispatch(actionAddError({
                 ...defaultRequiredError,

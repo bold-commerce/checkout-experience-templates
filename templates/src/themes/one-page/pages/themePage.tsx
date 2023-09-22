@@ -1,8 +1,11 @@
 import {
     BillingAddress,
     CustomerInformation,
-    ExpressPaymentGateway, ExternalPaymentGateway,
-    FlashError, Footer, FormControls,
+    ExpressPaymentGateway,
+    ExternalPaymentGateway,
+    FlashError,
+    Footer,
+    FormControls,
     Header,
     HeaderHelmet,
     LifeFields,
@@ -14,7 +17,7 @@ import {
 } from 'src/components';
 import React, {useEffect} from 'react';
 import {getCheckoutUrl, getTerm, withPreventDefault} from 'src/utils';
-import {Constants} from 'src/constants';
+import {Constants, LifeInputPageConstants} from 'src/constants';
 import {useGetOnePageFooterData, useIsValidShippingOnLoad} from 'src/themes/one-page/hooks';
 import {checkInventoryStage} from '@boldcommerce/checkout-frontend-library';
 import {useDispatch} from 'react-redux';
@@ -23,13 +26,16 @@ import {
     useGetExternalPaymentGateways,
     useIsUserAuthenticated,
     useGetLifeFields,
-    useGetRequiresShipping
+    useGetRequiresShipping,
+    useOnLoadDefaultLifeFields,
+    useGetLifeFieldsOnPage
 } from 'src/hooks';
 import {LifeInputLocationConstants} from 'src/constants';
 
 export function ThemePage(): React.ReactElement {
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
     useIsValidShippingOnLoad();
+    useOnLoadDefaultLifeFields(useGetLifeFieldsOnPage(LifeInputPageConstants.ONE_PAGE));
     const {nextButtonOnClick, ...footerProps} = useGetOnePageFooterData();
     const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
     const infoExternalPaymentGateways = useGetExternalPaymentGateways(Constants.CUSTOMER_INFO_ABOVE);

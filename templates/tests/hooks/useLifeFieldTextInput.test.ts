@@ -213,7 +213,7 @@ describe('Testing hook useLifeFieldTextInput', () => {
             hookResult.handleChange(event);
         });
 
-        expect(mockDispatch).toHaveBeenCalledTimes(1);
+        expect(mockDispatch).toHaveBeenCalledTimes(2);
         expect(mockDispatch).toHaveBeenCalledWith(actionUpdateNoteAttributeField('test_meta_data_field_4', 'ac'));
     });
 

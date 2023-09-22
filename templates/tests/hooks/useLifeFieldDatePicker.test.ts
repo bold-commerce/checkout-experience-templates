@@ -115,7 +115,7 @@ describe('Testing hook useLifeFieldDatePicker', () => {
             hookResult.handleChange(date);
         });
 
-        expect(mockDispatch).toHaveBeenCalledTimes(3);
+        expect(mockDispatch).toHaveBeenCalledTimes(2);
         expect(mockDispatch).toHaveBeenCalledWith(actionRemoveErrorByField('test_meta_data_field', ''));
         expect(mockDispatch).toHaveBeenCalledWith(actionUpdateNoteAttributeField('test_meta_data_field', date.toLocaleDateString('en', {year: 'numeric', month: 'long', day: 'numeric'})));
     });
