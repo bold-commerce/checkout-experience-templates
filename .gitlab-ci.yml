@@ -170,15 +170,22 @@ CacheBustStaging:
   variables:
     URL: checkout.staging.boldapps.net/assets/experience
     ZONE_ID: 3a879e2c777829b3cb095f7cccb41272
+    TRIES: 3
   needs: [DeployStaging]
   when: delayed
   start_in: 2 minutes
   script:
     - |
-      curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/purge_cache" \
-        -H "Authorization: Bearer ${CLOUDFLARE_PURGE_CACHE_API_TOKEN_STAGING}" \
-        -H "Content-Type: application/json" \
-        --data '{"prefixes":["'${URL}'"]}'
+      for i in $(seq ${TRIES:-3}); do
+        echo "CacheBurst try #${i}"
+        curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/purge_cache" \
+              -H "Authorization: Bearer ${CLOUDFLARE_PURGE_CACHE_API_TOKEN_STAGING}" \
+              -H "Content-Type: application/json" \
+              --data '{"prefixes":["'${URL}'"]}'
+        if [ $? -ne 0 ]; then
+            echo -e "\e[91mError purging cache\e[0m"
+        fi
+      done
 
 UpdateArgoImageProduction:
   stage: update-argo-image-production
@@ -225,12 +232,19 @@ CacheBust:
   variables:
     URL: cashier.boldcommerce.com/assets/experience
     ZONE_ID: 2e857d867fb3ba231743b024b90fb22a
+    TRIES: 3
   needs: [DeployProduction]
   when: delayed
   start_in: 2 minutes
   script:
     - |
-      curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/purge_cache" \
-        -H "Authorization: Bearer ${CLOUDFLARE_PURGE_CACHE_API_TOKEN_PROD}" \
-        -H "Content-Type: application/json" \
-        --data '{"prefixes":["'${URL}'"]}'
+      for i in $(seq ${TRIES:-3}); do
+        echo "CacheBurst try #${i}"
+        curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/purge_cache" \
+              -H "Authorization: Bearer ${CLOUDFLARE_PURGE_CACHE_API_TOKEN_PROD}" \
+              -H "Content-Type: application/json" \
+              --data '{"prefixes":["'${URL}'"]}'
+        if [ $? -ne 0 ]; then
+            echo -e "\e[91mError purging cache\e[0m"
+        fi
+      done
