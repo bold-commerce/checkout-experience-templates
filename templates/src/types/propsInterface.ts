@@ -45,7 +45,7 @@ export interface IFieldInputProps {
     autoFocus?: boolean;
     id?: string;
     name?: string;
-
+    prefix?: React.ReactNode;
     readonly?: boolean;
     dataTestId?: string;
     errorMessage?: string | null;
@@ -704,6 +704,7 @@ export interface IFieldDatePickerProps {
     value: string;
     id: string;
     name?: string;
+    prefix?: React.ReactNode;
     dataTestId?: string;
     errorMessage?: string | null;
     handleChange: (e) => void;
