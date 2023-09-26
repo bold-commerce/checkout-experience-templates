@@ -59,6 +59,7 @@ export class Constants {
     static readonly THANK_YOU_ROUTE = 'thank_you';
     static readonly SESSION_EXPIRED_ROUTE = 'session_expired';
     static readonly BUY_NOW_ROUTE = 'buy_now';
+    static readonly LIFE_FIELDS_ROUTE = 'life';
     static readonly DEFAULT_TITLE = 'default title';
     static readonly ARIA_LIVE_POLITE = 'polite';
     static readonly ARIA_LIVE_ASSERTIVE = 'assertive';
