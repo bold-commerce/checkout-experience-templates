@@ -16,12 +16,14 @@ import {sendEvents, sendPageView} from 'src/analytics';
 import {
     useBeforeUnload,
     useGetLifeFields,
+    useGetLifeFieldsOnPage,
+    useOnLoadDefaultLifeFields,
     useOnLoadValidateCustomer,
     useScrollToElementOnNavigation,
 } from 'src/hooks';
 import {useShippingPage} from 'src/themes/three-page/hooks';
 import {getTerm, withPreventDefault} from 'src/utils';
-import {Constants, LifeInputLocationConstants} from 'src/constants';
+import {Constants, LifeInputLocationConstants, LifeInputPageConstants} from 'src/constants';
 
 export function ShippingLinesPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading, title} = useShippingPage();
@@ -33,6 +35,7 @@ export function ShippingLinesPage(): React.ReactElement {
     useOnLoadValidateCustomer();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
+    useOnLoadDefaultLifeFields(useGetLifeFieldsOnPage(LifeInputPageConstants.SHIPPING_THREE_PAGE));
     useEffect(() => {
         sendPageView('/shipping_lines', 2);
         sendEvents('Landed on shipping page', {'category': 'Checkout'});

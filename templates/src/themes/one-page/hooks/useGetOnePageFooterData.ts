@@ -25,8 +25,9 @@ export function useGetOnePageFooterData(): IUseGetOnePageFooterDataProps {
         window.location.href = link;
     }, [link]);
     const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.ONE_PAGE);
+    const thankYouPageLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.THANK_YOU_PAGE);
     const nextButtonOnClick = useCallback(() => {
-        callProcessOrder(dispatch, totals, history, requiredLifeFields);
+        callProcessOrder(dispatch, totals, history, requiredLifeFields, thankYouPageLifeFields);
     }, [totals]);
 
     useEffect( () => {

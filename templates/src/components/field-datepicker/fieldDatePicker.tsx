@@ -29,8 +29,7 @@ export function FieldDatePicker(props: IFieldDatePickerProps): React.ReactElemen
         ).on({
             select: onChange,
         });
-
-        if (props.date) {
+        if (props.date && !props.value) {
             const date = new Date(props.date);
             if (!isNaN(date.getTime())) {
                 datePicker.setState({
@@ -50,7 +49,6 @@ export function FieldDatePicker(props: IFieldDatePickerProps): React.ReactElemen
                 id={props.id}
                 data-testid={`${props.id}-date-picker-input`}
                 errorMessage={props.errorMessage}
-                handleChange={props.handleChange}
                 readonly={true}
                 prefix={<Icon source={Calendar} title='Calendar' aria-label='calendar' size='18' color='#1A1A1A'/>}
             />

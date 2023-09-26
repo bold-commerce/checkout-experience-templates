@@ -45,8 +45,9 @@ export function usePaymentPage(): IUsePaymentPage{
     } , [history]);
 
     const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.PAYMENT_THREE_PAGE);
+    const thankYouPageLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.THANK_YOU_PAGE);
     const nextButtonOnClick = useCallback(() => {
-        callProcessOrder(dispatch, totals, history, requiredLifeFields);
+        callProcessOrder(dispatch, totals, history, requiredLifeFields, thankYouPageLifeFields);
     },[totals, history]);
 
     return {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable, language, title};

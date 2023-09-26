@@ -5,14 +5,15 @@ import {
     errorSeverities,
     errorSubTypes,
     errorTypes,
+    LifeFieldErrorBackupTerms,
 } from 'src/constants';
-import {actionAddError} from 'src/action';
+import {actionAddError, actionUpdateNoteAttributeField} from 'src/action';
 import {ILifeField} from '@boldcommerce/checkout-frontend-library';
 import {findLanguageDataByIsoCode, getErrorTerm, getLanguageBlob} from 'src/utils';
 import {patchLifeFields} from 'src/library/patchLifeFields';
 import {LifeInputTypeConstants} from 'src/constants';
 
-export function validateLifeFields(lifeFields: Array<ILifeField>) {
+export function validateLifeFields(lifeFields: Array<ILifeField>, thankYouPageLifeFields?: Array<ILifeField>) {
     return async function validateLifeFieldsThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         let callPatchAPI = true;
         const language = findLanguageDataByIsoCode(getState().data.initial_data.supported_languages, getState().appSetting.languageIso);
@@ -21,8 +22,8 @@ export function validateLifeFields(lifeFields: Array<ILifeField>) {
             languageErrorBlob = getLanguageBlob(language, Constants.LANGUAGE_BLOB_ERROR_TYPE) as Array<Array<string>>;
         }
 
-        const requiredErrorMessage = getErrorTerm('life_element_required', 'life_elements', languageErrorBlob);
-        const invalidErrorMessage = getErrorTerm('life_element_invalid', 'life_elements', languageErrorBlob);
+        const requiredErrorMessage = getErrorTerm('life_element_required', 'life_elements', languageErrorBlob, LifeFieldErrorBackupTerms.IS_REQUIRED);
+        const invalidErrorMessage = getErrorTerm('life_element_invalid', 'life_elements', languageErrorBlob, LifeFieldErrorBackupTerms.IS_INVALID);
 
         const defaultError = {
             message: '',
@@ -70,6 +71,33 @@ export function validateLifeFields(lifeFields: Array<ILifeField>) {
         }
 
         if (callPatchAPI) {
+            if (thankYouPageLifeFields) {
+                for (const thankYouPageLifeField of thankYouPageLifeFields) {
+                    switch(thankYouPageLifeField.input_type) {
+                        case LifeInputTypeConstants.TEXT:
+                        case LifeInputTypeConstants.TEXTAREA: {
+                            if (thankYouPageLifeField.input_default) {
+                                dispatch(actionUpdateNoteAttributeField(thankYouPageLifeField.meta_data_field, thankYouPageLifeField.input_default));
+                            }
+                            break;
+                        }
+                        case LifeInputTypeConstants.CHECKBOX: {
+                            const inputDefault  = thankYouPageLifeField.input_default !== null && thankYouPageLifeField.input_default.length > 0 && thankYouPageLifeField.input_default === 'true';
+                            dispatch(actionUpdateNoteAttributeField(thankYouPageLifeField.meta_data_field, inputDefault));
+                            break;
+                        }
+                        case LifeInputTypeConstants.DATEPICKER: {
+                            const defaultDate = new Date(thankYouPageLifeField.input_default ?? '');
+                            if (!isNaN(defaultDate.getTime())) {
+                                const defaultDateString = defaultDate.toLocaleDateString(getState().appSetting.languageIso, {year: 'numeric', month: 'long', day: 'numeric'});
+                                dispatch(actionUpdateNoteAttributeField(thankYouPageLifeField.meta_data_field, defaultDateString));
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
             await patchLifeFields(dispatch, getState);
         }
     };

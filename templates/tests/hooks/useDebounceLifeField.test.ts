@@ -1,16 +1,17 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {act} from '@testing-library/react';
 import {useDebounceLifeField} from 'src/hooks';
-import {patchLifeFields} from 'src/library';
+import {patchLifeField} from 'src/library';
 import {debounceConstants} from 'src/constants';
 import {mocked} from 'jest-mock';
+import {ICartParameters} from '@boldcommerce/checkout-frontend-library';
 
 const mockDispatch = jest.fn();
-jest.mock('src/library/patchLifeFields');
+jest.mock('src/library/patchLifeField');
 jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch
 }));
-const patchLifeFieldsMock = mocked(patchLifeFields, true);
+const patchLifeFieldMock = mocked(patchLifeField, true);
 
 describe('Testing hook useDebounceLifeField', () => {
 
@@ -21,10 +22,12 @@ describe('Testing hook useDebounceLifeField', () => {
     });
 
     test('rendering the hook properly with timeout', async () => {
+
+        const lifeField = {['test']: 'test_value'} as ICartParameters;
         jest.useFakeTimers();
         jest.spyOn(global, 'setTimeout');
 
-        const {result} = renderHook(() => useDebounceLifeField());
+        const {result} = renderHook(() => useDebounceLifeField(lifeField));
 
         act(result.current);
         expect(mockDispatch).toBeCalledTimes(0);
@@ -32,7 +35,7 @@ describe('Testing hook useDebounceLifeField', () => {
 
         await mockDispatch;
         expect(mockDispatch).toBeCalledTimes(1);
-        expect(mockDispatch).toHaveBeenCalledWith(patchLifeFieldsMock);
+        expect(mockDispatch).toHaveBeenCalledWith(patchLifeFieldMock(lifeField));
         expect(setTimeout).toBeCalledWith(expect.any(Function), debounceConstants.DEFAULT_DEBOUNCE_TIME);
     });
 

@@ -107,4 +107,5 @@ export * from './useGetRequiresShipping';
 export * from './useLifeFieldSelect';
 export * from './useLifeFieldDatePicker';
 export * from './useGetDatePickerLanguage';
+export * from './useOnLoadDefaultLifeFields';
 

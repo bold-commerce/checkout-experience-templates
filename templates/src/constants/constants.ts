@@ -203,6 +203,34 @@ export class LifeInputPageConstants {
     static SHIPPING_THREE_PAGE = 'shipping_three_page';
     static PAYMENT_THREE_PAGE = 'payment_three_page';
     static ONE_PAGE = 'one_page';
+    static THANK_YOU_PAGE = 'thank_you_page';
+}
+
+export class LifeFieldErrorBackupTerms {
+    static IS_INVALID = 'is invalid.';
+    static IS_REQUIRED = 'is required.';
+}
+
+export class FieldDatePickerBackupTerms {
+    static DATE_PICKER_MONDAY = 'Mon';
+    static DATE_PICKER_TUESDAY = 'Tue';
+    static DATE_PICKER_WEDNESDAY = 'Wed';
+    static DATE_PICKER_THURSDAY = 'Thu';
+    static DATE_PICKER_FRIDAY = 'Fri';
+    static DATE_PICKER_SATURDAY = 'Sat';
+    static DATE_PICKER_SUNDAY = 'Sun';
+    static DATE_PICKER_JANUARY = 'January';
+    static DATE_PICKER_FEBRUARY = 'February';
+    static DATE_PICKER_MARCH = 'March';
+    static DATE_PICKER_APRIL = 'April';
+    static DATE_PICKER_MAY = 'May';
+    static DATE_PICKER_JUNE = 'June';
+    static DATE_PICKER_JULY = 'July';
+    static DATE_PICKER_AUGUST = 'August';
+    static DATE_PICKER_SEPTEMBER = 'September';
+    static DATE_PICKER_OCTOBER = 'October';
+    static DATE_PICKER_NOVEMBER = 'November';
+    static DATE_PICKER_DECEMBER = 'December';
 }
 
 export const MOBILE_SCREEN_WIDTH = 768;

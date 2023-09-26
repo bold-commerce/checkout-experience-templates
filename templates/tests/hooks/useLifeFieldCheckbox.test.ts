@@ -106,7 +106,7 @@ describe('Testing hook useLifeFieldCheckbox', () => {
         expect(hookResult.helpText).toBe('');
         expect(hookResult.id).toBe('3');
 
-        expect(mockDispatch).toHaveBeenCalledTimes(2);
+        expect(mockDispatch).toHaveBeenCalledTimes(1);
         expect(mockDispatch).toHaveBeenCalledWith(actionUpdateNoteAttributeField('test_meta_data_field_2', false));
     });
 
@@ -119,9 +119,8 @@ describe('Testing hook useLifeFieldCheckbox', () => {
             hookResult.handleChange(event);
         });
 
-        expect(mockDispatch).toHaveBeenCalledTimes(4);
+        expect(mockDispatch).toHaveBeenCalledTimes(3);
         expect(mockDispatch).toHaveBeenCalledWith(actionUpdateNoteAttributeField('test_meta_data_field', true));
-        expect(mockDispatch).toHaveBeenCalledWith(patchLifeFields);
     });
 
 });

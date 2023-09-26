@@ -3,8 +3,9 @@ import {ILifeField} from '@boldcommerce/checkout-frontend-library/lib/types/apiI
 import {useCallback, useState} from 'react';
 import {useGetErrorByField, useGetLifeFieldErrorMessage, useGetNoteAttributes} from 'src/hooks';
 import {actionAddError, actionRemoveErrorByField, actionUpdateNoteAttributeField} from 'src/action';
-import {patchLifeFields} from 'src/library';
+import {patchLifeField} from 'src/library';
 import {useDispatch} from 'react-redux';
+import {ICartParameters} from '@boldcommerce/checkout-frontend-library';
 
 export function useLifeFieldSelect(lifeField: ILifeField): ILifeFieldSelect {
     const dispatch = useDispatch();
@@ -40,7 +41,7 @@ export function useLifeFieldSelect(lifeField: ILifeField): ILifeFieldSelect {
                 message: `${lifeField.input_label}${defaultError.message}`
             }));
         } else {
-            dispatch(patchLifeFields);
+            dispatch(patchLifeField({[lifeField.meta_data_field]: value} as ICartParameters));
         }
     }, [errorMessage]);
 

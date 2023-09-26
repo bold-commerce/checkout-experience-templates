@@ -25,12 +25,14 @@ import {
     useGetExternalPaymentGateways,
     useIsUserAuthenticated,
     useGetLifeFields,
-    useGetRequiresShipping
+    useGetRequiresShipping,
+    useGetLifeFieldsOnPage,
+    useOnLoadDefaultLifeFields
 } from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
 import {getTerm, withPreventDefault} from 'src/utils';
-import {Constants, LifeInputLocationConstants} from 'src/constants';
+import {Constants, LifeInputLocationConstants, LifeInputPageConstants} from 'src/constants';
 import {setDefaultAddresses} from 'src/library';
 import {useDispatch} from 'react-redux';
 
@@ -50,6 +52,7 @@ export function CustomerPage(): React.ReactElement {
     const requiresShipping = useGetRequiresShipping();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
+    useOnLoadDefaultLifeFields(useGetLifeFieldsOnPage(LifeInputPageConstants.CUSTOMER_THREE_PAGE));
 
     if (window.initialTimestamps) {
         useEffect(() => {
