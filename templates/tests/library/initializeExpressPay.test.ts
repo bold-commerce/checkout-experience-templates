@@ -1,7 +1,7 @@
 import {
     displayOrderProcessingScreen,
     getApplicationStateFromLib,
-    initializeExpressPay
+    initializeExpressPay, setDefaultAddresses
 } from 'src/library';
 import {actionTypes, initialize} from '@boldcommerce/checkout-express-pay-library';
 import {mocked} from 'jest-mock';
@@ -15,10 +15,12 @@ import {stateMock} from 'src/mocks';
 jest.mock('@boldcommerce/checkout-express-pay-library');
 jest.mock('src/library/applicationState');
 jest.mock('src/library/displayOrderProcessingScreen');
+jest.mock('src/library/setDefaultAddresses');
 jest.mock('src/utils/getErrorTerm');
 const initializeExpressPayMock = mocked(initialize, true);
 const getApplicationStateFromLibMock = mocked(getApplicationStateFromLib, true);
 const displayOrderProcessingScreenMock = mocked(displayOrderProcessingScreen, true);
+const setDefaultAddressesMock = mocked(setDefaultAddresses, true);
 const getErrorTermMock = mocked(getErrorTerm, true);
 
 describe('testing initializeExpressPay', () => {
@@ -40,8 +42,9 @@ describe('testing initializeExpressPay', () => {
         const expressPay = await initializeExpressPay(historyMock);
         return expressPay(dispatchMock, getStateMock).then(() => {
             expect(initializeExpressPayMock).toBeCalled();
-            expect(dispatchMock).toHaveBeenCalledTimes(2);
+            expect(dispatchMock).toHaveBeenCalledTimes(3);
             expect(dispatchMock).toHaveBeenCalledWith(getApplicationStateFromLibMock);
+            expect(dispatchMock).toHaveBeenCalledWith(setDefaultAddressesMock);
             expect(dispatchMock).toHaveBeenCalledWith(expectedAction);
         });
     });

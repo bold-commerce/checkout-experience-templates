@@ -35,7 +35,7 @@ import {
 } from 'src/action';
 import {Constants, defaultAddressState} from 'src/constants';
 import {IOrderInitialization} from 'src/types';
-import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
+import {handleErrorIfNeeded} from 'src/utils';
 
 export async function getUpdatedApplicationState(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
     const response: IApiReturnObject = await getRefreshedApplicationState();
@@ -143,11 +143,9 @@ export async function getShippingAddressFromLib(dispatch: Dispatch, getState: ()
         libShipping = defaultAddressState;
     }
 
-    // only update address if lib and state shipping match
-    // prevents clobbering of state actively being set
-    if (isObjectEquals(libShipping, stateShippingSimple)) {
-        dispatch(actionUpdateAddress(Constants.SHIPPING, libShipping));
-    }
+
+    dispatch(actionUpdateAddress(Constants.SHIPPING, libShipping));
+
 }
 
 export async function getSummaryStateFromLib(dispatch: Dispatch): Promise<void> {

@@ -472,8 +472,8 @@ describe('testing Update Application State Thunk Actions', () => {
         getShippingAddressFromLib(dispatchMock, getStateMock);
 
         expect(getShippingAddressMock).toHaveBeenCalledTimes(1);
-        expect(actionUpdateAddressMock).toHaveBeenCalledTimes(0);
-        expect(dispatchMock).toHaveBeenCalledTimes(0);
+        expect(actionUpdateAddressMock).toHaveBeenCalledTimes(1);
+        expect(dispatchMock).toHaveBeenCalledTimes(1);
     });
 
     test('calling getSummaryStateFromLib', () => {
