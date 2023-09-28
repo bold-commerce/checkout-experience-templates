@@ -4,7 +4,7 @@ import {initialize, actionTypes} from '@boldcommerce/checkout-express-pay-librar
 import {findLanguageDataByIsoCode, getCheckoutUrl, getErrorTerm, getLanguageBlob} from 'src/utils';
 import {Constants} from 'src/constants';
 import {HistoryLocationState} from 'react-router';
-import {displayOrderProcessingScreen, getApplicationStateFromLib, processOrder} from 'src/library';
+import {displayOrderProcessingScreen, getApplicationStateFromLib, processOrder, setDefaultAddresses} from 'src/library';
 import {IError, IOrderInitialization} from 'src/types';
 
 export function initializeExpressPay(history: HistoryLocationState) {
@@ -20,6 +20,7 @@ export function initializeExpressPay(history: HistoryLocationState) {
             switch (type) {
                 case actionTypes.ENABLE_DISABLE_SECTION:
                     dispatch(actionSetExpressPaymentSectionEnabled(payload['show']));
+                    await dispatch(setDefaultAddresses);
                     break;
                 case actionTypes.ORDER_COMPLETED:
                     dispatch(actionSetAppStateValid('orderProcessed', true));
