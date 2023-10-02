@@ -7,6 +7,7 @@ import {mocked} from 'jest-mock';
 import {
     useGetLifeFields,
     useGetLifeFieldsOnPage,
+    useGetOverlay,
     useGetShopUrlFromShopAlias,
     useScrollToElementOnNavigation
 } from 'src/hooks';
@@ -34,11 +35,13 @@ jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useScrollToElementOnNavigation');
 jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/hooks/useGetLifeFieldsOnPage');
+jest.mock('src/hooks/useGetOverlay');
 mocked(useScrollToElementOnNavigation, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useShippingPageMock = mocked(useShippingPage, true);
 const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 const useGetLifeFieldsOnPageMock = mocked(useGetLifeFieldsOnPage, true);
+const useGetOverlayMock = mocked(useGetOverlay, true);
 
 describe('testing ShippingPage', () => {
 
@@ -55,6 +58,13 @@ describe('testing ShippingPage', () => {
         useShippingPageMock.mockReturnValue(props);
         useGetShopUrlFromShopAliasMock.mockReturnValue(shopURL);
         useGetLifeFieldsOnPageMock.mockReturnValue([]);
+        useGetOverlayMock.mockReturnValue({
+            shown: false,
+            inverted: false,
+            header: 'This is header issue',
+            subHeader: 'This is sub-header issue',
+            buttonText: 'back'
+        });
         window.headerLogoUrl = '';
     });
 

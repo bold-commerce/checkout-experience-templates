@@ -7,9 +7,11 @@ import {
     useGetContactUs,
     useGetFooter,
     useGetSessionExpired,
-    useGetShopUrlFromShopAlias, useScreenWidth,
+    useGetShopUrlFromShopAlias,
+    useScreenWidth,
     useSupportedLanguages,
     useGetLifeFields,
+    useGetOverlay,
 } from 'src/hooks';
 import {IUseContactUs, IUseFooter, IUseSessionExpired} from 'src/types';
 import {getErrorTerm, getTerm} from 'src/utils';
@@ -25,6 +27,7 @@ jest.mock('src/utils/getTerm');
 jest.mock('src/utils/getErrorTerm');
 jest.mock('src/hooks/useScreenWidth');
 jest.mock('src/hooks/useGetLifeFields');
+jest.mock('src/hooks/useGetOverlay');
 const useScreenWidthMock = mocked(useScreenWidth, true);
 const useGetSessionExpiredMock = mocked(useGetSessionExpired, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
@@ -35,6 +38,7 @@ const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 const getTermMock = mocked(getTerm, true);
 const getErrorTermMock = mocked(getErrorTerm, true);
+const useGetOverlayMock = mocked(useGetOverlay, true);
 
 describe('testing SessionExpiredPage', () => {
     const terms: Record<string, string> = {
@@ -66,6 +70,13 @@ describe('testing SessionExpiredPage', () => {
         getTermMock.mockReturnValue('test');
         getErrorTermMock.mockReturnValue('error');
         useGetLifeFieldsMock.mockReturnValue([]);
+        useGetOverlayMock.mockReturnValue({
+            shown: false,
+            inverted: false,
+            header: 'This is header issue',
+            subHeader: 'This is sub-header issue',
+            buttonText: 'back'
+        });
     });
 
     test('Rendering SessionExpiredPage', () => {

@@ -8,7 +8,8 @@ import {
     useGetShopUrlFromShopAlias,
     useScreenBreakpoints,
     useSupportedLanguages,
-    useGetLifeFields
+    useGetLifeFields,
+    useGetOverlay
 } from 'src/hooks';
 import {IUseContactUs, IUseFooter, IUseScreenBreakpoints} from 'src/types';
 import {getErrorTerm, getTerm} from 'src/utils';
@@ -21,6 +22,7 @@ jest.mock('src/hooks/useScreenBreakpoints');
 jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/utils/getTerm');
 jest.mock('src/utils/getErrorTerm');
+jest.mock('src/hooks/useGetOverlay');
 const getTermMock = mocked(getTerm, true);
 const getErrorTermMock = mocked(getErrorTerm, true);
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
@@ -29,6 +31,7 @@ const useGetFooterMock = mocked(useGetFooter, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
+const useGetOverlayMock = mocked(useGetOverlay, true);
 
 describe('testing SessionExpired component', () => {
     const contactUsHookReturn: IUseContactUs = {
@@ -63,6 +66,13 @@ describe('testing SessionExpired component', () => {
             }
         });
         window.returnUrl = shopUrlWithAlias;
+        useGetOverlayMock.mockReturnValue({
+            shown: false,
+            inverted: false,
+            header: 'This is header issue',
+            subHeader: 'This is sub-header issue',
+            buttonText: 'back'
+        });
     });
 
     test('Rendering SessionExpired component', () => {

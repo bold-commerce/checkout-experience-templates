@@ -7,6 +7,7 @@ import {mocked} from 'jest-mock';
 import {
     useGetLifeFields,
     useGetLifeFieldsOnPage,
+    useGetOverlay,
     useGetRequiresShipping,
     useGetShopUrlFromShopAlias,
     useScreenBreakpoints,
@@ -49,6 +50,7 @@ jest.mock('src/hooks/useScreenBreakpoints');
 jest.mock('src/hooks/useGetRequiresShipping');
 jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/hooks/useGetLifeFieldsOnPage');
+jest.mock('src/hooks/useGetOverlay');
 mocked(useScrollToElementOnNavigation, true);
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
@@ -57,6 +59,7 @@ const useSendEventMock = mocked(useSendEvent, true);
 const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 const useGetLifeFieldsOnPageMock = mocked(useGetLifeFieldsOnPage, true);
+const useGetOverlayMock = mocked(useGetOverlay, true);
 let addEventListenerSpy: jest.SpyInstance;
 
 describe('testing CustomerPage', () => {
@@ -75,6 +78,13 @@ describe('testing CustomerPage', () => {
         useGetShopUrlFromShopAliasMock.mockReturnValue(shopURL);
         useScreenBreakpointsMock.mockReturnValue(mockScreenBreakpoints);
         useGetLifeFieldsOnPageMock.mockReturnValue([]);
+        useGetOverlayMock.mockReturnValue({
+            shown: false,
+            inverted: false,
+            header: 'This is header issue',
+            subHeader: 'This is sub-header issue',
+            buttonText: 'back'
+        });
         addEventListenerSpy = jest.spyOn(global, 'addEventListener');
 
         window.headerLogoUrl = '';

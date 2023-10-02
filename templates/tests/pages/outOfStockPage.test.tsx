@@ -9,7 +9,8 @@ import {
     useGetShopUrlFromShopAlias,
     useScreenBreakpoints,
     useSupportedLanguages,
-    useGetLifeFields
+    useGetLifeFields,
+    useGetOverlay
 } from 'src/hooks';
 import {OutOfStockPage} from 'src/pages';
 import {IUseContactUs, IUseFooter, IUseOutOfStock} from 'src/types';
@@ -25,6 +26,7 @@ jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useScreenBreakpoints');
 jest.mock('src/hooks/useGetLifeFields');
+jest.mock('src/hooks/useGetOverlay');
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetOutOfStockMock = mocked(useGetOutOfStock, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
@@ -34,6 +36,7 @@ const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 const getTermMock = mocked(getTerm, true);
 const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
+const useGetOverlayMock = mocked(useGetOverlay, true);
 
 describe('testing OutOfStockPage', () => {
     const terms: Record<string, string> = {
@@ -69,6 +72,13 @@ describe('testing OutOfStockPage', () => {
         useGetAppSettingDataMock.mockReturnValue('en');
         getTermMock.mockReturnValue('test');
         useGetLifeFieldsMock.mockReturnValue([]);
+        useGetOverlayMock.mockReturnValue({
+            shown: false,
+            inverted: false,
+            header: 'This is header issue',
+            subHeader: 'This is sub-header issue',
+            buttonText: 'back'
+        });
     });
 
     test('Rendering OutOfStockPage', () => {
