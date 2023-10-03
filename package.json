@@ -9,7 +9,7 @@
     "url": "https://github.com/bold-commerce/checkout-experience-templates.git"
   },
   "scripts": {
-    "postinstall": "yarn build-package",
+    "postinstall": "tsc --outDir ./lib",
     "preconfig": "node createRequiredConfig.js",
     "prerelease": "npm --no-git-tag-version --preid=build version prerelease",
     "prebuild": "yarn preconfig && yarn prerelease && yarn build-package",
