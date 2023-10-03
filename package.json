@@ -11,7 +11,7 @@
   "scripts": {
     "preconfig": "node createRequiredConfig.js",
     "prerelease": "npm --no-git-tag-version --preid=build version prerelease",
-    "prebuild": "yarn preconfig && yarn prerelease",
+    "prebuild": "yarn preconfig && yarn prerelease && yarn build-package",
     "test": "jest",
     "cover-test": "jest --coverage --colors",
     "build": "webpack --bail --mode production",
@@ -21,6 +21,7 @@
     "serve": "yarn prebuild && NODE_ENV=development webpack serve",
     "lint": "eslint ./src --fix",
     "lint-ci": "node_modules/.bin/eslint src",
+    "build-package": "ttsc",
     "test-ci": "yarn cover-test --ci --bail --verbose --reporters=default --reporters=jest-junit --forceExit --watchAll=false --detectOpenHandles"
   },
   "keywords": [],
@@ -42,6 +43,8 @@
     "style-loader": "^2.0.0",
     "ts-jest": "^27.0.3",
     "ts-loader": "^9.2.1",
+    "ttypescript": "^1.5.12",
+    "typescript-transform-paths": "^3.3.1",
     "webpack": "^5.37.0",
     "webpack-bugsnag-plugins": "^1.8.0",
     "webpack-cli": "^4.7.0",
