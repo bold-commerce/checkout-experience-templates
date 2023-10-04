@@ -47,6 +47,7 @@ export function handlePigiAddPayment(payload: IPigiResponsesPayload, history: Hi
             dispatch(processOrder(history));
         } else {
             dispatch(actionShowHideOverlayContent(false));
+            dispatch(actionSetPigiDisplaySca(false));
         }
     };
 }

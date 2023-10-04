@@ -113,7 +113,7 @@ describe('testing getPaymentIframe function', () => {
         await handlePigiAddPaymentThunk(dispatchMock).then(() => {
             expect(actionShowHideOverlayContentMock).toHaveBeenCalledTimes(1);
             expect(actionShowHideOverlayContentMock).toHaveBeenCalledWith(false);
-            expect(dispatchMock).toHaveBeenCalledTimes(2);
+            expect(dispatchMock).toHaveBeenCalledTimes(3);
             expect(dispatchMock).toHaveBeenCalledWith(getUpdatedApplicationState);
             expect(dispatchMock).toHaveBeenCalledWith(actionMock);
         });
@@ -138,7 +138,7 @@ describe('testing getPaymentIframe function', () => {
         await handlePigiAddPaymentThunk(dispatchMock).then(() => {
             expect(actionShowHideOverlayContentMock).toHaveBeenCalledTimes(1);
             expect(actionShowHideOverlayContentMock).toHaveBeenCalledWith(false);
-            expect(dispatchMock).toHaveBeenCalledTimes(2);
+            expect(dispatchMock).toHaveBeenCalledTimes(3);
             expect(dispatchMock).toHaveBeenCalledWith(getUpdatedApplicationState);
             expect(dispatchMock).toHaveBeenCalledWith(actionMock);
         });

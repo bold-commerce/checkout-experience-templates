@@ -12,7 +12,8 @@ import {
     useGetValidVariable,
     useGetAppSettingData,
     useScreenBreakpoints,
-    useGetLifeFields
+    useGetLifeFields,
+    useGetOverlay
 } from 'src/hooks';
 import {addressMock, stateMock} from 'src/mocks';
 import {ThankYouPage} from 'src/pages';
@@ -32,6 +33,7 @@ jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useScreenBreakpoints');
 jest.mock('src/hooks/useGetLifeFields');
+jest.mock('src/hooks/useGetOverlay');
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
@@ -42,6 +44,7 @@ const useGetValidVariableMock = mocked(useGetValidVariable, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 const getTermMock = mocked(getTerm, true);
 const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
+const useGetOverlayMock = mocked(useGetOverlay, true);
 
 const store = Store.initializeStore();
 const context = {};
@@ -68,6 +71,13 @@ describe('testing ThankYouPage', () => {
         useGetValidVariableMock.mockReturnValue(true);
         useGetAppSettingDataMock.mockReturnValue('en');
         getTermMock.mockReturnValue('test');
+        useGetOverlayMock.mockReturnValue({
+            shown: false,
+            inverted: false,
+            header: 'This is header issue',
+            subHeader: 'This is sub-header issue',
+            buttonText: 'back'
+        });
     });
 
     test('Rendering ThankYouPage component', () => {

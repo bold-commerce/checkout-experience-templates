@@ -12,7 +12,9 @@ import {
     useSupportedLanguages,
     useSendEvent,
     useScreenBreakpoints,
-    useGetLifeFields, useGetRequiresShipping,
+    useGetLifeFields,
+    useGetRequiresShipping,
+    useGetOverlay,
 } from 'src/hooks';
 import {addressMock, initialDataMock} from 'src/mocks';
 import {IUseContactUs, IUseFooter, IUseGetOrderRecap, IUseGetThankYou, IUseScreenBreakpoints} from 'src/types';
@@ -30,6 +32,7 @@ jest.mock('src/hooks/useScreenBreakpoints');
 jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useGetRequiresShipping');
+jest.mock('src/hooks/useGetOverlay');
 const getTermMock = mocked(getTerm, true);
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetThankYouMock = mocked(useGetThankYou, true);
@@ -41,6 +44,7 @@ const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
+const useGetOverlayMock = mocked(useGetOverlay, true);
 mocked(useSendEvent, true);
 
 describe('testing ThankYou component', () => {
@@ -99,6 +103,13 @@ describe('testing ThankYou component', () => {
         getTermMock.mockReturnValue('some_text');
         useGetLifeFieldsMock.mockReturnValue([]);
         useGetRequiresShippingMock.mockReturnValue(true);
+        useGetOverlayMock.mockReturnValue({
+            shown: false,
+            inverted: false,
+            header: 'This is header issue',
+            subHeader: 'This is sub-header issue',
+            buttonText: 'back'
+        });
     });
 
     test('Rendering ThankYou component', () => {

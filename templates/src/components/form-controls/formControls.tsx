@@ -4,8 +4,9 @@ import React from 'react';
 
 import {ContactUs} from 'src/components';
 import {Constants} from 'src/constants';
-import {IFormControlsProps} from 'src/types';
+import {IFormControlsProps, IOverlay} from 'src/types';
 import {getTerm} from 'src/utils';
+import {useGetOverlay} from 'src/hooks';
 
 export function FormControls(props: IFormControlsProps): React.ReactElement {
     const showBackLink = !!props.backLinkText && !!props.backLinkOnClick;
@@ -13,6 +14,7 @@ export function FormControls(props: IFormControlsProps): React.ReactElement {
     const cssClassButton  = classNames(['form-controls__button', 'form-controls__continue-button', 'btn-checkout']);
     const sectionAriaLabel = getTerm('form_controls', Constants.GLOBAL_INFO);
     const nextButtonTestDataId = props.nextButtonTestDataId ?? 'footer-return-to-store-button';
+    const overlay: IOverlay = useGetOverlay();
 
     return (
         <section className={cssClass} aria-label={sectionAriaLabel}>
@@ -24,15 +26,17 @@ export function FormControls(props: IFormControlsProps): React.ReactElement {
                 </span>
             </a>
             }
-            <Button
-                data-testid={nextButtonTestDataId}
-                size={'large'}
-                type='submit'
-                loading={props.nextButtonLoading}
-                disabled={props.nextButtonDisable}
-                className={cssClassButton}
-                onClick={props.nextButtonOnClick}>{props.nextButtonText}
-            </Button>
+            {
+                !overlay.shown && <Button
+                    data-testid={nextButtonTestDataId}
+                    size={'large'}
+                    type='submit'
+                    loading={props.nextButtonLoading}
+                    disabled={props.nextButtonDisable}
+                    className={cssClassButton}
+                    onClick={props.nextButtonOnClick}>{props.nextButtonText}
+                </Button>
+            }
         </section>
     );
 }

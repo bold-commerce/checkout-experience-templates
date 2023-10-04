@@ -3,7 +3,13 @@ import {render} from '@testing-library/react';
 import React from 'react';
 import {ThemePage} from 'src/themes/one-page/pages';
 import {mocked} from 'jest-mock';
-import {useGetLifeFields, useGetLifeFieldsOnPage, useGetRequiresShipping, useGetShopUrlFromShopAlias} from 'src/hooks';
+import {
+    useGetLifeFields,
+    useGetLifeFieldsOnPage,
+    useGetOverlay,
+    useGetRequiresShipping,
+    useGetShopUrlFromShopAlias
+} from 'src/hooks';
 import {HelmetProvider} from 'react-helmet-async';
 import {ILifeField} from '@boldcommerce/checkout-frontend-library/lib/types/apiInterfaces';
 
@@ -24,6 +30,7 @@ jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useGetRequiresShipping');
 jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/hooks/useGetLifeFieldsOnPage');
+jest.mock('src/hooks/useGetOverlay');
 jest.mock('react-redux', () => ({
     useSelector: jest.fn().mockImplementation(func => func(store)),
     useDispatch: () => mockDispatch
@@ -32,6 +39,7 @@ const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 const useGetLifeFieldsOnPageMock = mocked(useGetLifeFieldsOnPage, true);
+const useGetOverlayMock = mocked(useGetOverlay, true);
 
 describe('testing ThemePage', () => {
     const context = {};
@@ -40,6 +48,13 @@ describe('testing ThemePage', () => {
 
         useGetShopUrlFromShopAliasMock.mockReturnValue(shopURL);
         useGetLifeFieldsOnPageMock.mockReturnValue([]);
+        useGetOverlayMock.mockReturnValue({
+            shown: false,
+            inverted: false,
+            header: 'This is header issue',
+            subHeader: 'This is sub-header issue',
+            buttonText: 'back'
+        });
     });
 
     test('Rendering ThemePage properly', () => {
