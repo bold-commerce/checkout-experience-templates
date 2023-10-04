@@ -40,8 +40,10 @@ import {buildCustomerBatchRequest} from 'src/themes/flow-sdk/batch/buildCustomer
 import {buildAddressBatchRequest} from 'src/themes/flow-sdk/batch/buildAddressBatchRequest';
 import {getErrorTermFromLibState} from 'src/utils';
 import {getErrorWithField} from 'src/themes/flow-sdk/flow-utils/getErrorWithField';
+import {addOnGoingRequest, removeOnGoingRequest} from 'src/themes/flow-sdk/manageFlowState';
 
 export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Promise<IMetaPaymentAuthorizationResult> => {
+    addOnGoingRequest('onPaymentConsent');
     const paymentDataError = {...META_PAYMENT_DATA_ERROR, message: getErrorTermFromLibState('payment_gateway', 'unknown_error')};
     const paymentMetaError = {...META_AUTHORIZATION_PAYMENT_ERROR, error: paymentDataError};
 
@@ -70,6 +72,7 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
     try {
         tokenizePromise = fetch(tokenizeUrl, options);
     } catch (e) {
+        removeOnGoingRequest('onPaymentConsent');
         return Promise.reject(paymentMetaError);
     }
 
@@ -99,6 +102,7 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
                     switch (subResponse.endpoint) {
                         case apiTypes.addGuestCustomer.path:
                         case apiTypes.updateCustomer.path: {
+                            removeOnGoingRequest('onPaymentConsent');
                             return Promise.reject(genericMetaError);
                         }
                         case apiTypes.setShippingAddress.path:
@@ -106,7 +110,8 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
                             const {errors} = subResponse as IApiSubrequestErrorsResponse;
                             const shippingDataError = getErrorWithField(errors, META_SHIPPING_DATA_ERROR);
                             const shippingMetaError = {...META_AUTHORIZATION_SHIPPING_ERROR, error: shippingDataError};
-                            
+
+                            removeOnGoingRequest('onPaymentConsent');
                             return Promise.reject(shippingMetaError);
                         }
                         case apiTypes.setBillingAddress.path:
@@ -115,22 +120,27 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
                             const updateBillingDataError = getErrorWithField(errors, META_BILLING_DATA_ERROR);
                             const updateBillingMetaError = {...META_AUTHORIZATION_BILLING_ERROR, error: updateBillingDataError};
 
+                            removeOnGoingRequest('onPaymentConsent');
                             return Promise.reject(updateBillingMetaError);
                         }
-                        case apiTypes.setTaxes.path: 
+                        case apiTypes.setTaxes.path:
+                            removeOnGoingRequest('onPaymentConsent');
                             return Promise.reject(taxesMetaError);
                         default:
+                            removeOnGoingRequest('onPaymentConsent');
                             return Promise.reject(genericMetaError);
                     }
                 }
             }
         }
 
+        removeOnGoingRequest('onPaymentConsent');
         return Promise.reject(genericMetaError);
     }
 
     const tokenizeResponse = await tokenizePromise;
     if (tokenizeResponse.status < 200 || tokenizeResponse.status > 299) {
+        removeOnGoingRequest('onPaymentConsent');
         return Promise.reject(paymentMetaError);
     }
 
@@ -150,11 +160,13 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
 
     const paymentResponse = await addPayment(payment, API_RETRY);
     if (!paymentResponse.success) {
+        removeOnGoingRequest('onPaymentConsent');
         return Promise.reject(paymentMetaError);
     }
 
     const processOrderResponse = await processOrder(API_RETRY);
     if (!processOrderResponse.success) {
+        removeOnGoingRequest('onPaymentConsent');
         return Promise.reject(paymentMetaError);
     }
 
@@ -165,9 +177,11 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
             checkoutFlow.params.onAction('FLOW_ORDER_COMPLETED', processOrderDataResponse);
         }
     } else {
+        removeOnGoingRequest('onPaymentConsent');
         return Promise.reject(paymentMetaError);
     }
 
     logger({AuthorizationResult: META_AUTHORIZATION_SUCCESS}, 'info');
+    removeOnGoingRequest('onPaymentConsent');
     return META_AUTHORIZATION_SUCCESS;
 };

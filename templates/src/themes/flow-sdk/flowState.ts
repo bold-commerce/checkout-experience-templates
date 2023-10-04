@@ -15,6 +15,7 @@ export const checkoutFlow: ICheckoutFlow = {
     flow_settings: {},
     canCheckout: false,
     onCheckoutClick: null,
+    onGoingRequests: []
 };
 
 export const metaFlow: IMetaFlow = {

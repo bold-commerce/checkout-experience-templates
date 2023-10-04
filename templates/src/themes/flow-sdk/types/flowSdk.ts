@@ -22,11 +22,14 @@ export interface IProcessOrderResponse {
 
 export type IOnAction = (actionType: string, payload?: Record<string, unknown> | IProcessOrderResponse | IMetaPaymentError) => void;
 
+export type IOnGoingRequestTypes = 'onPaymentDetailsChanged' | 'onPaymentConsent';
+
 export interface ICheckoutFlow {
     params: Required<ICheckoutFlowParameters>;
     flow_settings: Record<string, unknown> | IFlow | IMetaFlowSettings;
     canCheckout: boolean;
     onCheckoutClick: IOnCheckoutClickEvent | null;
+    onGoingRequests: Array<IOnGoingRequestTypes>
 }
 
 export interface IFlowType {

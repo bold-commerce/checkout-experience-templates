@@ -1,11 +1,15 @@
 import {IMetaPaymentError, IMetaPaymentResponse} from 'src/themes/flow-sdk/types';
 import {logger} from 'src/themes/flow-sdk/logger';
 import {checkoutFlow} from 'src/themes/flow-sdk/flowState';
+import {onBeforeUnload} from 'src/themes/flow-sdk/flow-utils/onBeforeUnload';
 
 export const metaOnResponse = async (responsePromise: Promise<IMetaPaymentResponse>): Promise<void> => {
     try {
+        window.onbeforeunload = onBeforeUnload;
         await responsePromise; // Just watch responsePromise from metapay for any PaymentError.
+        window.onbeforeunload = null;
     } catch (err) {
+        window.onbeforeunload = null;
         const error = err as IMetaPaymentError;
         switch (error.code) {
             case 'ABORTED': {

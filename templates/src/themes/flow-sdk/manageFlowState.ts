@@ -1,5 +1,5 @@
 import {checkoutFlow} from 'src/themes/flow-sdk/flowState';
-import {ICheckoutFlow, ICheckoutFlowParameters} from 'src/themes/flow-sdk/types';
+import {ICheckoutFlow, ICheckoutFlowParameters, IOnGoingRequestTypes} from 'src/themes/flow-sdk/types';
 
 export function setCheckoutFlow(params: ICheckoutFlowParameters, flowSetting: Record<string, unknown>): ICheckoutFlow {
     const environment = params.environment || window.environment || {type: 'production'};
@@ -14,4 +14,16 @@ export function setCheckoutFlow(params: ICheckoutFlowParameters, flowSetting: Re
     checkoutFlow.flow_settings = flowSetting;
 
     return checkoutFlow;
+}
+
+export function addOnGoingRequest(type: IOnGoingRequestTypes): void {
+    checkoutFlow.onGoingRequests.push(type);
+}
+
+export function removeOnGoingRequest(type: IOnGoingRequestTypes): void {
+    checkoutFlow.onGoingRequests = checkoutFlow.onGoingRequests.filter(reqType => reqType !== type);
+}
+
+export function hasOnGoingRequests(): boolean {
+    return checkoutFlow.onGoingRequests.length > 0;
 }
