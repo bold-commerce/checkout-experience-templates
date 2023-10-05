@@ -23,8 +23,10 @@ import {
     META_SHIPPING_DATA_ERROR
 } from 'src/themes/flow-sdk/constants';
 import {getErrorFromResponse} from 'src/themes/flow-sdk/flow-utils/getErrorFromResponse';
+import {addOnGoingRequest, removeOnGoingRequest} from 'src/themes/flow-sdk/manageFlowState';
 
 export const metaOnPaymentDetailsChanged = async (event: IMetaPaymentDetailsChangedEvent): Promise<IMetaPaymentDetailsUpdate> => {
+    addOnGoingRequest('onPaymentDetailsChanged');
     logger({PaymentDetailsChangedEvent: {changeTypes: event.changeTypes}});
     const {shippingAddress, billingAddress, fulfillmentOptionId, offers} = event.paymentDetails;
     const paymentDetailsUpdate: IMetaPaymentDetailsUpdate = {paymentDetails: event.paymentDetails};
@@ -115,5 +117,6 @@ export const metaOnPaymentDetailsChanged = async (event: IMetaPaymentDetailsChan
     // Get Updated Order to paymentDetails
     paymentDetailsUpdate.paymentDetails = metaBuildPaymentDetails();
     logger({paymentDetailsUpdate});
+    removeOnGoingRequest('onPaymentDetailsChanged');
     return paymentDetailsUpdate;
 };
