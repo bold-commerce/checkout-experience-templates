@@ -12,7 +12,14 @@ export function Breadcrumbs(props: IBreadcrumbsProps): React.ReactElement {
     const history = useHistory();
     let breadcrumbIndex = 1;
 
-    const {crumbs, sectionLabel} = getBreadcrumbs(history, active);
+    let crumbs = props?.crumbs || [];
+    let sectionLabel = props?.sectionLabel || '';
+
+    if (!props?.crumbs && !props?.sectionLabel) {
+        const breadcrumbs = getBreadcrumbs(history, active);
+        crumbs = breadcrumbs.crumbs;
+        sectionLabel = breadcrumbs.sectionLabel;
+    }
 
     return (
         <div className='navigation__container'>

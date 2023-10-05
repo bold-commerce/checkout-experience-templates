@@ -1,5 +1,5 @@
 import React from 'react';
-import {IError, IErrorShowType, IFieldNamesSummary, IPaymentsSummaryClasses, ISelectList} from 'src/types';
+import {IError, IErrorShowType, IFieldNamesSummary, IPaymentsSummaryClasses, ISelectList, IBreadcrumb} from 'src/types';
 import {
     IAddress,
     IDiscount,
@@ -266,6 +266,8 @@ export interface ISavedAddressHookProps{
 
 export interface IBreadcrumbsProps {
     active: number;
+    sectionLabel?: string
+    crumbs?: Array<IBreadcrumb>    
 }
 
 export interface IFormControlsProps {
