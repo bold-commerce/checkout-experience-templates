@@ -17,7 +17,6 @@ import {
     useGetLifeFields,
     useGetLifeFieldsOnPage,
     useOnLoadDefaultLifeFields,
-    useOnLoadValidateCustomerAndShipping,
     useScrollToElementOnNavigation,
 } from 'src/hooks';
 import {usePaymentPage} from 'src/themes/paypal/hooks';

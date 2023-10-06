@@ -33,6 +33,7 @@ export * from './googleAutocompleteRetrieveCountriesListLimitation';
 export * from './googleAutocompleteRetrieveOptions';
 export * from './handleErrorIfNeeded';
 export * from './hasEmptyRequiredFields';
+export * from './hasAbortErrorOnResponse';
 export * from './isAutocompleteDataPopulated';
 export * from './isBoldPlatform';
 export * from './isObjectEmpty';

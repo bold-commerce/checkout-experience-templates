@@ -4,9 +4,11 @@ export const flowType: IFlowType = {
     META: 'meta',
 };
 
+export const META_TIMEOUT_SECONDS = 29; // Meta shared the Timeout count is 30 seconds, so anything above 29s would have timeout.
 export const META_CLIENT_VERSION = '1.0';
 export const META_SDK_URL = 'https://static.xx.fbcdn.net/payments_sdk/v1/metapay_sdk.js';
 export const META_OTHER_DATA_ERROR: IMetaPaymentDataError = {reason: 'OTHER_ERROR'};
+export const META_GENERIC_DATA_ERROR: IMetaPaymentDataError = {reason: 'GENERIC_FAILURE'};
 export const META_SHIPPING_DATA_ERROR: IMetaPaymentDataError = {reason: 'INVALID_SHIPPING_ADDRESS'};
 export const META_BILLING_DATA_ERROR: IMetaPaymentDataError = {reason: 'INVALID_BILLING_ADDRESS'};
 export const META_OFFER_DATA_ERROR: IMetaPaymentDataError = {reason: 'INVALID_OFFER_CODE'};

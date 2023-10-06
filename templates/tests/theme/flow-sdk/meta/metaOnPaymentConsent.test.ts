@@ -56,6 +56,8 @@ const processOrderMock = mocked(processOrder, true);
 jest.mock('@boldcommerce/checkout-frontend-library/lib/payment/addPayment');
 const addPaymentMock = mocked(addPayment, true);
 
+jest.mock('@boldcommerce/checkout-frontend-library/lib/log/addLog');
+
 jest.mock('@boldcommerce/checkout-express-pay-library/lib/utils/getTotals');
 const getTotalsMock = mocked(getTotals, true);
 

@@ -45,9 +45,11 @@ describe('metaOnPaymentDetailsChanged', () => {
         getDiscountsMock.mockReturnValue([discountMock]);
         callShippingAddressEndpointMock.mockReturnValue(Promise.resolve({...baseReturnObject, success: true}));
         callBillingAddressEndpointMock.mockReturnValue(Promise.resolve({...baseReturnObject, success: true}));
+        getShippingLinesMock.mockReturnValue(Promise.resolve({...baseReturnObject, success: true}));
         changeShippingLineMock.mockReturnValue(Promise.resolve({...baseReturnObject, success: true}));
         deleteDiscountMock.mockReturnValue(Promise.resolve({...baseReturnObject, success: true}));
         addDiscountMock.mockReturnValue(Promise.resolve({...baseReturnObject, success: true}));
+        setTaxesMock.mockReturnValue(Promise.resolve({...baseReturnObject, success: true}));
     });
 
     it('metaOnPaymentDetailsChanged no changeTypes', async () => {
