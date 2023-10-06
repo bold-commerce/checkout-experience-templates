@@ -1,4 +1,4 @@
-import {render} from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 
 import {ILifeFieldDatePicker, ILifeFieldProps} from 'src/types';
 import {ILifeField} from '@boldcommerce/checkout-frontend-library';
@@ -49,12 +49,15 @@ describe('testing life date picker component', () => {
         const hookReturn: ILifeFieldDatePicker = {
             date: '2023/10/01',
             placeHolder: 'placeHolder',
-            id: 'id',
+            id: '1',
             value: '',
             handleChange: jest.fn()
         };
         useLifeFieldDatePickerMock.mockReturnValue(hookReturn);
         const {container} = render(<LifeFieldDatePicker {...props}/>);
-        expect(container.getElementsByClassName('life-field-date-picker').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-date-picker').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-date-picker-container').length).toBe(1);
+        const element: HTMLAnchorElement = screen.getByTestId('life-element-date-picker-container-1');
+        expect(element.id).toBe('life-element-date-picker-container-1');
     });
 });

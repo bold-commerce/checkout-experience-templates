@@ -81,7 +81,7 @@ export function CustomerPage(): React.ReactElement {
             {mainContentBeginningLifeFields.length > 0 ? 
                 <div className={'outside-main-content-container'}>
                     <div className={'outside-main-content'}>
-                        <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                        <LifeFields className={'main-content-beginning-life-elements'} lifeFields={mainContentBeginningLifeFields}/>
                     </div>
                 </div> : null}
             <div className={'three-page'}>
@@ -109,11 +109,11 @@ export function CustomerPage(): React.ReactElement {
                             <FlashError/>
                             <ExpressPaymentGateway/>
                             <CustomerInformation/>
-                            <LifeFields lifeFields={customerInfoLifeFields}/>
+                            <LifeFields className={'customer-info-life-elements'} lifeFields={customerInfoLifeFields}/>
                             <ShippingAddress/>
-                            <LifeFields lifeFields={shippingLifeFields}/>
+                            <LifeFields className={'shipping-life-elements'} lifeFields={shippingLifeFields}/>
                             {requiresShipping ? <BillingAddress/> : null}
-                            <LifeFields lifeFields={billingAddressAfterLifeFields}/>
+                            <LifeFields className={'billing-address-after-life-elements'} lifeFields={billingAddressAfterLifeFields}/>
                             <FormControls
                                 backLinkOnClick={backLinkOnClick}
                                 backLinkText={backLinkText}
@@ -131,7 +131,7 @@ export function CustomerPage(): React.ReactElement {
             {mainContentEndLifeFields.length > 0 ?
                 <div className={'outside-main-content-container'}>
                     <div className={'outside-main-content'}>
-                        <LifeFields lifeFields={mainContentEndLifeFields}/>
+                        <LifeFields className={'main-content-end-life-elements'} lifeFields={mainContentEndLifeFields}/>
                     </div> 
                 </div> : null}
         </div>

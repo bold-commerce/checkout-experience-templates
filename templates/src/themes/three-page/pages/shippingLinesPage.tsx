@@ -48,7 +48,7 @@ export function ShippingLinesPage(): React.ReactElement {
             {mainContentBeginningLifeFields.length > 0 ?
                 <div className={'outside-main-content-container'}>    
                     <div className={'outside-main-content'}>
-                        <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                        <LifeFields className={'main-content-beginning-life-elements'} lifeFields={mainContentBeginningLifeFields}/>
                     </div>
                 </div> : null}
             <div className={'three-page'}>
@@ -65,7 +65,7 @@ export function ShippingLinesPage(): React.ReactElement {
                         <form onSubmit={withPreventDefault(nextButtonOnClick)}>
                             <FlashError/>
                             <ShippingLines theme={Constants.THREE_PAGE}/>
-                            <LifeFields lifeFields={shippingLinesLifeFields}/>
+                            <LifeFields className={'shipping-lines-life-elements'} lifeFields={shippingLinesLifeFields}/>
                             <FormControls
                                 backLinkOnClick={backLinkOnClick}
                                 backLinkText={backLinkText}
@@ -83,7 +83,7 @@ export function ShippingLinesPage(): React.ReactElement {
             {mainContentEndLifeFields.length > 0 ?
                 <div className={'outside-main-content-container'}>
                     <div className={'outside-main-content'}>
-                        <LifeFields lifeFields={mainContentEndLifeFields}/>
+                        <LifeFields className={'main-content-end-life-elements'} lifeFields={mainContentEndLifeFields}/>
                     </div>
                 </div> : null}
         </div>

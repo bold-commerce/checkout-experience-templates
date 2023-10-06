@@ -5,10 +5,12 @@ import {useCartSummary, useGetLifeFields} from 'src/hooks';
 import classNames from 'classnames';
 import {Price} from '@boldcommerce/stacks-ui';
 import {LifeInputLocationConstants} from 'src/constants';
+import ClassNames from 'classnames';
 
 export function SummarySection (props: ISummarySection) : React.ReactElement {
     const {expandSummary, showSummary, toggleSummary, totals, lineItems, summaryAriaLabel, formattedPrice} = useCartSummary();
     const summaryAboveHeaderLifeFields  = useGetLifeFields(LifeInputLocationConstants.SUMMARY_ABOVE_HEADER);
+    const summaryAboveHeaderLifeFieldsClassNames = ClassNames(['summary__life-fields', 'summary-above-header-life-elements']);
 
     const classes = classNames([
         'summary__cart--expand',
@@ -17,7 +19,7 @@ export function SummarySection (props: ISummarySection) : React.ReactElement {
 
     return (
         <div className={'summary-section'}>
-            <LifeFields className={'summary__life-fields'} lifeFields={summaryAboveHeaderLifeFields}/>
+            <LifeFields className={summaryAboveHeaderLifeFieldsClassNames} lifeFields={summaryAboveHeaderLifeFields}/>
             <aside className={'summary'} data-testid={'CartSummary'} aria-label={summaryAriaLabel}>
                 <button className={'summary__cart-icon'} onClick={toggleSummary} data-testid={'summary__cart-icon'}>
                     <span data-testid={'summary__cart--expand'} className={classes} >&nbsp;</span>

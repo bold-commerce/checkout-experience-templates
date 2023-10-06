@@ -57,6 +57,7 @@ export interface IFieldInputProps {
 export interface IFieldCheckboxProps {
     value: string;
     label?: string;
+    id?: string;
     helpText?: string;
     checked? : boolean;
     className?: string;

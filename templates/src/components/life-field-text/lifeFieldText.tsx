@@ -7,15 +7,14 @@ export function LifeFieldText(props: ILifeFieldProps): React.ReactElement {
     const {inputValue, placeHolder, id, errorMessage, handleChange} = useLifeFieldTextInput(props.lifeField);
 
     return (
-        <div className={'life-field-text'} key={id}>
+        <div className={'life-element-text-container'} key={id} id={`life-element-text-container-${id}`} data-testid={`life-element-text-container-${id}`}>
             <FieldInput
                 name={id}
                 value={inputValue || ''}
                 placeholder={placeHolder}
-                className='life-field-text-element'
+                className='life-element-text'
                 handleChange={handleChange}
-                id={id}
-                data-testid={`${id}-life-field-text`}
+                id={`life-element-text-${id}`}
                 errorMessage={errorMessage}
             />
         </div>

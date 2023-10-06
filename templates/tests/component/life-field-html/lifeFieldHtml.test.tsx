@@ -40,8 +40,8 @@ describe('testing life html component', () => {
         };
         const {container} = render(<LifeFieldHtml {...props}/>);
 
-        expect(container.getElementsByClassName('life-field-html').length).toBe(1);
-        expect(container.getElementsByClassName('life-field-html-link').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-html-container').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-html').length).toBe(1);
         const element: HTMLAnchorElement = screen.getByText('Learn about our return policy.');
         expect(element.href).toBe('https://test-shop.alias.com/');
     });
@@ -55,9 +55,10 @@ describe('testing life html component', () => {
 
         const {container} = render(<LifeFieldHtml {...optionalProps}/>);
 
-        expect(container.getElementsByClassName('life-field-html').length).toBe(1);
-        expect(container.getElementsByClassName('life-field-html-link').length).toBe(1);
-        const element: HTMLAnchorElement = screen.getByTestId('2-life-field-html');
+        expect(container.getElementsByClassName('life-element-html-container').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-html').length).toBe(1);
+        const element: HTMLAnchorElement = screen.getByTestId('life-element-html-container-2');
+        expect(element.id).toBe('life-element-html-container-2');
         expect(element.href).toBe(undefined);
 
     });
