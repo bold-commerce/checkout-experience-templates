@@ -7,16 +7,15 @@ export function LifeFieldDatePicker(props: ILifeFieldProps): React.ReactElement 
     const {date, value, placeHolder, id, errorMessage, handleChange} = useLifeFieldDatePicker(props.lifeField);
 
     return (
-        <div className={'life-field-date-picker'} key={id}>
+        <div id={`life-element-date-picker-container-${id}`} className={'life-element-date-picker-container'} data-testid={`life-element-date-picker-container-${id}`} key={id}>
             <FieldDatePicker
                 name={id}
                 date={date}
                 placeholder={placeHolder}
-                className='life-field-date-picker-element'
+                className='life-element-date-picker'
                 handleChange={handleChange}
-                id={id}
+                id={`life-element-date-picker-${id}`}
                 value={value}
-                data-testid={`${id}-life-field-date-picker-element`}
                 errorMessage={errorMessage}
             />
         </div>

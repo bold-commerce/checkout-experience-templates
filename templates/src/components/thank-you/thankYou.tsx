@@ -30,9 +30,9 @@ export function ThankYou(): React.ReactElement {
                     messageText={terms.orderConfirmedText}
                     orderConfirmation={true}
                 />
-                <LifeFields lifeFields={orderConfirmationLifeFields}/>
+                <LifeFields className={'order-confirmation-life-elements'} lifeFields={orderConfirmationLifeFields}/>
                 {!isGeneric && <OrderRecap className={'thank-you__order-recap'}/>}
-                <LifeFields lifeFields={orderDetailsLifeFields}/>
+                <LifeFields className={'order-details-life-elements'} lifeFields={orderDetailsLifeFields}/>
                 <FormControls
                     className={'thank-you__footer-container'}
                     contactUs={true}

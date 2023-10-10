@@ -69,7 +69,7 @@ export function ThemePage(): React.ReactElement {
             {mainContentBeginningLifeFields.length > 0 ?
                 <div className={'outside-main-content-container'}>
                     <div className={'outside-main-content'}>
-                        <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                        <LifeFields className={'main-content-beginning-life-elements'} lifeFields={mainContentBeginningLifeFields}/>
                     </div>
                 </div> : null}
             <div className={'one-page'}>
@@ -89,14 +89,14 @@ export function ThemePage(): React.ReactElement {
                                 />
                             )}
                             <CustomerInformation/>
-                            <LifeFields lifeFields={customerInfoLifeFields}/>
+                            <LifeFields className={'customer-info-life-elements'} lifeFields={customerInfoLifeFields}/>
                             <ShippingAddress/>
-                            <LifeFields lifeFields={shippingLifeFields}/>
+                            <LifeFields className={'shipping-life-elements'} lifeFields={shippingLifeFields}/>
                             {requiresShipping ? <BillingAddress/> : null}
-                            <LifeFields lifeFields={billingAddressAfterLifeFields}/>
+                            <LifeFields className={'billing-address-after-life-elements'} lifeFields={billingAddressAfterLifeFields}/>
                             <ShippingLines/>
-                            <LifeFields lifeFields={shippingLinesLifeFields}/>
-                            <LifeFields lifeFields={paymentGatewayAboveLifeFields}/>
+                            <LifeFields className={'shipping-lines-life-elements'} lifeFields={shippingLinesLifeFields}/>
+                            <LifeFields className={'payment-method-above-life-elements'} lifeFields={paymentGatewayAboveLifeFields}/>
                             <Payment loadIframeImmediately={true} />
                             {paymentExternalPaymentGateways.map((externalGateway) =>
                                 <ExternalPaymentGateway
@@ -107,7 +107,7 @@ export function ThemePage(): React.ReactElement {
                                     position={Constants.PAYMENT_METHOD_BELOW}
                                 />
                             )}
-                            <LifeFields lifeFields={paymentGatewayLifeFields}/>
+                            <LifeFields className={'payment-gateway-life-elements'} lifeFields={paymentGatewayLifeFields}/>
                             <TaxExemption />
                             <FormControls {...footerProps}/>
                         </form>
@@ -119,7 +119,7 @@ export function ThemePage(): React.ReactElement {
             {mainContentEndLifeFields.length > 0 ?
                 <div className={'outside-main-content-container'}>
                     <div className={'outside-main-content'}>
-                        <LifeFields lifeFields={mainContentEndLifeFields}/>
+                        <LifeFields className={'main-content-end-life-elements'} lifeFields={mainContentEndLifeFields}/>
                     </div>
                 </div> : null}
         </div>

@@ -1,4 +1,4 @@
-import {render} from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 
 import {ILifeFieldInput, ILifeFieldProps} from 'src/types';
 import {ILifeField} from '@boldcommerce/checkout-frontend-library';
@@ -58,7 +58,10 @@ describe('testing life textarea component', () => {
         };
         useLifeFieldTextInputMock.mockReturnValue(hookReturn);
         const {container} = render(<LifeFieldTextarea {...props}/>);
-        expect(container.getElementsByClassName('life-field-textarea').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-textarea').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-textarea-container').length).toBe(1);
+        const element: HTMLAnchorElement = screen.getByTestId('life-element-textarea-container-1');
+        expect(element.id).toBe('life-element-textarea-container-1');
     });
 
     test('Rendering life textarea component with optional values', () => {
@@ -76,6 +79,9 @@ describe('testing life textarea component', () => {
         };
         useLifeFieldTextInputMock.mockReturnValue(optionalHookReturn);
         const {container} = render(<LifeFieldTextarea {...optionalProps}/>);
-        expect(container.getElementsByClassName('life-field-textarea').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-textarea').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-textarea-container').length).toBe(1);
+        const element: HTMLAnchorElement = screen.getByTestId('life-element-textarea-container-2');
+        expect(element.id).toBe('life-element-textarea-container-2');
     });
 });

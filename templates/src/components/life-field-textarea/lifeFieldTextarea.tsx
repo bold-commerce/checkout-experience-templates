@@ -7,17 +7,16 @@ export function LifeFieldTextarea(props: ILifeFieldProps): React.ReactElement {
     const {inputValue, label, placeHolder, id, errorMessage, handleChange} = useLifeFieldTextInput(props.lifeField);
 
     return (
-        <div className={'life-field-textarea'} key={id}>
+        <div className={'life-element-textarea-container'} key={id}  id={`life-element-textarea-container-${id}`}  data-testid={`life-element-textarea-container-${id}`}>
             <FieldTextArea
                 label={label}
                 name={id}
                 value={inputValue || ''}
                 placeholder={placeHolder}
-                className='life-field-textarea-element'
+                className='life-element-textarea'
                 onChange={handleChange}
-                id={id}
+                id={`life-element-textarea-${id}`}
                 maxLength={TEXTAREA_MAX_LENGTH}
-                data-testid={`${id}-life-field-textarea`}
                 errorMessage={errorMessage}/>
         </div>
     );

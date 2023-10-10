@@ -19,7 +19,7 @@ export function LifeFields(props: ILifeFieldsProps): React.ReactElement {
     });
 
     return (
-        <div className={cn(['life-fields', props.className])}>
+        <div className={cn(['life-elements', props.className])}>
             {
                 sortedLifeFields.map((lifeField: ILifeField) => {
                     return (
