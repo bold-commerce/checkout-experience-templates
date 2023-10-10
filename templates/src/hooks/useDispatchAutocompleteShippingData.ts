@@ -4,10 +4,10 @@ import {Constants} from 'src/constants';
 import {useDispatch} from 'react-redux';
 import {useCallback} from 'react';
 
-export function useDispatchAutocompleteData(): (dataToDispatch: IAutocompleteData) => void {
+export function useDispatchAutocompleteShippingData(): (dataToDispatch: IAutocompleteData) => void {
     const dispatch = useDispatch();
 
-    const dispatchAutocomplateData = useCallback((dataToDispatch: IAutocompleteData) => {
+    const dispatchAutocomplateShippingData = useCallback((dataToDispatch: IAutocompleteData) => {
         dispatch(actionUpdateShippingAddressField(Constants.ADDRESS_ADDRESS_1, dataToDispatch.address1));
         if (dataToDispatch.address2) {
             dispatch(actionUpdateShippingAddressField(Constants.ADDRESS_ADDRESS_2, dataToDispatch.address2));
@@ -23,5 +23,5 @@ export function useDispatchAutocompleteData(): (dataToDispatch: IAutocompleteDat
         dispatch(actionUpdateShippingAddressField(Constants.ADDRESS_PROVINCE, dataToDispatch.province));
     }, [dispatch]);
 
-    return dispatchAutocomplateData;
+    return dispatchAutocomplateShippingData;
 }

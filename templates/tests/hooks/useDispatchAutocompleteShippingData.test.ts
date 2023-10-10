@@ -1,5 +1,5 @@
 import {renderHook, act} from '@testing-library/react-hooks';
-import {useDispatchAutocompleteData} from 'src/hooks';
+import {useDispatchAutocompleteShippingData} from 'src/hooks';
 import {IAutocompleteData} from 'src/types';
 
 const mockDispatch = jest.fn();
@@ -7,7 +7,7 @@ jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch
 }));
 
-describe('Testing hook useDispatchAutocompleteData', () => {
+describe('Testing hook useDispatchAutocompleteShippingData', () => {
     beforeEach(() => {
         jest.resetAllMocks();
     });
@@ -22,7 +22,7 @@ describe('Testing hook useDispatchAutocompleteData', () => {
     test.each(autocompleteDataSet)(
         'rendering the hook properly ($numCalls, $autocompleteData)',
         ({numCalls, autocompleteData}) => {
-            const {result} = renderHook(() => useDispatchAutocompleteData());
+            const {result} = renderHook(() => useDispatchAutocompleteShippingData());
 
             act(() => {
                 result.current(autocompleteData);

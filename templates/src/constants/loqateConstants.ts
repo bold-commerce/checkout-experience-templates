@@ -1,4 +1,4 @@
-import {AddressFieldIds, loqateFields} from 'src/constants';
+import {shippingAddressFieldIds, loqateFields} from 'src/constants';
 import {loqateEnumFieldMode, ILoqateAddressField} from 'src/types';
 
 export class LoqateConstants {
@@ -10,37 +10,37 @@ export class LoqateConstants {
 
     static ADDRESS_FIELDS: Array<ILoqateAddressField> = [
         {
-            element: AddressFieldIds.companyFieldSelector,
+            element: shippingAddressFieldIds.companyFieldSelector,
             field: loqateFields.company,
             mode: loqateEnumFieldMode.POPULATE
         },
         {
-            element: AddressFieldIds.address1FieldSelector,
+            element: shippingAddressFieldIds.address1FieldSelector,
             field: loqateFields.address1,
             mode: loqateEnumFieldMode.POPULATE | loqateEnumFieldMode.SEARCH
         },
         {
-            element: AddressFieldIds.address2FieldSelector,
+            element: shippingAddressFieldIds.address2FieldSelector,
             field: loqateFields.address2,
             mode: loqateEnumFieldMode.POPULATE
         },
         {
-            element: AddressFieldIds.cityFieldSelector,
+            element: shippingAddressFieldIds.cityFieldSelector,
             field: loqateFields.city,
             mode: loqateEnumFieldMode.POPULATE
         },
         {
-            element: AddressFieldIds.provinceFieldSelector,
+            element: shippingAddressFieldIds.provinceFieldSelector,
             field: loqateFields.provinceCode,
             mode: loqateEnumFieldMode.POPULATE
         },
         {
-            element: AddressFieldIds.postalCodeFieldSelector,
+            element: shippingAddressFieldIds.postalCodeFieldSelector,
             field: loqateFields.postalCode,
             mode: loqateEnumFieldMode.POPULATE
         },
         {
-            element: AddressFieldIds.countryFieldSelector,
+            element: shippingAddressFieldIds.countryFieldSelector,
             field: loqateFields.countryCode,
             mode: loqateEnumFieldMode.POPULATE
         }

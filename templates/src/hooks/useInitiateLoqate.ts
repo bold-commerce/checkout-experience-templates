@@ -6,7 +6,7 @@ import {IAutocompleteData, ILoqateSettingsOptions} from 'src/types';
 import {isAutocompleteDataPopulated, scriptsAreLoaded} from 'src/utils';
 import {useEffect, useState} from 'react';
 import {LoqateConstants} from 'src/constants';
-import {useDispatchAutocompleteData, useGetAutocompleteAPIKey} from 'src/hooks';
+import {useDispatchAutocompleteShippingData, useGetAutocompleteAPIKey} from 'src/hooks';
 import {ICountryInformation} from '@boldcommerce/checkout-frontend-library';
 
 export function useInitiateLoqate(scriptIsLoaded = false): {scriptIsLoaded: boolean} {
@@ -23,7 +23,7 @@ export function useInitiateLoqate(scriptIsLoaded = false): {scriptIsLoaded: bool
         country: '',
         countryCode: ''
     });
-    const dispatchAutocompleteData = useDispatchAutocompleteData();
+    const dispatchAutocompleteData = useDispatchAutocompleteShippingData();
 
     /*
      * initializeAutoComplete needs to be in window object, as it is called in the callback part of the Google Maps API URL

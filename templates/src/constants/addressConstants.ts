@@ -49,14 +49,23 @@ export const AddressLabelMapping = {
     phone_number: 'phone_field',
 };
 
-export const AddressFieldIds = {
-    postalCodeFieldSelector: '#shipping-address__postal_code',
-    cityFieldSelector: '#shipping-address__city',
-    provinceFieldSelector: '#shipping-address__province',
-    countryFieldSelector: '#shipping-address__country',
+export const shippingAddressFieldIds = {
+    postalCodeFieldSelector: 'shipping-address__postal_code',
+    cityFieldSelector: 'shipping-address__city',
+    provinceFieldSelector: 'shipping-address__province',
+    countryFieldSelector: 'shipping-address__country',
     address1FieldSelector: 'shipping-address__address_line_1',
     address2FieldSelector: 'shipping-address__address_line_2',
     companyFieldSelector: 'shipping-address__company',
+};
+
+export const billingAddressFieldIds = {
+    postalCodeFieldSelector: 'billing-address__postal_code',
+    cityFieldSelector: 'billing-address__city',
+    provinceFieldSelector: 'billing-address__province',
+    countryFieldSelector: 'billing-address__country',
+    address1FieldSelector: 'billing-address__address_line_1',
+    address2FieldSelector: 'billing-address__address_line_2',
 };
 
 export const loqateFields = {
