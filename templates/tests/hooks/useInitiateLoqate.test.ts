@@ -1,6 +1,6 @@
 import {renderHook} from '@testing-library/react-hooks';
 import * as useGetCountryData from 'src/hooks/useGetCountryData';
-import * as useDispatchAutocompleteData from 'src/hooks/useDispatchAutocompleteData';
+import * as useDispatchAutocompleteShippingData from 'src/hooks/useDispatchAutocompleteShippingData';
 import {useInitiateLoqate} from 'src/hooks';
 import * as scriptsAreLoaded from 'src/utils/scriptsAreLoaded';
 import * as isAutocompleteDataPopulated from 'src/utils/isAutocompleteDataPopulated';
@@ -18,7 +18,7 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
     let useGetCountryInfoListSpy: SpyInstance;
     let scriptsAreLoadedSpy: SpyInstance;
     let isAutocompleteDataPopulatedSpy: SpyInstance;
-    let useDispatchAutocompleteDataSpy: SpyInstance;
+    let useDispatchAutocompleteShippingDataSpy: SpyInstance;
     let documentCreateElementSpy: SpyInstance;
     let documentBodyAppendChildSpy: SpyInstance;
     let getCountryInfoListMock: Array<ICountryInformation>;
@@ -102,7 +102,7 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
         mockedLink = createLinkElement();
         mockedScript = createScriptElement();
 
-        useDispatchAutocompleteDataSpy = jest.spyOn(useDispatchAutocompleteData, 'useDispatchAutocompleteData');
+        useDispatchAutocompleteShippingDataSpy = jest.spyOn(useDispatchAutocompleteShippingData, 'useDispatchAutocompleteShippingData');
         useGetCountryInfoListSpy = jest.spyOn(useGetCountryData, 'useGetCountryInfoList');
         scriptsAreLoadedSpy = jest.spyOn(scriptsAreLoaded, 'scriptsAreLoaded');
         isAutocompleteDataPopulatedSpy = jest.spyOn(isAutocompleteDataPopulated, 'isAutocompleteDataPopulated');
@@ -119,7 +119,7 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
 
         expect(documentCreateElementSpy).not.toHaveBeenCalled();
         expect(documentBodyAppendChildSpy).not.toHaveBeenCalled();
-        expect(useDispatchAutocompleteDataSpy).not.toHaveBeenCalled();
+        expect(useDispatchAutocompleteShippingDataSpy).not.toHaveBeenCalled();
     });
 
     test('scripts are already loaded and addressData is empty', () => {
@@ -131,7 +131,7 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
 
         expect(documentCreateElementSpy).not.toHaveBeenCalled();
         expect(documentBodyAppendChildSpy).not.toHaveBeenCalled();
-        expect(useDispatchAutocompleteDataSpy).toHaveBeenCalledTimes(1);
+        expect(useDispatchAutocompleteShippingDataSpy).toHaveBeenCalledTimes(1);
     });
 
     test('scripts are not loaded and addressData is not empty', () => {
@@ -147,7 +147,7 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
         expect(documentBodyAppendChildSpy).toHaveBeenCalledTimes(2);
         expect(documentBodyAppendChildSpy).toHaveBeenCalledWith(mockedScript);
         expect(documentBodyAppendChildSpy).toHaveBeenCalledWith(mockedLink);
-        expect(useDispatchAutocompleteDataSpy).not.toHaveBeenCalled();
+        expect(useDispatchAutocompleteShippingDataSpy).not.toHaveBeenCalled();
     });
 
     test('scripts are not loaded and addressData is empty', () => {
@@ -163,7 +163,7 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
         expect(documentBodyAppendChildSpy).toHaveBeenCalledTimes(2);
         expect(documentBodyAppendChildSpy).toHaveBeenCalledWith(mockedScript);
         expect(documentBodyAppendChildSpy).toHaveBeenCalledWith(mockedLink);
-        expect(useDispatchAutocompleteDataSpy).toHaveBeenCalledTimes(1);
+        expect(useDispatchAutocompleteShippingDataSpy).toHaveBeenCalledTimes(1);
         expect(isAutocompleteDataPopulatedSpy).toHaveBeenCalledTimes(1);
     });
 
@@ -191,7 +191,7 @@ describe.skip('Testing hook useGetAutocompleteService', () => {
 
         expect(documentCreateElementSpy).not.toHaveBeenCalled();
         expect(documentBodyAppendChildSpy).not.toHaveBeenCalled();
-        expect(useDispatchAutocompleteDataSpy).toHaveBeenCalledTimes(1);
+        expect(useDispatchAutocompleteShippingDataSpy).toHaveBeenCalledTimes(1);
         expect(isAutocompleteDataPopulatedSpy).toHaveBeenCalledTimes(1);
         expect(AddressMock).toHaveBeenCalled();
         expect(listenMock).toHaveBeenCalled();
