@@ -12,7 +12,7 @@ export const metaOnResponse = async (responsePromise: Promise<IMetaPaymentRespon
     } catch (err) {
         window.onbeforeunload = null;
         const error = err as IMetaPaymentError;
-        addLog(`META_CHECKOUT META ERROR code: ${error.code} message:${error.message}`);
+        addLog(`META_CHECKOUT META ERROR code: ${error.code} message:${error.message}`.slice(0, 100));
         switch (error.code) {
             case 'ABORTED': {
                 if (checkoutFlow.params.onAction && typeof checkoutFlow.params.onAction === 'function') {
