@@ -15,6 +15,7 @@ import {
     META_PAYMENT_DATA_ERROR,
     META_SHIPPING_DATA_ERROR,
     META_BILLING_DATA_ERROR,
+    META_GENERIC_DATA_ERROR,
 } from 'src/themes/flow-sdk/constants';
 import {
     getFirstAndLastName,
@@ -22,6 +23,7 @@ import {
 } from '@boldcommerce/checkout-express-pay-library';
 import {formatCheckoutAddressFromMeta} from 'src/themes/flow-sdk/meta/formatCheckoutAddressFromMeta';
 import {
+    addLog,
     addPayment,
     apiTypeKeys,
     apiTypes,
@@ -38,17 +40,23 @@ import {API_RETRY} from 'src/constants';
 import {checkoutFlow} from 'src/themes/flow-sdk/flowState';
 import {buildCustomerBatchRequest} from 'src/themes/flow-sdk/batch/buildCustomerBatchRequest';
 import {buildAddressBatchRequest} from 'src/themes/flow-sdk/batch/buildAddressBatchRequest';
-import {getErrorTermFromLibState} from 'src/utils';
+import {getErrorTermFromLibState, hasAbortErrorOnResponse} from 'src/utils';
 import {getErrorWithField} from 'src/themes/flow-sdk/flow-utils/getErrorWithField';
 import {addOnGoingRequest, removeOnGoingRequest} from 'src/themes/flow-sdk/manageFlowState';
+import {getTimerLog} from 'src/themes/flow-sdk/meta/getTimerLog';
 
 export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Promise<IMetaPaymentAuthorizationResult> => {
+    const startTime = Math.floor(Date.now() / 1000);
     addOnGoingRequest('onPaymentConsent');
+    addLog(`META_CHECKOUT onPaymentConsent Initialized - startTime: ${startTime.toFixed(3)}s`, 'meta_payment_consent_triggered');
     const paymentDataError = {...META_PAYMENT_DATA_ERROR, message: getErrorTermFromLibState('payment_gateway', 'unknown_error')};
     const paymentMetaError = {...META_AUTHORIZATION_PAYMENT_ERROR, error: paymentDataError};
 
-    const genericOtherDataError = {...META_OTHER_DATA_ERROR, message: getErrorTermFromLibState('generic', 'unknown_error')};
-    const genericMetaError = {...META_AUTHORIZATION_OTHER_ERROR, error: genericOtherDataError};
+    const genericDataError = {...META_GENERIC_DATA_ERROR, message: getErrorTermFromLibState('generic', 'unknown_error')};
+    const genericMetaError = {...META_AUTHORIZATION_OTHER_ERROR, error: genericDataError};
+
+    const otherDataError = {...META_OTHER_DATA_ERROR, message: getErrorTermFromLibState('generic', 'unknown_error')};
+    const otherMetaError = {...META_AUTHORIZATION_OTHER_ERROR, error: otherDataError};
 
     const taxesDataError = {...META_OTHER_DATA_ERROR, message: getErrorTermFromLibState('payment_gateway', 'no_tax')};
     const taxesMetaError = {...META_AUTHORIZATION_OTHER_ERROR, error: taxesDataError};
@@ -69,78 +77,84 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
     };
 
     let tokenizePromise: Promise<Response>;
+    let tokenizeResponse: Response;
     try {
         tokenizePromise = fetch(tokenizeUrl, options);
-    } catch (e) {
-        removeOnGoingRequest('onPaymentConsent');
-        return Promise.reject(paymentMetaError);
-    }
 
-    const {firstName, lastName} = getFirstAndLastName(response.billingAddress?.recipient || response.shippingAddress?.recipient);
-    const formattedShippingAddress = formatCheckoutAddressFromMeta(response.shippingAddress, false);
-    const formattedBillingAddress = formatCheckoutAddressFromMeta(response.billingAddress, false);
+        const {firstName, lastName} = getFirstAndLastName(response.billingAddress?.recipient || response.shippingAddress?.recipient);
+        const formattedShippingAddress = formatCheckoutAddressFromMeta(response.shippingAddress, false);
+        const formattedBillingAddress = formatCheckoutAddressFromMeta(response.billingAddress, false);
 
-    // Build Batch Requests
-    const requests: Array<IBatchableRequest> = [];
+        // Build Batch Requests
+        const requests: Array<IBatchableRequest> = [];
 
-    const customerRequest = buildCustomerBatchRequest(firstName, lastName, response.payerEmail || '');
-    const shippingAddressRequest = buildAddressBatchRequest(formattedShippingAddress, 'shipping');
-    const billingAddressRequest = buildAddressBatchRequest(formattedBillingAddress, 'billing');
+        const customerRequest = buildCustomerBatchRequest(firstName, lastName, response.payerEmail || '');
+        const shippingAddressRequest = buildAddressBatchRequest(formattedShippingAddress, 'shipping');
+        const billingAddressRequest = buildAddressBatchRequest(formattedBillingAddress, 'billing');
 
-    customerRequest && requests.push(customerRequest);
-    shippingAddressRequest && requests.push(shippingAddressRequest);
-    billingAddressRequest && requests.push(billingAddressRequest);
-    requests.push({apiType: apiTypeKeys.setTaxes, payload: {}});
+        customerRequest && requests.push(customerRequest);
+        shippingAddressRequest && requests.push(shippingAddressRequest);
+        billingAddressRequest && requests.push(billingAddressRequest);
+        requests.push({apiType: apiTypeKeys.setTaxes, payload: {}});
 
-    const batchResponse = await batchRequest(requests, API_RETRY);
-    const batchInnerResponse = batchResponse.response as IApiBatchResponse;
+        const batchResponse = await batchRequest(requests, API_RETRY);
+        const batchInnerResponse = batchResponse.response as IApiBatchResponse;
 
-    if (!batchResponse.success) {
-        if (batchInnerResponse && Array.isArray(batchInnerResponse.data)) {
-            for (const subResponse of batchInnerResponse.data) {
-                if (subResponse.status_code < 200 || subResponse.status_code > 299) {
-                    switch (subResponse.endpoint) {
-                        case apiTypes.addGuestCustomer.path:
-                        case apiTypes.updateCustomer.path: {
-                            removeOnGoingRequest('onPaymentConsent');
-                            return Promise.reject(genericMetaError);
+        if (!batchResponse.success) {
+            removeOnGoingRequest('onPaymentConsent');
+
+            if (hasAbortErrorOnResponse(batchResponse)) {
+                return Promise.reject(genericMetaError);
+            }
+            addLog(`META_CHECKOUT batch API failed ${getTimerLog(startTime)}`, 'meta_payment_consent_failed');
+
+            if (batchInnerResponse && Array.isArray(batchInnerResponse.data)) {
+                for (const subResponse of batchInnerResponse.data) {
+                    if (subResponse.status_code < 200 || subResponse.status_code > 299) {
+                        switch (subResponse.endpoint) {
+                            case apiTypes.addGuestCustomer.path:
+                            case apiTypes.updateCustomer.path: {
+                                return Promise.reject(otherMetaError);
+                            }
+                            case apiTypes.setShippingAddress.path:
+                            case apiTypes.updateShippingAddress.path: {
+                                const {errors} = subResponse as IApiSubrequestErrorsResponse;
+                                const shippingDataError = getErrorWithField(errors, META_SHIPPING_DATA_ERROR);
+                                const shippingMetaError = {...META_AUTHORIZATION_SHIPPING_ERROR, error: shippingDataError};
+                                return Promise.reject(shippingMetaError);
+                            }
+                            case apiTypes.setBillingAddress.path:
+                            case apiTypes.updateBillingAddress.path: {
+                                const {errors} = subResponse as IApiSubrequestErrorsResponse;
+                                const updateBillingDataError = getErrorWithField(errors, META_BILLING_DATA_ERROR);
+                                const updateBillingMetaError = {...META_AUTHORIZATION_BILLING_ERROR, error: updateBillingDataError};
+                                return Promise.reject(updateBillingMetaError);
+                            }
+                            case apiTypes.setTaxes.path:
+                                return Promise.reject(taxesMetaError);
+                            default:
+                                return Promise.reject(otherMetaError);
                         }
-                        case apiTypes.setShippingAddress.path:
-                        case apiTypes.updateShippingAddress.path: {
-                            const {errors} = subResponse as IApiSubrequestErrorsResponse;
-                            const shippingDataError = getErrorWithField(errors, META_SHIPPING_DATA_ERROR);
-                            const shippingMetaError = {...META_AUTHORIZATION_SHIPPING_ERROR, error: shippingDataError};
-
-                            removeOnGoingRequest('onPaymentConsent');
-                            return Promise.reject(shippingMetaError);
-                        }
-                        case apiTypes.setBillingAddress.path:
-                        case apiTypes.updateBillingAddress.path: {
-                            const {errors} = subResponse as IApiSubrequestErrorsResponse;
-                            const updateBillingDataError = getErrorWithField(errors, META_BILLING_DATA_ERROR);
-                            const updateBillingMetaError = {...META_AUTHORIZATION_BILLING_ERROR, error: updateBillingDataError};
-
-                            removeOnGoingRequest('onPaymentConsent');
-                            return Promise.reject(updateBillingMetaError);
-                        }
-                        case apiTypes.setTaxes.path:
-                            removeOnGoingRequest('onPaymentConsent');
-                            return Promise.reject(taxesMetaError);
-                        default:
-                            removeOnGoingRequest('onPaymentConsent');
-                            return Promise.reject(genericMetaError);
                     }
                 }
             }
+
+            return Promise.reject(otherMetaError);
         }
 
-        removeOnGoingRequest('onPaymentConsent');
-        return Promise.reject(genericMetaError);
-    }
+        tokenizeResponse = await tokenizePromise;
+        if (tokenizeResponse.status < 200 || tokenizeResponse.status > 299) {
+            removeOnGoingRequest('onPaymentConsent');
+            addLog(`META_CHECKOUT SPT tokenize API failed ${getTimerLog(startTime)}`, 'meta_payment_consent_failed');
+            return Promise.reject(paymentMetaError);
+        }
 
-    const tokenizeResponse = await tokenizePromise;
-    if (tokenizeResponse.status < 200 || tokenizeResponse.status > 299) {
+    } catch (e) {
         removeOnGoingRequest('onPaymentConsent');
+        if (e instanceof Error && e.name === 'AbortError') {
+            return Promise.reject(genericMetaError);
+        }
+        addLog(`META_CHECKOUT SPT tokenize API failed ${getTimerLog(startTime)}`, 'meta_payment_consent_failed');
         return Promise.reject(paymentMetaError);
     }
 
@@ -161,12 +175,20 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
     const paymentResponse = await addPayment(payment, API_RETRY);
     if (!paymentResponse.success) {
         removeOnGoingRequest('onPaymentConsent');
+        if (hasAbortErrorOnResponse(paymentResponse)) {
+            return Promise.reject(genericMetaError);
+        }
+        addLog(`META_CHECKOUT payments API failed ${getTimerLog(startTime)}`, 'meta_payment_consent_failed');
         return Promise.reject(paymentMetaError);
     }
 
     const processOrderResponse = await processOrder(API_RETRY);
     if (!processOrderResponse.success) {
         removeOnGoingRequest('onPaymentConsent');
+        if (hasAbortErrorOnResponse(processOrderResponse)) {
+            return Promise.reject(genericMetaError);
+        }
+        addLog(`META_CHECKOUT process_order API failed ${getTimerLog(startTime)}`, 'meta_payment_consent_failed');
         return Promise.reject(paymentMetaError);
     }
 
@@ -178,9 +200,11 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
         }
     } else {
         removeOnGoingRequest('onPaymentConsent');
+        addLog(`META_CHECKOUT process_order API succeeded but is_processed false ${getTimerLog(startTime)}`, 'meta_payment_consent_failed');
         return Promise.reject(paymentMetaError);
     }
 
+    addLog(`META_CHECKOUT process_order API succeeded ${getTimerLog(startTime)}`, 'meta_processed_order');
     logger({AuthorizationResult: META_AUTHORIZATION_SUCCESS}, 'info');
     removeOnGoingRequest('onPaymentConsent');
     return META_AUTHORIZATION_SUCCESS;
