@@ -53,17 +53,6 @@ describe('testing validateEmailAddressV2', () => {
     });
 
     test('calling getPayloadForPostShippingAddress with new email address returns payload', async () => {
-        getCustomerMock.mockReturnValue(newCustomerMock);
-        const updateCustomerPayload = validateEmailAddressV2(dispatch, getState);
-        expect(updateCustomerPayload).toStrictEqual([{
-            'apiType': 'validateEmail',
-            'payload': {
-                'email_address': 'john.doe@boldcommerce.com',
-            }
-        }]);
-    });
-
-    test('calling getPayloadForPostShippingAddress with new email address returns payload', async () => {
         getCustomerMock.mockReturnValue(blankCustomer);
         const postGuestCustomerMock: IBatchableRequest = {
             apiType: apiTypeKeys.updateCustomer, payload: {
@@ -75,21 +64,16 @@ describe('testing validateEmailAddressV2', () => {
         };
         getPayloadForPostGuestCustomerMock.mockReturnValue(postGuestCustomerMock);
         const updateCustomerPayload = validateEmailAddressV2(dispatch, getState);
-        expect(updateCustomerPayload).toStrictEqual([{
-            'apiType': 'validateEmail',
-            'payload': {
-                'email_address': 'john.doe@boldcommerce.com',
+        expect(updateCustomerPayload).toStrictEqual([
+            {
+                'apiType': 'updateCustomer',
+                'payload': {
+                    'accepts_marketing': false,
+                    'email_address': 'jane.doe@boldcommerce.com',
+                    'first_name': 'Jane',
+                    'last_name': 'Doe',
+                },
             }
-        },
-        {
-            'apiType': 'updateCustomer',
-            'payload': {
-                'accepts_marketing': false,
-                'email_address': 'jane.doe@boldcommerce.com',
-                'first_name': 'Jane',
-                'last_name': 'Doe',
-            },
-        }
         ]);
     });
 });
