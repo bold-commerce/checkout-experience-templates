@@ -59,11 +59,14 @@ describe('testing Google Tag Manager functions', () => {
             three: 'tree',
         });
         const expected = [
+            {ecommerce: null},
             {
                 event: 'paras',
-                one: 1,
-                two: 'II',
-                three: 'tree',
+                ecommerce: {
+                    one: 1,
+                    two: 'II',
+                    three: 'tree',
+                }
             }
         ];
         expect(window.dataLayer).toEqual(expected);
@@ -73,9 +76,10 @@ describe('testing Google Tag Manager functions', () => {
         sendEventForGoogleTagManager('value', {value: 1337});
 
         const expected = [
+            {ecommerce: null},
             {
                 event: 'value',
-                value: '13.37',
+                ecommerce: {value: '13.37',}
             }
         ];
         expect(window.dataLayer).toEqual(expected);
@@ -85,15 +89,18 @@ describe('testing Google Tag Manager functions', () => {
         sendEventForGoogleTagManager('items', {items: appState.line_items});
 
         const expected = [
+            {ecommerce: null},
             {
                 event: 'items',
-                items: [{
-                    item_id: 'CLC',
-                    item_name: '[Sample] Canvas Laundry Cart',
-                    item_variant: 'Default Title',
-                    price: '200.00',
-                    quantity: 1,
-                }],
+                ecommerce: {
+                    items: [{
+                        item_id: 'CLC',
+                        item_name: '[Sample] Canvas Laundry Cart',
+                        item_variant: 'Default Title',
+                        price: '200.00',
+                        quantity: 1,
+                    }],
+                }
             }
         ];
         expect(window.dataLayer).toEqual(expected);
@@ -103,21 +110,24 @@ describe('testing Google Tag Manager functions', () => {
         orderCompleteForGoogleTagManager(appState.line_items, appState.currency.iso_code, totals, appState.shipping.selected_shipping, '123', appState.discounts);
 
         const expected = [
+            {ecommerce: null},
             {
                 event: 'purchase',
-                currency: 'CAD',
-                transaction_id: '123',
-                value: '220.99',
-                shipping: '0.20',
-                tax: '10.00',
-                coupon: 'Test Discount Code',
-                items: [{
-                    item_id: 'CLC',
-                    item_name: '[Sample] Canvas Laundry Cart',
-                    item_variant: 'Default Title',
-                    price: '200.00',
-                    quantity: 1,
-                }],
+                ecommerce: {
+                    currency: 'CAD',
+                    transaction_id: '123',
+                    value: '220.99',
+                    shipping: '0.20',
+                    tax: '10.00',
+                    coupon: 'Test Discount Code',
+                    items: [{
+                        item_id: 'CLC',
+                        item_name: '[Sample] Canvas Laundry Cart',
+                        item_variant: 'Default Title',
+                        price: '200.00',
+                        quantity: 1,
+                    }],
+                }
             }
         ];
 

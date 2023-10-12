@@ -26,6 +26,7 @@ export function sendEventForGoogleTagManager(event: string, parameters?: Record<
     if(!isGoogleTagManagerEnabled()){
         return;
     }
+    const pushData = {event};
     
     if (parameters?.value){
         parameters.value = formatCurrency(<number>parameters.value);
@@ -33,11 +34,13 @@ export function sendEventForGoogleTagManager(event: string, parameters?: Record<
     if (parameters?.items){
         parameters.items = formatItems(<Array<ILineItem>>parameters.items);
     }
+    
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-        event,
-        ...parameters
-    });
+    if (parameters){
+        window.dataLayer.push({ecommerce: null});
+        pushData['ecommerce'] = parameters;
+    }
+    window.dataLayer.push(pushData);
 }
 
 export function orderCompleteForGoogleTagManager(lineItems: Array<ILineItem>, currency: string, totals: ITotals, shipping: IShippingLine, id: string, discounts: Array<IDiscount>): void {
@@ -46,14 +49,17 @@ export function orderCompleteForGoogleTagManager(lineItems: Array<ILineItem>, cu
     }
     
     window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ecommerce: null});
     window.dataLayer.push({
         event: 'purchase',
-        currency,
-        transaction_id: id,
-        value: formatCurrency(totals.totalOrder),
-        shipping: formatCurrency(shipping.amount),
-        tax: formatCurrency(totals.totalTaxes),
-        coupon: discounts.map(d => d.code).join(' '),
-        items: formatItems(lineItems),
+        ecommerce: {
+            currency,
+            transaction_id: id,
+            value: formatCurrency(totals.totalOrder),
+            shipping: formatCurrency(shipping.amount),
+            tax: formatCurrency(totals.totalTaxes),
+            coupon: discounts.map(d => d.code).join(' '),
+            items: formatItems(lineItems),
+        },
     });
 }
