@@ -123,6 +123,9 @@ export const errorSubTypes: IErrorSubTypes = {
     cart: 'cart',
     insufficient_stock: 'insufficient_stock',
     no_shipping_to_address: 'no_shipping_to_address',
+    shipping_address: 'shipping_address',
+    billing_address: 'billing_address',
+
 };
 
 export const errorShowType: IErrorShowType = {

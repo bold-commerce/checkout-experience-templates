@@ -52,6 +52,8 @@ export interface IErrorSubTypes {
     tax: string;
     insufficient_stock: string;
     no_shipping_to_address: string;
+    shipping_address: string;
+    billing_address: string;
 }
 
 export interface IErrorShowType {
