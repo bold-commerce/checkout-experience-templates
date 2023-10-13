@@ -63,6 +63,8 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
 
     // Tokenize containerData
     const {public_gateway_id: publicGatewayId} = checkoutFlow.flow_settings as IMetaFlowSettings;
+    const {iso_code: currencyCode} = getCurrency();
+    const {totalAmountDue} = getTotals();
     const tokenizeUrl = `${checkoutFlow.params.boldSecureUrl}/tokenize`;
     const options: RequestInit = {
         method: 'POST',
@@ -73,6 +75,8 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
             version: 1,
             payment_gateway_id: publicGatewayId,
             payload: response.container.containerData,
+            value: totalAmountDue,
+            currency: currencyCode,
         })
     };
 
@@ -159,9 +163,6 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
     }
 
     const tokenizeJson = await tokenizeResponse.json();
-
-    const {iso_code: currencyCode} = getCurrency();
-    const {totalAmountDue} = getTotals();
     const payment: IAddPaymentRequest = {
         token: tokenizeJson.data.token,
         gateway_public_id: publicGatewayId,
