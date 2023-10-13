@@ -57,6 +57,24 @@ export const errorsTerms: Array<IErrorTerm> = [
         term: 'invalid_postal_code'
     },
     {
+        type: errorTypes.order,
+        field: errorFields.postal_code,
+        severity: errorSeverities.validation,
+        subType: errorSubTypes.shipping_address,
+        showType: errorShowType.field,
+        section: 'shipping',
+        term: 'invalid_postal_code'
+    },
+    {
+        type: errorTypes.order,
+        field: errorFields.postal_code,
+        severity: errorSeverities.validation,
+        subType: errorSubTypes.billing_address,
+        showType: errorShowType.field,
+        section: 'shipping',
+        term: 'invalid_postal_code'
+    },
+    {
         type: errorTypes.address,
         field: errorFields.province,
         severity: errorSeverities.validation,
