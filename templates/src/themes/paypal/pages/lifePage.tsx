@@ -19,7 +19,7 @@ import {
     useOnLoadDefaultLifeFields,
     useScrollToElementOnNavigation,
 } from 'src/hooks';
-import {usePaymentPage} from 'src/themes/paypal/hooks';
+import {useLifePage} from 'src/themes/paypal/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
 import {getTerm, withPreventDefault} from 'src/utils';
 import {
@@ -33,8 +33,7 @@ export function LifePage(): React.ReactElement {
     useScrollToElementOnNavigation('customer-section');
     useBeforeUnload();
 
-    // TODO replace 'usePaymentPage' with a new hook 'useLifePage'
-    const {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable, title} = usePaymentPage();
+    const {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable, title} = useLifePage();
     // TODO add new location that is specific to this paypal flow
     const mainContentBeginningLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_BEGINNING);
     const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined, 'Checkout form');
@@ -53,14 +52,14 @@ export function LifePage(): React.ReactElement {
                 <Header isMobile={true}/>
                 <div className='customer-section'>
                     <header className={'main-header'}>
-                        {headerLogoUrl 
+                        {headerLogoUrl
                             ? <HeaderLogo />
                             : <Title/>
                         }
                     </header>
                     <main aria-label={mainAriaLabel}>
                         <Breadcrumbs active={1}/>
-                        <form onSubmit={withPreventDefault(nextButtonOnClick)}>
+                        <form onSubmit={withPreventDefault(nextButtonOnClick as () => void)}>
                             <FlashError/>
                             {/* TODO replace mainContentBeginningLifeFields with new paypal specific location */}
                             <LifeFields lifeFields={mainContentBeginningLifeFields}/>

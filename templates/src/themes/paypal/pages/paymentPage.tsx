@@ -7,44 +7,40 @@ import {
     ScreenReaderAnnouncement,
     Footer,
     HeaderLogo,
-    Title,
+    Title, FlashError, LoadingSection
 } from 'src/components';
 import {
-    useBeforeUnload,
+    useBeforeUnload, useGetAppSettingData,
     useGetLifeFields,
     useGetLifeFieldsOnPage,
-    useOnLoadDefaultLifeFields,
-    useOnLoadValidateCustomerAndShipping,
-    useScrollToElementOnNavigation,
+    useOnLoadDefaultLifeFields
 } from 'src/hooks';
 import {useHistory} from  'react-router-dom';
-import {usePaymentPage} from 'src/themes/three-page/hooks';
+import {usePaymentPage} from 'src/themes/paypal/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
-import {getTerm} from 'src/utils';
 import {
-    Constants,
     LifeInputLocationConstants,
     LifeInputPageConstants
 } from 'src/constants';
-import {getBreadcrumbs} from 'src/themes/paypal/utils';
+import {getBreadcrumbs, initializePPCPExpressPay} from 'src/themes/paypal/utils';
+import {useDispatch} from 'react-redux';
 
 export function PaymentPage(): React.ReactElement {
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const {title, backLinkText, backLinkOnClick} = usePaymentPage();
     useOnLoadDefaultLifeFields(useGetLifeFieldsOnPage(LifeInputPageConstants.ONE_PAGE));
-    useOnLoadValidateCustomerAndShipping();
-    useScrollToElementOnNavigation('customer-section');
     useBeforeUnload();
 
-    const history = useHistory();
-    const {title} = usePaymentPage();
-
-    const mainContentBeginningLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_BEGINNING);    
-    const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined, 'Checkout form');
+    const mainContentBeginningLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_BEGINNING);
     const headerLogoUrl = window.headerLogoUrl;
     const pageNumber = mainContentBeginningLifeFields?.length ? 2 : 1;
     const {crumbs, sectionLabel} = getBreadcrumbs(history, pageNumber);
+    const isAnyButtonEnabled = useGetAppSettingData('isExpressPaySectionEnable') as boolean;
 
 
     useEffect(() => {
+        dispatch(initializePPCPExpressPay(history));
         sendPageView('/payment', pageNumber);
         sendEvents('Landed on payment page', {'category': 'Checkout'});
     }, []);
@@ -58,12 +54,12 @@ export function PaymentPage(): React.ReactElement {
                 <Header isMobile={true}/>
                 <div className='customer-section'>
                     <header className={'main-header'}>
-                        {headerLogoUrl 
+                        {headerLogoUrl
                             ? <HeaderLogo />
                             : <Title/>
                         }
                     </header>
-                    <main aria-label={mainAriaLabel}>
+                    <main aria-label={title}>
                         {!!mainContentBeginningLifeFields?.length && (
                             <Breadcrumbs
                                 active={pageNumber}
@@ -72,7 +68,17 @@ export function PaymentPage(): React.ReactElement {
                             />
                         )}
                         <div>
-                            <h1>PayPal Express buttons here</h1>
+                            <FlashError/>
+                            <LoadingSection className={'paypal-express-pay-loading'} isLoading={!isAnyButtonEnabled} />
+                            <div id="express-payment-container" className={!isAnyButtonEnabled ? 'hidden' : ''}>
+                            </div>
+                        </div>
+                        <div className={'form-controls'}>
+                            <a data-testid={'back-link'} className={'form-controls__back-link'} href={'#footerBack'} onClick={backLinkOnClick}>
+                                <span className={'form-controls__back-link--wrapper'}>
+                                    {backLinkText}
+                                </span>
+                            </a>
                         </div>
                     </main>
                     <Footer/>

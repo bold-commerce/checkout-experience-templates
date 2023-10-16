@@ -24,3 +24,12 @@
 
     }
 }
+
+.paypal-express-payment {
+    width: auto;
+}
+
+.paypal-express-pay-loading {
+    align-items: center;
+    display: flex;
+}

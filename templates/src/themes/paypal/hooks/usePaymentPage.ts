@@ -1,53 +1,25 @@
-import {useDispatch} from 'react-redux';
-import {
-    useGetAppSettingData,
-    useGetButtonDisableVariable,
-    useGetIsLoading,
-    useGetIsOrderProcessed,
-    useGetLifeFieldsOnPage,
-    useGetRequiresShipping,
-} from 'src/hooks';
-import {
-    getCheckoutUrl,
-    getTerm,
-    getTotalsFromState,
-    callProcessOrder
-} from 'src/utils';
-import {Constants, LifeInputPageConstants} from 'src/constants';
+import {useGetIsOrderProcessed,} from 'src/hooks';
+import {getCheckoutUrl, getTerm, getReturnToCartTermAndLink} from 'src/utils';
+import {Constants} from 'src/constants';
 import {useCallback} from 'react';
 import {useHistory} from 'react-router';
-import {IUsePaymentPage} from 'src/types';
+import {IFormControlsProps} from 'src/types';
 
-export function usePaymentPage(): IUsePaymentPage{
+export function usePaymentPage(): IFormControlsProps {
     const history = useHistory();
-    const dispatch = useDispatch();
     const isOrderCompleted = useGetIsOrderProcessed();
     if(isOrderCompleted){
         history.replace(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
     }
-
-    const nextButtonText = getTerm('complete_order', Constants.PAYMENT_INFO);
-    const nextButtonLoading = useGetIsLoading();
-    const language = useGetAppSettingData('languageIso') as string;
+    const nextButtonText = '';
     const title = getTerm('payment_method_title', Constants.GLOBAL_INFO, undefined , 'Checkout form, payment method');
-    const nextButtonDisable = useGetButtonDisableVariable('paymentPageButton');
-    const totals = getTotalsFromState();
 
-    const requiresShipping = useGetRequiresShipping();
-    const backLinkText = requiresShipping ? getTerm('return_to_shipping', Constants.PAYMENT_INFO) : getTerm('footer_shipping_cust_info', Constants.SHIPPING_METHOD_INFO);
+    const {term, link} = getReturnToCartTermAndLink();
+    const backLinkText = getTerm(term, Constants.CUSTOMER_INFO);
     const backLinkOnClick = useCallback((event) => {
         event.preventDefault();
-        if (requiresShipping) {
-            history.replace(getCheckoutUrl(Constants.SHIPPING_ROUTE));
-        } else {
-            history.replace(getCheckoutUrl(''));
-        }
-    } , [history]);
+        window.location.href = link;
+    } , [link]);
 
-    const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.PAYMENT_THREE_PAGE);
-    const nextButtonOnClick = useCallback(() => {
-        callProcessOrder(dispatch, totals, history, requiredLifeFields);
-    },[totals, history]);
-
-    return {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable, language, title};
+    return {title, nextButtonText, backLinkText, backLinkOnClick};
 }
