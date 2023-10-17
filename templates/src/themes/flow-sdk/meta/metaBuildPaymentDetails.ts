@@ -76,7 +76,7 @@ export const metaBuildPaymentDetails = (): IMetaPaymentDetails => {
     }
 
     if (selectedShippingOption) {
-        if (selectedShippingOption.amount > 0) {
+        if (selectedShippingOption.amount >= 0) {
             summaryItems.push({
                 amount: {currency: currencyCode, value: getValueByCurrency(selectedShippingOption.amount, currencyCode)},
                 summaryItemType: 'FULFILLMENT',
