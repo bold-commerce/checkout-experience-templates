@@ -7,6 +7,8 @@ import {HistoryLocationState} from 'react-router';
 export function initializePPCPExpressPay(history: HistoryLocationState) {
     return async function initializeExpressPayThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
 
+        // TODO: Remove the disabled lint comment after implementation is done.
+        // eslint-disable-next-line
         const onAction = getExpressPayActions(dispatch, getState, history);
         //initPpcp(onAction);
 
