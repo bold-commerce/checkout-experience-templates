@@ -5,6 +5,7 @@ import {
     ILineItemRequestWithSku
 } from '@boldcommerce/checkout-frontend-library';
 import {IFlow, IMetaFlowSettings, IMetaPaymentError} from 'src/themes/flow-sdk/types/meta';
+import {FlowError} from 'src/themes/flow-sdk/errors';
 
 export interface ICheckoutFlowParameters {
     shopIdentifier: string;
@@ -20,7 +21,7 @@ export interface IProcessOrderResponse {
     application_state?: IApplicationState;
 }
 
-export type IOnAction = (actionType: string, payload?: Record<string, unknown> | IProcessOrderResponse | IMetaPaymentError) => void;
+export type IOnAction = (actionType: string, payload?: Record<string, unknown> | IProcessOrderResponse | IMetaPaymentError | FlowError) => void;
 
 export type IOnGoingRequestTypes = 'onPaymentDetailsChanged' | 'onPaymentConsent';
 
