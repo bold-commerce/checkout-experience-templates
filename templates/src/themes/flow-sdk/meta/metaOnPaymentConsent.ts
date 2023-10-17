@@ -167,7 +167,6 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
         token: tokenizeJson.data.token,
         gateway_public_id: publicGatewayId,
         currency: currencyCode,
-        amount: totalAmountDue,
         extra_payment_data: {
             request_id: response.requestId
         }
