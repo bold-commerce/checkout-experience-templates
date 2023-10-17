@@ -11,7 +11,8 @@ import {
     initialize as initializeFrontendLibrary,
     IInitializeOrderResponse,
     ILineItemRequest,
-    updateLineItemQuantity as putLineItemQuantity
+    updateLineItemQuantity as putLineItemQuantity,
+    setJwtToken
 } from '@boldcommerce/checkout-frontend-library';
 import {flowType} from 'src/themes/flow-sdk/constants';
 import {initMetaFlow} from 'src/themes/flow-sdk/meta';
@@ -74,6 +75,7 @@ window.bold = {
         refreshOrder,
         removeDiscount,
         removeLineItem,
-        updateLineItemQuantity
+        updateLineItemQuantity,
+        updateJwt: setJwtToken
     }
 };
