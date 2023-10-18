@@ -459,6 +459,7 @@ export interface IUseGetOrderRecap {
     shippingAddress: IAddress;
     billingAddress: IAddress;
     shippingDescription: string;
+    customerDetails: Array<string>;
     terms: Record<string, string>;
 }
 
