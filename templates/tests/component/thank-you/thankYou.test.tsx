@@ -53,6 +53,10 @@ describe('testing ThankYou component', () => {
         shippingAddress: addressMock,
         billingAddress: addressMock,
         shippingDescription: 'Test shipping description',
+        customerDetails: [
+            initialDataMock.application_state.customer.email_address,
+            addressMock.phone_number,
+        ],
         terms: {
             customerInfo: 'customer info',
             shippingAddress: 'shipping address',
