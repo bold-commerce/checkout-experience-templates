@@ -7,7 +7,7 @@ import {
     ScreenReaderAnnouncement,
     Footer,
     HeaderLogo,
-    Title, FlashError, LoadingSection
+    Title, FlashError, LoadingSection, LifeFields
 } from 'src/components';
 import {
     useBeforeUnload, useGetAppSettingData,
@@ -29,12 +29,14 @@ export function PaymentPage(): React.ReactElement {
     const dispatch = useDispatch();
     const history = useHistory();
     const {title, backLinkText, backLinkOnClick} = usePaymentPage();
-    useOnLoadDefaultLifeFields(useGetLifeFieldsOnPage(LifeInputPageConstants.ONE_PAGE));
+    useOnLoadDefaultLifeFields(useGetLifeFieldsOnPage(LifeInputPageConstants.PAYPAL_PAYMENT_PAGE));
     useBeforeUnload();
 
     const mainContentBeginningLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_BEGINNING);
+    const mainContentEndLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_END);
+    const paypalAdditionalInfoLifeFields = useGetLifeFields(LifeInputLocationConstants.PAYPAL_ADDITIONAL_INFORMATION);
     const headerLogoUrl = window.headerLogoUrl;
-    const pageNumber = mainContentBeginningLifeFields?.length ? 2 : 1;
+    const pageNumber = paypalAdditionalInfoLifeFields?.length ? 2 : 1;
     const {crumbs, sectionLabel} = getBreadcrumbs(history, pageNumber);
     const isAnyButtonEnabled = useGetAppSettingData('isExpressPaySectionEnable') as boolean;
 
@@ -49,10 +51,15 @@ export function PaymentPage(): React.ReactElement {
         <div className={'checkout-experience-container'}>
             <HeaderHelmet title={title}/>
             <ScreenReaderAnnouncement content={title || ''}/>
-
-            <div className={'three-page'}>
+            {mainContentBeginningLifeFields.length > 0 ?
+                <div className={'outside-main-content-container'}>
+                    <div className={'outside-main-content'}>
+                        <LifeFields className={'main-content-beginning-life-elements'} lifeFields={mainContentBeginningLifeFields}/>
+                    </div>
+                </div> : null}
+            <div className={'paypal-page'}>
                 <Header isMobile={true}/>
-                <div className='customer-section'>
+                <div className='payment-section'>
                     <header className={'main-header'}>
                         {headerLogoUrl
                             ? <HeaderLogo />
@@ -60,14 +67,14 @@ export function PaymentPage(): React.ReactElement {
                         }
                     </header>
                     <main aria-label={title}>
-                        {!!mainContentBeginningLifeFields?.length && (
+                        {!!paypalAdditionalInfoLifeFields?.length && (
                             <Breadcrumbs
                                 active={pageNumber}
                                 crumbs={crumbs}
                                 sectionLabel={sectionLabel}
                             />
                         )}
-                        <div>
+                        <div className={'payment-content-section'}>
                             <FlashError/>
                             <LoadingSection className={'paypal-express-pay-loading'} isLoading={!isAnyButtonEnabled} />
                             <div id="express-payment-container" className={!isAnyButtonEnabled ? 'hidden' : ''}>
@@ -85,6 +92,12 @@ export function PaymentPage(): React.ReactElement {
                 </div>
                 <SummarySection orderCompleted={false}/>
             </div>
+            {mainContentEndLifeFields.length > 0 ?
+                <div className={'outside-main-content-container'}>
+                    <div className={'outside-main-content'}>
+                        <LifeFields className={'main-content-end-life-elements'} lifeFields={mainContentEndLifeFields}/>
+                    </div>
+                </div> : null}
         </div>
     );
 }

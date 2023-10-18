@@ -3,10 +3,8 @@ import {
     useDebounceCustomer,
     useGetCurrencyInformation,
     useGetLifeFields,
-    useGetLifeFieldsOnPage,
     useGetLineItems,
     useGetOrderTotal,
-    useOnLoadDefaultLifeFields,
     useSetApiCallOnEvent,
     useSetDefaultLanguageIso,
     useWindowDimensions
@@ -14,7 +12,7 @@ import {
 import {BrowserRouter, Route} from 'react-router-dom';
 import {Redirect, Switch} from 'react-router';
 import {ThankYouPage, OutOfStockPage, SessionExpiredPage} from 'src/pages';
-import {PaymentPage, LifePage} from 'src/themes/paypal/pages';
+import {PaymentPage, AdditionalInformationPage} from 'src/themes/paypal/pages';
 import 'public/app.css';
 import 'src/themes/paypal/paypal.css';
 import {Overlay, StandaloneHooks} from 'src/components';
@@ -25,7 +23,6 @@ import {initiateCheckout} from 'src/analytics';
 import {
     Constants,
     LifeInputLocationConstants,
-    LifeInputPageConstants,
     debounceConstants
 } from 'src/constants';
 import {checkInventory} from 'src/library';
@@ -34,10 +31,9 @@ import {checkInventoryStage} from '@boldcommerce/checkout-frontend-library';
 setHook('history', useHistory);
 
 function ConditionalLifePageOrPaymentPage() {
-    useOnLoadDefaultLifeFields(useGetLifeFieldsOnPage(LifeInputPageConstants.ONE_PAGE));
-    const mainContentBeginningLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_BEGINNING);
-    if (mainContentBeginningLifeFields?.length) {
-        return <LifePage />;
+    const paypalLifeFields = useGetLifeFields(LifeInputLocationConstants.PAYPAL_ADDITIONAL_INFORMATION);
+    if (paypalLifeFields?.length) {
+        return <AdditionalInformationPage />;
     } else {
         return <PaymentPage />;
     }

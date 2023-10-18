@@ -1,2 +1,2 @@
 export * from './paymentPage';
-export * from './lifePage';
+export * from './additionalInformationPage';

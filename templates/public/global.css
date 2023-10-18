@@ -63,11 +63,15 @@ html.loading {
     display: none;
 }
 
-.three-page{
+.three-page {
     display: flex;
 }
 
 .one-page {
+    display: flex;
+}
+
+.paypal-page {
     display: flex;
 }
 
@@ -106,7 +110,7 @@ select {
 }
 
 @media only screen and (min-width: 1200px) {
-    .checkout-experience-container, .three-page {
+    .checkout-experience-container, .three-page, .paypal-page {
         flex-wrap: wrap;
         width: 100%;
         min-height: 100vh;
@@ -114,7 +118,7 @@ select {
         position: relative;
     }
 
-    .three-page {
+    .three-page, .paypal-page {
         width: 1200px;
     }
 
@@ -146,7 +150,7 @@ select {
 }
 
 @media only screen and (max-width: 1200px) and (min-width: 768px) {
-    .checkout-experience-container, .three-page {
+    .checkout-experience-container, .three-page, .paypal-page{
         flex-wrap: wrap;
         position: relative;
         margin: auto;
@@ -154,7 +158,7 @@ select {
         min-height: 100vh;
     }
 
-    .three-page {
+    .three-page, .paypal-page {
         width: 768px;
     }
 
@@ -193,7 +197,7 @@ select {
 }
 
 @media only screen and (max-width: 767px) {
-    .checkout-experience-container, .three-page {
+    .checkout-experience-container, .three-page, .paypal-page {
         position: relative;
         margin: auto;
         width: 100%;

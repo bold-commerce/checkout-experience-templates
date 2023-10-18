@@ -1,2 +1,2 @@
-export * from './useLifePage';
+export * from './useAdditionalInformationPage';
 export * from './usePaymentPage';
