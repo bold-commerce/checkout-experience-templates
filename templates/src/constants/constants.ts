@@ -59,7 +59,7 @@ export class Constants {
     static readonly THANK_YOU_ROUTE = 'thank_you';
     static readonly SESSION_EXPIRED_ROUTE = 'session_expired';
     static readonly BUY_NOW_ROUTE = 'buy_now';
-    static readonly LIFE_FIELDS_ROUTE = 'life';
+
     static readonly DEFAULT_TITLE = 'default title';
     static readonly ARIA_LIVE_POLITE = 'polite';
     static readonly ARIA_LIVE_ASSERTIVE = 'assertive';
@@ -200,6 +200,7 @@ export class LifeInputLocationConstants {
     static MAIN_CONTENT_BEGINNING = 'main_content_beginning';
     static MAIN_CONTENT_END = 'main_content_end';
     static PAYMENT_METHOD_ABOVE = 'payment_method_above';
+    static PAYPAL_ADDITIONAL_INFORMATION = 'paypal_additional_information';
 }
 
 export class LifeInputPageConstants {
@@ -208,6 +209,8 @@ export class LifeInputPageConstants {
     static PAYMENT_THREE_PAGE = 'payment_three_page';
     static ONE_PAGE = 'one_page';
     static THANK_YOU_PAGE = 'thank_you_page';
+    static PAYPAL_ADDITIONAL_INFO_PAGE = 'paypal_additional_info_page';
+    static PAYPAL_PAYMENT_PAGE = 'paypal_payment_page';
 }
 
 export class LifeFieldErrorBackupTerms {

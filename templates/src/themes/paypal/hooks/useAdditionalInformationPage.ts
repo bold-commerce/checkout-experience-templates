@@ -9,7 +9,7 @@ import {sendEvents} from 'src/analytics';
 import {actionClearErrors} from 'src/action';
 import {checkErrorAndProceedToNextPage, validateLifeFields} from 'src/library';
 
-export function useLifePage(): IFormControlsProps{
+export function useAdditionalInformationPage(): IFormControlsProps{
     const history = useHistory();
     const dispatch = useDispatch();
     const isOrderCompleted = useGetIsOrderProcessed();
@@ -30,14 +30,15 @@ export function useLifePage(): IFormControlsProps{
     const nextButtonLoading = useGetIsLoading();
 
     const nextButtonDisable = useGetButtonDisableVariable('paymentPageButton');
-    const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.ONE_PAGE);
+    const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.PAYPAL_ADDITIONAL_INFO_PAGE);
 
     const nextButtonOnClick = useCallback(() => {
         sendEvents('Clicked continue to payment button', {'category': 'Checkout'});
         dispatch(actionClearErrors());
         dispatch(validateLifeFields(requiredLifeFields));
         dispatch(checkErrorAndProceedToNextPage(Constants.PAYMENT_ROUTE, 'customerPageButton', history, false));
-    } , [requiredLifeFields]);
+    } , []);
+    window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
 
     return {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable, title};
 }

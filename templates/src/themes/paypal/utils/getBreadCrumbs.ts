@@ -6,8 +6,9 @@ import {
     getReturnToCartTermAndLink,
     isBoldPlatform
 } from 'src/utils';
-import {Constants} from 'src/constants';
+import {Constants, LifeInputLocationConstants} from 'src/constants';
 import {BrowserHistory} from 'history';
+import {useGetLifeFields} from 'src/hooks';
 
 export function getBreadcrumbs(history: BrowserHistory, active: number): IBreadcrumbs {
     let index = 0;
@@ -20,7 +21,6 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): IBreadc
 
     const sectionLabel = getTerm('checkout_steps', Constants.GLOBAL_INFO, undefined , 'Checkout steps');
 
-
     const crumbs: Array<IBreadcrumb> = [
         {
             name: 'cart',
@@ -32,12 +32,12 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): IBreadc
             },
         },
         {
-            name: 'life_fields',
-            text: getTerm('life_fields', Constants.GLOBAL_INFO),
+            name: 'additional_information',
+            text: getTerm('additional_information', Constants.GLOBAL_INFO),
             status: getBreadcrumbStatus(index++, active),
             onClick: (event) => {
                 event.preventDefault();
-                history.replace(getCheckoutUrl(Constants.LIFE_FIELDS_ROUTE));
+                history.replace(getCheckoutUrl(''));
             },
         },
         {
@@ -50,6 +50,11 @@ export function getBreadcrumbs(history: BrowserHistory, active: number): IBreadc
             },
         },
     ];
+
+    const paypalAdditionalInformation = useGetLifeFields(LifeInputLocationConstants.PAYPAL_ADDITIONAL_INFORMATION);
+    if (paypalAdditionalInformation === undefined || paypalAdditionalInformation.length == 0) {
+        crumbs.splice(crumbs.findIndex(el => el.name === 'additional_information'), 1);
+    }
 
     return {crumbs, sectionLabel};
 }
