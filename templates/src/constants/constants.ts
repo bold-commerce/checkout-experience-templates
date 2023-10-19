@@ -151,6 +151,7 @@ export class autocompleteServices {
 export class debounceConstants {
     static debouncedGuestCustomerFunction: () => void;
     static DEFAULT_DEBOUNCE_TIME = 3000;
+    static SHORTER_DEBOUNCE_TIME = 1000;
     static DEBOUNCE_UI_UPDATE_TIME = 300;
 }
 

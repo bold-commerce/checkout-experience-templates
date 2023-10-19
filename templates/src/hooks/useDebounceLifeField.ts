@@ -10,5 +10,5 @@ export function useDebounceLifeField(noteAttributesToAdd: ICartParameters): Debo
 
     return useDebouncedCallback(async () => {
         await dispatch(patchLifeField(noteAttributesToAdd));
-    }, debounceConstants.DEFAULT_DEBOUNCE_TIME);
+    }, debounceConstants.SHORTER_DEBOUNCE_TIME);
 }
