@@ -110,11 +110,12 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
             if (hasAbortErrorOnResponse(batchResponse)) {
                 return Promise.reject(genericMetaError);
             }
-            addLog(`META_CHECKOUT batch API failed ${getTimerLog(startTime)}`, 'meta_payment_consent_failed');
+            addLog(`META_CHECKOUT onPaymentConsent batch API failed ${getTimerLog(startTime)}`, 'meta_payment_consent_failed');
 
             if (batchInnerResponse && Array.isArray(batchInnerResponse.data)) {
                 for (const subResponse of batchInnerResponse.data) {
                     if (subResponse.status_code < 200 || subResponse.status_code > 299) {
+                        const {errors} = subResponse as IApiSubrequestErrorsResponse;
                         switch (subResponse.endpoint) {
                             case apiTypes.addGuestCustomer.path:
                             case apiTypes.updateCustomer.path: {
@@ -122,14 +123,12 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
                             }
                             case apiTypes.setShippingAddress.path:
                             case apiTypes.updateShippingAddress.path: {
-                                const {errors} = subResponse as IApiSubrequestErrorsResponse;
                                 const shippingDataError = getErrorWithField(errors, META_SHIPPING_DATA_ERROR);
                                 const shippingMetaError = {...META_AUTHORIZATION_SHIPPING_ERROR, error: shippingDataError};
                                 return Promise.reject(shippingMetaError);
                             }
                             case apiTypes.setBillingAddress.path:
                             case apiTypes.updateBillingAddress.path: {
-                                const {errors} = subResponse as IApiSubrequestErrorsResponse;
                                 const updateBillingDataError = getErrorWithField(errors, META_BILLING_DATA_ERROR);
                                 const updateBillingMetaError = {...META_AUTHORIZATION_BILLING_ERROR, error: updateBillingDataError};
                                 return Promise.reject(updateBillingMetaError);
