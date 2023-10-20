@@ -331,10 +331,10 @@
     classnames "^2.3.2"
     md5 "^2.3.0"
 
-"@boldcommerce/checkout-express-pay-library@0.23.6":
-  version "0.23.6"
-  resolved "https://registry.yarnpkg.com/@boldcommerce/checkout-express-pay-library/-/checkout-express-pay-library-0.23.6.tgz#942c28c77fd4cd610ac8fcbf1703616e3fd818ca"
-  integrity sha512-rhoIXlZnDmHmpJCwoVgQAtRQPhP8GFtTRIc0oHbbMcSE5+Uoo9zzVVTly8YZaXUnrZv7IL3g2mAePzjhiiOGVQ==
+"@boldcommerce/checkout-express-pay-library@0.23.7":
+  version "0.23.7"
+  resolved "https://registry.yarnpkg.com/@boldcommerce/checkout-express-pay-library/-/checkout-express-pay-library-0.23.7.tgz#cefb441e46d4cb7ffbb6ec2ab2efbcf3d2780b48"
+  integrity sha512-50K3SQja5TKj35SzHw6GWsjxd9vR6H2soryZGCWLYa2NM5WfzfFSGF1R5x7DX994647rUbreebtgWXDW+/snNw==
   dependencies:
     "@boldcommerce/checkout-frontend-library" "0.51.0"
     "@paypal/paypal-js" "^5.1.1"
