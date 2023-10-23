@@ -36,7 +36,7 @@ describe('Testing hook useDebounceLifeField', () => {
         await mockDispatch;
         expect(mockDispatch).toBeCalledTimes(1);
         expect(mockDispatch).toHaveBeenCalledWith(patchLifeFieldMock(lifeField));
-        expect(setTimeout).toBeCalledWith(expect.any(Function), debounceConstants.DEFAULT_DEBOUNCE_TIME);
+        expect(setTimeout).toBeCalledWith(expect.any(Function), debounceConstants.SHORTER_DEBOUNCE_TIME);
     });
 
 });
