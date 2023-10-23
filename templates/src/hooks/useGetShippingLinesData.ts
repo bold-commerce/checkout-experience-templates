@@ -6,7 +6,7 @@ import {actionSetLoaderAndDisableButton, actionSetSelectedShippingLine} from 'sr
 import {useDebouncedShippingLines, useGetCurrencyInformation} from 'src/hooks';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
-import {IShippingLine} from '@boldcommerce/checkout-frontend-library';
+import {IShippingLine, sendRefreshOrderAction} from '@boldcommerce/checkout-frontend-library';
 import {useGetValidVariable} from './useGetValidVariable';
 
 export function useGetShippingLinesData(): IShippingLinesHookProps {
@@ -27,6 +27,7 @@ export function useGetShippingLinesData(): IShippingLinesHookProps {
             dispatch(actionSetLoaderAndDisableButton('shippingPageButton', true));
             dispatch(actionSetSelectedShippingLine(shippingLine));
             dispatch(debounceApiCall);
+            sendRefreshOrderAction();
         }
 
     }, []);

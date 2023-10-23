@@ -10,7 +10,7 @@ import {useCallback} from 'react';
 import {actionOrderTotal, actionSetSelectedShippingLine} from 'src/action';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
-import {IShippingLine} from '@boldcommerce/checkout-frontend-library';
+import {IShippingLine, sendRefreshOrderAction} from '@boldcommerce/checkout-frontend-library';
 import {useGetValidVariable} from './useGetValidVariable';
 
 export function useGetShippingLinesDataNoDebounce(): IShippingLinesHookProps {
@@ -30,6 +30,7 @@ export function useGetShippingLinesDataNoDebounce(): IShippingLinesHookProps {
         if (shippingLine) {
             dispatch(actionSetSelectedShippingLine(shippingLine));
             dispatch(actionOrderTotal(shippingLine.amount - selectedLine.amount + orderTotal));
+            sendRefreshOrderAction();
         }
 
     }, []);
