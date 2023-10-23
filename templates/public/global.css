@@ -123,6 +123,10 @@ select {
     }
 
     .outside-main-content-container {
+        width: 100%;
+    }
+
+    .outside-main-content {
         width: 1200px;
         margin: 0 auto;
     }
