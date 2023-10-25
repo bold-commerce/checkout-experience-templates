@@ -3,7 +3,7 @@ import {
     useGetAvailableShippingLines,
     useGetSelectShippingLine,
     useGetGeneralSettingCheckoutFields,
-    useGetShippingLinesDataNoDebounce
+    useGetShippingLinesDataNoDebounce, useGetValidVariable
 } from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
@@ -31,6 +31,7 @@ jest.mock('src/hooks/useDebounceShippingLines');
 jest.mock('src/hooks/useGetSelectShippingLine');
 jest.mock('src/hooks/useGetAvailableShippingLines');
 jest.mock('src/hooks/useGetGeneralSettingCheckoutFields');
+jest.mock('src/hooks/useGetValidVariable');
 jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 const mockDispatch = jest.fn();
 
@@ -41,6 +42,7 @@ const useGetGeneralSettingsMock = mocked(useGetGeneralSettingCheckoutFields, tru
 const actionOrderTotalMock = mocked(actionOrderTotal, true);
 const getTermMock = mocked(getTerm, true);
 const sendRefreshOrderActionMock = mocked(sendRefreshOrderAction, true);
+const useGetValidVariableMock = mocked(useGetValidVariable, true);
 
 describe('Testing hook useGetShippingLinesDataNoDebounce', () => {
     const appStateMock = stateMock.data.application_state;
@@ -48,6 +50,9 @@ describe('Testing hook useGetShippingLinesDataNoDebounce', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         useGetGeneralSettingsMock.mockReturnValue(true);
+        useGetValidVariableMock
+            .mockReturnValueOnce(false)
+            .mockReturnValueOnce(true);
         getTermMock.mockReturnValue('Test');
         actionSetLoaderAndDisableButtonFunctionMock.mockName('actionSetLoaderAndDisableButton');
         actionSetLoaderAndDisableButtonMock.mockReturnValue(actionSetLoaderAndDisableButtonFunctionMock);

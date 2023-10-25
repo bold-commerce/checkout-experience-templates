@@ -33,7 +33,9 @@ export function shippingLines(updatedAddress: boolean) {
                 dispatch(actionSetSelectedShippingLine(!emptyRequiredFields ? selectedLine : shippingLines[0]));
                 dispatch(postShippingLines);
                 dispatch(actionSetAppStateValid('updatedShippingAddress', false));
-                sendRefreshOrderAction();
+                if (getState().isValid.pigi) {
+                    sendRefreshOrderAction();
+                }
             }
             if(shippingLines && shippingLines.length > 0){
                 dispatch(actionSetButtonDisable('shippingPageButton', false));

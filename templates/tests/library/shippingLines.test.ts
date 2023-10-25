@@ -27,6 +27,7 @@ describe('testing shippingLines', () => {
     const getState = jest.fn();
     const mockDispatch = jest.fn();
     const returnObject = { ...baseReturnObject };
+    const stateWithValidPigi = {...stateMock, isValid: {...stateMock.isValid, pigi: true}};
 
     const shippingData = [
         {
@@ -81,7 +82,7 @@ describe('testing shippingLines', () => {
     beforeEach(() => {
         jest.resetAllMocks();
         mockDispatch.mockReturnValue(Promise.resolve());
-        getState.mockReturnValue(stateMock);
+        getState.mockReturnValue(stateWithValidPigi);
     });
 
     test('tests calling get shipping lines with no success', async () => {

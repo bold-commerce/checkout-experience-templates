@@ -17,6 +17,7 @@ export function useGetShippingLinesDataNoDebounce(): IShippingLinesHookProps {
     const dispatch = useDispatch();
     const {formattedPrice} = useGetCurrencyInformation();
     const shippingAddressValid = useGetValidVariable('shippingAddress');
+    const isValidPigi = useGetValidVariable('pigi');
     const shippingLines: Array<IShippingLine> = useGetAvailableShippingLines();
     const selectedLine: IShippingLine = useGetSelectShippingLine();
     const shippingLinesLength = shippingLines.length;
@@ -30,10 +31,12 @@ export function useGetShippingLinesDataNoDebounce(): IShippingLinesHookProps {
         if (shippingLine) {
             dispatch(actionSetSelectedShippingLine(shippingLine));
             dispatch(actionOrderTotal(shippingLine.amount - selectedLine.amount + orderTotal));
-            sendRefreshOrderAction();
+            if (isValidPigi) {
+                sendRefreshOrderAction();
+            }
         }
 
-    }, []);
+    }, [isValidPigi]);
 
     return {shippingLines, selectedLine, noShippingAreaText, shippingLinesLength, handleChange, formattedPrice, shippingAddressValid};
 }
