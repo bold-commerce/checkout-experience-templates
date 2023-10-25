@@ -38,21 +38,24 @@ export function validateLifeFields(lifeFields: Array<ILifeField>, thankYouPageLi
         const regexLifeFields = lifeFields.filter(lifeField => lifeField.input_regex && (lifeField.input_type === LifeInputTypeConstants.TEXT || lifeField.input_type === LifeInputTypeConstants.TEXTAREA));
 
         const noteAttributes = getState().data.application_state.order_meta_data.note_attributes;
-        for (const requiredLifeField  of requiredLifeFields) {
-            if(!noteAttributes[requiredLifeField.meta_data_field]) {
+        for (const requiredLifeField of requiredLifeFields) {
+            const value = noteAttributes[requiredLifeField.meta_data_field];
+            if(!value) {
                 callPatchAPI = false;
                 dispatch(actionAddError({
                     ...defaultError,
                     field: requiredLifeField.meta_data_field,
                     message: `${requiredLifeField.input_label}${requiredErrorMessage}`
                 }));
-            } else if (noteAttributes[requiredLifeField.meta_data_field] && noteAttributes[requiredLifeField.meta_data_field].trim() === '') {
-                callPatchAPI = false;
-                dispatch(actionAddError({
-                    ...defaultError,
-                    field: requiredLifeField.meta_data_field,
-                    message: `${requiredLifeField.input_label}${requiredErrorMessage}`
-                }));
+            } else {
+                if (typeof value === 'string' && value.trim() === '' ) {
+                    callPatchAPI = false;
+                    dispatch(actionAddError({
+                        ...defaultError,
+                        field: requiredLifeField.meta_data_field,
+                        message: `${requiredLifeField.input_label}${requiredErrorMessage}`
+                    }));
+                }
             }
         }
 
@@ -75,15 +78,11 @@ export function validateLifeFields(lifeFields: Array<ILifeField>, thankYouPageLi
                 for (const thankYouPageLifeField of thankYouPageLifeFields) {
                     switch(thankYouPageLifeField.input_type) {
                         case LifeInputTypeConstants.TEXT:
-                        case LifeInputTypeConstants.TEXTAREA: {
+                        case LifeInputTypeConstants.TEXTAREA:
+                        case LifeInputTypeConstants.CHECKBOX: {
                             if (thankYouPageLifeField.input_default) {
                                 dispatch(actionUpdateNoteAttributeField(thankYouPageLifeField.meta_data_field, thankYouPageLifeField.input_default));
                             }
-                            break;
-                        }
-                        case LifeInputTypeConstants.CHECKBOX: {
-                            const inputDefault  = thankYouPageLifeField.input_default !== null && thankYouPageLifeField.input_default.length > 0 && thankYouPageLifeField.input_default === 'true';
-                            dispatch(actionUpdateNoteAttributeField(thankYouPageLifeField.meta_data_field, inputDefault));
                             break;
                         }
                         case LifeInputTypeConstants.DATEPICKER: {
