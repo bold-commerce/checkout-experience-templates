@@ -11,6 +11,7 @@ import {stateMock} from 'src/mocks';
 import {act} from '@testing-library/react';
 import {actionOrderTotal, actionSetLoaderAndDisableButton} from 'src/action';
 import {initialDataMock} from 'src/mocks';
+import {sendRefreshOrderAction} from "@boldcommerce/checkout-frontend-library";
 
 const store = {
     data: initialDataMock,
@@ -30,6 +31,7 @@ jest.mock('src/hooks/useDebounceShippingLines');
 jest.mock('src/hooks/useGetSelectShippingLine');
 jest.mock('src/hooks/useGetAvailableShippingLines');
 jest.mock('src/hooks/useGetGeneralSettingCheckoutFields');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 const mockDispatch = jest.fn();
 
 const useGetAvailableShippingLinesMock = mocked(useGetAvailableShippingLines, true);
@@ -38,6 +40,7 @@ const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButt
 const useGetGeneralSettingsMock = mocked(useGetGeneralSettingCheckoutFields, true);
 const actionOrderTotalMock = mocked(actionOrderTotal, true);
 const getTermMock = mocked(getTerm, true);
+const sendRefreshOrderActionMock = mocked(sendRefreshOrderAction, true);
 
 describe('Testing hook useGetShippingLinesData', () => {
     const appStateMock = stateMock.data.application_state;
@@ -74,6 +77,7 @@ describe('Testing hook useGetShippingLinesData', () => {
             hookResult.handleChange(event);
         });
 
+        expect(sendRefreshOrderActionMock).toHaveBeenCalled();
         expect(mockDispatch).toBeCalledTimes(3);
         expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
     });
