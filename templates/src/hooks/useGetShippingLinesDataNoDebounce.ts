@@ -10,14 +10,13 @@ import {useCallback} from 'react';
 import {actionOrderTotal, actionSetSelectedShippingLine} from 'src/action';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
-import {IShippingLine, sendRefreshOrderAction} from '@boldcommerce/checkout-frontend-library';
+import {IShippingLine} from '@boldcommerce/checkout-frontend-library';
 import {useGetValidVariable} from './useGetValidVariable';
 
 export function useGetShippingLinesDataNoDebounce(): IShippingLinesHookProps {
     const dispatch = useDispatch();
     const {formattedPrice} = useGetCurrencyInformation();
     const shippingAddressValid = useGetValidVariable('shippingAddress');
-    const isValidPigi = useGetValidVariable('pigi');
     const shippingLines: Array<IShippingLine> = useGetAvailableShippingLines();
     const selectedLine: IShippingLine = useGetSelectShippingLine();
     const shippingLinesLength = shippingLines.length;
@@ -31,12 +30,9 @@ export function useGetShippingLinesDataNoDebounce(): IShippingLinesHookProps {
         if (shippingLine) {
             dispatch(actionSetSelectedShippingLine(shippingLine));
             dispatch(actionOrderTotal(shippingLine.amount - selectedLine.amount + orderTotal));
-            if (isValidPigi) {
-                sendRefreshOrderAction();
-            }
         }
 
-    }, [isValidPigi]);
+    }, [shippingLines]);
 
     return {shippingLines, selectedLine, noShippingAreaText, shippingLinesLength, handleChange, formattedPrice, shippingAddressValid};
 }

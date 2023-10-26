@@ -14,7 +14,6 @@ import {
     handlePigiHeight,
     handlePigiInitialized,
     handlePigiPaymentAdded,
-    handlePigiRefreshOrder,
     handlePigiSca,
     processOrder,
     setPigiListenerInLibrary,
@@ -293,14 +292,6 @@ describe('testing getPaymentIframe function', () => {
             expect(updatePigiHeightMock).toHaveBeenCalledTimes(1);
             expect(updatePigiHeightMock).toHaveBeenCalledWith('100px');
             expect(actionShowHideOverlayContentMock).toHaveBeenCalledWith(false);
-        });
-    });
-
-    test('handlePigiRefreshOrder called', async () => {
-        const handlePigiRefreshOrderThunk = await handlePigiRefreshOrder();
-        await handlePigiRefreshOrderThunk(dispatchMock).then(() => {
-            expect(dispatchMock).toHaveBeenCalledTimes(1);
-            expect(dispatchMock).toHaveBeenCalledWith(getUpdatedApplicationState);
         });
     });
 

@@ -41,7 +41,6 @@ const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButt
 const useGetGeneralSettingsMock = mocked(useGetGeneralSettingCheckoutFields, true);
 const actionOrderTotalMock = mocked(actionOrderTotal, true);
 const getTermMock = mocked(getTerm, true);
-const sendRefreshOrderActionMock = mocked(sendRefreshOrderAction, true);
 const useGetValidVariableMock = mocked(useGetValidVariable, true);
 
 describe('Testing hook useGetShippingLinesDataNoDebounce', () => {
@@ -82,7 +81,6 @@ describe('Testing hook useGetShippingLinesDataNoDebounce', () => {
             hookResult.handleChange(event);
         });
 
-        expect(sendRefreshOrderActionMock).toHaveBeenCalled();
         expect(mockDispatch).toBeCalledTimes(2);
         expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(0);
     });
@@ -100,7 +98,6 @@ describe('Testing hook useGetShippingLinesDataNoDebounce', () => {
             hookResult.handleChange(event);
         });
 
-        expect(sendRefreshOrderActionMock).toHaveBeenCalled();
         expect(mockDispatch).toBeCalledTimes(2);
         expect(actionOrderTotalMock).toHaveBeenCalledTimes(1);
         expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(0);

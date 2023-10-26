@@ -104,14 +104,8 @@ export function handlePigiDisplayFullPageDone(payload: IPigiResponsesPayload) {
     };
 }
 
-export function handlePigiRefreshOrder() {
-    return async function handlePigiRefreshOrderThunk(dispatch: Dispatch): Promise<void> {
-        dispatch(getUpdatedApplicationState);
-    };
-}
-
 export function handlePigiHeight(payload: IPigiResponsesPayload) {
-    return async function handlePigiRefreshOrderThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
+    return async function handlePigiHeightThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         const {appSetting: {pigiDisplaySca}} = getState();
         if (pigiDisplaySca) {
             updatePigiHeight('100%');
