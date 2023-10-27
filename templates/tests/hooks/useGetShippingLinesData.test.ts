@@ -3,15 +3,15 @@ import {
     useGetAvailableShippingLines,
     useGetShippingLinesData,
     useGetSelectShippingLine,
-    useGetGeneralSettingCheckoutFields, useGetValidVariable
+    useGetGeneralSettingCheckoutFields,
+    useGetValidVariable
 } from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 import {stateMock} from 'src/mocks';
 import {act} from '@testing-library/react';
-import {actionOrderTotal, actionSetLoaderAndDisableButton} from 'src/action';
+import {actionSetLoaderAndDisableButton} from 'src/action';
 import {initialDataMock} from 'src/mocks';
-import {sendRefreshOrderAction} from "@boldcommerce/checkout-frontend-library";
 
 const store = {
     data: initialDataMock,
@@ -40,7 +40,6 @@ const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
 const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButton, true);
 const useGetGeneralSettingsMock = mocked(useGetGeneralSettingCheckoutFields, true);
 const getTermMock = mocked(getTerm, true);
-const sendRefreshOrderActionMock = mocked(sendRefreshOrderAction, true);
 const useGetValidVariableMock = mocked(useGetValidVariable, true);
 
 describe('Testing hook useGetShippingLinesData', () => {
@@ -81,7 +80,6 @@ describe('Testing hook useGetShippingLinesData', () => {
             hookResult.handleChange(event);
         });
 
-        expect(sendRefreshOrderActionMock).toHaveBeenCalled();
         expect(mockDispatch).toBeCalledTimes(3);
         expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
     });

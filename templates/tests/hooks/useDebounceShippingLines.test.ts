@@ -1,11 +1,28 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {act} from '@testing-library/react';
-import {useDebouncedShippingLines} from 'src/hooks';
+import {useDebouncedShippingLines, useGetValidVariable} from 'src/hooks';
 import {postShippingLines, validateShippingLine} from 'src/library';
 import {debounceConstants} from 'src/constants';
+import {mocked} from 'jest-mock';
+import {sendRefreshOrderAction} from '@boldcommerce/checkout-frontend-library/lib/pigi';
+import {Dispatch} from 'redux';
+import {IOrderInitialization} from 'src/types';
+
+jest.mock('src/hooks/useGetValidVariable');
+jest.mock('src/library/postShippingLines');
+jest.mock('src/library/validateShippingLine');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
+
+const useGetValidVariableMock = mocked(useGetValidVariable, true);
+const postShippingLinesMock = mocked(postShippingLines, true);
+const validateShippingLineMock = mocked(validateShippingLine, true);
+const mockSendRefreshOrderAction = mocked(sendRefreshOrderAction, true);
+const mockDispatch = jest.fn(async (p) => {
+    return await p();
+});
 
 jest.setTimeout(10000);
-const mockDispatch = jest.fn(() => Promise.resolve());
+
 jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch
 }));
@@ -21,18 +38,18 @@ describe('Testing hook useDebouncedShippingLines', () => {
     test('rendering the hook properly with timeout', async () => {
         jest.useFakeTimers();
         jest.spyOn(global, 'setTimeout');
+        useGetValidVariableMock.mockReturnValueOnce(true);
+        validateShippingLineMock.mockImplementation(() => Promise.resolve());
+        postShippingLinesMock.mockImplementation(()  => Promise.resolve());
 
         const {result} = renderHook(() => useDebouncedShippingLines());
 
         act(result.current);
         expect(mockDispatch).toBeCalledTimes(0);
         jest.runAllTimers();
+        await act(result.current);
 
-        await mockDispatch;
-        expect(mockDispatch).toBeCalledTimes(2);
-        expect(mockDispatch).toBeCalledWith(validateShippingLine);
-        expect(mockDispatch).toBeCalledWith(postShippingLines);
         expect(setTimeout).toBeCalledWith(expect.any(Function), debounceConstants.DEFAULT_DEBOUNCE_TIME);
+        expect(mockSendRefreshOrderAction).toBeCalledTimes(1);
     });
-
 });
