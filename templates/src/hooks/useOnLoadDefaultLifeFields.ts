@@ -9,8 +9,11 @@ export function useOnLoadDefaultLifeFields(lifeFields: Array<ILifeField>): void 
 
     useEffect(() => {
         const defaultLifeFields = lifeFields.filter(
-            lifeField => (lifeField.input_default && (lifeField.input_type === LifeInputTypeConstants.TEXT || lifeField.input_type === LifeInputTypeConstants.TEXTAREA || lifeField.input_type === LifeInputTypeConstants.DATEPICKER)) ||
-            lifeField.input_type === LifeInputTypeConstants.CHECKBOX);
+            lifeField => lifeField.input_default && (
+                lifeField.input_type === LifeInputTypeConstants.TEXT ||
+                lifeField.input_type === LifeInputTypeConstants.TEXTAREA ||
+                lifeField.input_type === LifeInputTypeConstants.DATEPICKER ||
+                lifeField.input_type === LifeInputTypeConstants.CHECKBOX));
         if (defaultLifeFields.length > 0) {
             dispatch(patchLifeFields);
         }

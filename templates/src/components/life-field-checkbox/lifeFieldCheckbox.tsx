@@ -4,7 +4,7 @@ import {FieldCheckbox} from 'src/components';
 import {useLifeFieldCheckbox} from 'src/hooks';
 
 export function LifeFieldCheckbox(props: ILifeFieldProps): React.ReactElement {
-    const {checked, value, label, helpText, id, handleChange} = useLifeFieldCheckbox(props.lifeField);
+    const {checked, value, label, helpText, id, errorMessage, handleChange} = useLifeFieldCheckbox(props.lifeField);
 
     return (
         <div id={`life-element-checkbox-container-${id}`} className={'life-element-checkbox-container'} data-testid={`life-element-checkbox-container-${id}`} key={id}>
@@ -16,6 +16,7 @@ export function LifeFieldCheckbox(props: ILifeFieldProps): React.ReactElement {
                 className='life-element-checkbox'
                 checked={checked}
                 handleChange={handleChange}
+                errorMessage={errorMessage}
             />
         </div>
     );

@@ -647,6 +647,7 @@ export interface ILifeFieldCheckbox {
     label: string;
     helpText: string;
     id: string;
+    errorMessage?: string | null;
     handleChange: (e) => void;
 }
 

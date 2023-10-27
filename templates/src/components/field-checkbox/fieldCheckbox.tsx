@@ -17,6 +17,8 @@ export function FieldCheckbox(props: IFieldCheckboxProps): React.ReactElement {
             value={props.value}
             onChange={props.handleChange}
             disabled={isLoading}
+            messageType={props.errorMessage ? 'alert' : ''}
+            messageText={props.errorMessage ? props.errorMessage : ''}
         />
     );
 }

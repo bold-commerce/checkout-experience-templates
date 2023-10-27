@@ -1,11 +1,12 @@
 import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
-import {useGetNoteAttributes, useLifeFieldCheckbox} from 'src/hooks';
-import {patchLifeFields, patchOrderMetaData} from 'src/library';
+import {useGetErrorByField, useGetLifeFieldErrorMessage, useGetNoteAttributes, useLifeFieldCheckbox} from 'src/hooks';
+import {patchOrderMetaData} from 'src/library';
 import {renderHook} from '@testing-library/react-hooks';
 import {act} from '@testing-library/react';
 import {ILifeField} from '@boldcommerce/checkout-frontend-library/lib/types/apiInterfaces';
-import {actionUpdateNoteAttributeField} from 'src/action';
+import {actionAddError, actionRemoveErrorByField, actionUpdateNoteAttributeField} from 'src/action';
+import {errorSeverities, errorSubTypes, errorTypes} from 'src/constants';
 
 const store = {
     data: initialDataMock,
@@ -15,6 +16,8 @@ const store = {
 const mockDispatch = jest.fn();
 jest.mock('src/hooks/useGetNoteAttributes');
 jest.mock('src/library/patchOrderMetaData');
+jest.mock('src/hooks/useGetLifeFieldErrorMessage');
+jest.mock('src/hooks/useGetErrorByField');
 jest.mock('react-redux', () => ({
     useSelector: jest.fn().mockImplementation(func => func(store)),
     useDispatch: () => mockDispatch
@@ -22,6 +25,8 @@ jest.mock('react-redux', () => ({
 
 const useGetNoteAttributesMock = mocked(useGetNoteAttributes, true);
 const patchOrderMetaDataMock = mocked(patchOrderMetaData, true);
+const useGetLifeFieldErrorMessageMock = mocked(useGetLifeFieldErrorMessage, true);
+const useGetErrorByFieldMock = mocked(useGetErrorByField, true);
 
 describe('Testing hook useLifeFieldCheckbox', () => {
     const mockPatchOrder = jest.fn();
@@ -65,13 +70,24 @@ describe('Testing hook useLifeFieldCheckbox', () => {
         }
     ];
 
+    const defaultMessage = {
+        message: 'some message',
+        type: errorTypes.life_elements,
+        field: '',
+        severity: errorSeverities.validation,
+        sub_type: errorSubTypes.empty,
+        address_type: '',
+    };
+
     beforeEach(() => {
         jest.clearAllMocks();
         patchOrderMetaDataMock.mockReturnValue(mockPatchOrder);
+        useGetLifeFieldErrorMessageMock.mockReturnValue(defaultMessage);
     });
 
 
     test('rendering the hook properly', () => {
+        useGetErrorByFieldMock.mockReturnValue('');
         useGetNoteAttributesMock.mockReturnValue({});
         const {result} = renderHook(() => useLifeFieldCheckbox(lifeFields[0]));
         const hookResult = result.current;
@@ -83,6 +99,7 @@ describe('Testing hook useLifeFieldCheckbox', () => {
     });
 
     test('rendering the hook with already existing note attributes properly', () => {
+        useGetErrorByFieldMock.mockReturnValue('');
         const noteAttributes: Record<string, string> = {
             test_meta_data_field_1: 'true',
         };
@@ -97,20 +114,31 @@ describe('Testing hook useLifeFieldCheckbox', () => {
     });
 
     test('rendering the hook with not existing note attributes properly', () => {
+        useGetErrorByFieldMock.mockReturnValue('some error');
         useGetNoteAttributesMock.mockReturnValue({});
+        const message = {...defaultMessage};
+        message.message = lifeFields[2].input_label + defaultMessage.message;
+        message.field = lifeFields[2].meta_data_field;
+        const event = {target: {checked: false}};
         const {result} = renderHook(() => useLifeFieldCheckbox(lifeFields[2]));
         const hookResult = result.current;
+        act(() => {
+            hookResult.handleChange(event);
+        });
         expect(hookResult.checked).toBe(false);
         expect(hookResult.value).toBe('false');
         expect(hookResult.label).toBe('');
         expect(hookResult.helpText).toBe('');
         expect(hookResult.id).toBe('3');
 
-        expect(mockDispatch).toHaveBeenCalledTimes(1);
-        expect(mockDispatch).toHaveBeenCalledWith(actionUpdateNoteAttributeField('test_meta_data_field_2', false));
+        expect(mockDispatch).toHaveBeenCalledTimes(3);
+        expect(mockDispatch).toHaveBeenCalledWith(actionAddError(message));
+        expect(mockDispatch).toHaveBeenCalledWith(actionRemoveErrorByField(lifeFields[2].meta_data_field, ''));
+
     });
 
     test('testing the change handler', () => {
+        useGetErrorByFieldMock.mockReturnValue('');
         useGetNoteAttributesMock.mockReturnValue({});
         const event = {target: {checked: true}};
         const {result} = renderHook(() => useLifeFieldCheckbox(lifeFields[0]));
