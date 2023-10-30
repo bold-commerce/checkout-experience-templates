@@ -40,7 +40,7 @@ import {
     actionUpdateNoteAttributeField,
     actionUpdateCartParameters,
     actionUpdateNotes,
-    actionUpdateTags,
+    actionUpdateTags, actionOrderBalance,
 } from 'src/action';
 import * as AppActions from 'src/action/appActionType';
 import {autocompleteServices} from 'src/constants';
@@ -316,6 +316,18 @@ describe('Testing App Actions', () => {
         };
 
         const result = actionOrderTotal(data);
+
+        expect(result).toStrictEqual(actionReturnExpectation);
+    });
+
+    test('actionOrderBalance', () => {
+        const data = initialDataMock.application_state.order_balance;
+        const actionReturnExpectation = {
+            type: AppActions.UPDATE_ORDER_BALANCE,
+            payload: {data}
+        };
+
+        const result = actionOrderBalance(data);
 
         expect(result).toStrictEqual(actionReturnExpectation);
     });

@@ -12,9 +12,11 @@ import {
     getShipping,
     getShippingAddress,
     getTaxes,
-    IApiReturnObject
+    IApiReturnObject,
+    sendExternalPaymentGatewayUpdateStateAction
 } from '@boldcommerce/checkout-frontend-library';
 import {
+    actionOrderBalance,
     actionOrderTotal,
     actionUpdateAddress,
     actionUpdateAvailableShippingLines,
@@ -41,6 +43,10 @@ export async function getUpdatedApplicationState(dispatch: Dispatch, getState: (
     const response: IApiReturnObject = await getRefreshedApplicationState();
     handleErrorIfNeeded(response, dispatch, getState);
     dispatch(getApplicationStateFromLib);
+    const state = getState();
+    for (const external_payment_gateway of state.data.initial_data.external_payment_gateways) {
+        sendExternalPaymentGatewayUpdateStateAction(external_payment_gateway, state.data);
+    }
 }
 
 export async function getApplicationStateFromLib(dispatch: Dispatch): Promise<void> {
@@ -51,6 +57,7 @@ export async function getApplicationStateFromLib(dispatch: Dispatch): Promise<vo
     dispatch(getLineItemsFromLib);
     dispatch(getPaymentsFromLib);
     dispatch(getIsOrderProcessFromLib);
+    dispatch(getOrderBalanceFromLib);
 }
 
 export async function getAddressesFromLib(dispatch: Dispatch): Promise<void> {
@@ -97,6 +104,11 @@ export async function getOrderMetaDataFromLib(dispatch: Dispatch): Promise<void>
 export async function getOrderTotalFromLib(dispatch: Dispatch): Promise<void> {
     const {order_total: orderTotal} = getApplicationState(); // TODO: Implement getOrderTotal() in the Library state gets
     dispatch(actionOrderTotal(orderTotal));
+}
+
+export async function getOrderBalanceFromLib(dispatch: Dispatch): Promise<void> {
+    const {order_balance: orderBalance} = getApplicationState();
+    dispatch(actionOrderBalance(orderBalance));
 }
 
 export async function getIsOrderProcessFromLib(dispatch: Dispatch): Promise<void> {
@@ -151,6 +163,7 @@ export async function getShippingAddressFromLib(dispatch: Dispatch, getState: ()
 export async function getSummaryStateFromLib(dispatch: Dispatch): Promise<void> {
     dispatch(getLineItemsFromLib);
     dispatch(getOrderTotalFromLib);
+    dispatch(getOrderBalanceFromLib);
     dispatch(getOrderMetaDataFromLib);
     dispatch(getDiscountsFromLib);
     dispatch(getTaxesFromLib);

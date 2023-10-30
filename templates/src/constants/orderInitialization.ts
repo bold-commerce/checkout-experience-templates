@@ -98,6 +98,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
             discounts: [],
             taxes: [],
             order_total: 0,
+            order_balance: 0,
             line_items: [],
             shipping: {
                 selected_shipping: {
