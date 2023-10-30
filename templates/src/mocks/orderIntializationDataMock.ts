@@ -668,6 +668,7 @@ export const initialDataMock: IInitializeOrderResponse = {
         ],
         'fees': [],
         'order_total': 20000,
+        'order_balance': 20000,
         'resumable_link': '',
         'created_via': 'checkout',
         'is_processed': false,

@@ -331,20 +331,20 @@
     classnames "^2.3.2"
     md5 "^2.3.0"
 
-"@boldcommerce/checkout-express-pay-library@0.23.7":
-  version "0.23.7"
-  resolved "https://registry.yarnpkg.com/@boldcommerce/checkout-express-pay-library/-/checkout-express-pay-library-0.23.7.tgz#cefb441e46d4cb7ffbb6ec2ab2efbcf3d2780b48"
-  integrity sha512-50K3SQja5TKj35SzHw6GWsjxd9vR6H2soryZGCWLYa2NM5WfzfFSGF1R5x7DX994647rUbreebtgWXDW+/snNw==
+"@boldcommerce/checkout-express-pay-library@0.24.0":
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/@boldcommerce/checkout-express-pay-library/-/checkout-express-pay-library-0.24.0.tgz#c810a52e7db2c1207b469dacf69e254f06c14989"
+  integrity sha512-6MT9dRo4fg6NDfeYJn6tMF6gocMqC7N7n8+BesPrBoScTvf+iFromCnIJ5hfYUWa3zC3k8E9rwYTlWHOv322AA==
   dependencies:
-    "@boldcommerce/checkout-frontend-library" "0.51.0"
-    "@paypal/paypal-js" "^5.1.1"
+    "@boldcommerce/checkout-frontend-library" "0.51.1"
+    "@paypal/paypal-js" "^7.0.1"
     "@types/applepayjs" "^3.0.4"
     "@types/googlepay" "^0.6.4"
 
-"@boldcommerce/checkout-frontend-library@0.51.0":
-  version "0.51.0"
-  resolved "https://registry.yarnpkg.com/@boldcommerce/checkout-frontend-library/-/checkout-frontend-library-0.51.0.tgz#41d69476e373129f717e04fed2bb17f4d289d4cc"
-  integrity sha512-BeP3eNVc/R9EU+VKgoGwUe44G7jwWSx1gn2rxxJMTQ25wN5gGPJcyqIOXWGrM6fkcBJINfMkF3TYk8yFWeis8w==
+"@boldcommerce/checkout-frontend-library@0.51.1":
+  version "0.51.1"
+  resolved "https://registry.yarnpkg.com/@boldcommerce/checkout-frontend-library/-/checkout-frontend-library-0.51.1.tgz#10542ae097e8fb0ed5a68382ec6209a69e9fef3e"
+  integrity sha512-SR3lALG1r294CWWU6KCLVoMxADtEHX4uZep+jIJEUiGZYm+vo6thOImZYzaSxPbS5cCsoQsQ2UC+OqY8vYNU5Q==
 
 "@boldcommerce/stacks-ui@^1.1.1":
   version "1.4.1"
@@ -645,12 +645,12 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
-"@paypal/paypal-js@^5.1.1":
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/@paypal/paypal-js/-/paypal-js-5.1.1.tgz#81ab1f78dd2001061a2472f561d20df687a1d295"
-  integrity sha512-MMQ8TA048gTB43pzEOMzod8WY8hfzy+ahd7w29LtMvXduqzp7/29WxrTlsy4k6ARG6WGJ/uGqpc4+la4UZEQgw==
+"@paypal/paypal-js@^7.0.1":
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/@paypal/paypal-js/-/paypal-js-7.0.3.tgz#16844270029d8562e4cb326df52b6f0277ee71c4"
+  integrity sha512-Mpq0TGKzypi02Iw4p11eq5+dxVKcuJ+98UDrxLRbqZcr8pBRFPX+jqPFkVq6hzs3sHxwIuMPFCxnrckxxLSznw==
   dependencies:
-    promise-polyfill "^8.2.3"
+    promise-polyfill "^8.3.0"
 
 "@redux-devtools/extension@^3.2.2":
   version "3.2.2"
@@ -4399,15 +4399,10 @@ progress@^2.0.0:
   resolved "https://registry.npmjs.org/progress/-/progress-2.0.3.tgz"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-promise-polyfill@^8.1.3:
+promise-polyfill@^8.1.3, promise-polyfill@^8.3.0:
   version "8.3.0"
-  resolved "https://npm.boldapps.net/promise-polyfill/-/promise-polyfill-8.3.0.tgz#9284810268138d103807b11f4e23d5e945a4db63"
+  resolved "https://registry.yarnpkg.com/promise-polyfill/-/promise-polyfill-8.3.0.tgz#9284810268138d103807b11f4e23d5e945a4db63"
   integrity sha512-H5oELycFml5yto/atYqmjyigJoAo3+OXwolYiH7OfQuYlAqhxNvTfiNMbV9hsC6Yp83yE5r2KTVmtrG6R9i6Pg==
-
-promise-polyfill@^8.2.3:
-  version "8.2.3"
-  resolved "https://registry.yarnpkg.com/promise-polyfill/-/promise-polyfill-8.2.3.tgz#2edc7e4b81aff781c88a0d577e5fe9da822107c6"
-  integrity sha512-Og0+jCRQetV84U8wVjMNccfGCnMQ9mGs9Hv78QFe+pSDD3gWTpz0y+1QCuxy5d/vBFuZ3iwP2eycAkvqIMPmWg==
 
 prompts@^2.0.1:
   version "2.4.2"

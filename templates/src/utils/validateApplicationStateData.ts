@@ -52,6 +52,7 @@ export function validateApplicationStateData(appData: IApplicationState): IAppli
         discounts: discount,
         taxes: taxes,
         order_total: appData.order_total,
+        order_balance: appData.order_balance,
         resumable_link: appData.resumable_link,
         created_via: appData.created_via,
         is_processed: appData.is_processed,

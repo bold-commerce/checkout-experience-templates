@@ -48,6 +48,7 @@ import {
 } from 'src/reducer';
 import {autocompleteServices, Constants} from 'src/constants';
 import {defaultOrderInitialization} from 'src/constants/orderInitialization';
+import {orderBalanceReducer} from 'src/reducer/orderBalanceReducer';
 
 export const initialState: IInitialState = {
     screenWidth: window.innerWidth,
@@ -109,6 +110,7 @@ const appStateReducer = combineReducers({
     shipping: shippingOptionsReducer,
     taxes: taxesReducer,
     order_total:orderTotalReducer,
+    order_balance:orderBalanceReducer,
     discounts: discountsReducer,
     payments: paymentsReducer,
     order_meta_data: orderMetaReducer,
