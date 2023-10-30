@@ -30,6 +30,7 @@ export * from './useGetCurrencyInformation';
 export * from './useGetCustomerInformation';
 export * from './useGetDefaultSupportedLanguageIso';
 export * from './useGetDiscounts';
+export * from './useGetCombinedDiscounts';
 export * from './useGetDisplayPaymentMethods';
 export * from './useGetErrorFallback';
 export * from './useGetErrors';
