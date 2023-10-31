@@ -36,7 +36,7 @@ export function PaymentPage(): React.ReactElement {
     const mainContentEndLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_END);
     const paypalAdditionalInfoLifeFields = useGetLifeFields(LifeInputLocationConstants.PAYPAL_ADDITIONAL_INFORMATION);
     const headerLogoUrl = window.headerLogoUrl;
-    const pageNumber = paypalAdditionalInfoLifeFields?.length ? 2 : 1;
+    const pageNumber = paypalAdditionalInfoLifeFields.length ? 2 : 1;
     const {crumbs, sectionLabel} = getBreadcrumbs(history, pageNumber);
     const isAnyButtonEnabled = useGetAppSettingData('isExpressPaySectionEnable') as boolean;
 
@@ -67,7 +67,7 @@ export function PaymentPage(): React.ReactElement {
                         }
                     </header>
                     <main aria-label={title}>
-                        {!!paypalAdditionalInfoLifeFields?.length && (
+                        {!!paypalAdditionalInfoLifeFields.length && (
                             <Breadcrumbs
                                 active={pageNumber}
                                 crumbs={crumbs}

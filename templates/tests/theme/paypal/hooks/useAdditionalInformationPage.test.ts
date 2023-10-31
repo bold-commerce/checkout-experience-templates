@@ -72,4 +72,18 @@ describe('Testing hook useAdditionalInformationPage', () => {
         expect(mockDispatch).toHaveBeenCalledTimes(3);
         expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors());
     });
+
+    test('rendering the hook properly  with order completed', () => {
+        useGetIsOrderProcessedMock.mockReturnValueOnce(true);
+        const {result} = renderHook(() => useAdditionalInformationPage());
+        const hookResult = result.current;
+        expect(hookResult.backLinkText).toBe(getTermValue);
+        expect(useDispatchMock).toHaveBeenCalledTimes(1);
+
+        expect(window.location.href).toEqual(window.returnUrl);
+        result.current.nextButtonOnClick && result.current.nextButtonOnClick();
+        expect(mockDispatch).toHaveBeenCalledTimes(3);
+        expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors());
+        expect(historyMock.replace).toHaveBeenCalledTimes(1);
+    });
 });

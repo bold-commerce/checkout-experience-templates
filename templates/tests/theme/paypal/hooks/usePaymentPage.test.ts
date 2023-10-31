@@ -4,6 +4,7 @@ import {mocked} from 'jest-mock';
 import {Constants} from 'src/constants';
 import {usePaymentPage} from 'src/themes/paypal/hooks';
 import {getTerm} from 'src/utils';
+import {useGetIsOrderProcessed} from 'src/hooks';
 
 jest.mock('react-redux');
 jest.mock('react-router');
@@ -12,6 +13,8 @@ jest.mock('src/hooks/useGetIsOrderProcessed');
 
 const useHistoryMock = mocked(useHistory, true);
 const getTermMock = mocked(getTerm, true);
+const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
+
 
 describe('Testing hook usePaymentPage', () => {
     const historyMock = {replace: jest.fn()};
@@ -37,6 +40,7 @@ describe('Testing hook usePaymentPage', () => {
     });
 
     test('Render the hook properly', async () => {
+        useGetIsOrderProcessedMock.mockReturnValueOnce(false);
         getTermMock
             .mockReturnValueOnce(titleMock)
             .mockReturnValueOnce(backLinkTextMock);
@@ -51,5 +55,22 @@ describe('Testing hook usePaymentPage', () => {
         expect(result.current.nextButtonText).toBe(nextButtonTextMock);
         result.current.backLinkOnClick && result.current.backLinkOnClick(eventMock);
         expect(historyMock.replace).toHaveBeenCalledTimes(0);
+    });
+
+    test('Render the hook properly with order completed', async () => {
+        useGetIsOrderProcessedMock.mockReturnValueOnce(true);
+        getTermMock
+            .mockReturnValueOnce(titleMock)
+            .mockReturnValueOnce(backLinkTextMock);
+
+        const {result} = renderHook(() => usePaymentPage());
+
+        expect(useHistoryMock).toHaveBeenCalledTimes(1);
+        expect(getTermMock).toHaveBeenCalledTimes(2);
+        expect(getTermMock).toHaveBeenCalledWith('payment_method_title', Constants.GLOBAL_INFO, undefined, 'Checkout form, payment method');
+        expect(result.current.backLinkText).toBe(backLinkTextExpectation);
+        expect(result.current.nextButtonText).toBe(nextButtonTextMock);
+        result.current.backLinkOnClick && result.current.backLinkOnClick(eventMock);
+        expect(historyMock.replace).toHaveBeenCalledTimes(1);
     });
 });
