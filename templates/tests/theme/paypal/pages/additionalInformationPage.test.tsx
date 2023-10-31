@@ -12,6 +12,7 @@ import {
 import {HelmetProvider} from 'react-helmet-async';
 import {AdditionalInformationPage} from 'src/themes/paypal/pages';
 import {useAdditionalInformationPage} from 'src/themes/paypal/hooks';
+import {ILifeField} from '@boldcommerce/checkout-frontend-library';
 
 const shopURL = 'https://some-shop-url.test.com';
 const store = {
@@ -49,6 +50,19 @@ describe('testing CustomerPage', () => {
         title: undefined,
     };
 
+    const lifeElement: ILifeField = {
+        input_default: 'default',
+        input_label: null,
+        input_placeholder: 'placeholder',
+        input_required: false,
+        input_type: 'text',
+        input_regex: null,
+        location: 'paypal_additional_information',
+        meta_data_field: 'test_meta_data_field_1',
+        order_asc: 2,
+        public_id: '2',
+    };
+
     beforeEach(() => {
         jest.clearAllMocks();
         useAdditionalInformationPageMock.mockReturnValue(props);
@@ -74,5 +88,18 @@ describe('testing CustomerPage', () => {
         expect(container.getElementsByClassName('website-title').length).toBe(2);
         expect(container.getElementsByClassName('website-title-logo').length).toBe(0);
         expect(container.getElementsByClassName('outside-main-content').length).toBe(0);
+    });
+
+    test('Rendering additional information page  with life element', () => {
+        useGetLifeFieldsMock.mockReturnValue([lifeElement]);
+        window.headerLogoUrl = 'test-logo';
+        const context = {};
+        HelmetProvider.canUseDOM = false;
+        const {container} = render(<HelmetProvider context={context}><AdditionalInformationPage/></HelmetProvider>);
+        global.dispatchEvent(new Event('load'));
+        expect(container.getElementsByClassName('paypal-page').length).toBe(1);
+        expect(container.getElementsByClassName('additional-info-section').length).toBe(1);
+        expect(container.getElementsByClassName('website-title-logo-clickable').length).toBe(2);
+        expect(container.getElementsByClassName('outside-main-content').length).toBe(2);
     });
 });
