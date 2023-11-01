@@ -195,6 +195,19 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
     const processOrderInnerResponse = processOrderResponse.response as IApiSuccessResponse;
     const processOrderDataResponse = processOrderInnerResponse.data as IProcessOrderResponse;
     if (processOrderDataResponse.application_state?.is_processed) {
+        if (window.fbq && typeof window.fbq === 'function') {
+            const {application_state: appState} = processOrderDataResponse;
+            window.fbq('track', 'Purchase', {
+                value: (appState.order_total / 100),
+                currency: currencyCode,
+                contents: appState?.line_items.map(item => ({
+                    id: item.product_data.variant_id || item.product_data.sku || item.product_data.id,
+                    quantity: item.product_data.quantity
+                })),
+                content_type: 'product',
+            });
+        }
+
         if (checkoutFlow.params.onAction && typeof checkoutFlow.params.onAction === 'function') {
             checkoutFlow.params.onAction('FLOW_ORDER_COMPLETED', processOrderDataResponse);
         }
