@@ -1,16 +1,16 @@
-import { addressMock, stateMock } from 'src/mocks';
-import { mocked } from 'jest-mock';
-import { getTerm } from 'src/utils';
-import { useGetLineItems, useGetOrderTotal, useGetShippingData, useLogin, useGetErrors, useGetValidVariable, useGetAppSettingData, useGetCustomerInfoDataByField } from 'src/hooks';
-import { useIndexPage } from 'src/themes/buy-now/hooks';
-import { renderHook } from '@testing-library/react-hooks';
-import { displayOrderProcessingScreen, processOrder, updateLineItemQuantity, validateBillingAddress } from 'src/library';
-import { useDispatch } from 'react-redux';
-import { sendRefreshOrderActionAsync, sendAddPaymentActionAsync } from '@boldcommerce/checkout-frontend-library/lib/pigi';
-import { Constants } from 'src/constants';
-import { IApiErrorResponse, IFetchError, IPigiResponseType } from '@boldcommerce/checkout-frontend-library';
-import { pigiActionTypes } from '@boldcommerce/checkout-frontend-library/lib/variables/constants';
-import { actionShowHideOverlayContent, actionAddError } from 'src/action';
+import {addressMock, stateMock} from 'src/mocks';
+import {mocked} from 'jest-mock';
+import {getTerm} from 'src/utils';
+import {useGetLineItems, useGetOrderTotal, useGetShippingData, useLogin, useGetErrors, useGetValidVariable, useGetAppSettingData, useGetCustomerInfoDataByField} from 'src/hooks';
+import {useIndexPage} from 'src/themes/buy-now/hooks';
+import {renderHook} from '@testing-library/react-hooks';
+import {displayOrderProcessingScreen, processOrder, updateLineItemQuantity, validateBillingAddress} from 'src/library';
+import {useDispatch} from 'react-redux';
+import {sendRefreshOrderActionAsync, sendAddPaymentActionAsync} from '@boldcommerce/checkout-frontend-library/lib/pigi';
+import {Constants} from 'src/constants';
+import {IApiErrorResponse, IFetchError, IPigiResponseType} from '@boldcommerce/checkout-frontend-library';
+import {pigiActionTypes} from '@boldcommerce/checkout-frontend-library/lib/variables/constants';
+import {actionShowHideOverlayContent, actionAddError} from 'src/action';
 
 jest.mock('react-redux');
 jest.mock('react-router');
@@ -27,7 +27,7 @@ jest.mock('src/library/displayOrderProcessingScreen');
 jest.mock('src/library/processOrder');
 jest.mock('src/library/updateLineItemQuantity');
 jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
-
+jest.mock('src/library/validateBillingAddress');
 const useDispatchMock = mocked(useDispatch, true);
 const getTermMock = mocked(getTerm, true);
 const useGetLineItemsMock = mocked(useGetLineItems, true);
@@ -42,6 +42,7 @@ const updateLineItemQuantityMock = mocked(updateLineItemQuantity, true);
 const sendRefreshOrderActionAsyncMock = mocked(sendRefreshOrderActionAsync, true);
 const sendAddPaymentActionAsyncMock = mocked(sendAddPaymentActionAsync, true);
 const useGetCustomerInfoDataByFieldMock = mocked(useGetCustomerInfoDataByField, true);
+const validateBillingAddressMock = mocked(validateBillingAddress, true);
 
 describe('testing hook useIndexPage', () => {
     const getTermValue = 'test term';
@@ -56,6 +57,7 @@ describe('testing hook useIndexPage', () => {
 
     const dispatchMock = jest.fn();
     const processOrderThunkMock = jest.fn();
+    const validateBillingAddressThunkMock = jest.fn();
 
     const errorMock = {
         address_type: 'billing',
@@ -68,12 +70,12 @@ describe('testing hook useIndexPage', () => {
 
     const resolvedRefreshValue: IPigiResponseType = {
         responseType: pigiActionTypes.PIGI_REFRESH_ORDER,
-        payload: { key: 'value' }
+        payload: {key: 'value'}
     };
 
     const resolvedPaymentValue: IPigiResponseType = {
         responseType: pigiActionTypes.PIGI_ADD_PAYMENT,
-        payload: { key: 'value' }
+        payload: {key: 'value'}
     };
 
     const rejectedValue: IFetchError = {
@@ -105,6 +107,7 @@ describe('testing hook useIndexPage', () => {
         useGetCustomerInfoDataByFieldMock.mockReturnValue(emailValue);
         sendRefreshOrderActionAsyncMock.mockResolvedValue(resolvedRefreshValue);
         sendAddPaymentActionAsyncMock.mockResolvedValue(resolvedPaymentValue);
+        validateBillingAddressMock.mockReturnValue(validateBillingAddressThunkMock);
     });
 
     test('test the hook properly with no errors in array', async () => {
@@ -112,7 +115,7 @@ describe('testing hook useIndexPage', () => {
         useGetErrorsMock.mockReturnValue([]);
         useGetValidVariableMock.mockReturnValue(true);
 
-        const { result } = renderHook(() => useIndexPage());
+        const {result} = renderHook(() => useIndexPage());
         const hookResult = result.current;
         expect(hookResult.loginText).toBe(getTermValue);
         expect(hookResult.orderTotal).toBe(9999);
@@ -137,7 +140,7 @@ describe('testing hook useIndexPage', () => {
         useGetAppSettingDataMock.mockReturnValue(Constants.SHIPPING_DIFFERENT);
         useGetValidVariableMock.mockReturnValue(true);
 
-        const { result } = renderHook(() => useIndexPage());
+        const {result} = renderHook(() => useIndexPage());
         const hookResult = result.current;
         expect(hookResult.loginText).toBe(getTermValue);
         expect(hookResult.orderTotal).toBe(9999);
@@ -149,8 +152,9 @@ describe('testing hook useIndexPage', () => {
         expect(hookResult.paymentHeadingText).toBe(getTermValue);
 
         await hookResult.checkoutOnClick();
-        expect(dispatchMock).toHaveBeenCalledWith(validateBillingAddress);
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
+        expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
+        expect(validateBillingAddressMock).toHaveBeenCalledWith(false);
         expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
@@ -163,7 +167,7 @@ describe('testing hook useIndexPage', () => {
         useGetAppSettingDataMock.mockReturnValue(Constants.SHIPPING_DIFFERENT);
         useGetValidVariableMock.mockReturnValue(true);
 
-        const { result } = renderHook(() => useIndexPage());
+        const {result} = renderHook(() => useIndexPage());
         const hookResult = result.current;
         expect(hookResult.loginText).toBe(getTermValue);
         expect(hookResult.orderTotal).toBe(9999);
@@ -175,8 +179,9 @@ describe('testing hook useIndexPage', () => {
         expect(hookResult.paymentHeadingText).toBe(getTermValue);
 
         await hookResult.checkoutOnClick();
-        expect(dispatchMock).toHaveBeenCalledWith(validateBillingAddress);
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
+        expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
+        expect(validateBillingAddressMock).toHaveBeenCalledWith(false);
         expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
@@ -185,7 +190,7 @@ describe('testing hook useIndexPage', () => {
     test('test the hook with invalid billing address', async () => {
         useGetValidVariableMock.mockReturnValue(false);
 
-        const { result } = renderHook(() => useIndexPage());
+        const {result} = renderHook(() => useIndexPage());
         const hookResult = result.current;
 
         await hookResult.checkoutOnClick();
@@ -200,7 +205,7 @@ describe('testing hook useIndexPage', () => {
         useGetErrorsMock.mockReturnValue([errorMock]);
         useGetValidVariableMock.mockReturnValue(true);
 
-        const { result } = renderHook(() => useIndexPage());
+        const {result} = renderHook(() => useIndexPage());
         const hookResult = result.current;
 
         await hookResult.checkoutOnClick();
@@ -216,7 +221,7 @@ describe('testing hook useIndexPage', () => {
         useGetErrorsMock.mockReturnValue([]);
         useGetValidVariableMock.mockReturnValue(true);
 
-        const { result } = renderHook(() => useIndexPage());
+        const {result} = renderHook(() => useIndexPage());
         const hookResult = result.current;
 
         await hookResult.checkoutOnClick();
@@ -230,8 +235,8 @@ describe('testing hook useIndexPage', () => {
         const lineItemKey = 'test_line_item_key';
         const quantity = 5;
 
-        const { result } = renderHook(useIndexPage);
-        const { updateLineItemQuantity } = result.current;
+        const {result} = renderHook(useIndexPage);
+        const {updateLineItemQuantity} = result.current;
         await updateLineItemQuantity(lineItemKey, quantity);
 
         expect(dispatchMock).toBeCalledTimes(1);
@@ -244,7 +249,7 @@ describe('testing hook useIndexPage', () => {
         useGetValidVariableMock.mockReturnValue(true);
         sendRefreshOrderActionAsyncMock.mockRejectedValueOnce(rejectedValue);
 
-        const { result } = renderHook(() => useIndexPage());
+        const {result} = renderHook(() => useIndexPage());
         const hookResult = result.current;
 
         await hookResult.checkoutOnClick();
