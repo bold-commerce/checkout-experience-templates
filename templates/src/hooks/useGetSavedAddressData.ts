@@ -58,20 +58,20 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
                 dispatch(actionUpdateAddress(type, address));
                 dispatch(actionUpdateCustomerField(Constants.ADDRESS_FIRST_NAME, address.first_name));
                 dispatch(actionUpdateCustomerField(Constants.ADDRESS_LAST_NAME, address.last_name));
-                dispatch(actionSetAppStateValid('shippingAddress', true));
-                dispatch(actionSetLoader('shippingLines', true));
                 if (type === Constants.SHIPPING) {
+                    dispatch(actionSetAppStateValid('shippingAddress', true));
+                    dispatch(actionSetLoader('shippingLines', true));
                     dispatch(updateCustomer).then(() => {
                         dispatch(validateShippingAddress).then(() => {
                             if(billingType === Constants.SHIPPING_SAME) {
-                                dispatch(validateBillingAddress);
+                                dispatch(validateBillingAddress(false));
                             }
                         });
                     });
                 }
 
                 if (type === Constants.BILLING) {
-                    dispatch(validateBillingAddress);
+                    dispatch(validateBillingAddress(false));
                 }
             }
         }
