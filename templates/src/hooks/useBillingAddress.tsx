@@ -21,7 +21,7 @@ export function useBillingAddress(): IBillingAddress{
         dispatch(actionRemoveErrorByAddressType(Constants.BILLING));
 
         if(billingType === Constants.SHIPPING_SAME && callApiAtOnEvents) {
-            dispatch(validateBillingAddress(false));
+            dispatch(validateBillingAddress);
         }
     }, []);
 
@@ -33,7 +33,7 @@ export function useBillingAddress(): IBillingAddress{
         dispatch(actionUpdateBillingType(billingType, shippingAddress));
 
         if(billingType === Constants.SHIPPING_SAME && callApiAtOnEvents) {
-            dispatch(validateBillingAddress(false));
+            dispatch(validateBillingAddress);
         }
     }, [customBilling, shippingAddress]);
 

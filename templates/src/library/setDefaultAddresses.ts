@@ -23,6 +23,6 @@ export async function setDefaultAddresses(dispatch: Dispatch, getState: () => IO
         dispatch(actionUpdateBillingType(Constants.SHIPPING_SAME, savedAddresses[0]));
 
         await dispatch(validateShippingAddress);
-        await dispatch(validateBillingAddress(true));
+        await dispatch(validateBillingAddress);
     }
 }

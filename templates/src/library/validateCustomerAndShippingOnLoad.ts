@@ -6,8 +6,7 @@ import {
     validateEmailAddress,
     updateCustomer,
     returnToPageOnError,
-    validateShippingLine,
-    generateTaxes
+    validateShippingLine, generateTaxes
 } from 'src/library';
 import {HistoryLocationState} from 'react-router';
 import {actionSetAppStateValid, actionSetLoaderAndDisableButton} from 'src/action';
@@ -23,7 +22,7 @@ export function validateCustomerAndShippingOnLoad(history: HistoryLocationState)
 
         const validateAddressesAndShipping = async () => {
             dispatch(validateShippingAddress).then(async () => {
-                dispatch(validateBillingAddress(false)).then(async () => {
+                dispatch(validateBillingAddress).then(async () => {
                     dispatch(returnToPageOnError('', 'customerPageButton', history)).then(() => {
                         const {errors} = getState();
                         if(!errors || errors.length === 0) {

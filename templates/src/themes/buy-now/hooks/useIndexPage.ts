@@ -39,7 +39,7 @@ export function useIndexPage(): IUseIndexPageProps {
         await dispatch(validateShippingAddress);
 
         if (customBilling === Constants.SHIPPING_DIFFERENT) {
-            await dispatch(validateBillingAddress(false));
+            await dispatch(validateBillingAddress);
         }
         //isValidBillingAddress could get updated in above dispatch call, need to use ref to fetch updated state.
         if (!isValidShippingAddressRef.current || !isValidBillingAddressRef.current) {

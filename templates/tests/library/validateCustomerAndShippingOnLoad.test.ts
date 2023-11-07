@@ -15,18 +15,15 @@ import {actionSetAppStateValid, actionSetLoaderAndDisableButton, SET_VALID} from
 
 jest.mock('src/action');
 jest.mock('src/library/returnToPageOnError');
-jest.mock('src/library/validateBillingAddress');
 const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButton, true);
 const returnToPageOnErrorMock = mocked(returnToPageOnError, true);
 const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true);
-const validateBillingAddressMock = mocked(validateBillingAddress, true);
 
 describe('testing validateCustomerAndShippingOnLoad', () => {
     const dispatch = jest.fn();
     const getState = jest.fn();
     const returnToPageOnErrorThunkMock = jest.fn();
     const actionSetLoaderAndDisableButtonThunkMock = jest.fn();
-    const validateBillingAddressThunkMock = jest.fn();
     const setValidAction = {type: SET_VALID, payload: {'test': false}};
 
     beforeEach(() => {
@@ -39,7 +36,7 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
                 case updateCustomer:
                 case validateEmailAddress:
                 case validateShippingAddress:
-                case validateBillingAddressThunkMock:
+                case validateBillingAddress:
                 case validateShippingLine:
                 case generateTaxes:
                 case setValidAction:
@@ -51,7 +48,6 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
         returnToPageOnErrorMock.mockReturnValue(returnToPageOnErrorThunkMock);
         actionSetLoaderAndDisableButtonMock.mockReturnValue(actionSetLoaderAndDisableButtonThunkMock);
         actionSetAppStateValidMock.mockReturnValue(setValidAction);
-        validateBillingAddressMock.mockReturnValue(validateBillingAddressThunkMock);
     });
 
     test('When customer platform_id is null, not logged in', async () => {
@@ -72,8 +68,7 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
             expect(dispatch).not.toHaveBeenCalledWith(updateCustomer);
             expect(dispatch).toHaveBeenCalledWith(validateEmailAddress);
             expect(dispatch).toHaveBeenCalledWith(validateShippingAddress);
-            expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
-            expect(validateBillingAddressMock).toHaveBeenCalledWith(false);
+            expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).toHaveBeenCalledWith(validateShippingLine);
             expect(dispatch).toHaveBeenCalledWith(returnToPageOnErrorThunkMock);
             expect(returnToPageOnErrorMock).toHaveBeenCalledTimes(2);
@@ -99,8 +94,7 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
             expect(dispatch).not.toHaveBeenCalledWith(updateCustomer);
             expect(dispatch).toHaveBeenCalledWith(validateEmailAddress);
             expect(dispatch).toHaveBeenCalledWith(validateShippingAddress);
-            expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
-            expect(validateBillingAddressMock).toHaveBeenCalledWith(false);
+            expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).toHaveBeenCalledWith(validateShippingLine);
             expect(dispatch).toHaveBeenCalledWith(returnToPageOnErrorThunkMock);
             expect(returnToPageOnErrorMock).toHaveBeenCalledTimes(2);
@@ -125,8 +119,7 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
             expect(dispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonThunkMock);
             expect(dispatch).not.toHaveBeenCalledWith(validateEmailAddress);
             expect(dispatch).toHaveBeenCalledWith(validateShippingAddress);
-            expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
-            expect(validateBillingAddressMock).toHaveBeenCalledWith(false);
+            expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).toHaveBeenCalledWith(validateShippingLine);
             expect(dispatch).toHaveBeenCalledWith(returnToPageOnErrorThunkMock);
             expect(returnToPageOnErrorMock).toHaveBeenCalledTimes(2);
@@ -151,8 +144,7 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
             expect(dispatch).toHaveBeenCalledWith(updateCustomer);
             expect(dispatch).not.toHaveBeenCalledWith(validateEmailAddress);
             expect(dispatch).toHaveBeenCalledWith(validateShippingAddress);
-            expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
-            expect(validateBillingAddressMock).toHaveBeenCalledWith(false);
+            expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).not.toHaveBeenCalledWith(validateShippingLine);
             expect(dispatch).toHaveBeenCalledWith(returnToPageOnErrorThunkMock);
             expect(returnToPageOnErrorMock).toHaveBeenCalledTimes(1);
@@ -177,8 +169,7 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
             expect(dispatch).not.toHaveBeenCalledWith(updateCustomer);
             expect(dispatch).toHaveBeenCalledWith(validateEmailAddress);
             expect(dispatch).toHaveBeenCalledWith(validateShippingAddress);
-            expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
-            expect(validateBillingAddressMock).toHaveBeenCalledWith(false);
+            expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).not.toHaveBeenCalledWith(validateShippingLine);
             expect(dispatch).toHaveBeenCalledWith(returnToPageOnErrorThunkMock);
             expect(returnToPageOnErrorMock).toHaveBeenCalledTimes(1);
@@ -201,8 +192,7 @@ describe('testing validateCustomerAndShippingOnLoad', () => {
             expect(dispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonThunkMock);
             expect(dispatch).toHaveBeenCalledWith(validateEmailAddress);
             expect(dispatch).toHaveBeenCalledWith(validateShippingAddress);
-            expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
-            expect(validateBillingAddressMock).toHaveBeenCalledWith(false);
+            expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).toHaveBeenCalledWith(generateTaxes);
         });
     });

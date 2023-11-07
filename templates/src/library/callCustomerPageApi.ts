@@ -21,7 +21,7 @@ export function callCustomerPageApi(history: HistoryLocationState) {
 
         const validateAddresses = async () => {
             dispatch(validateShippingAddress).then(() => {
-                dispatch(validateBillingAddress(false)).then(() => {
+                dispatch(validateBillingAddress).then(() => {
                     if (requiresShipping) {
                         dispatch(checkErrorAndProceedToNextPage(Constants.SHIPPING_ROUTE, 'customerPageButton', history, false));
                     } else {
