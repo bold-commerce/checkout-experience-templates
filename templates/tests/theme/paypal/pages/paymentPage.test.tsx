@@ -9,6 +9,7 @@ import {
     useGetLifeFieldsOnPage,
     useGetOverlay,
     useGetShopUrlFromShopAlias,
+    useSupportedLanguages,
 } from 'src/hooks';
 import {HelmetProvider} from 'react-helmet-async';
 import {PaymentPage} from 'src/themes/paypal/pages';
@@ -37,12 +38,14 @@ jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/hooks/useGetLifeFieldsOnPage');
 jest.mock('src/hooks/useGetOverlay');
 jest.mock('src/hooks/useGetAppSettingData');
+jest.mock('src/hooks/useSupportedLanguages');
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const usePaymentPagePageMock = mocked(usePaymentPage, true);
 const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 const useGetLifeFieldsOnPageMock = mocked(useGetLifeFieldsOnPage, true);
 const useGetOverlayMock = mocked(useGetOverlay, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
+const useSupportedLanguagesMock = mocked(useSupportedLanguages, true);
 
 describe('testing paymentPage', () => {
     const props: IFormControlsProps = {
@@ -77,6 +80,7 @@ describe('testing paymentPage', () => {
             subHeader: 'This is sub-header issue',
             buttonText: 'back'
         });
+        useSupportedLanguagesMock.mockReturnValue({languagesOptions: [], value: '', handleChange: jest.fn()});
     });
 
     test('Rendering payment page properly with title', () => {
