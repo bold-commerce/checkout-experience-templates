@@ -4,7 +4,7 @@ import {useDebouncedValidateAddress, useGetAppSettingData} from 'src/hooks';
 import {Constants, debounceConstants} from 'src/constants';
 import {validateBillingAddress, validateShippingAddress} from 'src/library';
 import {mocked} from 'jest-mock';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {actionSetAppStateValid, actionSetLoader} from 'src/action';
 
 jest.mock('react-redux');
@@ -12,22 +12,18 @@ const useDispatchMock = mocked(useDispatch, true);
 
 jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/action');
-jest.mock('src/library/validateBillingAddress');
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true);
 const actionSetLoaderMock = mocked(actionSetLoader, true);
-const validateBillingAddressMock = mocked(validateBillingAddress, true);
 
 describe('Testing hook useDebounceValidateAddress', () => {
     const mockDispatch = jest.fn();
-    const validateBillingAddressThunkMock = jest.fn();
 
     beforeEach(() => {
         jest.useFakeTimers();
         jest.spyOn(global, 'setTimeout');
         useDispatchMock.mockReturnValue(mockDispatch);
         mockDispatch.mockReturnValue(Promise.resolve());
-        validateBillingAddressMock.mockReturnValue(validateBillingAddressThunkMock);
     });
 
 
@@ -68,8 +64,7 @@ describe('Testing hook useDebounceValidateAddress', () => {
 
         expect(mockDispatch).toBeCalledTimes(4);
         expect(mockDispatch).toBeCalledWith(validateShippingAddress);
-        expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
-        expect(validateBillingAddressMock).toHaveBeenCalledWith(false);
+        expect(mockDispatch).toBeCalledWith(validateBillingAddress);
         expect(actionSetAppStateValidMock).toBeCalledTimes(1);
         expect(actionSetLoaderMock).toBeCalledTimes(1);
 
@@ -86,8 +81,7 @@ describe('Testing hook useDebounceValidateAddress', () => {
         await Promise.resolve();
 
         expect(mockDispatch).toBeCalledTimes(1);
-        expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
-        expect(validateBillingAddressMock).toHaveBeenCalledWith(false);
+        expect(mockDispatch).toBeCalledWith(validateBillingAddress);
 
         expect(setTimeout).toBeCalledWith(expect.any(Function), debounceConstants.DEFAULT_DEBOUNCE_TIME);
     });
