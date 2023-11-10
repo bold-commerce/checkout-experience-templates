@@ -1,16 +1,8 @@
-import {
-    actionUpdateAddress,
-    actionUpdateBillingType,
-    actionUpdateBillingTypeInSettings
-} from 'src/action';
+import {actionUpdateAddress, actionUpdateBillingType, actionUpdateBillingTypeInSettings} from 'src/action';
 import {Constants, defaultAddressState} from 'src/constants';
 import {validateShippingAddress, setDefaultAddresses, validateBillingAddress} from 'src/library';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {IAddress} from '@boldcommerce/checkout-frontend-library';
-import {mocked} from 'jest-mock';
-
-jest.mock('src/library/validateBillingAddress');
-const validateBillingAddressMock = mocked(validateBillingAddress, true);
 
 describe('Testing hook useSetDefaultAddress', () => {
     const dispatch = jest.fn();
@@ -20,11 +12,9 @@ describe('Testing hook useSetDefaultAddress', () => {
         initialDataMock.application_state.addresses.billing as IAddress
     ];
     stateMock.data.application_state.customer.saved_addresses = savedAddresses;
-    const validateBillingAddressThunkMock = jest.fn();
 
     beforeEach(() => {
         getState.mockReturnValue(stateMock);
-        validateBillingAddressMock.mockReturnValue(validateBillingAddressThunkMock);
     });
 
     afterEach(() => {
@@ -34,7 +24,7 @@ describe('Testing hook useSetDefaultAddress', () => {
     test('resume checkout, validate addresses', async () => {
         await setDefaultAddresses(dispatch, getState);
         expect(dispatch).not.toBeCalledWith(validateShippingAddress);
-        expect(validateBillingAddressMock).not.toHaveBeenCalledWith(true);
+        expect(dispatch).not.toBeCalledWith(validateBillingAddress);
 
         expect(dispatch).not.toBeCalledWith(actionUpdateAddress(expect.anything(), expect.anything()));
 
@@ -53,8 +43,8 @@ describe('Testing hook useSetDefaultAddress', () => {
         expect(dispatch).toBeCalledWith(actionUpdateBillingType(Constants.SHIPPING_SAME, savedAddresses[0]));
 
         expect(dispatch).toBeCalledWith(validateShippingAddress);
-        expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
-        expect(validateBillingAddressMock).toHaveBeenCalledWith(true);
+        expect(dispatch).toBeCalledWith(validateBillingAddress);
+
         expect(dispatch).toHaveBeenCalledTimes(5);
     });
 });

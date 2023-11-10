@@ -25,11 +25,11 @@ export function useDebouncedValidateAddress(type: string): () => void{
         if (type === Constants.SHIPPING){
             dispatch(validateShippingAddress).then(() => {
                 if(billingType === Constants.SHIPPING_SAME) {
-                    dispatch(validateBillingAddress());
+                    dispatch(validateBillingAddress);
                 }
             });
         } else if (type === Constants.BILLING){
-            dispatch(validateBillingAddress());
+            dispatch(validateBillingAddress);
         }
     }, debounceConstants.DEFAULT_DEBOUNCE_TIME);
 
