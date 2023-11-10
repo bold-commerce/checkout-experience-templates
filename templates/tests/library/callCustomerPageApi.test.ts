@@ -13,17 +13,14 @@ import {actionSetLoaderAndDisableButton} from 'src/action';
 
 jest.mock('src/action');
 jest.mock('src/library/checkErrorAndProceedToNextPage');
-jest.mock('src/library/validateBillingAddress');
 const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButton, true);
 const checkErrorAndProceedToNextPageMock = mocked(checkErrorAndProceedToNextPage, true);
-const validateBillingAddressMock = mocked(validateBillingAddress, true);
 
 describe('testing callCustomerPageApi', () => {
     const dispatch = jest.fn();
     const getState = jest.fn();
     const checkErrorAndProceedToNextPageThunkMock = jest.fn();
     const actionSetLoaderAndDisableButtonThunkMock = jest.fn();
-    const validateBillingAddressThunkMock = jest.fn();
 
     beforeEach(() => {
         jest.resetAllMocks();
@@ -37,7 +34,7 @@ describe('testing callCustomerPageApi', () => {
                 case updateCustomer:
                 case validateEmailAddress:
                 case validateShippingAddress:
-                case validateBillingAddressThunkMock:
+                case validateBillingAddress:
                     return Promise.resolve();
                 default:
                     return fun();
@@ -45,7 +42,6 @@ describe('testing callCustomerPageApi', () => {
         });
         checkErrorAndProceedToNextPageMock.mockReturnValue(checkErrorAndProceedToNextPageThunkMock);
         actionSetLoaderAndDisableButtonMock.mockReturnValue(actionSetLoaderAndDisableButtonThunkMock);
-        validateBillingAddressMock.mockReturnValue(validateBillingAddressThunkMock);
     });
 
     test('When customer platform_id is null, not logged in', async () => {
@@ -63,7 +59,7 @@ describe('testing callCustomerPageApi', () => {
             expect(dispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonThunkMock);
             expect(dispatch).toHaveBeenCalledWith(validateEmailAddress);
             expect(dispatch).toHaveBeenCalledWith(validateShippingAddress);
-            expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
+            expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('shipping_lines', 'customerPageButton', historyMock, false);
@@ -85,7 +81,7 @@ describe('testing callCustomerPageApi', () => {
             expect(dispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonThunkMock);
             expect(dispatch).toHaveBeenCalledWith(validateEmailAddress);
             expect(dispatch).toHaveBeenCalledWith(validateShippingAddress);
-            expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
+            expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('shipping_lines', 'customerPageButton', historyMock, false);
@@ -107,7 +103,8 @@ describe('testing callCustomerPageApi', () => {
             expect(dispatch).toHaveBeenCalledWith(actionSetLoaderAndDisableButtonThunkMock);
             expect(dispatch).not.toHaveBeenCalledWith(validateEmailAddress);
             expect(dispatch).toHaveBeenCalledWith(validateShippingAddress);
-            expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
+            expect(dispatch).toHaveBeenCalledWith(validateShippingAddress);
+            expect(dispatch).toHaveBeenCalledWith(validateBillingAddress);
             expect(dispatch).toHaveBeenCalledWith(checkErrorAndProceedToNextPageThunkMock);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(1);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledWith('shipping_lines', 'customerPageButton', historyMock, false);

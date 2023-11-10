@@ -19,7 +19,7 @@ export function validateCustomerOnLoad(history: HistoryLocationState) {
 
         const validateAddresses = async () => {
             dispatch(validateShippingAddress).then(() => {
-                dispatch(validateBillingAddress()).then(() => {
+                dispatch(validateBillingAddress).then(() => {
                     dispatch(returnToPageOnError('', 'customerPageButton', history));
                 });
             });
