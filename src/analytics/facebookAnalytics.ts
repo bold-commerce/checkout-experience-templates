@@ -31,7 +31,7 @@ export function addPaymentInfoForFacebookPixel(value: string, currency: string):
     sendFacebookEvent('AddPaymentInfo', {value, currency});
 }
 
-export function orderCompletedForFacebookPixel(lineItems: Array<ILineItem>, currency: string, totals: ITotals): void {
+export function orderCompleteForFacebookPixel(lineItems: Array<ILineItem>, currency: string, totals: ITotals): void {
 
     if (!isFacebookPixelInstalled()) {
         return;

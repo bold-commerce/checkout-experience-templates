@@ -20,6 +20,14 @@
     border-color: transparent;
 }
 
+.stx-field--alert .stx-checkbox-field__div {
+    color: #FF1A2D;
+}
+
+.stx-checkbox-field__field .stx-field__message {
+    margin-left: 5px;
+}
+
 .stx-checkbox__input:hover {
     cursor: pointer;
     outline: 4px solid #E2E2E2;

@@ -176,6 +176,12 @@ export function actionOrderTotal(data: number): AnyAction {
         payload: {data}
     };
 }
+export function actionOrderBalance(data: number): AnyAction {
+    return {
+        type: AppActions.UPDATE_ORDER_BALANCE,
+        payload: {data}
+    };
+}
 
 export function actionUpdateDiscounts(data: Array<IDiscount>): AnyAction {
     return {

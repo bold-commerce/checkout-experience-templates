@@ -10,7 +10,6 @@ import {
     handlePigiHeight,
     handlePigiInitialized,
     handlePigiPaymentAdded,
-    handlePigiRefreshOrder,
     handlePigiSca,
     removePigiListenerInLibrary,
     setPigiListenerInLibrary,
@@ -42,9 +41,6 @@ export function useSetPigiListener(): void {
                 break;
             case pigiActionTypes.PIGI_HANDLE_SCA:
                 dispatch(handlePigiSca(payload, history));
-                break;
-            case pigiActionTypes.PIGI_REFRESH_ORDER:
-                dispatch(handlePigiRefreshOrder());
                 break;
             case pigiActionTypes.PIGI_DISPLAY_IN_FULL_PAGE:
                 dispatch(handlePigiDisplayFullPage());

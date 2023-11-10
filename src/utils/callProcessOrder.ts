@@ -15,12 +15,12 @@ import {Dispatch} from 'redux';
 import {ITotals} from 'src/types';
 import {HistoryLocationState} from 'react-router';
 
-export function callProcessOrder(dispatch: Dispatch, totals: ITotals, history: HistoryLocationState, requiredLifeFields: Array<ILifeField>): void {
+export function callProcessOrder(dispatch: Dispatch, totals: ITotals, history: HistoryLocationState, requiredLifeFields: Array<ILifeField>, thankYouPageLifeFields?: Array<ILifeField>): void {
     sendEvents('Clicked continue to complete order button', {'category': 'Checkout'});
 
     dispatch(actionClearErrors());
     sendClearErrorMessageAction();
-    dispatch(validateLifeFields(requiredLifeFields));
+    dispatch(validateLifeFields(requiredLifeFields, thankYouPageLifeFields));
     dispatch(displayOrderProcessingScreen);
     if (totals.totalAmountDue <= 0) {
         dispatch(processOrder(history));

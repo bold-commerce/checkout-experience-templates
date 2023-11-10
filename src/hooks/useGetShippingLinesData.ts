@@ -29,7 +29,7 @@ export function useGetShippingLinesData(): IShippingLinesHookProps {
             dispatch(debounceApiCall);
         }
 
-    }, []);
+    }, [shippingLines]);
 
     return {shippingLines, selectedLine, noShippingAreaText, shippingLinesLength, handleChange, formattedPrice, shippingAddressValid};
 }

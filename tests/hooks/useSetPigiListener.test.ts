@@ -11,7 +11,6 @@ import {
     handlePigiHeight,
     handlePigiInitialized,
     handlePigiPaymentAdded,
-    handlePigiRefreshOrder,
     handlePigiSca,
     removePigiListenerInLibrary,
     setPigiListenerInLibrary
@@ -26,7 +25,6 @@ const handlePigiAddPaymentMock = mocked(handlePigiAddPayment, true);
 const handlePigiHeightMock = mocked(handlePigiHeight, true);
 const handlePigiInitializedMock = mocked(handlePigiInitialized, true);
 const handlePigiPaymentAddedMock = mocked(handlePigiPaymentAdded, true);
-const handlePigiRefreshOrderMock = mocked(handlePigiRefreshOrder, true);
 const handlePigiDisplayFullPageMock = mocked(handlePigiDisplayFullPage, true);
 const handlePigiDisplayFullPageDoneMock = mocked(handlePigiDisplayFullPageDone, true);
 const handlePigiScaMock = mocked(handlePigiSca, true);
@@ -153,30 +151,6 @@ describe('Testing hook useSetPigiListener', () => {
         expect(handlePigiHeightMock).toHaveBeenCalledWith(payload);
         expect(handlePigiScaMock).toHaveBeenCalledTimes(1);
         expect(handlePigiScaMock).toHaveBeenCalledWith(payload, historyMock);
-        expect(dispatchMock).toHaveBeenCalledTimes(3);
-    });
-
-    test('Trigger PIGI_REFRESH_ORDER event', async () => {
-        const eventInit = {data: {responseType: 'PIGI_REFRESH_ORDER', payload}};
-        const event = new MessageEvent('', eventInit);
-        let handleEvent;
-
-        setPigiListenerInLibraryMock.mockImplementationOnce((frameId: string, callbackEvent: (evt: Event) => void) => {
-            handleEvent = callbackEvent;
-            callbackEvent(event);
-            return jest.fn();
-        });
-
-        const renderHookResult = renderHook(() => useSetPigiListener());
-
-        expect(useDispatchMock).toHaveBeenCalledTimes(1);
-        renderHookResult.rerender();
-        expect(useDispatchMock).toHaveBeenCalledTimes(2);
-        expect(setPigiListenerInLibraryMock).toHaveBeenCalledTimes(1);
-        expect(setPigiListenerInLibraryMock).toHaveBeenCalledWith(Constants.PIGI_IFRAME, handleEvent);
-        expect(handlePigiHeightMock).toHaveBeenCalledTimes(1);
-        expect(handlePigiHeightMock).toHaveBeenCalledWith(payload);
-        expect(handlePigiRefreshOrderMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledTimes(3);
     });
 

@@ -3,7 +3,10 @@ import {
     useGetButtonDisableVariable,
     useGetIsLoading,
     useGetIsOrderProcessed,
-    useLifeFieldsByLocations
+    useLifeFieldsByLocations,
+    useGetCurrencyInformation,
+    useGetLineItems,
+    useGetSelectShippingLine,
 } from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
@@ -13,6 +16,7 @@ import {callShippingLinesPageApi} from 'src/library';
 import {useShippingPage} from 'src/themes/three-page/hooks';
 import {actionClearErrors} from 'src/action';
 import {ILifeField} from '@boldcommerce/checkout-frontend-library';
+import {lineItemMock, selectShippingLineMock} from '@boldcommerce/checkout-frontend-library/lib/variables/mocks';
 
 jest.mock('react-redux');
 jest.mock('react-router');
@@ -21,6 +25,9 @@ jest.mock('src/utils/isShippingLineSelectedValid');
 jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/hooks/useGetButtonDisableVariable');
 jest.mock('src/hooks/useGetLifeFields');
+jest.mock('src/hooks/useGetLineItems');
+jest.mock('src/hooks/useGetCurrencyInformation');
+jest.mock('src/hooks/useGetSelectShippingLine');
 jest.mock('src/library/callShippingLinesPageApi');
 jest.mock('src/hooks/useGetIsOrderProcessed');
 const useDispatchMock = mocked(useDispatch, true);
@@ -32,6 +39,9 @@ const callShippingLinesPageApiMock = mocked(callShippingLinesPageApi, true);
 const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
 const isShippingLineSelectedValidMock = mocked(isShippingLineSelectedValid, true);
 const useGetRequiredLifeFieldsByLocationsMock = mocked(useLifeFieldsByLocations, true);
+const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
+const useGetLineItemsMock = mocked(useGetLineItems, true);
+const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
 
 describe('Testing hook useShippingPage', () => {
     const mockDispatch = jest.fn();
@@ -39,7 +49,11 @@ describe('Testing hook useShippingPage', () => {
     const getTermValue = 'test-value';
     const historyMock = {replace: jest.fn()};
     const eventMock = {preventDefault: jest.fn()};
-    const pageNameWithPrefix = 'prefix_page_name';
+    const currencyMock = {
+        currency: 'CAD',
+        currencySymbol: '$',
+        formattedPrice: '${price}',
+    };
     const lifeFields: Array<ILifeField> = [
         {
             input_default: 'default',
@@ -64,6 +78,9 @@ describe('Testing hook useShippingPage', () => {
         useGetRequiredLifeFieldsByLocationsMock.mockReturnValue(lifeFields);
         useGetButtonDisableVariableMock.mockReturnValue(false);
         callShippingLinesPageApiMock.mockReturnValue(mockCallShippingLinesPageApi);
+        useGetCurrencyInformationMock.mockReturnValue(currencyMock);
+        useGetLineItemsMock.mockReturnValue([lineItemMock]);
+        useGetSelectShippingLineMock.mockReturnValue(selectShippingLineMock);
     });
 
     test('rendering the hook properly', () => {

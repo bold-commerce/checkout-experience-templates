@@ -41,7 +41,7 @@ export function ThankYouPage(): React.ReactElement {
                 {mainContentBeginningLifeFields.length > 0 ?
                     <div className={'outside-main-content-container'}>
                         <div className={isGeneric ? getClasses('outside-main-content','no-summary') : getClasses('outside-main-content')}>
-                            <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                            <LifeFields className={'main-content-beginning-life-elements'} lifeFields={mainContentBeginningLifeFields}/>
                         </div>
                     </div> : null}
                 <div className={isGeneric ? getClasses('three-page','no-summary') : getClasses('three-page')}>
@@ -52,7 +52,7 @@ export function ThankYouPage(): React.ReactElement {
                 {mainContentEndLifeFields.length > 0 ?
                     <div className={'outside-main-content-container'}>
                         <div className={isGeneric ? getClasses('outside-main-content','no-summary') : getClasses('outside-main-content')}>
-                            <LifeFields lifeFields={mainContentEndLifeFields}/>
+                            <LifeFields className={'main-content-end-life-elements'} lifeFields={mainContentEndLifeFields}/>
                         </div>
                     </div> : null}
             </div>

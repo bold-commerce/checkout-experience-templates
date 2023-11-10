@@ -1,4 +1,4 @@
-import {render} from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 
 import {LifeFieldCheckbox} from 'src/components';
 import {ILifeFieldCheckbox, ILifeFieldProps} from 'src/types';
@@ -59,7 +59,10 @@ describe('testing life checkbox component', () => {
         };
         useLifeFieldCheckboxMock.mockReturnValue(hookReturn);
         const {container} = render(<LifeFieldCheckbox {...props}/>);
-        expect(container.getElementsByClassName('life-field-checkbox').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-checkbox').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-checkbox-container').length).toBe(1);
+        const element: HTMLAnchorElement = screen.getByTestId('life-element-checkbox-container-1');
+        expect(element.id).toBe('life-element-checkbox-container-1');
     });
 
     test('Rendering life checkbox component with optional values', () => {
@@ -78,6 +81,8 @@ describe('testing life checkbox component', () => {
         };
         useLifeFieldCheckboxMock.mockReturnValue(optionalHookReturn);
         const {container} = render(<LifeFieldCheckbox {...optionalProps}/>);
-        expect(container.getElementsByClassName('life-field-checkbox').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-checkbox').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-checkbox-container').length).toBe(1);
+
     });
 });

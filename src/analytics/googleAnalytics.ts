@@ -59,18 +59,18 @@ export function orderCompleteForGoogleAnalytics(lineItems: Array<ILineItem>, cur
             shipping: formatCurrency(shipping.amount),
             tax: formatCurrency(totals.totalTaxes),
             coupon: discounts.map(d => d.code).join(' '),
-            items: formatItems(lineItems)
+            items: formatItems(lineItems),
         });
 
         window['gtag']('event', 'Successful Checkout', {'category': 'Checkout'});
     }
 }
 
-function formatCurrency(amount: number): string{
+export function formatCurrency(amount: number): string{
     return (amount / 100).toFixed(2);
 }
 
-function formatItems(lineItems: Array<ILineItem>) {
+export function formatItems(lineItems: Array<ILineItem>): Array<Record<string, unknown>> {
     return lineItems.map(item => ({
         item_id: item.product_data.sku,
         item_name: item.product_data.product_title,

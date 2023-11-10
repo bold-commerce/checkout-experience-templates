@@ -3,15 +3,18 @@ import {useDispatch} from 'react-redux';
 import {
     useGetAppSettingData,
     useGetButtonDisableVariable,
-    useGetCurrencyInformation,
     useGetIsLoading,
     useGetIsOrderProcessed,
-    useGetLineItems,
-    useGetOrderTotal,
+    useGetGeneralSettingCheckoutFields,
     useGetLifeFieldsOnPage,
     useGetRequiresShipping
 } from 'src/hooks';
-import {callCustomerPageApi, initializeExpressPay, validateLifeFields} from 'src/library';
+import {
+    callCustomerPageApi,
+    initializeExpressPay,
+    validateLifeFields,
+    callCustomerPageApiV2
+} from 'src/library';
 import {useHistory} from 'react-router';
 import {Constants, LifeInputPageConstants} from 'src/constants';
 import {IUseCustomerPageProp} from 'src/types';
@@ -30,6 +33,8 @@ export function useCustomerPage(): IUseCustomerPageProp {
     const nextButtonDisable = useGetButtonDisableVariable('customerPageButton');
     const {term, link} = getReturnToCartTermAndLink();
     const backLinkText = getTerm(term, Constants.CUSTOMER_INFO);
+    const batchRequests = useGetGeneralSettingCheckoutFields('batch_requests');
+
     const language = useGetAppSettingData('languageIso') as string;
     const title = getTerm('customer_info_title', Constants.GLOBAL_INFO, undefined , 'Checkout form, customer information');
     const backLinkOnClick = useCallback((event) => {
@@ -44,17 +49,18 @@ export function useCustomerPage(): IUseCustomerPageProp {
         sendEvents('Clicked continue to shipping lines button', {'category': 'Checkout'});
 
         dispatch(actionClearErrors());
-        dispatch(validateLifeFields(requiredLifeFields));
-        dispatch(callCustomerPageApi(history));
+        if(batchRequests) {
+            dispatch(validateLifeFields(requiredLifeFields));
+            dispatch(callCustomerPageApiV2(history));
+        } else {
+            dispatch(validateLifeFields(requiredLifeFields));
+            dispatch(callCustomerPageApi(history));
+        }
     } , []);
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
-    const items = useGetLineItems();
-    const value = useGetOrderTotal();
-    const {currency} = useGetCurrencyInformation();
 
     useEffect( () => {
         if (!isOrderCompleted) {
-            sendEvents('begin_checkout', {currency, value, items});
             dispatch(initializeExpressPay(history));
         }
     }, []);

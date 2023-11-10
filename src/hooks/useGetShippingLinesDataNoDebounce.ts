@@ -3,11 +3,11 @@ import {IShippingLinesHookProps} from 'src/types';
 import {
     useGetAvailableShippingLines,
     useGetOrderTotal,
-    useGetSelectShippingLine
+    useGetSelectShippingLine,
+    useGetCurrencyInformation
 } from 'src/hooks';
 import {useCallback} from 'react';
 import {actionOrderTotal, actionSetSelectedShippingLine} from 'src/action';
-import {useGetCurrencyInformation} from 'src/hooks';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
 import {IShippingLine} from '@boldcommerce/checkout-frontend-library';
@@ -32,7 +32,7 @@ export function useGetShippingLinesDataNoDebounce(): IShippingLinesHookProps {
             dispatch(actionOrderTotal(shippingLine.amount - selectedLine.amount + orderTotal));
         }
 
-    }, []);
+    }, [shippingLines]);
 
     return {shippingLines, selectedLine, noShippingAreaText, shippingLinesLength, handleChange, formattedPrice, shippingAddressValid};
 }

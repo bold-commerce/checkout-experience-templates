@@ -10,6 +10,7 @@ import {
     getApplicationState,
     getBillingAddress,
     getCurrency,
+    getOrderInitialData,
     getShippingAddress,
     processOrder,
 } from '@boldcommerce/checkout-frontend-library';
@@ -43,6 +44,9 @@ const getBillingAddressMock = mocked(getBillingAddress, true);
 jest.mock('@boldcommerce/checkout-frontend-library/lib/state/getCurrency');
 const getCurrencyMock = mocked(getCurrency, true);
 
+jest.mock('@boldcommerce/checkout-frontend-library/lib/state/getOrderInitialData');
+const getOrderInitialDataMock = mocked(getOrderInitialData, true);
+
 jest.mock('@boldcommerce/checkout-frontend-library/lib/state/getShippingAddress');
 const getShippingAddressMock = mocked(getShippingAddress, true);
 
@@ -51,6 +55,8 @@ const processOrderMock = mocked(processOrder, true);
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/payment/addPayment');
 const addPaymentMock = mocked(addPayment, true);
+
+jest.mock('@boldcommerce/checkout-frontend-library/lib/log/addLog');
 
 jest.mock('@boldcommerce/checkout-express-pay-library/lib/utils/getTotals');
 const getTotalsMock = mocked(getTotals, true);
@@ -93,6 +99,7 @@ describe('metaOnPaymentConsent', () => {
         getApplicationStateMock.mockReturnValue(initialDataMock.application_state);
         getBillingAddressMock.mockReturnValue(initialDataMock.application_state.addresses.billing);
         getCurrencyMock.mockReturnValue(CurrencyMock);
+        getOrderInitialDataMock.mockReturnValue(initialDataMock.initial_data);
         getShippingAddressMock.mockReturnValue(initialDataMock.application_state.addresses.shipping);
         getTotalsMock.mockReturnValue(TotalMock);
         batchRequestMock.mockReturnValue(Promise.resolve(baseReturnObject));
@@ -152,7 +159,13 @@ describe('metaOnPaymentConsent', () => {
         }));
 
         await metaOnPaymentConsent(completeMetaResponse).catch((error) => {
-            expect(error).toBe(META_AUTHORIZATION_ERROR);
+            expect(error).toStrictEqual({
+                ...META_AUTHORIZATION_ERROR,
+                error: {
+                    message: "There was an unknown error while processing your payment.",
+                    reason: "INVALID_PAYMENT_DATA",
+                }
+            });
         });
 
         expect(batchRequestMock).toBeCalledTimes(1);
@@ -169,7 +182,13 @@ describe('metaOnPaymentConsent', () => {
         }));
 
         await metaOnPaymentConsent(completeMetaResponse).catch((error) => {
-            expect(error).toBe(META_AUTHORIZATION_ERROR);
+            expect(error).toStrictEqual({
+                ...META_AUTHORIZATION_ERROR,
+                error: {
+                    message: "There was an unknown error while processing your payment.",
+                    reason: "INVALID_PAYMENT_DATA",
+                }
+            });            
         });
 
         expect(batchRequestMock).toBeCalledTimes(1);
@@ -178,7 +197,13 @@ describe('metaOnPaymentConsent', () => {
 
     it('META_AUTHORIZATION_OTHER_ERROR when invalid data from fail batch response', async () => {
         await metaOnPaymentConsent(completeMetaResponse).catch((error) => {
-            expect(error).toEqual(META_AUTHORIZATION_OTHER_ERROR);
+            expect(error).toStrictEqual({
+                ...META_AUTHORIZATION_OTHER_ERROR,
+                error: {
+                    message: "This application has encountered an error",
+                    reason: "OTHER_ERROR",
+                }
+            });             
         });
 
         expect(batchRequestMock).toBeCalledTimes(1);
@@ -189,7 +214,13 @@ describe('metaOnPaymentConsent', () => {
         batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, response: {data}}));
 
         await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
-            expect(e).toEqual(META_AUTHORIZATION_OTHER_ERROR);
+            expect(e).toStrictEqual({
+                ...META_AUTHORIZATION_OTHER_ERROR,
+                error: {
+                    message: "This application has encountered an error",
+                    reason: "OTHER_ERROR",
+                }
+            });              
         });
 
         expect(batchRequestMock).toBeCalledTimes(1);
@@ -200,29 +231,71 @@ describe('metaOnPaymentConsent', () => {
         batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, response: {data}}));
 
         await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
-            expect(e).toEqual(META_AUTHORIZATION_OTHER_ERROR);
+            expect(e).toStrictEqual({
+                ...META_AUTHORIZATION_OTHER_ERROR,
+                error: {
+                    message: "This application has encountered an error",
+                    reason: "OTHER_ERROR",
+                }
+            });             
         });
 
         expect(batchRequestMock).toBeCalledTimes(1);
     });
 
     it('META_AUTHORIZATION_SHIPPING_ERROR fail on shipping address subrequest', async () => {
-        const data: Array<IApiSubrequestResponse> = [{status_code: 422, endpoint: '/addresses/shipping', method: 'POST'}];
+        const data: Array<IApiSubrequestResponse> = [{
+            status_code: 422,
+            endpoint: '/addresses/shipping',
+            method: 'POST',
+            errors: [{
+                message: '',
+                type: 'address',
+                field: 'postal_code',
+                severity: 'validation',
+                sub_type: '',
+            }]
+        }];
         batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, response: {data}}));
 
         await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
-            expect(e).toEqual(META_AUTHORIZATION_SHIPPING_ERROR);
+            expect(e).toStrictEqual({
+                ...META_AUTHORIZATION_SHIPPING_ERROR,
+                error: {
+                    field: "postalCode",
+                    message: "Code not valid for country and province.",
+                    reason: "INVALID_SHIPPING_ADDRESS",
+                }
+            });             
         });
 
         expect(batchRequestMock).toBeCalledTimes(1);
     });
 
     it('META_AUTHORIZATION_BILLING_ERROR fail on billing address subrequest', async () => {
-        const data: Array<IApiSubrequestResponse> = [{status_code: 422, endpoint: '/addresses/billing', method: 'POST'}];
+        const data: Array<IApiSubrequestResponse> = [{
+            status_code: 422,
+            endpoint: '/addresses/billing',
+            method: 'POST',
+            errors: [{
+                message: '',
+                type: 'address',
+                field: 'province',
+                severity: 'validation',
+                sub_type: '',
+            }]            
+        }];
         batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, response: {data}}));
 
         await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
-            expect(e).toEqual(META_AUTHORIZATION_BILLING_ERROR);
+            expect(e).toStrictEqual({
+                ...META_AUTHORIZATION_BILLING_ERROR,
+                error: {
+                    field: "region",
+                    message: "Please select a province/state/territory",
+                    reason: "INVALID_BILLING_ADDRESS",
+                }
+            });            
         });
 
         expect(batchRequestMock).toBeCalledTimes(1);
@@ -233,7 +306,13 @@ describe('metaOnPaymentConsent', () => {
         batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, response: {data}}));
 
         await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
-            expect(e).toEqual(META_AUTHORIZATION_OTHER_ERROR);
+            expect(e).toStrictEqual({
+                ...META_AUTHORIZATION_OTHER_ERROR,
+                error: {
+                    message: "We are not able to calculate taxes on your order.",
+                    reason: "OTHER_ERROR",
+                }
+            });              
         });
 
         expect(batchRequestMock).toBeCalledTimes(1);
@@ -243,7 +322,13 @@ describe('metaOnPaymentConsent', () => {
         batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
 
         await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
-            expect(e).toEqual(META_AUTHORIZATION_PAYMENT_ERROR);
+            expect(e).toStrictEqual({
+                ...META_AUTHORIZATION_PAYMENT_ERROR,
+                error: {
+                    message: "There was an unknown error while processing your payment.",
+                    reason: "INVALID_PAYMENT_DATA",
+                }
+            });            
         });
 
         expect(batchRequestMock).toBeCalledTimes(1);
@@ -254,7 +339,13 @@ describe('metaOnPaymentConsent', () => {
         addPaymentMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
 
         await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
-            expect(e).toEqual(META_AUTHORIZATION_ERROR);
+            expect(e).toStrictEqual({
+                ...META_AUTHORIZATION_ERROR,
+                error: {
+                    message: "There was an unknown error while processing your payment.",
+                    reason: "INVALID_PAYMENT_DATA",
+                }
+            });            
         });
 
         expect(batchRequestMock).toBeCalledTimes(1);
@@ -265,7 +356,13 @@ describe('metaOnPaymentConsent', () => {
         batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, response: {data}}));
 
         await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
-            expect(e).toEqual(META_AUTHORIZATION_OTHER_ERROR);
+            expect(e).toStrictEqual({
+                ...META_AUTHORIZATION_OTHER_ERROR,
+                error: {
+                    message: "This application has encountered an error",
+                    reason: "OTHER_ERROR",
+                }
+            });              
         });
 
         expect(batchRequestMock).toBeCalledTimes(1);
@@ -281,7 +378,13 @@ describe('metaOnPaymentConsent', () => {
             })));
 
         await metaOnPaymentConsent(billingOnlyMetaResponse).catch((e) => {
-            expect(e).toEqual(META_AUTHORIZATION_PAYMENT_ERROR);
+            expect(e).toStrictEqual({
+                ...META_AUTHORIZATION_PAYMENT_ERROR,
+                error: {
+                    message: "There was an unknown error while processing your payment.",
+                    reason: "INVALID_PAYMENT_DATA",
+                }
+            });             
         });
     });
 })

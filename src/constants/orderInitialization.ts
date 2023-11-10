@@ -98,6 +98,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
             discounts: [],
             taxes: [],
             order_total: 0,
+            order_balance: 0,
             line_items: [],
             shipping: {
                 selected_shipping: {
@@ -142,6 +143,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
                     accepts_marketing_checkbox_option: '',
                     tax_exempt_checkbox_enabled: false,
                     tax_shipping: true,
+                    batch_requests: false
                 },
                 address_autocomplete: {
                     provider: null,

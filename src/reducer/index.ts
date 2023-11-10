@@ -16,6 +16,7 @@ export * from './sessionInitializedReducer';
 export * from './initialStateReducer';
 export * from './lineItemsReducer';
 export * from './loadingReducer';
+export * from './orderBalanceReducer';
 export * from './orderMetaReducer';
 export * from './orderTotalReducer';
 export * from './overlayReducer';

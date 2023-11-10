@@ -1,0 +1,11 @@
+.life-element-date-picker-container {
+    position: relative;
+    width: 50%;
+    margin-bottom: 8px;
+}
+
+@media only screen and (max-width: 767px) {
+    .life-element-date-picker-container {
+        width: 100%;
+    }
+}

@@ -26,13 +26,20 @@ const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
 const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 
 describe('Testing hook useGetOrderRecap', () => {
+    const shippingAddressMock: IAddress = {...initialDataMock.application_state.addresses.shipping, phone_number: '2041234567'};
+    const billingAddressMock: IAddress = {...initialDataMock.application_state.addresses.billing, phone_number: '2047654321'};
     const mockResponse = {
         noOrderData: false,
-        shippingAddress: initialDataMock.application_state.addresses.shipping,
-        billingAddress: initialDataMock.application_state.addresses.billing,
+        shippingAddress: shippingAddressMock,
+        billingAddress: billingAddressMock,
         shippingDescription: initialDataMock.application_state.shipping.selected_shipping.description,
+        customerDetails: [
+            initialDataMock.application_state.customer.email_address,
+            shippingAddressMock.phone_number,
+        ],
         terms: {
             customerInfo: 'customer info',
+            customerDetails: 'customer details',
             shippingAddress: 'shipping address',
             billingAddress: 'billing address',
             shippingMethod: 'shipping method',
@@ -44,14 +51,15 @@ describe('Testing hook useGetOrderRecap', () => {
         jest.clearAllMocks();
         getTermMock.mockReturnValue('');
         useGetCustomerInfoDataMock.mockReturnValue(initialDataMock.application_state.customer);
-        useGetShippingDataMock.mockReturnValue(initialDataMock.application_state.addresses.shipping as IAddress);
-        useGetBillingDataMock.mockReturnValue(initialDataMock.application_state.addresses.billing as IAddress);
+        useGetShippingDataMock.mockReturnValue(shippingAddressMock);
+        useGetBillingDataMock.mockReturnValue(billingAddressMock);
         useGetSelectShippingLineMock.mockReturnValue(initialDataMock.application_state.shipping.selected_shipping as IShippingLine);
     });
 
     test('rendering the hook with all data', () => {
         getTermMock
             .mockReturnValueOnce(mockResponse.terms.customerInfo)
+            .mockReturnValueOnce(mockResponse.terms.customerDetails)
             .mockReturnValueOnce(mockResponse.terms.shippingAddress)
             .mockReturnValueOnce(mockResponse.terms.billingAddress)
             .mockReturnValueOnce(mockResponse.terms.shippingMethod)
@@ -68,8 +76,9 @@ describe('Testing hook useGetOrderRecap', () => {
         expect(useGetShippingDataMock).toHaveBeenCalledTimes(1);
         expect(useGetBillingDataMock).toHaveBeenCalledTimes(1);
         expect(useGetSelectShippingLineMock).toHaveBeenCalledTimes(1);
-        expect(getTermMock).toHaveBeenCalledTimes(5);
+        expect(getTermMock).toHaveBeenCalledTimes(6);
         expect(getTermMock).toHaveBeenCalledWith('customer_info', Constants.CUSTOMER_INFO);
+        expect(getTermMock).toHaveBeenCalledWith('customer_details', Constants.CUSTOMER_INFO);
         expect(getTermMock).toHaveBeenCalledWith('shipping_address', Constants.SHIPPING_INFO);
         expect(getTermMock).toHaveBeenCalledWith('billing_address', Constants.PAYMENT_INFO);
         expect(getTermMock).toHaveBeenCalledWith('shipping_method', Constants.SHIPPING_METHOD_INFO);
@@ -77,15 +86,16 @@ describe('Testing hook useGetOrderRecap', () => {
     });
 
     test('rendering the hook with no order data', () => {
-        const customer = {...initialDataMock.application_state.customer, first_name: ''};
+        const customer = {...initialDataMock.application_state.customer, first_name: '', email_address: ''};
         const shippingMethod = {id: '', description: '', amount: 0};
-        const newResponse = {...mockResponse, noOrderData: true, shippingDescription: ''};
+        const newResponse = {...mockResponse, noOrderData: true, shippingDescription: '', customerDetails: []};
         useGetCustomerInfoDataMock.mockReturnValueOnce(customer);
         useGetShippingDataMock.mockReturnValueOnce(emptyAddressMock);
         useGetBillingDataMock.mockReturnValueOnce(emptyAddressMock);
         useGetSelectShippingLineMock.mockReturnValueOnce(shippingMethod);
         getTermMock
             .mockReturnValueOnce(newResponse.terms.customerInfo)
+            .mockReturnValueOnce(newResponse.terms.customerDetails)
             .mockReturnValueOnce(newResponse.terms.shippingAddress)
             .mockReturnValueOnce(newResponse.terms.billingAddress)
             .mockReturnValueOnce(newResponse.terms.shippingMethod)
@@ -97,13 +107,15 @@ describe('Testing hook useGetOrderRecap', () => {
         expect(result.current.shippingAddress).toStrictEqual(emptyAddressMock);
         expect(result.current.billingAddress).toStrictEqual(emptyAddressMock);
         expect(result.current.shippingDescription).toStrictEqual(newResponse.shippingDescription);
+        expect(result.current.customerDetails).toStrictEqual(newResponse.customerDetails);
         expect(result.current.terms).toStrictEqual(newResponse.terms);
         expect(useGetCustomerInfoDataMock).toHaveBeenCalledTimes(1);
         expect(useGetShippingDataMock).toHaveBeenCalledTimes(1);
         expect(useGetBillingDataMock).toHaveBeenCalledTimes(1);
         expect(useGetSelectShippingLineMock).toHaveBeenCalledTimes(1);
-        expect(getTermMock).toHaveBeenCalledTimes(5);
+        expect(getTermMock).toHaveBeenCalledTimes(6);
         expect(getTermMock).toHaveBeenCalledWith('customer_info', Constants.CUSTOMER_INFO);
+        expect(getTermMock).toHaveBeenCalledWith('customer_details', Constants.CUSTOMER_INFO);
         expect(getTermMock).toHaveBeenCalledWith('shipping_address', Constants.SHIPPING_INFO);
         expect(getTermMock).toHaveBeenCalledWith('billing_address', Constants.PAYMENT_INFO);
         expect(getTermMock).toHaveBeenCalledWith('shipping_method', Constants.SHIPPING_METHOD_INFO);
@@ -122,6 +134,7 @@ describe('Testing hook useGetOrderRecap', () => {
         useGetSelectShippingLineMock.mockReturnValueOnce(null);
         getTermMock
             .mockReturnValueOnce(newResponse.terms.customerInfo)
+            .mockReturnValueOnce(newResponse.terms.customerDetails)
             .mockReturnValueOnce(newResponse.terms.shippingAddress)
             .mockReturnValueOnce(newResponse.terms.billingAddress)
             .mockReturnValueOnce(newResponse.terms.shippingMethod)
@@ -133,13 +146,15 @@ describe('Testing hook useGetOrderRecap', () => {
         expect(result.current.shippingAddress).toStrictEqual(emptyAddressMock);
         expect(result.current.billingAddress).toStrictEqual(emptyAddressMock);
         expect(result.current.shippingDescription).toStrictEqual(newResponse.shippingDescription);
+        expect(result.current.customerDetails).toStrictEqual([]);
         expect(result.current.terms).toStrictEqual(newResponse.terms);
         expect(useGetCustomerInfoDataMock).toHaveBeenCalledTimes(1);
         expect(useGetShippingDataMock).toHaveBeenCalledTimes(1);
         expect(useGetBillingDataMock).toHaveBeenCalledTimes(1);
         expect(useGetSelectShippingLineMock).toHaveBeenCalledTimes(1);
-        expect(getTermMock).toHaveBeenCalledTimes(5);
+        expect(getTermMock).toHaveBeenCalledTimes(6);
         expect(getTermMock).toHaveBeenCalledWith('customer_info', Constants.CUSTOMER_INFO);
+        expect(getTermMock).toHaveBeenCalledWith('customer_details', Constants.CUSTOMER_INFO);
         expect(getTermMock).toHaveBeenCalledWith('shipping_address', Constants.SHIPPING_INFO);
         expect(getTermMock).toHaveBeenCalledWith('billing_address', Constants.PAYMENT_INFO);
         expect(getTermMock).toHaveBeenCalledWith('shipping_method', Constants.SHIPPING_METHOD_INFO);
@@ -149,6 +164,7 @@ describe('Testing hook useGetOrderRecap', () => {
     test('rendering the hook with not requires shipping', () => {
         getTermMock
             .mockReturnValueOnce(mockResponse.terms.customerInfo)
+            .mockReturnValueOnce(mockResponse.terms.customerDetails)
             .mockReturnValueOnce(mockResponse.terms.shippingAddress)
             .mockReturnValueOnce(mockResponse.terms.billingAddress)
             .mockReturnValueOnce(mockResponse.terms.shippingMethod)
@@ -160,6 +176,10 @@ describe('Testing hook useGetOrderRecap', () => {
         expect(result.current.shippingAddress).toStrictEqual(mockResponse.shippingAddress);
         expect(result.current.billingAddress).toStrictEqual(mockResponse.billingAddress);
         expect(result.current.terms).toStrictEqual(mockResponse.terms);
+        expect(result.current.customerDetails).toStrictEqual([
+            mockResponse.customerDetails[0],
+            mockResponse.billingAddress.phone_number,
+        ]);
         expect(useGetCustomerInfoDataMock).toHaveBeenCalledTimes(1);
         expect(useGetShippingDataMock).toHaveBeenCalledTimes(1);
         expect(useGetBillingDataMock).toHaveBeenCalledTimes(1);
@@ -167,6 +187,7 @@ describe('Testing hook useGetOrderRecap', () => {
         expect(useGetShippingDataMock).toHaveBeenCalledTimes(1);
         expect(useGetRequiresShippingMock).toHaveBeenCalledTimes(1);
         expect(getTermMock).toHaveBeenCalledWith('customer_info', Constants.CUSTOMER_INFO);
+        expect(getTermMock).toHaveBeenCalledWith('customer_details', Constants.CUSTOMER_INFO);
         expect(getTermMock).not.toHaveBeenCalledWith('shipping_address', Constants.SHIPPING_INFO);
         expect(getTermMock).toHaveBeenCalledWith('billing_address', Constants.PAYMENT_INFO);
         expect(getTermMock).toHaveBeenCalledWith('shipping_method', Constants.SHIPPING_METHOD_INFO);

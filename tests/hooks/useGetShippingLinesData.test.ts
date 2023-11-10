@@ -3,13 +3,14 @@ import {
     useGetAvailableShippingLines,
     useGetShippingLinesData,
     useGetSelectShippingLine,
-    useGetGeneralSettingCheckoutFields
+    useGetGeneralSettingCheckoutFields,
+    useGetValidVariable
 } from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 import {stateMock} from 'src/mocks';
 import {act} from '@testing-library/react';
-import {actionOrderTotal, actionSetLoaderAndDisableButton} from 'src/action';
+import {actionSetLoaderAndDisableButton} from 'src/action';
 import {initialDataMock} from 'src/mocks';
 
 const store = {
@@ -30,14 +31,16 @@ jest.mock('src/hooks/useDebounceShippingLines');
 jest.mock('src/hooks/useGetSelectShippingLine');
 jest.mock('src/hooks/useGetAvailableShippingLines');
 jest.mock('src/hooks/useGetGeneralSettingCheckoutFields');
+jest.mock('src/hooks/useGetValidVariable');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 const mockDispatch = jest.fn();
 
 const useGetAvailableShippingLinesMock = mocked(useGetAvailableShippingLines, true);
 const useGetSelectShippingLineMock = mocked(useGetSelectShippingLine, true);
 const actionSetLoaderAndDisableButtonMock = mocked(actionSetLoaderAndDisableButton, true);
 const useGetGeneralSettingsMock = mocked(useGetGeneralSettingCheckoutFields, true);
-const actionOrderTotalMock = mocked(actionOrderTotal, true);
 const getTermMock = mocked(getTerm, true);
+const useGetValidVariableMock = mocked(useGetValidVariable, true);
 
 describe('Testing hook useGetShippingLinesData', () => {
     const appStateMock = stateMock.data.application_state;
@@ -45,6 +48,9 @@ describe('Testing hook useGetShippingLinesData', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         useGetGeneralSettingsMock.mockReturnValue(true);
+        useGetValidVariableMock
+            .mockReturnValueOnce(false)
+            .mockReturnValueOnce(true);
         getTermMock.mockReturnValue('Test');
         actionSetLoaderAndDisableButtonFunctionMock.mockName('actionSetLoaderAndDisableButton');
         actionSetLoaderAndDisableButtonMock.mockReturnValue(actionSetLoaderAndDisableButtonFunctionMock);

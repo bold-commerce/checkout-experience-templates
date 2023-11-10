@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from 'react';
 import {
     useGetLoaderScreenVariable,
-    useGetDiscounts,
+    useGetCombinedDiscounts,
     useGetErrorByField,
     useGetAppSettingData,
     useGetCustomerInfoDataByField,
@@ -15,7 +15,7 @@ import {getTerm} from 'src/utils';
 import {Constants, errorFields, errorTypes, HIDE_MESSAGE} from 'src/constants';
 
 export function useSummaryDiscountCode(): ISummaryDiscountCode {
-    const discounts = useGetDiscounts();
+    const discounts = useGetCombinedDiscounts();
     const emailAddress = useGetCustomerInfoDataByField('email_address');
     const discountCodeText = useGetAppSettingData('discountText') as string;
     const discountError =  useGetErrorByField(errorFields.discounts, '' , errorTypes.discount_code_validation);

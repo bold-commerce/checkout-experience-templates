@@ -24,3 +24,7 @@
         width: 100%;
     }
 }
+
+.order-recap__display-item--customer-details {
+    width: 100%;
+}

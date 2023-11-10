@@ -1,7 +1,6 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {
     useGetButtonDisableVariable,
-    useGetCurrencyInformation,
     useGetIsLoading,
     useGetIsOrderProcessed,
     useGetLifeFieldsOnPage,
@@ -25,7 +24,6 @@ jest.mock('src/hooks/useGetIsOrderProcessed');
 jest.mock('src/library/callCustomerPageApi');
 jest.mock('src/library/initializeExpressPay');
 jest.mock('src/utils/getReturnToCartTermAndLink');
-jest.mock('src/hooks/useGetCurrencyInformation');
 jest.mock('src/hooks/useGetRequiresShipping');
 jest.mock('src/hooks/useGetLifeFieldsOnPage');
 jest.mock('src/hooks/useGetLifeFields');
@@ -39,7 +37,6 @@ const callCustomerPageApiMock = mocked(callCustomerPageApi, true);
 const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
 const initializeExpressPayMock = mocked(initializeExpressPay, true);
 const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
-const useGetCurrencyInformationMock = mocked(useGetCurrencyInformation, true);
 const useGetLifeFieldsOnPageMock = mocked(useGetLifeFieldsOnPage, true);
 const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 
@@ -49,7 +46,6 @@ describe('Testing hook useCustomerPage', () => {
     const getTermValue = 'test-value';
     const eventMock = {preventDefault: jest.fn()};
     const historyMock = {replace: jest.fn()};
-    const currencyInformationMock = {iso_code: 'CAD', currency:'', currencySymbol:'', formattedPrice:''};
     const mockExpressEntry = jest.fn();
     const lifeFields: Array<ILifeField> = [
         {
@@ -75,7 +71,6 @@ describe('Testing hook useCustomerPage', () => {
         useGetButtonDisableVariableMock.mockReturnValue(false);
         callCustomerPageApiMock.mockReturnValue(mockCallCustomerPageApi);
         initializeExpressPayMock.mockReturnValue(mockExpressEntry);
-        useGetCurrencyInformationMock.mockReturnValue(currencyInformationMock);
         useGetLifeFieldsOnPageMock.mockReturnValue(lifeFields);
         window = Object.create(window);
         Object.defineProperty(window, 'location', {

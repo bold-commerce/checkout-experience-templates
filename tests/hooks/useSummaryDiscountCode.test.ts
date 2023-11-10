@@ -2,11 +2,10 @@ import {getTerm} from 'src/utils';
 import {postDiscounts, validateEmailAddress} from 'src/library';
 import {
     useGetLoaderScreenVariable,
-    useGetDiscounts,
     useGetErrorByField,
     useGetAppSettingData,
     useGetCustomerInfoDataByField,
-    useGetIsLoading
+    useGetIsLoading, useGetCombinedDiscounts
 } from 'src/hooks';
 import {useSummaryDiscountCode} from 'src/hooks';
 import {renderHook} from '@testing-library/react-hooks';
@@ -22,7 +21,7 @@ jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch
 }));
 jest.mock('src/hooks/useGetLoaderScreenVariable');
-jest.mock('src/hooks/useGetDiscounts');
+jest.mock('src/hooks/useGetCombinedDiscounts');
 jest.mock('src/hooks/useGetErrorByField');
 jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/hooks/useGetCustomerInformation');
@@ -31,7 +30,7 @@ jest.mock('src/utils');
 jest.mock('src/action');
 jest.mock('src/library');
 const useGetLoaderScreenVariableMock = mocked(useGetLoaderScreenVariable, true);
-const useGetDiscountsMock = mocked(useGetDiscounts, true);
+const useGetCombinedDiscountsMock = mocked(useGetCombinedDiscounts, true);
 const useGetErrorByFieldMock = mocked(useGetErrorByField, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 const getTermMock = mocked(getTerm, true);
@@ -65,7 +64,7 @@ describe('Testing hook useSummaryDiscountCode', () => {
         useGetAppSettingDataMock.mockReturnValue(data.discountText);
         useGetErrorByFieldMock.mockReturnValue(data.errorByField);
         useGetLoaderScreenVariableMock.mockReturnValue(data.loaderVariable);
-        useGetDiscountsMock.mockReturnValue(discounts);
+        useGetCombinedDiscountsMock.mockReturnValue(discounts);
         actionSetLoaderAndDisableButtonMock.mockReturnValue(actionSetLoaderAndDisableButtonReturn);
         postDiscountsMock.mockReturnValue(postDiscountThunkMock);
         useGetIsLoadingMock.mockReturnValue(false);
@@ -84,7 +83,7 @@ describe('Testing hook useSummaryDiscountCode', () => {
     });
 
     test('testing the add discount event with customer email address And postDiscount returning HTMLElement',  async () => {
-        useGetDiscountsMock.mockReturnValueOnce([]);
+        useGetCombinedDiscountsMock.mockReturnValueOnce([]);
         const discountPill = createPill();
         useGetCustomerInfoDataByFieldMock.mockReturnValueOnce('abc@gmail.com');
         mockDispatch
@@ -112,7 +111,7 @@ describe('Testing hook useSummaryDiscountCode', () => {
     });
 
     test('testing the add discount event with customer email address And postDiscount returning null',  async () => {
-        useGetDiscountsMock.mockReturnValueOnce([]);
+        useGetCombinedDiscountsMock.mockReturnValueOnce([]);
         useGetCustomerInfoDataByFieldMock.mockReturnValueOnce('abc@gmail.com');
         mockDispatch
             .mockImplementationOnce(() => Promise.resolve())
@@ -143,7 +142,7 @@ describe('Testing hook useSummaryDiscountCode', () => {
     });
 
     test('testing the add discount event without customer email address And postDiscount returning HTMLElement',  async () => {
-        useGetDiscountsMock.mockReturnValueOnce([]);
+        useGetCombinedDiscountsMock.mockReturnValueOnce([]);
         const discountPill = createPill();
         mockDispatch
             .mockImplementationOnce(() => Promise.resolve())
@@ -222,7 +221,7 @@ describe('Testing hook useSummaryDiscountCode', () => {
             .mockReturnValueOnce(data.getTerm)
             .mockReturnValueOnce('apply_discount_code_button')
             .mockReturnValueOnce('discount_code_successfully_applied');
-        useGetDiscountsMock.mockReturnValueOnce(discounts);
+        useGetCombinedDiscountsMock.mockReturnValueOnce(discounts);
         const discountPill = createPill();
         mockDispatch
             .mockImplementationOnce(() => Promise.resolve())

@@ -63,11 +63,15 @@ html.loading {
     display: none;
 }
 
-.three-page{
+.three-page {
     display: flex;
 }
 
 .one-page {
+    display: flex;
+}
+
+.paypal-page {
     display: flex;
 }
 
@@ -79,8 +83,7 @@ html.loading {
 }
 
 .outside-main-content {
-    width: 700px;
-    padding: 40px 100px 0 30px;
+    padding: 40px 60px 0 30px;
     background-color: #ffffff;
 }
 
@@ -107,7 +110,7 @@ select {
 }
 
 @media only screen and (min-width: 1200px) {
-    .checkout-experience-container, .three-page {
+    .checkout-experience-container, .three-page, .paypal-page {
         flex-wrap: wrap;
         width: 100%;
         min-height: 100vh;
@@ -115,11 +118,15 @@ select {
         position: relative;
     }
 
-    .three-page {
+    .three-page, .paypal-page {
         width: 1200px;
     }
 
     .outside-main-content-container {
+        width: 100%;
+    }
+
+    .outside-main-content {
         width: 1200px;
         margin: 0 auto;
     }
@@ -147,7 +154,7 @@ select {
 }
 
 @media only screen and (max-width: 1200px) and (min-width: 768px) {
-    .checkout-experience-container, .three-page {
+    .checkout-experience-container, .three-page, .paypal-page{
         flex-wrap: wrap;
         position: relative;
         margin: auto;
@@ -155,7 +162,7 @@ select {
         min-height: 100vh;
     }
 
-    .three-page {
+    .three-page, .paypal-page {
         width: 768px;
     }
 
@@ -185,8 +192,7 @@ select {
     }
 
     .outside-main-content {
-        width: 468px;
-        padding: 26px 32px 0 32px;
+        padding: 26px 13px 0 32px;
     }
 
     .outside-main-content.no-summary {
@@ -195,7 +201,7 @@ select {
 }
 
 @media only screen and (max-width: 767px) {
-    .checkout-experience-container, .three-page {
+    .checkout-experience-container, .three-page, .paypal-page {
         position: relative;
         margin: auto;
         width: 100%;

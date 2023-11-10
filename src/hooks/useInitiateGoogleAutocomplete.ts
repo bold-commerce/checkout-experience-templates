@@ -2,7 +2,7 @@
 // TODO: Remove above comment and implement tests on CE-272
 
 import {useEffect, useState} from 'react';
-import {AddressFieldIds} from 'src/constants';
+import {shippingAddressFieldIds, billingAddressFieldIds} from 'src/constants';
 import {googleAutocompleteRetrieveOptions, isAutocompleteDataPopulated, scriptsAreLoaded} from 'src/utils';
 import {IAutocompleteData} from 'src/types';
 import {useGetCountryInfoList} from 'src/hooks/useGetCountryData';
@@ -10,16 +10,31 @@ import AutocompleteOptions = google.maps.places.AutocompleteOptions;
 import Autocomplete = google.maps.places.Autocomplete;
 import PlaceResult = google.maps.places.PlaceResult;
 import {GoogleAutocompleteConstants} from 'src/constants';
-import {useDispatchAutocompleteData, useGetAutocompleteAPIKey} from 'src/hooks';
+import {useDispatchAutocompleteShippingData, useDispatchAutocompleteBillingData, useGetAutocompleteAPIKey} from 'src/hooks';
 import {ICountryInformation} from '@boldcommerce/checkout-frontend-library';
 
+const TYPE_SHIPPING = 'shipping';
+const TYPE_BILLING = 'billing';
+
 export function useInitiateGoogleAutocomplete(): void {
-    let autocomplete: Autocomplete;
+    let autocompleteShipping: Autocomplete;
+    let autocompleteBilling: Autocomplete;
     const apiKey = useGetAutocompleteAPIKey();
     const getCountryInfoList: Array<ICountryInformation> = useGetCountryInfoList();
-    const dispatchAutocompleteData = useDispatchAutocompleteData();
+    const dispatchAutocompleteShippingData = useDispatchAutocompleteShippingData();
+    const dispatchAutocompleteBillingData = useDispatchAutocompleteBillingData();
 
-    const [addressData, setAddressData] = useState({
+    const [shippingAddressData, setShippingAddressData] = useState({
+        address1: '',
+        city: '',
+        postalCode: '',
+        province: '',
+        provinceCode: '',
+        country: '',
+        countryCode: ''
+    });
+
+    const [billingAddressData, setBillingAddressData] = useState({
         address1: '',
         city: '',
         postalCode: '',
@@ -40,20 +55,33 @@ export function useInitiateGoogleAutocomplete(): void {
         // Function called when script is loaded - see below, in callback=... part of the google maps API URL
         if (!window.initializeAutoComplete) {
             window.initializeAutoComplete = (): void => {
-                const address1Field = document.querySelector(`#${AddressFieldIds.address1FieldSelector}`) as HTMLInputElement;
+                const shippingAddress1Field = document.querySelector(`#${shippingAddressFieldIds.address1FieldSelector}`) as HTMLInputElement;
+                const billingAddress1Field = document.querySelector(`#${billingAddressFieldIds.address1FieldSelector}`);
                 const googleAutocompleteOptions: AutocompleteOptions = googleAutocompleteRetrieveOptions(getCountryInfoList);
-                autocomplete = autocomplete || new google.maps.places.Autocomplete(address1Field, googleAutocompleteOptions);
-                autocomplete.addListener(GoogleAutocompleteConstants.eventToListen, fillAddressFields);
+                
+                autocompleteShipping = autocompleteShipping || new google.maps.places.Autocomplete(shippingAddress1Field, googleAutocompleteOptions);
+                autocompleteShipping.addListener(GoogleAutocompleteConstants.eventToListen, () => fillAddressFields(autocompleteShipping, TYPE_SHIPPING));
+
+                if (billingAddress1Field) {
+                    autocompleteBilling = autocompleteBilling || new google.maps.places.Autocomplete(billingAddress1Field as HTMLInputElement, googleAutocompleteOptions);
+                    autocompleteBilling.addListener(GoogleAutocompleteConstants.eventToListen, () => fillAddressFields(autocompleteBilling, TYPE_BILLING));
+                }
             };
+        } else {
+            window.initializeAutoComplete();
         }
 
-        if (addressData && isAutocompleteDataPopulated(addressData)) {
-            dispatchAutocompleteData(addressData);
+        if (shippingAddressData && isAutocompleteDataPopulated(shippingAddressData)) {
+            dispatchAutocompleteShippingData(shippingAddressData);
         }
-    }, [addressData]);
+
+        if (billingAddressData && isAutocompleteDataPopulated(billingAddressData)) {
+            dispatchAutocompleteBillingData(billingAddressData);
+        }
+    }, [shippingAddressData, billingAddressData]);
 
     // Dispatch event instead of setting up value directly
-    const fillAddressFields = (): void => {
+    const fillAddressFields = (autocomplete: Autocomplete, type: string): void => {
         const tempAddressData: IAutocompleteData = {
             address1: '',
             city: '',
@@ -102,7 +130,13 @@ export function useInitiateGoogleAutocomplete(): void {
                     break;
             }
         }
-        setAddressData(tempAddressData);
+
+        if (type === TYPE_SHIPPING) {
+            setShippingAddressData(tempAddressData);
+        } else if (type === TYPE_BILLING) {
+            setBillingAddressData(tempAddressData);
+        }
+        
     };
 
     // Script initialisation

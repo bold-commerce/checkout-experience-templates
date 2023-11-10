@@ -1,5 +1,5 @@
 import * as shippingLines from 'src/library';
-import { baseReturnObject, getShippingLines } from '@boldcommerce/checkout-frontend-library';
+import {baseReturnObject, getShippingLines, sendRefreshOrderAction} from '@boldcommerce/checkout-frontend-library';
 import { stateMock } from 'src/mocks';
 import { actionSetLoader, actionSetButtonDisable, actionSetSelectedShippingLine, actionSetAppStateValid } from 'src/action/appAction';
 import { mocked } from 'jest-mock';
@@ -7,6 +7,7 @@ import {generateTaxes, getShippingFromLib, getSummaryStateFromLib, postShippingL
 import { useSendEvent } from 'src/hooks';
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/shipping');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 jest.mock('src/action/appAction');
 jest.mock('src/hooks/useSendEvent');
 jest.mock('src/library/applicationState');
@@ -21,10 +22,12 @@ const postShippingLinesMock = mocked(postShippingLines, true);
 const useSendEventMock = mocked(useSendEvent, true);
 const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true);
 const generateTaxesMock = mocked(generateTaxes, true);
+const sendRefreshOrderActionMock = mocked(sendRefreshOrderAction, true);
 describe('testing shippingLines', () => {
     const getState = jest.fn();
     const mockDispatch = jest.fn();
     const returnObject = { ...baseReturnObject };
+    const stateWithValidPigi = {...stateMock, isValid: {...stateMock.isValid, pigi: true}};
 
     const shippingData = [
         {
@@ -79,7 +82,7 @@ describe('testing shippingLines', () => {
     beforeEach(() => {
         jest.resetAllMocks();
         mockDispatch.mockReturnValue(Promise.resolve());
-        getState.mockReturnValue(stateMock);
+        getState.mockReturnValue(stateWithValidPigi);
     });
 
     test('tests calling get shipping lines with no success', async () => {
@@ -123,6 +126,7 @@ describe('testing shippingLines', () => {
         expect(getState).toHaveBeenCalled();
         expect(useSendEventMock).toHaveBeenCalled();
         expect(mockDispatch).toHaveBeenCalledWith(getShippingFromLibMock);
+        expect(sendRefreshOrderActionMock).toHaveBeenCalled();
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
         expect(mockDispatch).toHaveBeenCalledWith(getSummaryStateFromLibMock);
         expect(mockDispatch).toHaveBeenCalledWith(generateTaxesMock);
@@ -147,6 +151,7 @@ describe('testing shippingLines', () => {
         expect(getState).toHaveBeenCalled();
         expect(useSendEventMock).toHaveBeenCalled();
         expect(mockDispatch).toHaveBeenCalledWith(getShippingFromLibMock);
+        expect(sendRefreshOrderActionMock).toHaveBeenCalled();
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
         expect(mockDispatch).toHaveBeenCalledWith(getSummaryStateFromLibMock);
         expect(generateTaxesMock).not.toHaveBeenCalled();
@@ -174,6 +179,7 @@ describe('testing shippingLines', () => {
         expect(getState).toHaveBeenCalled();
         expect(useSendEventMock).toHaveBeenCalled();
         expect(mockDispatch).toHaveBeenCalledWith(getShippingFromLibMock);
+        expect(sendRefreshOrderActionMock).toHaveBeenCalled();
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
         expect(mockDispatch).toHaveBeenCalledWith(getSummaryStateFromLibMock);
         expect(mockDispatch).toHaveBeenCalledWith(generateTaxesMock);
@@ -204,6 +210,7 @@ describe('testing shippingLines', () => {
         expect(getState).toHaveBeenCalled();
         expect(useSendEventMock).toHaveBeenCalled();
         expect(mockDispatch).toHaveBeenCalledWith(getShippingFromLibMock);
+        expect(sendRefreshOrderActionMock).toHaveBeenCalled();
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
         expect(mockDispatch).toHaveBeenCalledWith(generateTaxesMock);
 

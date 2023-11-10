@@ -9,11 +9,12 @@ export function Footer(): React.ReactElement {
     const {shopAlias, footerRights} = useGetFooter();
     const cssClass = ClassNames(['footer', 'footer--border-bottom']);
     const belowActionsLifeFields  = useGetLifeFields(LifeInputLocationConstants.BELOW_ACTIONS);
+    const belowActionsLifeFieldsClassNames = ClassNames(['footer--life-fields', 'below-actions-life-elements']);
 
     return (
         <footer className={cssClass}>
             <p className={'footer--disclaimer'}>{`${footerRights} ${shopAlias}`}</p>
-            <LifeFields className={'footer--life-fields'} lifeFields={belowActionsLifeFields}/>
+            <LifeFields className={belowActionsLifeFieldsClassNames} lifeFields={belowActionsLifeFields}/>
         </footer>
     );
 }

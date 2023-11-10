@@ -22,6 +22,11 @@
     display: none;
     user-select: none;
 }
+
+.input-field--has-value .input-field__label_prefix{
+    left: 26px;
+}
+
 .input-field__container .input-field{
     margin-bottom: 0px;
 }
@@ -57,6 +62,10 @@
 }
 .stx-input:hover {
     box-shadow: none;
+}
+.input-field .stx-input__prefix {
+    margin-top: 0.4rem;
+    opacity: 1;
 }
 
 input.stx-input__input-element::-webkit-input-placeholder,

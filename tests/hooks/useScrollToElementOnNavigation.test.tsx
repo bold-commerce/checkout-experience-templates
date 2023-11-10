@@ -4,7 +4,7 @@ import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {IUseCustomerPageProp} from 'src/types';
 import React from 'react';
 import {mocked} from 'jest-mock';
-import {useGetShopUrlFromShopAlias} from 'src/hooks';
+import {useGetOverlay, useGetShopUrlFromShopAlias} from 'src/hooks';
 import {createBrowserHistory} from 'history';
 import {scrollToElement} from 'src/utils';
 import {Router} from 'react-router';
@@ -33,9 +33,11 @@ jest.mock('react-redux', () => ({
 jest.mock('src/themes/three-page/hooks/useCustomerPage');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/utils/scrollToElement');
+jest.mock('src/hooks/useGetOverlay');
 const scrollToElementMock = mocked(scrollToElement, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useCustomerPageMock = mocked(useCustomerPage, true);
+const useGetOverlayMock = mocked(useGetOverlay, true);
 
 describe('testing useScrollToElementOnNavigation', () => {
     const props: IUseCustomerPageProp= {
@@ -50,6 +52,13 @@ describe('testing useScrollToElementOnNavigation', () => {
         jest.clearAllMocks();
         useCustomerPageMock.mockReturnValue(props);
         useGetShopUrlFromShopAliasMock.mockReturnValue(shopURL);
+        useGetOverlayMock.mockReturnValue({
+            shown: false,
+            inverted: false,
+            header: 'This is header issue',
+            subHeader: 'This is sub-header issue',
+            buttonText: 'back'
+        });
     });
 
     test('Rendering useScrollToElementOnNavigation properly', () => {

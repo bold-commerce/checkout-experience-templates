@@ -4,7 +4,10 @@ import {
     useGetIsOrderProcessing,
     useSetApiCallOnEvent,
     useSetDefaultLanguageIso,
-    useWindowDimensions
+    useWindowDimensions,
+    useGetLineItems,
+    useGetCurrencyInformation,
+    useGetOrderTotal
 } from 'src/hooks';
 import {MemoryRouter, Route} from 'react-router-dom';
 import {Switch} from 'react-router';
@@ -24,10 +27,13 @@ setHook('history', useHistory);
 function Theme(): React.ReactElement {
     const {websiteName, closeBuyNow} = useGetCloseBuyNow();
     const overlayVisible = useGetOverlayVisible();
+    const items = useGetLineItems();
+    const {currency} = useGetCurrencyInformation();
+    const value = useGetOrderTotal();
     useSetDefaultLanguageIso();
     useWindowDimensions();
     useSetApiCallOnEvent(true);
-    initiateCheckout();
+    initiateCheckout(items, value, currency);
     const isOrderProcessing = useGetIsOrderProcessing();
 
     const closeModal = useCallback((e) => {

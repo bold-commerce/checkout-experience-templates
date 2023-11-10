@@ -14,13 +14,16 @@ import {
 } from 'src/components';
 import {sendEvents, sendPageView} from 'src/analytics';
 import {
-    useBeforeUnload, useGetLifeFields,
+    useBeforeUnload,
+    useGetLifeFields,
+    useGetLifeFieldsOnPage,
+    useOnLoadDefaultLifeFields,
     useOnLoadValidateCustomer,
     useScrollToElementOnNavigation,
 } from 'src/hooks';
 import {useShippingPage} from 'src/themes/three-page/hooks';
 import {getTerm, withPreventDefault} from 'src/utils';
-import {Constants, LifeInputLocationConstants} from 'src/constants';
+import {Constants, LifeInputLocationConstants, LifeInputPageConstants} from 'src/constants';
 
 export function ShippingLinesPage(): React.ReactElement {
     const {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading, title} = useShippingPage();
@@ -32,6 +35,7 @@ export function ShippingLinesPage(): React.ReactElement {
     useOnLoadValidateCustomer();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
+    useOnLoadDefaultLifeFields(useGetLifeFieldsOnPage(LifeInputPageConstants.SHIPPING_THREE_PAGE));
     useEffect(() => {
         sendPageView('/shipping_lines', 2);
         sendEvents('Landed on shipping page', {'category': 'Checkout'});
@@ -44,7 +48,7 @@ export function ShippingLinesPage(): React.ReactElement {
             {mainContentBeginningLifeFields.length > 0 ?
                 <div className={'outside-main-content-container'}>    
                     <div className={'outside-main-content'}>
-                        <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                        <LifeFields className={'main-content-beginning-life-elements'} lifeFields={mainContentBeginningLifeFields}/>
                     </div>
                 </div> : null}
             <div className={'three-page'}>
@@ -61,7 +65,7 @@ export function ShippingLinesPage(): React.ReactElement {
                         <form onSubmit={withPreventDefault(nextButtonOnClick)}>
                             <FlashError/>
                             <ShippingLines theme={Constants.THREE_PAGE}/>
-                            <LifeFields lifeFields={shippingLinesLifeFields}/>
+                            <LifeFields className={'shipping-lines-life-elements'} lifeFields={shippingLinesLifeFields}/>
                             <FormControls
                                 backLinkOnClick={backLinkOnClick}
                                 backLinkText={backLinkText}
@@ -79,7 +83,7 @@ export function ShippingLinesPage(): React.ReactElement {
             {mainContentEndLifeFields.length > 0 ?
                 <div className={'outside-main-content-container'}>
                     <div className={'outside-main-content'}>
-                        <LifeFields lifeFields={mainContentEndLifeFields}/>
+                        <LifeFields className={'main-content-end-life-elements'} lifeFields={mainContentEndLifeFields}/>
                     </div>
                 </div> : null}
         </div>

@@ -1,8 +1,11 @@
 import {
     BillingAddress,
     CustomerInformation,
-    ExpressPaymentGateway, ExternalPaymentGateway,
-    FlashError, Footer, FormControls,
+    ExpressPaymentGateway,
+    ExternalPaymentGateway,
+    FlashError,
+    Footer,
+    FormControls,
     Header,
     HeaderHelmet,
     LifeFields,
@@ -14,7 +17,7 @@ import {
 } from 'src/components';
 import React, {useEffect} from 'react';
 import {getCheckoutUrl, getTerm, withPreventDefault} from 'src/utils';
-import {Constants} from 'src/constants';
+import {Constants, LifeInputPageConstants} from 'src/constants';
 import {useGetOnePageFooterData, useIsValidShippingOnLoad} from 'src/themes/one-page/hooks';
 import {checkInventoryStage} from '@boldcommerce/checkout-frontend-library';
 import {useDispatch} from 'react-redux';
@@ -23,13 +26,16 @@ import {
     useGetExternalPaymentGateways,
     useIsUserAuthenticated,
     useGetLifeFields,
-    useGetRequiresShipping
+    useGetRequiresShipping,
+    useOnLoadDefaultLifeFields,
+    useGetLifeFieldsOnPage
 } from 'src/hooks';
 import {LifeInputLocationConstants} from 'src/constants';
 
 export function ThemePage(): React.ReactElement {
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
     useIsValidShippingOnLoad();
+    useOnLoadDefaultLifeFields(useGetLifeFieldsOnPage(LifeInputPageConstants.ONE_PAGE));
     const {nextButtonOnClick, ...footerProps} = useGetOnePageFooterData();
     const mainAriaLabel = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
     const infoExternalPaymentGateways = useGetExternalPaymentGateways(Constants.CUSTOMER_INFO_ABOVE);
@@ -63,7 +69,7 @@ export function ThemePage(): React.ReactElement {
             {mainContentBeginningLifeFields.length > 0 ?
                 <div className={'outside-main-content-container'}>
                     <div className={'outside-main-content'}>
-                        <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                        <LifeFields className={'main-content-beginning-life-elements'} lifeFields={mainContentBeginningLifeFields}/>
                     </div>
                 </div> : null}
             <div className={'one-page'}>
@@ -83,14 +89,14 @@ export function ThemePage(): React.ReactElement {
                                 />
                             )}
                             <CustomerInformation/>
-                            <LifeFields lifeFields={customerInfoLifeFields}/>
+                            <LifeFields className={'customer-info-life-elements'} lifeFields={customerInfoLifeFields}/>
                             <ShippingAddress/>
-                            <LifeFields lifeFields={shippingLifeFields}/>
+                            <LifeFields className={'shipping-life-elements'} lifeFields={shippingLifeFields}/>
                             {requiresShipping ? <BillingAddress/> : null}
-                            <LifeFields lifeFields={billingAddressAfterLifeFields}/>
+                            <LifeFields className={'billing-address-after-life-elements'} lifeFields={billingAddressAfterLifeFields}/>
                             <ShippingLines/>
-                            <LifeFields lifeFields={shippingLinesLifeFields}/>
-                            <LifeFields lifeFields={paymentGatewayAboveLifeFields}/>
+                            <LifeFields className={'shipping-lines-life-elements'} lifeFields={shippingLinesLifeFields}/>
+                            <LifeFields className={'payment-method-above-life-elements'} lifeFields={paymentGatewayAboveLifeFields}/>
                             <Payment loadIframeImmediately={true} />
                             {paymentExternalPaymentGateways.map((externalGateway) =>
                                 <ExternalPaymentGateway
@@ -101,7 +107,7 @@ export function ThemePage(): React.ReactElement {
                                     position={Constants.PAYMENT_METHOD_BELOW}
                                 />
                             )}
-                            <LifeFields lifeFields={paymentGatewayLifeFields}/>
+                            <LifeFields className={'payment-gateway-life-elements'} lifeFields={paymentGatewayLifeFields}/>
                             <TaxExemption />
                             <FormControls {...footerProps}/>
                         </form>
@@ -113,7 +119,7 @@ export function ThemePage(): React.ReactElement {
             {mainContentEndLifeFields.length > 0 ?
                 <div className={'outside-main-content-container'}>
                     <div className={'outside-main-content'}>
-                        <LifeFields lifeFields={mainContentEndLifeFields}/>
+                        <LifeFields className={'main-content-end-life-elements'} lifeFields={mainContentEndLifeFields}/>
                     </div>
                 </div> : null}
         </div>

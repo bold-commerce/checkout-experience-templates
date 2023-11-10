@@ -1,4 +1,4 @@
-import {render} from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 
 import {ILifeFieldProps, ILifeFieldSelect} from 'src/types';
 import {ILifeField} from '@boldcommerce/checkout-frontend-library';
@@ -60,7 +60,10 @@ describe('testing life field select component', () => {
         };
         useLifeFieldSelectMock.mockReturnValue(hookReturn);
         const {container} = render(<LifeFieldSelect {...props}/>);
-        expect(container.getElementsByClassName('life-field-select').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-select').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-select-container').length).toBe(1);
+        const element: HTMLAnchorElement = screen.getByTestId('life-element-select-container-1');
+        expect(element.id).toBe('life-element-select-container-1');
     });
 
     test('Rendering life field select component with optional values', () => {
@@ -80,6 +83,9 @@ describe('testing life field select component', () => {
         };
         useLifeFieldSelectMock.mockReturnValue(optionalHookReturn);
         const {container} = render(<LifeFieldSelect {...optionalProps}/>);
-        expect(container.getElementsByClassName('life-field-select').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-select').length).toBe(1);
+        expect(container.getElementsByClassName('life-element-select-container').length).toBe(1);
+        const element: HTMLAnchorElement = screen.getByTestId('life-element-select-container-2');
+        expect(element.id).toBe('life-element-select-container-2');
     });
 });

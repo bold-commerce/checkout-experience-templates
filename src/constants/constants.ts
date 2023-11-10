@@ -59,6 +59,7 @@ export class Constants {
     static readonly THANK_YOU_ROUTE = 'thank_you';
     static readonly SESSION_EXPIRED_ROUTE = 'session_expired';
     static readonly BUY_NOW_ROUTE = 'buy_now';
+
     static readonly DEFAULT_TITLE = 'default title';
     static readonly ARIA_LIVE_POLITE = 'polite';
     static readonly ARIA_LIVE_ASSERTIVE = 'assertive';
@@ -67,6 +68,7 @@ export class Constants {
     static readonly CUSTOMER_INFO_BELOW = 'customer_info_below';
     static readonly CUSTOMER_INFO_ABOVE = 'customer_info_above';
     static readonly THREE_PAGE = 'three-page';
+    static readonly DATE_PICKER = 'date_picker';
 }
 
 export const errorTypes: IErrorTypes = {
@@ -121,6 +123,9 @@ export const errorSubTypes: IErrorSubTypes = {
     cart: 'cart',
     insufficient_stock: 'insufficient_stock',
     no_shipping_to_address: 'no_shipping_to_address',
+    shipping_address: 'shipping_address',
+    billing_address: 'billing_address',
+
 };
 
 export const errorShowType: IErrorShowType = {
@@ -146,6 +151,7 @@ export class autocompleteServices {
 export class debounceConstants {
     static debouncedGuestCustomerFunction: () => void;
     static DEFAULT_DEBOUNCE_TIME = 3000;
+    static SHORTER_DEBOUNCE_TIME = 1000;
     static DEBOUNCE_UI_UPDATE_TIME = 300;
 }
 
@@ -178,6 +184,7 @@ export class LifeInputTypeConstants {
     static HTML = 'html';
     static CHECKBOX = 'checkbox';
     static DROPDOWN = 'dropdown';
+    static DATEPICKER = 'datepicker';
 }
 
 export class LifeInputLocationConstants {
@@ -194,6 +201,7 @@ export class LifeInputLocationConstants {
     static MAIN_CONTENT_BEGINNING = 'main_content_beginning';
     static MAIN_CONTENT_END = 'main_content_end';
     static PAYMENT_METHOD_ABOVE = 'payment_method_above';
+    static PAYPAL_ADDITIONAL_INFORMATION = 'paypal_additional_information';
 }
 
 export class LifeInputPageConstants {
@@ -201,6 +209,36 @@ export class LifeInputPageConstants {
     static SHIPPING_THREE_PAGE = 'shipping_three_page';
     static PAYMENT_THREE_PAGE = 'payment_three_page';
     static ONE_PAGE = 'one_page';
+    static THANK_YOU_PAGE = 'thank_you_page';
+    static PAYPAL_ADDITIONAL_INFO_PAGE = 'paypal_additional_info_page';
+    static PAYPAL_PAYMENT_PAGE = 'paypal_payment_page';
+}
+
+export class LifeFieldErrorBackupTerms {
+    static IS_INVALID = 'is invalid.';
+    static IS_REQUIRED = 'is required.';
+}
+
+export class FieldDatePickerBackupTerms {
+    static DATE_PICKER_MONDAY = 'Mon';
+    static DATE_PICKER_TUESDAY = 'Tue';
+    static DATE_PICKER_WEDNESDAY = 'Wed';
+    static DATE_PICKER_THURSDAY = 'Thu';
+    static DATE_PICKER_FRIDAY = 'Fri';
+    static DATE_PICKER_SATURDAY = 'Sat';
+    static DATE_PICKER_SUNDAY = 'Sun';
+    static DATE_PICKER_JANUARY = 'January';
+    static DATE_PICKER_FEBRUARY = 'February';
+    static DATE_PICKER_MARCH = 'March';
+    static DATE_PICKER_APRIL = 'April';
+    static DATE_PICKER_MAY = 'May';
+    static DATE_PICKER_JUNE = 'June';
+    static DATE_PICKER_JULY = 'July';
+    static DATE_PICKER_AUGUST = 'August';
+    static DATE_PICKER_SEPTEMBER = 'September';
+    static DATE_PICKER_OCTOBER = 'October';
+    static DATE_PICKER_NOVEMBER = 'November';
+    static DATE_PICKER_DECEMBER = 'December';
 }
 
 export const MOBILE_SCREEN_WIDTH = 768;

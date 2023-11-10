@@ -5,19 +5,26 @@ import { metaInitPaymentClient, metaCheckAvailability, metaRenderButton } from '
 import { IMetaPay } from 'src/themes/flow-sdk/types';
 import { checkoutFlow } from 'src/themes/flow-sdk/flowState';
 import {FlowError} from "src/themes/flow-sdk/errors";
+import {getPublicOrderId} from "@boldcommerce/checkout-frontend-library";
 
-jest.mock('src/themes/flow-sdk/logger')
-jest.mock('src/themes/flow-sdk/meta/metaInitPaymentClient')
-jest.mock('src/themes/flow-sdk/meta/metaCheckAvailability')
-jest.mock('src/themes/flow-sdk/meta/metaRenderButton')
+jest.mock('src/themes/flow-sdk/logger');
+jest.mock('src/themes/flow-sdk/meta/metaInitPaymentClient');
+jest.mock('src/themes/flow-sdk/meta/metaCheckAvailability');
+jest.mock('src/themes/flow-sdk/meta/metaRenderButton');
+jest.mock('@boldcommerce/checkout-frontend-library/lib/auth/getPublicOrderId');
 
 const loggerMock = mocked(logger, true);
 const metaInitPaymentClientMock = mocked(metaInitPaymentClient, true);
 const metaCheckAvailabilityMock = mocked(metaCheckAvailability, true);
 const metaRenderButtonMock = mocked(metaRenderButton, true);
+const getPublicOrderIdMock = mocked(getPublicOrderId, true);
 const onActionMock = jest.fn();
 
 describe('metaOnLoadScript', () => {
+
+    beforeEach(() => {
+        getPublicOrderIdMock.mockReturnValue('test_public_order_id');
+    });
 
     it('should log error if window.metapay is not defined', async () => {
         window.metapay = undefined;
@@ -39,6 +46,7 @@ describe('metaOnLoadScript', () => {
 
         checkoutFlow.params.flowElementId = 'someId';
         checkoutFlow.params.onAction = onActionMock;
+        checkoutFlow.canCheckout = true;
 
         await expect(metaOnLoadScript()).resolves.toEqual(undefined);
 
@@ -57,6 +65,7 @@ describe('metaOnLoadScript', () => {
 
         checkoutFlow.params.flowElementId = "";
         checkoutFlow.params.onAction = onActionMock;
+        checkoutFlow.canCheckout = true;
 
         await expect(metaOnLoadScript()).resolves.toEqual(undefined);
 

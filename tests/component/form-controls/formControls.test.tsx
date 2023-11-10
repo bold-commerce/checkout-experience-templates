@@ -2,15 +2,17 @@ import {render} from '@testing-library/react';
 import {mocked} from 'jest-mock';
 
 import {FormControls} from 'src/components';
-import {useGetContactUs, useGetFooter} from 'src/hooks';
+import {useGetContactUs, useGetFooter, useGetOverlay} from 'src/hooks';
 import {IFormControlsProps, IUseContactUs, IUseFooter} from 'src/types';
 import {getTerm} from 'src/utils';
 
 jest.mock('src/hooks/useGetContactUs');
+jest.mock('src/hooks/useGetOverlay');
 jest.mock('src/hooks/useGetFooter');
 jest.mock('src/utils/getTerm');
 const useGetContactUsMock = mocked(useGetContactUs, true);
 const useGetFooterMock = mocked(useGetFooter, true);
+const useGetOverlayMock = mocked(useGetOverlay, true);
 const getTermMock = mocked(getTerm, true);
 
 describe('Testing FormControls component', () => {
@@ -38,6 +40,13 @@ describe('Testing FormControls component', () => {
         useGetContactUsMock.mockReturnValue(contactUsHookReturn);
         useGetFooterMock.mockReturnValue(footerRightsHookReturn);
         getTermMock.mockImplementation(term => term);
+        useGetOverlayMock.mockReturnValue({
+            shown: false,
+            inverted: false,
+            header: 'This is header issue',
+            subHeader: 'This is sub-header issue',
+            buttonText: 'back'
+        });
     });
 
     test('Rendering the component with backLink and contactUs false', () => {

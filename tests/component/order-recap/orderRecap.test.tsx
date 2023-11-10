@@ -17,8 +17,13 @@ const useGetDisplayPaymentMethodsMock = mocked(useGetDisplayPaymentMethods, true
 const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 
 describe('testing OrderRecap component', () => {
+    const customerDetails = [
+        initialDataMock.application_state.customer.email_address,
+        addressMock.phone_number,
+    ];
     const terms: Record<string, string> = {
         customerInfo: 'customer info',
+        customerDetails: 'customer details',
         shippingAddress: 'shipping address',
         billingAddress: 'billing address',
         shippingMethod: 'shipping method',
@@ -29,6 +34,7 @@ describe('testing OrderRecap component', () => {
         shippingAddress: addressMock,
         billingAddress: addressMock,
         shippingDescription: 'Test shipping description',
+        customerDetails,
         terms
     };
     const paymentMethodHookReturn = {
@@ -51,7 +57,7 @@ describe('testing OrderRecap component', () => {
             counters: {
                 order_recap__container: 1,
                 order_recap__title: 1,
-                order_recap__display_item: 4,
+                order_recap__display_item: 5,
                 order_recap__display_item__shipping_address: 1,
                 order_recap__display_item__billing_address: 1,
                 display_address_container: 2,
@@ -84,7 +90,7 @@ describe('testing OrderRecap component', () => {
             counters: {
                 order_recap__container: 1,
                 order_recap__title: 1,
-                order_recap__display_item: 2,
+                order_recap__display_item: 3,
                 order_recap__display_item__shipping_address: 1,
                 order_recap__display_item__billing_address: 0,
                 display_address_container: 1,

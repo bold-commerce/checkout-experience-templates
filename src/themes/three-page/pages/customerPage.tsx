@@ -25,12 +25,14 @@ import {
     useGetExternalPaymentGateways,
     useIsUserAuthenticated,
     useGetLifeFields,
-    useGetRequiresShipping
+    useGetRequiresShipping,
+    useGetLifeFieldsOnPage,
+    useOnLoadDefaultLifeFields
 } from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
 import {getTerm, withPreventDefault} from 'src/utils';
-import {Constants, LifeInputLocationConstants} from 'src/constants';
+import {Constants, LifeInputLocationConstants, LifeInputPageConstants} from 'src/constants';
 import {setDefaultAddresses} from 'src/library';
 import {useDispatch} from 'react-redux';
 
@@ -50,6 +52,7 @@ export function CustomerPage(): React.ReactElement {
     const requiresShipping = useGetRequiresShipping();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
+    useOnLoadDefaultLifeFields(useGetLifeFieldsOnPage(LifeInputPageConstants.CUSTOMER_THREE_PAGE));
 
     if (window.initialTimestamps) {
         useEffect(() => {
@@ -78,7 +81,7 @@ export function CustomerPage(): React.ReactElement {
             {mainContentBeginningLifeFields.length > 0 ? 
                 <div className={'outside-main-content-container'}>
                     <div className={'outside-main-content'}>
-                        <LifeFields lifeFields={mainContentBeginningLifeFields}/>
+                        <LifeFields className={'main-content-beginning-life-elements'} lifeFields={mainContentBeginningLifeFields}/>
                     </div>
                 </div> : null}
             <div className={'three-page'}>
@@ -106,11 +109,11 @@ export function CustomerPage(): React.ReactElement {
                             <FlashError/>
                             <ExpressPaymentGateway/>
                             <CustomerInformation/>
-                            <LifeFields lifeFields={customerInfoLifeFields}/>
+                            <LifeFields className={'customer-info-life-elements'} lifeFields={customerInfoLifeFields}/>
                             <ShippingAddress/>
-                            <LifeFields lifeFields={shippingLifeFields}/>
+                            <LifeFields className={'shipping-life-elements'} lifeFields={shippingLifeFields}/>
                             {requiresShipping ? <BillingAddress/> : null}
-                            <LifeFields lifeFields={billingAddressAfterLifeFields}/>
+                            <LifeFields className={'billing-address-after-life-elements'} lifeFields={billingAddressAfterLifeFields}/>
                             <FormControls
                                 backLinkOnClick={backLinkOnClick}
                                 backLinkText={backLinkText}
@@ -128,7 +131,7 @@ export function CustomerPage(): React.ReactElement {
             {mainContentEndLifeFields.length > 0 ?
                 <div className={'outside-main-content-container'}>
                     <div className={'outside-main-content'}>
-                        <LifeFields lifeFields={mainContentEndLifeFields}/>
+                        <LifeFields className={'main-content-end-life-elements'} lifeFields={mainContentEndLifeFields}/>
                     </div> 
                 </div> : null}
         </div>

@@ -13,7 +13,8 @@ import {
     getTaxes,
     IAddress,
     IShippingLine,
-    getFees
+    getFees,
+    sendExternalPaymentGatewayUpdateStateAction
 } from '@boldcommerce/checkout-frontend-library';
 import {feesMock} from '@boldcommerce/checkout-frontend-library/lib/variables/mocks';
 import {mocked} from 'jest-mock';
@@ -22,6 +23,7 @@ import {
     actionUpdateCustomer,
     actionUpdateDiscounts,
     actionOrderTotal,
+    actionOrderBalance,
     actionUpdateAvailableShippingLines,
     actionUpdateLineItem,
     actionUpdatePayments,
@@ -50,6 +52,7 @@ import {
     getLineItemsFromLib,
     getOrderMetaDataFromLib,
     getOrderTotalFromLib,
+    getOrderBalanceFromLib,
     getPaymentsFromLib,
     getShippingAddressFromLib,
     getShippingFromLib,
@@ -72,6 +75,7 @@ const actionUpdateCartParametersMock = mocked(actionUpdateCartParameters, true);
 const actionUpdateNotesMock = mocked(actionUpdateNotes, true);
 const actionUpdateTagsMock = mocked(actionUpdateTags, true);
 const actionOrderTotalMock = mocked(actionOrderTotal, true);
+const actionOrderBalanceMock = mocked(actionOrderBalance, true);
 const actionUpdateAvailableShippingLinesFuncMock = mocked(actionUpdateAvailableShippingLines, true);
 const actionUpdateLineItemMock = mocked(actionUpdateLineItem, true);
 const actionUpdatePaymentsMock = mocked(actionUpdatePayments, true);
@@ -125,13 +129,14 @@ describe('testing Update Application State Thunk Actions', () => {
     test('calling getApplicationStateFromLib', () => {
         getApplicationStateFromLib(dispatchMock);
 
-        expect(dispatchMock).toHaveBeenCalledTimes(7);
+        expect(dispatchMock).toHaveBeenCalledTimes(8);
         expect(dispatchMock).toHaveBeenCalledWith(getSummaryStateFromLib);
         expect(dispatchMock).toHaveBeenCalledWith(getCustomerFromLib);
         expect(dispatchMock).toHaveBeenCalledWith(getAddressesFromLib);
         expect(dispatchMock).toHaveBeenCalledWith(getShippingFromLib);
         expect(dispatchMock).toHaveBeenCalledWith(getLineItemsFromLib);
         expect(dispatchMock).toHaveBeenCalledWith(getPaymentsFromLib);
+        expect(dispatchMock).toHaveBeenCalledWith(getOrderBalanceFromLib);
     });
 
     test('calling getUpdatedApplicationState', () => {
@@ -141,6 +146,7 @@ describe('testing Update Application State Thunk Actions', () => {
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(baseReturnObject, dispatchMock, getStateMock);
             expect(dispatchMock).toHaveBeenCalledTimes(1);
             expect(dispatchMock).toHaveBeenCalledWith(getApplicationStateFromLib);
+            expect(sendExternalPaymentGatewayUpdateStateAction).toHaveBeenCalledTimes(1);
         });
     });
 
@@ -273,6 +279,22 @@ describe('testing Update Application State Thunk Actions', () => {
         expect(getApplicationStateMock).toHaveBeenCalledTimes(1);
         expect(actionOrderTotalMock).toHaveBeenCalledTimes(1);
         expect(actionOrderTotalMock).toHaveBeenCalledWith(application_state.order_total);
+        expect(dispatchMock).toHaveBeenCalledTimes(1);
+        expect(dispatchMock).toHaveBeenCalledWith(actionMock);
+    });
+
+    test('calling getOrderBalanceFromLib', () => {
+        const actionMock = {
+            type: AppActions.UPDATE_ORDER_BALANCE,
+            payload: {data: application_state.order_balance}
+        };
+        actionOrderBalanceMock.mockReturnValueOnce(actionMock);
+
+        getOrderBalanceFromLib(dispatchMock);
+
+        expect(getApplicationStateMock).toHaveBeenCalledTimes(1);
+        expect(actionOrderBalanceMock).toHaveBeenCalledTimes(1);
+        expect(actionOrderBalanceMock).toHaveBeenCalledWith(application_state.order_balance);
         expect(dispatchMock).toHaveBeenCalledTimes(1);
         expect(dispatchMock).toHaveBeenCalledWith(actionMock);
     });
@@ -472,16 +494,17 @@ describe('testing Update Application State Thunk Actions', () => {
         getShippingAddressFromLib(dispatchMock, getStateMock);
 
         expect(getShippingAddressMock).toHaveBeenCalledTimes(1);
-        expect(actionUpdateAddressMock).toHaveBeenCalledTimes(0);
-        expect(dispatchMock).toHaveBeenCalledTimes(0);
+        expect(actionUpdateAddressMock).toHaveBeenCalledTimes(1);
+        expect(dispatchMock).toHaveBeenCalledTimes(1);
     });
 
     test('calling getSummaryStateFromLib', () => {
         getSummaryStateFromLib(dispatchMock);
 
-        expect(dispatchMock).toHaveBeenCalledTimes(6);
+        expect(dispatchMock).toHaveBeenCalledTimes(7);
         expect(dispatchMock).toHaveBeenCalledWith(getLineItemsFromLib);
         expect(dispatchMock).toHaveBeenCalledWith(getOrderTotalFromLib);
+        expect(dispatchMock).toHaveBeenCalledWith(getOrderBalanceFromLib);
         expect(dispatchMock).toHaveBeenCalledWith(getOrderMetaDataFromLib);
         expect(dispatchMock).toHaveBeenCalledWith(getDiscountsFromLib);
         expect(dispatchMock).toHaveBeenCalledWith(getTaxesFromLib);

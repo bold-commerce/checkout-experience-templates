@@ -1,7 +1,8 @@
 import {
+    deleteAddress,
     displayOrderProcessingScreen,
     getApplicationStateFromLib,
-    initializeExpressPay
+    initializeExpressPay, setDefaultAddresses
 } from 'src/library';
 import {actionTypes, initialize} from '@boldcommerce/checkout-express-pay-library';
 import {mocked} from 'jest-mock';
@@ -15,11 +16,18 @@ import {stateMock} from 'src/mocks';
 jest.mock('@boldcommerce/checkout-express-pay-library');
 jest.mock('src/library/applicationState');
 jest.mock('src/library/displayOrderProcessingScreen');
+jest.mock('src/library/setDefaultAddresses');
 jest.mock('src/utils/getErrorTerm');
+jest.mock('src/library/deleteAddress');
+jest.mock('src/library/generateTaxes');
+
 const initializeExpressPayMock = mocked(initialize, true);
 const getApplicationStateFromLibMock = mocked(getApplicationStateFromLib, true);
 const displayOrderProcessingScreenMock = mocked(displayOrderProcessingScreen, true);
+const setDefaultAddressesMock = mocked(setDefaultAddresses, true);
 const getErrorTermMock = mocked(getErrorTerm, true);
+const deleteAddressMock = mocked(deleteAddress, true);
+const deleteAddressReturnedFunctionMock = jest.fn();
 
 describe('testing initializeExpressPay', () => {
     const dispatchMock = jest.fn();
@@ -30,6 +38,7 @@ describe('testing initializeExpressPay', () => {
         jest.resetAllMocks();
         getStateMock.mockReturnValue(stateMock);
         getErrorTermMock.mockReturnValue('Test message');
+        deleteAddressMock.mockReturnValue(deleteAddressReturnedFunctionMock);
     });
 
     test('testing ENABLE_DISABLE_SECTION action', async () => {
@@ -40,9 +49,20 @@ describe('testing initializeExpressPay', () => {
         const expressPay = await initializeExpressPay(historyMock);
         return expressPay(dispatchMock, getStateMock).then(() => {
             expect(initializeExpressPayMock).toBeCalled();
-            expect(dispatchMock).toHaveBeenCalledTimes(2);
+            expect(dispatchMock).toHaveBeenCalledTimes(3);
             expect(dispatchMock).toHaveBeenCalledWith(getApplicationStateFromLibMock);
+            expect(dispatchMock).toHaveBeenCalledWith(setDefaultAddressesMock);
             expect(dispatchMock).toHaveBeenCalledWith(expectedAction);
+        });
+    });
+
+    test('testing REFRESH_ORDER action', async () => {
+        initializeExpressPayMock.mockImplementation(({onAction})=> {
+            onAction(actionTypes.REFRESH_ORDER);
+        });
+        const expressPay = await initializeExpressPay(historyMock);
+        return expressPay(dispatchMock, getStateMock).then(() => {
+            expect(initializeExpressPayMock).toBeCalled();
         });
     });
 
@@ -86,7 +106,7 @@ describe('testing initializeExpressPay', () => {
         const expressPay = await initializeExpressPay(historyMock);
         return expressPay(dispatchMock, getStateMock).then(() => {
             expect(initializeExpressPayMock).toBeCalled();
-            expect(dispatchMock).toHaveBeenCalledTimes(2);
+            expect(dispatchMock).toHaveBeenCalledTimes(3);
             expect(dispatchMock).toHaveBeenCalledWith(getApplicationStateFromLibMock);
             expect(dispatchMock).toHaveBeenCalledWith(expectedAction);
         });
@@ -101,7 +121,7 @@ describe('testing initializeExpressPay', () => {
         const expressPay = await initializeExpressPay(historyMock);
         return expressPay(dispatchMock, getStateMock).then(() => {
             expect(initializeExpressPayMock).toBeCalled();
-            expect(dispatchMock).toHaveBeenCalledTimes(2);
+            expect(dispatchMock).toHaveBeenCalledTimes(3);
             expect(dispatchMock).toHaveBeenCalledWith(getApplicationStateFromLibMock);
             expect(dispatchMock).toHaveBeenCalledWith(expectedAction);
         });

@@ -4,9 +4,12 @@ import {Constants, LifeInputPageConstants} from 'src/constants';
 import {
     useGetAppSettingData,
     useGetButtonDisableVariable,
+    useGetCurrencyInformation,
     useGetIsLoading,
     useGetIsOrderProcessed,
-    useGetLifeFieldsOnPage
+    useGetLifeFieldsOnPage,
+    useGetLineItems,
+    useGetSelectShippingLine
 } from 'src/hooks';
 import {callShippingLinesPageApi, validateLifeFields} from 'src/library';
 import {IUseCustomerPageProp} from 'src/types';
@@ -37,13 +40,17 @@ export function useShippingPage(): IUseCustomerPageProp{
     const nextButtonText = getTerm('footer_shipping_continue', Constants.SHIPPING_METHOD_INFO);
     const active = 2;
 
+    const {currency} = useGetCurrencyInformation();
+    const items = useGetLineItems();
+    const {description: shipping_tier, amount: value} = useGetSelectShippingLine();
     const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.SHIPPING_THREE_PAGE);
     const nextButtonOnClick = useCallback(() => {
         sendEvents('Clicked continue to payment button', {'category': 'Checkout'});
+        sendEvents('add_shipping_info', {currency, value, shipping_tier, items});
         dispatch(actionClearErrors());
         dispatch(callShippingLinesPageApi(history));
         dispatch(validateLifeFields(requiredLifeFields));
-    } , []);
+    } , [currency, value, shipping_tier, items]);
 
     return {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonDisable, nextButtonText, active, nextButtonLoading, language, title};
 }

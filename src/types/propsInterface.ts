@@ -1,5 +1,5 @@
 import React from 'react';
-import {IError, IErrorShowType, IFieldNamesSummary, IPaymentsSummaryClasses, ISelectList} from 'src/types';
+import {IError, IErrorShowType, IFieldNamesSummary, IPaymentsSummaryClasses, ISelectList, IBreadcrumb} from 'src/types';
 import {
     IAddress,
     IDiscount,
@@ -45,6 +45,8 @@ export interface IFieldInputProps {
     autoFocus?: boolean;
     id?: string;
     name?: string;
+    prefix?: React.ReactNode;
+    readonly?: boolean;
     dataTestId?: string;
     errorMessage?: string | null;
     handleChange?: (e) => void;
@@ -55,6 +57,7 @@ export interface IFieldInputProps {
 export interface IFieldCheckboxProps {
     value: string;
     label?: string;
+    id?: string;
     helpText?: string;
     checked? : boolean;
     className?: string;
@@ -264,6 +267,8 @@ export interface ISavedAddressHookProps{
 
 export interface IBreadcrumbsProps {
     active: number;
+    sectionLabel?: string
+    crumbs?: Array<IBreadcrumb>    
 }
 
 export interface IFormControlsProps {
@@ -454,6 +459,7 @@ export interface IUseGetOrderRecap {
     shippingAddress: IAddress;
     billingAddress: IAddress;
     shippingDescription: string;
+    customerDetails: Array<string>;
     terms: Record<string, string>;
 }
 
@@ -622,7 +628,15 @@ export interface ILifeFieldInput {
     label: string;
     placeHolder: string;
     id: string;
+    errorMessage?: string | null;
+    handleChange: (e) => void;
+}
 
+export interface ILifeFieldDatePicker {
+    date: string | null;
+    placeHolder: string;
+    id: string;
+    value: string;
     errorMessage?: string | null;
     handleChange: (e) => void;
 }
@@ -633,6 +647,7 @@ export interface ILifeFieldCheckbox {
     label: string;
     helpText: string;
     id: string;
+    errorMessage?: string | null;
     handleChange: (e) => void;
 }
 
@@ -685,5 +700,18 @@ export interface IFieldTextareaProps {
     onChange?: React.ChangeEventHandler<HTMLTextAreaElement>,
     onKeyUp?: React.KeyboardEventHandler<HTMLTextAreaElement>,
     onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>,
+}
+
+export interface IFieldDatePickerProps {
+    placeholder: string;
+    className: string;
+    date: string | null;
+    value: string;
+    id: string;
+    name?: string;
+    prefix?: React.ReactNode;
+    dataTestId?: string;
+    errorMessage?: string | null;
+    handleChange: (e) => void;
 }
 
