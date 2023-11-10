@@ -1,6 +1,18 @@
-import {displayOrderProcessingScreen, getApplicationStateFromLib, processOrder, setDefaultAddresses} from 'src/library';
+import {
+    deleteAddress,
+    displayOrderProcessingScreen,
+    generateTaxes,
+    getApplicationStateFromLib,
+    getUpdatedApplicationState,
+    processOrder,
+    setDefaultAddresses,
+} from 'src/library';
 import {actionTypes, IOnAction} from '@boldcommerce/checkout-express-pay-library';
-import {actionAddError, actionSetAppStateValid, actionSetExpressPaymentSectionEnabled} from 'src/action';
+import {
+    actionAddError,
+    actionSetAppStateValid,
+    actionSetExpressPaymentSectionEnabled,
+} from 'src/action';
 import {getCheckoutUrl} from 'src/utils/getCheckoutUrl';
 import {Constants} from 'src/constants';
 import {getErrorTerm} from 'src/utils/getErrorTerm';
@@ -19,9 +31,19 @@ export function getExpressPayActions(dispatch: Dispatch, getState: () => IOrderI
     if (language) {
         languageBlob = getLanguageBlob(language, Constants.LANGUAGE_BLOB_TYPE) as Array<Array<string>>;
     }
+    const resetOrder = async () => {
+        await dispatch(deleteAddress(Constants.SHIPPING));
+        await dispatch(deleteAddress(Constants.BILLING));
+        await dispatch(generateTaxes);
+        await dispatch(getUpdatedApplicationState);
+    };
+
     const handleExpressPayActions = async (type, payload) => {
         await dispatch(getApplicationStateFromLib);
         switch (type) {
+            case actionTypes.REFRESH_ORDER:
+                await resetOrder();
+                break;
             case actionTypes.ENABLE_DISABLE_SECTION:
                 dispatch(actionSetExpressPaymentSectionEnabled(payload['show']));
                 await dispatch(setDefaultAddresses);
@@ -42,6 +64,7 @@ export function getExpressPayActions(dispatch: Dispatch, getState: () => IOrderI
                     field: '', message: errorMessage, severity: '', sub_type: '', type: ''
                 };
                 dispatch(actionAddError(error));
+                await resetOrder();
                 break;
             }
             default:
