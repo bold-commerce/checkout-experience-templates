@@ -4,8 +4,6 @@ import {FieldInput} from 'src/components';
 import TinyDatePicker from 'tiny-date-picker';
 import 'tiny-date-picker/tiny-date-picker.css';
 import {useGetAppSettingData, useGetDatePickerLanguage} from 'src/hooks';
-import {Calendar} from '@bold-commerce/bevy-react-icons';
-import {Icon} from '@bold-commerce/bevy-react';
 
 export function FieldDatePicker(props: IFieldDatePickerProps): React.ReactElement {
 
@@ -50,7 +48,7 @@ export function FieldDatePicker(props: IFieldDatePickerProps): React.ReactElemen
                 data-testid={`${props.id}-date-picker-input`}
                 errorMessage={props.errorMessage}
                 readonly={true}
-                prefix={<Icon source={Calendar} title='Calendar' aria-label='calendar' size='18' color='#1A1A1A'/>}
+                prefix={<span className='date-picker-icon'></span>}
             />
         </div>
     );
