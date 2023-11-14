@@ -13,7 +13,7 @@ import {Constants, debounceConstants} from 'src/constants';
 import {useDispatch} from 'react-redux';
 import {actionSetDefaultCustomerAcceptMarketing, actionUpdateBillingTypeInSettings} from 'src/action';
 import {BrowserRouter, Route} from 'react-router-dom';
-import {Switch, useHistory} from 'react-router';
+import {Redirect, Switch, useHistory} from 'react-router';
 import {ThemePage} from 'src/themes/one-page/pages';
 import {SessionExpiredPage, OutOfStockPage, ThankYouPage} from 'src/pages';
 import {getDefaultBillingType, setHook} from 'src/utils';
@@ -41,6 +41,7 @@ function Theme () : React.ReactElement {
                     <Route path={`*/${Constants.THANK_YOU_ROUTE}`} component={ThankYouPage} />
                     <Route path={`*/${Constants.SESSION_EXPIRED_ROUTE}`} component={SessionExpiredPage} />
                     <Route path={`*/${Constants.EXPERIENCE_ROUTE}`} component={ThemePage} />
+                    <Redirect to={`/${Constants.EXPERIENCE_ROUTE}`} />
                 </Switch>
                 <StandaloneHooks/>
             </BrowserRouter>
