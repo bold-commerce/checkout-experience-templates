@@ -68,8 +68,9 @@ export const metaOnPaymentDetailsChanged = async (event: IMetaPaymentDetailsChan
         if (offers && Array.isArray(offers)) {
             const discounts = getDiscounts();
             for (const discount of discounts) {
+                const isCartDiscount = discount.source === 'cart';
                 const existentOffer = offers.find(o => o.code === discount.code);
-                if (!existentOffer) {
+                if (!existentOffer && !isCartDiscount) {
                     const deleteDiscountResponse = await deleteDiscount(discount.code, API_RETRY);
                     if (!deleteDiscountResponse.success) {
                         if (paymentDetailsUpdate.errors === undefined) {
@@ -81,12 +82,16 @@ export const metaOnPaymentDetailsChanged = async (event: IMetaPaymentDetailsChan
             }
 
             for (const offer of offers) {
-                const addDiscountResponse = await addDiscount(offer.code, API_RETRY);
-                if (!addDiscountResponse.success) {
-                    if (paymentDetailsUpdate.errors === undefined) {
-                        paymentDetailsUpdate.errors = [];
+                const discounts = getDiscounts();
+                const existentDiscount = discounts.find(d => d.code === offer.code);
+                if (!existentDiscount) {
+                    const addDiscountResponse = await addDiscount(offer.code, API_RETRY);
+                    if (!addDiscountResponse.success) {
+                        if (paymentDetailsUpdate.errors === undefined) {
+                            paymentDetailsUpdate.errors = [];
+                        }
+                        paymentDetailsUpdate.errors.push(getErrorFromResponse(addDiscountResponse, META_OFFER_DATA_ERROR));
                     }
-                    paymentDetailsUpdate.errors.push(getErrorFromResponse(addDiscountResponse, META_OFFER_DATA_ERROR));
                 }
             }
         }
