@@ -22,6 +22,7 @@ declare global {
         storeLoadTimesLocally: boolean,
         bugsnagApiKey: string,
         enableConsole: boolean,
+        fbq?: IFbq,
     }
 }
 
@@ -58,4 +59,21 @@ export interface ICondensedShipping {
     name: string;
     addressLine: string;
     phone: string
+}
+
+export interface IFbq {
+    (event: string, eventName: string, params?: Record<string, unknown>): void;
+    (event: string, dataProcessingOptions: Array<string>, dataProcessingOptionsCountry?: number, dataProcessingOptionsState?: number): void;
+    getState: () => IFbqState;
+}
+
+export interface IFbqState {
+    pixelInitializationTime: number;
+    pixels: Array<IFbqPixel>;
+}
+
+export interface IFbqPixel {
+    agent: unknown;
+    eventCount: number;
+    id: string;
 }

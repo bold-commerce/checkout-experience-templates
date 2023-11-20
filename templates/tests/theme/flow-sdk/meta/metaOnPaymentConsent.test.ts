@@ -12,6 +12,7 @@ import {
     getCurrency,
     getOrderInitialData,
     getShippingAddress,
+    patchOrderMetaData,
     processOrder,
 } from '@boldcommerce/checkout-frontend-library';
 import {MetaPaymentDetailsMock} from 'src/themes/flow-sdk/mocks/paymentMocks';
@@ -55,6 +56,9 @@ const processOrderMock = mocked(processOrder, true);
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/payment/addPayment');
 const addPaymentMock = mocked(addPayment, true);
+
+jest.mock('@boldcommerce/checkout-frontend-library/lib/orderMetaData/patchOrderMetaData');
+const patchOrderMetaDataMock = mocked(patchOrderMetaData, true);
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/log/addLog');
 
@@ -105,6 +109,7 @@ describe('metaOnPaymentConsent', () => {
         batchRequestMock.mockReturnValue(Promise.resolve(baseReturnObject));
         addPaymentMock.mockReturnValue(Promise.resolve(baseReturnObject));
         processOrderMock.mockReturnValue(Promise.resolve(baseReturnObject));
+        patchOrderMetaDataMock.mockReturnValue(Promise.resolve(baseReturnObject));
         fetchMock.mockReturnValue(Promise.resolve(
             new Response(JSON.stringify({ data: { token: "test" } }), {
             status: 200,
