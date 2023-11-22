@@ -29,6 +29,7 @@ import {
     apiTypes,
     batchRequest,
     getCurrency,
+    getPublicOrderId,
     IAddPaymentRequest,
     IApiBatchResponse,
     IApiSubrequestErrorsResponse,
@@ -44,6 +45,7 @@ import {getErrorTermFromLibState, hasAbortErrorOnResponse} from 'src/utils';
 import {getErrorWithField} from 'src/themes/flow-sdk/flow-utils/getErrorWithField';
 import {addOnGoingRequest, removeOnGoingRequest} from 'src/themes/flow-sdk/manageFlowState';
 import {getTimerLog} from 'src/themes/flow-sdk/meta/getTimerLog';
+import {formatCurrency, formatItems} from 'src/analytics';
 
 export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Promise<IMetaPaymentAuthorizationResult> => {
     const startTime = Math.floor(Date.now() / 1000);
@@ -195,8 +197,9 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
     const processOrderInnerResponse = processOrderResponse.response as IApiSuccessResponse;
     const processOrderDataResponse = processOrderInnerResponse.data as IProcessOrderResponse;
     if (processOrderDataResponse.application_state?.is_processed) {
+        const {application_state: appState} = processOrderDataResponse;
+        const {totalTaxes} = getTotals();
         if (window.fbq && typeof window.fbq === 'function') {
-            const {application_state: appState} = processOrderDataResponse;
             window.fbq('track', 'Purchase', {
                 value: (appState.order_total / 100),
                 currency: currencyCode,
@@ -205,6 +208,21 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
                     quantity: item.product_data.quantity
                 })),
                 content_type: 'product',
+            });
+        }
+        if(window.dataLayer && window.dataLayer.push) {
+            window.dataLayer.push({ecommerce: null});
+            window.dataLayer.push({
+                event: 'Purchase',
+                ecommerce: {
+                    currency: currencyCode,
+                    transaction_id: getPublicOrderId(),
+                    value: formatCurrency(appState.order_total),
+                    shipping: formatCurrency(appState.shipping.selected_shipping.amount),
+                    tax: formatCurrency(totalTaxes),
+                    coupon: appState.discounts.map(d => d.code).join(' '),
+                    items: formatItems(appState?.line_items),
+                },
             });
         }
 
