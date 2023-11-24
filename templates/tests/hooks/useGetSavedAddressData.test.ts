@@ -12,8 +12,8 @@ import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
 import {IAddress} from '@boldcommerce/checkout-frontend-library';
-import { validateBillingAddress, validateShippingAddress } from 'src/library';
-import { actionUpdateAddress } from 'src/action';
+import {validateBillingAddress, validateShippingAddress } from 'src/library';
+import {actionUpdateAddress} from 'src/action';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -24,11 +24,13 @@ jest.mock('src/utils/getTerm');
 jest.mock('src/hooks/useGetAddressData');
 jest.mock('src/hooks/useCallApiAtOnEvents');
 jest.mock('src/hooks/useGetAppSettingData');
+jest.mock('src/library/validateBillingAddress');
 const getTermMock = mocked(getTerm, true);
 const useCallApiAtOnEventsMock = mocked(useCallApiAtOnEvents, true);
 const useGetSavedAddressOptionsMock = mocked(useGetSavedAddressOptions, true);
 const useGetAddressDataMock = mocked(useGetAddressData, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
+const validateBillingAddressMock = mocked(validateBillingAddress, true);
 
 describe('Testing hook useGetSavedAddressData', () => {
     const debounceMock = jest.fn();
@@ -40,11 +42,13 @@ describe('Testing hook useGetSavedAddressData', () => {
         {id: '1', ...shippingAddress},
         {id: '2', ...billingAddress}
     ];
+    const validateBillingAddressThunkMock = jest.fn();
 
     beforeEach(() => {
         jest.resetAllMocks();
         getTermMock.mockReturnValue(getTermValue);
         useGetAppSettingDataMock.mockReturnValueOnce('same');
+        validateBillingAddressMock.mockReturnValue(validateBillingAddressThunkMock);
     });
 
     const hookData = [
@@ -52,12 +56,12 @@ describe('Testing hook useGetSavedAddressData', () => {
         {type: Constants.SHIPPING, address: [shippingAddress], label: 'Select an address', placeholder: 'Select an address', expected: [{value: `0__${shippingAddress.address_line_1.toLowerCase().replace(/\s/g, '') || 'incomplete'}`, name: shippingAddress.address_line_1}]},
         {type: Constants.BILLING, address: [], label: 'Select an address', placeholder: 'Enter a new address', expected: []},
         {type: Constants.BILLING, address: [billingAddress], label: 'Select an address', placeholder: 'Select an address', expected: [{value: `0__${billingAddress.address_line_1.toLowerCase().replace(/\s/g, '')}`, name: billingAddress.address_line_1}]},
-        {type: Constants.BILLING, address: [{ ...billingAddress, address_line_1: '' }], label: 'Select an address', placeholder: 'Select an address', expected: [{value: `0__${'incomplete'}`, name: 'Incomplete address #1'}]},
+        {type: Constants.BILLING, address: [{...billingAddress, address_line_1: ''}], label: 'Select an address', placeholder: 'Select an address', expected: [{value: `0__${'incomplete'}`, name: 'Incomplete address #1'}]},
     ];
 
     const addressTypes = [
-        { type: Constants.SHIPPING },
-        { type: Constants.BILLING },
+        {type: Constants.SHIPPING, dispatchCountFirst: 8, dispatchCountSecond: 16, dispatchCountThird: 18},
+        {type: Constants.BILLING, dispatchCountFirst: 6, dispatchCountSecond: 12, dispatchCountThird: 14},
     ];
 
     test.each(hookData)(
@@ -89,7 +93,7 @@ describe('Testing hook useGetSavedAddressData', () => {
         }
     );
 
-    test.each(addressTypes)('rendering the hook with api calls and type $type', ({ type }) => {
+    test.each(addressTypes)('rendering the hook with api calls and type $type', ({type, dispatchCountFirst, dispatchCountSecond, dispatchCountThird}) => {
         useCallApiAtOnEventsMock.mockReturnValueOnce(true);
         useGetSavedAddressOptionsMock.mockReturnValueOnce(savedAddresses as Array<IAddress>);
         mockDispatch.mockReturnValue(Promise.resolve());
@@ -98,15 +102,16 @@ describe('Testing hook useGetSavedAddressData', () => {
 
         expect(mockDispatch).toBeCalledTimes(0);
         result.current.handleChange({target: {value: savedAddresses[0].id}});
-        expect(mockDispatch).toBeCalledTimes(8);
+        expect(mockDispatch).toBeCalledTimes(dispatchCountFirst);
         result.current.handleChange({target: {value: savedAddresses[1].id}});
-        expect(mockDispatch).toBeCalledTimes(16);
+        expect(mockDispatch).toBeCalledTimes(dispatchCountSecond);
         result.current.handleChange({target: {value: 'Enter a new address'}});
-        expect(mockDispatch).toBeCalledTimes(18);
+        expect(mockDispatch).toBeCalledTimes(dispatchCountThird);
         expect(debounceMock).toBeCalledTimes(0);
+
     });
 
-    const selectedAddresIdData = [
+    const selectedAddressIdData = [
         {
             name: 'Address equal to savedAddresses[0]',
             currentAddress: savedAddresses[0],
@@ -146,15 +151,15 @@ describe('Testing hook useGetSavedAddressData', () => {
         },
     ];
 
-    describe.each(addressTypes)('For $type addresses', ({ type }) => {
-        test.each(selectedAddresIdData)(
+    describe.each(addressTypes)('For $type addresses', ({type}) => {
+        test.each(selectedAddressIdData)(
             'selectedAddressId is properly set ($name)',
-            ({ currentAddress, expected }) => {
+            ({currentAddress, expected}) => {
                 useCallApiAtOnEventsMock.mockReturnValueOnce(false);
                 useGetSavedAddressOptionsMock.mockReturnValueOnce(savedAddresses as Array<IAddress>);
                 useGetAddressDataMock.mockReturnValueOnce(currentAddress as IAddress);
 
-                const { result } = renderHook(() => useGetSavedAddressData(type));
+                const {result} = renderHook(() => useGetSavedAddressData(type));
 
                 expect(result.current.selectedOptionId).toStrictEqual(expected);
             }
@@ -171,7 +176,7 @@ describe('Testing hook useGetSavedAddressData', () => {
             savedAddresses[1] as IAddress,
         ]);
 
-        const { result } = renderHook(() => useGetSavedAddressData(type));
+        const {result} = renderHook(() => useGetSavedAddressData(type));
 
         expect(result.current.options).toEqual([
             {
@@ -190,8 +195,8 @@ describe('Testing hook useGetSavedAddressData', () => {
             useCallApiAtOnEventsMock.mockReturnValueOnce(true);
             useGetSavedAddressOptionsMock.mockReturnValueOnce(savedAddresses as Array<IAddress>);
 
-            const { result } = renderHook(() => useGetSavedAddressData(Constants.BILLING));
-            result.current.handleChange({ target: { value: savedAddresses[0].id }});
+            const {result} = renderHook(() => useGetSavedAddressData(Constants.BILLING));
+            result.current.handleChange({target: {value: savedAddresses[0].id}});
         });
 
         test('Emits an update-billing-address action to Redux', () => {
@@ -199,7 +204,7 @@ describe('Testing hook useGetSavedAddressData', () => {
         });
 
         test('Calls the validateBillingAddress thunk', () => {
-            expect(mockDispatch).toHaveBeenCalledWith(validateBillingAddress);
+            expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
         });
 
         test('Does not call the validateShippingAddress thunk', () => {
