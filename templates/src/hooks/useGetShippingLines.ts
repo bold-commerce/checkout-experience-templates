@@ -18,7 +18,7 @@ export function useGetShippingLines(): IUseGetShippingLines {
     const requiresShipping = useGetRequiresShipping();
 
     useEffect(() => {
-        if(isValidAddress && updatedAddress){
+        if (isValidAddress && updatedAddress) {
             dispatch(actionSetButtonDisable('shippingPageButton', true));
             if (requiresShipping) {
                 dispatch(shippingLines(updatedAddress)).then(() => {
@@ -31,6 +31,8 @@ export function useGetShippingLines(): IUseGetShippingLines {
                     dispatch(actionSetLoader('shippingLines', false));
                 });
             }
+        } else {
+            dispatch(actionSetLoader('shippingLines', false));
         }
     }, [isValidAddress, updatedAddress]);
 

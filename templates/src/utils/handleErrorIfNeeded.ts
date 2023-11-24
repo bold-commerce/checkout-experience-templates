@@ -75,7 +75,7 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
                 const errors = retrieveErrorFromResponse(response);
                 if (errors && Array.isArray(errors)) {
                     errors.forEach(e => {
-                        const error: IError = Object.assign(e , {address_type: addressType});
+                        const error: IError = Object.assign(e , {address_type: addressType || e.address_type || ''});
                         dispatch(actionAddError(error));
                     });
                 }
