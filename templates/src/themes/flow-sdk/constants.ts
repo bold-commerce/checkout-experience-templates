@@ -1,4 +1,5 @@
 import {IFlowType, IMetaPaymentAuthorizationResult, IMetaPaymentDataError, IMetaPaymentDataErrorField} from 'src/themes/flow-sdk/types';
+import {IPatchOrderMetaDataRequest} from '@boldcommerce/checkout-frontend-library';
 
 export const flowType: IFlowType = {
     META: 'meta',
@@ -42,4 +43,11 @@ export const MetaFields: {[key: string]: IMetaPaymentDataErrorField} = {
     city: 'city',
     customer: 'recipient',
     business_name: 'organization',
+};
+
+export const baseMetadataRequest: IPatchOrderMetaDataRequest = {
+    cart_parameters: null,
+    note_attributes: null,
+    notes: null,
+    tags: null
 };

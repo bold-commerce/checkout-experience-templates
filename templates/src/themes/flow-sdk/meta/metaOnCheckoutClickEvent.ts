@@ -1,13 +1,15 @@
 import {getMetaPaymentClient, metaBuildPaymentRequest, metaOnResponse} from 'src/themes/flow-sdk/meta';
 import {logger} from 'src/themes/flow-sdk/logger';
-import {addLog} from '@boldcommerce/checkout-frontend-library';
+import {addLog, patchOrderMetaData} from '@boldcommerce/checkout-frontend-library';
 import {checkoutFlow} from 'src/themes/flow-sdk/flowState';
 import {FlowError} from 'src/themes/flow-sdk/errors';
+import {baseMetadataRequest} from 'src/themes/flow-sdk/constants';
 
 export const metaOnCheckoutClickEvent = async (): Promise<void> => {
     const paymentClient = getMetaPaymentClient();
     const paymentRequest = metaBuildPaymentRequest();
 
+    await patchOrderMetaData({...baseMetadataRequest, tags: ['checkout_button_clicked']});
     if (paymentRequest?.paymentConfiguration?.requestId && paymentRequest?.paymentConfiguration?.containerContext) {
         await metaOnResponse(paymentClient.getPaymentResponse(paymentRequest));
     } else {

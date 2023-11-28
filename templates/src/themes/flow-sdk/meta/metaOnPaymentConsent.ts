@@ -16,6 +16,7 @@ import {
     META_SHIPPING_DATA_ERROR,
     META_BILLING_DATA_ERROR,
     META_GENERIC_DATA_ERROR,
+    baseMetadataRequest,
 } from 'src/themes/flow-sdk/constants';
 import {
     getFirstAndLastName,
@@ -35,6 +36,7 @@ import {
     IApiSubrequestErrorsResponse,
     IApiSuccessResponse,
     IBatchableRequest,
+    patchOrderMetaData,
     processOrder,
 } from '@boldcommerce/checkout-frontend-library';
 import {API_RETRY} from 'src/constants';
@@ -51,6 +53,7 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
     const startTime = Math.floor(Date.now() / 1000);
     addOnGoingRequest('onPaymentConsent');
     addLog(`META_CHECKOUT onPaymentConsent Initialized - startTime: ${startTime.toFixed(3)}s`, 'meta_payment_consent_triggered');
+    await patchOrderMetaData({...baseMetadataRequest, tags: ['pay_button_clicked']});
     const paymentDataError = {...META_PAYMENT_DATA_ERROR, message: getErrorTermFromLibState('payment_gateway', 'unknown_error')};
     const paymentMetaError = {...META_AUTHORIZATION_PAYMENT_ERROR, error: paymentDataError};
 
@@ -228,6 +231,7 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
 
         if (checkoutFlow.params.onAction && typeof checkoutFlow.params.onAction === 'function') {
             checkoutFlow.params.onAction('FLOW_ORDER_COMPLETED', processOrderDataResponse);
+            await patchOrderMetaData({...baseMetadataRequest, tags: ['confirmation_page_loaded']});
         }
     } else {
         removeOnGoingRequest('onPaymentConsent');

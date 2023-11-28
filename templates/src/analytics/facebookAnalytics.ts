@@ -11,8 +11,8 @@ export function sendFacebookEvent(event: string, data = {}): void {
         return;
     }
 
-    window['fbq']('dataProcessingOptions', ['LDU'], 0, 0);
-    window['fbq'](getTrackType(event), event, data);
+    window['fbq'] && window['fbq']('dataProcessingOptions', ['LDU'], 0, 0);
+    window['fbq'] && window['fbq'](getTrackType(event), event, data);
 }
 
 export function initiateCheckoutForFacebookPixel(): void {
