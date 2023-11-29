@@ -13,6 +13,7 @@ import {
 } from 'src/hooks';
 import {IUseContactUs, IUseFooter, IUseScreenBreakpoints} from 'src/types';
 import {getErrorTerm, getTerm} from 'src/utils';
+import {useDispatch} from 'react-redux';
 
 jest.mock('src/hooks/useGetContactUs');
 jest.mock('src/hooks/useGetFooter');
@@ -23,6 +24,8 @@ jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/utils/getTerm');
 jest.mock('src/utils/getErrorTerm');
 jest.mock('src/hooks/useGetOverlay');
+jest.mock('react-redux');
+const useDispatchMock = mocked(useDispatch, true);
 const getTermMock = mocked(getTerm, true);
 const getErrorTermMock = mocked(getErrorTerm, true);
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
@@ -34,6 +37,7 @@ const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 const useGetOverlayMock = mocked(useGetOverlay, true);
 
 describe('testing SessionExpired component', () => {
+    const dispatchMock = jest.fn();
     const contactUsHookReturn: IUseContactUs = {
         needHelp: 'Need help?',
         contactUs: 'Contact us',
@@ -51,6 +55,8 @@ describe('testing SessionExpired component', () => {
     const shopUrl = 'test-shop.com';
 
     beforeEach(() => {
+        jest.resetAllMocks();
+        useDispatchMock.mockReturnValue(dispatchMock);
         useScreenBreakpointsMock.mockReturnValue(mockScreenBreakpoints);
         useGetContactUsMock.mockReturnValue(contactUsHookReturn);
         useGetFooterMock.mockReturnValue(footerRightsHookReturn);
@@ -80,6 +86,7 @@ describe('testing SessionExpired component', () => {
 
         expect(container.getElementsByClassName('session-expired__message').length).toBe(1);
         expect(container.getElementsByClassName('session-expired__footer-container').length).toBe(1);
+        expect(dispatchMock).toHaveBeenCalled();
     });
 
     test('Rendering SessionExpired component then click on Return to store button', () => {

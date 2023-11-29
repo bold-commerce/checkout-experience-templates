@@ -16,6 +16,7 @@ import {
 import {IUseContactUs, IUseFooter, IUseSessionExpired} from 'src/types';
 import {getErrorTerm, getTerm} from 'src/utils';
 import {HelmetProvider} from 'react-helmet-async';
+import {useDispatch} from 'react-redux';
 
 jest.mock('src/hooks/useGetSessionExpired');
 jest.mock('src/hooks/useGetContactUs');
@@ -28,6 +29,8 @@ jest.mock('src/utils/getErrorTerm');
 jest.mock('src/hooks/useScreenWidth');
 jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/hooks/useGetOverlay');
+jest.mock('react-redux');
+const useDispatchMock = mocked(useDispatch, true);
 const useScreenWidthMock = mocked(useScreenWidth, true);
 const useGetSessionExpiredMock = mocked(useGetSessionExpired, true);
 const useGetContactUsMock = mocked(useGetContactUs, true);
@@ -58,8 +61,11 @@ describe('testing SessionExpiredPage', () => {
         shopAlias: 'shop.test',
         footerRights: 'All rights reserved',
     };
+    const dispatchMock = jest.fn();
 
     beforeEach(() => {
+        jest.resetAllMocks();
+        useDispatchMock.mockReturnValue(dispatchMock);
         useScreenWidthMock.mockReturnValue(1024);
         useGetSessionExpiredMock.mockReturnValue(hookReturn);
         useGetContactUsMock.mockReturnValue(contactUsHookReturn);
@@ -92,5 +98,6 @@ describe('testing SessionExpiredPage', () => {
         expect(container.getElementsByClassName('main-header').length).toBe(1);
         expect(container.getElementsByClassName('session-expired__message').length).toBe(1);
         expect(container.getElementsByClassName('session-expired__footer-container').length).toBe(1);
+        expect(dispatchMock).toHaveBeenCalled();
     });
 });
