@@ -18,6 +18,7 @@ jest.mock('src/hooks/useIsUserAuthenticated');
 jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/hooks/useGetAddressData');
 jest.mock('src/utils');
+jest.mock('src/library/validateBillingAddress');
 const actionUpdateBillingTypeInSettingsMock = mocked(actionUpdateBillingTypeInSettings, true);
 const actionUpdateBillingTypeMock = mocked(actionUpdateBillingType, true);
 const actionRemoveErrorByAddressTypeMock = mocked(actionRemoveErrorByAddressType, true);
@@ -27,11 +28,15 @@ const useIsUserAuthenticatedMock = mocked(useIsUserAuthenticated, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 const useGetShippingDataMock = mocked(useGetShippingData, true);
 const getTermMock = mocked(getTerm, true);
+const validateBillingAddressMock = mocked(validateBillingAddress, true);
 
 describe('Testing hook useBillingAddress', () => {
 
+    const validateBillingAddressThunkMock = jest.fn();
+
     beforeEach(() => {
         jest.resetAllMocks();
+        validateBillingAddressMock.mockReturnValue(validateBillingAddressThunkMock);
     });
 
     test('rendering the hook properly', () => {
@@ -103,7 +108,7 @@ describe('Testing hook useBillingAddress', () => {
         expect(actionUpdateBillingTypeMock).toBeCalled();
         expect(actionRemoveErrorByAddressTypeMock).toBeCalled();
         expect(mockDispatch).toHaveBeenCalledTimes(4);
-        expect(mockDispatch).toHaveBeenCalledWith(validateBillingAddress);
+        expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
     });
 
     test('testing the toggle same as shipping event - toggleBillingSameAsShipping', () => {
@@ -124,7 +129,7 @@ describe('Testing hook useBillingAddress', () => {
         expect(actionUpdateBillingTypeInSettingsMock).toBeCalled();
         expect(actionUpdateBillingTypeMock).toBeCalled();
         expect(actionSetAppStateValidMock).toBeCalled();
-        expect(mockDispatch).toHaveBeenCalledWith(validateBillingAddress);
+        expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
     });
 
     test('testing the toggle different from shipping event', () => {
@@ -145,7 +150,7 @@ describe('Testing hook useBillingAddress', () => {
         expect(actionUpdateBillingTypeInSettingsMock).toBeCalled();
         expect(actionUpdateBillingTypeMock).toBeCalled();
         expect(actionSetAppStateValidMock).toBeCalled();
-        expect(mockDispatch).not.toHaveBeenCalledWith(validateBillingAddress);
+        expect(validateBillingAddressMock).toHaveBeenCalledTimes(0);
     });
 
 });
