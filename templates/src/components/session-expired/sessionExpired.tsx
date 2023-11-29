@@ -1,17 +1,24 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 
 import {Footer, FormControls, GenericMessageSection, Header} from 'src/components';
 import {getErrorTerm, getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
 import {useGetShopUrlFromShopAlias} from 'src/hooks';
+import {actionShowHideOverlayContent} from 'src/action';
+import {useDispatch} from 'react-redux';
 
 export function SessionExpired(): React.ReactElement {
     const returnToStore = getTerm('return_to_store', Constants.CUSTOMER_INFO, undefined, 'Return to store');
     const sessionExpiredHeader = getErrorTerm('session_expired', Constants.GENERIC_ERROR_INFO, undefined, 'Your checkout session expired');
     const sessionExpiredBody = getErrorTerm('return_to_store_and_checkout', Constants.GENERIC_ERROR_INFO, undefined, 'Return to your store and check out again');
+    const dispatch = useDispatch();
     const returnUrl = useCallback(() => {
         window.location.href = useGetShopUrlFromShopAlias(window.shopAlias);
     }, []);
+    useEffect(() => {
+        dispatch(actionShowHideOverlayContent(false));
+    }, []);
+
 
     return (
         <div className={'session-expired'}>
