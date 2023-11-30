@@ -99,8 +99,8 @@ export const metaOnPaymentDetailsChanged = async (event: IMetaPaymentDetailsChan
 
     // Update Order Shipping option
     const {selected_shipping: selectedShipping, available_shipping_lines: shippingLines} = getShipping();
-    if (event.changeTypes.includes('FULFILLMENT_OPTION_ID') || (!!fulfillmentOptionId && selectedShipping.id !== fulfillmentOptionId)) {
-        const option = shippingLines.find(line => line.id === fulfillmentOptionId);
+    if (event.changeTypes.includes('FULFILLMENT_OPTION_ID') || (!!fulfillmentOptionId && selectedShipping?.id !== fulfillmentOptionId)) {
+        const option = shippingLines.find(line => line?.id === fulfillmentOptionId);
         if (option) {
             const shippingLineResponse = await changeShippingLine(option.id, API_RETRY);
             if (!shippingLineResponse.success) {
