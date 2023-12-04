@@ -7,8 +7,10 @@ import {
 import {logger} from 'src/themes/flow-sdk/logger';
 import {checkoutFlow, metaFlow} from 'src/themes/flow-sdk/flowState';
 import {FlowError} from 'src/themes/flow-sdk/errors';
-import {getPublicOrderId} from '@boldcommerce/checkout-frontend-library';
+import {addLog, getPublicOrderId} from '@boldcommerce/checkout-frontend-library';
+import {ADD_LOG_DETAILS_MAX_SIZE, ADD_LOG_MESSAGE_MAX_SIZE} from 'src/themes/flow-sdk/constants';
 
+export const CheckAvailabilityError = 'Fail to check Meta Availability';
 export const MissingMetapayObjectError = 'Missing "metapay" object in window';
 export const MissingPublicOrderIdError = 'Missing "public_order_id" in the provided order';
 
@@ -22,10 +24,24 @@ export const metaOnLoadScript = async (): Promise<void> => {
         return Promise.reject(message);
     }
 
-    metaFlow.metaPay = window.metapay;
+    try {
+        metaFlow.metaPay = window.metapay;
 
-    metaInitPaymentClient();
-    await metaCheckAvailability();
+        metaInitPaymentClient();
+        await metaCheckAvailability();
+    } catch (e) {
+        const message = e instanceof Error ? e.message : (typeof e === 'string' ? e : CheckAvailabilityError);
+        if (checkoutFlow.params.onAction && typeof checkoutFlow.params.onAction === 'function') {
+            checkoutFlow.params.onAction('FLOW_INITIALIZE', {success: false, error: e});
+        }
+        logger(message, 'error', true);
+        addLog(
+            `META_CHECKOUT ${message}`.slice(0, ADD_LOG_MESSAGE_MAX_SIZE),
+            '',
+            JSON.stringify(e).slice(0, ADD_LOG_DETAILS_MAX_SIZE)
+        );
+        return Promise.reject(e);
+    }
 
     // If we can't checkout no need to proceed
     if (!checkoutFlow.canCheckout) {

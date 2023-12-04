@@ -3,6 +3,7 @@ import {logger} from 'src/themes/flow-sdk/logger';
 import {checkoutFlow} from 'src/themes/flow-sdk/flowState';
 import {onBeforeUnload} from 'src/themes/flow-sdk/flow-utils/onBeforeUnload';
 import {addLog} from '@boldcommerce/checkout-frontend-library';
+import {ADD_LOG_DETAILS_MAX_SIZE, ADD_LOG_MESSAGE_MAX_SIZE} from 'src/themes/flow-sdk/constants';
 
 export const metaOnResponse = async (responsePromise: Promise<IMetaPaymentResponse>): Promise<void> => {
     try {
@@ -12,7 +13,11 @@ export const metaOnResponse = async (responsePromise: Promise<IMetaPaymentRespon
     } catch (err) {
         window.onbeforeunload = null;
         const error = err as IMetaPaymentError;
-        addLog(`META_CHECKOUT META ERROR code: ${error.code} message:${error.message}`.slice(0, 100));
+        addLog(
+            `META_CHECKOUT META ERROR code: ${error.code} message:${error.message}`.slice(0, ADD_LOG_MESSAGE_MAX_SIZE),
+            '',
+            JSON.stringify(error).slice(0, ADD_LOG_DETAILS_MAX_SIZE)
+        );
         switch (error.code) {
             case 'ABORTED': {
                 if (checkoutFlow.params.onAction && typeof checkoutFlow.params.onAction === 'function') {
