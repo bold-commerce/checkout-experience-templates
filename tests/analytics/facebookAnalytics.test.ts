@@ -9,7 +9,7 @@ import {
     sendFacebookEvent,
     sendPageViewForFacebookPixel,
 } from 'src/analytics';
-import {ITotals} from 'src/types';
+import {IFbq, ITotals} from 'src/types';
 
 describe('testing facebook Analytics implementation', () => {
     window = Object.create(window);
@@ -28,7 +28,7 @@ describe('testing facebook Analytics implementation', () => {
     let fbqSpy;
 
     beforeEach(() => {
-        window['fbq'] = jest.fn();
+        window['fbq'] = jest.fn() as unknown as IFbq;
         fbqSpy = jest.spyOn((window as any), 'fbq');
     });
 
@@ -37,7 +37,7 @@ describe('testing facebook Analytics implementation', () => {
         window['fbq'] = undefined;
         let result = isFacebookPixelInstalled();
         expect(result).toBe(false);
-        window['fbq'] = jest.fn();
+        window['fbq'] = jest.fn() as unknown as IFbq;
 
         window['facebook_analytics_tracking_id'] = undefined;
         result = isFacebookPixelInstalled();

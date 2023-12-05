@@ -83,3 +83,13 @@ body .dp-day-today:after {
     top: 0;
     right: 0;
 }
+
+.date-picker-icon {
+    background: transparent url(https://static.boldcommerce.com/images/checkout/experience/calendar.svg) no-repeat center center;
+    padding: 8px;
+    background-size: 18px;
+}
+
+.date-picker-input .input-field .stx-input__prefix {
+    margin-top: 0;
+}

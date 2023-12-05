@@ -35,7 +35,8 @@ describe('testing validateBillingAddress', () => {
             data: {application_state: {addresses: {shipping: defaultAddressState}}}})
             .mockReturnValueOnce({data: {application_state: {addresses: {billing: defaultAddressState}}}});
         getBillingAddressMock.mockReturnValueOnce({} as IAddress);
-        await validateBillingAddress(dispatchMock, getStateMock).then(() => {
+        const validateBillingAddressThunk = validateBillingAddress(false);
+        await validateBillingAddressThunk(dispatchMock, getStateMock).then(() => {
             expect(actionRemoveErrorByAddressTypeMock).toHaveBeenCalledTimes(1);
             expect(validateAddressFunctionMock).toHaveBeenCalledTimes(1);
             expect(getBillingAddressMock).toHaveBeenCalledTimes(1);
@@ -54,7 +55,8 @@ describe('testing validateBillingAddress', () => {
             data: {application_state: {addresses: {shipping: defaultAddressState}}}})
             .mockReturnValueOnce({data: {application_state: {addresses: {billing: defaultAddressState}}}});
         getBillingAddressMock.mockReturnValueOnce({} as IAddress);
-        await validateBillingAddress(dispatchMock, getStateMock).then(() => {
+        const validateBillingAddressThunk = validateBillingAddress(false);
+        await validateBillingAddressThunk(dispatchMock, getStateMock).then(() => {
             expect(actionRemoveErrorByAddressTypeMock).toHaveBeenCalledTimes(1);
             expect(validateAddressFunctionMock).toHaveBeenCalledTimes(0);
             expect(getBillingAddressMock).toHaveBeenCalledTimes(0);
@@ -73,7 +75,8 @@ describe('testing validateBillingAddress', () => {
             data: {application_state: {addresses: {shipping: defaultAddressState}}}})
             .mockReturnValueOnce({data: {application_state: {addresses: {billing: defaultAddressState}}}});
         getBillingAddressMock.mockReturnValueOnce({} as IAddress);
-        await validateBillingAddress(dispatchMock, getStateMock).then(() => {
+        const validateBillingAddressThunk = validateBillingAddress(false);
+        await validateBillingAddressThunk(dispatchMock, getStateMock).then(() => {
             expect(actionRemoveErrorByAddressTypeMock).toHaveBeenCalledTimes(1);
             expect(validateAddressFunctionMock).toHaveBeenCalledTimes(0);
             expect(getBillingAddressMock).toHaveBeenCalledTimes(0);
@@ -91,7 +94,8 @@ describe('testing validateBillingAddress', () => {
             data: {application_state: {addresses: {shipping: defaultAddressState}}}})
             .mockReturnValueOnce({data: {application_state: {addresses: {billing: defaultAddressState}}}});
         getBillingAddressMock.mockReturnValueOnce({} as IAddress);
-        await validateBillingAddress(dispatchMock, getStateMock).then(() => {
+        const validateBillingAddressThunk = validateBillingAddress(false);
+        await validateBillingAddressThunk(dispatchMock, getStateMock).then(() => {
             expect(actionRemoveErrorByAddressTypeMock).toHaveBeenCalledTimes(1);
             expect(getBillingAddressMock).toHaveBeenCalledTimes(1);
             expect(getStateMock).toHaveBeenCalledTimes(2);
