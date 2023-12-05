@@ -20,9 +20,6 @@ module.exports = {
         one_page: './src/themes/one-page/init.tsx',
         buy_now: './src/themes/buy-now/init.tsx',
         three_page: './src/themes/three-page/init.tsx',
-        paypal: './src/themes/paypal/init.tsx',
-        meta_flow: './src/themes/meta-flow/init.tsx',
-        flow_sdk: './src/themes/flow-sdk/init.tsx',
         app_version_check: './src/appVersionCheck.ts',
     },
     output: {
