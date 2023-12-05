@@ -7,11 +7,14 @@ import {
     addPayment,
     baseReturnObject,
     batchRequest,
+    deletePayment,
     getApplicationState,
     getBillingAddress,
     getCurrency,
     getOrderInitialData,
+    getPayments,
     getShippingAddress,
+    IPayment,
     patchOrderMetaData,
     processOrder,
 } from '@boldcommerce/checkout-frontend-library';
@@ -56,6 +59,12 @@ const processOrderMock = mocked(processOrder, true);
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/payment/addPayment');
 const addPaymentMock = mocked(addPayment, true);
+
+jest.mock('@boldcommerce/checkout-frontend-library/lib/state/getPayments');
+const getPaymentsMock = mocked(getPayments, true);
+
+jest.mock('@boldcommerce/checkout-frontend-library/lib/payment/deletePayment');
+const deletePaymentMock = mocked(deletePayment, true);
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/orderMetaData/patchOrderMetaData');
 const patchOrderMetaDataMock = mocked(patchOrderMetaData, true);
@@ -108,6 +117,8 @@ describe('metaOnPaymentConsent', () => {
         getTotalsMock.mockReturnValue(TotalMock);
         batchRequestMock.mockReturnValue(Promise.resolve(baseReturnObject));
         addPaymentMock.mockReturnValue(Promise.resolve(baseReturnObject));
+        getPaymentsMock.mockReturnValue(new Array<IPayment>());
+        deletePaymentMock.mockReturnValue(Promise.resolve(baseReturnObject));
         processOrderMock.mockReturnValue(Promise.resolve(baseReturnObject));
         patchOrderMetaDataMock.mockReturnValue(Promise.resolve(baseReturnObject));
         fetchMock.mockReturnValue(Promise.resolve(
@@ -339,9 +350,29 @@ describe('metaOnPaymentConsent', () => {
         expect(batchRequestMock).toBeCalledTimes(1);
     });
 
+    it('META_AUTHORIZATION_PAYMENT_ERROR fail on delete payment', async () => {
+        batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
+        addPaymentMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
+        getPaymentsMock.mockReturnValue(new Array<IPayment>());
+
+        await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
+            expect(e).toStrictEqual({
+                ...META_AUTHORIZATION_PAYMENT_ERROR,
+                error: {
+                    message: "There was an unknown error while processing your payment.",
+                    reason: "INVALID_PAYMENT_DATA",
+                }
+            });
+        });
+
+        expect(batchRequestMock).toBeCalledTimes(1);
+    });
+
     it('META_AUTHORIZATION_ERROR fail on process order', async () => {
         batchRequestMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
         addPaymentMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
+        getPaymentsMock.mockReturnValue(new Array<IPayment>());
+        deletePaymentMock.mockReturnValueOnce(Promise.resolve({...baseReturnObject, success: true}));
 
         await metaOnPaymentConsent(baseMetaResponse).catch((e) => {
             expect(e).toStrictEqual({

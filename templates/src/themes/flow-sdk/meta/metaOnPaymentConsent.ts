@@ -29,7 +29,8 @@ import {
     apiTypeKeys,
     apiTypes,
     batchRequest,
-    getCurrency,
+    deletePayment,
+    getCurrency, getPayments,
     getPublicOrderId,
     IAddPaymentRequest,
     IApiBatchResponse,
@@ -183,13 +184,22 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
         if (hasAbortErrorOnResponse(paymentResponse)) {
             return Promise.reject(genericMetaError);
         }
-        addLog(`META_CHECKOUT payments API failed ${getTimerLog(startTime)}`, 'meta_payment_consent_failed');
+        addLog(`META_CHECKOUT add payments API failed ${getTimerLog(startTime)}`, 'meta_payment_consent_failed');
         return Promise.reject(paymentMetaError);
     }
 
     const processOrderResponse = await processOrder(API_RETRY);
     if (!processOrderResponse.success) {
         removeOnGoingRequest('onPaymentConsent');
+
+        const payments = getPayments();
+        for(const payment of payments) {
+            const deleteResponse = await deletePayment(payment, API_RETRY);
+            if (!deleteResponse.success) {
+                addLog(`META_CHECKOUT delete payments API failed ${getTimerLog(startTime)}`, 'meta_payment_consent_failed');
+            }
+        }
+
         if (hasAbortErrorOnResponse(processOrderResponse)) {
             return Promise.reject(genericMetaError);
         }
@@ -235,6 +245,15 @@ export const metaOnPaymentConsent = async (response: IMetaPaymentResponse): Prom
         }
     } else {
         removeOnGoingRequest('onPaymentConsent');
+
+        const payments = getPayments();
+        for(const payment of payments) {
+            const deleteResponse = await deletePayment(payment, API_RETRY);
+            if (!deleteResponse.success) {
+                addLog(`META_CHECKOUT delete payments API failed ${getTimerLog(startTime)}`, 'meta_payment_consent_failed');
+            }
+        }
+
         addLog(`META_CHECKOUT process_order API succeeded but is_processed false ${getTimerLog(startTime)}`, 'meta_payment_consent_failed');
         return Promise.reject(paymentMetaError);
     }
