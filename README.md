@@ -1,5 +1,5 @@
 ---
-Using the Open Source Checkout Template
+test Using the Open Source Checkout Template
 ---
 
 Bold provides an Open Source Checkout Template intended to help you build your own headless checkout powered by Bold APIs. This template provides an example of the standard Bold Checkout user interface, but it also enables you to access API libraries for easy customization of the user experience.
