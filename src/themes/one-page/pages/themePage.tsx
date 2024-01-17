@@ -55,8 +55,8 @@ export function ThemePage(): React.ReactElement {
 
 
     useEffect(() => {
-        dispatch(checkInventory(checkInventoryStage.initial)); 
-        
+        dispatch(checkInventory(checkInventoryStage.initial));
+
         if (isCustomerLoggedIn) {
             dispatch(setDefaultAddresses);
         }
@@ -97,7 +97,7 @@ export function ThemePage(): React.ReactElement {
                             <ShippingLines/>
                             <LifeFields className={'shipping-lines-life-elements'} lifeFields={shippingLinesLifeFields}/>
                             <LifeFields className={'payment-method-above-life-elements'} lifeFields={paymentGatewayAboveLifeFields}/>
-                            <Payment loadIframeImmediately={true} />
+                            <Payment loadIframeImmediately={false} />
                             {paymentExternalPaymentGateways.map((externalGateway) =>
                                 <ExternalPaymentGateway
                                     externalPaymentGateway={externalGateway}
