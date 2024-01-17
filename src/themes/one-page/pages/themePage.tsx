@@ -28,9 +28,11 @@ import {
     useGetLifeFields,
     useGetRequiresShipping,
     useOnLoadDefaultLifeFields,
-    useGetLifeFieldsOnPage
+    useGetLifeFieldsOnPage,
+    useGetIsOrderProcessed
 } from 'src/hooks';
 import {LifeInputLocationConstants} from 'src/constants';
+import {useHistory} from 'react-router';
 
 export function ThemePage(): React.ReactElement {
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
@@ -43,6 +45,8 @@ export function ThemePage(): React.ReactElement {
     const dispatch = useDispatch();
     const isCustomerLoggedIn = useIsUserAuthenticated();
     const requiresShipping = useGetRequiresShipping();
+    const history = useHistory();
+    const isOrderCompleted = useGetIsOrderProcessed();
 
     const customerInfoLifeFields = useGetLifeFields(LifeInputLocationConstants.CUSTOMER_INFO);
     const shippingLifeFields = useGetLifeFields(LifeInputLocationConstants.SHIPPING);
@@ -55,10 +59,14 @@ export function ThemePage(): React.ReactElement {
 
 
     useEffect(() => {
-        dispatch(checkInventory(checkInventoryStage.initial)); 
-        
+        dispatch(checkInventory(checkInventoryStage.initial));
+
         if (isCustomerLoggedIn) {
             dispatch(setDefaultAddresses);
+        }
+
+        if (isOrderCompleted) {
+            history.replace(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
         }
     }, []);
 
