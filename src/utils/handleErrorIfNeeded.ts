@@ -76,7 +76,13 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
                 if (errors && Array.isArray(errors)) {
                     errors.forEach(e => {
                         const error: IError = Object.assign(e , {address_type: addressType || e.address_type || ''});
-                        dispatch(actionAddError(error));
+
+                        if (error.field === 'is_processed') {
+                            const history: HistoryLocationState = getHook('history');
+                            history.replace(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
+                        } else {
+                            dispatch(actionAddError(error));
+                        }
                     });
                 }
                 break;
