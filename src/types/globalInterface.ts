@@ -18,8 +18,6 @@ declare global {
         initializeAutoComplete: () => void
         currency: string,
         currencySymbol: string,
-        initialTimestamps: IFrontEndEvent,
-        storeLoadTimesLocally: boolean,
         bugsnagApiKey: string,
         enableConsole: boolean,
         fbq?: IFbq,

@@ -27,7 +27,6 @@ jest.mock('src/hooks/useGetCustomerInformation');
 jest.mock('src/hooks/useGetAddressData');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
-jest.mock('src/hooks/useSendEvent');
 jest.mock('src/hooks/useGetValidVariable');
 jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/utils/getTerm');
