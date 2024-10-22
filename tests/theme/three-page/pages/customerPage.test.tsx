@@ -11,8 +11,7 @@ import {
     useGetRequiresShipping,
     useGetShopUrlFromShopAlias,
     useScreenBreakpoints,
-    useScrollToElementOnNavigation,
-    useSendEvent
+    useScrollToElementOnNavigation
 } from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {HelmetProvider} from 'react-helmet-async';
@@ -45,7 +44,6 @@ jest.mock('react-redux', () => ({
 jest.mock('src/themes/three-page/hooks/useCustomerPage');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 jest.mock('src/hooks/useScrollToElementOnNavigation');
-jest.mock('src/hooks/useSendEvent');
 jest.mock('src/hooks/useScreenBreakpoints');
 jest.mock('src/hooks/useGetRequiresShipping');
 jest.mock('src/hooks/useGetLifeFields');
@@ -55,7 +53,6 @@ mocked(useScrollToElementOnNavigation, true);
 const useScreenBreakpointsMock = mocked(useScreenBreakpoints, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useCustomerPageMock = mocked(useCustomerPage, true);
-const useSendEventMock = mocked(useSendEvent, true);
 const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 const useGetLifeFieldsOnPageMock = mocked(useGetLifeFieldsOnPage, true);
@@ -89,10 +86,6 @@ describe('testing CustomerPage', () => {
 
         window.headerLogoUrl = '';
         window.publicOrderId = 'pubOrderIDMultiEvent';
-        window.initialTimestamps = {
-            'CheckoutExperienceDomLoading': '2022-09-03 15:00:00.000',
-            'CheckoutExperienceComplete': '2022-09-03 15:00:00.500'
-        } as IFrontEndEvent;
     });
 
     test('Rendering customerPage properly with title', () => {
@@ -101,7 +94,6 @@ describe('testing CustomerPage', () => {
         HelmetProvider.canUseDOM = false;
         const {container} = render(<HelmetProvider context={context}><CustomerPage/></HelmetProvider>);
         global.dispatchEvent(new Event('load'));
-        expect(useSendEventMock).toHaveBeenCalled();
         expect(addEventListenerSpy).toHaveBeenCalled();
         expect(container.getElementsByClassName('three-page').length).toBe(1);
         expect(container.getElementsByClassName('customer-section').length).toBe(1);
@@ -117,7 +109,6 @@ describe('testing CustomerPage', () => {
         HelmetProvider.canUseDOM = false;
         const {container} = render(<HelmetProvider context={context}><CustomerPage/></HelmetProvider>);
         global.dispatchEvent(new Event('load'));
-        expect(useSendEventMock).toHaveBeenCalled();
         expect(addEventListenerSpy).toHaveBeenCalled();
         expect(container.getElementsByClassName('three-page').length).toBe(1);
         expect(container.getElementsByClassName('customer-section').length).toBe(1);
@@ -133,7 +124,6 @@ describe('testing CustomerPage', () => {
         HelmetProvider.canUseDOM = false;
         const {container} = render(<HelmetProvider context={context}><CustomerPage/></HelmetProvider>);
         global.dispatchEvent(new Event('load'));
-        expect(useSendEventMock).toHaveBeenCalled();
         expect(addEventListenerSpy).toHaveBeenCalled();
         expect(container.getElementsByClassName('three-page').length).toBe(1);
         expect(container.getElementsByClassName('customer-section').length).toBe(1);

@@ -21,7 +21,6 @@ import {
     useBeforeUnload,
     useScreenBreakpoints,
     useScrollToElementOnNavigation,
-    useSendEvent,
     useGetExternalPaymentGateways,
     useIsUserAuthenticated,
     useGetLifeFields,
@@ -54,16 +53,6 @@ export function CustomerPage(): React.ReactElement {
     useScrollToElementOnNavigation('customer-section');
     useOnLoadDefaultLifeFields(useGetLifeFieldsOnPage(LifeInputPageConstants.CUSTOMER_THREE_PAGE));
 
-    if (window.initialTimestamps) {
-        useEffect(() => {
-            const sendInitialEvents = () => {
-                useSendEvent(window.initialTimestamps);
-            };
-            window.addEventListener('load', sendInitialEvents);
-            return () => document.removeEventListener('load', sendInitialEvents);
-        }, []);
-    }
-
     useEffect(() => {
         sendPageView('/customer_information', 1);
         sendEvents('Landed on customer information page', {'category': 'Checkout'});
@@ -72,7 +61,6 @@ export function CustomerPage(): React.ReactElement {
             dispatch(setDefaultAddresses);
         }
     }, []);
-
 
     return (
         <div className={'checkout-experience-container'}>

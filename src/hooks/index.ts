@@ -87,7 +87,6 @@ export * from './useRemoveAllFlashErrors';
 export * from './useScreenBreakpoints';
 export * from './useScreenWidth';
 export * from './useScrollToElementOnNavigation';
-export * from './useSendEvent';
 export * from './useSetApiCallOnEvent';
 export * from './useSetDefaultLanguageIso';
 export * from './useSetPigiListener';

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {OrderRecap, FormControls, GenericMessageSection, Header, Footer, LifeFields} from 'src/components';
-import {useGetLifeFields, useGetThankYou, useSendEvent} from 'src/hooks';
+import {useGetLifeFields, useGetThankYou} from 'src/hooks';
 import {LifeInputLocationConstants} from 'src/constants';
 
 export function ThankYou(): React.ReactElement {
@@ -14,10 +14,6 @@ export function ThankYou(): React.ReactElement {
 
     const orderConfirmationLifeFields = useGetLifeFields(LifeInputLocationConstants.ORDER_CONFIRMATION);
     const orderDetailsLifeFields = useGetLifeFields(LifeInputLocationConstants.ORDER_DETAILS);
-
-    // Beginning of sending event to back-end
-    useSendEvent('CheckoutExperienceThankYouPageDisplayed');
-    // of sending event to back-end
 
     return(
         <div className={'thank-you'}>

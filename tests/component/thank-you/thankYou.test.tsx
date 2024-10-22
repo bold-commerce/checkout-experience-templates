@@ -10,7 +10,6 @@ import {
     useGetShopUrlFromShopAlias,
     useGetThankYou,
     useSupportedLanguages,
-    useSendEvent,
     useScreenBreakpoints,
     useGetLifeFields,
     useGetRequiresShipping,
@@ -27,7 +26,6 @@ jest.mock('src/hooks/useGetFooter');
 jest.mock('src/hooks/useGetOrderRecap');
 jest.mock('src/hooks/useSupportedLanguages');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
-jest.mock('src/hooks/useSendEvent');
 jest.mock('src/hooks/useScreenBreakpoints');
 jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/utils/getTerm');
@@ -45,7 +43,6 @@ const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const useGetLifeFieldsMock = mocked(useGetLifeFields, true);
 const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
 const useGetOverlayMock = mocked(useGetOverlay, true);
-mocked(useSendEvent, true);
 
 describe('testing ThankYou component', () => {
     const orderRecapHookReturn: IUseGetOrderRecap = {

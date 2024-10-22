@@ -18,7 +18,6 @@ import {
     actionSetLoaderAndDisableButton
 } from 'src/action';
 import {Constants} from 'src/constants';
-import {useSendEvent} from 'src/hooks';
 import {addPayment, getUpdatedApplicationState} from 'src/library';
 import {
     IExternalPaymentGatewayAddPayment,
@@ -41,7 +40,6 @@ export function removeExternalPaymentGatewayListenerInLibrary() {
 
 export function handleExternalPaymentGatewayInitialized(paymentGateway: IExternalPaymentGateway) {
     return async function handleExternalPaymentGatewayInitializedThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
-        useSendEvent('CheckoutExperienceExternalPaymentGatewayInitialized');
         dispatch(actionSetExternalGatewayReady(paymentGateway, true));
         dispatch(actionSetButtonDisable('paymentPageButton', false));
         dispatch(actionSetExternalPaymentGatewayLoading(paymentGateway, false));
@@ -52,7 +50,6 @@ export function handleExternalPaymentGatewayInitialized(paymentGateway: IExterna
 
 export function handleExternalPaymentGatewayAddPayment(paymentGateway: IExternalPaymentGateway, payload: IExternalPaymentGatewayAddPayment) {
     return async function handleExternalPaymentGatewayAddPaymentThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
-        useSendEvent('CheckoutExperienceExternalPaymentGatewayAddPayment');
         const paymentPayload: IAddPaymentRequest = {
             amount: payload.amount,
             currency: getState().data.application_state.currency.iso_code,
@@ -70,14 +67,12 @@ export function handleExternalPaymentGatewayAddPayment(paymentGateway: IExternal
 
 export function handleExternalPaymentGatewayUpdateHeight(paymentGateway: IExternalPaymentGateway, payload: IExternalPaymentGatewayUpdateHeight) {
     return async function handleExternalPaymentGatewayUpdateHeightThunk(): Promise<void> {
-        useSendEvent('CheckoutExperienceExternalPaymentGatewayUpdateHeight');
         updateExternalPaymentGatewayHeight(`${payload.height}px`, paymentGateway.public_id);
     };
 }
 
 export function handleExternalPaymentGatewayRefreshOrder() {
     return async function handleExternalPaymentGatewayRefreshThunk(dispatch: Dispatch): Promise<void> {
-        useSendEvent('CheckoutExperienceExternalPaymentGatewayRefreshOrder');
         dispatch(getUpdatedApplicationState);
     };
 }
@@ -95,7 +90,6 @@ export function updateExternalPaymentGatewayLanguage(){
 
 export function updateExternalPaymentGatewayBillingAddress(payload: IAddress) {
     return async function updateExternalPaymentGatewaybillingAddressThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
-        useSendEvent('CheckoutExperienceExternalPaymentGatewayUpdatedBillingAddress');
         const externalPaymentGateways = getAllExternalPaymentGateways(getState);
 
         await externalPaymentGateways.forEach(async (externalPaymentgateway) => {
@@ -106,7 +100,6 @@ export function updateExternalPaymentGatewayBillingAddress(payload: IAddress) {
 
 export function updateExternalPaymentGatewayShippingAddress(payload: IAddress) {
     return async function updateExternalPaymentGatewayShippingAddressThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
-        useSendEvent('CheckoutExperienceExternalPaymentGatewayUpdatedShippingAddress');
         const externalPaymentGateways = getAllExternalPaymentGateways(getState);
 
         await externalPaymentGateways.forEach(async (externalPaymentgateway) => {
@@ -126,14 +119,12 @@ export function getAllExternalPaymentGateways(getState: () => IOrderInitializati
 
 export function handleExternalPaymentGatewayTokenizingInProgress() {
     return async function handleExternalPaymentGatewayTokenizingInProgressThunk(dispatch: Dispatch): Promise<void> {
-        useSendEvent('CheckoutExperienceExternalPaymentGatewayTokenizingInProgress');
         dispatch(actionSetLoaderAndDisableButton('paymentButton', true));
     };
 }
 
 export function handleExternalPaymentGatewayTokenizingCompleted() {
     return async function handleExternalPaymentGatewayTokenizingCompletedThunk(dispatch: Dispatch): Promise<void> {
-        useSendEvent('CheckoutExperienceExternalPaymentGatewayTokenizingCompleted');
         dispatch(actionSetLoaderAndDisableButton('paymentButton', false));
     };
 }

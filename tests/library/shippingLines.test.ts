@@ -4,12 +4,10 @@ import { stateMock } from 'src/mocks';
 import { actionSetLoader, actionSetButtonDisable, actionSetSelectedShippingLine, actionSetAppStateValid } from 'src/action/appAction';
 import { mocked } from 'jest-mock';
 import {generateTaxes, getShippingFromLib, getSummaryStateFromLib, postShippingLines} from 'src/library';
-import { useSendEvent } from 'src/hooks';
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/shipping');
 jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 jest.mock('src/action/appAction');
-jest.mock('src/hooks/useSendEvent');
 jest.mock('src/library/applicationState');
 jest.mock('src/utils/handleErrorIfNeeded');
 jest.mock('src/library/generateTaxes');
@@ -19,7 +17,6 @@ const shippingLinesMock = mocked(getShippingLines, true);
 const getSummaryStateFromLibMock = mocked(getSummaryStateFromLib, true);
 const getShippingFromLibMock = mocked(getShippingFromLib, true);
 const postShippingLinesMock = mocked(postShippingLines, true);
-const useSendEventMock = mocked(useSendEvent, true);
 const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true);
 const generateTaxesMock = mocked(generateTaxes, true);
 const sendRefreshOrderActionMock = mocked(sendRefreshOrderAction, true);
@@ -94,7 +91,6 @@ describe('testing shippingLines', () => {
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', true);
         expect(shippingLinesMock).toHaveBeenCalledTimes(1);
         expect(getState).not.toHaveBeenCalled();
-        expect(useSendEventMock).not.toHaveBeenCalled();
         expect(mockDispatch).not.toHaveBeenCalledWith(generateTaxesMock);
 
     });
@@ -124,7 +120,6 @@ describe('testing shippingLines', () => {
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', true);
         expect(shippingLinesMock).toHaveBeenCalledTimes(1);
         expect(getState).toHaveBeenCalled();
-        expect(useSendEventMock).toHaveBeenCalled();
         expect(mockDispatch).toHaveBeenCalledWith(getShippingFromLibMock);
         expect(sendRefreshOrderActionMock).toHaveBeenCalled();
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
@@ -149,7 +144,6 @@ describe('testing shippingLines', () => {
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', true);
         expect(shippingLinesMock).toHaveBeenCalledTimes(1);
         expect(getState).toHaveBeenCalled();
-        expect(useSendEventMock).toHaveBeenCalled();
         expect(mockDispatch).toHaveBeenCalledWith(getShippingFromLibMock);
         expect(sendRefreshOrderActionMock).toHaveBeenCalled();
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
@@ -177,7 +171,6 @@ describe('testing shippingLines', () => {
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', true);
         expect(shippingLinesMock).toHaveBeenCalledTimes(1);
         expect(getState).toHaveBeenCalled();
-        expect(useSendEventMock).toHaveBeenCalled();
         expect(mockDispatch).toHaveBeenCalledWith(getShippingFromLibMock);
         expect(sendRefreshOrderActionMock).toHaveBeenCalled();
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
@@ -208,7 +201,6 @@ describe('testing shippingLines', () => {
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', true);
         expect(shippingLinesMock).toHaveBeenCalledTimes(1);
         expect(getState).toHaveBeenCalled();
-        expect(useSendEventMock).toHaveBeenCalled();
         expect(mockDispatch).toHaveBeenCalledWith(getShippingFromLibMock);
         expect(sendRefreshOrderActionMock).toHaveBeenCalled();
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
@@ -238,7 +230,6 @@ describe('testing shippingLines', () => {
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', true);
         expect(shippingLinesMock).toHaveBeenCalledTimes(1);
         expect(getState).toHaveBeenCalled();
-        expect(useSendEventMock).toHaveBeenCalled();
         expect(mockDispatch).toHaveBeenCalledWith(generateTaxesMock);
         expect(mockDispatch).toHaveBeenCalledWith(getShippingFromLibMock);
         expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
