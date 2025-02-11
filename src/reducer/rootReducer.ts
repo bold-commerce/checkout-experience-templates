@@ -49,6 +49,7 @@ import {
 import {autocompleteServices, Constants} from 'src/constants';
 import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 import {orderBalanceReducer} from 'src/reducer/orderBalanceReducer';
+import {fraudToolsInitialDataReducer} from 'src/reducer/fraudToolsInitialDataReducer';
 
 export const initialState: IInitialState = {
     screenWidth: window.innerWidth,
@@ -137,6 +138,7 @@ const initialDataReducer = combineReducers({
     alternative_payment_methods: paymentMethodReducer,
     external_payment_gateways: externalPaymentGatewayInitialDataReducer,
     life_elements: lifeFieldsInitialDataReducer,
+    fraud_tools: fraudToolsInitialDataReducer,
     flow_settings: flowSettingsInitialDataReducer,
     requires_shipping: requiresShippingDataReducer,
 });

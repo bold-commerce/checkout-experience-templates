@@ -7,7 +7,8 @@ import {
     useGetOrderTotal,
     useSetApiCallOnEvent,
     useSetDefaultLanguageIso,
-    useWindowDimensions
+    useWindowDimensions,
+    useFraudTools,
 } from 'src/hooks';
 import {BrowserRouter, Route} from 'react-router-dom';
 import {Redirect, Switch} from 'react-router';
@@ -39,6 +40,7 @@ function Theme(): React.ReactElement {
     const items = useGetLineItems();
     const value = useGetOrderTotal();
     const {currency} = useGetCurrencyInformation();
+    useFraudTools();
 
     useEffect(() => {
         dispatch(actionSetDefaultCustomerAcceptMarketing(acceptMarketingSetting));

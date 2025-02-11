@@ -4,7 +4,8 @@ import {
     useSetDefaultLanguageIso,
     useWindowDimensions,
     useDebounceCustomer,
-    useGetGeneralSettingCheckoutFields
+    useGetGeneralSettingCheckoutFields,
+    useFraudTools,
 } from 'src/hooks';
 import 'public/app.css';
 import 'src/themes/one-page/onePage.css';
@@ -25,6 +26,7 @@ function Theme () : React.ReactElement {
     useSetDefaultLanguageIso();
     useWindowDimensions();
     useSetApiCallOnEvent(true);
+    useFraudTools();
     debounceConstants.debouncedGuestCustomerFunction = useDebounceCustomer();
     const acceptMarketingSetting = useGetGeneralSettingCheckoutFields('accepts_marketing_checkbox_option') as string;
     const billingType = getDefaultBillingType();

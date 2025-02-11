@@ -539,6 +539,7 @@ export const initialDataMock: IInitializeOrderResponse = {
             'location': 'customer_info_above',
             'currency': 'USD'
         }],
+        'fraud_tools': [],
         'life_elements': [
             {
                 'location':'customer_info',

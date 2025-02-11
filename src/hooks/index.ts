@@ -109,4 +109,5 @@ export * from './useLifeFieldSelect';
 export * from './useLifeFieldDatePicker';
 export * from './useGetDatePickerLanguage';
 export * from './useOnLoadDefaultLifeFields';
-
+export * from './useGetFraudTools';
+export * from './useFraudTools';
