@@ -40,10 +40,10 @@ import {
     actionUpdateNoteAttributeField,
     actionUpdateCartParameters,
     actionUpdateNotes,
-    actionUpdateTags, actionOrderBalance,
+    actionUpdateTags, actionOrderBalance, actionUpdatePaymentComponentType,
 } from 'src/action';
 import * as AppActions from 'src/action/appActionType';
-import {autocompleteServices} from 'src/constants';
+import {Constants, autocompleteServices} from 'src/constants';
 import {initialDataMock, stateMock} from 'src/mocks';
 import {IError, IOrderInitialization} from 'src/types';
 import {ILineItem, IShippingLine, IExternalPaymentGateway} from '@boldcommerce/checkout-frontend-library';
@@ -696,6 +696,18 @@ describe('Testing App Actions', () => {
         };
 
         const result = actionUpdateTags(data);
+
+        expect(result).toStrictEqual(actionReturnExpectation);
+    });
+
+    test('actionUpdatePaymentComponentType', () => {
+        const paymentComponentType = Constants.FASTLANE;
+        const actionReturnExpectation = {
+            type: AppActions.UPDATE_PAYMENT_COMPONENT_TYPE,
+            payload: {paymentComponentType}
+        };
+
+        const result = actionUpdatePaymentComponentType(paymentComponentType);
 
         expect(result).toStrictEqual(actionReturnExpectation);
     });

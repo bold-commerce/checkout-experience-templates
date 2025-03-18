@@ -12,7 +12,11 @@ export const storeMock: IOrderInitialization = {
         billingType: Constants.SHIPPING_SAME,
         discountText: '',
         pigiDisplaySca: false,
-        isExpressPaySectionEnable: false
+        isExpressPaySectionEnable: false,
+        isOnePageTheme: false,
+        allowNavigation: false,
+        paymentComponentType: Constants.PIGI,
+        epsBoldPayment: null,
     },
     errors: [],
     isLoading: {
@@ -36,6 +40,9 @@ export const storeMock: IOrderInitialization = {
         pigi: false,
         pigiLoaded: false,
         scaToken: false,
+        batchPostShippingAddress: false,
+        batchPostBillingAddress: false,
+        taxesGenerated: false,
     },
     isButtonDisable: {
         customerPageButton: false,
@@ -45,5 +52,5 @@ export const storeMock: IOrderInitialization = {
         shown: false,
         inverted: false,
     },
-    isSessionInitialized: false
+    isSessionInitialized: false,
 };

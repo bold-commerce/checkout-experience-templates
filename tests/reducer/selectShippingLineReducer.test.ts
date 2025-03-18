@@ -10,7 +10,8 @@ describe('testing selectShippingLineReducer Reducer', () => {
     const shippingLine: IShippingLine= {
         id: '2',
         description: 'Test carrier',
-        amount: 19.99
+        amount: 19.99,
+        code: '',
     };
 
     const dataSet = [

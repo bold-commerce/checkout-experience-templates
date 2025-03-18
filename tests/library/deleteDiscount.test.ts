@@ -2,7 +2,7 @@ import {baseReturnObject, deleteDiscount} from '@boldcommerce/checkout-frontend-
 import {mocked} from 'jest-mock';
 import {actionRemoveDiscount, actionSetLoaderAndDisableButton} from 'src/action';
 import {deleteDiscounts, getSummaryStateFromLib} from 'src/library';
-import {initialDataMock} from 'src/mocks';
+import {initialDataMock, stateMock} from 'src/mocks';
 import {handleErrorIfNeeded} from 'src/utils';
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/discounts');
@@ -23,6 +23,7 @@ describe('testing delete Discount Thunk Action', () => {
         jest.clearAllMocks();
         returnObject.success = true;
         returnObject.response = {data: {taxes: application_state.taxes, application_state}};
+        getStateMock.mockReturnValue(stateMock);
     });
 
     test('calling delete discount successful', async () => {

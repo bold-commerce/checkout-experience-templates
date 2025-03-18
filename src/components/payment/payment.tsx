@@ -2,15 +2,16 @@ import React from 'react';
 import {FieldSection, PaymentIframe, LockedSection, LoadingSection} from 'src/components';
 import {useGetIsSessionInitialized, useGetPaymentSection} from 'src/hooks';
 import {IPaymentProps} from 'src/types';
+import {EpsPayment} from 'src/components/eps-payment/EpsPayment';
 
 export function Payment({showTitle = true, loadIframeImmediately = false} : IPaymentProps): React.ReactElement {
-    const {loading, isValidAddress, isValidShippingLine, notValidText, fieldSectionText, onLoad, isValidPigiLoad} = useGetPaymentSection();
+    const {loading, isValidAddress, isValidShippingLine, notValidText, fieldSectionText, onLoad, isValidPigiLoad, isGatewayEps} = useGetPaymentSection();
     const isSessionInitialized = useGetIsSessionInitialized();
 
     const paymentComponent = (
         <div className={'payment__block'}>
             <LoadingSection className={'payment__no-valid-address'} isLoading={loading}/>
-            <PaymentIframe onLoad={onLoad}/>
+            {isGatewayEps ? <EpsPayment onLoad={onLoad}/> : <PaymentIframe onLoad={onLoad}/>}
         </div>);
 
     return (

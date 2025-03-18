@@ -21,6 +21,15 @@ export const errorsTerms: Array<IErrorTerm> = [
         term: 'enter_email'
     },
     {
+        type: errorTypes.order,
+        field: errorFields.email_address,
+        severity: errorSeverities.validation,
+        subType: errorSubTypes.customer,
+        showType: errorShowType.flash,
+        section: 'core_info',
+        term: 'enter_email'
+    },
+    {
         type: errorTypes.address,
         field: errorFields.country_code,
         severity: errorSeverities.critical,
@@ -130,6 +139,24 @@ export const errorsTerms: Array<IErrorTerm> = [
     },
     {
         type: errorTypes.address,
+        field: errorFields.address_line_1,
+        severity: errorSeverities.validation,
+        subType: errorSubTypes.shipping_address,
+        showType: errorShowType.flash,
+        section: 'shipping',
+        term: ''
+    },
+    {
+        type: errorTypes.address,
+        field: errorFields.address_line_1,
+        severity: errorSeverities.validation,
+        subType: errorSubTypes.billing_address,
+        showType: errorShowType.flash,
+        section: 'billing',
+        term: 'enter_address'
+    },
+    {
+        type: errorTypes.address,
         field: errorFields.phone_number,
         severity: errorSeverities.validation,
         subType: errorSubTypes.empty,
@@ -163,6 +190,24 @@ export const errorsTerms: Array<IErrorTerm> = [
         showType: errorShowType.field,
         section: 'discount_code',
         term: 'require_shipping_page'
+    },
+    {
+        type: errorTypes.order,
+        field: errorFields.first_name,
+        severity: errorSeverities.validation,
+        subType: errorSubTypes.billing_address,
+        showType: errorShowType.flash,
+        section: 'core_info',
+        term: 'first_name_required'
+    },
+    {
+        type: errorTypes.order,
+        field: errorFields.last_name,
+        severity: errorSeverities.validation,
+        subType: errorSubTypes.billing_address,
+        showType: errorShowType.flash,
+        section: 'core_info',
+        term: 'last_name_required'
     },
     {
         type: errorTypes.order,

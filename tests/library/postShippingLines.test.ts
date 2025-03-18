@@ -1,4 +1,4 @@
-import {baseReturnObject, changeShippingLine, getShipping, IShipping, IShippingLine} from '@boldcommerce/checkout-frontend-library';
+import {baseReturnObject, changeShippingLineWithCode, getShipping, IShipping, IShippingLine} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {stateMock} from 'src/mocks';
 import {generateTaxes, getSummaryStateFromLib, postShippingLines} from 'src/library';
@@ -11,7 +11,7 @@ jest.mock('src/utils/handleErrorIfNeeded');
 jest.mock('src/library/applicationState');
 jest.mock('src/action');
 jest.mock('src/library/generateTaxes');
-const setShippingLinesMock = mocked(changeShippingLine, true);
+const setShippingLinesWithCodeMock = mocked(changeShippingLineWithCode, true);
 const getShippingMock = mocked(getShipping, true);
 const getSummaryStateFromLibMock = mocked(getSummaryStateFromLib, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);
@@ -27,12 +27,14 @@ describe('testing postShippingLines', () => {
     const fakeShippingLine1: IShippingLine = {
         id: '0',
         description: 'fakeDescription1',
-        amount: 100
+        amount: 100,
+        code: '',
     };
     const fakeShippingLine2: IShippingLine = {
         id: '1',
         description: 'fakeDescription2',
-        amount: 100
+        amount: 100,
+        code: '',
     };
     const fakeShipping: IShipping = {
         selected_shipping: fakeShippingLine1,
@@ -55,7 +57,7 @@ describe('testing postShippingLines', () => {
         await postShippingLines(dispatch, getState).catch((error) => {
             expect(error).toStrictEqual(expectedError);
         });
-        expect(setShippingLinesMock).toHaveBeenCalledTimes(0);
+        expect(setShippingLinesWithCodeMock).toHaveBeenCalledTimes(0);
         expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(0);
         expect(dispatch).not.toHaveBeenCalledWith(generateTaxesMock);
     });
@@ -66,7 +68,7 @@ describe('testing postShippingLines', () => {
         await postShippingLines(dispatch, getState).catch((error) => {
             expect(error).toStrictEqual(expectedError);
         });
-        expect(setShippingLinesMock).toHaveBeenCalledTimes(0);
+        expect(setShippingLinesWithCodeMock).toHaveBeenCalledTimes(0);
         expect(dispatch).not.toHaveBeenCalledWith(generateTaxesMock);
         expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(0);
     });
@@ -77,7 +79,7 @@ describe('testing postShippingLines', () => {
         stateMock.data.application_state.shipping.selected_shipping.id = fakeShippingLine1.id;
 
         await postShippingLines(dispatch, getState).then(() => {
-            expect(setShippingLinesMock).toHaveBeenCalledTimes(1);
+            expect(setShippingLinesWithCodeMock).toHaveBeenCalledTimes(1);
             expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
         });
     });
@@ -88,7 +90,7 @@ describe('testing postShippingLines', () => {
         stateMock.data.application_state.shipping.selected_shipping.id = fakeShippingLine2.id;
 
         await postShippingLines(dispatch, getState).then(() => {
-            expect(setShippingLinesMock).toHaveBeenCalledTimes(1);
+            expect(setShippingLinesWithCodeMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(dispatch).toHaveBeenCalledWith(getSummaryStateFromLibMock);
             expect(dispatch).toHaveBeenCalledWith(generateTaxesMock);
@@ -101,7 +103,7 @@ describe('testing postShippingLines', () => {
         getShippingMock.mockReturnValueOnce(stateMock.data.application_state.shipping);
 
         await postShippingLines(dispatch, getState).then(() => {
-            expect(setShippingLinesMock).toHaveBeenCalledTimes(0);
+            expect(setShippingLinesWithCodeMock).toHaveBeenCalledTimes(0);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(0);
             expect(dispatch).not.toHaveBeenCalledWith(getSummaryStateFromLibMock);
             expect(dispatch).not.toHaveBeenCalledWith(generateTaxesMock);

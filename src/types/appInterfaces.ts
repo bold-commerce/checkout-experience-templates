@@ -84,6 +84,9 @@ export interface IIsValid {
     pigi: boolean
     pigiLoaded: boolean
     scaToken: boolean
+    batchPostShippingAddress: boolean,
+    batchPostBillingAddress: boolean,
+    taxesGenerated: boolean,
 }
 
 export interface IExternalPaymentGateways {
@@ -135,6 +138,7 @@ export interface IPigiResponsesPayload {
     height: number,
     step?: 'DISPLAYED' | 'COMPLETED' | 'FAILED',
     paymentType?: string,
+    data?: Record<string, unknown>,
 }
 
 export interface IExternalPaymentGatewayMessagePayload {
@@ -148,6 +152,7 @@ export interface IPigiHandleScaSteps {
     DISPLAYED: string;
     COMPLETED: string;
     FAILED: string;
+    REDIRECT: string;
 }
 
 export interface IPigiPaymentTypes {
@@ -163,23 +168,6 @@ export interface IPigiResponseData {
 export interface IExternalPaymentGatewayMessageFromIframe {
     type: string,
     payload: IExternalPaymentGatewayMessagePayload | IExternalPaymentGatewayAddPayment | IExternalPaymentGatewayUpdateHeight,
-}
-
-export interface IEventType {
-    publicOrderId: string,
-    timestamps: IFrontEndEvent,
-}
-
-export interface IFrontEndEvent {
-    CheckoutExperienceStartRendering?: string,
-    CheckoutExperienceDomInteractive?: string,
-    CheckoutExperienceDomContentLoadedEventStart?: string,
-    CheckoutExperienceDomContentLoadedEventEnd?: string,
-    CheckoutExperienceDomLoading?: string,
-    CheckoutExperienceComplete?: string,
-    CheckoutExperienceShippingLinesDisplayed?: string,
-    CheckoutExperiencePigiInitialized?: string,
-    CheckoutExperienceThankYouPageDisplayed?: string,
 }
 
 export interface IPaymentIframe {

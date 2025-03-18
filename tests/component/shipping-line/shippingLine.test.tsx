@@ -36,12 +36,14 @@ describe('Testing shipping line component', () => {
     const selectShippingLine1: IShippingLine = {
         id: '1',
         description: 'test 1',
-        amount: 100
+        amount: 100,
+        code: '',
     };
     const selectShippingLine2: IShippingLine = {
         id: '2',
         description: 'test 2',
-        amount: 200
+        amount: 200,
+        code: '',
     };
     const dataArray: Data[] = [
         {
@@ -54,6 +56,7 @@ describe('Testing shipping line component', () => {
                 shippingAddressValid: true,
                 noShippingAreaText: 'No shipping available',
                 formattedPrice: '${{amount}}',
+                useShippingLineCode: false,
             },
             selectors: {
                 '.shipping_line__items': 0,
@@ -75,6 +78,7 @@ describe('Testing shipping line component', () => {
                 shippingAddressValid: true,
                 noShippingAreaText: 'No shipping available',
                 formattedPrice: '${{amount}}',
+                useShippingLineCode: false,
             },
             selectors: {
                 '.shipping_line__items': 0,
@@ -101,6 +105,7 @@ describe('Testing shipping line component', () => {
                 shippingAddressValid: true,
                 noShippingAreaText: 'No shipping available',
                 formattedPrice: '${{amount}}',
+                useShippingLineCode: false,
             },
             selectors: {
                 '.shipping_line__items': 1,
@@ -123,6 +128,7 @@ describe('Testing shipping line component', () => {
                 shippingAddressValid: true,
                 noShippingAreaText: 'No shipping available',
                 formattedPrice: '${{amount}}',
+                useShippingLineCode: false,
             },
             selectors: {
                 '.shipping_line__items': 1,
@@ -148,6 +154,7 @@ describe('Testing shipping line component', () => {
                 shippingAddressValid: true,
                 noShippingAreaText: 'No shipping available',
                 formattedPrice: '${{amount}}',
+                useShippingLineCode: false,
             },
             selectors: {
                 '.shipping_line__items': 1,
@@ -170,6 +177,7 @@ describe('Testing shipping line component', () => {
                 shippingAddressValid: true,
                 noShippingAreaText: 'No shipping available',
                 formattedPrice: '${{amount}}',
+                useShippingLineCode: false,
             },
             selectors: {
                 '.shipping_line__items': 2,
@@ -195,6 +203,7 @@ describe('Testing shipping line component', () => {
                 shippingAddressValid: true,
                 noShippingAreaText: 'No shipping available',
                 formattedPrice: '${{amount}}',
+                useShippingLineCode: false,
             },
             selectors: {
                 '.shipping_line__items': 2,

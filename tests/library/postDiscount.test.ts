@@ -22,6 +22,7 @@ describe('testing post Discount Thunk Action', () => {
     beforeEach(() => {
         returnObject.success = true;
         returnObject.response = {data: {taxes: application_state.taxes, application_state}};
+        getStateMock.mockReturnValue(stateMock);
     });
 
     afterEach(() => {

@@ -27,7 +27,7 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
     const title = type === Constants.SHIPPING ? getTerm('shipping_address', Constants.SHIPPING_INFO) : getTerm('billing_address',Constants.PAYMENT_INFO);
     const id = `${type}-saved-address-select`;
     const dataTestId = `${type}-saved-address-select`;
-    const billingType = useGetAppSettingData('billingType');
+    const billingType = useGetAppSettingData('billingType') as string;
 
     let count = 1;
     const options = savedAddresses.map((address , index) => ({
@@ -49,8 +49,13 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
 
         if (callApiAtOnEvents) {
             if (type === Constants.SHIPPING) {
+                dispatch(actionSetAppStateValid('batchPostShippingAddress', false));
+                if(billingType === Constants.SHIPPING_SAME) {
+                    dispatch(actionSetAppStateValid('batchPostBillingAddress', false));
+                }
                 dispatch(actionSetAppStateValid('shippingAddress', false));
             } else if (type === Constants.BILLING) {
+                dispatch(actionSetAppStateValid('batchPostBillingAddress', false));
                 dispatch(actionSetAppStateValid('billingAddress', false));
             }
 
@@ -64,13 +69,11 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
                     dispatch(updateCustomer).then(() => {
                         dispatch(validateShippingAddress).then(() => {
                             if(billingType === Constants.SHIPPING_SAME) {
-                                dispatch(validateBillingAddress());
+                                dispatch(validateBillingAddress(false, billingType));
                             }
                         });
                     });
-                }
-
-                if (type === Constants.BILLING) {
+                } else if (type === Constants.BILLING) {
                     dispatch(validateBillingAddress());
                 }
             }

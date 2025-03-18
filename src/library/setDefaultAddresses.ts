@@ -7,7 +7,7 @@ import {isObjectEquals} from 'src/utils';
 
 export async function setDefaultAddresses(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
     const shippingAddress = getState().data.application_state.addresses.shipping;
-    const savedAddresses = getState().data.application_state.customer.saved_addresses;
+    const savedAddresses = getState().data.application_state.customer.saved_addresses || [];
 
     // remove country data for comparison to cover case of store only shipping to 1 country
     const simpleShippingAddress = {

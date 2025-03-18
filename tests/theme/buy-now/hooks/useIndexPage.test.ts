@@ -1,7 +1,7 @@
 import {addressMock, stateMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
-import {useGetLineItems, useGetOrderTotal, useGetShippingData, useLogin, useGetErrors, useGetValidVariable, useGetAppSettingData, useGetCustomerInfoDataByField} from 'src/hooks';
+import {useGetLineItems, useGetOrderTotal, useGetShippingData, useLogin, useGetErrors, useGetValidVariable, useGetAppSettingData, useGetCustomerInfoDataByField, useGetEpsGateways} from 'src/hooks';
 import {useIndexPage} from 'src/themes/buy-now/hooks';
 import {renderHook} from '@testing-library/react-hooks';
 import {displayOrderProcessingScreen, processOrder, updateLineItemQuantity, validateBillingAddress} from 'src/library';
@@ -23,6 +23,7 @@ jest.mock('src/hooks/useGetErrors');
 jest.mock('src/hooks/useGetValidVariable');
 jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/hooks/useGetCustomerInformation');
+jest.mock('src/hooks/useGetEpsGateways');
 jest.mock('src/library/displayOrderProcessingScreen');
 jest.mock('src/library/processOrder');
 jest.mock('src/library/updateLineItemQuantity');
@@ -40,6 +41,7 @@ const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 const processOrderMock = mocked(processOrder, true);
 const updateLineItemQuantityMock = mocked(updateLineItemQuantity, true);
 const sendRefreshOrderActionAsyncMock = mocked(sendRefreshOrderActionAsync, true);
+const useGetEpsGatewaysMock = mocked(useGetEpsGateways, true);
 const sendAddPaymentActionAsyncMock = mocked(sendAddPaymentActionAsync, true);
 const useGetCustomerInfoDataByFieldMock = mocked(useGetCustomerInfoDataByField, true);
 const validateBillingAddressMock = mocked(validateBillingAddress, true);
@@ -108,6 +110,7 @@ describe('testing hook useIndexPage', () => {
         sendRefreshOrderActionAsyncMock.mockResolvedValue(resolvedRefreshValue);
         sendAddPaymentActionAsyncMock.mockResolvedValue(resolvedPaymentValue);
         validateBillingAddressMock.mockReturnValue(validateBillingAddressThunkMock);
+        useGetEpsGatewaysMock.mockReturnValue(false);
     });
 
     test('test the hook properly with no errors in array', async () => {

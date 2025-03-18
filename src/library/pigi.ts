@@ -1,16 +1,17 @@
 import {sendUpdateLanguageAction, setPigiListener, removePigiListener} from '@boldcommerce/checkout-frontend-library';
 import {Dispatch} from 'redux';
 import {
+    actionSetAllowNavigation,
     actionSetAppStateValid,
     actionSetButtonDisable,
     actionSetPigiDisplaySca,
     actionSetPigiIframeLoader,
     actionShowHideOverlayContent
 } from 'src/action';
-import {pigiHandleScaSteps, pigiPaymentTypes} from 'src/constants';
+import {Constants, pigiHandleScaSteps, pigiPaymentTypes} from 'src/constants';
 import {displayOrderProcessingScreen, getUpdatedApplicationState, processOrder, sendPaymentEvent} from 'src/library';
 import {IOrderInitialization, IPigiResponsesPayload} from 'src/types';
-import {updatePigiHeight} from 'src/utils';
+import {getCheckoutUrl, updatePigiHeight} from 'src/utils';
 
 export function setPigiListenerInLibrary(frameId: string, callbackEvent: (evt: Event) => void) {
     return async function setPigiListenerThunk(): Promise<void> {
@@ -57,7 +58,15 @@ export function handlePigiPaymentAdded() {
 export function handlePigiSca(payload: IPigiResponsesPayload, history: History) {
     return async function handlePigiScaThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         const {isValid: {scaToken}} = getState();
-        if (payload.step === pigiHandleScaSteps.DISPLAYED) {
+        if (payload.step === pigiHandleScaSteps.REDIRECT && payload?.data?.url) {
+            dispatch(actionSetAllowNavigation());
+            const scaUrl = payload.data.url as string;
+            const resumeUrl = 'https://' + window.location.host + getCheckoutUrl(Constants.PROCESS_ROUTE);
+            // Use setTimeout to put the navigation in the event loop so it runs after the react state updates
+            setTimeout(() => {
+                window.location.href = scaUrl + '&redirect_uri=' + encodeURIComponent(resumeUrl+'?skipInventory=1');
+            });
+        } else if (payload.step === pigiHandleScaSteps.DISPLAYED) {
             window.scrollTo(0, 0);
             updatePigiHeight('100%');
             dispatch(actionSetPigiDisplaySca(true));
@@ -65,7 +74,7 @@ export function handlePigiSca(payload: IPigiResponsesPayload, history: History) 
         } else if (payload.step === pigiHandleScaSteps.COMPLETED) {
             dispatch(actionShowHideOverlayContent(true));
             dispatch(actionSetPigiDisplaySca(false));
-            if(scaToken) {
+            if (scaToken) {
                 dispatch(actionSetAppStateValid('scaToken', false));
                 dispatch(processOrder(history));
             }

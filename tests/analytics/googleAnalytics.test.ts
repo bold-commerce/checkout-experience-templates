@@ -13,7 +13,8 @@ describe('testing Google Analytics implementation', () => {
     const selectedShippingLine = {
         id: 'shipping_id_1',
         description: 'USPS ground carrier',
-        amount: 1999
+        amount: 1999,
+        code: '',
     };
 
     const totals: ITotals = {

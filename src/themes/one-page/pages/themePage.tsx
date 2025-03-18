@@ -1,6 +1,7 @@
 import {
     BillingAddress,
     CustomerInformation,
+    EpsExpressPaymentGateway,
     ExpressPaymentGateway,
     ExternalPaymentGateway,
     FlashError,
@@ -28,9 +29,13 @@ import {
     useGetLifeFields,
     useGetRequiresShipping,
     useOnLoadDefaultLifeFields,
-    useGetLifeFieldsOnPage
+    useGetLifeFieldsOnPage,
+    useGetIsOrderProcessed,
+    useGetEpsGateways
 } from 'src/hooks';
 import {LifeInputLocationConstants} from 'src/constants';
+import {useHistory} from 'react-router';
+import {actionSetOnePageTheme} from 'src/action';
 
 export function ThemePage(): React.ReactElement {
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
@@ -43,6 +48,9 @@ export function ThemePage(): React.ReactElement {
     const dispatch = useDispatch();
     const isCustomerLoggedIn = useIsUserAuthenticated();
     const requiresShipping = useGetRequiresShipping();
+    const history = useHistory();
+    const isOrderCompleted = useGetIsOrderProcessed();
+    const isGatewayEps = useGetEpsGateways();
 
     const customerInfoLifeFields = useGetLifeFields(LifeInputLocationConstants.CUSTOMER_INFO);
     const shippingLifeFields = useGetLifeFields(LifeInputLocationConstants.SHIPPING);
@@ -55,10 +63,15 @@ export function ThemePage(): React.ReactElement {
 
 
     useEffect(() => {
+        dispatch(actionSetOnePageTheme(true));
         dispatch(checkInventory(checkInventoryStage.initial));
 
         if (isCustomerLoggedIn) {
             dispatch(setDefaultAddresses);
+        }
+
+        if (isOrderCompleted) {
+            history.replace(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
         }
     }, []);
 
@@ -73,12 +86,12 @@ export function ThemePage(): React.ReactElement {
                     </div>
                 </div> : null}
             <div className={'one-page'}>
-                <div className={'customer-section one-page'}>
+                <div className={'customer-section'}>
                     <Header isMobile={false}/>
                     <main aria-label={mainAriaLabel}>
                         <form onSubmit={withPreventDefault(nextButtonOnClick)}>
                             <FlashError/>
-                            <ExpressPaymentGateway/>
+                            {isGatewayEps ? <EpsExpressPaymentGateway/>: <ExpressPaymentGateway/>}
                             {infoExternalPaymentGateways.map((externalGateway) =>
                                 <ExternalPaymentGateway
                                     externalPaymentGateway={externalGateway}
@@ -94,7 +107,7 @@ export function ThemePage(): React.ReactElement {
                             <LifeFields className={'shipping-life-elements'} lifeFields={shippingLifeFields}/>
                             {requiresShipping ? <BillingAddress/> : null}
                             <LifeFields className={'billing-address-after-life-elements'} lifeFields={billingAddressAfterLifeFields}/>
-                            <ShippingLines/>
+                            <ShippingLines theme={Constants.ONE_PAGE}/>
                             <LifeFields className={'shipping-lines-life-elements'} lifeFields={shippingLinesLifeFields}/>
                             <LifeFields className={'payment-method-above-life-elements'} lifeFields={paymentGatewayAboveLifeFields}/>
                             <Payment loadIframeImmediately={false} />

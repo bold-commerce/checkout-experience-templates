@@ -60,8 +60,8 @@ describe('Testing hook useGetSavedAddressData', () => {
     ];
 
     const addressTypes = [
-        {type: Constants.SHIPPING, dispatchCountFirst: 8, dispatchCountSecond: 16, dispatchCountThird: 18},
-        {type: Constants.BILLING, dispatchCountFirst: 6, dispatchCountSecond: 12, dispatchCountThird: 14},
+        {type: Constants.SHIPPING, dispatchCountFirst: 10, dispatchCountSecond: 20, dispatchCountThird: 24},
+        {type: Constants.BILLING, dispatchCountFirst: 7, dispatchCountSecond: 14, dispatchCountThird: 17},
     ];
 
     test.each(hookData)(

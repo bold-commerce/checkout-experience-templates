@@ -1,44 +1,51 @@
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
 import {
-    validateBillingAddress,
-    validateShippingAddress,
-    validateEmailAddress,
+    validateBillingAddressV2,
+    validateShippingAddressV2,
+    validateEmailAddressV2,
     checkErrorAndProceedToNextPage,
-    updateCustomer
+    getPayloadForUpdateCustomer,
+    validateBatchResponse
 } from 'src/library';
 import {HistoryLocationState} from 'react-router';
 import {actionSetLoaderAndDisableButton} from 'src/action';
 import {Constants} from 'src/constants';
+import {IBatchableRequest} from '@boldcommerce/checkout-frontend-library/lib/types/apiInterfaces';
+import {batchRequest} from '@boldcommerce/checkout-frontend-library';
 
 export function callCustomerPageApi(history: HistoryLocationState) {
     return async function callCustomerPageApiThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         const state = getState();
+        const batch : Array<IBatchableRequest> = [];
         dispatch(actionSetLoaderAndDisableButton('customerPageButton', true));
         const platformId = state.data.application_state.customer.platform_id;
         const isUserLogin = (platformId != null && +platformId > 0);
         const requiresShipping = state.data.initial_data.requires_shipping;
 
         const validateAddresses = async () => {
-            dispatch(validateShippingAddress).then(() => {
-                dispatch(validateBillingAddress()).then(() => {
-                    if (requiresShipping) {
-                        dispatch(checkErrorAndProceedToNextPage(Constants.SHIPPING_ROUTE, 'customerPageButton', history, false));
-                    } else {
-                        dispatch(checkErrorAndProceedToNextPage(Constants.PAYMENT_ROUTE, 'customerPageButton', history, false));
-                    }
-                });
-            });
+            batch.push(...dispatch(validateShippingAddressV2));
+            batch.push(...dispatch(validateBillingAddressV2));
         };
 
         if (isUserLogin) {
-            await dispatch(updateCustomer).then(() => {
-                dispatch(validateAddresses);
-            });
+            const updateCustomerBatch = dispatch(getPayloadForUpdateCustomer);
+            if (updateCustomerBatch) {
+                batch.push(updateCustomerBatch);
+            }
+            await dispatch(validateAddresses);
         } else {
-            await dispatch(validateEmailAddress).then(() => {
-                dispatch(validateAddresses);
-            });
+            batch.push(...dispatch(validateEmailAddressV2));
+            await dispatch(validateAddresses);
         }
+        await batchRequest(batch).then( async (response) => {
+            await (validateBatchResponse(dispatch, getState, response)).then( () => {
+                if (requiresShipping) {
+                    dispatch(checkErrorAndProceedToNextPage(Constants.SHIPPING_ROUTE, 'customerPageButton', history, false));
+                } else {
+                    dispatch(checkErrorAndProceedToNextPage(Constants.PAYMENT_ROUTE, 'customerPageButton', history, false));
+                }
+            });
+        });
     };
 }

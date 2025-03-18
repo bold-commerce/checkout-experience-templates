@@ -8,6 +8,7 @@ import {
     ITax
 } from '@boldcommerce/checkout-frontend-library';
 import {IApplicationState} from '@boldcommerce/checkout-frontend-library/lib/types/apiInterfaces';
+import {defaultCustomer} from 'src/constants';
 
 describe('testing function validateApplicationStateData', () => {
     const defaultAddress = {
@@ -42,7 +43,8 @@ describe('testing function validateApplicationStateData', () => {
     const defaultShipping =  {
         amount : 0,
         description: '',
-        id: ''
+        id: '',
+        code: '',
     };
 
     const currency: ICurrency = {
@@ -89,10 +91,11 @@ describe('testing function validateApplicationStateData', () => {
         is_processed: false,
         order_meta_data: {} as IOrderMetaData,
         link_to_cart: '',
+        flow_id: null,
     } as IApplicationState;
 
     const expected = {
-        customer: {} as ICustomer,
+        customer: defaultCustomer,
         addresses: {
             billing: billingAddress,
             shipping: defaultAddress,
@@ -118,6 +121,7 @@ describe('testing function validateApplicationStateData', () => {
         is_processed: false,
         order_meta_data: {} as IOrderMetaData,
         link_to_cart: '',
+        flow_id: null,
     } as IApplicationState;
 
     const dataArray = [
@@ -136,9 +140,10 @@ describe('testing function validateApplicationStateData', () => {
             },
         },
         {
-            name: 'call function with empty shipping and billing',
+            name: 'call function with empty shipping and billing and customer',
             appData: {
                 ...appData,
+                customer: {},
                 addresses: {
                     shipping: {},
                     billing: {},

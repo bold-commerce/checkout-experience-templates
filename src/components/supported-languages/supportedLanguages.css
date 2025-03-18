@@ -2,7 +2,6 @@
     padding-top: 6px;
 }
 .supported-language__container{
-    display: flex;
     align-items: center;
     margin-left: auto;
 }

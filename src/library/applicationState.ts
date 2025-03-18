@@ -35,7 +35,7 @@ import {
     actionUpdateTags,
     actionUpdateTaxes
 } from 'src/action';
-import {Constants, defaultAddressState} from 'src/constants';
+import {Constants, defaultAddressState, defaultCustomer} from 'src/constants';
 import {IOrderInitialization} from 'src/types';
 import {handleErrorIfNeeded} from 'src/utils';
 
@@ -74,7 +74,10 @@ export async function getBillingAddressFromLib(dispatch: Dispatch): Promise<void
 }
 
 export async function getCustomerFromLib(dispatch: Dispatch): Promise<void> {
-    const customer = getCustomer();
+    let customer = getCustomer();
+    if (!customer || Object.keys(customer).length <= 0) {
+        customer = defaultCustomer;
+    }
     dispatch(actionUpdateCustomer(customer));
 }
 
@@ -128,7 +131,8 @@ export async function getShippingFromLib(dispatch: Dispatch): Promise<void> {
         selectedShippingLine = {
             id: '',
             description: '',
-            amount: 0
+            amount: 0,
+            code: '',
         };
     }
     dispatch(actionUpdateSelectedShippingLine(selectedShippingLine));

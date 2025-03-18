@@ -18,7 +18,7 @@ export function validateEmailAddressV2(dispatch: Dispatch, getState: () => IOrde
         callPostAPI = true;
     }
 
-    if (callPostAPI){
+    if (callPostAPI || customer.email_address === ''){
         const postGuestCustomerBatch = getPayloadForPostGuestCustomer(dispatch, getState);
         if (postGuestCustomerBatch) {
             batch.push(postGuestCustomerBatch);

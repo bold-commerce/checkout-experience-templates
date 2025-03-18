@@ -15,7 +15,8 @@ import {
     ExternalPaymentGateway,
     HeaderLogo,
     Title,
-    LifeFields
+    LifeFields,
+    EpsExpressPaymentGateway
 } from 'src/components';
 import {
     useBeforeUnload,
@@ -26,7 +27,8 @@ import {
     useGetLifeFields,
     useGetRequiresShipping,
     useGetLifeFieldsOnPage,
-    useOnLoadDefaultLifeFields
+    useOnLoadDefaultLifeFields,
+    useGetEpsGateways
 } from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
@@ -49,6 +51,7 @@ export function CustomerPage(): React.ReactElement {
     const headerLogoUrl = window.headerLogoUrl;
     const isCustomerLoggedIn = useIsUserAuthenticated();
     const requiresShipping = useGetRequiresShipping();
+    const isGatewayEps = useGetEpsGateways();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
     useOnLoadDefaultLifeFields(useGetLifeFieldsOnPage(LifeInputPageConstants.CUSTOMER_THREE_PAGE));
@@ -62,11 +65,12 @@ export function CustomerPage(): React.ReactElement {
         }
     }, []);
 
+
     return (
         <div className={'checkout-experience-container'}>
             <HeaderHelmet title={title}/>
             <ScreenReaderAnnouncement content={title || ''} />
-            {mainContentBeginningLifeFields.length > 0 ? 
+            {mainContentBeginningLifeFields.length > 0 ?
                 <div className={'outside-main-content-container'}>
                     <div className={'outside-main-content'}>
                         <LifeFields className={'main-content-beginning-life-elements'} lifeFields={mainContentBeginningLifeFields}/>
@@ -77,7 +81,7 @@ export function CustomerPage(): React.ReactElement {
                 {isMobile && <SummarySection orderCompleted={false}/>}
                 <div className='customer-section' >
                     <header className={'main-header'}>
-                        {headerLogoUrl 
+                        {headerLogoUrl
                             ? <HeaderLogo />
                             : <Title/>
                         }
@@ -95,7 +99,7 @@ export function CustomerPage(): React.ReactElement {
                         )}
                         <form onSubmit={withPreventDefault(nextButtonOnClick)}>
                             <FlashError/>
-                            <ExpressPaymentGateway/>
+                            {isGatewayEps ? <EpsExpressPaymentGateway/>: <ExpressPaymentGateway/>}
                             <CustomerInformation/>
                             <LifeFields className={'customer-info-life-elements'} lifeFields={customerInfoLifeFields}/>
                             <ShippingAddress/>
@@ -120,7 +124,7 @@ export function CustomerPage(): React.ReactElement {
                 <div className={'outside-main-content-container'}>
                     <div className={'outside-main-content'}>
                         <LifeFields className={'main-content-end-life-elements'} lifeFields={mainContentEndLifeFields}/>
-                    </div> 
+                    </div>
                 </div> : null}
         </div>
     );

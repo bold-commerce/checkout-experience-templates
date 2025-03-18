@@ -27,6 +27,7 @@ export function FieldInput(props: IFieldInputProps): React.ReactElement {
                 placeholder={props.placeholder}
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
+                onFocus={props.handleFocus}
                 messageType={props.errorMessage ? 'alert' : ''}
                 messageText={props.errorMessage ? props.errorMessage : ''}
                 autoFocus={props.autoFocus}

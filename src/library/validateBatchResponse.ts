@@ -12,25 +12,18 @@ export async function validateBatchResponse(dispatch: Dispatch, getState: () => 
 
     if (!response.success) {
         const batchResponse : IApiBatchResponse = response.response as IApiBatchResponse;
+        handleErrorIfNeeded(response, dispatch, getState);
         if (batchResponse && batchResponse.data) {
-            batchResponse.data.forEach((subrequest) => {
-                if (subrequest.status_code !== 200) {
-                    let addressType = '';
-                    if(subrequest.endpoint.includes('addresses')) {
-                        addressType = subrequest.endpoint.replace('/addresses/','');
-                    }
-                    handleErrorIfNeeded(response, dispatch, getState, addressType);
-                } else {
-                    handleBatchSuccess(dispatch, getState, subrequest as IApiSubrequestSuccessResponse);
+            batchResponse.data.forEach((subRequest) => {
+                if (subRequest.status_code === 200) {
+                    handleBatchSuccess(dispatch, getState, subRequest as IApiSubrequestSuccessResponse);
                 }
             });
-        } else {
-            handleErrorIfNeeded(response, dispatch, getState);
         }
     } else {
         const batchResponse : IApiBatchResponse = response.response as IApiBatchResponse;
-        batchResponse.data.forEach( (subrequest) => {
-            handleBatchSuccess(dispatch, getState, subrequest as IApiSubrequestSuccessResponse);
+        batchResponse.data.forEach( (subRequest) => {
+            handleBatchSuccess(dispatch, getState, subRequest as IApiSubrequestSuccessResponse);
         });
     }
 }

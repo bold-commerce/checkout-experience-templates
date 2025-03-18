@@ -19,6 +19,7 @@ export function useBillingAddress(): IBillingAddress{
         dispatch(actionUpdateBillingTypeInSettings(billingType));
         dispatch(actionUpdateBillingType(billingType, shippingAddress));
         dispatch(actionRemoveErrorByAddressType(Constants.BILLING));
+        dispatch(actionSetAppStateValid('batchPostBillingAddress', false));
 
         if(billingType === Constants.SHIPPING_SAME && callApiAtOnEvents) {
             dispatch(validateBillingAddress());

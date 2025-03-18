@@ -25,7 +25,8 @@ describe('Testing condensedShipping component', () => {
     const selectShippingLineValue = {
         id: '1',
         amount: 99,
-        description: 'test shipping'
+        description: 'test shipping',
+        code: '',
     }
 
     beforeEach(() => {

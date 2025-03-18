@@ -6,25 +6,38 @@ import {
     useGetIsOrderProcessed,
     useGetLifeFieldsOnPage,
     useGetRequiresShipping,
+    useGetValidVariable,
+    useGetEpsGateways,
 } from 'src/hooks';
 import {
     getCheckoutUrl,
     getTerm,
     getTotalsFromState,
-    callProcessOrder
+    callProcessOrder,
+    callEpsProcessOrder
 } from 'src/utils';
 import {Constants, LifeInputPageConstants} from 'src/constants';
-import {useCallback} from 'react';
+import {useCallback, useEffect} from 'react';
 import {useHistory} from 'react-router';
 import {IUsePaymentPage} from 'src/types';
+import {generateTaxes} from 'src/library';
 
 export function usePaymentPage(): IUsePaymentPage{
     const history = useHistory();
     const dispatch = useDispatch();
     const isOrderCompleted = useGetIsOrderProcessed();
-    if(isOrderCompleted){
+    const isGatewayEps = useGetEpsGateways();
+    if (isOrderCompleted) {
         history.replace(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
     }
+
+    const taxesGenerated = useGetValidVariable('taxesGenerated');
+
+    useEffect(() => {
+        if (!taxesGenerated) {
+            dispatch(generateTaxes);
+        }
+    }, [taxesGenerated]);
 
     const nextButtonText = getTerm('complete_order', Constants.PAYMENT_INFO);
     const nextButtonLoading = useGetIsLoading();
@@ -47,7 +60,11 @@ export function usePaymentPage(): IUsePaymentPage{
     const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.PAYMENT_THREE_PAGE);
     const thankYouPageLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.THANK_YOU_PAGE);
     const nextButtonOnClick = useCallback(() => {
-        callProcessOrder(dispatch, totals, history, requiredLifeFields, thankYouPageLifeFields);
+        if(isGatewayEps) {
+            dispatch(callEpsProcessOrder(history, totals, requiredLifeFields, thankYouPageLifeFields));
+        } else {
+            callProcessOrder(dispatch, totals, history, requiredLifeFields, isGatewayEps, thankYouPageLifeFields);
+        }
     },[totals, history]);
 
     return {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable, language, title};

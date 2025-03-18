@@ -97,7 +97,7 @@ describe('Testing callProcessOrder function', () => {
     test('Render the function with amount remaining', async () => {
 
         const total: ITotals = {totalSubtotal: 2999, totalFees:0, totalTaxes:0, totalAdditionalFees:0, totalOrder:0, totalPaid:0, totalDiscounts:0, totalAmountDue:2999};
-        callProcessOrder(dispatchMock, total, historyMock, lifeFields);
+        callProcessOrder(dispatchMock, total, historyMock, lifeFields, false);
         await Promise.resolve();
 
         expect(dispatchMock).toHaveBeenCalledTimes(3);
@@ -112,7 +112,7 @@ describe('Testing callProcessOrder function', () => {
         sendRefreshOrderActionAsyncMock.mockRejectedValue(rejectedValue);
         const total: ITotals = {totalSubtotal: 2999, totalFees:0, totalTaxes:0, totalAdditionalFees:0, totalOrder:0, totalPaid:0, totalDiscounts:0, totalAmountDue:2999};
 
-        callProcessOrder(dispatchMock, total, historyMock, lifeFields);
+        callProcessOrder(dispatchMock, total, historyMock, lifeFields, false);
         await Promise.resolve();
 
         expect(dispatchMock).toHaveBeenCalledWith(actionClearErrors());
@@ -126,7 +126,7 @@ describe('Testing callProcessOrder function', () => {
     test('Render the function with no amount remaining', async () => {
         const total: ITotals = {totalSubtotal: 2999, totalFees:0, totalTaxes:0, totalAdditionalFees:0, totalOrder:0, totalPaid:2999, totalDiscounts:0, totalAmountDue:0};
 
-        callProcessOrder(dispatchMock, total, historyMock, lifeFields);
+        callProcessOrder(dispatchMock, total, historyMock, lifeFields, true);
         await Promise.resolve();
 
         expect(dispatchMock).toHaveBeenCalledTimes(4);

@@ -8,7 +8,11 @@ import {
     setBillingAddressAsValid,
     getCustomerFromLib,
     validateShippingLine,
-    updateExternalPaymentGatewayShippingAddress, validateDiscounts,
+    updateExternalPaymentGatewayShippingAddress,
+    validateDiscounts,
+    setShippingLineAsValid,
+    setDefaultShippingLine,
+    updateExternalPaymentGatewayBillingAddress,
 } from 'src/library';
 import {compareAddresses} from 'src/utils';
 import {defaultAddressState} from 'src/constants';
@@ -32,9 +36,11 @@ export async function handleBatchSuccess(dispatch: Dispatch, getState: () => IOr
             break;
         case '/addresses/billing':
             dispatch(setBillingAddressAsValid);
-            dispatch(updateExternalPaymentGatewayShippingAddress(billing));
+            dispatch(updateExternalPaymentGatewayBillingAddress(billing));
             break;
         case '/shipping_lines':
+            dispatch(setDefaultShippingLine);
+            dispatch(setShippingLineAsValid);
             dispatch(validateShippingLine);
             break;
     }

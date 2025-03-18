@@ -6,10 +6,12 @@ import {
     UPDATE_BILLING_TYPE,
     UPDATE_DISCOUNT_CODE_TEXT,
     UPDATE_SCREEN_WIDTH,
-    UPDATE_APP_DATA, SET_EXPRESS_PAYMENT_SECTION_ENABLED,
+    UPDATE_APP_DATA,
+    SET_EXPRESS_PAYMENT_SECTION_ENABLED, 
+    UPDATE_PAYMENT_COMPONENT_TYPE,
 } from 'src/action';
 import {Constants} from 'src/constants';
-import rootReducer, {reducer} from 'src/reducer/rootReducer';
+import rootReducer, {appSettingReducer} from 'src/reducer/rootReducer';
 
 describe('testing appSettings reducer', () => {
 
@@ -23,10 +25,11 @@ describe('testing appSettings reducer', () => {
         {name: 'testing UPDATE_DISCOUNT_CODE_TEXT action', action: UPDATE_DISCOUNT_CODE_TEXT, payload: {code: 'test'}, expected: {...defaultState, discountText: 'test'}},
         {name: 'testing SET_PIGI_DISPLAY_SCA action', action: SET_PIGI_DISPLAY_SCA, payload: {pigiDisplaySca: true}, expected: {...defaultState, pigiDisplaySca: true}},
         {name: 'testing SET_EXPRESS_PAYMENT_SECTION_ENABLED action', action: SET_EXPRESS_PAYMENT_SECTION_ENABLED, payload: {isExpressPaySectionEnable: true}, expected: {...defaultState, isExpressPaySectionEnable: true}},
+        {name: 'testing UPDATE_PAYMENT_COMPONENT action', action: UPDATE_PAYMENT_COMPONENT_TYPE, payload: {paymentComponentType: Constants.FASTLANE}, expected: {...defaultState, paymentComponentType: Constants.FASTLANE}},
     ];
 
     test.each(dataSet)('$name', ({name, action, payload, expected}) => {
-        const newState = reducer(defaultState,
+        const newState = appSettingReducer(defaultState,
             {type: action, payload: payload});
 
         expect(newState).toEqual(expected);

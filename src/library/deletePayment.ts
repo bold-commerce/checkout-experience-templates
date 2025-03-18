@@ -17,7 +17,7 @@ export function deletePayment(id: string) {
             const response: IApiReturnObject = await deletePaymentLib({gateway_public_id, token}, API_RETRY);
             handleErrorIfNeeded(response, dispatch, getState);
 
-            if(response.success) {
+            if (response.success) {
                 await dispatch(getSummaryStateFromLib);
                 const action = actionDeleteElement(REMOVE_PAYMENT, id);
                 action && dispatch(action);

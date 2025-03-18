@@ -1,5 +1,5 @@
 import {IOrderInitialization} from 'src/types';
-import {autocompleteServices} from 'src/constants';
+import {Constants, autocompleteServices} from 'src/constants';
 
 export const defaultOrderInitialization: IOrderInitialization = {
     appSetting: {
@@ -10,7 +10,11 @@ export const defaultOrderInitialization: IOrderInitialization = {
         billingType: 'same',
         discountText: '',
         pigiDisplaySca: false,
-        isExpressPaySectionEnable: false
+        isExpressPaySectionEnable: false,
+        isOnePageTheme: false,
+        allowNavigation: false,
+        paymentComponentType: Constants.PIGI,
+        epsBoldPayment: null,
     },
     isLoading: {
         pigiIframe: false,
@@ -37,6 +41,9 @@ export const defaultOrderInitialization: IOrderInitialization = {
         pigi: false,
         pigiLoaded: false,
         scaToken: false,
+        batchPostShippingAddress: false,
+        batchPostBillingAddress: false,
+        taxesGenerated: false,
     },
     isSessionInitialized: false,
     overlay: {
@@ -104,7 +111,8 @@ export const defaultOrderInitialization: IOrderInitialization = {
                 selected_shipping: {
                     id: '',
                     description: '',
-                    amount: 0
+                    amount: 0,
+                    code: '',
                 },
                 available_shipping_lines: [],
                 taxes: [],
@@ -131,6 +139,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
             created_via: '',
             is_processed: false,
             link_to_cart: '',
+            flow_id: null,
         },
         initial_data: {
             shop_name: '',
@@ -152,8 +161,10 @@ export const defaultOrderInitialization: IOrderInitialization = {
             alternative_payment_methods: [],
             external_payment_gateways: [],
             life_elements: [],
+            fraud_tools: [],
             flow_settings: {},
             requires_shipping: true,
+            eps_gateways:{},
         }
     },
 };

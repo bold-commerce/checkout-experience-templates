@@ -1,7 +1,13 @@
 import {IFormControlsProps} from 'src/types';
-import {getTerm, getTotalsFromState, callProcessOrder, getReturnToCartTermAndLink} from 'src/utils';
+import {
+    getTerm,
+    getTotalsFromState,
+    callProcessOrder,
+    getReturnToCartTermAndLink,
+    callEpsProcessOrder
+} from 'src/utils';
 import {Constants, LifeInputPageConstants} from 'src/constants';
-import {useGetAppSettingData, useGetIsLoading, useGetLifeFieldsOnPage} from 'src/hooks';
+import {useGetAppSettingData, useGetEpsGateways, useGetIsLoading, useGetLifeFieldsOnPage} from 'src/hooks';
 import {useCallback, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
@@ -16,6 +22,7 @@ export function useGetOnePageFooterData(): IUseGetOnePageFooterDataProps {
     const {term, link} = getReturnToCartTermAndLink();
     const language = useGetAppSettingData('languageIso') as string;
     const backLinkText = getTerm(term, Constants.CUSTOMER_INFO);
+    const isGatewayEps = useGetEpsGateways();
     const nextButtonText = getTerm('complete_order', Constants.PAYMENT_INFO);
     const nextButtonLoading = useGetIsLoading();
     const title = getTerm('checkout_form_title', Constants.GLOBAL_INFO, undefined , 'Checkout form');
@@ -27,12 +34,16 @@ export function useGetOnePageFooterData(): IUseGetOnePageFooterDataProps {
     const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.ONE_PAGE);
     const thankYouPageLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.THANK_YOU_PAGE);
     const nextButtonOnClick = useCallback(() => {
-        callProcessOrder(dispatch, totals, history, requiredLifeFields, thankYouPageLifeFields);
+        if(isGatewayEps) {
+            dispatch(callEpsProcessOrder(history, totals, requiredLifeFields, thankYouPageLifeFields));
+        } else {
+            callProcessOrder(dispatch, totals, history, requiredLifeFields, isGatewayEps, thankYouPageLifeFields);
+        }
     }, [totals]);
 
     useEffect( () => {
         dispatch(initializeExpressPay(history));
-    }, []);
+    }, [isGatewayEps]);
 
     return {backLinkOnClick, backLinkText, nextButtonOnClick, nextButtonText, nextButtonLoading, language, title, nextButtonTestDataId};
 }

@@ -2,6 +2,7 @@ import {IAddress, IInitializeOrderResponse} from '@boldcommerce/checkout-fronten
 
 export const initialDataMock: IInitializeOrderResponse = {
     'initial_data': {
+        'eps_gateways': {},
         'shop_name': 'local-dev-store.mybigcommerce.com',
         'country_info': [
             {
@@ -516,7 +517,8 @@ export const initialDataMock: IInitializeOrderResponse = {
                 'phone_number_required': false,
                 'accepts_marketing_checkbox_option': 'checked',
                 'tax_exempt_checkbox_enabled': false,
-                'tax_shipping': true
+                'tax_shipping': true,
+                'rsa_enabled': true,
             },
             'address_autocomplete': {
                 'provider': null,
@@ -539,6 +541,7 @@ export const initialDataMock: IInitializeOrderResponse = {
             'location': 'customer_info_above',
             'currency': 'USD'
         }],
+        'fraud_tools': [],
         'life_elements': [
             {
                 'location':'customer_info',
@@ -682,13 +685,15 @@ export const initialDataMock: IInitializeOrderResponse = {
             'selected_shipping': {
                 id: 'shipping_id_1',
                 description: 'USPS ground carrier',
-                amount: 19.99
+                amount: 19.99,
+                code: '',
             },
             'available_shipping_lines': [
                 {
                     id: 'shipping_id_1',
                     description: 'USPS ground carrier',
-                    amount: 19.99
+                    amount: 19.99,
+                    code: '',
                 }
             ],
             'taxes': [],
@@ -712,6 +717,7 @@ export const initialDataMock: IInitializeOrderResponse = {
         },
         'display_exchange_rate': 1,
         link_to_cart: '',
+        'flow_id': 'mock_flow', 
     },
     'jwt_token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfb3JkZXJfaWQiOiJhRnpSV21JUXUxeWNSY1hLZHRoYXNYUGU1TEdZQ201b1IzRzhqNmNQRWgya1VJTE0ydUEyejdPaFJrZzI4YVduIiwiZXhwIjoxNjI3MzExMTM1fQ.6YwERIdKKv1YO19PauBbKnoupfLjtpLiMEt4i_YG5Ao',
     'public_order_id': 'aFzRWmIQu1ycRcXKdthasXPe5LGYCm5oR3G8j6cPEh2kUILM2uA2z7OhRkg28aWn'
@@ -738,7 +744,8 @@ export const initialDataMockEmptyShippingLines: IInitializeOrderResponse = {
             selected_shipping: {
                 id: '',
                 description: '',
-                amount: 0
+                amount: 0,
+                code: '',
             },
         }
     }

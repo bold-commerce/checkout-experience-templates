@@ -244,6 +244,7 @@ export interface IShippingLinesHookProps{
     handleChange: (e) => void
     formattedPrice: string
     shippingAddressValid: boolean;
+    useShippingLineCode: boolean;
 }
 
 export interface IExternalPaymentGatewayProps {
@@ -316,7 +317,7 @@ export interface IUseGuestCustomer {
     handleBlurEmail?: (e) => void;
     handleCheckboxChange: () => void;
     acceptMarketingChecked: boolean;
-    acceptMarketingHidden: boolean
+    acceptMarketingHidden: boolean;
 }
 
 export interface IBillingAddress {
@@ -441,7 +442,8 @@ export interface IUseGetPaymentSection {
     notValidText: string;
     fieldSectionText: string;
     isValidPigiLoad: boolean;
-    onLoad: () => void;
+    onLoad: (isEpsPayment?: boolean) => void;
+    isGatewayEps: boolean;
 }
 
 export interface IUseGetExternalPaymentGatewaySection {
