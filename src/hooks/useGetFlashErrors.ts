@@ -23,7 +23,7 @@ export function useGetFlashErrors(type = 'flash'): Array<IUseGetFlashError> {
             );
 
             if(fieldTerms && fieldTerms.showType === type) {
-                const message = getErrorTerm(fieldTerms.term, fieldTerms.section, blob);
+                const message = getErrorTerm(fieldTerms.term, fieldTerms.section, blob, error.message);
                 const flashError: IUseGetFlashError = {message, error};
                 arr.push(flashError);
             } else {

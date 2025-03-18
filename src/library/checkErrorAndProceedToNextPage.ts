@@ -22,7 +22,7 @@ export function checkErrorAndProceedToNextPage (
 
         if (errors.length <= 0 || isOnlyDiscountCodeError(errors)) {
             history.replace(getCheckoutUrl(page));
-            if(callOrderCompleteAnalytics){
+            if (callOrderCompleteAnalytics) {
                 const {public_order_id: id, application_state: appState} = getState().data;
                 const customer = appState.customer;
                 const addresses = appState.addresses;

@@ -1,5 +1,7 @@
 import {CSSProperties, Dispatch, RefObject, SetStateAction} from 'react';
 import {Options as FocusTrapOptions} from 'focus-trap';
+import {IInitializeOrderResponse} from '@boldcommerce/checkout-frontend-library';
+
 export interface IUseModal {
     isOpen: boolean;
 }
@@ -47,4 +49,9 @@ export interface IUseGetCloseBuyNow {
 
 export interface IUseCheckShippingAddress {
     isValid: boolean;
+}
+
+export interface IUseGetInitializeInModal {
+    initializeInModal: boolean;
+    orderData: IInitializeOrderResponse|null;
 }

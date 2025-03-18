@@ -87,7 +87,7 @@ describe('Testing hook useGetOrderRecap', () => {
 
     test('rendering the hook with no order data', () => {
         const customer = {...initialDataMock.application_state.customer, first_name: '', email_address: ''};
-        const shippingMethod = {id: '', description: '', amount: 0};
+        const shippingMethod = {id: '', description: '', amount: 0, code: ''};
         const newResponse = {...mockResponse, noOrderData: true, shippingDescription: '', customerDetails: []};
         useGetCustomerInfoDataMock.mockReturnValueOnce(customer);
         useGetShippingDataMock.mockReturnValueOnce(emptyAddressMock);

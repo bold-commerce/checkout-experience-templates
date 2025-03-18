@@ -1,6 +1,7 @@
 import React from 'react';
 import {FieldSection, LockedSection, LoadingSection, ShippingLine, ConditionalWrap} from 'src/components';
 import {
+    useGetBatchShippingLines,
     useGetGeneralSettingCheckoutFields,
     useGetRequiresShipping,
     useGetSelectShippingLine,
@@ -10,7 +11,7 @@ import {IShippingLinesProps} from 'src/types';
 import {Constants} from 'src/constants';
 
 export function ShippingLines(props: IShippingLinesProps): React.ReactElement {
-    const {loading, isValidAddress, notValidText, fieldSectionText, taxShippingText} = useGetShippingLines();
+    const {loading, isValidAddress, notValidText, fieldSectionText, taxShippingText} = props.theme === Constants.ONE_PAGE ? useGetBatchShippingLines() : useGetShippingLines();
     const selectedLine = useGetSelectShippingLine();
     const requiresShipping = useGetRequiresShipping();
     const displayShippingAlert = props.theme === Constants.THREE_PAGE && useGetGeneralSettingCheckoutFields('tax_shipping');

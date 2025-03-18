@@ -7,6 +7,7 @@ import {
     IPigiHandleScaSteps,
     IPigiPaymentTypes
 } from 'src/types';
+import {ICustomer} from '@boldcommerce/checkout-frontend-library/lib/types/apiInterfaces';
 
 export class Constants {
     static readonly SHIPPING_TOGGLE = 'SHIPPING_TOGGLE';
@@ -46,6 +47,7 @@ export class Constants {
     static readonly GLOBAL_INFO = 'global';
     static readonly GENERIC_ERROR_INFO = 'generic';
     static readonly PIGI_IFRAME = 'iframe-payment-gateway';
+    static readonly EPS_IFRAME = 'eps-iframe-payment-gateway';
     static readonly MAX_COUNTRIES_GOOGLE_AUTOCOMPLETE = 5;
     static readonly LANGUAGE_BLOB_TYPE = 'LANGUAGE_BLOB_TYPE';
     static readonly LANGUAGE_BLOB_ERROR_TYPE = 'LANGUAGE_BLOB_ERROR_TYPE';
@@ -57,8 +59,11 @@ export class Constants {
     static readonly PAYMENT_ROUTE = 'payment';
     static readonly OUT_OF_STOCK_ROUTE = 'out_of_stock';
     static readonly THANK_YOU_ROUTE = 'thank_you';
+    static readonly PROCESS_ROUTE = 'process';
     static readonly SESSION_EXPIRED_ROUTE = 'session_expired';
     static readonly BUY_NOW_ROUTE = 'buy_now';
+    static readonly FASTLANE = 'fastlane';
+    static readonly PIGI = 'pigi';
 
     static readonly DEFAULT_TITLE = 'default title';
     static readonly ARIA_LIVE_POLITE = 'polite';
@@ -68,6 +73,7 @@ export class Constants {
     static readonly CUSTOMER_INFO_BELOW = 'customer_info_below';
     static readonly CUSTOMER_INFO_ABOVE = 'customer_info_above';
     static readonly THREE_PAGE = 'three-page';
+    static readonly ONE_PAGE = 'one-page';
     static readonly DATE_PICKER = 'date_picker';
 }
 
@@ -135,6 +141,16 @@ export const errorShowType: IErrorShowType = {
     none: 'none',
 };
 
+export const defaultCustomer: ICustomer = {
+    platform_id: null,
+    public_id: null,
+    first_name: '',
+    last_name: '',
+    email_address: '',
+    accepts_marketing: false,
+    saved_addresses: []
+};
+
 export class BreadcrumbsStatus {
     static COMPLETED = 'completed';
     static ACTIVE = 'active';
@@ -158,7 +174,8 @@ export class debounceConstants {
 export const pigiHandleScaSteps: IPigiHandleScaSteps = {
     DISPLAYED: 'DISPLAYED',
     COMPLETED: 'COMPLETED',
-    FAILED: 'FAILED'
+    FAILED: 'FAILED',
+    REDIRECT: 'REDIRECT',
 };
 
 export const pigiPaymentTypes: IPigiPaymentTypes = {
@@ -246,3 +263,5 @@ export const TABLET_SCREEN_WIDTH = 1200;
 export const TEXTAREA_MAX_LENGTH = 2000;
 
 export const PLUGIN_BACKEND_DISCOUNT_SOURCE = 'cart';
+
+export const BRAINTREE_GOOGLE_EMPTY_SHIPPING_OPTION = 'shipping_option_unselected';

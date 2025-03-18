@@ -27,6 +27,7 @@ export * from './external-payment-gateway/external-payment-gateway';
 export * from './external-payment-gateway-iframe/externalPaymentGatewayIframe';
 export * from './expandable-discount/expandableDiscount';
 export * from './express-payment-gateway/expressPaymentGateway';
+export * from './eps-express-payment-gateway/epsExpressPaymentGateway';
 export * from './field-checkbox/fieldCheckbox';
 export * from './field-input/fieldInput';
 export * from './field-radio/fieldRadio';

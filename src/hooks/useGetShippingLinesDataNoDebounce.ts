@@ -21,18 +21,19 @@ export function useGetShippingLinesDataNoDebounce(): IShippingLinesHookProps {
     const selectedLine: IShippingLine = useGetSelectShippingLine();
     const shippingLinesLength = shippingLines.length;
     const orderTotal = useGetOrderTotal();
+    const useShippingLineCode = !shippingLines.find(line => !line.code);
 
     const noShippingAreaText = getTerm('no_shipping_available', Constants.SHIPPING_METHOD_INFO);
 
     const handleChange = useCallback(e => {
-        const id = e.target.value;
-        const shippingLine = shippingLines.find(o => o.id === id);
+        const value = e.target.value;
+        const shippingLine = shippingLines.find(o => useShippingLineCode ? o.code === value : o.id === value);
         if (shippingLine) {
             dispatch(actionSetSelectedShippingLine(shippingLine));
             dispatch(actionOrderTotal(shippingLine.amount - selectedLine.amount + orderTotal));
         }
 
-    }, [shippingLines]);
+    }, [shippingLines, useShippingLineCode]);
 
-    return {shippingLines, selectedLine, noShippingAreaText, shippingLinesLength, handleChange, formattedPrice, shippingAddressValid};
+    return {shippingLines, selectedLine, noShippingAreaText, shippingLinesLength, handleChange, formattedPrice, shippingAddressValid, useShippingLineCode};
 }

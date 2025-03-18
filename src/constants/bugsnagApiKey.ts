@@ -1,0 +1,4 @@
+declare const BUGSNAG_STAGING_API_KEY : string | undefined;
+declare const BUGSNAG_PRODUCTION_API_KEY : string | undefined;
+export const BUGSNAG_API_KEY_STAGING = BUGSNAG_STAGING_API_KEY;
+export const BUGSNAG_API_KEY_PRODUCTION = BUGSNAG_PRODUCTION_API_KEY;

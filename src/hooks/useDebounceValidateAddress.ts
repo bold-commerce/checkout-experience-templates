@@ -21,14 +21,18 @@ export function useDebouncedValidateAddress(type: string): () => void{
     }, debounceConstants.DEBOUNCE_UI_UPDATE_TIME);
 
     const debouncedApi = useDebouncedCallback(() => {
-
-        if (type === Constants.SHIPPING){
+        if (type === Constants.SHIPPING) {
+            dispatch(actionSetAppStateValid('batchPostShippingAddress', false));
+            if(billingType === Constants.SHIPPING_SAME) {
+                dispatch(actionSetAppStateValid('batchPostBillingAddress', false));
+            }
             dispatch(validateShippingAddress).then(() => {
                 if(billingType === Constants.SHIPPING_SAME) {
                     dispatch(validateBillingAddress());
                 }
             });
-        } else if (type === Constants.BILLING){
+        } else if (type === Constants.BILLING) {
+            dispatch(actionSetAppStateValid('batchPostBillingAddress', false));
             dispatch(validateBillingAddress());
         }
     }, debounceConstants.DEFAULT_DEBOUNCE_TIME);

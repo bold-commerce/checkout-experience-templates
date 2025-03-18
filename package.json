@@ -1,6 +1,6 @@
 {
   "name": "@boldcommerce/checkout-experience-templates",
-  "version": "1.0.1-build.320",
+  "version": "1.0.1-build.578",
   "description": "Code base to generate the Javascript template to load Checkout using Bold Checkout Storefront APIs",
   "main": "index.js",
   "license": "MIT",
@@ -27,6 +27,7 @@
   "devDependencies": {
     "@testing-library/react": "^12.0.0",
     "@testing-library/react-hooks": "^7.0.2",
+    "@types/applepayjs": "^3.0.4",
     "@types/jest": "^27.0.0",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@typescript-eslint/parser": "^4.25.0",
@@ -42,14 +43,16 @@
     "style-loader": "^2.0.0",
     "ts-jest": "^27.0.3",
     "ts-loader": "^9.2.1",
+    "typescript": "^4.2.4",
+    "typescript-plugin-css-modules": "5.0.0",
     "webpack": "^5.37.0",
     "webpack-bugsnag-plugins": "^1.8.0",
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^4.9.2"
   },
   "dependencies": {
-    "@boldcommerce/checkout-express-pay-library": "0.26.1",
-    "@boldcommerce/checkout-frontend-library": "0.53.0",
+    "@boldcommerce/checkout-express-pay-library": "0.38.6",
+    "@boldcommerce/checkout-frontend-library": "0.62.2",
     "@boldcommerce/stacks-ui": "^1.1.1",
     "@bugsnag/js": "^7.16.2",
     "@redux-devtools/extension": "^3.2.2",
@@ -71,7 +74,6 @@
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
     "tiny-date-picker": "3.2.8",
-    "typescript": "^4.2.4",
     "use-debounce": "^7.0.0"
   },
   "resolutions": {

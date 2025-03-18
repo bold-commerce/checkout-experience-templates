@@ -9,7 +9,8 @@ import {
     isOnlyFlashError,
     retrieveErrorFromResponse,
     displayDefaultFlashError,
-    setMetadata
+    setMetadata,
+    getAddressType,
 } from 'src/utils';
 import {actionAddError, actionShowHideOverlayContent} from 'src/action';
 import {HistoryLocationState} from 'react-router';
@@ -75,8 +76,22 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
                 const errors = retrieveErrorFromResponse(response);
                 if (errors && Array.isArray(errors)) {
                     errors.forEach(e => {
-                        const error: IError = Object.assign(e , {address_type: addressType || e.address_type || ''});
-                        dispatch(actionAddError(error));
+                        const error: IError = Object.assign(e , {address_type: getAddressType(addressType, e)});
+                        if (error.field === 'is_processed') {
+                            const history: HistoryLocationState = getHook('history');
+                            history.replace(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
+                        } else {
+                            if (error.message === 'There are insufficient payments to cover this order') {
+                                // Error message for empty CC details, temporary fix until CHK-7079 is resolved
+                                // clearing error properties to display the message as is in the frontend
+                                error.message= 'Payment failed. Please try again or select a different payment method in the "Pay With" section.';
+                                error.field = '';
+                                error.severity = '';
+                                error.type = '';
+                                error.sub_type = '';
+                            }
+                            dispatch(actionAddError(error));
+                        }
                     });
                 }
                 break;

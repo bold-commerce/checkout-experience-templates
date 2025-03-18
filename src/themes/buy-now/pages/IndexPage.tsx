@@ -1,7 +1,7 @@
 import React, {ForwardedRef} from 'react';
-import {useGetCurrencyInformation, useGetOverlayVisible} from 'src/hooks';
+import {useGetCurrencyInformation, useGetExternalPaymentGateways, useGetOverlayVisible} from 'src/hooks';
 import {useFocusTrap, useGetCloseBuyNow, useIndexPage, useCheckShippingAddress} from 'src/themes/buy-now/hooks';
-import {BillingAddressCheckbox, CartItems, CloseableHeader, CondensedSection, CondensedShipping, ExpandableDiscount, FlashError, Payment} from 'src/components';
+import {BillingAddressCheckbox, CartItems, CloseableHeader, CondensedSection, CondensedShipping, ExpandableDiscount, ExpressPaymentGateway, ExternalPaymentGateway, FlashError, Payment} from 'src/components';
 import {Price} from '@boldcommerce/stacks-ui';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
@@ -24,6 +24,7 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
         checkoutOnClick,
         updateLineItemQuantity,
     } = useIndexPage();
+    const externalPaymentGateways = useGetExternalPaymentGateways(Constants.CUSTOMER_INFO_ABOVE);
     const {isValid: isShippingAddressValid} = useCheckShippingAddress();
     const {closeBuyNow, websiteName, loginUrl} = useGetCloseBuyNow();
     const {formattedPrice} = useGetCurrencyInformation();
@@ -64,7 +65,17 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
                         </div>
                     )}
                 </CondensedSection>
+                <ExpressPaymentGateway/>
                 <CondensedSection {...{className: 'buy-now__payment buy-now__section', navigationHeadingProps: {text: paymentHeadingText, className: 'payment-heading'}}} >
+                    {externalPaymentGateways.map((externalGateway) =>
+                        <ExternalPaymentGateway
+                            externalPaymentGateway={externalGateway}
+                            loadIframeImmediately={true}
+                            showTitle={false}
+                            key={externalGateway.public_id}
+                            position={Constants.CUSTOMER_INFO_ABOVE}
+                        />
+                    )}
                     <Payment showTitle={false} loadIframeImmediately={true} />
                     <ExpandableDiscount />
                     <BillingAddressCheckbox />

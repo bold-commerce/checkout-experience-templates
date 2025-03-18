@@ -8,11 +8,12 @@ import {
 import {handleErrorIfNeeded, isObjectEquals, validateAddressFields} from 'src/utils';
 import {API_RETRY, Constants, defaultAddressState} from 'src/constants';
 import {deleteAddress, postAddress} from 'src/library';
-import {actionRemoveErrorByAddressType, actionSetAppStateValid} from 'src/action';
+import {actionRemoveErrorByAddressType, actionSetAppStateValid, actionSetLoader} from 'src/action';
 
 export function validateAddressFunction(type: string, address: Partial<IAddress>, libraryAddress: Partial<IAddress>) {
     return async function validateCustomerThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         const generalSetting = getState().data.initial_data.general_settings.checkout_process;
+        const isOnePageTheme = getState().appSetting.isOnePageTheme;
 
         const validationField = ((
             {first_name, last_name, address_line_1, country_code, city}) => (
@@ -49,11 +50,22 @@ export function validateAddressFunction(type: string, address: Partial<IAddress>
                 const isAddressValidated = response.success;
 
                 if (isAddressValidated && isAddressFieldsValidated) {
-                    await dispatch(postAddress(type));
+                    if (isOnePageTheme) {
+                        if (type === Constants.SHIPPING) {
+                            dispatch(actionSetAppStateValid('batchPostShippingAddress', true));
+                        } else {
+                            dispatch(actionSetAppStateValid('batchPostBillingAddress', true));
+                        }
+                    } else {
+                        await dispatch(postAddress(type));
+                    }
                 } else if (type === Constants.SHIPPING) {
                     dispatch(actionSetAppStateValid('shippingAddress', false));
+                    dispatch(actionSetAppStateValid('batchPostShippingAddress', false));
+                    dispatch(actionSetLoader('shippingLines', false));
                 } else if (type === Constants.BILLING){
                     dispatch(actionSetAppStateValid('billingAddress', false));
+                    dispatch(actionSetAppStateValid('batchPostBillingAddress', false));
                 }
             }
 

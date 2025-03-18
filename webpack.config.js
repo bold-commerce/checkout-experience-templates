@@ -72,6 +72,8 @@ module.exports = {
         ...bugsnagPlugin,
         new webpack.DefinePlugin({
             VERSION: JSON.stringify(version),
+            BUGSNAG_STAGING_API_KEY: JSON.stringify(bugsnagApiKeyStaging),
+            BUGSNAG_PRODUCTION_API_KEY: JSON.stringify(bugsnagApiKeyProduction),
         }),
     ],
     performance: {

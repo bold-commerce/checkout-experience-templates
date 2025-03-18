@@ -33,7 +33,8 @@ describe('testing shippingLines', () => {
             selected_shipping: {
                 id: '',
                 description: '',
-                amount: 0
+                amount: 0,
+                code: '',
             }
         },
         {
@@ -41,17 +42,20 @@ describe('testing shippingLines', () => {
             available_shipping_lines: [{
                 id: 'shipping_id_1',
                 description: 'USPS ground carrier',
-                amount: 19.99
+                amount: 19.99,
+                code: '',
             },
             {
                 id: 'shipping_id_2',
                 description: 'USPS express carrier',
-                amount: 25.99
+                amount: 25.99,
+                code: '',
             }],
             selected_shipping: {
                 id: '',
                 description: '',
-                amount: 0
+                amount: 0,
+                code: '',
             }
         },
         {
@@ -59,21 +63,23 @@ describe('testing shippingLines', () => {
             available_shipping_lines: [{
                 id: 'shipping_id_1',
                 description: 'USPS ground carrier',
-                amount: 19.99
+                amount: 19.99,
+                code: '',
             },
             {
                 id: 'shipping_id_2',
                 description: 'USPS express carrier',
-                amount: 25.99
+                amount: 25.99,
+                code: '',
             }],
             selected_shipping: {
                 id: 'shipping_id_2',
                 description: 'USPS express carrier',
-                amount: 25.99
+                amount: 25.99,
+                code: '',
             }
         },
-
-    ]
+    ];
 
 
     beforeEach(() => {
@@ -218,7 +224,7 @@ describe('testing shippingLines', () => {
     test('tests calling get shipping lines with a success but empty shipping lines', async () => {
         const newReturnObj = { ...returnObject, success: true };
         const tempMock = { ...stateMock };
-        const availableShippingLines = shippingData[0].available_shipping_lines
+        const availableShippingLines = shippingData[0].available_shipping_lines;
 
         tempMock.data.application_state.shipping.available_shipping_lines = availableShippingLines;
 

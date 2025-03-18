@@ -1,6 +1,6 @@
 import {render} from '@testing-library/react';
 import {CustomerPage} from 'src/themes/three-page/pages';
-import {IFrontEndEvent, IUseCustomerPageProp} from 'src/types';
+import {IUseCustomerPageProp} from 'src/types';
 import React from 'react';
 import {initialDataMock} from 'src/mocks';
 import {mocked} from 'jest-mock';

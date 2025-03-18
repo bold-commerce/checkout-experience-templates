@@ -2,18 +2,20 @@ import { renderHook } from '@testing-library/react-hooks';
 import { mocked } from 'jest-mock';
 
 import { Constants } from 'src/constants';
-import { useGetThankYou, useGetCustomerInfoData, useGetValidVariable, useGetShopUrlFromShopAlias } from 'src/hooks';
+import { useGetThankYou, useGetCustomerInfoData, useGetValidVariable, useGetShopUrlFromShopAlias, useGetIsOrderProcessed } from 'src/hooks';
 import { initialDataMock } from 'src/mocks';
 import { IUseGetThankYou } from 'src/types';
 import { getTerm, getShopDomain } from 'src/utils';
 
 jest.mock('src/utils');
 jest.mock('src/hooks/useGetCustomerInformation');
+jest.mock('src/hooks/useGetIsOrderProcessed');
 jest.mock('src/hooks/useGetValidVariable');
 jest.mock('src/hooks/useGetShopUrlFromShopAlias');
 
 const getTermMock = mocked(getTerm, true);
 const useGetCustomerInfoDataMock = mocked(useGetCustomerInfoData, true);
+const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
 const useGetValidVariableMock = mocked(useGetValidVariable, true);
 const useGetShopUrlFromShopAliasMock = mocked(useGetShopUrlFromShopAlias, true);
 const getShopDomainMock = mocked(getShopDomain, true);
@@ -81,6 +83,7 @@ describe('Testing hook useGetThankYou', () => {
        
         getTermMock.mockReturnValue('');
         useGetCustomerInfoDataMock.mockReturnValue(initialDataMock.application_state.customer);
+        useGetIsOrderProcessedMock.mockReturnValue(false);
         useGetValidVariableMock.mockReturnValue(true);
        
         window = Object.create(window);

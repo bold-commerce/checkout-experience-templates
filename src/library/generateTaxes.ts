@@ -4,9 +4,11 @@ import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
 import {getSummaryStateFromLib} from 'src/library';
 import {API_RETRY} from 'src/constants';
+import {actionSetAppStateValid} from 'src/action';
 
 export async function generateTaxes(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void>{
     const response:IApiReturnObject = await setTaxes(API_RETRY);
     handleErrorIfNeeded(response, dispatch, getState);
+    dispatch(actionSetAppStateValid('taxesGenerated', response.success));
     dispatch(getSummaryStateFromLib);
 }

@@ -271,3 +271,15 @@ button.taxes-amount__arrow:active {
     height:1px;
     overflow:hidden;
 }
+
+#eps-iframe-payment-gateway {
+    width: 100%;
+}
+
+#eps-express-pay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    flex-direction: column;
+}

@@ -48,7 +48,8 @@ describe('Testing hook useDebounceValidateAddress', () => {
         jest.runAllTimers();
         await Promise.resolve();
 
-        expect(mockDispatch).toBeCalledTimes(1);
+        expect(mockDispatch).toBeCalledTimes(2);
+        expect(actionSetAppStateValidMock).toBeCalledTimes(1);
         expect(mockDispatch).toBeCalledWith(validateShippingAddress);
 
         expect(setTimeout).toBeCalledWith(expect.any(Function), debounceConstants.DEFAULT_DEBOUNCE_TIME);
@@ -66,10 +67,10 @@ describe('Testing hook useDebounceValidateAddress', () => {
         jest.runAllTimers();
         await Promise.resolve();
 
-        expect(mockDispatch).toBeCalledTimes(4);
+        expect(mockDispatch).toBeCalledTimes(6);
         expect(mockDispatch).toBeCalledWith(validateShippingAddress);
         expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
-        expect(actionSetAppStateValidMock).toBeCalledTimes(1);
+        expect(actionSetAppStateValidMock).toBeCalledTimes(3);
         expect(actionSetLoaderMock).toBeCalledTimes(1);
 
         expect(setTimeout).toBeCalledWith(expect.any(Function), debounceConstants.DEFAULT_DEBOUNCE_TIME);
@@ -84,7 +85,8 @@ describe('Testing hook useDebounceValidateAddress', () => {
         jest.runAllTimers();
         await Promise.resolve();
 
-        expect(mockDispatch).toBeCalledTimes(1);
+        expect(mockDispatch).toBeCalledTimes(2);
+        expect(actionSetAppStateValidMock).toBeCalledTimes(1);
         expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
 
         expect(setTimeout).toBeCalledWith(expect.any(Function), debounceConstants.DEFAULT_DEBOUNCE_TIME);

@@ -5,15 +5,13 @@ import {
     useGetButtonDisableVariable,
     useGetIsLoading,
     useGetIsOrderProcessed,
-    useGetGeneralSettingCheckoutFields,
     useGetLifeFieldsOnPage,
     useGetRequiresShipping
 } from 'src/hooks';
 import {
-    callCustomerPageApi,
     initializeExpressPay,
     validateLifeFields,
-    callCustomerPageApiV2
+    callCustomerPageApi
 } from 'src/library';
 import {useHistory} from 'react-router';
 import {Constants, LifeInputPageConstants} from 'src/constants';
@@ -46,10 +44,9 @@ export function useCustomerPage(): IUseCustomerPageProp {
     const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.CUSTOMER_THREE_PAGE);
     const nextButtonOnClick = useCallback(() => {
         sendEvents('Clicked continue to shipping lines button', {'category': 'Checkout'});
-
         dispatch(actionClearErrors());
         dispatch(validateLifeFields(requiredLifeFields));
-        dispatch(callCustomerPageApiV2(history));
+        dispatch(callCustomerPageApi(history));
     } , []);
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
 

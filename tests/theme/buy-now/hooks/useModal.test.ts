@@ -1,12 +1,13 @@
 import {renderHook} from '@testing-library/react-hooks';
-import { stateMock } from 'src/mocks';
-import { useModal } from 'src/themes/buy-now/hooks/useModal';
+import {stateMock} from 'src/mocks';
+import {useModal} from 'src/themes/buy-now/hooks/useModal';
 import {fireEvent} from '@testing-library/react';
-import { checkInventory, initializeExpressPay, initializeSession, setDefaultAddresses } from 'src/library';
-import { mocked } from 'jest-mock';
-import { actionClearValidStates, actionGetInitialData, actionSetSessionInitialized, actionSetOverlayContent, actionShowHideOverlayContent, actionUpdateAppData } from 'src/action';
-import { getOrderInitialization } from 'src/utils/getOrderInitialization';
-import { useGetValidVariable } from 'src/hooks';
+import {checkInventory, initializeSession, setDefaultAddresses} from 'src/library';
+import {mocked} from 'jest-mock';
+import {actionClearValidStates, actionGetInitialData, actionSetSessionInitialized, actionSetOverlayContent, actionShowHideOverlayContent, actionUpdateAppData} from 'src/action';
+import {getOrderInitialization} from 'src/utils/getOrderInitialization';
+import {useGetValidVariable} from 'src/hooks';
+import {useGetInitializeInModal} from 'src/themes/buy-now/hooks';
 
 function flushMessageQueue(ms = 10) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -22,18 +23,21 @@ jest.mock('src/library/session');
 jest.mock('src/library/setDefaultAddresses');
 jest.mock('src/library/checkInventory');
 jest.mock('src/hooks/useGetValidVariable');
-jest.mock('src/library/initializeExpressPay');
+jest.mock('src/themes/buy-now/hooks/useGetInitializeInModal');
 const getOrderInitializationMock = mocked(getOrderInitialization, true);
 const initializeSessionMock = mocked(initializeSession, true);
 const setDefaultAddressesMock = mocked(setDefaultAddresses, true);
 const checkInventoryMock = mocked(checkInventory, true);
 const useGetValidVariableMock = mocked(useGetValidVariable, true);
-const initializeExpressPayMock = mocked(initializeExpressPay, true);
+const useGetInitializeInModalMock = mocked(useGetInitializeInModal, true);
 
 describe('Testing useModal', () => {
     const mockSetDefaultAddresses = Promise.resolve();
     const mockInventoryCheck = jest.fn();
-    const mockExpressEntry = jest.fn();
+    const mockInitializeInModal = {
+        initializeInModal: false,
+        orderData: null
+    };
     Object.defineProperty(window, 'location', {
         value: {
             hostname: 'store.com'
@@ -46,7 +50,7 @@ describe('Testing useModal', () => {
         setDefaultAddressesMock.mockReturnValue(mockSetDefaultAddresses);
         checkInventoryMock.mockReturnValue(mockInventoryCheck);
         useGetValidVariableMock.mockReturnValue(false);
-        initializeExpressPayMock.mockReturnValue(mockExpressEntry);
+        useGetInitializeInModalMock.mockReturnValue(mockInitializeInModal);
     });
 
     test('test hook properly', () => {
@@ -104,13 +108,35 @@ describe('Testing useModal', () => {
         fireEvent(window, new MessageEvent('message', {data: initializedEvent}));
         await flushMessageQueue();
 
-        expect(mockDispatch).toHaveBeenCalledTimes(6);
+        expect(mockDispatch).toHaveBeenCalledTimes(5);
         expect(mockDispatch).toHaveBeenCalledWith(actionUpdateAppData({...stateMock, overlay: loadingOverlay}));
         expect(mockDispatch).toHaveBeenCalledWith(initializeSessionMock);
         expect(mockDispatch).toHaveBeenCalledWith(actionGetInitialData('store.com'));
         expect(mockDispatch).toHaveBeenCalledWith(setDefaultAddressesMock);
         expect(mockDispatch).toHaveBeenCalledWith(mockInventoryCheck);
-        expect(mockDispatch).toHaveBeenCalledWith(mockExpressEntry);
     });
 
+    test('test handle initialize in modal', () => {
+        useGetInitializeInModalMock.mockReturnValue({
+            initializeInModal: true,
+            orderData: stateMock.data
+        });
+        renderHook(() => useModal());
+        const loadingOverlay = {
+            shown: true,
+            inverted: true,
+            header: '',
+            content: '',
+            buttonText: '',
+            showCustomContent: true
+        };
+
+        expect(mockDispatch).toBeCalledTimes(6);
+        expect(mockDispatch).toBeCalledWith(actionUpdateAppData({...stateMock, overlay: loadingOverlay}));
+        expect(mockDispatch).toBeCalledWith(initializeSessionMock);
+        expect(mockDispatch).toBeCalledWith(actionGetInitialData('store.com'));
+        expect(mockDispatch).toBeCalledWith(setDefaultAddressesMock);
+        expect(mockDispatch).toBeCalledWith(mockInventoryCheck);
+        expect(mockDispatch).toBeCalledWith(actionSetOverlayContent(loadingOverlay));
+    });
 });

@@ -6,7 +6,7 @@ import {
     validateShippingAddressV2,
     validateEmailAddressV2,
     checkErrorAndProceedToNextPage,
-    callCustomerPageApiV2,
+    callCustomerPageApi,
     getPayloadForUpdateCustomer, validateBatchResponse
 } from 'src/library';
 import {actionSetLoaderAndDisableButton} from 'src/action';
@@ -59,7 +59,7 @@ describe('testing callCustomerPageApi v2', () => {
         newStateMock.data.application_state.customer.platform_id = null;
         getState.mockReturnValueOnce(newStateMock);
 
-        const callCustomerPageApiThunk = callCustomerPageApiV2(historyMock);
+        const callCustomerPageApiThunk = callCustomerPageApi(historyMock);
         await callCustomerPageApiThunk(dispatch, getState).then(() => {
             expect(getState).toHaveBeenCalledTimes(1);
             expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
@@ -81,7 +81,7 @@ describe('testing callCustomerPageApi v2', () => {
         newStateMock.data.application_state.customer.platform_id = '0';
         getState.mockReturnValueOnce(newStateMock);
 
-        const callCustomerPageApiThunk = callCustomerPageApiV2(historyMock);
+        const callCustomerPageApiThunk = callCustomerPageApi(historyMock);
         await callCustomerPageApiThunk(dispatch, getState).then(() => {
             expect(getState).toHaveBeenCalledTimes(1);
             expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
@@ -103,7 +103,7 @@ describe('testing callCustomerPageApi v2', () => {
         newStateMock.data.application_state.customer.platform_id = '1234';
         getState.mockReturnValueOnce(newStateMock);
 
-        const callCustomerPageApiThunk = callCustomerPageApiV2(historyMock);
+        const callCustomerPageApiThunk = callCustomerPageApi(historyMock);
         await callCustomerPageApiThunk(dispatch, getState).then(() => {
             expect(getState).toHaveBeenCalledTimes(1);
             expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);
@@ -126,7 +126,7 @@ describe('testing callCustomerPageApi v2', () => {
         newStateMock.data.initial_data.requires_shipping = false;
         getState.mockReturnValueOnce(newStateMock);
 
-        const callCustomerPageApiThunk = callCustomerPageApiV2(historyMock);
+        const callCustomerPageApiThunk = callCustomerPageApi(historyMock);
         await callCustomerPageApiThunk(dispatch, getState).then(() => {
             expect(getState).toHaveBeenCalledTimes(1);
             expect(actionSetLoaderAndDisableButtonMock).toHaveBeenCalledTimes(1);

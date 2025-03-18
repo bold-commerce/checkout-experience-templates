@@ -1,7 +1,6 @@
-import {defaultAddressState} from 'src/constants';
+import {defaultAddressState, defaultCustomer} from 'src/constants';
 import {
     IApplicationState,
-    ICustomer,
     IDiscount,
     ILineItem,
     IOrderMetaData,
@@ -11,7 +10,7 @@ import {
 } from '@boldcommerce/checkout-frontend-library';
 
 export function validateApplicationStateData(appData: IApplicationState): IApplicationState {
-    const customer: ICustomer = appData.customer;
+    let customer = appData.customer;
     let shippingAddress = appData.addresses.shipping;
     let billingAddress = appData.addresses.billing;
     const payments: Array<IPayment> = appData.payments;
@@ -21,6 +20,10 @@ export function validateApplicationStateData(appData: IApplicationState): IAppli
     const availableShippingLines: Array<IShippingLine> = appData.shipping.available_shipping_lines;
     const metaData: IOrderMetaData = appData.order_meta_data;
     let fees = appData.fees;
+
+    if(!customer || Object.keys(customer).length <= 0){
+        customer = defaultCustomer;
+    }
 
     if(!shippingAddress || Object.keys(shippingAddress).length <=0){
         shippingAddress = defaultAddressState;
@@ -33,7 +36,8 @@ export function validateApplicationStateData(appData: IApplicationState): IAppli
         selectedShippingLines = {
             id: '',
             description: '',
-            amount: 0
+            amount: 0,
+            code: '',
         };
     }
 
@@ -68,9 +72,9 @@ export function validateApplicationStateData(appData: IApplicationState): IAppli
             discounts: appData.shipping.discounts
         },
         order_meta_data: metaData,
-        link_to_cart: appData.link_to_cart
+        link_to_cart: appData.link_to_cart,
+        flow_id: appData.flow_id,
     };
 
     return applicationState;
-
 }

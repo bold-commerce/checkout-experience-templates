@@ -3,6 +3,7 @@ import {mocked} from 'jest-mock';
 import {generateTaxes, getSummaryStateFromLib} from 'src/library';
 import {initialDataMock} from 'src/mocks';
 import {handleErrorIfNeeded} from 'src/utils';
+import {actionSetAppStateValid} from 'src/action';
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/taxes');
 jest.mock('src/utils');
@@ -30,8 +31,9 @@ describe('testing Generate Taxes Thunk Action', () => {
             expect(setTaxesMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(returnObject, dispatchMock, getStateMock);
-            expect(dispatchMock).toHaveBeenCalledTimes(1);
+            expect(dispatchMock).toHaveBeenCalledTimes(2);
             expect(dispatchMock).toHaveBeenCalledWith(getSummaryStateFromLib);
+            expect(dispatchMock).toHaveBeenCalledWith(actionSetAppStateValid('taxesGenerated', true));
         });
     });
 });

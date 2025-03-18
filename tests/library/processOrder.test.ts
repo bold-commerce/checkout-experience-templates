@@ -52,13 +52,11 @@ describe('testing checkErrorAndProceedToNextPage', () => {
         const successReturnObj = {...baseReturnObject, success: true, response: {}};
         processOrderLibMock.mockReturnValueOnce(Promise.resolve(successReturnObj));
         const noErrorsState = {...stateMock, errors: []};
-        getState
-            .mockReturnValueOnce(noErrorsState)
-            .mockReturnValueOnce(noErrorsState);
+        getState.mockReturnValue(noErrorsState);
 
         const processOrderThunk = processOrder(historyMock);
         await processOrderThunk(dispatch, getState).then(() => {
-            expect(getState).toHaveBeenCalledTimes(2);
+            expect(getState).toHaveBeenCalledTimes(3);
             expect(processOrderLibMock).toHaveBeenCalledTimes(1);
             expect(useRemoveAllFlashErrorsMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
@@ -77,13 +75,11 @@ describe('testing checkErrorAndProceedToNextPage', () => {
         const successReturnObj = {...baseReturnObject, success: true, status: httpStatusCode.ACCEPTED, response: {handleSCA: true}};
         processOrderLibMock.mockReturnValueOnce(Promise.resolve(successReturnObj));
         const noErrorsState = {...stateMock, errors: []};
-        getState
-            .mockReturnValueOnce(noErrorsState)
-            .mockReturnValueOnce(noErrorsState);
+        getState.mockReturnValue(noErrorsState);
 
         const processOrderThunk = processOrder(historyMock);
         await processOrderThunk(dispatch, getState).then(() => {
-            expect(getState).toHaveBeenCalledTimes(2);
+            expect(getState).toHaveBeenCalledTimes(3);
             expect(processOrderLibMock).toHaveBeenCalledTimes(1);
             expect(useRemoveAllFlashErrorsMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
@@ -101,13 +97,11 @@ describe('testing checkErrorAndProceedToNextPage', () => {
         const successReturnObj = {...baseReturnObject, success: false, response: {}};
         processOrderLibMock.mockReturnValueOnce(Promise.resolve(successReturnObj));
         const noErrorsState = {...stateMock, errors: []};
-        getState
-            .mockReturnValueOnce(noErrorsState)
-            .mockReturnValueOnce(noErrorsState);
+        getState.mockReturnValue(noErrorsState);
 
         const processOrderThunk = processOrder(historyMock);
         await processOrderThunk(dispatch, getState).then(() => {
-            expect(getState).toHaveBeenCalledTimes(3);
+            expect(getState).toHaveBeenCalledTimes(4);
             expect(processOrderLibMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(successReturnObj, dispatch, getState);
@@ -122,7 +116,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
     test('call with errors on state', async () => {
         const processOrderThunk = processOrder(historyMock);
         await processOrderThunk(dispatch, getState).then(() => {
-            expect(getState).toHaveBeenCalledTimes(2);
+            expect(getState).toHaveBeenCalledTimes(3);
             expect(processOrderLibMock).toHaveBeenCalledTimes(0);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(0);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(0);
@@ -151,11 +145,12 @@ describe('testing checkErrorAndProceedToNextPage', () => {
         getState
             .mockReturnValueOnce(noErrorsState)
             .mockReturnValueOnce(noErrorsState)
+            .mockReturnValueOnce(noErrorsState)
             .mockReturnValueOnce(errorsState);
         const processOrderThunk = processOrder(historyMock);
 
         await processOrderThunk(dispatch, getState).then(() => {
-            expect(getState).toHaveBeenCalledTimes(3);
+            expect(getState).toHaveBeenCalledTimes(4);
             expect(processOrderLibMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(0);

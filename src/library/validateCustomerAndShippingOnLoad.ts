@@ -26,7 +26,7 @@ export function validateCustomerAndShippingOnLoad(history: HistoryLocationState)
                 dispatch(validateBillingAddress()).then(async () => {
                     dispatch(returnToPageOnError('', 'customerPageButton', history)).then(() => {
                         const {errors} = getState();
-                        if(!errors || errors.length === 0) {
+                        if (!errors || errors.length === 0) {
                             if (requiresShipping) {
                                 dispatch(validateShippingLine).then(async () => {
                                     dispatch(returnToPageOnError(Constants.SHIPPING_ROUTE, 'shippingPageButton', history));

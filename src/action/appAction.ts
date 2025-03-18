@@ -1,6 +1,6 @@
 import  * as AppActions from './appActionType';
 import {AnyAction} from 'redux';
-import {IError, IOrderInitialization} from 'src/types';
+import {IEpsPayments, IError, IOrderInitialization} from 'src/types';
 import {autocompleteServices} from 'src/constants';
 import {
     IDiscount,
@@ -54,6 +54,13 @@ export function actionUpdateBillingTypeInSettings(type: string): AnyAction {
     return {
         type: AppActions.UPDATE_BILLING_TYPE,
         payload: {type}
+    };
+}
+
+export function actionSetOnePageTheme(isOnePageTheme: boolean): AnyAction {
+    return {
+        type: AppActions.SET_ONE_PAGE_THEME,
+        payload: {isOnePageTheme}
     };
 }
 
@@ -113,10 +120,23 @@ export function actionSetExternalPaymentGatewayLoading(gateway: IExternalPayment
     };
 }
 
+export function actionSetAllowNavigation(): AnyAction {
+    return {
+        type: AppActions.SET_ALLOW_NAVIGATION,
+    };
+}
+
 export function actionSetPigiDisplaySca(pigiDisplaySca: boolean): AnyAction {
     return {
         type: AppActions.SET_PIGI_DISPLAY_SCA,
         payload: {pigiDisplaySca}
+    };
+}
+
+export function actionEpsBoldPayment(payload: IEpsPayments): AnyAction {
+    return {
+        type: AppActions.UPDATE_EPS_BOLD_PAYMENT,
+        payload: payload
     };
 }
 
@@ -346,5 +366,12 @@ export function actionSetSessionInitialized(data: boolean): AnyAction {
     return {
         type: AppActions.SET_SESSION_INITIALIZED,
         payload: {data},
+    };
+}
+
+export function actionUpdatePaymentComponentType(paymentComponentType: string): AnyAction {
+    return {
+        type: AppActions.UPDATE_PAYMENT_COMPONENT_TYPE,
+        payload: {paymentComponentType}
     };
 }

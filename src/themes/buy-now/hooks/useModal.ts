@@ -1,20 +1,20 @@
 import {useCallback, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {actionClearValidStates, actionGetInitialData, actionSetSessionInitialized, actionSetOverlayContent, actionShowHideOverlayContent, actionUpdateAppData} from 'src/action';
-import {checkInventory, initializeSession, setDefaultAddresses, initializeExpressPay} from 'src/library';
+import {checkInventory, initializeSession, setDefaultAddresses} from 'src/library';
 import {IOrderInitialization, IOverlay} from 'src/types';
 import {getOrderInitialization} from 'src/utils/getOrderInitialization';
-import {IUseModal} from '../types';
+import {IUseModal} from 'src/themes/buy-now/types';
 import {checkInventoryStage, IInitializeOrderResponse} from '@boldcommerce/checkout-frontend-library';
 import {useGetValidVariable} from 'src/hooks';
-import {useHistory} from 'react-router';
+import {useGetInitializeInModal} from 'src/themes/buy-now/hooks';
 
 
 export function useModal(): IUseModal {
     const dispatch = useDispatch();
-    const history = useHistory();
     const isValidPigi = useGetValidVariable('pigi');
     const [isOpen, setIsOpen] = useState(false);
+    const {initializeInModal, orderData} = useGetInitializeInModal();
     const overlay: IOverlay = {
         shown: true,
         inverted: true,
@@ -36,7 +36,6 @@ export function useModal(): IUseModal {
         dispatch(actionGetInitialData(window.location.hostname));
         dispatch(setDefaultAddresses);
         dispatch(checkInventory(checkInventoryStage.initial, false));
-        dispatch(initializeExpressPay(history));
     }, [setIsOpen, dispatch]);
 
     const handleCloseEvent = useCallback(() => {
@@ -61,6 +60,11 @@ export function useModal(): IUseModal {
     }, [isValidPigi]);
 
     useEffect(() => {
+        if (initializeInModal && orderData) {
+            handleInitializeEvent(orderData);
+            handleOpenEvent();
+        }
+
         window.addEventListener('message', handlePostMessage);
         document.addEventListener('buyNow:close', handleCloseEvent);
 

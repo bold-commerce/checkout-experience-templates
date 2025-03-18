@@ -1,5 +1,6 @@
 import {ITotals} from 'src/types';
 import {IDiscount, ILineItem, IShippingLine} from '@boldcommerce/checkout-frontend-library';
+import {IAddressType, ICustomer} from '@boldcommerce/checkout-frontend-library/lib/types/apiInterfaces';
 
 export function isGoogleAnalyticsEnabled(): boolean {
     return typeof window['gtag'] === 'function' && !!window['google_analytics_tracking_id'] && typeof window['google_analytics_tracking_id'] === 'string';
@@ -66,7 +67,7 @@ export function orderCompleteForGoogleAnalytics(lineItems: Array<ILineItem>, cur
     }
 }
 
-export function formatCurrency(amount: number): string{
+export function formatCurrency(amount: number): string {
     return (amount / 100).toFixed(2);
 }
 
@@ -78,4 +79,26 @@ export function formatItems(lineItems: Array<ILineItem>): Array<Record<string, u
         price: formatCurrency(item.product_data.price),
         quantity: item.product_data.quantity,
     }));
+}
+
+export function formatItemsStandardEcommerce(lineItems: Array<ILineItem>): Array<Record<string, unknown>> {
+    return lineItems.map(item => ({
+        sku: item.product_data.sku,
+        name: item.product_data.product_title,
+        price: item.product_data.price / 100,
+        quantity: item.product_data.quantity,
+    }));
+}
+
+export function formatTransactionAddress(customer: ICustomer, addresses: IAddressType): Record<string, unknown> {
+    return {
+        email: (customer.email_address || '').toLocaleLowerCase(),
+        firstname: (customer.first_name || '').toLocaleLowerCase(),
+        lastname: (customer.last_name || '').toLocaleLowerCase(),
+        telephone: (addresses.billing.phone_number || '').replace(/\D/g, ''),
+        city: (addresses.billing.city || '').replace(/\s+/g, '').toLocaleLowerCase(),
+        region: (addresses.billing.province_code || '').toLocaleLowerCase(),
+        postcode: (addresses.billing.postal_code || ''),
+        country: (addresses.billing.country_code || '').toLocaleLowerCase(),
+    };
 }

@@ -1,6 +1,6 @@
 import {baseReturnObject, validateAddress} from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
-import {actionSetAppStateValid} from 'src/action/appAction';
+import {actionSetAppStateValid, actionSetLoader} from 'src/action/appAction';
 import {API_RETRY, Constants, defaultAddressState} from 'src/constants';
 import {deleteAddress, postAddress, validateAddressFunction} from 'src/library';
 import {initialDataMock, stateMock} from 'src/mocks';
@@ -12,6 +12,7 @@ jest.mock('src/library/deleteAddress');
 jest.mock('src/library/postAddress');
 jest.mock('src/utils/handleErrorIfNeeded');
 const actionSetAppStateValidMock = mocked(actionSetAppStateValid, true);
+const actionSetLoaderMock = mocked(actionSetLoader, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);
 const validateAddressMock = mocked(validateAddress, true);
 const deleteAddressMock = mocked(deleteAddress, true);
@@ -83,9 +84,10 @@ describe('testing validateAddressFunction', () => {
 
         expect(validateAddressMock).toHaveBeenCalledWith(shipping.first_name, shipping.last_name, shipping.address_line_1, shipping.address_line_2, shipping.city,shipping.postal_code, shipping.province, shipping.province_code, shipping.country, shipping.country_code, shipping.business_name, shipping.phone_number, API_RETRY);
         expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
-        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(2);
         expect(actionSetAppStateValidMock).toHaveBeenCalledWith('shippingAddress', false);
-        expect(dispatchMock).toHaveBeenCalledTimes(3);
+        expect(actionSetLoaderMock).toHaveBeenCalledWith('shippingLines', false);
+        expect(dispatchMock).toHaveBeenCalledTimes(5);
         expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
         expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
 
@@ -105,9 +107,9 @@ describe('testing validateAddressFunction', () => {
 
         expect(validateAddressMock).toHaveBeenCalledWith(billing.first_name, billing.last_name, billing.address_line_1, billing.address_line_2, billing.city,billing.postal_code, billing.province, billing.province_code, billing.country, billing.country_code, billing.business_name, billing.phone_number, API_RETRY);
         expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
-        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(2);
         expect(actionSetAppStateValidMock).toHaveBeenCalledWith('billingAddress', false);
-        expect(dispatchMock).toHaveBeenCalledTimes(3);
+        expect(dispatchMock).toHaveBeenCalledTimes(4);
         expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
         expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
     });
@@ -147,9 +149,9 @@ describe('testing validateAddressFunction', () => {
 
         expect(validateAddressMock).not.toHaveBeenCalledWith(...validationFieldParams);
         expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
-        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(2);
         expect(actionSetAppStateValidMock).toHaveBeenCalledWith('billingAddress', false);
-        expect(dispatchMock).toHaveBeenCalledTimes(9);
+        expect(dispatchMock).toHaveBeenCalledTimes(10);
         expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
         expect(dispatchMock).not.toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
     });
@@ -214,8 +216,8 @@ describe('testing validateAddressFunction', () => {
 
         expect(validateAddressMock).not.toHaveBeenCalledWith(shipping.postal_code, shipping.province, shipping.country_code);
         expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
-        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(1);
-        expect(dispatchMock).toHaveBeenCalledTimes(8);
+        expect(actionSetAppStateValidMock).toHaveBeenCalledTimes(2);
+        expect(dispatchMock).toHaveBeenCalledTimes(10);
         expect(dispatchMock).not.toHaveBeenCalledWith(postAddressReturnedFunctionMock);
         expect(dispatchMock).toHaveBeenCalledWith(deleteAddressReturnedFunctionMock);
     });

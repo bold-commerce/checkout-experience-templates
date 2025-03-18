@@ -81,7 +81,8 @@ describe('testing Google Tag Manager functions', () => {
                 'shipping': {
                     'id': 'shipping_id_1',
                     'description': 'USPS ground carrier',
-                    'amount': 19.99
+                    'amount': 19.99,
+                    'code' : '',
                 },
                 'discounts': [
                     {

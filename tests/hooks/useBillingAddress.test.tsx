@@ -87,7 +87,7 @@ describe('Testing hook useBillingAddress', () => {
         expect(actionUpdateBillingTypeInSettingsMock).toBeCalled();
         expect(actionUpdateBillingTypeMock).toBeCalled();
         expect(actionRemoveErrorByAddressTypeMock).toBeCalled();
-        expect(mockDispatch).toHaveBeenCalledTimes(3);
+        expect(mockDispatch).toHaveBeenCalledTimes(4);
     });
 
     test('testing the toggle same as shipping event - handleChange', () => {
@@ -107,7 +107,7 @@ describe('Testing hook useBillingAddress', () => {
         expect(actionUpdateBillingTypeInSettingsMock).toBeCalled();
         expect(actionUpdateBillingTypeMock).toBeCalled();
         expect(actionRemoveErrorByAddressTypeMock).toBeCalled();
-        expect(mockDispatch).toHaveBeenCalledTimes(4);
+        expect(mockDispatch).toHaveBeenCalledTimes(5);
         expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
     });
 

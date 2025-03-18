@@ -44,11 +44,14 @@ import {
     tagsReducer,
     requiresShippingDataReducer,
     displayExchangeRateReducer,
-    displayCurrencyReducer
+    displayCurrencyReducer,
+    flowIdReducer,
 } from 'src/reducer';
 import {autocompleteServices, Constants} from 'src/constants';
 import {defaultOrderInitialization} from 'src/constants/orderInitialization';
 import {orderBalanceReducer} from 'src/reducer/orderBalanceReducer';
+import {epsGatewaysReducer} from 'src/reducer/epsGatewaysReducer';
+import {fraudToolsInitialDataReducer} from 'src/reducer/fraudToolsInitialDataReducer';
 
 export const initialState: IInitialState = {
     screenWidth: window.innerWidth,
@@ -58,10 +61,14 @@ export const initialState: IInitialState = {
     billingType: Constants.SHIPPING_SAME,
     discountText: '',
     pigiDisplaySca: false,
-    isExpressPaySectionEnable: false
+    isExpressPaySectionEnable: false,
+    isOnePageTheme: false,
+    allowNavigation: false,
+    paymentComponentType: Constants.PIGI,
+    epsBoldPayment: null,
 };
 
-export function reducer(state = initialState, action: AnyAction): IInitialState {
+export function appSettingReducer(state = initialState, action: AnyAction): IInitialState {
     switch (action.type) {
         case AppActionsType.GET_INITIAL_DATA:
             return {...state};
@@ -79,6 +86,14 @@ export function reducer(state = initialState, action: AnyAction): IInitialState 
             return {...state, pigiDisplaySca: action.payload.pigiDisplaySca};
         case AppActionsType.SET_EXPRESS_PAYMENT_SECTION_ENABLED:
             return {...state, isExpressPaySectionEnable: action.payload.isExpressPaySectionEnable};
+        case AppActionsType.SET_ONE_PAGE_THEME:
+            return {...state, isOnePageTheme: action.payload.isOnePageTheme};
+        case AppActionsType.SET_ALLOW_NAVIGATION:
+            return {...state, allowNavigation: true};
+        case AppActionsType.UPDATE_PAYMENT_COMPONENT_TYPE:
+            return {...state, paymentComponentType: action.payload.paymentComponentType};
+        case AppActionsType.UPDATE_EPS_BOLD_PAYMENT:
+            return {...state, epsBoldPayment: action.payload};
         default:
             return state;
     }
@@ -122,6 +137,7 @@ const appStateReducer = combineReducers({
     is_processed: isProcessedReducer,
     fees: feesReducer,
     link_to_cart: linkToCartReducer,
+    flow_id: flowIdReducer,
 });
 
 const generalSettingReducer = combineReducers({
@@ -137,8 +153,10 @@ const initialDataReducer = combineReducers({
     alternative_payment_methods: paymentMethodReducer,
     external_payment_gateways: externalPaymentGatewayInitialDataReducer,
     life_elements: lifeFieldsInitialDataReducer,
+    fraud_tools: fraudToolsInitialDataReducer,
     flow_settings: flowSettingsInitialDataReducer,
     requires_shipping: requiresShippingDataReducer,
+    eps_gateways: epsGatewaysReducer,
 });
 
 const dataReducer = combineReducers({
@@ -149,7 +167,7 @@ const dataReducer = combineReducers({
 });
 
 const allReducers = combineReducers({
-    appSetting: reducer,
+    appSetting: appSettingReducer,
     isLoading: loadingReducer,
     externalPaymentGateways: externalPaymentGatewaysReducer,
     isButtonDisable: buttonDisableReducer,

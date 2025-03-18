@@ -1,6 +1,7 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {
     useGetButtonDisableVariable,
+    useGetEpsGateways,
     useGetIsLoading,
     useGetIsOrderProcessed,
     useGetLifeFieldsOnPage,
@@ -27,6 +28,7 @@ jest.mock('src/utils/getReturnToCartTermAndLink');
 jest.mock('src/hooks/useGetRequiresShipping');
 jest.mock('src/hooks/useGetLifeFieldsOnPage');
 jest.mock('src/hooks/useGetLifeFields');
+jest.mock('src/hooks/useGetEpsGateways');
 
 const useDispatchMock = mocked(useDispatch, true);
 const useHistoryMock = mocked(useHistory, true);
@@ -39,6 +41,7 @@ const initializeExpressPayMock = mocked(initializeExpressPay, true);
 const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
 const useGetLifeFieldsOnPageMock = mocked(useGetLifeFieldsOnPage, true);
 const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
+const useGetEpsGatewaysMock = mocked(useGetEpsGateways, true);
 
 describe('Testing hook useCustomerPage', () => {
     const mockDispatch = jest.fn();
@@ -83,6 +86,7 @@ describe('Testing hook useCustomerPage', () => {
     });
 
     test('rendering the hook properly', () => {
+        useGetEpsGatewaysMock.mockReturnValueOnce(false);
         useGetIsOrderProcessedMock.mockReturnValueOnce(false);
         useGetRequiresShippingMock.mockReturnValue(true);
         const {result} = renderHook(() => useCustomerPage());
@@ -105,6 +109,7 @@ describe('Testing hook useCustomerPage', () => {
     });
 
     test('rendering the hook with complete order', () => {
+        useGetEpsGatewaysMock.mockReturnValueOnce(false);
         useGetIsOrderProcessedMock.mockReturnValue(true);
         useGetRequiresShippingMock.mockReturnValue(true);
         renderHook(() => useCustomerPage());
@@ -113,6 +118,7 @@ describe('Testing hook useCustomerPage', () => {
     });
 
     test('rendering the hook with not requires shipping', () => {
+        useGetEpsGatewaysMock.mockReturnValueOnce(true);
         useGetIsOrderProcessedMock.mockReturnValue(true);
         useGetRequiresShippingMock.mockReturnValue(false);
         renderHook(() => useCustomerPage());

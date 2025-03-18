@@ -7,7 +7,9 @@ import {
     getCustomerFromLib,
     handleBatchSuccess,
     setBillingAddressAsValid,
+    setDefaultShippingLine,
     setShippingAddressAsValid,
+    setShippingLineAsValid,
     validateShippingLine
 } from 'src/library';
 import {stateMock} from 'src/mocks';
@@ -26,6 +28,8 @@ const validateShippingLineMock = mocked(validateShippingLine, true);
 const setShippingAddressAsValidMock = mocked(setShippingAddressAsValid, true);
 const setBillingAddressAsValidMock = mocked(setBillingAddressAsValid, true);
 const getCustomerFromLibMock = mocked(getCustomerFromLib, true);
+const setDefaultShippingLineMock = mocked(setDefaultShippingLine, true);
+const setShippingLineAsValidMock = mocked(setShippingLineAsValid, true);
 
 
 describe('testing handleBatchSuccess', () => {
@@ -123,7 +127,9 @@ describe('testing handleBatchSuccess', () => {
 
         await handleBatchSuccess(dispatchMock, getStateMock, getShippingSubrequest);
 
-        expect(dispatchMock).toHaveBeenCalledTimes(1);
+        expect(dispatchMock).toHaveBeenCalledTimes(3);
         expect(dispatchMock).toHaveBeenCalledWith(validateShippingLineMock);
+        expect(dispatchMock).toHaveBeenCalledWith(setDefaultShippingLineMock);
+        expect(dispatchMock).toHaveBeenCalledWith(setShippingLineAsValidMock);
     });
 });

@@ -4,7 +4,8 @@ import {
     useSetDefaultLanguageIso,
     useWindowDimensions,
     useDebounceCustomer,
-    useGetGeneralSettingCheckoutFields
+    useGetGeneralSettingCheckoutFields,
+    useFraudTools,
 } from 'src/hooks';
 import 'public/app.css';
 import 'src/themes/one-page/onePage.css';
@@ -17,6 +18,7 @@ import {Redirect, Switch, useHistory} from 'react-router';
 import {ThemePage} from 'src/themes/one-page/pages';
 import {SessionExpiredPage, OutOfStockPage, ThankYouPage} from 'src/pages';
 import {getDefaultBillingType, setHook} from 'src/utils';
+import {ProcessPage} from 'src/pages';
 
 setHook('history', useHistory);
 
@@ -25,6 +27,7 @@ function Theme () : React.ReactElement {
     useSetDefaultLanguageIso();
     useWindowDimensions();
     useSetApiCallOnEvent(true);
+    useFraudTools();
     debounceConstants.debouncedGuestCustomerFunction = useDebounceCustomer();
     const acceptMarketingSetting = useGetGeneralSettingCheckoutFields('accepts_marketing_checkbox_option') as string;
     const billingType = getDefaultBillingType();
@@ -40,6 +43,9 @@ function Theme () : React.ReactElement {
                     <Route path={`*/${Constants.OUT_OF_STOCK_ROUTE}`} component={OutOfStockPage} />
                     <Route path={`*/${Constants.THANK_YOU_ROUTE}`} component={ThankYouPage} />
                     <Route path={`*/${Constants.SESSION_EXPIRED_ROUTE}`} component={SessionExpiredPage} />
+                    <Route path={`*/${Constants.PROCESS_ROUTE}`}>
+                        <ProcessPage errorRoute={Constants.EXPERIENCE_ROUTE} />
+                    </Route>
                     <Route path={`*/${Constants.EXPERIENCE_ROUTE}`} component={ThemePage} />
                     <Redirect to={`/${Constants.EXPERIENCE_ROUTE}`} />
                 </Switch>

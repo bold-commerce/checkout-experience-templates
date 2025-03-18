@@ -1,6 +1,8 @@
 module.exports = {
     'globals': {
-        VERSION: 'jest-version'
+        VERSION: 'jest-version',
+        BUGSNAG_PRODUCTION_API_KEY: '',
+        BUGSNAG_STAGING_API_KEY: '',
     },
     'roots': [
         'tests'

@@ -12,7 +12,7 @@ export function getOrderInitialization(orderData: IInitializeOrderResponse): IOr
             jwt_token: validatedData.jwt_token,
             public_order_id: validatedData.public_order_id,
             application_state: validatedData.application_state,
-            initial_data:validatedData.initial_data
+            initial_data: validatedData.initial_data
         }
     };
 }

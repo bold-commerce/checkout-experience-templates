@@ -14,6 +14,7 @@ jest.mock('src/hooks/useGetLoaderScreenVariable');
 jest.mock('src/hooks/useGetValidVariable');
 jest.mock('src/utils/getTerm');
 jest.mock('src/library/checkLoadPigiErrors');
+jest.mock('src/hooks/useGetEpsGateways');
 const useGetLoaderScreenVariableMock = mocked(useGetLoaderScreenVariable, true);
 const useGetValidVariableMock = mocked(useGetValidVariable, true);
 const getTermMock = mocked(getTerm, true);

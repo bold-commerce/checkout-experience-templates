@@ -1,5 +1,5 @@
 import {Constants} from 'src/constants';
-import {useGetLoaderScreenVariable, useGetValidVariable} from 'src/hooks';
+import {useGetLoaderScreenVariable, useGetValidVariable, useGetEpsGateways} from 'src/hooks';
 import {getTerm} from 'src/utils';
 import {IUseGetPaymentSection} from 'src/types';
 import {useDispatch} from 'react-redux';
@@ -22,12 +22,13 @@ export function useGetPaymentSection(): IUseGetPaymentSection {
     const [isValidPigiLoad, setIsValidPigiLoad ]= useState(true);
     const isPigiLoaded = useGetValidVariable('pigiLoaded');
     const pigiErrorMsg =  getTerm('payment_gateway_loading_error', Constants.PAYMENT_INFO);
+    const isGatewayEps = useGetEpsGateways();
     const pigiSetStateFunction = () => {
         setNotValidText(pigiErrorMsg);
         setIsValidPigiLoad(false);
     };
-    const onLoad = () => {
-        if(isPigiLoaded) {
+    const onLoad = (isEpsPayment = false) => {
+        if(isPigiLoaded || isEpsPayment) {
             setTimeout(async () => {
                 await dispatch(checkLoadPigiErrors(pigiSetStateFunction));
             }, 1000);
@@ -38,5 +39,5 @@ export function useGetPaymentSection(): IUseGetPaymentSection {
         setNotValidText(notValidDisplayText);
     }, [notValidDisplayText]);
 
-    return {loading, isValidAddress, isValidShippingLine, notValidText, fieldSectionText, onLoad, isValidPigiLoad};
+    return {loading, isValidAddress, isValidShippingLine, notValidText, fieldSectionText, onLoad, isValidPigiLoad, isGatewayEps};
 }

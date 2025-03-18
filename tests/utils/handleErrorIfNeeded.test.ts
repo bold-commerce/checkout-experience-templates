@@ -17,6 +17,7 @@ import {
     IApiResponse,
     IFetchError
 } from '@boldcommerce/checkout-frontend-library';
+import {actionAddError} from 'src/action';
 
 jest.mock('src/utils/displayFatalErrorFromTranslation');
 jest.mock('src/utils/standaloneHooks');
@@ -24,6 +25,7 @@ jest.mock('src/utils/retrieveErrorFromResponse');
 jest.mock('src/utils/isOnlyFlashError');
 jest.mock('src/utils/bugReporter');
 jest.mock('src/utils/displayDefaultFlashError');
+jest.mock('src/action/appAction');
 
 const displayFatalErrorFromTranslationMock = mocked(displayFatalErrorFromTranslation, true);
 const getHooksMock = mocked(getHook, true);
@@ -32,6 +34,7 @@ const isOnlyFlashErrorMock = mocked(isOnlyFlashError, true);
 const setMetadataMock = mocked(setMetadata, true);
 const setApplicationStateMetaDataFromResponseMock = mocked(setApplicationStateMetaDataFromResponse, true);
 const displayDefaultFlashErrorMock = mocked(displayDefaultFlashError, true);
+const actionAddErrorMock = mocked(actionAddError, true);
 
 describe('Test function handleErrorIfNeeded', () => {
     const dispatchMock = jest.fn();
@@ -84,13 +87,18 @@ describe('Test function handleErrorIfNeeded', () => {
     ];
 
     const sessionDataSet = [
-        {resResponse: {errors: [{message: 'Expired JWT'}]}, status: httpStatusCode.UNAUTHORIZED, error: 'Session Expired', retrieveErrorFromResponseCall: 1 },
-        {resResponse: {errors: [{message: 'Missing JWT'}]}, status: httpStatusCode.UNAUTHORIZED , error: 'Session Issues', retrieveErrorFromResponseCall: 1 },
+        {resResponse: {errors: [{message: 'Expired JWT'}]}, status: httpStatusCode.UNAUTHORIZED, error: 'Session Expired', retrieveErrorFromResponseCall: 1},
+        {resResponse: {errors: [{message: 'Missing JWT'}]}, status: httpStatusCode.UNAUTHORIZED , error: 'Session Issues', retrieveErrorFromResponseCall: 1},
     ];
 
     const flashErrorSet = [
         {status: httpStatusCode.BAD_REQUEST, resResponse: {}, displayDefaultFlashErrorCalls: 1, errorsFromResponse: flashErrorFromResponseMock},
         {status: httpStatusCode.SERVICE_UNAVAILABLE, resResponse: {}, displayDefaultFlashErrorCalls: 1, errorsFromResponse: flashErrorFromResponseMock},
+    ];
+
+    const errorMessageSet = [
+        {status: httpStatusCode.UNPROCESSABLE_ENTITY, errorsFromResponse: errorsFromResponseMock, expected: 'some message'},
+        {status: httpStatusCode.UNPROCESSABLE_ENTITY, errorsFromResponse: [{...errorsFromResponseMock[0], message: 'There are insufficient payments to cover this order'}], expected: 'Payment failed. Please try again or select a different payment method in the "Pay With" section.'}
     ];
 
     beforeEach(() => {
@@ -144,13 +152,23 @@ describe('Test function handleErrorIfNeeded', () => {
 
     test.each(flashErrorSet)(
         'handle $status status for flash error',
-        ({status, resResponse, displayDefaultFlashErrorCalls, errorsFromResponse }) => {
+        ({status, resResponse, displayDefaultFlashErrorCalls, errorsFromResponse}) => {
             response.error = {...fetchError, status: status};
             response.response = resResponse as IApiResponse;
 
             retrieveErrorFromResponseMock.mockReturnValue(errorsFromResponse as Array<IApiErrorResponse>);
             handleErrorIfNeeded(response, dispatchMock, stateMock);
             expect(displayDefaultFlashErrorMock).toHaveBeenCalledTimes(displayDefaultFlashErrorCalls);
+        });
+
+    test.each(errorMessageSet)(
+        'handle error messages',
+        ({status, errorsFromResponse, expected}) => {
+            response.error = {...fetchError, status: status};
+
+            retrieveErrorFromResponseMock.mockReturnValue(errorsFromResponse as Array<IApiErrorResponse>);
+            handleErrorIfNeeded(response, dispatchMock, stateMock);
+            expect(actionAddErrorMock).toHaveBeenCalledWith(expect.objectContaining({message: expected}));
         });
 });
 

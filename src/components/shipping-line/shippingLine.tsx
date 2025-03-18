@@ -8,7 +8,7 @@ import {Constants} from 'src/constants';
 
 export function ShippingLine(props: IShippingLineProps): React.ReactElement {
     const useDebounce = props.theme != Constants.THREE_PAGE;
-    const {shippingLines, selectedLine, handleChange, shippingLinesLength, noShippingAreaText, formattedPrice} =
+    const {shippingLines, selectedLine, handleChange, shippingLinesLength, noShippingAreaText, formattedPrice, useShippingLineCode} =
         useDebounce ? useGetShippingLinesData() : useGetShippingLinesDataNoDebounce();
     const displayExchangeRate: number = useAppSelector((state) => state.data.application_state?.display_exchange_rate);
 
@@ -24,12 +24,12 @@ export function ShippingLine(props: IShippingLineProps): React.ReactElement {
                         return (
                             <div className={css} key={line.id}>
                                 <FieldRadio className="shipping_line__items-description"
-                                    id={`${line.id}`}
+                                    id={`${useShippingLineCode ? line.code : line.id}`}
                                     label={line.description}
                                     name="radio-shipping-group"
-                                    value={line.id}
-                                    dataTestId={`shipping-lines-${line.id}`}
-                                    checked={selectedLine?.id === line.id}
+                                    value={useShippingLineCode ? line.code : line.id}
+                                    dataTestId={`shipping-lines-${useShippingLineCode ? line.code : line.id}`}
+                                    checked={useShippingLineCode ? (selectedLine?.code === line.code) : (selectedLine?.id === line.id)}
                                     handleChange={handleChange}
                                 />
                                 <Price className="shipping_line__items-amount" amount={displayExchangeRate ? displayExchangeRate * line.amount : line.amount}

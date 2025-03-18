@@ -5,3 +5,4 @@ export * from './useIndexPage';
 export * from './useModal';
 export * from './useShippingPage';
 export * from './useCheckShippingAddress';
+export * from './useGetInitializeInModal';

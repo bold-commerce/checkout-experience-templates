@@ -7,3 +7,4 @@ export * from './googleAutocompleteConstants';
 export * from './loqateConstants';
 export * from './translations';
 export * from './version';
+export * from './bugsnagApiKey';

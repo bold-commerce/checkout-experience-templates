@@ -1,6 +1,5 @@
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import React from 'react';
 import * as Store from 'src/store';
 import Theme from 'src/themes/buy-now/theme';
 import {Modal} from 'src/themes/buy-now/components/Modal';

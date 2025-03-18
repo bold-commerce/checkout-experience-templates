@@ -14,22 +14,26 @@ describe('testing isShippingLineSelectedValid function', () => {
             id: '0',
             description: 'some desc',
             amount: 0,
+            code: '',
         },
         {
             id: '1',
             description: 'some desc 2',
             amount: 10,
+            code: '',
         },
     ];
     const validSelectedShippingLine: IShippingLine = {
         id: '0',
         description: 'some desc',
-        amount: 0
+        amount: 0,
+        code: '',
     };
     const invalidSelectedShippingLine: IShippingLine = {
         id: '123',
         description: 'it is a very long description for a shipping method, isn\'t it? And very expensive too...',
-        amount: 1500
+        amount: 1500,
+        code: '',
     };
 
     beforeEach(() => {

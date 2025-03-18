@@ -63,6 +63,10 @@ import {
 import {initialDataMock} from 'src/mocks';
 import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
 
+jest.mock('@boldcommerce/checkout-frontend-library', () => ({
+    ...jest.requireActual('@boldcommerce/checkout-frontend-library'),
+    sendExternalPaymentGatewayUpdateStateAction: jest.fn(),
+}));
 jest.mock('@boldcommerce/checkout-frontend-library/lib/state');
 jest.mock('@boldcommerce/checkout-frontend-library/lib/order');
 jest.mock('src/action');
@@ -99,6 +103,7 @@ const getTaxesMock = mocked(getTaxes, true);
 const getFeesMock = mocked(getFees, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded, true);
 const isObjectEqualsMock = mocked(isObjectEquals, true);
+const sendExternalPaymentGatewayUpdateStateActionMock = mocked(sendExternalPaymentGatewayUpdateStateAction, true);
 
 describe('testing Update Application State Thunk Actions', () => {
     const {application_state} = initialDataMock;
@@ -139,14 +144,15 @@ describe('testing Update Application State Thunk Actions', () => {
         expect(dispatchMock).toHaveBeenCalledWith(getOrderBalanceFromLib);
     });
 
-    test('calling getUpdatedApplicationState', () => {
-        getUpdatedApplicationState(dispatchMock, getStateMock).then(()=> {
+    test('calling getUpdatedApplicationState', async () => {
+        getStateMock.mockReturnValueOnce({data: initialDataMock});
+        await getUpdatedApplicationState(dispatchMock, getStateMock).then(()=> {
             expect(getRefreshedApplicationStateMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(baseReturnObject, dispatchMock, getStateMock);
             expect(dispatchMock).toHaveBeenCalledTimes(1);
             expect(dispatchMock).toHaveBeenCalledWith(getApplicationStateFromLib);
-            expect(sendExternalPaymentGatewayUpdateStateAction).toHaveBeenCalledTimes(1);
+            expect(sendExternalPaymentGatewayUpdateStateActionMock).toHaveBeenCalledTimes(2);
         });
     });
 
@@ -402,7 +408,8 @@ describe('testing Update Application State Thunk Actions', () => {
         const selectedShippingLineMock = {
             id: '',
             description: '',
-            amount: 0
+            amount: 0,
+            code: '',
         };
 
         const actionUpdateSelectedShippingLineMock = {

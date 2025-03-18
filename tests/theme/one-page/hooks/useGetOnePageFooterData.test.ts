@@ -1,4 +1,4 @@
-import {useGetAppSettingData, useGetIsLoading, useGetLifeFieldsOnPage} from 'src/hooks';
+import {useGetAppSettingData, useGetEpsGateways, useGetIsLoading, useGetLifeFieldsOnPage} from 'src/hooks';
 import {renderHook} from '@testing-library/react-hooks';
 import {mocked} from 'jest-mock';
 import {callProcessOrder, getReturnToCartTermAndLink, getTerm, getTotalsFromState} from 'src/utils';
@@ -19,6 +19,7 @@ jest.mock('src/utils/getReturnToCartTermAndLink');
 jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/hooks/useGetLifeFieldsOnPage');
+jest.mock('src/hooks/useGetEpsGateways');
 
 const getTermMock = mocked(getTerm, true);
 const useGetIsLoadingMock = mocked(useGetIsLoading, true);
@@ -28,6 +29,7 @@ const initializeExpressPayMock = mocked(initializeExpressPay, true);
 const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 const useGetLifeFieldsOnPageMock = mocked(useGetLifeFieldsOnPage, true);
+const useGetEpsGatewaysMock = mocked(useGetEpsGateways, true);
 
 
 describe('Testing hook useGetAddressFieldInputData', () => {
@@ -64,6 +66,7 @@ describe('Testing hook useGetAddressFieldInputData', () => {
     });
 
     test('rendering the hook properly', () => {
+        useGetEpsGatewaysMock.mockReturnValue(false);
         const {result} = renderHook(() => useGetOnePageFooterData());
         expect(result.current.backLinkText).toStrictEqual(getTermValue);
         expect(result.current.nextButtonText).toStrictEqual(getTermValue);

@@ -21,6 +21,7 @@ import {sendEvents} from 'src/analytics';
 export function postDiscounts(code: string) {
     return async function postDiscountsThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<HTMLElement | null> {
         const response: IApiReturnObject = await addDiscount(code, API_RETRY);
+        const {appSetting: {epsBoldPayment}} =  getState();
         handleErrorIfNeeded(response, dispatch, getState);
 
         if(response.success) {
@@ -33,6 +34,10 @@ export function postDiscounts(code: string) {
                 dispatch(actionRemoveErrorByField(errorFields.discounts));
                 dispatch(actionRemoveErrorByTypeAndCode(errorTypes.discount_code_validation, '02'));
                 sendEvents('select_promotion', {'promotion_id': discount.code, 'promotion_name': discount.text});
+                if (epsBoldPayment && epsBoldPayment.updateOrderTotal) {
+                    const {application_state: appState} = getState().data;
+                    epsBoldPayment.updateOrderTotal({order_total: appState.order_total});
+                }
             }
         }
 

@@ -1,6 +1,6 @@
 import {IOrderInitialization} from 'src/types';
 import {initialDataMock} from 'src/mocks/orderIntializationDataMock';
-import {errorFields, errorSeverities, errorSubTypes, errorTypes} from 'src/constants';
+import {Constants, errorFields, errorSeverities, errorSubTypes, errorTypes} from 'src/constants';
 
 export const stateMock: IOrderInitialization = {
     'data': {
@@ -17,7 +17,11 @@ export const stateMock: IOrderInitialization = {
         'billingType': 'same',
         'discountText': '',
         'pigiDisplaySca': false,
-        'isExpressPaySectionEnable': false
+        'isExpressPaySectionEnable': false,
+        'isOnePageTheme': false,
+        'allowNavigation': false,
+        'paymentComponentType': Constants.PIGI,
+        'epsBoldPayment': null,
     },
     externalPaymentGateways: {
         isLoading: new Set(),
@@ -32,6 +36,7 @@ export const stateMock: IOrderInitialization = {
         shippingLines: false,
     },
     'isValid': {
+        taxesGenerated: false,
         shippingAddress: false,
         updatedShippingAddress: false,
         billingAddress: false,
@@ -40,6 +45,8 @@ export const stateMock: IOrderInitialization = {
         pigi: false,
         pigiLoaded: true,
         scaToken: false,
+        batchPostShippingAddress: false,
+        batchPostBillingAddress: false,
     },
     'isButtonDisable': {
         customerPageButton: false,
