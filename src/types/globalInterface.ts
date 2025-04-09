@@ -133,6 +133,7 @@ export interface IPaymentsCallbacks {
     onRequireOrderData: (types: Array<IRequirementDataType>) => Promise<IOrderDataPayload>;
     onApprovePaymentOrder: (type: IGatewayType, paymentInformation: IPaymentInformation, payload: Record<string, unknown>) => Promise<void>;
     onScaPaymentOrder: (type: IGatewayType, payload: IOnScaPaymentOrderPayload) => Promise<IOnScaPaymentOrderResponse>;
+    onDeletePaymentMethod: (payload: IOnDeletePaymentMethodPayload) => Promise<IOnDeletePaymentMethodResponse>;
     onUpdateVisuals?: (payload: IOnUpdateVisuals) => Promise<void>;
 }
 
@@ -267,6 +268,16 @@ export interface IOnCreatePaymentOrderResponse {
     payment_data: {
         id: string;
     }
+}
+
+export interface IOnDeletePaymentMethodPayload {
+    gateway_id: string;
+    public_id: string;
+}
+
+export interface IOnDeletePaymentMethodResponse {
+    gateway_id: string;
+    public_id: string;
 }
 
 export interface IEpsPaymentsConstructor {
