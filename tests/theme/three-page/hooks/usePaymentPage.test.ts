@@ -11,11 +11,9 @@ import {
     useGetRequiresShipping,
 } from 'src/hooks';
 import {usePaymentPage} from 'src/themes/three-page/hooks';
-import {callEpsProcessOrder, callProcessOrder, getCheckoutUrl, getTerm, getTotalsFromState} from 'src/utils';
+import {callEpsProcessOrder, getCheckoutUrl, getTerm, getTotalsFromState} from 'src/utils';
 import {ITotals} from 'src/types';
-import {useGetEpsGateways} from 'src/hooks/useGetEpsGateways';
 
-jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 jest.mock('react-redux');
 jest.mock('react-router');
 jest.mock('src/hooks/useGetIsLoading');
@@ -23,12 +21,11 @@ jest.mock('src/hooks/useGetButtonDisableVariable');
 jest.mock('src/utils/getTerm');
 jest.mock('src/library');
 jest.mock('src/hooks/useGetIsOrderProcessed');
-jest.mock('src/utils/callProcessOrder');
+jest.mock('src/utils/callEpsProcessOrder');
 jest.mock('src/utils/getTotalsFromState');
 jest.mock('src/hooks/useGetLifeFields');
 jest.mock('src/hooks/useGetLifeFieldsOnPage');
 jest.mock('src/hooks/useGetRequiresShipping');
-jest.mock('src/hooks/useGetEpsGateways');
 
 const useDispatchMock = mocked(useDispatch, true);
 const useHistoryMock = mocked(useHistory, true);
@@ -36,11 +33,10 @@ const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 const getTermMock = mocked(getTerm, true);
 const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true);
 const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
-const callProcessOrderMock = mocked(callProcessOrder, true);
+const callProcessOrderMock = mocked(callEpsProcessOrder, true);
 const getTotalsFromStateMock = mocked(getTotalsFromState, true);
 const useGetLifeFieldsOnPageMock = mocked(useGetLifeFieldsOnPage, true);
 const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
-const useGetEpsGatewaysMock = mocked(useGetEpsGateways, true);
 
 describe('Testing hook usePaymentPage', () => {
     const dispatchMock = jest.fn();
@@ -75,8 +71,6 @@ describe('Testing hook usePaymentPage', () => {
             .mockReturnValueOnce(titleMock)
             .mockReturnValueOnce(backLinkTextMock);
 
-        useGetEpsGatewaysMock.mockReturnValue(false);
-
         const {result} = renderHook(() => usePaymentPage());
 
         expect(useHistoryMock).toHaveBeenCalledTimes(1);
@@ -101,7 +95,6 @@ describe('Testing hook usePaymentPage', () => {
     });
 
     test('rendering the hook with complete order', () => {
-        useGetEpsGatewaysMock.mockReturnValue(false);
         useGetIsOrderProcessedMock.mockReturnValue(true);
         renderHook(() => usePaymentPage());
         expect(historyMock.replace).toHaveBeenCalledTimes(1);
@@ -109,7 +102,6 @@ describe('Testing hook usePaymentPage', () => {
     });
 
     test('rendering the hook with not requires shipping', () => {
-        useGetEpsGatewaysMock.mockReturnValue(false);
         useGetRequiresShippingMock.mockReturnValue(false);
         const {result} = renderHook(() => usePaymentPage());
         expect(getTermMock).toHaveBeenCalledWith('footer_shipping_cust_info', 'shipping_method');
@@ -120,7 +112,6 @@ describe('Testing hook usePaymentPage', () => {
     });
 
     test('Render with eps gateway', async () => {
-        useGetEpsGatewaysMock.mockReturnValue(true);
         getTermMock
             .mockReturnValueOnce(nextButtonTextMock)
             .mockReturnValueOnce(titleMock)
@@ -136,6 +127,6 @@ describe('Testing hook usePaymentPage', () => {
         expect(historyMock.replace).toHaveBeenCalledWith(getCheckoutUrl('shipping_lines'));
 
         await result.current.nextButtonOnClick();
-        expect(callProcessOrderMock).not.toBeCalled();
+        expect(callProcessOrderMock).toBeCalled();
     });
 });

@@ -106,13 +106,6 @@ export function actionSetExternalGatewayReady(gateway: IExternalPaymentGateway, 
     };
 }
 
-export function actionSetPigiIframeLoader(pigiIframeLoader: boolean): AnyAction {
-    return {
-        type: AppActions.SET_PIGI_IFRAME_LOADER,
-        payload: {pigiIframeLoader}
-    };
-}
-
 export function actionSetExternalPaymentGatewayLoading(gateway: IExternalPaymentGateway, value: boolean): AnyAction {
     return {
         type: AppActions.SET_EXTERNAL_PAYMENT_GATEWAY_LOADING,
@@ -123,13 +116,6 @@ export function actionSetExternalPaymentGatewayLoading(gateway: IExternalPayment
 export function actionSetAllowNavigation(): AnyAction {
     return {
         type: AppActions.SET_ALLOW_NAVIGATION,
-    };
-}
-
-export function actionSetPigiDisplaySca(pigiDisplaySca: boolean): AnyAction {
-    return {
-        type: AppActions.SET_PIGI_DISPLAY_SCA,
-        payload: {pigiDisplaySca}
     };
 }
 

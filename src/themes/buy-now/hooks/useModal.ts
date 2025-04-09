@@ -1,18 +1,16 @@
 import {useCallback, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {actionClearValidStates, actionGetInitialData, actionSetSessionInitialized, actionSetOverlayContent, actionShowHideOverlayContent, actionUpdateAppData} from 'src/action';
+import {actionClearValidStates, actionGetInitialData, actionSetSessionInitialized, actionSetOverlayContent, actionUpdateAppData, actionShowHideOverlayContent} from 'src/action';
 import {checkInventory, initializeSession, setDefaultAddresses} from 'src/library';
 import {IOrderInitialization, IOverlay} from 'src/types';
 import {getOrderInitialization} from 'src/utils/getOrderInitialization';
 import {IUseModal} from 'src/themes/buy-now/types';
 import {checkInventoryStage, IInitializeOrderResponse} from '@boldcommerce/checkout-frontend-library';
-import {useGetValidVariable} from 'src/hooks';
 import {useGetInitializeInModal} from 'src/themes/buy-now/hooks';
 
 
 export function useModal(): IUseModal {
     const dispatch = useDispatch();
-    const isValidPigi = useGetValidVariable('pigi');
     const [isOpen, setIsOpen] = useState(false);
     const {initializeInModal, orderData} = useGetInitializeInModal();
     const overlay: IOverlay = {
@@ -53,11 +51,7 @@ export function useModal(): IUseModal {
         }
     }, []);
 
-    useEffect(() => {
-        if(isValidPigi){
-            dispatch(actionShowHideOverlayContent(false));
-        }
-    }, [isValidPigi]);
+    dispatch(actionShowHideOverlayContent(false));
 
     useEffect(() => {
         if (initializeInModal && orderData) {

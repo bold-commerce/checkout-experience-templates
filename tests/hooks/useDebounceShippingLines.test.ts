@@ -1,22 +1,17 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {act} from '@testing-library/react';
-import {useDebouncedShippingLines, useGetValidVariable, useGetEpsGateways} from 'src/hooks';
+import {useDebouncedShippingLines, useGetValidVariable} from 'src/hooks';
 import {postShippingLines, validateShippingLine} from 'src/library';
 import {debounceConstants} from 'src/constants';
 import {mocked} from 'jest-mock';
-import {sendRefreshOrderAction} from '@boldcommerce/checkout-frontend-library/lib/pigi';
 
 jest.mock('src/hooks/useGetValidVariable');
-jest.mock('src/hooks/useGetEpsGateways');
 jest.mock('src/library/postShippingLines');
 jest.mock('src/library/validateShippingLine');
-jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 
 const useGetValidVariableMock = mocked(useGetValidVariable, true);
 const postShippingLinesMock = mocked(postShippingLines, true);
 const validateShippingLineMock = mocked(validateShippingLine, true);
-const mockSendRefreshOrderAction = mocked(sendRefreshOrderAction, true);
-const useGetEpsGatewaysMock = mocked(useGetEpsGateways, true);
 const mockDispatch = jest.fn(async (p) => {
     return await p();
 });
@@ -39,7 +34,6 @@ describe('Testing hook useDebouncedShippingLines', () => {
         jest.useFakeTimers();
         jest.spyOn(global, 'setTimeout');
         useGetValidVariableMock.mockReturnValueOnce(true);
-        useGetEpsGatewaysMock.mockReturnValueOnce(false);
         validateShippingLineMock.mockImplementation(() => Promise.resolve());
         postShippingLinesMock.mockImplementation(()  => Promise.resolve());
 
@@ -51,6 +45,5 @@ describe('Testing hook useDebouncedShippingLines', () => {
         await act(result.current);
 
         expect(setTimeout).toBeCalledWith(expect.any(Function), debounceConstants.DEFAULT_DEBOUNCE_TIME);
-        expect(mockSendRefreshOrderAction).toBeCalledTimes(1);
     });
 });

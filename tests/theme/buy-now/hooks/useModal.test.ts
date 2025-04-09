@@ -58,16 +58,6 @@ describe('Testing useModal', () => {
         expect(result.current).toStrictEqual({isOpen: false});
     });
 
-    test('test valid pigi hides overlay content', () => {
-        const renderHookResult = renderHook(() => useModal());
-        expect(mockDispatch).not.toHaveBeenCalledWith(actionShowHideOverlayContent(false));
-
-        useGetValidVariableMock.mockReturnValue(true);
-
-        renderHookResult.rerender();
-        expect(mockDispatch).toHaveBeenCalledWith(actionShowHideOverlayContent(false));
-    });
-
     test('test handle open & close events', async() => {
         const {result} = renderHook(() => useModal());
         const postMessageSpy = jest.spyOn(window.parent, 'postMessage');
@@ -78,14 +68,14 @@ describe('Testing useModal', () => {
         await flushMessageQueue();
 
         expect(result.current.isOpen).toBe(true);
-        expect(mockDispatch).toHaveBeenCalledTimes(1);
+        expect(mockDispatch).toHaveBeenCalledTimes(3);
         expect(mockDispatch).toHaveBeenCalledWith(actionSetOverlayContent(expect.anything()));
 
         fireEvent(document, new CustomEvent('buyNow:close'));
         await flushMessageQueue();
 
         expect(result.current.isOpen).toBe(false);
-        expect(mockDispatch).toHaveBeenCalledTimes(3);
+        expect(mockDispatch).toHaveBeenCalledTimes(6);
         expect(mockDispatch).toHaveBeenCalledWith(actionClearValidStates());
         expect(mockDispatch).toHaveBeenCalledWith(actionSetSessionInitialized(false));
         expect(postMessageSpy).toHaveBeenCalledTimes(1);
@@ -108,7 +98,7 @@ describe('Testing useModal', () => {
         fireEvent(window, new MessageEvent('message', {data: initializedEvent}));
         await flushMessageQueue();
 
-        expect(mockDispatch).toHaveBeenCalledTimes(5);
+        expect(mockDispatch).toHaveBeenCalledTimes(6);
         expect(mockDispatch).toHaveBeenCalledWith(actionUpdateAppData({...stateMock, overlay: loadingOverlay}));
         expect(mockDispatch).toHaveBeenCalledWith(initializeSessionMock);
         expect(mockDispatch).toHaveBeenCalledWith(actionGetInitialData('store.com'));
@@ -131,7 +121,7 @@ describe('Testing useModal', () => {
             showCustomContent: true
         };
 
-        expect(mockDispatch).toBeCalledTimes(6);
+        expect(mockDispatch).toBeCalledTimes(8);
         expect(mockDispatch).toBeCalledWith(actionUpdateAppData({...stateMock, overlay: loadingOverlay}));
         expect(mockDispatch).toBeCalledWith(initializeSessionMock);
         expect(mockDispatch).toBeCalledWith(actionGetInitialData('store.com'));

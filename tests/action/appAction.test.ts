@@ -17,8 +17,6 @@ import {
     actionSetLanguageIso,
     actionSetLoader,
     actionSetLoaderAndDisableButton,
-    actionSetPigiDisplaySca,
-    actionSetPigiIframeLoader,
     actionSetSelectedShippingLine,
     actionUpdateAppData,
     actionUpdateAvailableShippingLines,
@@ -153,18 +151,6 @@ describe('Testing App Actions', () => {
         expect(result).toStrictEqual(actionReturnExpectation);
     });
 
-    test('actionSetPigiIframeLoader', () => {
-        const pigiIframeLoader = true;
-        const actionReturnExpectation = {
-            type: AppActions.SET_PIGI_IFRAME_LOADER,
-            payload: {pigiIframeLoader}
-        };
-
-        const result = actionSetPigiIframeLoader(pigiIframeLoader);
-
-        expect(result).toStrictEqual(actionReturnExpectation);
-    });
-
     test('actionSetExternalGatewayLoading', () => {
         const loading = true;
         const gateway: IExternalPaymentGateway = {
@@ -191,18 +177,6 @@ describe('Testing App Actions', () => {
         };
 
         const result = actionSetExternalGatewayReady(gateway, loading);
-
-        expect(result).toStrictEqual(actionReturnExpectation);
-    });
-
-    test('actionSetPigiDisplaySca', () => {
-        const pigiDisplaySca = true;
-        const actionReturnExpectation = {
-            type: AppActions.SET_PIGI_DISPLAY_SCA,
-            payload: {pigiDisplaySca}
-        };
-
-        const result = actionSetPigiDisplaySca(pigiDisplaySca);
 
         expect(result).toStrictEqual(actionReturnExpectation);
     });

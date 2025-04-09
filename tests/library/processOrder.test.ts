@@ -2,7 +2,6 @@ import {
     baseReturnObject,
     httpStatusCode,
     processOrder as processOrderLib,
-    sendHandleScaActionAsync
 } from '@boldcommerce/checkout-frontend-library';
 import {mocked} from 'jest-mock';
 import {HistoryLocationState} from 'react-router';
@@ -13,7 +12,6 @@ import {getCheckoutUrl, handleErrorIfNeeded} from 'src/utils';
 import {errorFields, errorSeverities, errorShowType, errorSubTypes, errorTypes} from 'src/constants';
 import {useRemoveAllFlashErrors} from 'src/hooks';
 
-jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 jest.mock('@boldcommerce/checkout-frontend-library/lib/order');
 jest.mock('src/action');
 jest.mock('src/hooks');
@@ -24,7 +22,6 @@ const actionShowHideOverlayContentMock = mocked(actionShowHideOverlayContent, tr
 const checkErrorAndProceedToNextPageMock = mocked(checkErrorAndProceedToNextPage, true);
 const handleErrorIfNeededMock = mocked(handleErrorIfNeeded , true);
 const useRemoveAllFlashErrorsMock = mocked(useRemoveAllFlashErrors , true);
-const sendHandleScaActionAsyncMock = mocked(sendHandleScaActionAsync , true);
 const actionSetAppStateValidMock = mocked(actionSetAppStateValid , true);
 
 describe('testing checkErrorAndProceedToNextPage', () => {
@@ -56,7 +53,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
 
         const processOrderThunk = processOrder(historyMock);
         await processOrderThunk(dispatch, getState).then(() => {
-            expect(getState).toHaveBeenCalledTimes(3);
+            expect(getState).toHaveBeenCalledTimes(2);
             expect(processOrderLibMock).toHaveBeenCalledTimes(1);
             expect(useRemoveAllFlashErrorsMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
@@ -79,13 +76,12 @@ describe('testing checkErrorAndProceedToNextPage', () => {
 
         const processOrderThunk = processOrder(historyMock);
         await processOrderThunk(dispatch, getState).then(() => {
-            expect(getState).toHaveBeenCalledTimes(3);
+            expect(getState).toHaveBeenCalledTimes(2);
             expect(processOrderLibMock).toHaveBeenCalledTimes(1);
             expect(useRemoveAllFlashErrorsMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(successReturnObj, dispatch, getState);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(0);
-            expect(sendHandleScaActionAsyncMock).toHaveBeenCalledTimes(1);
             expect(dispatch).toHaveBeenCalledTimes(2);
             expect(dispatch).toHaveBeenCalledWith(setValidAction);
             expect(dispatch).toHaveBeenCalledWith(setValidAction);
@@ -101,7 +97,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
 
         const processOrderThunk = processOrder(historyMock);
         await processOrderThunk(dispatch, getState).then(() => {
-            expect(getState).toHaveBeenCalledTimes(4);
+            expect(getState).toHaveBeenCalledTimes(3);
             expect(processOrderLibMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledWith(successReturnObj, dispatch, getState);
@@ -116,7 +112,7 @@ describe('testing checkErrorAndProceedToNextPage', () => {
     test('call with errors on state', async () => {
         const processOrderThunk = processOrder(historyMock);
         await processOrderThunk(dispatch, getState).then(() => {
-            expect(getState).toHaveBeenCalledTimes(3);
+            expect(getState).toHaveBeenCalledTimes(2);
             expect(processOrderLibMock).toHaveBeenCalledTimes(0);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(0);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(0);
@@ -133,24 +129,23 @@ describe('testing checkErrorAndProceedToNextPage', () => {
         processOrderLibMock.mockReturnValueOnce(Promise.resolve(successReturnObj));
         const noErrorsState = {...stateMock, errors: []};
         const errorsState = {...stateMock, errors: [{
-            type: errorTypes.order,
-            field: errorFields.inventory,
-            severity: errorSeverities.validation,
-            sub_type: errorSubTypes.insufficient_stock,
-            showType: errorShowType.none,
-            section: '',
-            term: ''
-        }]};
+                type: errorTypes.order,
+                field: errorFields.inventory,
+                severity: errorSeverities.validation,
+                sub_type: errorSubTypes.insufficient_stock,
+                showType: errorShowType.none,
+                section: '',
+                term: ''
+            }]};
 
         getState
-            .mockReturnValueOnce(noErrorsState)
             .mockReturnValueOnce(noErrorsState)
             .mockReturnValueOnce(noErrorsState)
             .mockReturnValueOnce(errorsState);
         const processOrderThunk = processOrder(historyMock);
 
         await processOrderThunk(dispatch, getState).then(() => {
-            expect(getState).toHaveBeenCalledTimes(4);
+            expect(getState).toHaveBeenCalledTimes(3);
             expect(processOrderLibMock).toHaveBeenCalledTimes(1);
             expect(handleErrorIfNeededMock).toHaveBeenCalledTimes(1);
             expect(checkErrorAndProceedToNextPageMock).toHaveBeenCalledTimes(0);

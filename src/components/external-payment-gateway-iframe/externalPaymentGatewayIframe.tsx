@@ -1,17 +1,15 @@
 import React from 'react';
-import {useGetExternalPaymentGatewayLoading, useGetPigiDisplaySca} from 'src/hooks';
+import {useGetExternalPaymentGatewayLoading} from 'src/hooks';
 import ClassNames from 'classnames';
 import {IExternalPaymentGatewayIframeProps} from 'src/types';
 
 export function ExternalPaymentGatewayIframe(props: IExternalPaymentGatewayIframeProps): React.ReactElement {
     const loading = useGetExternalPaymentGatewayLoading(props.externalPaymentGateway);
-    const displaySca = useGetPigiDisplaySca();
 
     const cssClassIframe = ClassNames([
         'payment__iframe',
         {
             'payment__iframe--hidden': loading,
-            'payment__iframe--display-sca': displaySca,
         },
     ]);
 

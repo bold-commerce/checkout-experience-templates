@@ -30,7 +30,7 @@ describe('Testing EpsPayment', () => {
             clearErrors: jest.fn(),
         };
         useGetAppSettingDataMock.mockReturnValue(epsPayments);
-        const {getByTestId} = render(<EpsPayment onLoad={() => true}/>);
+        const {getByTestId} = render(<EpsPayment />);
         expect(getByTestId(`${Constants.EPS_IFRAME}-test`)).toBeTruthy();
     });
 });

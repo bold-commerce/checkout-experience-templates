@@ -60,11 +60,10 @@ export const initialState: IInitialState = {
     callApiAtOnEvents: false,
     billingType: Constants.SHIPPING_SAME,
     discountText: '',
-    pigiDisplaySca: false,
     isExpressPaySectionEnable: false,
     isOnePageTheme: false,
     allowNavigation: false,
-    paymentComponentType: Constants.PIGI,
+    paymentComponentType: Constants.EPS,
     epsBoldPayment: null,
 };
 
@@ -82,8 +81,6 @@ export function appSettingReducer(state = initialState, action: AnyAction): IIni
             return {...state, billingType: action.payload.type};
         case AppActionsType.UPDATE_DISCOUNT_CODE_TEXT:
             return {...state, discountText: action.payload.code};
-        case AppActionsType.SET_PIGI_DISPLAY_SCA:
-            return {...state, pigiDisplaySca: action.payload.pigiDisplaySca};
         case AppActionsType.SET_EXPRESS_PAYMENT_SECTION_ENABLED:
             return {...state, isExpressPaySectionEnable: action.payload.isExpressPaySectionEnable};
         case AppActionsType.SET_ONE_PAGE_THEME:
