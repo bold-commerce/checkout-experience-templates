@@ -14,7 +14,9 @@
     "types": [
       "node",
       "jest",
-      "google.maps"
+      "google.maps",
+      "applepayjs",
+      "googlepay"
     ],
     "paths": {
       "src/*": ["src/*"]

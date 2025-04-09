@@ -26,7 +26,6 @@ export * from './error-fallback/errorFallback';
 export * from './external-payment-gateway/external-payment-gateway';
 export * from './external-payment-gateway-iframe/externalPaymentGatewayIframe';
 export * from './expandable-discount/expandableDiscount';
-export * from './express-payment-gateway/expressPaymentGateway';
 export * from './eps-express-payment-gateway/epsExpressPaymentGateway';
 export * from './eps-payment/EpsPayment';
 export * from './field-checkbox/fieldCheckbox';

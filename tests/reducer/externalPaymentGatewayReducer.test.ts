@@ -1,9 +1,8 @@
 import {stateMock} from 'src/mocks';
-import {externalPaymentGatewayInitialDataReducer, loadingReducer, paymentMethodReducer} from 'src/reducer';
+import {externalPaymentGatewayInitialDataReducer} from 'src/reducer';
 import {
     SET_EXTERNAL_PAYMENT_GATEWAY_LOADING,
-    SET_EXTERNAL_PAYMENT_GATEWAY_VALID,
-    UPDATE_PAYMENT_METHOD
+    SET_EXTERNAL_PAYMENT_GATEWAY_VALID
 } from 'src/action';
 import {externalPaymentGatewaysReducer} from 'src/reducer/externalPaymentGatewaysReducer';
 

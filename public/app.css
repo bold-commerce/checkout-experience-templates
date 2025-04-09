@@ -16,7 +16,6 @@
 @import '../src/components/display-payment-methods/displayPaymentMethods.css';
 @import '../src/components/display-payment-method/displayPaymentMethod.css';
 @import '../src/components/expandable-discount/expandableDiscount.css';
-@import '../src/components/express-payment-gateway/expressPaymentGateway.css';
 @import '../src/components/field-checkbox/fieldCheckbox.css';
 @import '../src/components/field-input/fieldInput.css';
 @import "../src/components/field-radio/fieldRadio.css";
@@ -61,5 +60,3 @@
 @import '../src/components/life-field-select/lifeFieldSelect.css';
 @import '../src/components/life-field-datepicker/lifeFieldDatePicker.css';
 @import '../src/components/field-datepicker/fieldDatePicker.css';
-
-@import '~@boldcommerce/checkout-express-pay-library/lib/style.css';

@@ -1,4 +1,4 @@
-import {ITotals} from '@boldcommerce/checkout-express-pay-library';
+import {ITotals} from 'src/types';
 import {orderCompleteTrackingVariables} from 'src/analytics';
 import {stateMock} from 'src/mocks';
 
