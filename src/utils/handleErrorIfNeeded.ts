@@ -36,7 +36,6 @@ export function handleErrorIfNeeded(response: IApiReturnObject, dispatch: Dispat
                 throw fatalError;
             }
             case apiErrors.general.status:
-            case apiErrors.noPigiIframe.status:
             case apiErrors.errorsInResponse.status:
             case apiErrors.emptyFieldInResponse.status:
             case apiErrors.emptyKeysToCheck.status:

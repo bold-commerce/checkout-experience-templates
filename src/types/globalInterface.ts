@@ -43,7 +43,6 @@ export interface IInitialState {
     autocompleteService: string,
     billingType: string,
     discountText: string,
-    pigiDisplaySca: boolean,
     isExpressPaySectionEnable: boolean,
     isOnePageTheme: boolean,
     allowNavigation: boolean,

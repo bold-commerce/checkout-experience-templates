@@ -32,7 +32,6 @@ jest.mock('src/hooks/useGetSelectShippingLine');
 jest.mock('src/hooks/useGetAvailableShippingLines');
 jest.mock('src/hooks/useGetGeneralSettingCheckoutFields');
 jest.mock('src/hooks/useGetValidVariable');
-jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 const mockDispatch = jest.fn();
 
 const useGetAvailableShippingLinesMock = mocked(useGetAvailableShippingLines, true);

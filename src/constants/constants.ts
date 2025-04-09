@@ -3,9 +3,7 @@ import {
     IErrorSeverities,
     IErrorShowType,
     IErrorSubTypes,
-    IErrorTypes,
-    IPigiHandleScaSteps,
-    IPigiPaymentTypes
+    IErrorTypes
 } from 'src/types';
 import {ICustomer} from '@boldcommerce/checkout-frontend-library/lib/types/apiInterfaces';
 
@@ -46,7 +44,7 @@ export class Constants {
     static readonly CONFIRMATION_PAGE_INFO = 'confirmation_page';
     static readonly GLOBAL_INFO = 'global';
     static readonly GENERIC_ERROR_INFO = 'generic';
-    static readonly PIGI_IFRAME = 'iframe-payment-gateway';
+    static readonly EPS = 'eps';
     static readonly EPS_IFRAME = 'eps-iframe-payment-gateway';
     static readonly MAX_COUNTRIES_GOOGLE_AUTOCOMPLETE = 5;
     static readonly LANGUAGE_BLOB_TYPE = 'LANGUAGE_BLOB_TYPE';
@@ -63,7 +61,6 @@ export class Constants {
     static readonly SESSION_EXPIRED_ROUTE = 'session_expired';
     static readonly BUY_NOW_ROUTE = 'buy_now';
     static readonly FASTLANE = 'fastlane';
-    static readonly PIGI = 'pigi';
 
     static readonly DEFAULT_TITLE = 'default title';
     static readonly ARIA_LIVE_POLITE = 'polite';
@@ -170,18 +167,6 @@ export class debounceConstants {
     static SHORTER_DEBOUNCE_TIME = 1000;
     static DEBOUNCE_UI_UPDATE_TIME = 300;
 }
-
-export const pigiHandleScaSteps: IPigiHandleScaSteps = {
-    DISPLAYED: 'DISPLAYED',
-    COMPLETED: 'COMPLETED',
-    FAILED: 'FAILED',
-    REDIRECT: 'REDIRECT',
-};
-
-export const pigiPaymentTypes: IPigiPaymentTypes = {
-    GIFT_CARD: 'GIFT_CARD',
-    PAYPAL: 'paypal',
-};
 
 export const API_RETRY = 1;
 export const HIDE_MESSAGE = 5000;

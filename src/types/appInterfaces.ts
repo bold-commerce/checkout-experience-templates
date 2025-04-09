@@ -62,7 +62,6 @@ export interface IOverlay{
 }
 
 export interface IIsLoading {
-    pigiIframe: boolean
     customerPageButton: boolean
     shippingPageButton: boolean
     discountButton: boolean
@@ -81,8 +80,6 @@ export interface IIsValid {
     billingAddress: boolean
     orderProcessed: boolean
     shippingLine: boolean
-    pigi: boolean
-    pigiLoaded: boolean
     scaToken: boolean
     batchPostShippingAddress: boolean,
     batchPostBillingAddress: boolean,
@@ -133,36 +130,11 @@ export interface IAutocompleteData {
     countryCode: string,
 }
 
-export interface IPigiResponsesPayload {
-    success: boolean,
-    height: number,
-    step?: 'DISPLAYED' | 'COMPLETED' | 'FAILED',
-    paymentType?: string,
-    data?: Record<string, unknown>,
-}
-
 export interface IExternalPaymentGatewayMessagePayload {
     success: boolean,
     height: number,
     step?: 'DISPLAYED' | 'COMPLETED' | 'FAILED',
     paymentType?: string,
-}
-
-export interface IPigiHandleScaSteps {
-    DISPLAYED: string;
-    COMPLETED: string;
-    FAILED: string;
-    REDIRECT: string;
-}
-
-export interface IPigiPaymentTypes {
-    GIFT_CARD: string;
-    PAYPAL: string;
-}
-
-export interface IPigiResponseData {
-    responseType: string,
-    payload: IPigiResponsesPayload,
 }
 
 export interface IExternalPaymentGatewayMessageFromIframe {

@@ -1,16 +1,19 @@
 import {render} from '@testing-library/react';
 import {Payment} from 'src/components';
+import {EpsPayment} from 'src/components';
 import {mocked} from 'jest-mock';
-import {useGetPigiUrl, useSetPigiListener, useGetLoaderScreenVariable, useGetPigiDisplaySca, useGetPaymentSection, useGetIsSessionInitialized} from 'src/hooks';
+import {useGetLoaderScreenVariable, useGetPaymentSection, useGetIsSessionInitialized} from 'src/hooks';
 import {IUseGetPaymentSection} from 'src/types';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
 
 jest.mock('src/hooks');
-const useGetPigiUrlMock = mocked(useGetPigiUrl, true);
-const useSetPigiListenerMock = mocked(useSetPigiListener, true);
+jest.mock('src/components/eps-payment/EpsPayment');
 const useGetLoaderScreenVariableMock = mocked(useGetLoaderScreenVariable, true);
-const useGetPigiDisplayScaMock = mocked(useGetPigiDisplaySca, true);
 const useGetPaymentSectionMock = mocked(useGetPaymentSection, true);
 const useGetIsSessionInitializedMock = mocked(useGetIsSessionInitialized, true);
+const EpsPaymentMock = mocked(EpsPayment, true);
+const mockStore = createStore((state = {}) => state);
 
 describe('Testing Payment component', () => {
     const IUseGetPaymentSectionMock = {
@@ -24,16 +27,23 @@ describe('Testing Payment component', () => {
 
     beforeEach(() => {
         jest.resetAllMocks();
-        useGetPigiUrlMock.mockReturnValue('');
+        EpsPaymentMock.mockReturnValue(<div data-testid="eps-payment"/>);
         useGetLoaderScreenVariableMock.mockReturnValue(false);
-        useGetPigiDisplayScaMock.mockReturnValue(false);
     });
+
+    const renderWithProvider = (component: React.ReactElement) => {
+        return render(
+            <Provider store={mockStore}>
+                {component}
+            </Provider>
+        );
+    };
 
     test('Payment Renders with loaded payment block', () => {
         const hookReturnMock = {...IUseGetPaymentSectionMock, loading: false};
         useGetPaymentSectionMock.mockReturnValueOnce(hookReturnMock);
 
-        const {container} = render(<Payment/>);
+        const {container} = renderWithProvider(<Payment/>);
 
         expect(useGetPaymentSectionMock).toHaveBeenCalledTimes(1);
         expect(container.getElementsByClassName('payment').length).toBe(1);
@@ -46,32 +56,13 @@ describe('Testing Payment component', () => {
         expect(container.getElementsByClassName('payment__no-valid-address').length).toBe(0);
     });
 
-    test('Payment Renders with loading payment block', () => {
-        const hookReturnMock = {...IUseGetPaymentSectionMock, loading: true};
-        useGetPaymentSectionMock.mockReturnValueOnce(hookReturnMock);
-
-        const {container} = render(<Payment/>);
-
-        expect(useGetPaymentSectionMock).toHaveBeenCalledTimes(1);
-        expect(container.getElementsByClassName('payment').length).toBe(1);
-        expect(container.getElementsByClassName('payment__FieldSection').length).toBe(1);
-        expect(container.getElementsByClassName('field-section__header').length).toBe(1);
-        expect(container.getElementsByClassName('field-section__heading').length).toBe(1);
-        expect(container.getElementsByClassName('field-section__heading')[0].textContent).toBe(IUseGetPaymentSectionMock.fieldSectionText);
-        expect(container.getElementsByClassName('field-section__content').length).toBe(1);
-        expect(container.getElementsByClassName('payment__block').length).toBe(1);
-        expect(container.getElementsByClassName('payment__no-valid-address').length).toBe(1);
-    });
-
     test('Payment Renders with LockedSection invalid Address', () => {
         const hookReturnMock = {...IUseGetPaymentSectionMock, loading: false, isValidAddress: false};
         useGetPaymentSectionMock.mockReturnValueOnce(hookReturnMock);
 
-        const {container} = render(<Payment/>);
+        const {container} = renderWithProvider(<Payment/>);
 
         expect(useGetPaymentSectionMock).toHaveBeenCalledTimes(1);
-        expect(useSetPigiListenerMock).not.toHaveBeenCalled();
-        expect(useGetPigiUrlMock).not.toHaveBeenCalled();
         expect(useGetLoaderScreenVariableMock).not.toHaveBeenCalled();
         expect(container.getElementsByClassName('payment').length).toBe(1);
         expect(container.getElementsByClassName('payment__FieldSection').length).toBe(1);
@@ -89,11 +80,9 @@ describe('Testing Payment component', () => {
         const hookReturnMock = {...IUseGetPaymentSectionMock, loading: false, isValidShippingLine: false};
         useGetPaymentSectionMock.mockReturnValueOnce(hookReturnMock);
 
-        const {container} = render(<Payment/>);
+        const {container} = renderWithProvider(<Payment/>);
 
         expect(useGetPaymentSectionMock).toHaveBeenCalledTimes(1);
-        expect(useSetPigiListenerMock).not.toHaveBeenCalled();
-        expect(useGetPigiUrlMock).not.toHaveBeenCalled();
         expect(useGetLoaderScreenVariableMock).not.toHaveBeenCalled();
         expect(container.getElementsByClassName('payment').length).toBe(1);
         expect(container.getElementsByClassName('payment__FieldSection').length).toBe(1);
@@ -112,7 +101,7 @@ describe('Testing Payment component', () => {
         useGetPaymentSectionMock.mockReturnValueOnce(hookReturnMock);
         useGetIsSessionInitializedMock.mockReturnValue(true);
 
-        const {container} = render(<Payment loadIframeImmediately={true}/>);
+        const {container} = renderWithProvider(<Payment loadIframeImmediately={true}/>);
 
         expect(useGetPaymentSectionMock).toHaveBeenCalledTimes(1);
         expect(container.getElementsByClassName('payment').length).toBe(1);
@@ -130,11 +119,9 @@ describe('Testing Payment component', () => {
         useGetPaymentSectionMock.mockReturnValueOnce(hookReturnMock);
         useGetIsSessionInitializedMock.mockReturnValue(false);
 
-        const {container} = render(<Payment loadIframeImmediately={true}/>);
+        const {container} = renderWithProvider(<Payment loadIframeImmediately={true}/>);
 
         expect(useGetPaymentSectionMock).toHaveBeenCalledTimes(1);
-        expect(useSetPigiListenerMock).not.toHaveBeenCalled();
-        expect(useGetPigiUrlMock).not.toHaveBeenCalled();
         expect(useGetLoaderScreenVariableMock).not.toHaveBeenCalled();
         expect(container.getElementsByClassName('payment').length).toBe(1);
         expect(container.getElementsByClassName('payment__FieldSection').length).toBe(1);

@@ -7,13 +7,11 @@ import {
     useGetLifeFieldsOnPage,
     useGetRequiresShipping,
     useGetValidVariable,
-    useGetEpsGateways,
 } from 'src/hooks';
 import {
     getCheckoutUrl,
     getTerm,
     getTotalsFromState,
-    callProcessOrder,
     callEpsProcessOrder
 } from 'src/utils';
 import {Constants, LifeInputPageConstants} from 'src/constants';
@@ -26,7 +24,6 @@ export function usePaymentPage(): IUsePaymentPage{
     const history = useHistory();
     const dispatch = useDispatch();
     const isOrderCompleted = useGetIsOrderProcessed();
-    const isGatewayEps = useGetEpsGateways();
     if (isOrderCompleted) {
         history.replace(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
     }
@@ -60,11 +57,7 @@ export function usePaymentPage(): IUsePaymentPage{
     const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.PAYMENT_THREE_PAGE);
     const thankYouPageLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.THANK_YOU_PAGE);
     const nextButtonOnClick = useCallback(() => {
-        if(isGatewayEps) {
-            dispatch(callEpsProcessOrder(history, totals, requiredLifeFields, thankYouPageLifeFields));
-        } else {
-            callProcessOrder(dispatch, totals, history, requiredLifeFields, isGatewayEps, thankYouPageLifeFields);
-        }
+        dispatch(callEpsProcessOrder(history, totals, requiredLifeFields, thankYouPageLifeFields));
     },[totals, history]);
 
     return {backLinkText, backLinkOnClick, nextButtonText, nextButtonOnClick, nextButtonLoading, nextButtonDisable, language, title};
