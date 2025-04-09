@@ -1,7 +1,7 @@
 import React, {ForwardedRef} from 'react';
 import {useGetCurrencyInformation, useGetExternalPaymentGateways, useGetOverlayVisible} from 'src/hooks';
 import {useFocusTrap, useGetCloseBuyNow, useIndexPage, useCheckShippingAddress} from 'src/themes/buy-now/hooks';
-import {BillingAddressCheckbox, CartItems, CloseableHeader, CondensedSection, CondensedShipping, ExpandableDiscount, ExpressPaymentGateway, ExternalPaymentGateway, FlashError, Payment} from 'src/components';
+import {BillingAddressCheckbox, CartItems, CloseableHeader, CondensedSection, CondensedShipping, ExpandableDiscount, ExternalPaymentGateway, FlashError, Payment} from 'src/components';
 import {Price} from '@boldcommerce/stacks-ui';
 import {getTerm} from 'src/utils';
 import {Constants} from 'src/constants';
@@ -65,7 +65,7 @@ function IndexPage(props: IBuyNowContainerPageProps, ref: ForwardedRef<HTMLDivEl
                         </div>
                     )}
                 </CondensedSection>
-                <ExpressPaymentGateway/>
+                {/* <ExpressPaymentGateway/> */}
                 <CondensedSection {...{className: 'buy-now__payment buy-now__section', navigationHeadingProps: {text: paymentHeadingText, className: 'payment-heading'}}} >
                     {externalPaymentGateways.map((externalGateway) =>
                         <ExternalPaymentGateway

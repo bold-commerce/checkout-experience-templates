@@ -1,12 +1,12 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { SummaryPage } from 'src/themes/buy-now/pages';
-import { addressMock, storeMock } from 'src/mocks';
-import { mocked } from 'jest-mock';
+import {fireEvent, render, screen} from '@testing-library/react';
+import {SummaryPage} from 'src/themes/buy-now/pages';
+import {addressMock, storeMock} from 'src/mocks';
+import {mocked} from 'jest-mock';
 import React from 'react';
-import { IBuyNowContainerPageProps, IUseFocusTrap } from 'src/themes/buy-now/types';
-import { useIndexPage } from 'src/themes/buy-now/hooks/useIndexPage';
-import { IUseIndexPageProps } from 'src/types';
-import { useFocusTrap } from 'src/themes/buy-now/hooks';
+import {IBuyNowContainerPageProps, IUseFocusTrap} from 'src/themes/buy-now/types';
+import {useIndexPage} from 'src/themes/buy-now/hooks/useIndexPage';
+import {IUseIndexPageProps} from 'src/types';
+import {useFocusTrap} from 'src/themes/buy-now/hooks';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -63,7 +63,7 @@ describe('testing SummaryPage', () => {
     });
 
     test('Rendering hidden summaryPage properly', () => {
-        const { container } = render(<SummaryPage {...hiddenProps} />);
+        const {container} = render(<SummaryPage {...hiddenProps} />);
         expect(container.getElementsByClassName('buy-now').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__secondary').length).toBe(1);
         expect(container.getElementsByClassName('buy-now__secondary--closed').length).toBe(1);
@@ -72,7 +72,7 @@ describe('testing SummaryPage', () => {
 
 
     test('Rendering visible summaryPage properly', () => {
-        const { container } = render(
+        const {container} = render(
             <SummaryPage {...visibleProps} />
         );
         expect(container.getElementsByClassName('buy-now').length).toBe(1);

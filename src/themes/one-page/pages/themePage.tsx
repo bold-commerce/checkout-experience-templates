@@ -2,7 +2,6 @@ import {
     BillingAddress,
     CustomerInformation,
     EpsExpressPaymentGateway,
-    ExpressPaymentGateway,
     ExternalPaymentGateway,
     FlashError,
     Footer,
@@ -30,8 +29,7 @@ import {
     useGetRequiresShipping,
     useOnLoadDefaultLifeFields,
     useGetLifeFieldsOnPage,
-    useGetIsOrderProcessed,
-    useGetEpsGateways
+    useGetIsOrderProcessed
 } from 'src/hooks';
 import {LifeInputLocationConstants} from 'src/constants';
 import {useHistory} from 'react-router';
@@ -50,7 +48,6 @@ export function ThemePage(): React.ReactElement {
     const requiresShipping = useGetRequiresShipping();
     const history = useHistory();
     const isOrderCompleted = useGetIsOrderProcessed();
-    const isGatewayEps = useGetEpsGateways();
 
     const customerInfoLifeFields = useGetLifeFields(LifeInputLocationConstants.CUSTOMER_INFO);
     const shippingLifeFields = useGetLifeFields(LifeInputLocationConstants.SHIPPING);
@@ -91,7 +88,7 @@ export function ThemePage(): React.ReactElement {
                     <main aria-label={mainAriaLabel}>
                         <form onSubmit={withPreventDefault(nextButtonOnClick)}>
                             <FlashError/>
-                            {isGatewayEps ? <EpsExpressPaymentGateway/>: <ExpressPaymentGateway/>}
+                            <EpsExpressPaymentGateway/>
                             {infoExternalPaymentGateways.map((externalGateway) =>
                                 <ExternalPaymentGateway
                                     externalPaymentGateway={externalGateway}

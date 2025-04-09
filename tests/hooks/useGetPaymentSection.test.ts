@@ -10,7 +10,6 @@ jest.mock('react-redux', () => ({
 }));
 jest.mock('src/hooks/useGetValidVariable');
 jest.mock('src/utils/getTerm');
-jest.mock('src/hooks/useGetEpsGateways');
 const useGetValidVariableMock = mocked(useGetValidVariable, true);
 const getTermMock = mocked(getTerm, true);
 

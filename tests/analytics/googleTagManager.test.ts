@@ -1,6 +1,6 @@
-import {ITotals} from '@boldcommerce/checkout-express-pay-library';
 import {orderCompleteForGoogleTagManager, sendEventForGoogleTagManager, sendPageViewForGoogleTagManager} from 'src/analytics';
 import {stateMock} from 'src/mocks';
+import {ITotals} from 'src/types';
 
 describe('testing Google Tag Manager functions', () => {
     const appState = stateMock.data.application_state;

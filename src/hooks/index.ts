@@ -33,7 +33,6 @@ export * from './useGetDefaultSupportedLanguageIso';
 export * from './useGetDiscounts';
 export * from './useGetCombinedDiscounts';
 export * from './useGetDisplayPaymentMethods';
-export * from './useGetEpsGateways';
 export * from './useGetErrorFallback';
 export * from './useGetErrors';
 export * from './useGetFees';

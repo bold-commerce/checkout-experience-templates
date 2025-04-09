@@ -1,7 +1,6 @@
 import {renderHook} from '@testing-library/react-hooks';
 import {
     useGetButtonDisableVariable,
-    useGetEpsGateways,
     useGetIsLoading,
     useGetIsOrderProcessed,
     useGetLifeFieldsOnPage,
@@ -10,7 +9,7 @@ import {
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
 import {getCheckoutUrl, getTerm, getReturnToCartTermAndLink} from 'src/utils';
-import {callCustomerPageApi, initializeExpressPay} from 'src/library';
+import {callCustomerPageApi} from 'src/library';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {useHistory} from 'react-router';
 import {actionClearErrors} from 'src/action';
@@ -23,12 +22,10 @@ jest.mock('src/hooks/useGetIsLoading');
 jest.mock('src/hooks/useGetButtonDisableVariable');
 jest.mock('src/hooks/useGetIsOrderProcessed');
 jest.mock('src/library/callCustomerPageApi');
-jest.mock('src/library/initializeExpressPay');
 jest.mock('src/utils/getReturnToCartTermAndLink');
 jest.mock('src/hooks/useGetRequiresShipping');
 jest.mock('src/hooks/useGetLifeFieldsOnPage');
 jest.mock('src/hooks/useGetLifeFields');
-jest.mock('src/hooks/useGetEpsGateways');
 
 const useDispatchMock = mocked(useDispatch, true);
 const useHistoryMock = mocked(useHistory, true);
@@ -37,11 +34,9 @@ const useGetIsLoadingMock = mocked(useGetIsLoading, true);
 const useGetButtonDisableVariableMock = mocked(useGetButtonDisableVariable, true);
 const callCustomerPageApiMock = mocked(callCustomerPageApi, true);
 const useGetIsOrderProcessedMock = mocked(useGetIsOrderProcessed, true);
-const initializeExpressPayMock = mocked(initializeExpressPay, true);
 const getReturnToCartTermAndLinkMock = mocked(getReturnToCartTermAndLink, true);
 const useGetLifeFieldsOnPageMock = mocked(useGetLifeFieldsOnPage, true);
 const useGetRequiresShippingMock = mocked(useGetRequiresShipping, true);
-const useGetEpsGatewaysMock = mocked(useGetEpsGateways, true);
 
 describe('Testing hook useCustomerPage', () => {
     const mockDispatch = jest.fn();
@@ -49,7 +44,6 @@ describe('Testing hook useCustomerPage', () => {
     const getTermValue = 'test-value';
     const eventMock = {preventDefault: jest.fn()};
     const historyMock = {replace: jest.fn()};
-    const mockExpressEntry = jest.fn();
     const lifeFields: Array<ILifeField> = [
         {
             input_default: 'default',
@@ -73,7 +67,6 @@ describe('Testing hook useCustomerPage', () => {
         useGetIsLoadingMock.mockReturnValue(false);
         useGetButtonDisableVariableMock.mockReturnValue(false);
         callCustomerPageApiMock.mockReturnValue(mockCallCustomerPageApi);
-        initializeExpressPayMock.mockReturnValue(mockExpressEntry);
         useGetLifeFieldsOnPageMock.mockReturnValue(lifeFields);
         window = Object.create(window);
         Object.defineProperty(window, 'location', {
@@ -86,7 +79,6 @@ describe('Testing hook useCustomerPage', () => {
     });
 
     test('rendering the hook properly', () => {
-        useGetEpsGatewaysMock.mockReturnValueOnce(false);
         useGetIsOrderProcessedMock.mockReturnValueOnce(false);
         useGetRequiresShippingMock.mockReturnValue(true);
         const {result} = renderHook(() => useCustomerPage());
@@ -102,14 +94,12 @@ describe('Testing hook useCustomerPage', () => {
 
         expect(window.location.href).toEqual(window.returnUrl);
         result.current.nextButtonOnClick();
-        expect(mockDispatch).toHaveBeenCalledTimes(4);
+        expect(mockDispatch).toHaveBeenCalledTimes(3);
         expect(mockDispatch).toHaveBeenCalledWith(actionClearErrors());
         expect(mockDispatch).toHaveBeenCalledWith(mockCallCustomerPageApi);
-        expect(mockDispatch).toHaveBeenCalledWith(mockExpressEntry);
     });
 
     test('rendering the hook with complete order', () => {
-        useGetEpsGatewaysMock.mockReturnValueOnce(false);
         useGetIsOrderProcessedMock.mockReturnValue(true);
         useGetRequiresShippingMock.mockReturnValue(true);
         renderHook(() => useCustomerPage());
@@ -118,7 +108,6 @@ describe('Testing hook useCustomerPage', () => {
     });
 
     test('rendering the hook with not requires shipping', () => {
-        useGetEpsGatewaysMock.mockReturnValueOnce(true);
         useGetIsOrderProcessedMock.mockReturnValue(true);
         useGetRequiresShippingMock.mockReturnValue(false);
         renderHook(() => useCustomerPage());

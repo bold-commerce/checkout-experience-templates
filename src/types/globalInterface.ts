@@ -33,6 +33,8 @@ declare global {
         bugsnagApiKey: string,
         enableConsole: boolean,
         fbq?: IFbq,
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        [key:string]: any,
     }
 }
 

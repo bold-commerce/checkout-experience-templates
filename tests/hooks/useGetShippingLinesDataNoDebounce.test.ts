@@ -3,7 +3,8 @@ import {
     useGetAvailableShippingLines,
     useGetSelectShippingLine,
     useGetGeneralSettingCheckoutFields,
-    useGetShippingLinesDataNoDebounce, useGetValidVariable
+    useGetShippingLinesDataNoDebounce,
+    useGetValidVariable
 } from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';

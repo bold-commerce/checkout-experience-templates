@@ -16,7 +16,6 @@ export * from './deleteShippingAddress';
 export * from './displayOrderProcessingScreen';
 export * from './generateTaxes';
 export * from './handleBatchSuccess';
-export * from './initializeExpressPay';
 export * from './patchOrderMetaData';
 export * from './externalPaymentGateway';
 export * from './postAddress';
