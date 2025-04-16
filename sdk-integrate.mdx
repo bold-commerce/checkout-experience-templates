@@ -1,0 +1,178 @@
+---
+title: Integrate the Payment SDK
+unlisted: true
+---
+
+Integrate Bold's Payment SDK with your store to combine your store's existing frontend with Bold's payment options and capabilities, including increased security for your customers' payment data.
+
+The Payment SDK is how your store communicates with Bold's payment service. For more information on how Bold handles payment data, refer to the [information flow overview](/guides/checkout/concepts/payment-information).
+
+Integrating the Payment SDK with your store is available only for self-hosted Bold Checkout. If you're using Bold-Hosted Checkout instead, use our one-page or three-page templates instead of integrating this SDK.
+
+Follow these steps to integrate the Payment SDK with your store's frontend.
+
+### Add the Javascript SDK
+
+Load the following Payment SDK script to the page where you want to load payment buttons, card fields, or both.
+
+```javascript
+<script src="https://static-eps.secure.boldcommerce.com/js/payments_sdk.js"></script>
+```
+
+### Create the div container
+
+Create HTML elements for where the buttons or card fields will be rendered. You will need to pass this when calling the Payment SDK functions.
+
+### Initialize the Bold Order
+
+Initialize a checkout order using the Bold [initialize order endpoint](https://developer.boldcommerce.com/api/orders#tag/Orders/operation/InitializeOrder).
+
+### Initialize the Bold Payment SDK instance
+
+Initialize a new `bold.Payments` instance. Make sure that this is only initiated once.
+
+```
+const boldPayments = new window.bold.Payments(initialData);
+```
+
+The Bold Payment SDK requires `initialData` with the following data.
+
+| Field            | Type   | Description                                                                     |
+| ---------------- | ------ | ------------------------------------------------------------------------------- |
+| group_label      | string | The platform ID of your store                                                   |
+| trace_id         | string | Any string to help with debugging the logs (we prefer to use `public_order_id`) |
+| eps_url          | string | Should be `https://eps.secure.boldcommerce.com`                                 |
+| eps_bucket_url   | string | Should be `https://static-eps.secure.boldcommerce.com`                          |
+| payment_gateways | Array  | The payment gateway information that is provided in the order init endpoint     |
+| callbacks        | Array  | See below for details                                                           |
+
+#### Callbacks
+
+The Payment SDK requires specific data from the the storefront to process the payment. These callbacks are defined by the storefront to work properly with the Payment SDK.
+
+1. `onClickPaymentOrder`: Calls when the user clicks on any payment buttons like Google Pay, Apple Pay, or Paypal.
+1. `onCreatePaymentOrder`: (PayPal Complete Payments only) Calls to create an order on the payment gateway side.
+1. `onUpdatePaymentOrder`: Calls when the user changes their shipping information on the digital wallet UI to get the updated taxes or shipping lines information.
+1. `onRequireOrderData`: Calls when the Payment SDK needs any specific data.
+1. `onApprovePaymentOrder`: Calls when the user clicks to complete the payment on the digital wallet UI.
+1. `onScaPaymentOrder`: Calls when the Payment SDK needs to handle the SCA.
+1. `onErrorPaymentOrder`: (Optional) Calls when there is any error reported by payment gateway.
+1. `onUpdateVisuals`: (Optional) Calls if there are any UI changes done by the Payment SDK.
+
+The following code shows an example of defining a callback function:
+
+```typescript
+export async function onRequireOrderData(requirements: Array<IRequirementDataType>):Promise<IOrderDataPayload> {
+    const appState = getApplicationState();
+
+    const dataPayload: IOrderDataPayload = {};
+    requirements.forEach(rq => {
+        switch (rq) {
+            case 'customer':
+                dataPayload[rq] = {
+                    first_name: appState.customer.first_name,
+                    last_name: appState.customer.last_name,
+                    email_address: appState.customer.email_address,
+                };
+                break;
+            case 'billing_address':
+                dataPayload[rq] = appState.addresses.billing;
+                break;
+            case 'shipping_address':
+                dataPayload[rq] = appState.addresses.shipping;
+                break;
+            ...
+        }
+    });
+
+    return dataPayload;
+}
+
+```
+
+### Render Methods
+
+On the new instance, call the render methods:
+
+1. [Render Payments](#render-payments)
+1. [Render Wallet Payments](#render-wallet-payments)
+
+#### Render Payments
+
+This method renders the digital wallets along with the credit card fields.
+
+Example:
+
+```typescript
+boldPayments
+  .renderPayments(divContainer)
+  .then(() => {
+    // handle anything that need to be done after payment iframe is shows
+  })
+  .catch((e: Error) => {
+    // do error handling here
+  });
+```
+
+![A screenshot of SPI Payment interface.](/assets/images/guides/checkout/spi_ui.png)
+
+After you initialize this function, complete the following steps.
+
+1. If the customer is using payment buttons, the next steps are handled by the the callbacks when customers interact with the buttons.
+1. If the customer is using card fields and they clicks to complete a payment, call `getDataRequirements` and `tokenize`. Example:
+
+```typescript
+const requirements = boldPayments.getDataRequirements();
+const dataPayload: ITokenizePayload = {};
+requirements.forEach(rq => {
+    switch (rq) {
+        case 'customer':
+           // provide customer information to dataPayload
+           break;
+        case 'billing_address':
+           // provide billing address to dataPayload
+            break;
+        case 'shipping_address':
+           // provide shipping address to dataPayload
+        break;
+ });
+
+boldPayments.tokenize(dataPayload).then(() => {
+    // call process order endpoint
+}).catch((e) => {
+    // do error handling
+});
+
+```
+
+#### Render Wallet Payments
+
+This method only renders the digital wallet buttons like Apple Pay, Google Pay, or Paypal.
+
+Example:
+
+```typescript
+boldPayments
+  .renderWalletPayments(divContainer)
+  .then(() => {
+    // handle anything that need to be done after payment iframe is shows
+  })
+  .catch((e: Error) => {
+    // do error handling here
+  });
+```
+
+![A screenshot of SPI Wallet Buttons.](/assets/images/guides/checkout/wallet_buttons.png)
+
+When customers interact with the buttons,the callbacks handle the next steps for digital wallet payments.
+
+### Implementing Strong Customer Authentication (SCA)
+
+If the merchant and customer are both located in Europe, you may be required to complete additional verification of the customer's identity to comply with Strong Customer Authentication (SCA). Bold completes this authentication using 3D Secure (3DS) technology, which is displayed within the SPI iframe.
+
+The following steps outline the process of successfully handling SCA on an order:
+
+1. The storefront calls the Process Order endpoint and receives a 202 error with a request body of `{"clientSecretToken": "token", }`.
+1. The storefront calls the EPS tokenize request with the `client_secret_token` as a payload to in the request.
+1. The Payment SDK shows the SCA in fullscreen.
+1. Once the request is done, the storefront retries the Process Order endpoint.
