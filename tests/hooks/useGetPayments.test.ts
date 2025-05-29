@@ -4,7 +4,6 @@ import {stateMock} from 'src/mocks/stateMock';
 import {useAppSelector} from 'src/hooks/rootHooks';
 import {mocked} from 'jest-mock';
 
-jest.mock('src/library/paymentIframe');
 jest.mock('src/hooks/rootHooks');
 const useAppSelectorMock = mocked(useAppSelector, true);
 

@@ -436,14 +436,10 @@ export interface IUseGetShippingLines {
 }
 
 export interface IUseGetPaymentSection {
-    loading: boolean;
     isValidAddress: boolean;
     isValidShippingLine: boolean;
     notValidText: string;
     fieldSectionText: string;
-    isValidPigiLoad: boolean;
-    onLoad: (isEpsPayment?: boolean) => void;
-    isGatewayEps: boolean;
 }
 
 export interface IUseGetExternalPaymentGatewaySection {

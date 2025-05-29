@@ -8,7 +8,6 @@ import {
     FormControls,
     FlashError,
     Header,
-    ExpressPaymentGateway,
     HeaderHelmet,
     ScreenReaderAnnouncement,
     Footer,
@@ -27,8 +26,7 @@ import {
     useGetLifeFields,
     useGetRequiresShipping,
     useGetLifeFieldsOnPage,
-    useOnLoadDefaultLifeFields,
-    useGetEpsGateways
+    useOnLoadDefaultLifeFields
 } from 'src/hooks';
 import {useCustomerPage} from 'src/themes/three-page/hooks';
 import {sendEvents, sendPageView} from 'src/analytics';
@@ -51,7 +49,6 @@ export function CustomerPage(): React.ReactElement {
     const headerLogoUrl = window.headerLogoUrl;
     const isCustomerLoggedIn = useIsUserAuthenticated();
     const requiresShipping = useGetRequiresShipping();
-    const isGatewayEps = useGetEpsGateways();
     useBeforeUnload();
     useScrollToElementOnNavigation('customer-section');
     useOnLoadDefaultLifeFields(useGetLifeFieldsOnPage(LifeInputPageConstants.CUSTOMER_THREE_PAGE));
@@ -99,7 +96,7 @@ export function CustomerPage(): React.ReactElement {
                         )}
                         <form onSubmit={withPreventDefault(nextButtonOnClick)}>
                             <FlashError/>
-                            {isGatewayEps ? <EpsExpressPaymentGateway/>: <ExpressPaymentGateway/>}
+                            <EpsExpressPaymentGateway/>
                             <CustomerInformation/>
                             <LifeFields className={'customer-info-life-elements'} lifeFields={customerInfoLifeFields}/>
                             <ShippingAddress/>

@@ -6,7 +6,7 @@ import {
 } from 'src/types';
 import {Dispatch} from 'redux';
 import {HistoryLocationState} from 'react-router';
-import {onApprovePaymentOrder, onCreatePaymentOrder, onUpdatePaymentOrder, onRequireOrderData, onScaPaymentOrder, onUpdateVisuals} from 'src/eps';
+import {onApprovePaymentOrder, onCreatePaymentOrder, onUpdatePaymentOrder, onRequireOrderData, onScaPaymentOrder, onDeletePaymentMethod, onUpdateVisuals} from 'src/eps';
 import {actionEpsBoldPayment} from 'src/action';
 import {logError} from 'src/utils';
 
@@ -29,6 +29,7 @@ export function initEpsPaymentSdk(history: HistoryLocationState) {
                 'gateway_id': parseInt(g, 10),
                 'auth_token': epsGateways[g].auth_token,
                 'currency': epsGateways[g].currency,
+                'vaulted_payment_methods': epsGateways[g].vaulted_payment_methods,
             };
         });
 
@@ -38,6 +39,7 @@ export function initEpsPaymentSdk(history: HistoryLocationState) {
             onScaPaymentOrder: (type, payload) => onScaPaymentOrder(dispatch, type, payload),
             onRequireOrderData: onRequireOrderData,
             onUpdatePaymentOrder: onUpdatePaymentOrder,
+            onDeletePaymentMethod: onDeletePaymentMethod,
             onUpdateVisuals: (payload: IOnUpdateVisuals) => onUpdateVisuals(dispatch, payload),
         };
 

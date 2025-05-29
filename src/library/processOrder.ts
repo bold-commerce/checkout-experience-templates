@@ -4,7 +4,6 @@ import {
     httpStatusCode,
     IApiReturnObject, IApiSuccessResponse, ILifeField,
     processOrder as processOrderLib,
-    sendHandleScaActionAsync,
 } from '@boldcommerce/checkout-frontend-library';
 import {checkErrorAndProceedToNextPage, getApplicationStateFromLib} from 'src/library';
 import {HistoryLocationState} from 'react-router';
@@ -16,8 +15,6 @@ import {useRemoveAllFlashErrors} from 'src/hooks';
 export function processOrder(history: HistoryLocationState, totals?: ITotals, requiredLifeFields?: Array<ILifeField>, thankYouPageLifeFields?: Array<ILifeField>) {
     return async function processOrderThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         let {errors} = getState();
-        const {data: {initial_data: {eps_gateways}}} = getState();
-        const isEps = Object.keys(eps_gateways).length > 0;
 
         useRemoveAllFlashErrors(dispatch, errors);
         await dispatch(actionSetAppStateValid('scaToken', false));
@@ -29,13 +26,9 @@ export function processOrder(history: HistoryLocationState, totals?: ITotals, re
             if (response.success) {
                 if (response.status === httpStatusCode.ACCEPTED) {
                     await dispatch(actionSetAppStateValid('scaToken', true));
-                    if (isEps) {
-                        if (totals && requiredLifeFields) {
-                            const innerResponse = response.response as IApiSuccessResponse;
-                            dispatch(callEpsProcessOrder(history, totals, requiredLifeFields, thankYouPageLifeFields, innerResponse.clientSecretToken));
-                        }
-                    } else {
-                        await sendHandleScaActionAsync();
+                    if (totals && requiredLifeFields) {
+                        const innerResponse = response.response as IApiSuccessResponse;
+                        dispatch(callEpsProcessOrder(history, totals, requiredLifeFields, thankYouPageLifeFields, innerResponse.clientSecretToken));
                     }
                 } else {
                     await dispatch(actionSetAppStateValid('orderProcessed', true));

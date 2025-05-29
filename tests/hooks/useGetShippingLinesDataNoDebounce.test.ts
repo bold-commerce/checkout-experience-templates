@@ -3,7 +3,8 @@ import {
     useGetAvailableShippingLines,
     useGetSelectShippingLine,
     useGetGeneralSettingCheckoutFields,
-    useGetShippingLinesDataNoDebounce, useGetValidVariable
+    useGetShippingLinesDataNoDebounce,
+    useGetValidVariable
 } from 'src/hooks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
@@ -11,7 +12,6 @@ import {stateMock} from 'src/mocks';
 import {act} from '@testing-library/react';
 import {actionOrderTotal, actionSetLoaderAndDisableButton} from 'src/action';
 import {initialDataMock} from 'src/mocks';
-import {sendRefreshOrderAction} from '@boldcommerce/checkout-frontend-library';
 
 const store = {
     data: initialDataMock,
@@ -32,7 +32,6 @@ jest.mock('src/hooks/useGetSelectShippingLine');
 jest.mock('src/hooks/useGetAvailableShippingLines');
 jest.mock('src/hooks/useGetGeneralSettingCheckoutFields');
 jest.mock('src/hooks/useGetValidVariable');
-jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 const mockDispatch = jest.fn();
 
 const useGetAvailableShippingLinesMock = mocked(useGetAvailableShippingLines, true);

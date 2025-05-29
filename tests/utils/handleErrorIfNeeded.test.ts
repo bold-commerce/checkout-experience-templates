@@ -60,7 +60,7 @@ describe('Test function handleErrorIfNeeded', () => {
         body: undefined,
         message: '',
         name: '',
-        status: apiErrors.noPigiIframe.status,
+        status: apiErrors.emptyAppState.status,
         statusText: undefined,
         metaData: undefined
     };

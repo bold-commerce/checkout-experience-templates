@@ -5,10 +5,10 @@ import {IEpsPayments} from 'src/types';
 import {useDispatch} from 'react-redux';
 import {initEpsPaymentSdk} from 'src/eps';
 import {useHistory} from 'react-router';
-import {actionSetAppStateValid, actionSetButtonDisable, actionSetPigiIframeLoader} from 'src/action';
+import {actionSetButtonDisable} from 'src/action';
 import {logError} from 'src/utils';
 
-export function EpsPayment({onLoad}:{onLoad: (isEpsPayment?: boolean) => void}): React.ReactElement {
+export function EpsPayment(): React.ReactElement {
     const dispatch = useDispatch();
     const history = useHistory();
     const boldPayments = useGetAppSettingData('epsBoldPayment') as IEpsPayments | null;
@@ -22,16 +22,10 @@ export function EpsPayment({onLoad}:{onLoad: (isEpsPayment?: boolean) => void}):
     useEffect(() => {
         boldPayments?.renderPayments(Constants.EPS_IFRAME)
             .then(() => {
-                dispatch(actionSetPigiIframeLoader(false));
                 dispatch(actionSetButtonDisable('paymentPageButton', false));
-                dispatch(actionSetAppStateValid('pigi', true));
-                onLoad(true);
             })
             .catch((e: Error) => {
-                dispatch(actionSetPigiIframeLoader(false));
                 dispatch(actionSetButtonDisable('paymentPageButton', false));
-                dispatch(actionSetAppStateValid('pigi', false));
-                onLoad(true);
                 logError(e);
             });
     }, [boldPayments]);

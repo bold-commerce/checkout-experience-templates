@@ -6,13 +6,10 @@ import {IUseBuyNowContainerPageProps} from 'src/themes/buy-now/types';
 import {mocked} from 'jest-mock';
 import {useDispatch} from 'react-redux';
 import {useGetIsOrderProcessing} from 'src/hooks';
-import {initializeExpressPay} from 'src/library';
 
 jest.mock('react-redux');
-jest.mock('src/library/initializeExpressPay');
 jest.mock('src/hooks/useGetIsOrderProcessing');
 const useDispatchMock = mocked(useDispatch, true);
-const initializeExpressPayMock = mocked(initializeExpressPay, true);
 const useGetIsOrderProcessingMock = mocked(useGetIsOrderProcessing, true);
 
 describe('testing hook useBuyNowContainerPage', () => {
@@ -34,7 +31,6 @@ describe('testing hook useBuyNowContainerPage', () => {
     beforeEach(() => {
         useDispatchMock.mockReturnValue(dispatchMock);
         useGetIsOrderProcessingMock.mockReturnValue(false);
-        initializeExpressPayMock.mockReturnValue(mockExpressEntry);
     });
 
     afterEach(() => {
@@ -55,8 +51,7 @@ describe('testing hook useBuyNowContainerPage', () => {
 
         expect(openSection).toBe('/');
         expect(containerStyle.height).toBe('100px');
-        expect(dispatchMock).toBeCalledTimes(1);
-        expect(dispatchMock).toBeCalledWith(mockExpressEntry);
+        expect(dispatchMock).toBeCalledTimes(0);
     });
 
     test('calling navigateTo', () => {

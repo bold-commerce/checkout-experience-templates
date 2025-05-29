@@ -2,7 +2,6 @@ import {stateMock} from 'src/mocks';
 import {
     SET_CALL_API_ON_EVENTS,
     SET_LANGUAGE_ISO,
-    SET_PIGI_DISPLAY_SCA,
     UPDATE_BILLING_TYPE,
     UPDATE_DISCOUNT_CODE_TEXT,
     UPDATE_SCREEN_WIDTH,
@@ -23,7 +22,6 @@ describe('testing appSettings reducer', () => {
         {name: 'testing UPDATE_SCREEN_WIDTH action', action: UPDATE_SCREEN_WIDTH, payload: 200, expected: {...defaultState, screenWidth: 200}},
         {name: 'testing UPDATE_BILLING_TYPE action',  action: UPDATE_BILLING_TYPE, payload: {type: Constants.SHIPPING_DIFFERENT }, expected: {...defaultState, billingType: Constants.SHIPPING_DIFFERENT }},
         {name: 'testing UPDATE_DISCOUNT_CODE_TEXT action', action: UPDATE_DISCOUNT_CODE_TEXT, payload: {code: 'test'}, expected: {...defaultState, discountText: 'test'}},
-        {name: 'testing SET_PIGI_DISPLAY_SCA action', action: SET_PIGI_DISPLAY_SCA, payload: {pigiDisplaySca: true}, expected: {...defaultState, pigiDisplaySca: true}},
         {name: 'testing SET_EXPRESS_PAYMENT_SECTION_ENABLED action', action: SET_EXPRESS_PAYMENT_SECTION_ENABLED, payload: {isExpressPaySectionEnable: true}, expected: {...defaultState, isExpressPaySectionEnable: true}},
         {name: 'testing UPDATE_PAYMENT_COMPONENT action', action: UPDATE_PAYMENT_COMPONENT_TYPE, payload: {paymentComponentType: Constants.FASTLANE}, expected: {...defaultState, paymentComponentType: Constants.FASTLANE}},
     ];

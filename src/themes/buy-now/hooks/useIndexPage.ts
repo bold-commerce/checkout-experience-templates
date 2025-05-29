@@ -7,7 +7,6 @@ import {
     useGetValidVariable,
     useGetButtonDisableVariable,
     useGetCustomerInfoDataByField,
-    useGetEpsGateways,
 } from 'src/hooks';
 import {IUseIndexPageProps} from 'src/types';
 import {Constants} from 'src/constants';
@@ -15,10 +14,8 @@ import {useCallback, useRef} from 'react';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import {displayOrderProcessingScreen, processOrder, validateBillingAddress, validateShippingAddress, updateLineItemQuantity} from 'src/library';
-import {IApiErrorResponse, IApiReturnObject, sendAddPaymentActionAsync, sendRefreshOrderActionAsync} from '@boldcommerce/checkout-frontend-library';
-import {getTerm, isOnlyFlashError, retrieveErrorFromResponse} from 'src/utils';
+import {getTerm} from 'src/utils';
 import {sendEvents} from 'src/analytics';
-import {actionAddError, actionShowHideOverlayContent} from 'src/action';
 
 export function useIndexPage(): IUseIndexPageProps {
     const dispatch = useDispatch();
@@ -32,7 +29,6 @@ export function useIndexPage(): IUseIndexPageProps {
     const customBilling = useGetAppSettingData('billingType');
     const isValidBillingAddress = useGetValidVariable('billingAddress');
     const isValidShippingAddress = useGetValidVariable('shippingAddress');
-    const hasEpsGateways = useGetEpsGateways();
     //need ref to point to valid billing & shipping address for most up to date state
     const isValidBillingAddressRef = useRef<boolean>();
     const isValidShippingAddressRef = useRef<boolean>();
@@ -62,17 +58,6 @@ export function useIndexPage(): IUseIndexPageProps {
             dispatch(displayOrderProcessingScreen);
             if (orderTotal <= 0) {
                 dispatch(processOrder(history));
-            } else if (!hasEpsGateways) {
-                sendRefreshOrderActionAsync().then(
-                    sendAddPaymentActionAsync,
-                    (e) => {
-                        const error = retrieveErrorFromResponse(<IApiReturnObject>{error: e}) as IApiErrorResponse;
-                        if (error && isOnlyFlashError([error])) {
-                            dispatch(actionAddError(error));
-                        }
-                        dispatch(actionShowHideOverlayContent(false));
-                    }
-                );
             }
         }
     }, [orderTotal, history, isValidBillingAddress, errors]);

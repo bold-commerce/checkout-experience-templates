@@ -4,6 +4,7 @@ export * from './onCreatePaymentOrder';
 export * from './onRequireOrderData';
 export * from './onScaPaymentOrder';
 export * from './onUpdatePaymentOrder';
+export * from './onDeletePaymentMethod';
 export * from './onUpdateVisuals';
 export * from './hydrateOrder';
 export * from './stripeUpdateOrder';

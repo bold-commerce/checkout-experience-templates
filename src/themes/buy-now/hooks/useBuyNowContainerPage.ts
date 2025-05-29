@@ -1,13 +1,8 @@
 import {CSSProperties, RefObject, useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {sendEvents, sendPageView} from 'src/analytics';
 import {IUseBuyNowContainerPage, IUseBuyNowContainerPageProps} from 'src/themes/buy-now/types';
-import {useHistory} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
-import {initializeExpressPay} from 'src/library';
 
 export function useBuyNowContainerPage(props : IUseBuyNowContainerPageProps) : IUseBuyNowContainerPage {
-    const dispatch = useDispatch();
-    const history = useHistory();
     const [ openSection, setOpenSection ] = useState('/');
     const [ openRef, setOpenRef ] = useState<RefObject<HTMLElement>>(props.indexRef);
     const [ containerStyle, setContainerStyle ] = useState<CSSProperties>({
@@ -36,10 +31,6 @@ export function useBuyNowContainerPage(props : IUseBuyNowContainerPageProps) : I
         sendPageView(openSection);
         sendEvents(`Landed on buy now ${openSection} page`, {'category': 'Checkout'});
     }, [openSection]);
-
-    useEffect(() => {
-        dispatch(initializeExpressPay(history));
-    }, []);
 
     useLayoutEffect(() => {
         const openResizeObserver = new ResizeObserver(() => {

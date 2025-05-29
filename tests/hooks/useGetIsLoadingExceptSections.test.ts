@@ -11,13 +11,9 @@ describe('Testing hook useGetIsLoadingExceptSections', () => {
     const isLoadingCustomerMock = {...stateMock.isLoading};
     isLoadingCustomerMock.customerPageButton = true;
 
-    const isLoadingPigiMock = {...stateMock.isLoading};
-    isLoadingCustomerMock.pigiIframe = true;
-
     const dataset = [
         {name: 'With all value false', data: stateMock.isLoading, expected: false },
         {name: 'With one value true', data: isLoadingCustomerMock , expected: true },
-        {name: 'With all value false', data: isLoadingPigiMock, expected: false },
     ];
 
 

@@ -14,7 +14,7 @@ import {isOnlyFlashError} from 'src/utils/isOnlyFlashError';
 import {retrieveErrorFromResponse} from 'src/utils/retrieveErrorFromResponse';
 
 export function callEpsProcessOrder(history: HistoryLocationState, totals: ITotals, requiredLifeFields: Array<ILifeField>, thankYouPageLifeFields?: Array<ILifeField>, clientSecretToken?: string) {
-    return async function initializeExpressPayThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
+    return async function callEpsProcessOrderThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         sendEvents('Clicked continue to complete order button', {'category': 'Checkout'});
         const state = getState();
         const appState = state.data.application_state;

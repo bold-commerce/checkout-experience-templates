@@ -1,16 +1,13 @@
 import {addressMock, stateMock} from 'src/mocks';
 import {mocked} from 'jest-mock';
 import {getTerm} from 'src/utils';
-import {useGetLineItems, useGetOrderTotal, useGetShippingData, useLogin, useGetErrors, useGetValidVariable, useGetAppSettingData, useGetCustomerInfoDataByField, useGetEpsGateways} from 'src/hooks';
+import {useGetLineItems, useGetOrderTotal, useGetShippingData, useLogin, useGetErrors, useGetValidVariable, useGetAppSettingData, useGetCustomerInfoDataByField} from 'src/hooks';
 import {useIndexPage} from 'src/themes/buy-now/hooks';
 import {renderHook} from '@testing-library/react-hooks';
 import {displayOrderProcessingScreen, processOrder, updateLineItemQuantity, validateBillingAddress} from 'src/library';
 import {useDispatch} from 'react-redux';
-import {sendRefreshOrderActionAsync, sendAddPaymentActionAsync} from '@boldcommerce/checkout-frontend-library/lib/pigi';
 import {Constants} from 'src/constants';
-import {IApiErrorResponse, IFetchError, IPigiResponseType} from '@boldcommerce/checkout-frontend-library';
-import {pigiActionTypes} from '@boldcommerce/checkout-frontend-library/lib/variables/constants';
-import {actionShowHideOverlayContent, actionAddError} from 'src/action';
+import {IApiErrorResponse} from '@boldcommerce/checkout-frontend-library';
 
 jest.mock('react-redux');
 jest.mock('react-router');
@@ -23,11 +20,9 @@ jest.mock('src/hooks/useGetErrors');
 jest.mock('src/hooks/useGetValidVariable');
 jest.mock('src/hooks/useGetAppSettingData');
 jest.mock('src/hooks/useGetCustomerInformation');
-jest.mock('src/hooks/useGetEpsGateways');
 jest.mock('src/library/displayOrderProcessingScreen');
 jest.mock('src/library/processOrder');
 jest.mock('src/library/updateLineItemQuantity');
-jest.mock('@boldcommerce/checkout-frontend-library/lib/pigi');
 jest.mock('src/library/validateBillingAddress');
 const useDispatchMock = mocked(useDispatch, true);
 const getTermMock = mocked(getTerm, true);
@@ -40,9 +35,6 @@ const useGetValidVariableMock = mocked(useGetValidVariable, true);
 const useGetAppSettingDataMock = mocked(useGetAppSettingData, true);
 const processOrderMock = mocked(processOrder, true);
 const updateLineItemQuantityMock = mocked(updateLineItemQuantity, true);
-const sendRefreshOrderActionAsyncMock = mocked(sendRefreshOrderActionAsync, true);
-const useGetEpsGatewaysMock = mocked(useGetEpsGateways, true);
-const sendAddPaymentActionAsyncMock = mocked(sendAddPaymentActionAsync, true);
 const useGetCustomerInfoDataByFieldMock = mocked(useGetCustomerInfoDataByField, true);
 const validateBillingAddressMock = mocked(validateBillingAddress, true);
 
@@ -70,25 +62,6 @@ describe('testing hook useIndexPage', () => {
         message: 'Test error message!'
     };
 
-    const resolvedRefreshValue: IPigiResponseType = {
-        responseType: pigiActionTypes.PIGI_REFRESH_ORDER,
-        payload: {key: 'value'}
-    };
-
-    const resolvedPaymentValue: IPigiResponseType = {
-        responseType: pigiActionTypes.PIGI_ADD_PAYMENT,
-        payload: {key: 'value'}
-    };
-
-    const rejectedValue: IFetchError = {
-        status: 1000,
-        statusText: undefined,
-        body: undefined,
-        metaData: undefined,
-        name: 'FetchError',
-        message: errorMock.message
-    };
-
     const convertedFetchError: IApiErrorResponse = {
         message: '',
         type: 'api',
@@ -107,10 +80,7 @@ describe('testing hook useIndexPage', () => {
         processOrderMock.mockReturnValue(processOrderThunkMock);
         useGetAppSettingDataMock.mockReturnValue(Constants.SHIPPING_SAME);
         useGetCustomerInfoDataByFieldMock.mockReturnValue(emailValue);
-        sendRefreshOrderActionAsyncMock.mockResolvedValue(resolvedRefreshValue);
-        sendAddPaymentActionAsyncMock.mockResolvedValue(resolvedPaymentValue);
         validateBillingAddressMock.mockReturnValue(validateBillingAddressThunkMock);
-        useGetEpsGatewaysMock.mockReturnValue(false);
     });
 
     test('test the hook properly with no errors in array', async () => {
@@ -131,8 +101,6 @@ describe('testing hook useIndexPage', () => {
 
         await hookResult.checkoutOnClick();
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
-        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
-        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
 
@@ -157,8 +125,6 @@ describe('testing hook useIndexPage', () => {
         await hookResult.checkoutOnClick();
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
         expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
-        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
-        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
 
@@ -183,8 +149,6 @@ describe('testing hook useIndexPage', () => {
         await hookResult.checkoutOnClick();
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
         expect(validateBillingAddressMock).toHaveBeenCalledTimes(1);
-        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
-        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(1);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
 
@@ -196,8 +160,6 @@ describe('testing hook useIndexPage', () => {
 
         await hookResult.checkoutOnClick();
         expect(dispatchMock).not.toHaveBeenCalledWith(displayOrderProcessingScreen);
-        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(0);
-        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
 
@@ -211,8 +173,6 @@ describe('testing hook useIndexPage', () => {
 
         await hookResult.checkoutOnClick();
         expect(dispatchMock).not.toHaveBeenCalledWith(displayOrderProcessingScreen);
-        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(0);
-        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
 
@@ -227,8 +187,6 @@ describe('testing hook useIndexPage', () => {
 
         await hookResult.checkoutOnClick();
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
-        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(0);
-        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(processOrderMock).toHaveBeenCalledTimes(1);
     });
 
@@ -248,17 +206,12 @@ describe('testing hook useIndexPage', () => {
         useGetOrderTotalMock.mockReturnValue(9999);
         useGetErrorsMock.mockReturnValue([]);
         useGetValidVariableMock.mockReturnValue(true);
-        sendRefreshOrderActionAsyncMock.mockRejectedValueOnce(rejectedValue);
 
         const {result} = renderHook(() => useIndexPage());
         const hookResult = result.current;
 
         await hookResult.checkoutOnClick();
         expect(dispatchMock).toHaveBeenCalledWith(displayOrderProcessingScreen);
-        expect(dispatchMock).toHaveBeenCalledWith(actionShowHideOverlayContent(false));
-        expect(dispatchMock).toHaveBeenCalledWith(actionAddError(convertedFetchError));
-        expect(sendRefreshOrderActionAsyncMock).toHaveBeenCalledTimes(1);
-        expect(sendAddPaymentActionAsyncMock).toHaveBeenCalledTimes(0);
         expect(processOrderMock).toHaveBeenCalledTimes(0);
     });
 });

@@ -1,4 +1,4 @@
-import {useCallback, useEffect} from 'react';
+import {useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 import {
     useGetAppSettingData,
@@ -9,7 +9,6 @@ import {
     useGetRequiresShipping
 } from 'src/hooks';
 import {
-    initializeExpressPay,
     validateLifeFields,
     callCustomerPageApi
 } from 'src/library';
@@ -49,12 +48,6 @@ export function useCustomerPage(): IUseCustomerPageProp {
         dispatch(callCustomerPageApi(history));
     } , []);
     window.history.replaceState(null, '', getCheckoutUrl(Constants.RESUME_ROUTE));
-
-    useEffect( () => {
-        if (!isOrderCompleted) {
-            dispatch(initializeExpressPay(history));
-        }
-    }, []);
 
     return {backLinkText, backLinkOnClick, nextButtonOnClick, nextButtonText, nextButtonDisable, active, nextButtonLoading, language, title};
 }
