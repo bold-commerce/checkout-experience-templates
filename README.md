@@ -98,4 +98,4 @@ In addition, you must add and define certain custom properties that the template
 
 Once your own version of the Open Source Checkout Template is up and running, you can make changes to the store's user interface and otherwise customize it in any number of ways.
 
-You can use the Checkout Frontend API to create the correct information flow depending on your business needs. Refer to our [developer documentation](https://developer.boldcommerce.com/guides/checkout/populate-order)] for instructions.
+You can use the Checkout Frontend API to create the correct information flow depending on your business needs. Refer to our [developer documentation](https://developer.boldcommerce.com/guides/checkout/populate-order) for instructions.
