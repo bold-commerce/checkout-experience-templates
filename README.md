@@ -9,10 +9,7 @@ This document outlines the prerequisites and requirements of the Open Source Che
 ## Prerequisites
 
 1. Install Bold Checkout on a store and create an API access token in Bold Account Center.
-1. Install the appropriate dependencies. The Open Source Checkout Template is built using the following series of libraries. 
-    1. Follow the instructions in each library's respective README to install and configure it:
-        1. _Checkout Frontend Library_ — a JavaScript library that creates a structure for calling the Bold Checkout Frontend APIs. Note that this library calls only the [Checkout Frontend](/api/checkout) API.
-        1. _Checkout Express Pay Library_ — a JavaScript library that adds support for Google Pay, Apple Pay, Link (from Stripe), and PayPal Express.
+1. Install the _Checkout Express Pay Library_ — a JavaScript library that adds support for Google Pay, Apple Pay, Link (from Stripe), and PayPal Express.
     1. Integrate the Payment SDK with your store. Refer to our [developer documentation](https://developer.boldcommerce.com/guides/checkout/concepts/sdk-integrate) for instructions.
 
 
