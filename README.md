@@ -8,15 +8,17 @@ This document outlines the prerequisites and requirements of the Open Source Che
 
 ## Prerequisites
 
-1. Install Bold Checkout on a store and create an API access token in Bold Account Center. For instructions, refer to the [Checkout Getting Started](/guides/checkout/checkout-getting-started) guide.
-1. Install the appropriate dependencies. The Open Source Checkout Template is built using the following series of libraries. Follow the instructions in each library's respective README to install and configure it:
-    1. _Checkout Frontend Library_ — a JavaScript library that creates a structure for calling the Bold Checkout Frontend APIs. Note that this library calls only the [Checkout Frontend](/api/checkout) API.
+1. Install Bold Checkout on a store and create an API access token in Bold Account Center.
+1. Install the _Checkout Express Pay Library_ — a JavaScript library that adds support for Google Pay, Apple Pay, Link (from Stripe), and PayPal Express.
+    1. Integrate the Payment SDK with your store. Refer to our [developer documentation](https://developer.boldcommerce.com/guides/checkout/concepts/sdk-integrate) for instructions.
+
 
 ## Create a backend application
 
 In order to host the Open Source Checkout Template, you must create a backend application to provide routing functionality, initialize and manage orders via the [Bold Checkout Backend](/api/orders), and host the checkout pages.
 
-Bold does not currently provide a library for this functionality, so you must create the backend from scratch. The [Build a Headless Checkout](https://developer.staging.boldcommerce.com/default/guides/checkout/checkout-headless-guide#project-setup) page provides a basic outline of the steps required to set up a headless checkout backend.
+Bold does not currently provide a library for this functionality, so you must create the backend from scratch.
+
 
 ## Set up the template
 
@@ -92,3 +94,5 @@ In addition, you must add and define certain custom properties that the template
 ## Customize your checkout
 
 Once your own version of the Open Source Checkout Template is up and running, you can make changes to the store's user interface and otherwise customize it in any number of ways.
+
+You can use the Checkout Frontend API to create the correct information flow depending on your business needs. Refer to our [developer documentation](https://developer.boldcommerce.com/guides/checkout/populate-order) for instructions.
