@@ -7,8 +7,10 @@ export const stateMock: IOrderInitialization = {
         'initial_data': initialDataMock.initial_data,
         'application_state': initialDataMock.application_state,
         'public_order_id': initialDataMock.public_order_id,
-        'jwt_token': initialDataMock.jwt_token
+        'jwt_token': initialDataMock.jwt_token,
+        'vaulting_enabled': initialDataMock.vaulting_enabled,
     },
+
     'appSetting': {
         'screenWidth': window.innerWidth,
         'languageIso': 'en',

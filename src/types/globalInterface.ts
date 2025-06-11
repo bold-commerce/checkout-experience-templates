@@ -106,7 +106,8 @@ export interface IEpsInitialData {
     eps_url: string;
     eps_bucket_url: string;
     payment_gateways: Array<IEpsInitialOrderGateway>;
-    callbacks?: IPaymentsCallbacks
+    callbacks?: IPaymentsCallbacks;
+    vaulting_enabled: boolean;
 }
 
 export type IGatewayType =

@@ -160,6 +160,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
             flow_settings: {},
             requires_shipping: true,
             eps_gateways:{},
-        }
+        },
+        vaulting_enabled: false,
     },
 };
