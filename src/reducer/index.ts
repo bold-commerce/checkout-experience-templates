@@ -32,3 +32,4 @@ export * from './cartParametersReducer';
 export * from './noteReducer';
 export * from './tagsReducer';
 export * from './requiresShippingDataReducer';
+export * from './vaultingEnabledDataReducer';

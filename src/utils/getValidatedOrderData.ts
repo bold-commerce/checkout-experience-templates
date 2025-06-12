@@ -34,6 +34,7 @@ export function getValidatedOrderData(orderData: IInitializeOrderResponse): IIni
             flow_settings:orderData.initial_data.flow_settings,
             requires_shipping: orderData.initial_data.requires_shipping,
             eps_gateways: orderData.initial_data.eps_gateways,
-        }
+        },
+        vaulting_enabled: orderData.vaulting_enabled,
     };
 }

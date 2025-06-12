@@ -45,6 +45,7 @@ import {
     displayExchangeRateReducer,
     displayCurrencyReducer,
     flowIdReducer,
+    vaultingEnabledDataReducer,
 } from 'src/reducer';
 import {autocompleteServices, Constants} from 'src/constants';
 import {defaultOrderInitialization} from 'src/constants/orderInitialization';
@@ -158,7 +159,8 @@ const dataReducer = combineReducers({
     jwt_token: jwtTokenReducer,
     public_order_id: publicOrderIdReducer,
     application_state: appStateReducer,
-    initial_data: initialDataReducer
+    initial_data: initialDataReducer,
+    vaulting_enabled: vaultingEnabledDataReducer,
 });
 
 const allReducers = combineReducers({

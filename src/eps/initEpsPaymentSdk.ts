@@ -13,6 +13,7 @@ import {logError} from 'src/utils';
 export function initEpsPaymentSdk(history: HistoryLocationState) {
     return async function initEpsPaymentSdkThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         const epsGateways = getState().data.initial_data.eps_gateways;
+        const vaultingEnabled = getState().data.initial_data.vaulting_enabled;
         const shopDomain = window.shopAlias;
 
         const envType = window.environment.type;
@@ -49,7 +50,8 @@ export function initEpsPaymentSdk(history: HistoryLocationState) {
             'group_label': shopDomain,
             'trace_id': publicOrderId,
             'payment_gateways': mappedEpsGateways,
-            'callbacks': callbacks
+            'callbacks': callbacks,
+            'vaulting_enabled': vaultingEnabled,
         };
         const boldPayments = new window.bold.Payments(initialData);
         dispatch(actionEpsBoldPayment(boldPayments));

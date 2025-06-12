@@ -569,6 +569,7 @@ export const initialDataMock: IInitializeOrderResponse = {
         'flow_settings': {},
         'requires_shipping': true,
     },
+    'vaulting_enabled': false,
     'application_state': {
         'customer': {
             'platform_id': '1234',
@@ -716,7 +717,7 @@ export const initialDataMock: IInitializeOrderResponse = {
         },
         'display_exchange_rate': 1,
         link_to_cart: '',
-        'flow_id': 'mock_flow', 
+        'flow_id': 'mock_flow',
     },
     'jwt_token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfb3JkZXJfaWQiOiJhRnpSV21JUXUxeWNSY1hLZHRoYXNYUGU1TEdZQ201b1IzRzhqNmNQRWgya1VJTE0ydUEyejdPaFJrZzI4YVduIiwiZXhwIjoxNjI3MzExMTM1fQ.6YwERIdKKv1YO19PauBbKnoupfLjtpLiMEt4i_YG5Ao',
     'public_order_id': 'aFzRWmIQu1ycRcXKdthasXPe5LGYCm5oR3G8j6cPEh2kUILM2uA2z7OhRkg28aWn'
