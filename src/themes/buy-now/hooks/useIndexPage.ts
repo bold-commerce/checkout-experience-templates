@@ -13,9 +13,8 @@ import {Constants} from 'src/constants';
 import {useCallback, useRef} from 'react';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
-import {displayOrderProcessingScreen, processOrder, validateBillingAddress, validateShippingAddress, updateLineItemQuantity} from 'src/library';
-import {getTerm} from 'src/utils';
-import {sendEvents} from 'src/analytics';
+import {validateBillingAddress, validateShippingAddress, updateLineItemQuantity} from 'src/library';
+import {callEpsProcessOrder, getTerm, getTotalsFromState} from 'src/utils';
 
 export function useIndexPage(): IUseIndexPageProps {
     const dispatch = useDispatch();
@@ -24,6 +23,7 @@ export function useIndexPage(): IUseIndexPageProps {
     const lineItems = useGetLineItems();
     const email = useGetCustomerInfoDataByField('email_address');
     const orderTotal = useGetOrderTotal();
+    const totals = getTotalsFromState();
     const address = useGetShippingData();
     const quantityDisabled = useGetButtonDisableVariable('updateLineItemQuantity');
     const customBilling = useGetAppSettingData('billingType');
@@ -53,12 +53,8 @@ export function useIndexPage(): IUseIndexPageProps {
             return;
         }
 
-        sendEvents('Clicked complete order button', {'category': 'Checkout'});
         if (errors.length === 0) {
-            dispatch(displayOrderProcessingScreen);
-            if (orderTotal <= 0) {
-                dispatch(processOrder(history));
-            }
+            dispatch(callEpsProcessOrder(history, totals, [], []));
         }
     }, [orderTotal, history, isValidBillingAddress, errors]);
 
