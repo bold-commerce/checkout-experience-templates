@@ -2,6 +2,7 @@
 /* global __dirname, process */
 const path = require('path');
 const webpack = require('webpack');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
 const {BugsnagBuildReporterPlugin} = require('webpack-bugsnag-plugins');
@@ -75,6 +76,7 @@ module.exports = {
             BUGSNAG_STAGING_API_KEY: JSON.stringify(bugsnagApiKeyStaging),
             BUGSNAG_PRODUCTION_API_KEY: JSON.stringify(bugsnagApiKeyProduction),
         }),
+        new ForkTsCheckerWebpackPlugin(),
     ],
     performance: {
         hints: isDev ? false : 'warning',

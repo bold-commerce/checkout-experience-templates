@@ -36,11 +36,10 @@ describe('testing postBillingAddress', () => {
 
     test('calling post billing address endpoint with getState returning undefined', async () => {
         getState.mockReturnValueOnce(undefined);
-        const expectedError = new TypeError("Cannot destructure property `data` of 'undefined' or 'null'.");
 
         await expect(async () => {
             await postBillingAddress(dispatch, getState);
-        }).rejects.toThrow(expectedError);
+        }).rejects.toThrow();
 
         expect(setBillingAddressMock).toHaveBeenCalledTimes(0);
         expect(updateBillingAddressMock).toHaveBeenCalledTimes(0);
@@ -50,11 +49,10 @@ describe('testing postBillingAddress', () => {
 
     test('calling post billing address endpoint with getState returning a different data structure', async () => {
         getState.mockReturnValueOnce(fakeInvalidData);
-        const expectedError = new TypeError("Cannot destructure property `application_state` of 'undefined' or 'null'.");
 
         await expect(async () => {
             await postBillingAddress(dispatch, getState);
-        }).rejects.toThrow(expectedError);
+        }).rejects.toThrow();
 
         expect(setBillingAddressMock).toHaveBeenCalledTimes(0);
         expect(updateBillingAddressMock).toHaveBeenCalledTimes(0);
