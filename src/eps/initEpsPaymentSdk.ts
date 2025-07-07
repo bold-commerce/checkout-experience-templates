@@ -13,7 +13,7 @@ import {logError} from 'src/utils';
 export function initEpsPaymentSdk(history: HistoryLocationState) {
     return async function initEpsPaymentSdkThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         const epsGateways = getState().data.initial_data.eps_gateways;
-        const vaultingEnabled = getState().data.initial_data.vaulting_enabled;
+        const vaultingEnabled = getState().data.vaulting_enabled;
         const shopDomain = window.shopAlias;
 
         const envType = window.environment.type;
